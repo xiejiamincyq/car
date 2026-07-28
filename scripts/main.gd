@@ -17,7 +17,8 @@ func _ready() -> void:
 		GameConfig.ACCELERATION,
 		GameConfig.BRAKING,
 		GameConfig.STEERING_SPEED,
-		GameConfig.ROAD_HALF_WIDTH
+		GameConfig.ROAD_HALF_WIDTH,
+		30.0
 	)
 	speed_label = $CanvasLayer/DebugHUD/Rows/Speed
 	position_label = $CanvasLayer/DebugHUD/Rows/Position
@@ -35,7 +36,7 @@ func _process(delta: float) -> void:
 	var brake_input := Input.get_action_strength("brake")
 	var steering_input := Input.get_axis("steer_left", "steer_right")
 	drive.step(delta, accelerate_input, brake_input, steering_input)
-	road_scroll = fmod(road_scroll + drive.speed * GameConfig.ROAD_SCROLL_MULTIPLIER * delta, 92.0)
+	road_scroll = advance_road_scroll(road_scroll, drive.speed, delta, 92.0)
 	_update_hud()
 	queue_redraw()
 
@@ -53,7 +54,7 @@ func _draw() -> void:
 
 	for lane_index in range(1, GameConfig.ROAD_LANE_COUNT):
 		var lane_x := road_left + GameConfig.ROAD_HALF_WIDTH * 2.0 * lane_index / GameConfig.ROAD_LANE_COUNT
-		var dash_y := -road_scroll
+		var dash_y := road_scroll
 		while dash_y < viewport_size.y:
 			draw_rect(Rect2(lane_x - 5.0, dash_y, 10.0, 52.0), Color("e7e9e8"))
 			dash_y += 92.0
@@ -90,3 +91,6 @@ func _register_action(action: StringName, keys: Array[int]) -> void:
 		event.keycode = keycode
 		if not InputMap.action_has_event(action, event):
 			InputMap.action_add_event(action, event)
+
+static func advance_road_scroll(current_offset: float, speed: float, delta: float, repeat_distance: float) -> float:
+	return fmod(current_offset + speed * GameConfig.ROAD_SCROLL_MULTIPLIER * delta, repeat_distance)

@@ -7,6 +7,7 @@ var acceleration: float
 var braking: float
 var steering_speed: float
 var road_half_width: float
+var player_half_width: float
 var speed: float
 var lateral_position: float = 0.0
 
@@ -16,7 +17,8 @@ func _init(
 		acceleration_per_second: float,
 		braking_per_second: float,
 		steering_per_second: float,
-		road_limit: float = 300.0
+		road_limit: float = 300.0,
+		car_half_width: float = 0.0
 	) -> void:
 	start_speed = initial_speed
 	max_speed = maximum_speed
@@ -24,15 +26,17 @@ func _init(
 	braking = braking_per_second
 	steering_speed = steering_per_second
 	road_half_width = road_limit
+	player_half_width = car_half_width
 	speed = start_speed
 
 func step(delta: float, accelerate_input: float, brake_input: float, steering_input: float = 0.0) -> void:
 	var speed_change := (accelerate_input * acceleration - brake_input * braking) * delta
 	speed = clampf(speed + speed_change, 0.0, max_speed)
+	var center_limit := maxf(0.0, road_half_width - player_half_width)
 	lateral_position = clampf(
 		lateral_position + steering_input * steering_speed * delta,
-		-road_half_width,
-		road_half_width
+		-center_limit,
+		center_limit
 	)
 
 func reset() -> void:
