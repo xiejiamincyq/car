@@ -1,0 +1,9 @@
+.godot/
+.import/
+*.tmp
+*.log
+exports/
+build/
+*.zip
+.env
+
