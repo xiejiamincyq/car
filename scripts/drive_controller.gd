@@ -1,0 +1,40 @@
+class_name DriveController
+extends RefCounted
+
+var start_speed: float
+var max_speed: float
+var acceleration: float
+var braking: float
+var steering_speed: float
+var road_half_width: float
+var speed: float
+var lateral_position: float = 0.0
+
+func _init(
+		initial_speed: float,
+		maximum_speed: float,
+		acceleration_per_second: float,
+		braking_per_second: float,
+		steering_per_second: float,
+		road_limit: float = 300.0
+	) -> void:
+	start_speed = initial_speed
+	max_speed = maximum_speed
+	acceleration = acceleration_per_second
+	braking = braking_per_second
+	steering_speed = steering_per_second
+	road_half_width = road_limit
+	speed = start_speed
+
+func step(delta: float, accelerate_input: float, brake_input: float, steering_input: float = 0.0) -> void:
+	var speed_change := (accelerate_input * acceleration - brake_input * braking) * delta
+	speed = clampf(speed + speed_change, 0.0, max_speed)
+	lateral_position = clampf(
+		lateral_position + steering_input * steering_speed * delta,
+		-road_half_width,
+		road_half_width
+	)
+
+func reset() -> void:
+	speed = start_speed
+	lateral_position = 0.0

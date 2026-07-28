@@ -1,0 +1,41 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_main")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="DebugHUD" type="MarginContainer" parent="CanvasLayer"]
+offset_left = 20.0
+offset_top = 18.0
+offset_right = 600.0
+offset_bottom = 150.0
+
+[node name="Panel" type="ColorRect" parent="CanvasLayer/DebugHUD"]
+layout_mode = 2
+color = Color(0.035, 0.055, 0.09, 0.78)
+mouse_filter = 2
+
+[node name="Rows" type="VBoxContainer" parent="CanvasLayer/DebugHUD"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Speed" type="Label" parent="CanvasLayer/DebugHUD/Rows"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.96, 1, 1)
+theme_override_font_sizes/font_size = 28
+text = "速度"
+
+[node name="Position" type="Label" parent="CanvasLayer/DebugHUD/Rows"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.78, 0.86, 0.92, 1)
+theme_override_font_sizes/font_size = 18
+text = "横向位置"
+
+[node name="Debug" type="Label" parent="CanvasLayer/DebugHUD/Rows"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.78, 0.86, 0.92, 1)
+theme_override_font_sizes/font_size = 14
+text = "FPS"
