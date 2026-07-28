@@ -2,6 +2,7 @@ extends Node2D
 
 const GameConfig = preload("res://scripts/game_config.gd")
 const DriveController = preload("res://scripts/drive_controller.gd")
+const ROAD_MARK_REPEAT_DISTANCE: float = 92.0
 
 var drive: DriveController
 var road_scroll: float = 0.0
@@ -36,7 +37,7 @@ func _process(delta: float) -> void:
 	var brake_input := Input.get_action_strength("brake")
 	var steering_input := Input.get_axis("steer_left", "steer_right")
 	drive.step(delta, accelerate_input, brake_input, steering_input)
-	road_scroll = advance_road_scroll(road_scroll, drive.speed, delta, 92.0)
+	road_scroll = advance_road_scroll(road_scroll, drive.speed, delta, ROAD_MARK_REPEAT_DISTANCE)
 	_update_hud()
 	queue_redraw()
 
@@ -54,10 +55,10 @@ func _draw() -> void:
 
 	for lane_index in range(1, GameConfig.ROAD_LANE_COUNT):
 		var lane_x := road_left + GameConfig.ROAD_HALF_WIDTH * 2.0 * lane_index / GameConfig.ROAD_LANE_COUNT
-		var dash_y := road_scroll
+		var dash_y := get_dash_start_y(road_scroll, ROAD_MARK_REPEAT_DISTANCE)
 		while dash_y < viewport_size.y:
 			draw_rect(Rect2(lane_x - 5.0, dash_y, 10.0, 52.0), Color("e7e9e8"))
-			dash_y += 92.0
+			dash_y += ROAD_MARK_REPEAT_DISTANCE
 
 	var car_center := Vector2(center_x + drive.lateral_position, viewport_size.y - 128.0)
 	draw_colored_polygon(PackedVector2Array([
@@ -94,3 +95,6 @@ func _register_action(action: StringName, keys: Array[int]) -> void:
 
 static func advance_road_scroll(current_offset: float, speed: float, delta: float, repeat_distance: float) -> float:
 	return fmod(current_offset + speed * GameConfig.ROAD_SCROLL_MULTIPLIER * delta, repeat_distance)
+
+static func get_dash_start_y(scroll_offset: float, repeat_distance: float) -> float:
+	return scroll_offset - repeat_distance
