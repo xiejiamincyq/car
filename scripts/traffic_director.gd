@@ -10,6 +10,7 @@ var minimum_spawn_distance: float = 620.0
 var minimum_lane_gap: float = 180.0
 var vehicles: Array[TrafficVehicle] = []
 var _random := RandomNumberGenerator.new()
+var _initial_seed: int
 var _spawn_counter: int = 0
 var _spawn_cooldown: float = 0.7
 
@@ -17,7 +18,8 @@ func _init(seed: int, lanes: int = 3, safe_distance: float = 620.0, lane_gap: fl
 	lane_count = lanes
 	minimum_spawn_distance = safe_distance
 	minimum_lane_gap = lane_gap
-	_random.seed = seed
+	_initial_seed = seed
+	_random.seed = _initial_seed
 
 func fill_to_count(count: int) -> void:
 	while vehicles.size() < count:
@@ -49,6 +51,12 @@ func tick(delta: float, player_speed: float) -> void:
 	for vehicle in vehicles:
 		update_vehicle(vehicle, delta, player_speed)
 	vehicles = vehicles.filter(func(vehicle: TrafficVehicle) -> bool: return vehicle.y < 860.0)
+
+func reset() -> void:
+	vehicles.clear()
+	_spawn_counter = 0
+	_spawn_cooldown = 0.7
+	_random.seed = _initial_seed
 
 func update_vehicle(vehicle: TrafficVehicle, delta: float, player_speed: float) -> void:
 	var relative_speed := player_speed * 0.45

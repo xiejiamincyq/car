@@ -27,4 +27,11 @@ func _init() -> void:
 	first_run.update_vehicle(slow, 1.0, 500.0)
 	first_run.update_vehicle(overtaker, 1.0, 500.0)
 	assert(overtaker.y > slow.y, "Fast overtaker must close faster than steady traffic")
+
+	first_run.reset()
+	assert(first_run.vehicles.is_empty(), "Restart must remove all active traffic")
+	first_run.fill_to_count(3)
+	second_run = TrafficDirector.new(73)
+	second_run.fill_to_count(3)
+	assert(first_run.spawn_signature() == second_run.spawn_signature(), "Restart must restore the configured random sequence")
 	quit()
