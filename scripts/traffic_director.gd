@@ -19,6 +19,7 @@ var _next_kind: int = 0
 var _spawn_cooldown: float = 0.7
 var _player_speed: float = 0.0
 var _player_lane: int = 1
+var _spawn_history: PackedStringArray = []
 
 func _init(seed: int, lanes: int = 3, safe_distance: float = 620.0, lane_gap: float = 180.0) -> void:
 	lane_count = lanes
@@ -26,6 +27,7 @@ func _init(seed: int, lanes: int = 3, safe_distance: float = 620.0, lane_gap: fl
 	minimum_lane_gap = lane_gap
 	_initial_seed = seed
 	_random.seed = _initial_seed
+	_spawn_history.clear()
 
 func tick(delta: float, player_speed: float, player_lane: int = 1) -> void:
 	_player_speed = player_speed
@@ -56,6 +58,7 @@ func reset() -> void:
 	_next_kind = 0
 	_spawn_cooldown = 0.7
 	_random.seed = _initial_seed
+	_spawn_history.clear()
 
 func update_vehicle(vehicle: TrafficVehicle, delta: float, player_speed: float) -> void:
 	if vehicle.kind == Kind.FAST_OVERTAKE:
@@ -97,7 +100,10 @@ func is_lane_change_safe(vehicle: TrafficVehicle) -> bool:
 	if not is_lane_valid(vehicle.target_lane):
 		return false
 	for other in vehicles:
-		if other != vehicle and other.lane == vehicle.target_lane and absf(other.y - vehicle.y) < minimum_lane_gap:
+		if other == vehicle:
+			continue
+		var reserves_target := other.kind == Kind.SIGNAL_CHANGE and other.warning_started and other.target_lane == vehicle.target_lane
+		if (other.lane == vehicle.target_lane or reserves_target) and absf(other.y - vehicle.y) < minimum_lane_gap:
 			return false
 	return true
 
@@ -145,6 +151,7 @@ func _spawn_next(player_speed: float, player_lane: int) -> void:
 	var vehicle := acquire_vehicle(kind, lane, y)
 	vehicle.spawn_was_fair = true
 	vehicles.append(vehicle)
+	_spawn_history.append("%d:%d" % [kind, lane])
 
 func _can_spawn_vehicle(kind: int, lane: int, y: float, player_speed: float, player_lane: int) -> bool:
 	if not is_lane_valid(lane):
@@ -180,6 +187,12 @@ func _target_lane_for(kind: int, lane: int) -> int:
 
 func is_fast_spawn_fair(player_speed: float, player_lane: int) -> bool:
 	return _can_spawn_vehicle(Kind.FAST_OVERTAKE, player_lane, 1100.0, player_speed, player_lane)
+
+func spawn_sequence() -> String:
+	return "|".join(_spawn_history)
+
+static func fast_warning_y(vehicle_y: float) -> float:
+	return vehicle_y - 52.0
 
 func _recycle_offscreen_vehicles() -> void:
 	var active: Array[TrafficVehicle] = []

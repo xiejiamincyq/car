@@ -109,7 +109,8 @@ func _draw_traffic(center_x: float, road_left: float) -> void:
 			var direction := signf(vehicle.target_lane - vehicle.lane_position)
 			draw_colored_polygon(PackedVector2Array([car_center + Vector2(18.0 * direction, -35.0), car_center + Vector2(4.0 * direction, -42.0), car_center + Vector2(4.0 * direction, -28.0)]), Color("ffe16a"))
 		if vehicle.kind == TrafficDirector.Kind.FAST_OVERTAKE and vehicle.overtake_warning_remaining > 0.0:
-			draw_line(car_center + Vector2(-18.0, 44.0), car_center + Vector2(18.0, 44.0), Color("ff70d0"), 4.0)
+			var warning_y := TrafficDirector.fast_warning_y(vehicle.y)
+			draw_line(Vector2(car_center.x - 18.0, warning_y), Vector2(car_center.x + 18.0, warning_y), Color("ff70d0"), 4.0)
 
 func _traffic_color(kind: int) -> Color:
 	match kind:

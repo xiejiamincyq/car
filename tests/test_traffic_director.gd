@@ -8,6 +8,16 @@ func _init() -> void:
 		for _second in range(30):
 			director.tick(1.0, 500.0, 1)
 			assert(director.all_active_spawns_are_fair(), "Each of ten fixed seeds must keep actual spawns fair for 15 seconds")
+	var sequence_a = TrafficDirector.new(99)
+	var sequence_b = TrafficDirector.new(99)
+	for _second in range(30):
+		sequence_a.tick(1.0, 500.0, 1)
+		sequence_b.tick(1.0, 500.0, 1)
+	assert(sequence_a.spawn_sequence() == sequence_b.spawn_sequence(), "Fixed seeds must reproduce the actual 30-second spawn sequence")
+	sequence_a.reset()
+	for _second in range(30):
+		sequence_a.tick(1.0, 500.0, 1)
+	assert(sequence_a.spawn_sequence() == sequence_b.spawn_sequence(), "Reset must reproduce the actual 30-second sequence")
 
 	var director = TrafficDirector.new(73)
 	for _second in range(300):
@@ -26,11 +36,18 @@ func _init() -> void:
 	director.update_vehicle(changer, 0.1, 500.0)
 	assert(changer.change_started, "Lane change must begin after its visible warning")
 	assert(changer.lane_position != float(changer.lane), "Lane change must move smoothly instead of jumping lanes")
+	var other_changer = director.acquire_vehicle(TrafficDirector.Kind.SIGNAL_CHANGE, 0, 120.0)
+	other_changer.target_lane = changer.target_lane
+	other_changer.warning_started = true
+	other_changer.warning_remaining = 0.5
+	director.vehicles.append(other_changer)
+	assert(not director.is_lane_change_safe(other_changer), "Two cars must not reserve the same merge lane")
 
 	var overtaker = director.acquire_vehicle(TrafficDirector.Kind.FAST_OVERTAKE, 0, 820.0)
 	director.update_vehicle(overtaker, 1.0, 760.0)
 	assert(overtaker.overtake_warning_remaining >= 1.0, "Fast overtaker must warn for at least one visible second before collision risk")
 	assert(director.is_fast_spawn_fair(760.0, 1), "Fast overtaker must use the player-speed reaction-distance fairness check")
+	assert(TrafficDirector.fast_warning_y(700.0) >= 0.0 and TrafficDirector.fast_warning_y(700.0) <= 720.0, "Fast warning must be visible in the viewport")
 
 	director.reset()
 	assert(director.vehicles.is_empty(), "Restart must clear actual active traffic")
