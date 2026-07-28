@@ -4,6 +4,7 @@ const GameConfig = preload("res://scripts/game_config.gd")
 const DriveController = preload("res://scripts/drive_controller.gd")
 const TrafficDirector = preload("res://scripts/traffic_director.gd")
 const CollisionResponder = preload("res://scripts/collision_responder.gd")
+const CollisionSound = preload("res://scripts/collision_sound.gd")
 const ROAD_MARK_REPEAT_DISTANCE: float = 92.0
 
 var drive: DriveController
@@ -14,6 +15,7 @@ var debug_label: Label
 var traffic: TrafficDirector
 var collision: CollisionResponder
 var screen_shake: Vector2 = Vector2.ZERO
+var collision_audio: AudioStreamPlayer
 
 func _ready() -> void:
 	_ensure_input_actions()
@@ -36,6 +38,9 @@ func _ready() -> void:
 		GameConfig.COLLISION_SPEED_PENALTY,
 		GameConfig.COLLISION_INVULNERABILITY_SECONDS
 	)
+	collision_audio = AudioStreamPlayer.new()
+	collision_audio.stream = CollisionSound.create_stream()
+	add_child(collision_audio)
 	speed_label = $CanvasLayer/DebugHUD/Rows/Speed
 	position_label = $CanvasLayer/DebugHUD/Rows/Position
 	debug_label = $CanvasLayer/DebugHUD/Rows/Debug
@@ -126,6 +131,7 @@ func _check_collisions() -> void:
 				drive.speed = outcome.speed
 				vehicle.y = player_center.y + 130.0
 				screen_shake = Vector2(10.0, -7.0)
+				collision_audio.play()
 
 func _is_player_flashing() -> bool:
 	return collision.invulnerability_remaining > 0.0 and int(collision.invulnerability_remaining * 14.0) % 2 == 0

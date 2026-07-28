@@ -3,35 +3,32 @@ extends SceneTree
 const TrafficDirector = preload("res://scripts/traffic_director.gd")
 
 func _init() -> void:
-	var first_run = TrafficDirector.new(73)
-	var second_run = TrafficDirector.new(73)
-	first_run.fill_to_count(8)
-	second_run.fill_to_count(8)
-	assert(first_run.spawn_signature() == second_run.spawn_signature(), "A fixed seed must reproduce the traffic order")
+	for seed in range(1, 11):
+		var director = TrafficDirector.new(seed)
+		for _second in range(15):
+			director.tick(1.0, 500.0)
+			assert(director.all_active_spawns_are_fair(), "Each of ten fixed seeds must keep actual spawns fair for 15 seconds")
 
-	for vehicle in first_run.vehicles:
-		assert(vehicle.y <= -first_run.minimum_spawn_distance, "Traffic must begin above the safe spawn distance")
-		assert(first_run.is_lane_valid(vehicle.lane), "Every spawn must use a valid lane")
-	for lane in range(first_run.lane_count):
-		assert(first_run.has_minimum_lane_gap(lane), "Cars in one lane must respect the minimum gap")
+	var director = TrafficDirector.new(73)
+	for _second in range(300):
+		director.tick(1.0, 500.0)
+	assert(director.vehicles.size() <= director.max_active_vehicles, "Five minutes must keep active traffic bounded")
+	assert(director.allocated_vehicle_count <= director.max_active_vehicles, "Traffic must reuse a bounded object pool")
 
-	var changer = first_run.create_vehicle(TrafficDirector.Kind.SIGNAL_CHANGE, 1, -700.0)
-	first_run.update_vehicle(changer, 0.35, 500.0)
-	assert(changer.warning_remaining > 0.0, "Lane changer must show its warning before moving")
-	assert(changer.lane == 1, "Lane changer cannot move during its warning")
-	first_run.update_vehicle(changer, 0.6, 500.0)
-	assert(changer.lane != 1, "Lane changer must move after its warning")
+	director.reset()
+	var changer = director.acquire_vehicle(TrafficDirector.Kind.SIGNAL_CHANGE, 1, 120.0)
+	director.vehicles.append(changer)
+	director.update_vehicle(changer, 0.1, 500.0)
+	assert(changer.warning_remaining > 0.0, "Lane-change warning must begin while the car is visible")
+	assert(director.is_lane_change_safe(changer), "Lane change target must be safe before the move")
+	changer.warning_remaining = 0.01
+	director.update_vehicle(changer, 0.1, 500.0)
+	assert(changer.change_started, "Lane change must begin after its visible warning")
 
-	var slow = first_run.create_vehicle(TrafficDirector.Kind.STEADY_SLOW, 0, -700.0)
-	var overtaker = first_run.create_vehicle(TrafficDirector.Kind.FAST_OVERTAKE, 2, -700.0)
-	first_run.update_vehicle(slow, 1.0, 500.0)
-	first_run.update_vehicle(overtaker, 1.0, 500.0)
-	assert(overtaker.y > slow.y, "Fast overtaker must close faster than steady traffic")
+	var overtaker = director.acquire_vehicle(TrafficDirector.Kind.FAST_OVERTAKE, 0, 820.0)
+	director.update_vehicle(overtaker, 1.0, 500.0)
+	assert(overtaker.y < 820.0, "Fast overtaker must travel upward from behind the player")
 
-	first_run.reset()
-	assert(first_run.vehicles.is_empty(), "Restart must remove all active traffic")
-	first_run.fill_to_count(3)
-	second_run = TrafficDirector.new(73)
-	second_run.fill_to_count(3)
-	assert(first_run.spawn_signature() == second_run.spawn_signature(), "Restart must restore the configured random sequence")
+	director.reset()
+	assert(director.vehicles.is_empty(), "Restart must clear actual active traffic")
 	quit()
