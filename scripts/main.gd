@@ -57,7 +57,7 @@ func _process(delta: float) -> void:
 	var steering_input := Input.get_axis("steer_left", "steer_right")
 	drive.step(delta, accelerate_input, brake_input, steering_input)
 	road_scroll = advance_road_scroll(road_scroll, drive.speed, delta, ROAD_MARK_REPEAT_DISTANCE)
-	traffic.tick(delta, drive.speed)
+	traffic.tick(delta, drive.speed, _player_lane())
 	collision.advance(delta)
 	_check_collisions()
 	screen_shake = screen_shake.move_toward(Vector2.ZERO, 140.0 * delta)
@@ -99,14 +99,17 @@ func _draw() -> void:
 func _draw_traffic(center_x: float, road_left: float) -> void:
 	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / GameConfig.ROAD_LANE_COUNT
 	for vehicle in traffic.vehicles:
-		var car_center := Vector2(road_left + lane_width * (vehicle.lane + 0.5), vehicle.y)
+		var car_center := Vector2(road_left + lane_width * (vehicle.lane_position + 0.5), vehicle.y)
 		var color := _traffic_color(vehicle.kind)
 		draw_rect(Rect2(car_center + Vector2(-25.0, -42.0), Vector2(50.0, 82.0)), color, true)
 		draw_rect(Rect2(car_center + Vector2(-16.0, -26.0), Vector2(32.0, 28.0)), Color("17212d"), true)
 		draw_circle(car_center + Vector2(-17.0, 27.0), 5.0, Color("17191f"))
 		draw_circle(car_center + Vector2(17.0, 27.0), 5.0, Color("17191f"))
 		if vehicle.kind == TrafficDirector.Kind.SIGNAL_CHANGE and vehicle.warning_remaining > 0.0:
-			draw_circle(car_center + Vector2(19.0, -35.0), 6.0, Color("ffe16a"))
+			var direction := signf(vehicle.target_lane - vehicle.lane_position)
+			draw_colored_polygon(PackedVector2Array([car_center + Vector2(18.0 * direction, -35.0), car_center + Vector2(4.0 * direction, -42.0), car_center + Vector2(4.0 * direction, -28.0)]), Color("ffe16a"))
+		if vehicle.kind == TrafficDirector.Kind.FAST_OVERTAKE and vehicle.overtake_warning_remaining > 0.0:
+			draw_line(car_center + Vector2(-18.0, 44.0), car_center + Vector2(18.0, 44.0), Color("ff70d0"), 4.0)
 
 func _traffic_color(kind: int) -> Color:
 	match kind:
@@ -124,7 +127,7 @@ func _check_collisions() -> void:
 	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / GameConfig.ROAD_LANE_COUNT
 	var player_center := Vector2(center_x + drive.lateral_position, viewport_size.y - 128.0)
 	for vehicle in traffic.vehicles:
-		var traffic_center := Vector2(road_left + lane_width * (vehicle.lane + 0.5), vehicle.y)
+		var traffic_center := Vector2(road_left + lane_width * (vehicle.lane_position + 0.5), vehicle.y)
 		if absf(traffic_center.x - player_center.x) < 50.0 and absf(traffic_center.y - player_center.y) < 72.0:
 			var outcome := collision.try_collide(drive.speed)
 			if outcome.hit:
@@ -142,6 +145,11 @@ func _reset_run() -> void:
 	traffic.reset()
 	collision = CollisionResponder.new(GameConfig.COLLISION_SPEED_PENALTY, GameConfig.COLLISION_INVULNERABILITY_SECONDS)
 	screen_shake = Vector2.ZERO
+	collision_audio.stop()
+
+func _player_lane() -> int:
+	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / GameConfig.ROAD_LANE_COUNT
+	return clampi(int(floor((drive.lateral_position + GameConfig.ROAD_HALF_WIDTH) / lane_width)), 0, GameConfig.ROAD_LANE_COUNT - 1)
 
 func _update_hud() -> void:
 	speed_label.text = "速度  %03d km/h" % roundi(drive.speed * 0.42)
