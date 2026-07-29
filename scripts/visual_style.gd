@@ -21,6 +21,11 @@ const WARNING := Color("ffeb65")
 static func hud_scale_for_width(viewport_width: float) -> float:
 	return clampf(viewport_width / 1280.0, 0.78, 1.0)
 
+static func hud_height_for_scale(_scale: float) -> float:
+	# Godot containers reserve the unscaled label minimum sizes: 98px labels,
+	# 12px row gaps, and 24px panel margins = 134px inside a 146px HUD panel.
+	return 134.0
+
 static func is_high_contrast(foreground: Color, background: Color) -> bool:
 	var brighter := maxf(_luminance(foreground), _luminance(background)) + 0.05
 	var darker := minf(_luminance(foreground), _luminance(background)) + 0.05

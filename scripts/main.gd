@@ -8,6 +8,7 @@ const CollisionSound = preload("res://scripts/collision_sound.gd")
 const RunState = preload("res://scripts/run_state.gd")
 const FuelPickup = preload("res://scripts/fuel_pickup.gd")
 const VisualStyle = preload("res://scripts/visual_style.gd")
+const SoundEffects = preload("res://scripts/sound_effects.gd")
 
 const ROAD_MARK_REPEAT_DISTANCE := 92.0
 
@@ -18,6 +19,13 @@ var run: RunState
 var road_scroll := 0.0
 var screen_shake := Vector2.ZERO
 var collision_audio: AudioStreamPlayer
+var engine_audio: AudioStreamPlayer
+var acceleration_audio: AudioStreamPlayer
+var pickup_audio: AudioStreamPlayer
+var warning_audio: AudioStreamPlayer
+var audio_volume := 0.65
+var audio_muted := false
+var warning_cooldown := 0.0
 var fuel_pickups: Array[FuelPickup] = []
 var fuel_spawn_remaining := GameConfig.FUEL_PICKUP_INTERVAL
 var pickup_lane_cursor := 0
@@ -41,6 +49,10 @@ func _ready() -> void:
 	collision_audio = AudioStreamPlayer.new()
 	collision_audio.stream = CollisionSound.create_stream()
 	add_child(collision_audio)
+	engine_audio = _make_audio_player(SoundEffects.create_engine_loop(), -18.0)
+	acceleration_audio = _make_audio_player(SoundEffects.create_acceleration(), -12.0)
+	pickup_audio = _make_audio_player(SoundEffects.create_pickup(), -10.0)
+	warning_audio = _make_audio_player(SoundEffects.create_warning(), -13.0)
 	speed_label = $CanvasLayer/DebugHUD/Rows/Speed
 	position_label = $CanvasLayer/DebugHUD/Rows/Position
 	debug_label = $CanvasLayer/DebugHUD/Rows/Debug
@@ -62,7 +74,14 @@ func _process(delta: float) -> void:
 		run.start()
 	if Input.is_action_just_pressed("pause_game"):
 		run.toggle_pause()
+	if Input.is_action_just_pressed("toggle_mute"):
+		audio_muted = not audio_muted
+	if Input.is_action_just_pressed("volume_down"):
+		audio_volume = maxf(0.0, audio_volume - 0.1)
+	if Input.is_action_just_pressed("volume_up"):
+		audio_volume = minf(1.0, audio_volume + 0.1)
 	if run.phase != RunState.Phase.RUNNING:
+		_stop_run_audio()
 		_update_hud()
 		queue_redraw()
 		return
@@ -78,6 +97,7 @@ func _process(delta: float) -> void:
 		return
 	traffic.set_difficulty_stage(run.difficulty_stage)
 	traffic.tick(delta, drive.speed, _player_lane())
+	_update_audio(delta, accelerate_input)
 	_update_fuel_pickups(delta)
 	collision.advance(delta)
 	_check_collisions()
@@ -161,6 +181,7 @@ func _update_fuel_pickups(delta: float) -> void:
 		var pickup_x := viewport_size.x * 0.5 - GameConfig.ROAD_HALF_WIDTH + lane_width * (pickup.lane + 0.5)
 		if absf(pickup_x - player_center.x) < 48.0 and absf(pickup.y - player_center.y) < 62.0:
 			run.add_fuel(GameConfig.FUEL_PICKUP_AMOUNT)
+			_play_effect(pickup_audio)
 			continue
 		if pickup.y < viewport_size.y + 60.0:
 			active.append(pickup)
@@ -182,6 +203,44 @@ func _check_collisions() -> void:
 				vehicle.collided_with_player = true
 				screen_shake = Vector2(10.0, -7.0)
 				collision_audio.play()
+
+func _make_audio_player(stream: AudioStream, base_volume_db: float) -> AudioStreamPlayer:
+	var player := AudioStreamPlayer.new()
+	player.stream = stream
+	player.volume_db = base_volume_db
+	add_child(player)
+	return player
+
+func _update_audio(delta: float, accelerate_input: float) -> void:
+	warning_cooldown = maxf(0.0, warning_cooldown - delta)
+	if not audio_muted and audio_volume > 0.0:
+		if not engine_audio.playing:
+			engine_audio.play()
+		engine_audio.pitch_scale = lerpf(0.78, 1.32, drive.speed / GameConfig.MAX_SPEED)
+		engine_audio.volume_db = SoundEffects.volume_db(audio_volume) - 18.0
+	else:
+		engine_audio.stop()
+	if accelerate_input > 0.0 and Input.is_action_just_pressed("accelerate"):
+		_play_effect(acceleration_audio)
+	if warning_cooldown <= 0.0:
+		for vehicle in traffic.vehicles:
+			if vehicle.kind == TrafficDirector.Kind.SIGNAL_CHANGE and vehicle.warning_remaining > 0.68:
+				_play_effect(warning_audio)
+				warning_cooldown = 0.55
+				break
+
+func _play_effect(player: AudioStreamPlayer) -> void:
+	if audio_muted or audio_volume <= 0.0:
+		return
+	player.volume_db = SoundEffects.volume_db(audio_volume) - 10.0
+	player.play()
+
+func _stop_run_audio() -> void:
+	collision_audio.stop()
+	engine_audio.stop()
+	acceleration_audio.stop()
+	pickup_audio.stop()
+	warning_audio.stop()
 
 func _award_completed_overtakes() -> void:
 	var player_y := get_viewport_rect().size.y - 128.0
@@ -205,6 +264,7 @@ func _reset_run() -> void:
 	collision = CollisionResponder.new(GameConfig.COLLISION_SPEED_PENALTY, GameConfig.COLLISION_INVULNERABILITY_SECONDS)
 	screen_shake = Vector2.ZERO
 	collision_audio.stop()
+	_stop_run_audio()
 	run.reset()
 	fuel_pickups.clear()
 	fuel_spawn_remaining = GameConfig.FUEL_PICKUP_INTERVAL
@@ -225,7 +285,7 @@ func _update_hud() -> void:
 	score_label.text = "SCORE  %06d    DIST  %05dm" % [run.score, roundi(run.distance)]
 	fuel_label.text = "FUEL  %03d%%" % roundi(run.fuel)
 	run_status_label.text = "STAGE %d  |  %s" % [run.difficulty_stage + 1, _phase_text()]
-	debug_label.text = "W/S  SPEED   A/D  STEER   P  PAUSE   R  RESTART"
+	debug_label.text = "W/S SPEED  A/D STEER  P PAUSE  R RESTART  M %s  -/+ VOL" % ("ON" if audio_muted else "OFF")
 	for label in [speed_label, debug_label, score_label, fuel_label, run_status_label]:
 		label.scale = Vector2.ONE * scale
 	var is_playing := run.phase == RunState.Phase.RUNNING
@@ -255,6 +315,9 @@ func _ensure_input_actions() -> void:
 	_register_action("restart_prototype", [KEY_R])
 	_register_action("start_game", [KEY_SPACE])
 	_register_action("pause_game", [KEY_P])
+	_register_action("toggle_mute", [KEY_M])
+	_register_action("volume_down", [KEY_MINUS])
+	_register_action("volume_up", [KEY_EQUAL])
 	_register_action("quit_game", [KEY_ESCAPE])
 
 func _register_action(action: StringName, keys: Array[int]) -> void:

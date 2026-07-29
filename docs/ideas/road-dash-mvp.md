@@ -51,3 +51,8 @@
 - 首次试玩者平均能坚持至少 30 秒；熟练试玩者可稳定达到 2 分钟以上。
 - 十次随机开局中不出现前 15 秒无解碰撞或无燃油可取的局面。
 - 以键盘从启动到重开稳定运行，无崩溃、无明显掉帧。
+
+# Asset provenance
+
+- `assets/neon-coast-menu.png`: original menu/end-screen background supplied by the project owner on 2026-07-29; used only outside the driving view.
+- `scripts/sound_effects.gd`: original procedural engine, acceleration, pickup, and warning tones generated at runtime; no external audio files are used.
