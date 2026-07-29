@@ -7,6 +7,8 @@ const CollisionResponder = preload("res://scripts/collision_responder.gd")
 const CollisionSound = preload("res://scripts/collision_sound.gd")
 const RunState = preload("res://scripts/run_state.gd")
 const FuelPickup = preload("res://scripts/fuel_pickup.gd")
+const VisualStyle = preload("res://scripts/visual_style.gd")
+
 const ROAD_MARK_REPEAT_DISTANCE := 92.0
 
 var drive: DriveController
@@ -27,6 +29,8 @@ var score_label: Label
 var fuel_label: Label
 var run_status_label: Label
 var overlay_label: Label
+var menu_backdrop: TextureRect
+var overlay_shade: ColorRect
 
 func _ready() -> void:
 	_ensure_input_actions()
@@ -44,6 +48,8 @@ func _ready() -> void:
 	fuel_label = $CanvasLayer/DebugHUD/Rows/Fuel
 	run_status_label = $CanvasLayer/DebugHUD/Rows/RunStatus
 	overlay_label = $CanvasLayer/Overlay
+	menu_backdrop = $CanvasLayer/MenuBackdrop
+	overlay_shade = $CanvasLayer/OverlayShade
 	_update_hud()
 	queue_redraw()
 
@@ -86,53 +92,59 @@ func _draw() -> void:
 	var center_x := viewport_size.x * 0.5
 	var road_left := center_x - GameConfig.ROAD_HALF_WIDTH
 	var road_right := center_x + GameConfig.ROAD_HALF_WIDTH
-	draw_rect(Rect2(Vector2.ZERO, viewport_size), Color("16322c"))
-	draw_rect(Rect2(road_left - 26.0, 0.0, GameConfig.ROAD_HALF_WIDTH * 2.0 + 52.0, viewport_size.y), Color("d0a65e"))
-	draw_rect(Rect2(road_left, 0.0, GameConfig.ROAD_HALF_WIDTH * 2.0, viewport_size.y), Color("292d39"))
-	draw_line(Vector2(road_left, 0.0), Vector2(road_left, viewport_size.y), Color("fff2c5"), 7.0)
-	draw_line(Vector2(road_right, 0.0), Vector2(road_right, viewport_size.y), Color("fff2c5"), 7.0)
+	draw_rect(Rect2(Vector2.ZERO, viewport_size), VisualStyle.OCEAN)
+	draw_rect(Rect2(road_left - 30.0, 0.0, GameConfig.ROAD_HALF_WIDTH * 2.0 + 60.0, viewport_size.y), VisualStyle.SHOULDER)
+	draw_rect(Rect2(road_left, 0.0, GameConfig.ROAD_HALF_WIDTH * 2.0, viewport_size.y), VisualStyle.ROAD)
+	draw_line(Vector2(road_left, 0.0), Vector2(road_left, viewport_size.y), VisualStyle.EDGE_NEON, 8.0)
+	draw_line(Vector2(road_right, 0.0), Vector2(road_right, viewport_size.y), VisualStyle.EDGE_NEON, 8.0)
 	for lane_index in range(1, GameConfig.ROAD_LANE_COUNT):
 		var lane_x := road_left + GameConfig.ROAD_HALF_WIDTH * 2.0 * lane_index / GameConfig.ROAD_LANE_COUNT
 		var dash_y := get_dash_start_y(road_scroll, ROAD_MARK_REPEAT_DISTANCE)
 		while dash_y < viewport_size.y:
-			draw_rect(Rect2(lane_x - 5.0, dash_y, 10.0, 52.0), Color("e7e9e8"))
+			draw_rect(Rect2(lane_x - 4.0, dash_y, 8.0, 52.0), VisualStyle.LANE_MARK)
 			dash_y += ROAD_MARK_REPEAT_DISTANCE
-	_draw_traffic(center_x, road_left)
-	_draw_fuel_pickups(center_x, road_left)
+	_draw_traffic(road_left)
+	_draw_fuel_pickups(road_left)
 	var car_center := Vector2(center_x + drive.lateral_position, viewport_size.y - 128.0)
-	var player_color := Color("48b7e8") if not _is_player_flashing() else Color("f4f1d0")
-	draw_colored_polygon(PackedVector2Array([car_center + Vector2(0.0, -44.0), car_center + Vector2(27.0, 34.0), car_center + Vector2(-27.0, 34.0)]), player_color)
-	draw_rect(Rect2(car_center + Vector2(-18.0, -10.0), Vector2(36.0, 30.0)), Color("0d4866"))
-	draw_circle(car_center + Vector2(0.0, 27.0), 5.0, Color("ffdf66"))
+	var player_color := VisualStyle.PLAYER_BODY if not _is_player_flashing() else VisualStyle.PLAYER_GLOW
+	draw_circle(car_center, 39.0, Color(player_color, 0.16))
+	draw_colored_polygon(PackedVector2Array([car_center + Vector2(0.0, -48.0), car_center + Vector2(29.0, 32.0), car_center + Vector2(-29.0, 32.0)]), player_color)
+	draw_colored_polygon(PackedVector2Array([car_center + Vector2(0.0, -27.0), car_center + Vector2(15.0, 3.0), car_center + Vector2(-15.0, 3.0)]), Color("0b2a45"))
+	draw_rect(Rect2(car_center + Vector2(-22.0, 14.0), Vector2(44.0, 8.0)), VisualStyle.PLAYER_GLOW)
+	draw_circle(car_center + Vector2(0.0, 27.0), 5.0, VisualStyle.WARNING)
 	draw_set_transform(Vector2.ZERO)
 
-func _draw_traffic(center_x: float, road_left: float) -> void:
+func _draw_traffic(road_left: float) -> void:
 	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / GameConfig.ROAD_LANE_COUNT
 	for vehicle in traffic.vehicles:
 		var car_center := Vector2(road_left + lane_width * (vehicle.lane_position + 0.5), vehicle.y)
-		draw_rect(Rect2(car_center + Vector2(-25.0, -42.0), Vector2(50.0, 82.0)), _traffic_color(vehicle.kind), true)
-		draw_rect(Rect2(car_center + Vector2(-16.0, -26.0), Vector2(32.0, 28.0)), Color("17212d"), true)
-		draw_circle(car_center + Vector2(-17.0, 27.0), 5.0, Color("17191f"))
-		draw_circle(car_center + Vector2(17.0, 27.0), 5.0, Color("17191f"))
+		var body_color := _traffic_color(vehicle.kind)
+		draw_circle(car_center, 36.0, Color(body_color, 0.13))
+		draw_rect(Rect2(car_center + Vector2(-25.0, -42.0), Vector2(50.0, 82.0)), body_color, true)
+		draw_rect(Rect2(car_center + Vector2(-16.0, -26.0), Vector2(32.0, 28.0)), Color("111d2d"), true)
+		draw_rect(Rect2(car_center + Vector2(-20.0, 23.0), Vector2(40.0, 7.0)), Color("ffdbd2"), true)
+		draw_circle(car_center + Vector2(-17.0, 27.0), 5.0, Color("0a1019"))
+		draw_circle(car_center + Vector2(17.0, 27.0), 5.0, Color("0a1019"))
 		if vehicle.kind == TrafficDirector.Kind.SIGNAL_CHANGE and vehicle.warning_remaining > 0.0:
 			var direction := signf(vehicle.target_lane - vehicle.lane_position)
-			draw_colored_polygon(PackedVector2Array([car_center + Vector2(18.0 * direction, -35.0), car_center + Vector2(4.0 * direction, -42.0), car_center + Vector2(4.0 * direction, -28.0)]), Color("ffe16a"))
+			draw_colored_polygon(PackedVector2Array([car_center + Vector2(18.0 * direction, -35.0), car_center + Vector2(4.0 * direction, -42.0), car_center + Vector2(4.0 * direction, -28.0)]), VisualStyle.WARNING)
 		if vehicle.kind == TrafficDirector.Kind.FAST_OVERTAKE and vehicle.overtake_warning_remaining > 0.0:
 			var warning_y := TrafficDirector.fast_warning_y(vehicle.y)
-			draw_line(Vector2(car_center.x - 18.0, warning_y), Vector2(car_center.x + 18.0, warning_y), Color("ff70d0"), 4.0)
+			draw_line(Vector2(car_center.x - 22.0, warning_y), Vector2(car_center.x + 22.0, warning_y), VisualStyle.FAST_BODY, 5.0)
 
-func _draw_fuel_pickups(center_x: float, road_left: float) -> void:
+func _draw_fuel_pickups(road_left: float) -> void:
 	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / GameConfig.ROAD_LANE_COUNT
 	for pickup in fuel_pickups:
 		var center := Vector2(road_left + lane_width * (pickup.lane + 0.5), pickup.y)
-		draw_colored_polygon(PackedVector2Array([center + Vector2(0, -20), center + Vector2(18, 0), center + Vector2(0, 20), center + Vector2(-18, 0)]), Color("65e49a"))
-		draw_string(ThemeDB.fallback_font, center + Vector2(-6, 6), "F", HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color("173a32"))
+		draw_circle(center, 28.0, Color(VisualStyle.FUEL_GLOW, 0.20))
+		draw_colored_polygon(PackedVector2Array([center + Vector2(0, -22), center + Vector2(20, 0), center + Vector2(0, 22), center + Vector2(-20, 0)]), VisualStyle.FUEL_GLOW)
+		draw_string(ThemeDB.fallback_font, center + Vector2(-6, 6), "+", HORIZONTAL_ALIGNMENT_LEFT, -1, 22, Color("063526"))
 
 func _traffic_color(kind: int) -> Color:
 	match kind:
-		TrafficDirector.Kind.STEADY_SLOW: return Color("e98562")
-		TrafficDirector.Kind.SIGNAL_CHANGE: return Color("d9a84b")
-		_: return Color("c466d7")
+		TrafficDirector.Kind.STEADY_SLOW: return VisualStyle.SLOW_BODY
+		TrafficDirector.Kind.SIGNAL_CHANGE: return VisualStyle.SIGNAL_BODY
+		_: return VisualStyle.FAST_BODY
 
 func _update_fuel_pickups(delta: float) -> void:
 	fuel_spawn_remaining -= delta
@@ -207,26 +219,32 @@ func _player_lane() -> int:
 	return clampi(int(floor((drive.lateral_position + GameConfig.ROAD_HALF_WIDTH) / lane_width)), 0, GameConfig.ROAD_LANE_COUNT - 1)
 
 func _update_hud() -> void:
-	speed_label.text = "速度  %03d km/h" % roundi(drive.speed * 0.42)
-	position_label.text = "横向位置  %+.0f / %.0f" % [drive.lateral_position, GameConfig.ROAD_HALF_WIDTH]
-	score_label.text = "得分  %06d    距离  %05dm" % [run.score, roundi(run.distance)]
-	fuel_label.text = "燃油  %03d%%" % roundi(run.fuel)
-	run_status_label.text = "难度 %d  |  %s" % [run.difficulty_stage + 1, _phase_text()]
-	debug_label.text = "W/↑ 加速  S/↓ 制动  A/D/←→ 转向  P 暂停  R 重开  Esc 退出"
+	var scale := VisualStyle.hud_scale_for_width(get_viewport_rect().size.x)
+	speed_label.text = "SPEED  %03d km/h" % roundi(drive.speed * 0.42)
+	position_label.text = ""
+	score_label.text = "SCORE  %06d    DIST  %05dm" % [run.score, roundi(run.distance)]
+	fuel_label.text = "FUEL  %03d%%" % roundi(run.fuel)
+	run_status_label.text = "STAGE %d  |  %s" % [run.difficulty_stage + 1, _phase_text()]
+	debug_label.text = "W/S  SPEED   A/D  STEER   P  PAUSE   R  RESTART"
+	for label in [speed_label, debug_label, score_label, fuel_label, run_status_label]:
+		label.scale = Vector2.ONE * scale
+	var is_playing := run.phase == RunState.Phase.RUNNING
+	menu_backdrop.visible = not is_playing
+	overlay_shade.visible = not is_playing
 	overlay_label.text = _overlay_text()
 
 func _phase_text() -> String:
 	match run.phase:
-		RunState.Phase.READY: return "准备"
-		RunState.Phase.RUNNING: return "行驶中"
-		RunState.Phase.PAUSED: return "已暂停"
-		_: return "结算"
+		RunState.Phase.READY: return "READY"
+		RunState.Phase.RUNNING: return "RUNNING"
+		RunState.Phase.PAUSED: return "PAUSED"
+		_: return "FINISHED"
 
 func _overlay_text() -> String:
 	match run.phase:
-		RunState.Phase.READY: return "高速突围\n按 空格 开始"
-		RunState.Phase.PAUSED: return "已暂停\n按 P 继续"
-		RunState.Phase.ENDED: return "燃油耗尽\n得分 %d  |  距离 %dm\n按 R 再来一局" % [run.score, roundi(run.distance)]
+		RunState.Phase.READY: return "NEON COAST RUSH\n\nSURVIVE THE NIGHT TRAFFIC\n\n[ SPACE ]  START RUN"
+		RunState.Phase.PAUSED: return "PAUSED\n\n[ P ]  RESUME     [ R ]  RESTART"
+		RunState.Phase.ENDED: return "OUT OF FUEL\n\nSCORE  %06d     DIST  %05dm\n\n[ R ]  RACE AGAIN" % [run.score, roundi(run.distance)]
 		_: return ""
 
 func _ensure_input_actions() -> void:
