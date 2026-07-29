@@ -75,7 +75,7 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("pause_game"):
 		run.toggle_pause()
 	if Input.is_action_just_pressed("toggle_mute"):
-		audio_muted = not audio_muted
+		_toggle_audio_mute()
 	if Input.is_action_just_pressed("volume_down"):
 		audio_volume = maxf(0.0, audio_volume - 0.1)
 	if Input.is_action_just_pressed("volume_up"):
@@ -92,6 +92,7 @@ func _process(delta: float) -> void:
 	road_scroll = advance_road_scroll(road_scroll, drive.speed, delta, ROAD_MARK_REPEAT_DISTANCE)
 	run.tick(delta, drive.speed, GameConfig.MAX_SPEED)
 	if run.phase == RunState.Phase.ENDED:
+		_stop_run_audio()
 		_update_hud()
 		queue_redraw()
 		return
@@ -202,7 +203,12 @@ func _check_collisions() -> void:
 				vehicle.y = player_center.y + 130.0
 				vehicle.collided_with_player = true
 				screen_shake = Vector2(10.0, -7.0)
-				collision_audio.play()
+				_play_effect(collision_audio)
+
+func _toggle_audio_mute() -> void:
+	audio_muted = not audio_muted
+	if audio_muted:
+		_stop_run_audio()
 
 func _make_audio_player(stream: AudioStream, base_volume_db: float) -> AudioStreamPlayer:
 	var player := AudioStreamPlayer.new()
