@@ -3,7 +3,8 @@
 config_version=5
 
 [application]
-config/name="Road Dash"
+config/name="Neon Coast Rush"
+config/version="0.1.0-rc.1"
 config/features=PackedStringArray("4.7")
 run/main_scene="res://scenes/main.tscn"
 

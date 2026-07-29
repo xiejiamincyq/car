@@ -29,5 +29,14 @@ func _run() -> void:
 	assert(main.run.score == 0 and is_zero_approx(main.run.distance), "Reset must clear score and distance")
 	assert(is_equal_approx(main.run.fuel, 100.0), "Reset must restore the full fuel tank")
 	assert(main.fuel_pickups.is_empty(), "Reset must remove old fuel pickups")
-	main.free()
+	await _teardown_audio_main(main)
 	quit()
+
+func _teardown_audio_main(main: Node) -> void:
+	main._stop_run_audio()
+	for player in [main.collision_audio, main.engine_audio, main.acceleration_audio, main.pickup_audio, main.warning_audio]:
+		player.stream = null
+	main.queue_free()
+	await process_frame
+	await process_frame
+	await process_frame

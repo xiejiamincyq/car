@@ -3,8 +3,8 @@
 ## 发布前
 
 - [ ] 工作区干净；确认构建产物只在 `exports/`，没有被暂存。
-- [ ] 使用 Godot 4.7 运行全部 `tests/test_*.gd`，结果为零失败。当前 Godot 4.7 无头环境会在两个播放程序化 `AudioStreamWAV` 的场景测试退出时报告 ObjectDB 警告；需确认没有新增警告，并在有音频设备的 Windows 构建中复验。
-- [ ] 运行 `tests/test_release_regression.gd`：20 个种子和 300 秒压力模拟通过。
+- [ ] 使用 Godot 4.7 运行全部 `tests/test_*.gd`，结果为零断言失败。当前无头音频场景测试退出时仍会报告 ObjectDB 警告，发布前须在 Windows 导出包中复验并单独记录结果。
+- [ ] 运行 `tests/test_release_regression.gd`：20 个真实燃油结算与第二局流程、全部难度/车种，以及 20 种子 × 3 车道 × 3 速度组合下的 300 秒压力模拟通过。
 - [ ] 确认 Windows 导出模板已安装，`export_presets.cfg` 的 `Windows Desktop` 可见。
 - [ ] 导出到新的空目录，且不覆盖任何先前发布包。
 - [ ] 在该目录启动 `NeonCoastRush.exe`，完成：开始、加速/转向、暂停、静音、燃油耗尽、`R` 重开、退出。

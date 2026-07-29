@@ -41,7 +41,7 @@ Get-ChildItem tests -Filter "test_*.gd" | ForEach-Object {
 }
 ```
 
-`tests/test_release_regression.gd` 额外覆盖 20 个随机种子、每局重开清理，以及 300 秒的交通对象池和出生公平性压力模拟。
+`tests/test_release_regression.gd` 额外覆盖 20 个真实燃油结算与第二局重开流程、四个难度阶段及其实际车种，以及 20 个种子 × 3 个玩家车道 × 3 个速度组合下 300 秒的出生公平性、回收和对象池压力模拟。
 
 ## Windows 导出
 

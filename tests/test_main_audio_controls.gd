@@ -30,5 +30,14 @@ func _run() -> void:
 	assert(main.run.phase == main.RunState.Phase.ENDED and not main.engine_audio.playing, "Ending must stop audio in the same frame")
 	main._restart_run()
 	assert(not main.engine_audio.playing and not main.collision_audio.playing, "R must clear active audio")
-	main.free()
+	await _teardown_audio_main(main)
 	quit()
+
+func _teardown_audio_main(main: Node) -> void:
+	main._stop_run_audio()
+	for player in [main.collision_audio, main.engine_audio, main.acceleration_audio, main.pickup_audio, main.warning_audio]:
+		player.stream = null
+	main.queue_free()
+	await process_frame
+	await process_frame
+	await process_frame
