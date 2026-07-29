@@ -84,7 +84,7 @@ func update_vehicle(vehicle: TrafficVehicle, delta: float, player_speed: float) 
 		relative_speed += 165.0
 		if not vehicle.warning_started and vehicle.y >= 80.0:
 			vehicle.warning_started = true
-			vehicle.warning_remaining = 0.75
+			vehicle.warning_remaining = lane_change_warning_duration()
 		elif vehicle.warning_remaining > 0.0:
 			vehicle.warning_remaining = maxf(0.0, vehicle.warning_remaining - delta)
 		if is_zero_approx(vehicle.warning_remaining) and not vehicle.change_started:
@@ -148,7 +148,7 @@ func _spawn_next(player_speed: float, player_lane: int) -> void:
 	if vehicles.size() >= max_active_vehicles:
 		return
 	var kind := _next_kind
-	_next_kind = (_next_kind + 1) % Kind.size()
+	_next_kind = (_next_kind + 1) % (maximum_kind_for_stage() + 1)
 	var lane := _random.randi_range(0, lane_count - 1)
 	var y := 1100.0 if kind == Kind.FAST_OVERTAKE else -minimum_spawn_distance
 	if not _can_spawn_vehicle(kind, lane, y, player_speed, player_lane):
@@ -189,6 +189,16 @@ func _target_lane_for(kind: int, lane: int) -> int:
 	if lane == lane_count - 1:
 		return lane_count - 2
 	return lane + (-1 if _random.randi_range(0, 1) == 0 else 1)
+
+func maximum_kind_for_stage() -> int:
+	if difficulty_stage <= 0:
+		return Kind.STEADY_SLOW
+	if difficulty_stage == 1:
+		return Kind.SIGNAL_CHANGE
+	return Kind.FAST_OVERTAKE
+
+func lane_change_warning_duration() -> float:
+	return [0.75, 0.75, 0.55, 0.40][difficulty_stage]
 
 func _spawn_interval_for_stage() -> float:
 	return [0.85, 0.72, 0.62, 0.55][difficulty_stage]

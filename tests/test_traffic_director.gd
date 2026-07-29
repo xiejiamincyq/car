@@ -49,6 +49,29 @@ func _init() -> void:
 	assert(director.is_fast_spawn_fair(760.0, 1), "Fast overtaker must use the player-speed reaction-distance fairness check")
 	assert(TrafficDirector.fast_warning_y(700.0) >= 0.0 and TrafficDirector.fast_warning_y(700.0) <= 720.0, "Fast warning must be visible in the viewport")
 
+	for stage in range(4):
+		var staged_a = TrafficDirector.new(409)
+		var staged_b = TrafficDirector.new(409)
+		staged_a.set_difficulty_stage(stage)
+		staged_b.set_difficulty_stage(stage)
+		for _second in range(30):
+			staged_a.tick(1.0, 500.0, 1)
+			staged_b.tick(1.0, 500.0, 1)
+		assert(staged_a.spawn_sequence() == staged_b.spawn_sequence(), "Every difficulty stage must retain fixed-seed determinism")
+		for vehicle in staged_a.vehicles:
+			assert(vehicle.kind <= staged_a.maximum_kind_for_stage(), "A stage must not spawn a vehicle type scheduled for a later stage")
+	var early = TrafficDirector.new(88)
+	early.set_difficulty_stage(0)
+	for _second in range(30):
+		early.tick(1.0, 500.0, 1)
+	for vehicle in early.vehicles:
+		assert(vehicle.kind == TrafficDirector.Kind.STEADY_SLOW, "The protected opening must only use steady traffic")
+	var lane_schedule = TrafficDirector.new(5)
+	lane_schedule.set_difficulty_stage(1)
+	var stage_one_warning := lane_schedule.lane_change_warning_duration()
+	lane_schedule.set_difficulty_stage(3)
+	assert(lane_schedule.lane_change_warning_duration() < stage_one_warning, "Late stages must increase lane-change frequency through shorter warnings")
+
 	director.reset()
 	assert(director.vehicles.is_empty(), "Restart must clear actual active traffic")
 	quit()

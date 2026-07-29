@@ -12,6 +12,8 @@ var spawn_was_fair: bool = false
 var lane_position: float = 0.0
 var overtake_warning_remaining: float = 0.0
 var passed_player: bool = false
+var was_ahead_of_player: bool = false
+var collided_with_player: bool = false
 
 func _init(vehicle_kind: int, initial_lane: int, initial_y: float, change_target: int = -1) -> void:
 	configure(vehicle_kind, initial_lane, initial_y, change_target)
@@ -28,3 +30,5 @@ func configure(vehicle_kind: int, initial_lane: int, initial_y: float, change_ta
 	lane_position = float(lane)
 	overtake_warning_remaining = 0.0
 	passed_player = false
+	was_ahead_of_player = false
+	collided_with_player = false

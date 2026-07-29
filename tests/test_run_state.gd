@@ -20,6 +20,17 @@ func _init() -> void:
 	protected_run.tick(0.2, 760.0, 760.0)
 	assert(protected_run.phase == RunState.Phase.ENDED, "An empty tank must end the run after the grace period")
 
+	var stages := RunState.new(100.0, 0.0, 30.0)
+	stages.start()
+	stages.tick(30.0, 500.0, 760.0)
+	assert(stages.difficulty_stage == 0, "The first 30 seconds must retain the stage-zero traffic rules")
+	stages.tick(5.0, 500.0, 760.0)
+	assert(stages.difficulty_stage == 1, "Stage one must begin after the protected opening")
+	stages.tick(40.0, 500.0, 760.0)
+	assert(stages.difficulty_stage == 2, "Stage two must introduce the full traffic set")
+	stages.tick(40.0, 500.0, 760.0)
+	assert(stages.difficulty_stage == 3, "Stage three must preserve the late-run escalation")
+
 	var paused_run := RunState.new(100.0, 4.0, 30.0)
 	paused_run.start()
 	paused_run.tick(2.0, 600.0, 760.0)

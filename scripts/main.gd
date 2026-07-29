@@ -66,6 +66,10 @@ func _process(delta: float) -> void:
 	drive.step(delta, accelerate_input, brake_input, steering_input)
 	road_scroll = advance_road_scroll(road_scroll, drive.speed, delta, ROAD_MARK_REPEAT_DISTANCE)
 	run.tick(delta, drive.speed, GameConfig.MAX_SPEED)
+	if run.phase == RunState.Phase.ENDED:
+		_update_hud()
+		queue_redraw()
+		return
 	traffic.set_difficulty_stage(run.difficulty_stage)
 	traffic.tick(delta, drive.speed, _player_lane())
 	_update_fuel_pickups(delta)
@@ -163,15 +167,21 @@ func _check_collisions() -> void:
 			if outcome.hit:
 				drive.speed = outcome.speed
 				vehicle.y = player_center.y + 130.0
+				vehicle.collided_with_player = true
 				screen_shake = Vector2(10.0, -7.0)
 				collision_audio.play()
 
 func _award_completed_overtakes() -> void:
 	var player_y := get_viewport_rect().size.y - 128.0
 	for vehicle in traffic.vehicles:
-		if not vehicle.passed_player and vehicle.y > player_y + 76.0:
+		if vehicle.y < player_y - 76.0:
+			vehicle.was_ahead_of_player = true
+		if not vehicle.passed_player and vehicle.y > player_y + 76.0 and is_eligible_overtake(vehicle.kind, vehicle.was_ahead_of_player, vehicle.collided_with_player):
 			vehicle.passed_player = true
 			run.award_overtake(GameConfig.OVERTAKE_SCORE)
+
+static func is_eligible_overtake(kind: int, was_ahead: bool, collided_with_player: bool) -> bool:
+	return kind != TrafficDirector.Kind.FAST_OVERTAKE and was_ahead and not collided_with_player
 
 func _is_player_flashing() -> bool:
 	return collision.invulnerability_remaining > 0.0 and int(collision.invulnerability_remaining * 14.0) % 2 == 0
