@@ -20,6 +20,7 @@ var _spawn_cooldown: float = 0.7
 var _player_speed: float = 0.0
 var _player_lane: int = 1
 var _spawn_history: PackedStringArray = []
+var difficulty_stage: int = 0
 
 func _init(seed: int, lanes: int = 3, safe_distance: float = 620.0, lane_gap: float = 180.0) -> void:
 	lane_count = lanes
@@ -35,7 +36,7 @@ func tick(delta: float, player_speed: float, player_lane: int = 1) -> void:
 	_spawn_cooldown -= delta
 	if _spawn_cooldown <= 0.0:
 		_spawn_next(player_speed, player_lane)
-		_spawn_cooldown = 0.85
+		_spawn_cooldown = _spawn_interval_for_stage()
 	for vehicle in vehicles:
 		update_vehicle(vehicle, delta, player_speed)
 	_recycle_offscreen_vehicles()
@@ -59,10 +60,14 @@ func reset() -> void:
 	_spawn_cooldown = 0.7
 	_random.seed = _initial_seed
 	_spawn_history.clear()
+	difficulty_stage = 0
+
+func set_difficulty_stage(stage: int) -> void:
+	difficulty_stage = clampi(stage, 0, 3)
 
 func update_vehicle(vehicle: TrafficVehicle, delta: float, player_speed: float) -> void:
 	if vehicle.kind == Kind.FAST_OVERTAKE:
-		var overtake_speed := player_speed * 0.30 + 260.0
+		var overtake_speed := (player_speed * 0.30 + 260.0) * _speed_multiplier_for_stage()
 		if vehicle.y > 700.0:
 			vehicle.y = maxf(700.0, vehicle.y - overtake_speed * delta)
 			if vehicle.y <= 700.0:
@@ -91,7 +96,7 @@ func update_vehicle(vehicle: TrafficVehicle, delta: float, player_speed: float) 
 			vehicle.lane_position = move_toward(vehicle.lane_position, float(vehicle.target_lane), 2.4 * delta)
 			if is_equal_approx(vehicle.lane_position, float(vehicle.target_lane)):
 				vehicle.lane = vehicle.target_lane
-	vehicle.y = _constrain_top_vehicle_y(vehicle, vehicle.y + relative_speed * delta)
+	vehicle.y = _constrain_top_vehicle_y(vehicle, vehicle.y + relative_speed * _speed_multiplier_for_stage() * delta)
 
 func is_lane_valid(lane: int) -> bool:
 	return lane >= 0 and lane < lane_count
@@ -184,6 +189,12 @@ func _target_lane_for(kind: int, lane: int) -> int:
 	if lane == lane_count - 1:
 		return lane_count - 2
 	return lane + (-1 if _random.randi_range(0, 1) == 0 else 1)
+
+func _spawn_interval_for_stage() -> float:
+	return [0.85, 0.72, 0.62, 0.55][difficulty_stage]
+
+func _speed_multiplier_for_stage() -> float:
+	return [1.0, 1.0, 1.12, 1.22][difficulty_stage]
 
 func is_fast_spawn_fair(player_speed: float, player_lane: int) -> bool:
 	return _can_spawn_vehicle(Kind.FAST_OVERTAKE, player_lane, 1100.0, player_speed, player_lane)

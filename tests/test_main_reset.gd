@@ -12,6 +12,9 @@ func _run() -> void:
 	main.road_scroll = 50.0
 	main.collision.invulnerability_remaining = 0.5
 	main.screen_shake = Vector2(5.0, 5.0)
+	main.run.start()
+	main.run.tick(4.0, 760.0, 760.0)
+	main.fuel_pickups.append(preload("res://scripts/fuel_pickup.gd").new(1, 300.0))
 	main.traffic.tick(1.0, 500.0, 1)
 	main.collision_audio.play()
 	main._reset_run()
@@ -22,5 +25,9 @@ func _run() -> void:
 	assert(main.screen_shake == Vector2.ZERO, "R reset must clear screen shake")
 	assert(main.collision_audio.stream != null, "R reset must retain collision audio readiness")
 	assert(not main.collision_audio.playing, "R reset must stop active collision audio")
+	assert(main.run.phase == main.RunState.Phase.READY, "Reset must return the run to its start state")
+	assert(main.run.score == 0 and is_zero_approx(main.run.distance), "Reset must clear score and distance")
+	assert(is_equal_approx(main.run.fuel, 100.0), "Reset must restore the full fuel tank")
+	assert(main.fuel_pickups.is_empty(), "Reset must remove old fuel pickups")
 	main.free()
 	quit()

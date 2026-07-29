@@ -22,3 +22,7 @@ const TRAFFIC_SPAWN_INTERVAL: float = 0.85
 
 const FUEL_DRAIN_PER_SECOND: float = 4.0
 const FUEL_PICKUP_AMOUNT: float = 28.0
+const MAX_FUEL: float = 100.0
+const FUEL_GRACE_SECONDS: float = 30.0
+const FUEL_PICKUP_INTERVAL: float = 7.5
+const OVERTAKE_SCORE: int = 80
