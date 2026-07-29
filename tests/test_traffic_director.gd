@@ -71,6 +71,20 @@ func _init() -> void:
 	var stage_one_warning := lane_schedule.lane_change_warning_duration()
 	lane_schedule.set_difficulty_stage(3)
 	assert(lane_schedule.lane_change_warning_duration() < stage_one_warning, "Late stages must increase lane-change frequency through shorter warnings")
+	var stage_change_totals: Array[int] = []
+	for stage in range(1, 4):
+		var total_changes := 0
+		for seed in range(1, 6):
+			var measured = TrafficDirector.new(seed)
+			measured.set_difficulty_stage(stage)
+			for _tick in range(1200):
+				measured.tick(0.1, 560.0, 1)
+				assert(measured.all_active_spawns_are_fair(), "Every stage and seed must preserve active spawn fairness")
+				assert(measured.vehicles.size() <= measured.max_active_vehicles and measured.allocated_vehicle_count <= measured.max_active_vehicles, "Every stage and seed must keep the active pool bounded")
+			total_changes += measured.lane_change_started_count
+		stage_change_totals.append(total_changes)
+	assert(stage_change_totals[1] >= stage_change_totals[0], "Stage two must not reduce actual lane-change events")
+	assert(stage_change_totals[2] >= stage_change_totals[1], "Stage three must not reduce actual lane-change events")
 
 	director.reset()
 	assert(director.vehicles.is_empty(), "Restart must clear actual active traffic")

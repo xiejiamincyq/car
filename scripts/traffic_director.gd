@@ -16,11 +16,13 @@ var allocated_vehicle_count: int = 0
 var _random := RandomNumberGenerator.new()
 var _initial_seed: int
 var _next_kind: int = 0
+var _schedule_cursor: int = 0
 var _spawn_cooldown: float = 0.7
 var _player_speed: float = 0.0
 var _player_lane: int = 1
 var _spawn_history: PackedStringArray = []
 var difficulty_stage: int = 0
+var lane_change_started_count: int = 0
 
 func _init(seed: int, lanes: int = 3, safe_distance: float = 620.0, lane_gap: float = 180.0) -> void:
 	lane_count = lanes
@@ -57,10 +59,12 @@ func reset() -> void:
 		_pool.append(vehicle)
 	vehicles.clear()
 	_next_kind = 0
+	_schedule_cursor = 0
 	_spawn_cooldown = 0.7
 	_random.seed = _initial_seed
 	_spawn_history.clear()
 	difficulty_stage = 0
+	lane_change_started_count = 0
 
 func set_difficulty_stage(stage: int) -> void:
 	difficulty_stage = clampi(stage, 0, 3)
@@ -90,6 +94,7 @@ func update_vehicle(vehicle: TrafficVehicle, delta: float, player_speed: float) 
 		if is_zero_approx(vehicle.warning_remaining) and not vehicle.change_started:
 			if is_lane_change_safe(vehicle):
 				vehicle.change_started = true
+				lane_change_started_count += 1
 			else:
 				vehicle.warning_remaining = 0.35
 		if vehicle.change_started:
@@ -147,8 +152,7 @@ func _top_lane_has_minimum_gap(lane: int) -> bool:
 func _spawn_next(player_speed: float, player_lane: int) -> void:
 	if vehicles.size() >= max_active_vehicles:
 		return
-	var kind := _next_kind
-	_next_kind = (_next_kind + 1) % (maximum_kind_for_stage() + 1)
+	var kind := _kind_for_next_spawn()
 	var lane := _random.randi_range(0, lane_count - 1)
 	var y := 1100.0 if kind == Kind.FAST_OVERTAKE else -minimum_spawn_distance
 	if not _can_spawn_vehicle(kind, lane, y, player_speed, player_lane):
@@ -199,6 +203,23 @@ func maximum_kind_for_stage() -> int:
 
 func lane_change_warning_duration() -> float:
 	return [0.75, 0.75, 0.55, 0.40][difficulty_stage]
+
+func _kind_for_next_spawn() -> int:
+	var schedule := _kind_schedule()
+	var kind := schedule[_schedule_cursor % schedule.size()]
+	_schedule_cursor += 1
+	return kind
+
+func _kind_schedule() -> Array[int]:
+	match difficulty_stage:
+		0:
+			return [Kind.STEADY_SLOW]
+		1:
+			return [Kind.STEADY_SLOW, Kind.SIGNAL_CHANGE]
+		2:
+			return [Kind.STEADY_SLOW, Kind.SIGNAL_CHANGE, Kind.SIGNAL_CHANGE, Kind.FAST_OVERTAKE]
+		_:
+			return [Kind.STEADY_SLOW, Kind.SIGNAL_CHANGE, Kind.SIGNAL_CHANGE, Kind.SIGNAL_CHANGE, Kind.FAST_OVERTAKE]
 
 func _spawn_interval_for_stage() -> float:
 	return [0.85, 0.72, 0.62, 0.55][difficulty_stage]
