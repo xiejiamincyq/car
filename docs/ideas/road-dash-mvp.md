@@ -1,4 +1,4 @@
-# 《高速突围》MVP 定义
+# Neon Coast Rush MVP 定义
 
 ## 一句话定位
 

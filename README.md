@@ -52,6 +52,6 @@ Get-ChildItem tests -Filter "test_*.gd" | ForEach-Object {
 
 `exports/` 已被 Git 忽略，构建产物不会提交。
 
-## 发布候选状态
+## 当前开发状态
 
-当前版本：`0.1.0-rc.1`。发布与回滚步骤见 [发布检查清单](docs/release-checklist.md)，玩家可见改动见 [CHANGELOG](CHANGELOG.md)。
+当前版本：`0.1.0-rc.1`，定位为核心循环可玩的纵向切片，而不是完成品。正式界面流、存档、赛段终点和中后期内容将按 [完成度加固计划](tasks/plan-foundation.md) 推进至 `0.2.0`。发布与回滚步骤见 [发布检查清单](docs/release-checklist.md)，玩家可见改动见 [CHANGELOG](CHANGELOG.md)。
