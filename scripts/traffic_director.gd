@@ -2,6 +2,7 @@ class_name TrafficDirector
 extends RefCounted
 
 const TrafficVehicle = preload("res://scripts/traffic_vehicle.gd")
+const TrackGeometry = preload("res://scripts/track_geometry.gd")
 
 enum Kind { STEADY_SLOW, SIGNAL_CHANGE, FAST_OVERTAKE }
 
@@ -23,6 +24,7 @@ var _player_lane: int = 1
 var _spawn_history: PackedStringArray = []
 var difficulty_stage: int = 0
 var lane_change_started_count: int = 0
+var _viewport_height: float = 720.0
 
 func _init(seed: int, lanes: int = 3, safe_distance: float = 620.0, lane_gap: float = 180.0) -> void:
 	lane_count = lanes
@@ -69,12 +71,16 @@ func reset() -> void:
 func set_difficulty_stage(stage: int) -> void:
 	difficulty_stage = clampi(stage, 0, 3)
 
+func set_viewport_height(viewport_height: float) -> void:
+	_viewport_height = maxf(1.0, viewport_height)
+
 func update_vehicle(vehicle: TrafficVehicle, delta: float, player_speed: float) -> void:
 	if vehicle.kind == Kind.FAST_OVERTAKE:
 		var overtake_speed := (player_speed * 0.30 + 260.0) * _speed_multiplier_for_stage()
-		if vehicle.y > 700.0:
-			vehicle.y = maxf(700.0, vehicle.y - overtake_speed * delta)
-			if vehicle.y <= 700.0:
+		var staging_y := TrackGeometry.fast_overtake_staging_y(_viewport_height)
+		if vehicle.y > staging_y:
+			vehicle.y = maxf(staging_y, vehicle.y - overtake_speed * delta)
+			if vehicle.y <= staging_y:
 				vehicle.overtake_warning_remaining = 1.0
 		elif vehicle.overtake_warning_remaining > 0.0:
 			vehicle.overtake_warning_remaining = maxf(0.0, vehicle.overtake_warning_remaining - delta)
@@ -154,7 +160,7 @@ func _spawn_next(player_speed: float, player_lane: int) -> void:
 		return
 	var kind := _kind_for_next_spawn()
 	var lane := _random.randi_range(0, lane_count - 1)
-	var y := 1100.0 if kind == Kind.FAST_OVERTAKE else -minimum_spawn_distance
+	var y := TrackGeometry.fast_overtake_spawn_y(_viewport_height) if kind == Kind.FAST_OVERTAKE else -minimum_spawn_distance
 	if not _can_spawn_vehicle(kind, lane, y, player_speed, player_lane):
 		return
 	var vehicle := acquire_vehicle(kind, lane, y)
@@ -168,7 +174,7 @@ func _can_spawn_vehicle(kind: int, lane: int, y: float, player_speed: float, pla
 	for vehicle in vehicles:
 		if vehicle.lane == lane and absf(vehicle.y - y) < minimum_lane_gap:
 			return false
-	var candidate := TrafficVehicle.new(kind, lane, 700.0 if kind == Kind.FAST_OVERTAKE else y)
+	var candidate := TrafficVehicle.new(kind, lane, TrackGeometry.fast_overtake_staging_y(_viewport_height) if kind == Kind.FAST_OVERTAKE else y)
 	return _has_escape_lane(candidate, player_lane, player_speed)
 
 func _has_escape_lane(candidate: TrafficVehicle, player_lane: int, player_speed: float) -> bool:
@@ -228,7 +234,7 @@ func _speed_multiplier_for_stage() -> float:
 	return [1.0, 1.0, 1.12, 1.22][difficulty_stage]
 
 func is_fast_spawn_fair(player_speed: float, player_lane: int) -> bool:
-	return _can_spawn_vehicle(Kind.FAST_OVERTAKE, player_lane, 1100.0, player_speed, player_lane)
+	return _can_spawn_vehicle(Kind.FAST_OVERTAKE, player_lane, TrackGeometry.fast_overtake_spawn_y(_viewport_height), player_speed, player_lane)
 
 func spawn_sequence() -> String:
 	return "|".join(_spawn_history)
@@ -239,7 +245,7 @@ static func fast_warning_y(vehicle_y: float) -> float:
 func _recycle_offscreen_vehicles() -> void:
 	var active: Array[TrafficVehicle] = []
 	for vehicle in vehicles:
-		var is_offscreen := vehicle.y > 860.0 if vehicle.kind != Kind.FAST_OVERTAKE else vehicle.y < -100.0
+		var is_offscreen := vehicle.y > TrackGeometry.normal_recycle_y(_viewport_height) if vehicle.kind != Kind.FAST_OVERTAKE else vehicle.y < TrackGeometry.FAST_RECYCLE_Y
 		if is_offscreen:
 			_pool.append(vehicle)
 		else:

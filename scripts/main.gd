@@ -9,6 +9,7 @@ const RunState = preload("res://scripts/run_state.gd")
 const FuelPickup = preload("res://scripts/fuel_pickup.gd")
 const VisualStyle = preload("res://scripts/visual_style.gd")
 const SoundEffects = preload("res://scripts/sound_effects.gd")
+const TrackGeometry = preload("res://scripts/track_geometry.gd")
 
 const ROAD_MARK_REPEAT_DISTANCE := 92.0
 
@@ -97,6 +98,7 @@ func _process(delta: float) -> void:
 		queue_redraw()
 		return
 	traffic.set_difficulty_stage(run.difficulty_stage)
+	traffic.set_viewport_height(get_viewport_rect().size.y)
 	traffic.tick(delta, drive.speed, _player_lane())
 	_update_audio(delta, accelerate_input)
 	_update_fuel_pickups(delta)
@@ -126,7 +128,7 @@ func _draw() -> void:
 			dash_y += ROAD_MARK_REPEAT_DISTANCE
 	_draw_traffic(road_left)
 	_draw_fuel_pickups(road_left)
-	var car_center := Vector2(center_x + drive.lateral_position, viewport_size.y - 128.0)
+	var car_center := Vector2(center_x + drive.lateral_position, TrackGeometry.player_y(viewport_size.y))
 	var player_color := VisualStyle.PLAYER_BODY if not _is_player_flashing() else VisualStyle.PLAYER_GLOW
 	draw_circle(car_center, 39.0, Color(player_color, 0.16))
 	draw_colored_polygon(PackedVector2Array([car_center + Vector2(0.0, -48.0), car_center + Vector2(29.0, 32.0), car_center + Vector2(-29.0, 32.0)]), player_color)
@@ -175,7 +177,7 @@ func _update_fuel_pickups(delta: float) -> void:
 		fuel_spawn_remaining = GameConfig.FUEL_PICKUP_INTERVAL
 	var viewport_size := get_viewport_rect().size
 	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / GameConfig.ROAD_LANE_COUNT
-	var player_center := Vector2(viewport_size.x * 0.5 + drive.lateral_position, viewport_size.y - 128.0)
+	var player_center := Vector2(viewport_size.x * 0.5 + drive.lateral_position, TrackGeometry.player_y(viewport_size.y))
 	var active: Array[FuelPickup] = []
 	for pickup in fuel_pickups:
 		pickup.y += drive.speed * GameConfig.ROAD_SCROLL_MULTIPLIER * delta
@@ -193,7 +195,7 @@ func _check_collisions() -> void:
 	var center_x := viewport_size.x * 0.5
 	var road_left := center_x - GameConfig.ROAD_HALF_WIDTH
 	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / GameConfig.ROAD_LANE_COUNT
-	var player_center := Vector2(center_x + drive.lateral_position, viewport_size.y - 128.0)
+	var player_center := Vector2(center_x + drive.lateral_position, TrackGeometry.player_y(viewport_size.y))
 	for vehicle in traffic.vehicles:
 		var traffic_center := Vector2(road_left + lane_width * (vehicle.lane_position + 0.5), vehicle.y)
 		if absf(traffic_center.x - player_center.x) < 50.0 and absf(traffic_center.y - player_center.y) < 72.0:
@@ -249,7 +251,7 @@ func _stop_run_audio() -> void:
 	warning_audio.stop()
 
 func _award_completed_overtakes() -> void:
-	var player_y := get_viewport_rect().size.y - 128.0
+	var player_y := TrackGeometry.player_y(get_viewport_rect().size.y)
 	for vehicle in traffic.vehicles:
 		if vehicle.y < player_y - 76.0:
 			vehicle.was_ahead_of_player = true
