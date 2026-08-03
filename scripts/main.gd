@@ -10,6 +10,7 @@ const FuelPickup = preload("res://scripts/fuel_pickup.gd")
 const VisualStyle = preload("res://scripts/visual_style.gd")
 const SoundEffects = preload("res://scripts/sound_effects.gd")
 const TrackGeometry = preload("res://scripts/track_geometry.gd")
+const RunSeedSequence = preload("res://scripts/run_seed_sequence.gd")
 
 const ROAD_MARK_REPEAT_DISTANCE := 92.0
 
@@ -30,6 +31,8 @@ var warning_cooldown := 0.0
 var fuel_pickups: Array[FuelPickup] = []
 var fuel_spawn_remaining := GameConfig.FUEL_PICKUP_INTERVAL
 var pickup_lane_cursor := 0
+var run_seed_sequence: RunSeedSequence
+var current_run_seed: int = 0
 
 var speed_label: Label
 var position_label: Label
@@ -43,8 +46,11 @@ var overlay_shade: ColorRect
 
 func _ready() -> void:
 	_ensure_input_actions()
+	var sequence_seed := hash("%s:%s" % [Time.get_unix_time_from_system(), Time.get_ticks_usec()])
+	run_seed_sequence = RunSeedSequence.new(sequence_seed)
+	current_run_seed = run_seed_sequence.next_seed()
 	drive = DriveController.new(GameConfig.START_SPEED, GameConfig.MAX_SPEED, GameConfig.ACCELERATION, GameConfig.BRAKING, GameConfig.STEERING_SPEED, GameConfig.ROAD_HALF_WIDTH, 30.0)
-	traffic = TrafficDirector.new(GameConfig.TRAFFIC_RANDOM_SEED, GameConfig.ROAD_LANE_COUNT, GameConfig.MIN_SPAWN_DISTANCE, GameConfig.MIN_TRAFFIC_GAP)
+	traffic = TrafficDirector.new(current_run_seed, GameConfig.ROAD_LANE_COUNT, GameConfig.MIN_SPAWN_DISTANCE, GameConfig.MIN_TRAFFIC_GAP)
 	collision = CollisionResponder.new(GameConfig.COLLISION_SPEED_PENALTY, GameConfig.COLLISION_INVULNERABILITY_SECONDS)
 	run = RunState.new(GameConfig.MAX_FUEL, GameConfig.FUEL_DRAIN_PER_SECOND, GameConfig.FUEL_GRACE_SECONDS)
 	collision_audio = AudioStreamPlayer.new()
@@ -265,10 +271,11 @@ static func is_eligible_overtake(kind: int, was_ahead: bool, collided_with_playe
 func _is_player_flashing() -> bool:
 	return collision.invulnerability_remaining > 0.0 and int(collision.invulnerability_remaining * 14.0) % 2 == 0
 
-func _reset_run() -> void:
+func _reset_run(run_seed_override: int = -1) -> void:
+	current_run_seed = run_seed_override if run_seed_override >= 0 else run_seed_sequence.next_seed()
 	drive.reset()
 	road_scroll = 0.0
-	traffic.reset()
+	traffic.reset(current_run_seed)
 	collision = CollisionResponder.new(GameConfig.COLLISION_SPEED_PENALTY, GameConfig.COLLISION_INVULNERABILITY_SECONDS)
 	screen_shake = Vector2.ZERO
 	collision_audio.stop()
@@ -293,7 +300,7 @@ func _update_hud() -> void:
 	score_label.text = "SCORE  %06d    DIST  %05dm" % [run.score, roundi(run.distance)]
 	fuel_label.text = "FUEL  %03d%%" % roundi(run.fuel)
 	run_status_label.text = "STAGE %d  |  %s" % [run.difficulty_stage + 1, _phase_text()]
-	debug_label.text = "W/S SPEED  A/D STEER  P PAUSE  R RESTART  M %s  -/+ VOL" % ("ON" if audio_muted else "OFF")
+	debug_label.text = "W/S SPEED  A/D STEER  P PAUSE  R RESTART  M %s  -/+ VOL  SEED %d" % [("ON" if audio_muted else "OFF"), current_run_seed]
 	for label in [speed_label, debug_label, score_label, fuel_label, run_status_label]:
 		label.scale = Vector2.ONE * scale
 	var is_playing := run.phase == RunState.Phase.RUNNING

@@ -56,13 +56,15 @@ func acquire_vehicle(kind: int, lane: int, y: float) -> TrafficVehicle:
 		vehicle.configure(kind, lane, y, target_lane)
 	return vehicle
 
-func reset() -> void:
+func reset(run_seed: int = -1) -> void:
 	for vehicle in vehicles:
 		_pool.append(vehicle)
 	vehicles.clear()
 	_next_kind = 0
 	_schedule_cursor = 0
 	_spawn_cooldown = 0.7
+	if run_seed >= 0:
+		_initial_seed = run_seed
 	_random.seed = _initial_seed
 	_spawn_history.clear()
 	difficulty_stage = 0
