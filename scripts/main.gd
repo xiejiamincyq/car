@@ -33,16 +33,28 @@ var fuel_pickups: Array[FuelPickup] = []
 var fuel_spawn_director: FuelSpawnDirector
 var run_seed_sequence: RunSeedSequence
 var current_run_seed: int = 0
+var difficulty_index := 1
+const DIFFICULTY_NAMES := ["轻松", "标准", "困难"]
 
 var speed_label: Label
 var position_label: Label
-var debug_label: Label
+var controls_hint_label: Label
 var score_label: Label
 var fuel_label: Label
 var run_status_label: Label
 var overlay_label: Label
 var menu_backdrop: TextureRect
 var overlay_shade: ColorRect
+var race_hud: Control
+var title_screen: Control
+var settings_screen: Control
+var controls_screen: Control
+var countdown_screen: Control
+var countdown_label: Label
+var start_button: Button
+var difficulty_button: Button
+var settings_volume_label: Label
+var settings_mute_button: Button
 
 func _ready() -> void:
 	_ensure_input_actions()
@@ -61,25 +73,36 @@ func _ready() -> void:
 	acceleration_audio = _make_audio_player(SoundEffects.create_acceleration(), -12.0)
 	pickup_audio = _make_audio_player(SoundEffects.create_pickup(), -10.0)
 	warning_audio = _make_audio_player(SoundEffects.create_warning(), -13.0)
-	speed_label = $CanvasLayer/DebugHUD/Rows/Speed
-	position_label = $CanvasLayer/DebugHUD/Rows/Position
-	debug_label = $CanvasLayer/DebugHUD/Rows/Debug
-	score_label = $CanvasLayer/DebugHUD/Rows/Score
-	fuel_label = $CanvasLayer/DebugHUD/Rows/Fuel
-	run_status_label = $CanvasLayer/DebugHUD/Rows/RunStatus
+	race_hud = $CanvasLayer/RaceHUD
+	speed_label = $CanvasLayer/RaceHUD/Rows/Speed
+	position_label = $CanvasLayer/RaceHUD/Rows/Position
+	controls_hint_label = $CanvasLayer/RaceHUD/Rows/ControlsHint
+	score_label = $CanvasLayer/RaceHUD/Rows/Score
+	fuel_label = $CanvasLayer/RaceHUD/Rows/Fuel
+	run_status_label = $CanvasLayer/RaceHUD/Rows/RunStatus
 	overlay_label = $CanvasLayer/Overlay
 	menu_backdrop = $CanvasLayer/MenuBackdrop
 	overlay_shade = $CanvasLayer/OverlayShade
+	title_screen = $CanvasLayer/TitleScreen
+	settings_screen = $CanvasLayer/SettingsScreen
+	controls_screen = $CanvasLayer/ControlsScreen
+	countdown_screen = $CanvasLayer/CountdownScreen
+	countdown_label = $CanvasLayer/CountdownScreen/Label
+	start_button = $CanvasLayer/TitleScreen/Center/Card/Content/StartButton
+	difficulty_button = $CanvasLayer/TitleScreen/Center/Card/Content/DifficultyButton
+	settings_volume_label = $CanvasLayer/SettingsScreen/Center/Card/Content/Volume
+	settings_mute_button = $CanvasLayer/SettingsScreen/Center/Card/Content/MuteButton
+	_bind_ui_actions()
 	_update_hud()
+	start_button.grab_focus()
 	queue_redraw()
 
 func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("quit_game"):
-		get_tree().quit()
-	if Input.is_action_just_pressed("restart_prototype"):
-		_restart_run()
-	if Input.is_action_just_pressed("start_game"):
-		run.start()
+	if Input.is_action_just_pressed("ui_cancel") and (settings_screen.visible or controls_screen.visible):
+		_close_submenu()
+		return
+	if Input.is_action_just_pressed("start_game") and run.phase == RunState.Phase.TITLE and title_screen.visible:
+		_start_new_run()
 	if Input.is_action_just_pressed("pause_game"):
 		run.toggle_pause()
 	if Input.is_action_just_pressed("toggle_mute"):
@@ -88,6 +111,11 @@ func _process(delta: float) -> void:
 		audio_volume = maxf(0.0, audio_volume - 0.1)
 	if Input.is_action_just_pressed("volume_up"):
 		audio_volume = minf(1.0, audio_volume + 0.1)
+	if run.phase == RunState.Phase.COUNTDOWN:
+		run.tick(delta, 0.0, GameConfig.MAX_SPEED)
+		_update_hud()
+		queue_redraw()
+		return
 	if run.phase != RunState.Phase.RUNNING:
 		_stop_run_audio()
 		_update_hud()
@@ -99,7 +127,7 @@ func _process(delta: float) -> void:
 	drive.step(delta, accelerate_input, brake_input, steering_input)
 	road_scroll = advance_road_scroll(road_scroll, drive.speed, delta, ROAD_MARK_REPEAT_DISTANCE)
 	run.tick(delta, drive.speed, GameConfig.MAX_SPEED)
-	if run.phase == RunState.Phase.ENDED:
+	if run.phase == RunState.Phase.GAME_OVER:
 		_stop_run_audio()
 		_update_hud()
 		queue_redraw()
@@ -217,6 +245,7 @@ func _toggle_audio_mute() -> void:
 	audio_muted = not audio_muted
 	if audio_muted:
 		_stop_run_audio()
+	_update_settings_labels()
 
 func _make_audio_player(stream: AudioStream, base_volume_db: float) -> AudioStreamPlayer:
 	var player := AudioStreamPlayer.new()
@@ -286,7 +315,51 @@ func _reset_run(run_seed_override: int = -1) -> void:
 
 func _restart_run() -> void:
 	_reset_run()
-	run.start()
+	run.begin_countdown()
+
+func _start_new_run() -> void:
+	_reset_run()
+	run.begin_countdown()
+	_update_hud()
+
+func _show_settings() -> void:
+	title_screen.visible = false
+	controls_screen.visible = false
+	settings_screen.visible = true
+	_update_settings_labels()
+	settings_mute_button.grab_focus()
+
+func _show_controls() -> void:
+	title_screen.visible = false
+	settings_screen.visible = false
+	controls_screen.visible = true
+	$CanvasLayer/ControlsScreen/Center/Card/Content/BackButton.grab_focus()
+
+func _close_submenu() -> void:
+	settings_screen.visible = false
+	controls_screen.visible = false
+	title_screen.visible = true
+	start_button.grab_focus()
+
+func _cycle_difficulty() -> void:
+	difficulty_index = (difficulty_index + 1) % DIFFICULTY_NAMES.size()
+	difficulty_button.text = "难度：%s" % DIFFICULTY_NAMES[difficulty_index]
+
+func _update_settings_labels() -> void:
+	if settings_volume_label == null:
+		return
+	settings_volume_label.text = "主音量：%d%%（- / + 调整）" % roundi(audio_volume * 100.0)
+	settings_mute_button.text = "静音：%s" % ("开" if audio_muted else "关")
+
+func _bind_ui_actions() -> void:
+	start_button.pressed.connect(_start_new_run)
+	difficulty_button.pressed.connect(_cycle_difficulty)
+	$CanvasLayer/TitleScreen/Center/Card/Content/SettingsButton.pressed.connect(_show_settings)
+	$CanvasLayer/TitleScreen/Center/Card/Content/ControlsButton.pressed.connect(_show_controls)
+	$CanvasLayer/TitleScreen/Center/Card/Content/QuitButton.pressed.connect(get_tree().quit)
+	settings_mute_button.pressed.connect(_toggle_audio_mute)
+	$CanvasLayer/SettingsScreen/Center/Card/Content/BackButton.pressed.connect(_close_submenu)
+	$CanvasLayer/ControlsScreen/Center/Card/Content/BackButton.pressed.connect(_close_submenu)
 
 func _player_lane() -> int:
 	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / GameConfig.ROAD_LANE_COUNT
@@ -299,26 +372,36 @@ func _update_hud() -> void:
 	score_label.text = "SCORE  %06d    DIST  %05dm" % [run.score, roundi(run.distance)]
 	fuel_label.text = "FUEL  %03d%%" % roundi(run.fuel)
 	run_status_label.text = "STAGE %d  |  %s" % [run.difficulty_stage + 1, _phase_text()]
-	debug_label.text = "W/S SPEED  A/D STEER  P PAUSE  R RESTART  M %s  -/+ VOL  SEED %d" % [("ON" if audio_muted else "OFF"), current_run_seed]
-	for label in [speed_label, debug_label, score_label, fuel_label, run_status_label]:
+	controls_hint_label.text = "W/S 速度  A/D 转向  P 暂停  M 静音  |  SEED %d" % current_run_seed
+	for label in [speed_label, controls_hint_label, score_label, fuel_label, run_status_label]:
 		label.scale = Vector2.ONE * scale
-	var is_playing := run.phase == RunState.Phase.RUNNING
-	menu_backdrop.visible = not is_playing
-	overlay_shade.visible = not is_playing
-	overlay_label.text = _overlay_text()
+	var is_racing := run.phase == RunState.Phase.RUNNING or run.phase == RunState.Phase.COUNTDOWN
+	race_hud.visible = run.phase == RunState.Phase.RUNNING
+	countdown_screen.visible = run.phase == RunState.Phase.COUNTDOWN
+	if countdown_screen.visible:
+		countdown_label.text = str(maxi(1, ceili(run.countdown_remaining)))
+	menu_backdrop.visible = not is_racing
+	if run.phase != RunState.Phase.TITLE:
+		title_screen.visible = false
+	overlay_shade.visible = false
+	overlay_label.visible = false
+	_update_settings_labels()
 
 func _phase_text() -> String:
 	match run.phase:
-		RunState.Phase.READY: return "READY"
+		RunState.Phase.TITLE: return "TITLE"
+		RunState.Phase.COUNTDOWN: return "COUNTDOWN"
 		RunState.Phase.RUNNING: return "RUNNING"
 		RunState.Phase.PAUSED: return "PAUSED"
-		_: return "FINISHED"
+		RunState.Phase.RUN_CLEAR: return "CLEAR"
+		_: return "GAME OVER"
 
 func _overlay_text() -> String:
 	match run.phase:
-		RunState.Phase.READY: return "NEON COAST RUSH\n\nSURVIVE THE NIGHT TRAFFIC\n\n[ SPACE ]  START RUN"
+		RunState.Phase.TITLE: return "NEON COAST RUSH"
+		RunState.Phase.COUNTDOWN: return str(maxi(1, ceili(run.countdown_remaining)))
 		RunState.Phase.PAUSED: return "PAUSED\n\n[ P ]  RESUME     [ R ]  RESTART"
-		RunState.Phase.ENDED: return "OUT OF FUEL\n\nSCORE  %06d     DIST  %05dm\n\n[ R ]  RACE AGAIN" % [run.score, roundi(run.distance)]
+		RunState.Phase.GAME_OVER: return "OUT OF FUEL\n\nSCORE  %06d     DIST  %05dm" % [run.score, roundi(run.distance)]
 		_: return ""
 
 func _ensure_input_actions() -> void:
@@ -326,13 +409,11 @@ func _ensure_input_actions() -> void:
 	_register_action("brake", [KEY_DOWN, KEY_S])
 	_register_action("steer_left", [KEY_LEFT, KEY_A])
 	_register_action("steer_right", [KEY_RIGHT, KEY_D])
-	_register_action("restart_prototype", [KEY_R])
 	_register_action("start_game", [KEY_SPACE])
-	_register_action("pause_game", [KEY_P])
+	_register_action("pause_game", [KEY_P, KEY_ESCAPE])
 	_register_action("toggle_mute", [KEY_M])
 	_register_action("volume_down", [KEY_MINUS])
 	_register_action("volume_up", [KEY_EQUAL])
-	_register_action("quit_game", [KEY_ESCAPE])
 
 func _register_action(action: StringName, keys: Array[int]) -> void:
 	if not InputMap.has_action(action):

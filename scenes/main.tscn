@@ -30,7 +30,8 @@ grow_vertical = 2
 color = Color(0.015, 0.035, 0.075, 0.48)
 mouse_filter = 2
 
-[node name="DebugHUD" type="MarginContainer" parent="CanvasLayer"]
+[node name="RaceHUD" type="MarginContainer" parent="CanvasLayer"]
+visible = false
 anchors_preset = 10
 anchor_right = 1.0
 offset_left = 24.0
@@ -43,47 +44,48 @@ theme_override_constants/margin_top = 12
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 12
 
-[node name="Panel" type="ColorRect" parent="CanvasLayer/DebugHUD"]
+[node name="Panel" type="ColorRect" parent="CanvasLayer/RaceHUD"]
 layout_mode = 2
 color = Color(0.02, 0.07, 0.12, 0.84)
 mouse_filter = 2
 
-[node name="Rows" type="VBoxContainer" parent="CanvasLayer/DebugHUD"]
+[node name="Rows" type="VBoxContainer" parent="CanvasLayer/RaceHUD"]
 layout_mode = 2
 theme_override_constants/separation = 3
 
-[node name="Speed" type="Label" parent="CanvasLayer/DebugHUD/Rows"]
+[node name="Speed" type="Label" parent="CanvasLayer/RaceHUD/Rows"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9, 0.98, 1, 1)
 theme_override_font_sizes/font_size = 28
 text = "SPEED"
 
-[node name="Position" type="Label" parent="CanvasLayer/DebugHUD/Rows"]
+[node name="Position" type="Label" parent="CanvasLayer/RaceHUD/Rows"]
 layout_mode = 2
 visible = false
 
-[node name="Debug" type="Label" parent="CanvasLayer/DebugHUD/Rows"]
+[node name="ControlsHint" type="Label" parent="CanvasLayer/RaceHUD/Rows"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.62, 0.79, 0.84, 1)
 theme_override_font_sizes/font_size = 16
 text = "W/A/S/D or arrow keys"
 
-[node name="Score" type="Label" parent="CanvasLayer/DebugHUD/Rows"]
+[node name="Score" type="Label" parent="CanvasLayer/RaceHUD/Rows"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.86, 0.38, 1)
 theme_override_font_sizes/font_size = 19
 
-[node name="Fuel" type="Label" parent="CanvasLayer/DebugHUD/Rows"]
+[node name="Fuel" type="Label" parent="CanvasLayer/RaceHUD/Rows"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.4, 0.98, 0.68, 1)
 theme_override_font_sizes/font_size = 19
 
-[node name="RunStatus" type="Label" parent="CanvasLayer/DebugHUD/Rows"]
+[node name="RunStatus" type="Label" parent="CanvasLayer/RaceHUD/Rows"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.72, 0.9, 0.96, 1)
 theme_override_font_sizes/font_size = 16
 
 [node name="OverlayShade" type="ColorRect" parent="CanvasLayer"]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -93,6 +95,7 @@ color = Color(0.01, 0.025, 0.06, 0.54)
 mouse_filter = 2
 
 [node name="Overlay" type="Label" parent="CanvasLayer"]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -105,5 +108,204 @@ theme_override_colors/font_shadow_color = Color(0, 0.05, 0.1, 1)
 theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 3
 theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TitleScreen" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Center" type="CenterContainer" parent="CanvasLayer/TitleScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Card" type="PanelContainer" parent="CanvasLayer/TitleScreen/Center"]
+custom_minimum_size = Vector2(520, 0)
+layout_mode = 2
+theme_override_constants/margin_left = 38
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 38
+theme_override_constants/margin_bottom = 30
+
+[node name="Content" type="VBoxContainer" parent="CanvasLayer/TitleScreen/Center/Card"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="CanvasLayer/TitleScreen/Center/Card/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.286, 0.902, 0.878, 1)
+theme_override_font_sizes/font_size = 44
+text = "NEON COAST RUSH"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="CanvasLayer/TitleScreen/Center/Card/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.79, 0.31, 1)
+theme_override_font_sizes/font_size = 19
+text = "霓虹海岸 · 极速生存赛"
+horizontal_alignment = 1
+
+[node name="Goal" type="Label" parent="CanvasLayer/TitleScreen/Center/Card/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.83, 0.94, 0.97, 1)
+theme_override_font_sizes/font_size = 16
+text = "目标：穿越车流、收集燃油，坚持到终点。\n碰撞会损失速度；燃油耗尽则比赛结束。"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="CanvasLayer/TitleScreen/Center/Card/Content"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="StartButton" type="Button" parent="CanvasLayer/TitleScreen/Center/Card/Content"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "开始比赛"
+
+[node name="DifficultyButton" type="Button" parent="CanvasLayer/TitleScreen/Center/Card/Content"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+text = "难度：标准"
+
+[node name="SettingsButton" type="Button" parent="CanvasLayer/TitleScreen/Center/Card/Content"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+text = "声音设置"
+
+[node name="ControlsButton" type="Button" parent="CanvasLayer/TitleScreen/Center/Card/Content"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+text = "操作说明"
+
+[node name="QuitButton" type="Button" parent="CanvasLayer/TitleScreen/Center/Card/Content"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+text = "退出游戏"
+
+[node name="Version" type="Label" parent="CanvasLayer/TitleScreen/Center/Card/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.72, 0.76, 1)
+text = "v0.1.0-rc.1  |  最高分：将在下一阶段启用"
+horizontal_alignment = 1
+
+[node name="SettingsScreen" type="Control" parent="CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Center" type="CenterContainer" parent="CanvasLayer/SettingsScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Card" type="PanelContainer" parent="CanvasLayer/SettingsScreen/Center"]
+custom_minimum_size = Vector2(440, 0)
+layout_mode = 2
+
+[node name="Content" type="VBoxContainer" parent="CanvasLayer/SettingsScreen/Center/Card"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Heading" type="Label" parent="CanvasLayer/SettingsScreen/Center/Card/Content"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "声音设置"
+horizontal_alignment = 1
+
+[node name="Volume" type="Label" parent="CanvasLayer/SettingsScreen/Center/Card/Content"]
+layout_mode = 2
+text = "主音量：65%（- / + 调整）"
+horizontal_alignment = 1
+
+[node name="MuteButton" type="Button" parent="CanvasLayer/SettingsScreen/Center/Card/Content"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "静音：关"
+
+[node name="BackButton" type="Button" parent="CanvasLayer/SettingsScreen/Center/Card/Content"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "返回"
+
+[node name="ControlsScreen" type="Control" parent="CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Center" type="CenterContainer" parent="CanvasLayer/ControlsScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Card" type="PanelContainer" parent="CanvasLayer/ControlsScreen/Center"]
+custom_minimum_size = Vector2(520, 0)
+layout_mode = 2
+
+[node name="Content" type="VBoxContainer" parent="CanvasLayer/ControlsScreen/Center/Card"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Heading" type="Label" parent="CanvasLayer/ControlsScreen/Center/Card/Content"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "键盘操作"
+horizontal_alignment = 1
+
+[node name="Instructions" type="Label" parent="CanvasLayer/ControlsScreen/Center/Card/Content"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "W / ↑  加速      S / ↓  减速\nA / ←  左转      D / →  右转\nP / Esc  暂停    M  静音\n菜单使用方向键，Enter 确认，Esc 返回"
+horizontal_alignment = 1
+
+[node name="BackButton" type="Button" parent="CanvasLayer/ControlsScreen/Center/Card/Content"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "返回"
+
+[node name="CountdownScreen" type="Control" parent="CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/CountdownScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.91, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.01, 0.03, 0.07, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 4
+theme_override_font_sizes/font_size = 86
+text = "3"
 horizontal_alignment = 1
 vertical_alignment = 1

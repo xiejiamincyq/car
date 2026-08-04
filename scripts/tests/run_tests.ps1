@@ -26,12 +26,23 @@ $tests = Get-ChildItem (Join-Path $projectRoot "tests") -Filter "test_*.gd" | So
 
 foreach ($test in $tests) {
     Write-Host "RUN $($test.Name)"
-    $output = @(& $GodotExecutable --headless --path $projectRoot --quit-after 60 --script "res://tests/$($test.Name)" 2>&1)
-    $exitCode = $LASTEXITCODE
-    $output | ForEach-Object { Write-Host $_ }
+    $logToken = [Guid]::NewGuid().ToString("N")
+    $stdoutPath = Join-Path ([IO.Path]::GetTempPath()) "neon-coast-$logToken.stdout.log"
+    $stderrPath = Join-Path ([IO.Path]::GetTempPath()) "neon-coast-$logToken.stderr.log"
+    $process = Start-Process -FilePath $GodotExecutable `
+        -ArgumentList @("--headless", "--path", $projectRoot, "--quit-after", "60", "--script", "res://tests/$($test.Name)") `
+        -NoNewWindow -Wait -PassThru `
+        -RedirectStandardOutput $stdoutPath -RedirectStandardError $stderrPath
+    $standardOutput = Get-Content -LiteralPath $stdoutPath -Raw -ErrorAction SilentlyContinue
+    $standardError = Get-Content -LiteralPath $stderrPath -Raw -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath $stdoutPath, $stderrPath -Force -ErrorAction SilentlyContinue
+    $combinedOutput = "$standardOutput`n$standardError"
+    if (-not [string]::IsNullOrWhiteSpace($combinedOutput)) {
+        Write-Host $combinedOutput.Trim()
+    }
 
-    $hasScriptFailure = $output -match "SCRIPT ERROR:|Assertion failed:|Parse Error:|Failed to load script"
-    if ($exitCode -ne 0 -or $hasScriptFailure) {
+    $hasScriptFailure = $combinedOutput -match "SCRIPT ERROR:|Assertion failed:|Parse Error:|Failed to load script|ERROR: Node not found"
+    if ($process.ExitCode -ne 0 -or $hasScriptFailure) {
         $failed += $test.Name
     }
 }
