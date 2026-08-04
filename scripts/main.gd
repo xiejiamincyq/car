@@ -227,12 +227,11 @@ func _draw_traffic(road_left: float) -> void:
 	for vehicle in traffic.vehicles:
 		var car_center := Vector2(road_left + lane_width * (vehicle.lane_position + 0.5), vehicle.y)
 		var body_color := _traffic_color(vehicle.kind)
-		draw_circle(car_center, 36.0, Color(body_color, 0.13))
-		draw_rect(Rect2(car_center + Vector2(-25.0, -42.0), Vector2(50.0, 82.0)), body_color, true)
-		draw_rect(Rect2(car_center + Vector2(-16.0, -26.0), Vector2(32.0, 28.0)), Color("111d2d"), true)
-		draw_rect(Rect2(car_center + Vector2(-20.0, 23.0), Vector2(40.0, 7.0)), Color("ffdbd2"), true)
-		draw_circle(car_center + Vector2(-17.0, 27.0), 5.0, Color("0a1019"))
-		draw_circle(car_center + Vector2(17.0, 27.0), 5.0, Color("0a1019"))
+		draw_circle(car_center, maxf(vehicle.half_width, vehicle.half_length * 0.55), Color(body_color, 0.13))
+		draw_rect(Rect2(car_center + Vector2(-vehicle.half_width, -vehicle.half_length), Vector2(vehicle.half_width * 2.0, vehicle.half_length * 2.0)), body_color, true)
+		var cabin_y := -vehicle.half_length + 16.0
+		draw_rect(Rect2(car_center + Vector2(-vehicle.half_width + 9.0, cabin_y), Vector2((vehicle.half_width - 9.0) * 2.0, 28.0)), Color("111d2d"), true)
+		draw_rect(Rect2(car_center + Vector2(-vehicle.half_width + 5.0, vehicle.half_length - 19.0), Vector2((vehicle.half_width - 5.0) * 2.0, 7.0)), Color("ffdbd2"), true)
 		if vehicle.kind == TrafficDirector.Kind.SIGNAL_CHANGE and vehicle.warning_remaining > 0.0:
 			var direction := signf(vehicle.target_lane - vehicle.lane_position)
 			draw_colored_polygon(PackedVector2Array([car_center + Vector2(18.0 * direction, -35.0), car_center + Vector2(4.0 * direction, -42.0), car_center + Vector2(4.0 * direction, -28.0)]), VisualStyle.WARNING)
@@ -252,6 +251,7 @@ func _traffic_color(kind: int) -> Color:
 	match kind:
 		TrafficDirector.Kind.STEADY_SLOW: return VisualStyle.SLOW_BODY
 		TrafficDirector.Kind.SIGNAL_CHANGE: return VisualStyle.SIGNAL_BODY
+		TrafficDirector.Kind.TRUCK: return VisualStyle.TRUCK_BODY
 		_: return VisualStyle.FAST_BODY
 
 func _update_fuel_pickups(delta: float) -> void:
@@ -282,7 +282,7 @@ func _check_collisions() -> void:
 	var player_center := Vector2(center_x + drive.lateral_position, TrackGeometry.player_y(viewport_size.y))
 	for vehicle in traffic.vehicles:
 		var traffic_center := Vector2(road_left + lane_width * (vehicle.lane_position + 0.5), vehicle.y)
-		if absf(traffic_center.x - player_center.x) < GameConfig.COLLISION_LATERAL_DISTANCE and absf(traffic_center.y - player_center.y) < GameConfig.COLLISION_LONGITUDINAL_DISTANCE:
+		if absf(traffic_center.x - player_center.x) < traffic.collision_lateral_distance_for(vehicle) and absf(traffic_center.y - player_center.y) < traffic.collision_distance_for(vehicle):
 			var impact_speed := drive.speed
 			var outcome := collision.try_collide(drive.speed)
 			if outcome.hit:

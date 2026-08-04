@@ -2,6 +2,7 @@ class_name PassEventResolver
 extends RefCounted
 
 const GameConfig = preload("res://scripts/game_config.gd")
+const TrafficVehicle = preload("res://scripts/traffic_vehicle.gd")
 
 const COLLISION_LATERAL_DISTANCE := GameConfig.COLLISION_LATERAL_DISTANCE
 const NEAR_MISS_LATERAL_DISTANCE := GameConfig.NEAR_MISS_LATERAL_DISTANCE
@@ -9,13 +10,14 @@ const PASS_SETTLEMENT_DISTANCE := GameConfig.PASS_SETTLEMENT_DISTANCE
 
 static func observe(vehicle: RefCounted, kind: int, player_y: float, player_x: float, vehicle_x: float) -> Dictionary:
 	var event := {"overtake": false, "near_miss": false}
-	if kind == 2 or vehicle.passed_player:
+	if kind == TrafficVehicle.FAST_OVERTAKE_KIND or vehicle.passed_player:
 		return event
-	if vehicle.y < player_y - PASS_SETTLEMENT_DISTANCE:
+	var settlement_distance: float = PASS_SETTLEMENT_DISTANCE + vehicle.half_length - TrafficVehicle.NORMAL_HALF_LENGTH
+	if vehicle.y < player_y - settlement_distance:
 		vehicle.was_ahead_of_player = true
-	if absf(vehicle.y - player_y) <= PASS_SETTLEMENT_DISTANCE:
+	if absf(vehicle.y - player_y) <= settlement_distance:
 		vehicle.closest_lateral_distance = minf(vehicle.closest_lateral_distance, absf(vehicle_x - player_x))
-	if not vehicle.was_ahead_of_player or vehicle.y <= player_y + PASS_SETTLEMENT_DISTANCE:
+	if not vehicle.was_ahead_of_player or vehicle.y <= player_y + settlement_distance:
 		return event
 	vehicle.passed_player = true
 	if vehicle.collided_with_player:

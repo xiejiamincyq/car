@@ -18,6 +18,12 @@ func _init() -> void:
 	assert(not collided.overtake and not collided.near_miss, "A collided vehicle must award nothing")
 	var fast := _complete_pass(70.0, false, TrafficDirector.Kind.FAST_OVERTAKE)
 	assert(not fast.overtake and not fast.near_miss, "A rear fast overtaker must not be mistaken for a player overtake")
+	var truck := TrafficVehicle.new(TrafficDirector.Kind.TRUCK, 1, 390.0)
+	PassEventResolver.observe(truck, TrafficDirector.Kind.TRUCK, 500.0, 0.0, 110.0)
+	truck.y = 500.0 + PassEventResolver.PASS_SETTLEMENT_DISTANCE + truck.half_length - TrafficVehicle.NORMAL_HALF_LENGTH
+	assert(not PassEventResolver.observe(truck, TrafficDirector.Kind.TRUCK, 500.0, 0.0, 110.0).overtake, "A truck may not settle while its longer rear body is still alongside the player")
+	truck.y += 0.01
+	assert(PassEventResolver.observe(truck, TrafficDirector.Kind.TRUCK, 500.0, 0.0, 110.0).overtake, "A truck must settle immediately after its actual rear edge clears")
 
 	var vehicle := TrafficVehicle.new(TrafficDirector.Kind.STEADY_SLOW, 1, 400.0)
 	PassEventResolver.observe(vehicle, TrafficDirector.Kind.STEADY_SLOW, 500.0, 0.0, 70.0)

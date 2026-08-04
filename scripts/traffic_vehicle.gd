@@ -1,6 +1,13 @@
 class_name TrafficVehicle
 extends RefCounted
 
+const NORMAL_HALF_WIDTH := 25.0
+const NORMAL_HALF_LENGTH := 42.0
+const TRUCK_HALF_WIDTH := 31.0
+const TRUCK_HALF_LENGTH := 74.0
+const FAST_OVERTAKE_KIND := 2
+const TRUCK_KIND := 3
+
 var kind: int
 var lane: int
 var target_lane: int
@@ -15,6 +22,8 @@ var passed_player: bool = false
 var was_ahead_of_player: bool = false
 var collided_with_player: bool = false
 var closest_lateral_distance: float = INF
+var half_width: float = NORMAL_HALF_WIDTH
+var half_length: float = NORMAL_HALF_LENGTH
 
 func _init(vehicle_kind: int, initial_lane: int, initial_y: float, change_target: int = -1) -> void:
 	configure(vehicle_kind, initial_lane, initial_y, change_target)
@@ -34,3 +43,5 @@ func configure(vehicle_kind: int, initial_lane: int, initial_y: float, change_ta
 	was_ahead_of_player = false
 	collided_with_player = false
 	closest_lateral_distance = INF
+	half_width = TRUCK_HALF_WIDTH if kind == TRUCK_KIND else NORMAL_HALF_WIDTH
+	half_length = TRUCK_HALF_LENGTH if kind == TRUCK_KIND else NORMAL_HALF_LENGTH
