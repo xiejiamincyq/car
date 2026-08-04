@@ -17,6 +17,7 @@ const Progression = preload("res://scripts/progression.gd")
 const PassEventResolver = preload("res://scripts/pass_event_resolver.gd")
 const GameFeedback = preload("res://scripts/game_feedback.gd")
 const LaneEventDirector = preload("res://scripts/lane_event_director.gd")
+const DifficultyProfile = preload("res://scripts/difficulty_profile.gd")
 
 const ROAD_MARK_REPEAT_DISTANCE := 92.0
 
@@ -385,6 +386,7 @@ func _reset_run(run_seed_override: int = -1) -> void:
 	collision_audio.stop()
 	_stop_run_audio()
 	run.reset()
+	_apply_difficulty_profile()
 	fuel_pickups.clear()
 	fuel_spawn_director.reset(_fuel_seed_for_run(current_run_seed))
 	feedback.reset()
@@ -497,6 +499,7 @@ func _return_to_title() -> void:
 func _cycle_difficulty() -> void:
 	difficulty_index = (difficulty_index + 1) % DIFFICULTY_NAMES.size()
 	difficulty_button.text = "难度：%s" % DIFFICULTY_NAMES[difficulty_index]
+	_apply_difficulty_profile()
 	_save_preferences()
 
 func _configure_persistence(store: SaveStore, enabled: bool) -> void:
@@ -512,8 +515,14 @@ func _apply_saved_preferences() -> void:
 	audio_muted = bool(save_data.settings.audio_muted)
 	difficulty_index = int(save_data.settings.difficulty)
 	difficulty_button.text = "难度：%s" % DIFFICULTY_NAMES[difficulty_index]
+	_apply_difficulty_profile()
 	if audio_muted:
 		_stop_run_audio()
+
+func _apply_difficulty_profile() -> void:
+	var profile := DifficultyProfile.for_index(difficulty_index)
+	run.configure_difficulty(profile)
+	traffic.configure_difficulty(profile)
 
 func _save_preferences() -> void:
 	if save_data.is_empty():

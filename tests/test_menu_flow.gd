@@ -16,6 +16,7 @@ func _run() -> void:
 	var title_card: Control = main.get_node("CanvasLayer/TitleScreen/Center/Card")
 	assert(title_screen.get_global_rect().encloses(title_card.get_global_rect()), "The full title card must fit inside the 720p viewport")
 	assert(main.get_node("CanvasLayer/TitleScreen/Center/Card/Content/Goal").text.contains("燃油"), "The title must explain the run objective")
+	assert(main.get_node("CanvasLayer/TitleScreen/Center/Card/Content/Goal").text.contains("检查点") and main.get_node("CanvasLayer/TitleScreen/Center/Card/Content/Goal").text.contains("3200"), "The title must explain checkpoint rewards and the concrete win condition")
 
 	main._show_settings()
 	assert(main.get_node("CanvasLayer/SettingsScreen").visible and not title_screen.visible, "Settings must be reachable from title")

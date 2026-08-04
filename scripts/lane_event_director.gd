@@ -14,6 +14,7 @@ var _random := RandomNumberGenerator.new()
 var _initial_seed: int
 var _cooldown_remaining := 0.0
 var _history := PackedStringArray()
+var interval_multiplier := 1.0
 
 func _init(seed: int, lanes: int = 3, events_enabled: bool = true) -> void:
 	_initial_seed = seed
@@ -62,6 +63,11 @@ func blocked_lane() -> int:
 func event_history() -> String:
 	return "|".join(_history)
 
+func configure_interval_multiplier(multiplier: float) -> void:
+	interval_multiplier = maxf(0.1, multiplier)
+	if state == State.IDLE:
+		_cooldown_remaining = _next_cooldown()
+
 func reset(seed: int = -1) -> void:
 	if seed >= 0:
 		_initial_seed = seed
@@ -82,4 +88,4 @@ func _choose_lane_away_from(player_lane: int) -> int:
 	return candidates[_random.randi_range(0, candidates.size() - 1)]
 
 func _next_cooldown() -> float:
-	return _random.randf_range(GameConfig.LANE_EVENT_MIN_INTERVAL_SECONDS, GameConfig.LANE_EVENT_MAX_INTERVAL_SECONDS)
+	return _random.randf_range(GameConfig.LANE_EVENT_MIN_INTERVAL_SECONDS, GameConfig.LANE_EVENT_MAX_INTERVAL_SECONDS) * interval_multiplier

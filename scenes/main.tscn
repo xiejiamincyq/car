@@ -157,7 +157,7 @@ horizontal_alignment = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(0.83, 0.94, 0.97, 1)
 theme_override_font_sizes/font_size = 16
-text = "目标：穿越车流、收集燃油，坚持到终点。\n碰撞会损失速度；燃油耗尽则比赛结束。"
+text = "目标：穿越车流，抵达 3200 米终点。\n通过 3 个检查点会补充燃油；燃油耗尽则比赛结束。"
 horizontal_alignment = 1
 
 [node name="BestScores" type="Label" parent="CanvasLayer/TitleScreen/Center/Card/Content"]

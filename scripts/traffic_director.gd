@@ -28,6 +28,7 @@ var difficulty_stage: int = 0
 var lane_change_started_count: int = 0
 var _viewport_height: float = 720.0
 var lane_events: LaneEventDirector
+var spawn_interval_multiplier := 1.0
 
 func _init(seed: int, lanes: int = 3, safe_distance: float = 620.0, lane_gap: float = 180.0) -> void:
 	lane_count = lanes
@@ -84,6 +85,10 @@ func set_difficulty_stage(stage: int) -> void:
 
 func set_viewport_height(viewport_height: float) -> void:
 	_viewport_height = maxf(1.0, viewport_height)
+
+func configure_difficulty(profile: Dictionary) -> void:
+	spawn_interval_multiplier = maxf(0.1, float(profile.traffic_interval_multiplier))
+	lane_events.configure_interval_multiplier(float(profile.event_interval_multiplier))
 
 func update_vehicle(vehicle: TrafficVehicle, delta: float, player_speed: float) -> void:
 	if vehicle.kind == Kind.FAST_OVERTAKE:
@@ -306,7 +311,7 @@ func _kind_schedule() -> Array[int]:
 			return [Kind.SIGNAL_CHANGE, Kind.SIGNAL_CHANGE, Kind.TRUCK, Kind.SIGNAL_CHANGE, Kind.SIGNAL_CHANGE, Kind.FAST_OVERTAKE, Kind.SIGNAL_CHANGE, Kind.SIGNAL_CHANGE, Kind.STEADY_SLOW, Kind.SIGNAL_CHANGE, Kind.SIGNAL_CHANGE]
 
 func _spawn_interval_for_stage() -> float:
-	return [0.85, 0.72, 0.62, 0.48][difficulty_stage]
+	return [0.85, 0.72, 0.62, 0.48][difficulty_stage] * spawn_interval_multiplier
 
 func _speed_multiplier_for_stage() -> float:
 	return [1.0, 1.0, 1.12, 1.22][difficulty_stage]

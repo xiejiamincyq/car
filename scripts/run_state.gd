@@ -19,6 +19,7 @@ enum Phase {
 
 var max_fuel: float
 var fuel_drain_per_second: float
+var base_fuel_drain_per_second: float
 var fuel_grace_seconds: float
 var phase: Phase = Phase.TITLE
 var countdown_remaining: float = 0.0
@@ -36,11 +37,16 @@ var last_checkpoints_crossed: int = 0
 
 func _init(initial_max_fuel: float, drain_per_second: float, grace_seconds: float = 30.0) -> void:
 	max_fuel = initial_max_fuel
-	fuel_drain_per_second = drain_per_second
+	base_fuel_drain_per_second = drain_per_second
+	fuel_drain_per_second = base_fuel_drain_per_second
 	fuel_grace_seconds = grace_seconds
 	fuel = max_fuel
 	combo = ComboTracker.new(GameConfig.COMBO_WINDOW_SECONDS, GameConfig.COMBO_MAX_MULTIPLIER, GameConfig.COMBO_EVENTS_PER_MULTIPLIER)
 	progression = RaceProgression.new(GameConfig.RACE_CHECKPOINT_DISTANCES, GameConfig.RACE_FINISH_DISTANCE)
+
+func configure_difficulty(profile: Dictionary) -> void:
+	fuel_drain_per_second = base_fuel_drain_per_second * maxf(0.0, float(profile.fuel_drain_multiplier))
+	combo.window_seconds = maxf(0.1, GameConfig.COMBO_WINDOW_SECONDS * float(profile.combo_window_multiplier))
 
 func start() -> void:
 	if phase == Phase.TITLE:
