@@ -35,4 +35,15 @@ func _run() -> void:
 	assert(cleared_main.traffic.vehicles.is_empty(), "Traffic may not advance or spawn after the clear transition")
 	assert(is_equal_approx(cleared_main.collision.invulnerability_remaining, 0.5), "Collision timers may not advance after the clear transition")
 	cleared_main.free()
+
+	var event_main = MainScene.instantiate()
+	root.add_child(event_main)
+	event_main.run.start()
+	event_main.traffic.lane_events.begin_warning(0)
+	event_main._update_hud()
+	assert(event_main.feedback_banner.visible and "1 号车道即将封闭" in event_main.feedback_banner.text, "A lane warning must be explicit in the playable HUD")
+	event_main.traffic.lane_events.state = event_main.LaneEventDirector.State.CLOSED
+	event_main._update_hud()
+	assert("1 号车道封闭" in event_main.feedback_banner.text, "An active closure must remain explicit in the playable HUD")
+	event_main.free()
 	quit()

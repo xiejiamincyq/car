@@ -16,6 +16,7 @@ const SaveStore = preload("res://scripts/save_store.gd")
 const Progression = preload("res://scripts/progression.gd")
 const PassEventResolver = preload("res://scripts/pass_event_resolver.gd")
 const GameFeedback = preload("res://scripts/game_feedback.gd")
+const LaneEventDirector = preload("res://scripts/lane_event_director.gd")
 
 const ROAD_MARK_REPEAT_DISTANCE := 92.0
 
@@ -205,6 +206,7 @@ func _draw() -> void:
 		while dash_y < viewport_size.y:
 			draw_rect(Rect2(lane_x - 4.0, dash_y, 8.0, 52.0), VisualStyle.LANE_MARK)
 			dash_y += ROAD_MARK_REPEAT_DISTANCE
+	_draw_lane_event(road_left, viewport_size.y)
 	_draw_traffic(road_left)
 	_draw_fuel_pickups(road_left)
 	var car_center := Vector2(center_x + drive.lateral_position, TrackGeometry.player_y(viewport_size.y))
@@ -221,6 +223,20 @@ func _draw_sparks() -> void:
 	for spark in feedback.sparks:
 		var alpha := clampf(float(spark.life) * 2.0, 0.0, 1.0)
 		draw_circle(spark.position, 3.0, Color(VisualStyle.WARNING, alpha))
+
+func _draw_lane_event(road_left: float, viewport_height: float) -> void:
+	var blocked_lane := traffic.lane_events.blocked_lane()
+	if blocked_lane < 0:
+		return
+	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / GameConfig.ROAD_LANE_COUNT
+	var lane_left := road_left + lane_width * blocked_lane
+	var is_warning := traffic.lane_events.state == LaneEventDirector.State.WARNING
+	var overlay_color := Color(VisualStyle.WARNING, 0.13 if is_warning else 0.28)
+	draw_rect(Rect2(lane_left, 0.0, lane_width, viewport_height), overlay_color, true)
+	var marker_y := 24.0
+	while marker_y < viewport_height:
+		draw_line(Vector2(lane_left + 18.0, marker_y), Vector2(lane_left + lane_width - 18.0, marker_y + 42.0), VisualStyle.WARNING, 5.0)
+		marker_y += 120.0
 
 func _draw_traffic(road_left: float) -> void:
 	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / GameConfig.ROAD_LANE_COUNT
@@ -553,8 +569,9 @@ func _update_hud() -> void:
 	var result_was_visible := result_screen.visible
 	race_hud.visible = run.phase == RunState.Phase.RUNNING or run.phase == RunState.Phase.PAUSED
 	countdown_screen.visible = run.phase == RunState.Phase.COUNTDOWN
-	feedback_banner.visible = run.phase == RunState.Phase.RUNNING and not feedback.stage_banner_text.is_empty()
-	feedback_banner.text = feedback.stage_banner_text
+	var lane_event_text := _lane_event_text()
+	feedback_banner.visible = run.phase == RunState.Phase.RUNNING and (not lane_event_text.is_empty() or not feedback.stage_banner_text.is_empty())
+	feedback_banner.text = lane_event_text if not lane_event_text.is_empty() else feedback.stage_banner_text
 	if countdown_screen.visible:
 		countdown_label.text = str(maxi(1, ceili(run.countdown_remaining)))
 	pause_screen.visible = run.phase == RunState.Phase.PAUSED and not confirmation_screen.visible and not settings_screen.visible
@@ -623,6 +640,14 @@ func _phase_text() -> String:
 		RunState.Phase.PAUSED: return "PAUSED"
 		RunState.Phase.RUN_CLEAR: return "CLEAR"
 		_: return "GAME OVER"
+
+func _lane_event_text() -> String:
+	var blocked_lane := traffic.lane_events.blocked_lane()
+	if blocked_lane < 0:
+		return ""
+	if traffic.lane_events.state == LaneEventDirector.State.WARNING:
+		return "%d 号车道即将封闭" % (blocked_lane + 1)
+	return "%d 号车道封闭" % (blocked_lane + 1)
 
 func _overlay_text() -> String:
 	match run.phase:

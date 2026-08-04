@@ -49,7 +49,7 @@ func _assert_difficulty_stages_and_vehicle_kinds() -> void:
 		traffic.set_difficulty_stage(stage)
 		for _second in range(120):
 			traffic.tick(1.0, 560.0, 1)
-			assert(traffic.all_active_spawns_are_fair(), "Stage %d must keep actual spawns fair" % stage)
+			assert(traffic.all_active_spawns_are_fair(), "Stage %d must keep actual spawns fair: %s" % [stage, _traffic_state(traffic)])
 		var spawned_kinds := _spawned_kinds(traffic)
 		assert(spawned_kinds.has(TrafficDirector.Kind.STEADY_SLOW), "Stage %d must actually spawn steady traffic" % stage)
 		if stage >= 1:
@@ -68,7 +68,7 @@ func _assert_five_minute_multi_seed_stress() -> void:
 					traffic.tick(1.0, player_speed, player_lane)
 					var actual_spawn_count := _spawn_count(traffic)
 					if actual_spawn_count > previous_spawn_count:
-						assert(traffic.all_active_spawns_are_fair(), "Seed %d lane %d speed %.0f must be fair at each actual spawn" % [seed, player_lane, player_speed])
+						assert(traffic.all_active_spawns_are_fair(), "Seed %d lane %d speed %.0f must be fair at each actual spawn: %s" % [seed, player_lane, player_speed, _traffic_state(traffic)])
 					previous_spawn_count = actual_spawn_count
 					assert(traffic.vehicles.size() <= traffic.max_active_vehicles, "Seed %d lane %d speed %.0f must keep active traffic bounded" % [seed, player_lane, player_speed])
 					assert(traffic.allocated_vehicle_count <= traffic.max_active_vehicles, "Seed %d lane %d speed %.0f must reuse the traffic pool" % [seed, player_lane, player_speed])
@@ -82,3 +82,9 @@ func _spawned_kinds(traffic: TrafficDirector) -> Dictionary:
 	for spawn in traffic.spawn_sequence().split("|", false):
 		kinds[int(spawn.split(":", false)[0])] = true
 	return kinds
+
+func _traffic_state(traffic: TrafficDirector) -> String:
+	var states := PackedStringArray()
+	for vehicle in traffic.vehicles:
+		states.append("kind=%d lane=%d target=%d y=%.1f fair=%s" % [vehicle.kind, vehicle.lane, vehicle.target_lane, vehicle.y, vehicle.spawn_was_fair])
+	return "blocked=%d [%s]" % [traffic.lane_events.blocked_lane(), "; ".join(states)]

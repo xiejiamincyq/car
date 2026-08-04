@@ -4,6 +4,7 @@ extends RefCounted
 const TrafficVehicle = preload("res://scripts/traffic_vehicle.gd")
 const TrackGeometry = preload("res://scripts/track_geometry.gd")
 const GameConfig = preload("res://scripts/game_config.gd")
+const LaneEventDirector = preload("res://scripts/lane_event_director.gd")
 
 enum Kind { STEADY_SLOW, SIGNAL_CHANGE, FAST_OVERTAKE, TRUCK }
 
@@ -26,6 +27,7 @@ var _spawn_history: PackedStringArray = []
 var difficulty_stage: int = 0
 var lane_change_started_count: int = 0
 var _viewport_height: float = 720.0
+var lane_events: LaneEventDirector
 
 func _init(seed: int, lanes: int = 3, safe_distance: float = 620.0, lane_gap: float = 180.0) -> void:
 	lane_count = lanes
@@ -34,16 +36,21 @@ func _init(seed: int, lanes: int = 3, safe_distance: float = 620.0, lane_gap: fl
 	_initial_seed = seed
 	_random.seed = _initial_seed
 	_spawn_history.clear()
+	lane_events = LaneEventDirector.new(_event_seed(_initial_seed), lane_count, GameConfig.LANE_EVENTS_ENABLED)
 
 func tick(delta: float, player_speed: float, player_lane: int = 1) -> void:
 	_player_speed = player_speed
 	_player_lane = player_lane
+	lane_events.tick(delta, difficulty_stage, player_lane)
+	_clear_reserved_lane()
+	_protect_event_escape_lane()
 	_spawn_cooldown -= delta
 	if _spawn_cooldown <= 0.0:
 		_spawn_next(player_speed, player_lane)
 		_spawn_cooldown = _spawn_interval_for_stage()
 	for vehicle in vehicles:
 		update_vehicle(vehicle, delta, player_speed)
+	_protect_event_escape_lane()
 	_recycle_offscreen_vehicles()
 
 func acquire_vehicle(kind: int, lane: int, y: float) -> TrafficVehicle:
@@ -68,6 +75,7 @@ func reset(run_seed: int = -1) -> void:
 		_initial_seed = run_seed
 	_random.seed = _initial_seed
 	_spawn_history.clear()
+	lane_events.reset(_event_seed(_initial_seed))
 	difficulty_stage = 0
 	lane_change_started_count = 0
 
@@ -134,6 +142,10 @@ func all_active_spawns_are_fair() -> bool:
 			return false
 		if not vehicle.spawn_was_fair:
 			return false
+		if vehicle.lane == lane_events.blocked_lane():
+			return false
+		if vehicle.kind == Kind.SIGNAL_CHANGE and vehicle.target_lane == lane_events.blocked_lane():
+			return false
 		if vehicle.kind != Kind.FAST_OVERTAKE and not _top_lane_has_minimum_gap(vehicle.lane):
 			return false
 	return true
@@ -151,6 +163,8 @@ func has_minimum_lane_gap(lane: int) -> bool:
 
 func blocked_lanes_near(y: float, clearance: float) -> Array[int]:
 	var blocked: Array[int] = []
+	if lane_events.blocked_lane() >= 0:
+		blocked.append(lane_events.blocked_lane())
 	for vehicle in vehicles:
 		if absf(vehicle.y - y) >= clearance + vehicle.half_length - TrafficVehicle.NORMAL_HALF_LENGTH:
 			continue
@@ -163,6 +177,8 @@ func blocked_lanes_near(y: float, clearance: float) -> Array[int]:
 
 func reachable_player_lanes(player_lane: int, player_y: float, clearance: float) -> Array[int]:
 	var blocked: Array[int] = []
+	if lane_events.blocked_lane() >= 0:
+		blocked.append(lane_events.blocked_lane())
 	for vehicle in vehicles:
 		if absf(vehicle.y - player_y) >= clearance + vehicle.half_length - TrafficVehicle.NORMAL_HALF_LENGTH:
 			continue
@@ -211,21 +227,29 @@ func _spawn_next(player_speed: float, player_lane: int) -> void:
 	var kind := _kind_for_next_spawn()
 	var lane := _random.randi_range(0, lane_count - 1)
 	var y := TrackGeometry.fast_overtake_spawn_y(_viewport_height) if kind == Kind.FAST_OVERTAKE else -minimum_spawn_distance
-	if not _can_spawn_vehicle(kind, lane, y, player_speed, player_lane):
+	var candidate := acquire_vehicle(kind, lane, y)
+	if not _can_spawn_candidate(candidate, player_speed, player_lane):
+		_pool.append(candidate)
 		return
-	var vehicle := acquire_vehicle(kind, lane, y)
-	vehicle.spawn_was_fair = true
-	vehicles.append(vehicle)
+	candidate.spawn_was_fair = true
+	vehicles.append(candidate)
 	_spawn_history.append("%d:%d" % [kind, lane])
 
 func _can_spawn_vehicle(kind: int, lane: int, y: float, player_speed: float, player_lane: int) -> bool:
 	if not is_lane_valid(lane):
 		return false
-	var candidate := TrafficVehicle.new(kind, lane, TrackGeometry.fast_overtake_staging_y(_viewport_height) if kind == Kind.FAST_OVERTAKE else y)
+	var candidate := TrafficVehicle.new(kind, lane, y, lane)
+	return _can_spawn_candidate(candidate, player_speed, player_lane)
+
+func _can_spawn_candidate(candidate: TrafficVehicle, player_speed: float, player_lane: int) -> bool:
+	if candidate.lane == lane_events.blocked_lane():
+		return false
+	if candidate.kind == Kind.SIGNAL_CHANGE and candidate.target_lane == lane_events.blocked_lane():
+		return false
 	for vehicle in vehicles:
-		if vehicle.lane == lane and not vehicles_have_minimum_gap(vehicle, candidate):
+		if vehicle.lane == candidate.lane and not vehicles_have_minimum_gap(vehicle, candidate):
 			return false
-		if kind != Kind.FAST_OVERTAKE and vehicle.kind != Kind.FAST_OVERTAKE and abs(vehicle.lane - lane) <= 1 and not vehicles_have_minimum_gap(vehicle, candidate):
+		if candidate.kind != Kind.FAST_OVERTAKE and vehicle.kind != Kind.FAST_OVERTAKE and abs(vehicle.lane - candidate.lane) <= 1 and not vehicles_have_minimum_gap(vehicle, candidate):
 			return false
 	return _has_escape_lane(candidate, player_lane, player_speed)
 
@@ -233,6 +257,8 @@ func _has_escape_lane(candidate: TrafficVehicle, player_lane: int, player_speed:
 	var dynamic_reaction_distance := maxf(minimum_lane_gap, player_speed)
 	for candidate_lane in [player_lane - 1, player_lane + 1]:
 		if not is_lane_valid(candidate_lane):
+			continue
+		if candidate_lane == lane_events.blocked_lane():
 			continue
 		var clear := true
 		for vehicle in vehicles:
@@ -275,7 +301,7 @@ func _kind_schedule() -> Array[int]:
 		1:
 			return [Kind.STEADY_SLOW, Kind.SIGNAL_CHANGE]
 		2:
-			return [Kind.STEADY_SLOW, Kind.SIGNAL_CHANGE, Kind.SIGNAL_CHANGE, Kind.FAST_OVERTAKE]
+			return [Kind.STEADY_SLOW, Kind.SIGNAL_CHANGE, Kind.SIGNAL_CHANGE, Kind.FAST_OVERTAKE, Kind.SIGNAL_CHANGE]
 		_:
 			return [Kind.SIGNAL_CHANGE, Kind.SIGNAL_CHANGE, Kind.TRUCK, Kind.SIGNAL_CHANGE, Kind.SIGNAL_CHANGE, Kind.FAST_OVERTAKE, Kind.SIGNAL_CHANGE, Kind.SIGNAL_CHANGE, Kind.STEADY_SLOW, Kind.SIGNAL_CHANGE, Kind.SIGNAL_CHANGE]
 
@@ -325,3 +351,36 @@ func collision_distance_for(vehicle: TrafficVehicle) -> float:
 
 func collision_lateral_distance_for(vehicle: TrafficVehicle) -> float:
 	return GameConfig.COLLISION_LATERAL_DISTANCE + vehicle.half_width - TrafficVehicle.NORMAL_HALF_WIDTH
+
+func _clear_reserved_lane() -> void:
+	var reserved_lane := lane_events.blocked_lane()
+	if reserved_lane < 0:
+		return
+	var active: Array[TrafficVehicle] = []
+	for vehicle in vehicles:
+		if vehicle.lane == reserved_lane or (vehicle.kind == Kind.SIGNAL_CHANGE and vehicle.target_lane == reserved_lane):
+			_pool.append(vehicle)
+		else:
+			active.append(vehicle)
+	vehicles = active
+
+func _protect_event_escape_lane() -> void:
+	var reserved_lane := lane_events.blocked_lane()
+	if reserved_lane < 0:
+		return
+	var escape_lane := _player_lane
+	if escape_lane == reserved_lane:
+		escape_lane = reserved_lane - 1 if reserved_lane > 0 else reserved_lane + 1
+	var player_y := TrackGeometry.player_y(_viewport_height)
+	var reaction_clearance := maxf(minimum_lane_gap, _player_speed * 0.5)
+	var active: Array[TrafficVehicle] = []
+	for vehicle in vehicles:
+		var conflicts_with_escape := vehicle.lane == escape_lane and absf(vehicle.y - player_y) < reaction_clearance + vehicle.half_length - TrafficVehicle.NORMAL_HALF_LENGTH
+		if conflicts_with_escape:
+			_pool.append(vehicle)
+		else:
+			active.append(vehicle)
+	vehicles = active
+
+static func _event_seed(run_seed: int) -> int:
+	return run_seed ^ 0x4C414E45
