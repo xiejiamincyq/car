@@ -13,6 +13,8 @@ func _run() -> void:
 	var title_screen: Control = main.get_node("CanvasLayer/TitleScreen")
 	var start_button: Button = main.get_node("CanvasLayer/TitleScreen/Center/Card/Content/StartButton")
 	assert(title_screen.visible and start_button.has_focus(), "The game must open on a keyboard-focused title screen")
+	var title_card: Control = main.get_node("CanvasLayer/TitleScreen/Center/Card")
+	assert(title_screen.get_global_rect().encloses(title_card.get_global_rect()), "The full title card must fit inside the 720p viewport")
 	assert(main.get_node("CanvasLayer/TitleScreen/Center/Card/Content/Goal").text.contains("燃油"), "The title must explain the run objective")
 
 	main._show_settings()

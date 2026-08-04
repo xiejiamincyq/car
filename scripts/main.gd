@@ -12,6 +12,8 @@ const SoundEffects = preload("res://scripts/sound_effects.gd")
 const TrackGeometry = preload("res://scripts/track_geometry.gd")
 const RunSeedSequence = preload("res://scripts/run_seed_sequence.gd")
 const FuelSpawnDirector = preload("res://scripts/fuel_spawn_director.gd")
+const SaveStore = preload("res://scripts/save_store.gd")
+const Progression = preload("res://scripts/progression.gd")
 
 const ROAD_MARK_REPEAT_DISTANCE := 92.0
 
@@ -62,6 +64,14 @@ var result_summary: Label
 var confirmation_screen: Control
 var destructive_action := ""
 var submenu_return := "title"
+var save_store: SaveStore
+var save_data: Dictionary
+var persistence_enabled := false
+var result_persisted := false
+var is_new_record := false
+var title_best_scores: Label
+var result_best_scores: Label
+var new_record_label: Label
 
 func _ready() -> void:
 	_ensure_input_actions()
@@ -104,8 +114,11 @@ func _ready() -> void:
 	result_heading = $CanvasLayer/ResultScreen/Center/Card/Content/Heading
 	result_summary = $CanvasLayer/ResultScreen/Center/Card/Content/Summary
 	confirmation_screen = $CanvasLayer/ConfirmationScreen
+	title_best_scores = $CanvasLayer/TitleScreen/Center/Card/Content/BestScores
+	result_best_scores = $CanvasLayer/ResultScreen/Center/Card/Content/BestScores
+	new_record_label = $CanvasLayer/ResultScreen/Center/Card/Content/NewRecord
 	_bind_ui_actions()
-	_update_hud()
+	_configure_persistence(SaveStore.new(), get_tree().current_scene == self)
 	start_button.grab_focus()
 	queue_redraw()
 
@@ -123,10 +136,15 @@ func _process(delta: float) -> void:
 			_resume_run()
 	if Input.is_action_just_pressed("toggle_mute"):
 		_toggle_audio_mute()
+	var volume_changed := false
 	if Input.is_action_just_pressed("volume_down"):
 		audio_volume = maxf(0.0, audio_volume - 0.1)
+		volume_changed = true
 	if Input.is_action_just_pressed("volume_up"):
 		audio_volume = minf(1.0, audio_volume + 0.1)
+		volume_changed = true
+	if volume_changed:
+		_save_preferences()
 	if run.phase == RunState.Phase.COUNTDOWN:
 		run.tick(delta, 0.0, GameConfig.MAX_SPEED)
 		_update_hud()
@@ -262,6 +280,7 @@ func _toggle_audio_mute() -> void:
 	if audio_muted:
 		_stop_run_audio()
 	_update_settings_labels()
+	_save_preferences()
 
 func _make_audio_player(stream: AudioStream, base_volume_db: float) -> AudioStreamPlayer:
 	var player := AudioStreamPlayer.new()
@@ -328,6 +347,8 @@ func _reset_run(run_seed_override: int = -1) -> void:
 	run.reset()
 	fuel_pickups.clear()
 	fuel_spawn_director.reset(_fuel_seed_for_run(current_run_seed))
+	result_persisted = false
+	is_new_record = false
 
 func _restart_run() -> void:
 	_reset_run()
@@ -435,6 +456,33 @@ func _return_to_title() -> void:
 func _cycle_difficulty() -> void:
 	difficulty_index = (difficulty_index + 1) % DIFFICULTY_NAMES.size()
 	difficulty_button.text = "难度：%s" % DIFFICULTY_NAMES[difficulty_index]
+	_save_preferences()
+
+func _configure_persistence(store: SaveStore, enabled: bool) -> void:
+	save_store = store
+	persistence_enabled = enabled
+	save_data = save_store.load_data() if enabled else SaveStore.default_data()
+	_apply_saved_preferences()
+	_update_scoreboards()
+	_update_hud()
+
+func _apply_saved_preferences() -> void:
+	audio_volume = float(save_data.settings.audio_volume)
+	audio_muted = bool(save_data.settings.audio_muted)
+	difficulty_index = int(save_data.settings.difficulty)
+	difficulty_button.text = "难度：%s" % DIFFICULTY_NAMES[difficulty_index]
+	if audio_muted:
+		_stop_run_audio()
+
+func _save_preferences() -> void:
+	if save_data.is_empty():
+		return
+	save_data.settings.audio_volume = audio_volume
+	save_data.settings.audio_muted = audio_muted
+	save_data.settings.difficulty = difficulty_index
+	if persistence_enabled:
+		save_store.save_data(save_data)
+	_update_settings_labels()
 
 func _update_settings_labels() -> void:
 	if settings_volume_label == null:
@@ -482,6 +530,7 @@ func _update_hud() -> void:
 	pause_screen.visible = run.phase == RunState.Phase.PAUSED and not confirmation_screen.visible and not settings_screen.visible
 	result_screen.visible = run.phase == RunState.Phase.GAME_OVER or run.phase == RunState.Phase.RUN_CLEAR
 	if result_screen.visible:
+		_persist_result_once()
 		_update_result_labels()
 		if not result_was_visible:
 			$CanvasLayer/ResultScreen/Center/Card/Content/ReplayButton.grab_focus()
@@ -494,9 +543,45 @@ func _update_hud() -> void:
 	overlay_label.visible = false
 	_update_settings_labels()
 
+func _persist_result_once() -> void:
+	if result_persisted:
+		return
+	result_persisted = true
+	var outcome := Progression.record_run(save_data, {
+		"score": run.score,
+		"difficulty": difficulty_index,
+		"distance": run.distance,
+		"survival": run.elapsed_seconds,
+		"overtakes": run.overtakes,
+		"near_misses": run.near_misses,
+		"stage": run.difficulty_stage + 1,
+	}, Time.get_date_string_from_system())
+	save_data = outcome.data
+	is_new_record = outcome.new_record
+	if persistence_enabled:
+		save_store.save_data(save_data)
+	_update_scoreboards()
+
+func _update_scoreboards() -> void:
+	if save_data.is_empty():
+		return
+	var text := _format_top_scores(save_data.top_scores)
+	title_best_scores.text = text
+	result_best_scores.text = text
+
+func _format_top_scores(scores: Array) -> String:
+	if scores.is_empty():
+		return "最高成绩：暂无成绩"
+	var lines: Array[String] = ["最高成绩"]
+	for index in range(scores.size()):
+		var item: Dictionary = scores[index]
+		lines.append("%d. %06d  %s  %05dm" % [index + 1, item.score, DIFFICULTY_NAMES[item.difficulty], roundi(item.distance)])
+	return "\n".join(lines)
+
 func _update_result_labels() -> void:
 	var cleared := run.phase == RunState.Phase.RUN_CLEAR
 	result_heading.text = "赛程完成" if cleared else "比赛结束"
+	new_record_label.visible = is_new_record
 	var reason := "抵达终点" if cleared else "燃油耗尽"
 	result_summary.text = "%s\n\n得分  %06d\n距离  %05dm\n超车  %d    近失  %d\n到达赛段  %d\n局种子  %d" % [reason, run.score, roundi(run.distance), run.overtakes, run.near_misses, run.difficulty_stage + 1, current_run_seed]
 

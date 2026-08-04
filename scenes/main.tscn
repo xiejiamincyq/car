@@ -160,6 +160,13 @@ theme_override_font_sizes/font_size = 16
 text = "目标：穿越车流、收集燃油，坚持到终点。\n碰撞会损失速度；燃油耗尽则比赛结束。"
 horizontal_alignment = 1
 
+[node name="BestScores" type="Label" parent="CanvasLayer/TitleScreen/Center/Card/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.86, 0.38, 1)
+theme_override_font_sizes/font_size = 15
+text = "最高成绩：暂无成绩"
+horizontal_alignment = 1
+
 [node name="Spacer" type="Control" parent="CanvasLayer/TitleScreen/Center/Card/Content"]
 custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
@@ -193,7 +200,7 @@ text = "退出游戏"
 [node name="Version" type="Label" parent="CanvasLayer/TitleScreen/Center/Card/Content"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.55, 0.72, 0.76, 1)
-text = "v0.1.0-rc.1  |  最高分：将在下一阶段启用"
+text = "v0.1.0-rc.1"
 horizontal_alignment = 1
 
 [node name="SettingsScreen" type="Control" parent="CanvasLayer"]
@@ -411,11 +418,26 @@ theme_override_font_sizes/font_size = 36
 text = "本局结束"
 horizontal_alignment = 1
 
+[node name="NewRecord" type="Label" parent="CanvasLayer/ResultScreen/Center/Card/Content"]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.86, 0.25, 1)
+theme_override_font_sizes/font_size = 25
+text = "NEW RECORD"
+horizontal_alignment = 1
+
 [node name="Summary" type="Label" parent="CanvasLayer/ResultScreen/Center/Card/Content"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.83, 0.94, 0.97, 1)
 theme_override_font_sizes/font_size = 19
 text = "统计"
+horizontal_alignment = 1
+
+[node name="BestScores" type="Label" parent="CanvasLayer/ResultScreen/Center/Card/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.86, 0.38, 1)
+theme_override_font_sizes/font_size = 15
+text = "最高成绩：暂无成绩"
 horizontal_alignment = 1
 
 [node name="ReplayButton" type="Button" parent="CanvasLayer/ResultScreen/Center/Card/Content"]
