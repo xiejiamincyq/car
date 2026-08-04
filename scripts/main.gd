@@ -273,6 +273,7 @@ func _check_collisions() -> void:
 				drive.speed = outcome.speed
 				vehicle.y = player_center.y + 130.0
 				vehicle.collided_with_player = true
+				run.break_combo()
 				screen_shake = Vector2(10.0, -7.0)
 				_play_effect(collision_audio)
 
@@ -331,9 +332,8 @@ func _award_pass_events() -> void:
 		var vehicle_x := road_left + lane_width * (vehicle.lane_position + 0.5)
 		var event := PassEventResolver.observe(vehicle, vehicle.kind, player_y, player_x, vehicle_x)
 		if event.overtake:
-			run.award_overtake(GameConfig.OVERTAKE_SCORE)
-		if event.near_miss:
-			run.register_near_miss()
+			var pass_score := GameConfig.OVERTAKE_SCORE + (GameConfig.NEAR_MISS_SCORE if event.near_miss else 0)
+			run.award_pass(pass_score, event.near_miss)
 
 static func is_eligible_overtake(kind: int, was_ahead: bool, collided_with_player: bool) -> bool:
 	return kind != TrafficDirector.Kind.FAST_OVERTAKE and was_ahead and not collided_with_player
@@ -524,7 +524,8 @@ func _update_hud() -> void:
 	position_label.text = ""
 	score_label.text = "SCORE  %06d    DIST  %05dm" % [run.score, roundi(run.distance)]
 	fuel_label.text = "FUEL  %03d%%" % roundi(run.fuel)
-	run_status_label.text = "STAGE %d  |  COMBO x1  |  %s" % [run.difficulty_stage + 1, _phase_text()]
+	var combo_time := "%.1fs" % run.combo.remaining_seconds if run.combo.event_count > 0 else "READY"
+	run_status_label.text = "STAGE %d  |  COMBO x%d %s  |  %s" % [run.difficulty_stage + 1, run.combo.multiplier, combo_time, _phase_text()]
 	controls_hint_label.text = "W/S 速度  A/D 转向  P 暂停  M 静音  |  SEED %d" % current_run_seed
 	for label in [speed_label, controls_hint_label, score_label, fuel_label, run_status_label]:
 		label.scale = Vector2.ONE * scale

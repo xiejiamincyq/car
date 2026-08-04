@@ -31,3 +31,7 @@ const FUEL_GRACE_SECONDS: float = 30.0
 const FUEL_PICKUP_INTERVAL: float = 8.0
 const FUEL_SPAWN_SAFETY_DISTANCE: float = 240.0
 const OVERTAKE_SCORE: int = 80
+const NEAR_MISS_SCORE: int = 120
+const COMBO_WINDOW_SECONDS: float = 2.5
+const COMBO_MAX_MULTIPLIER: int = 3
+const COMBO_EVENTS_PER_MULTIPLIER: int = 4

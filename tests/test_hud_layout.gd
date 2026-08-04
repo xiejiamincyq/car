@@ -10,6 +10,11 @@ func _run() -> void:
 	root.add_child(main)
 	main._start_new_run()
 	main.run.tick(3.0, 0.0, main.GameConfig.MAX_SPEED)
+	for _event in range(4):
+		main.run.award_pass(80, false)
+	main.run.tick(1.0, 0.0, main.GameConfig.MAX_SPEED)
+	main._update_hud()
+	assert(main.run_status_label.text.contains("COMBO x2 1.5s"), "The HUD must show the live multiplier and remaining combo window")
 	for size in [Vector2i(1280, 720), Vector2i(1920, 1080)]:
 		root.content_scale_size = size
 		main._update_hud()

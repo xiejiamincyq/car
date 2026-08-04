@@ -1,6 +1,9 @@
 class_name RunState
 extends RefCounted
 
+const GameConfig = preload("res://scripts/game_config.gd")
+const ComboTracker = preload("res://scripts/combo_tracker.gd")
+
 enum Phase {
 	TITLE,
 	COUNTDOWN,
@@ -26,12 +29,14 @@ var near_misses: int = 0
 var fuel: float
 var difficulty_stage: int = 0
 var _distance_score_remainder: float = 0.0
+var combo: ComboTracker
 
 func _init(initial_max_fuel: float, drain_per_second: float, grace_seconds: float = 30.0) -> void:
 	max_fuel = initial_max_fuel
 	fuel_drain_per_second = drain_per_second
 	fuel_grace_seconds = grace_seconds
 	fuel = max_fuel
+	combo = ComboTracker.new(GameConfig.COMBO_WINDOW_SECONDS, GameConfig.COMBO_MAX_MULTIPLIER, GameConfig.COMBO_EVENTS_PER_MULTIPLIER)
 
 func start() -> void:
 	if phase == Phase.TITLE:
@@ -58,6 +63,7 @@ func tick(delta: float, speed: float, maximum_speed: float) -> void:
 		return
 	if phase != Phase.RUNNING:
 		return
+	combo.tick(delta)
 	elapsed_seconds += delta
 	distance += maxf(0.0, speed) * delta * 0.1
 	_distance_score_remainder += maxf(0.0, speed) * delta * 0.1
@@ -76,13 +82,20 @@ func add_fuel(amount: float) -> void:
 		fuel = clampf(fuel + maxf(0.0, amount), 0.0, max_fuel)
 
 func award_overtake(points: int) -> void:
+	award_pass(points, false)
+
+func award_pass(points: int, was_near_miss: bool) -> void:
 	if phase == Phase.RUNNING:
 		overtakes += 1
-		score += maxi(0, points)
+		near_misses += 1 if was_near_miss else 0
+		score += combo.award(points)
 
 func register_near_miss() -> void:
 	if phase == Phase.RUNNING:
 		near_misses += 1
+
+func break_combo() -> void:
+	combo.clear()
 
 func end() -> void:
 	if phase == Phase.RUNNING or phase == Phase.PAUSED or phase == Phase.COUNTDOWN:
@@ -108,6 +121,7 @@ func reset() -> void:
 	fuel = max_fuel
 	difficulty_stage = 0
 	_distance_score_remainder = 0.0
+	combo.clear()
 
 static func _stage_for_elapsed_time(seconds: float) -> int:
 	if seconds < 35.0:
