@@ -6,6 +6,7 @@ extends RefCounted
 const OCEAN := Color("081725")
 const SHOULDER := Color("123a46")
 const ROAD := Color("182332")
+const STAGE_ROAD_COLORS := [Color("182332"), Color("1d2938"), Color("24273d"), Color("2b243d")]
 const EDGE_NEON := Color("45e6e0")
 const LANE_MARK := Color("d8f7f4")
 const PLAYER_BODY := Color("39b9ff")
@@ -30,6 +31,11 @@ static func is_high_contrast(foreground: Color, background: Color) -> bool:
 	var brighter := maxf(_luminance(foreground), _luminance(background)) + 0.05
 	var darker := minf(_luminance(foreground), _luminance(background)) + 0.05
 	return brighter / darker >= 2.4
+
+static func road_color_for_transition(previous_stage: int, current_stage: int, mix_amount: float) -> Color:
+	var from_color: Color = STAGE_ROAD_COLORS[clampi(previous_stage, 0, STAGE_ROAD_COLORS.size() - 1)]
+	var to_color: Color = STAGE_ROAD_COLORS[clampi(current_stage, 0, STAGE_ROAD_COLORS.size() - 1)]
+	return from_color.lerp(to_color, clampf(mix_amount, 0.0, 1.0))
 
 static func _luminance(color: Color) -> float:
 	return color.r * 0.2126 + color.g * 0.7152 + color.b * 0.0722

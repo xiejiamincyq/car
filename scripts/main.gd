@@ -15,6 +15,7 @@ const FuelSpawnDirector = preload("res://scripts/fuel_spawn_director.gd")
 const SaveStore = preload("res://scripts/save_store.gd")
 const Progression = preload("res://scripts/progression.gd")
 const PassEventResolver = preload("res://scripts/pass_event_resolver.gd")
+const GameFeedback = preload("res://scripts/game_feedback.gd")
 
 const ROAD_MARK_REPEAT_DISTANCE := 92.0
 
@@ -73,6 +74,8 @@ var is_new_record := false
 var title_best_scores: Label
 var result_best_scores: Label
 var new_record_label: Label
+var feedback: GameFeedback
+var feedback_banner: Label
 
 func _ready() -> void:
 	_ensure_input_actions()
@@ -84,6 +87,7 @@ func _ready() -> void:
 	fuel_spawn_director = FuelSpawnDirector.new(_fuel_seed_for_run(current_run_seed), GameConfig.ROAD_LANE_COUNT, GameConfig.FUEL_PICKUP_INTERVAL)
 	collision = CollisionResponder.new(GameConfig.COLLISION_SPEED_PENALTY, GameConfig.COLLISION_INVULNERABILITY_SECONDS)
 	run = RunState.new(GameConfig.MAX_FUEL, GameConfig.FUEL_DRAIN_PER_SECOND, GameConfig.FUEL_GRACE_SECONDS)
+	feedback = GameFeedback.new(GameConfig.SPARK_MAX_COUNT)
 	collision_audio = AudioStreamPlayer.new()
 	collision_audio.stream = CollisionSound.create_stream()
 	add_child(collision_audio)
@@ -118,6 +122,7 @@ func _ready() -> void:
 	title_best_scores = $CanvasLayer/TitleScreen/Center/Card/Content/BestScores
 	result_best_scores = $CanvasLayer/ResultScreen/Center/Card/Content/BestScores
 	new_record_label = $CanvasLayer/ResultScreen/Center/Card/Content/NewRecord
+	feedback_banner = $CanvasLayer/FeedbackBanner
 	_bind_ui_actions()
 	_configure_persistence(SaveStore.new(), get_tree().current_scene == self)
 	start_button.grab_focus()
@@ -162,6 +167,7 @@ func _process(delta: float) -> void:
 	drive.step(delta, accelerate_input, brake_input, steering_input)
 	road_scroll = advance_road_scroll(road_scroll, drive.speed, delta, ROAD_MARK_REPEAT_DISTANCE)
 	run.tick(delta, drive.speed, GameConfig.MAX_SPEED)
+	feedback.tick(delta, run.fuel, run.difficulty_stage)
 	if run.phase == RunState.Phase.GAME_OVER:
 		_stop_run_audio()
 		_update_hud()
@@ -187,7 +193,8 @@ func _draw() -> void:
 	var road_right := center_x + GameConfig.ROAD_HALF_WIDTH
 	draw_rect(Rect2(Vector2.ZERO, viewport_size), VisualStyle.OCEAN)
 	draw_rect(Rect2(road_left - 30.0, 0.0, GameConfig.ROAD_HALF_WIDTH * 2.0 + 60.0, viewport_size.y), VisualStyle.SHOULDER)
-	draw_rect(Rect2(road_left, 0.0, GameConfig.ROAD_HALF_WIDTH * 2.0, viewport_size.y), VisualStyle.ROAD)
+	var road_color := VisualStyle.road_color_for_transition(feedback.previous_stage, feedback.current_stage, feedback.stage_transition_mix)
+	draw_rect(Rect2(road_left, 0.0, GameConfig.ROAD_HALF_WIDTH * 2.0, viewport_size.y), road_color)
 	draw_line(Vector2(road_left, 0.0), Vector2(road_left, viewport_size.y), VisualStyle.EDGE_NEON, 8.0)
 	draw_line(Vector2(road_right, 0.0), Vector2(road_right, viewport_size.y), VisualStyle.EDGE_NEON, 8.0)
 	for lane_index in range(1, GameConfig.ROAD_LANE_COUNT):
@@ -205,7 +212,13 @@ func _draw() -> void:
 	draw_colored_polygon(PackedVector2Array([car_center + Vector2(0.0, -27.0), car_center + Vector2(15.0, 3.0), car_center + Vector2(-15.0, 3.0)]), Color("0b2a45"))
 	draw_rect(Rect2(car_center + Vector2(-22.0, 14.0), Vector2(44.0, 8.0)), VisualStyle.PLAYER_GLOW)
 	draw_circle(car_center + Vector2(0.0, 27.0), 5.0, VisualStyle.WARNING)
+	_draw_sparks()
 	draw_set_transform(Vector2.ZERO)
+
+func _draw_sparks() -> void:
+	for spark in feedback.sparks:
+		var alpha := clampf(float(spark.life) * 2.0, 0.0, 1.0)
+		draw_circle(spark.position, 3.0, Color(VisualStyle.WARNING, alpha))
 
 func _draw_traffic(road_left: float) -> void:
 	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / GameConfig.ROAD_LANE_COUNT
@@ -268,13 +281,16 @@ func _check_collisions() -> void:
 	for vehicle in traffic.vehicles:
 		var traffic_center := Vector2(road_left + lane_width * (vehicle.lane_position + 0.5), vehicle.y)
 		if absf(traffic_center.x - player_center.x) < GameConfig.COLLISION_LATERAL_DISTANCE and absf(traffic_center.y - player_center.y) < GameConfig.COLLISION_LONGITUDINAL_DISTANCE:
+			var impact_speed := drive.speed
 			var outcome := collision.try_collide(drive.speed)
 			if outcome.hit:
 				drive.speed = outcome.speed
 				vehicle.y = player_center.y + 130.0
 				vehicle.collided_with_player = true
 				run.break_combo()
-				screen_shake = Vector2(10.0, -7.0)
+				feedback.spawn_collision(player_center, impact_speed, GameConfig.MAX_SPEED)
+				var shake := feedback.shake_magnitude_for_speed(impact_speed, GameConfig.MAX_SPEED)
+				screen_shake = Vector2(shake, -shake * 0.7)
 				_play_effect(collision_audio)
 
 func _toggle_audio_mute() -> void:
@@ -353,6 +369,7 @@ func _reset_run(run_seed_override: int = -1) -> void:
 	run.reset()
 	fuel_pickups.clear()
 	fuel_spawn_director.reset(_fuel_seed_for_run(current_run_seed))
+	feedback.reset()
 	result_persisted = false
 	is_new_record = false
 
@@ -523,7 +540,9 @@ func _update_hud() -> void:
 	speed_label.text = "SPEED  %03d km/h" % roundi(drive.speed * 0.42)
 	position_label.text = ""
 	score_label.text = "SCORE  %06d    DIST  %05dm" % [run.score, roundi(run.distance)]
-	fuel_label.text = "FUEL  %03d%%" % roundi(run.fuel)
+	var fuel_warning := feedback.low_fuel_text() if feedback.is_fuel_warning_visible() else ""
+	fuel_label.text = "FUEL  %03d%%  %s" % [roundi(run.fuel), fuel_warning]
+	fuel_label.modulate = Color("ff6b6b") if feedback.low_fuel_tier == GameFeedback.FuelTier.CRITICAL else (Color("ffd75a") if feedback.low_fuel_tier == GameFeedback.FuelTier.LOW else Color.WHITE)
 	var combo_time := "%.1fs" % run.combo.remaining_seconds if run.combo.event_count > 0 else "READY"
 	run_status_label.text = "STAGE %d  |  COMBO x%d %s  |  %s" % [run.difficulty_stage + 1, run.combo.multiplier, combo_time, _phase_text()]
 	controls_hint_label.text = "W/S 速度  A/D 转向  P 暂停  M 静音  |  SEED %d" % current_run_seed
@@ -532,6 +551,8 @@ func _update_hud() -> void:
 	var result_was_visible := result_screen.visible
 	race_hud.visible = run.phase == RunState.Phase.RUNNING or run.phase == RunState.Phase.PAUSED
 	countdown_screen.visible = run.phase == RunState.Phase.COUNTDOWN
+	feedback_banner.visible = run.phase == RunState.Phase.RUNNING and not feedback.stage_banner_text.is_empty()
+	feedback_banner.text = feedback.stage_banner_text
 	if countdown_screen.visible:
 		countdown_label.text = str(maxi(1, ceili(run.countdown_remaining)))
 	pause_screen.visible = run.phase == RunState.Phase.PAUSED and not confirmation_screen.visible and not settings_screen.visible

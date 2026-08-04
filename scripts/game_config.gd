@@ -35,3 +35,4 @@ const NEAR_MISS_SCORE: int = 120
 const COMBO_WINDOW_SECONDS: float = 2.5
 const COMBO_MAX_MULTIPLIER: int = 3
 const COMBO_EVENTS_PER_MULTIPLIER: int = 4
+const SPARK_MAX_COUNT: int = 24
