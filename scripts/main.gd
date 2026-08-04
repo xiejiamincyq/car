@@ -14,6 +14,7 @@ const RunSeedSequence = preload("res://scripts/run_seed_sequence.gd")
 const FuelSpawnDirector = preload("res://scripts/fuel_spawn_director.gd")
 const SaveStore = preload("res://scripts/save_store.gd")
 const Progression = preload("res://scripts/progression.gd")
+const PassEventResolver = preload("res://scripts/pass_event_resolver.gd")
 
 const ROAD_MARK_REPEAT_DISTANCE := 92.0
 
@@ -173,7 +174,7 @@ func _process(delta: float) -> void:
 	_update_fuel_pickups(delta)
 	collision.advance(delta)
 	_check_collisions()
-	_award_completed_overtakes()
+	_award_pass_events()
 	screen_shake = screen_shake.move_toward(Vector2.ZERO, 140.0 * delta)
 	_update_hud()
 	queue_redraw()
@@ -266,7 +267,7 @@ func _check_collisions() -> void:
 	var player_center := Vector2(center_x + drive.lateral_position, TrackGeometry.player_y(viewport_size.y))
 	for vehicle in traffic.vehicles:
 		var traffic_center := Vector2(road_left + lane_width * (vehicle.lane_position + 0.5), vehicle.y)
-		if absf(traffic_center.x - player_center.x) < 50.0 and absf(traffic_center.y - player_center.y) < 72.0:
+		if absf(traffic_center.x - player_center.x) < GameConfig.COLLISION_LATERAL_DISTANCE and absf(traffic_center.y - player_center.y) < GameConfig.COLLISION_LONGITUDINAL_DISTANCE:
 			var outcome := collision.try_collide(drive.speed)
 			if outcome.hit:
 				drive.speed = outcome.speed
@@ -320,14 +321,19 @@ func _stop_run_audio() -> void:
 	pickup_audio.stop()
 	warning_audio.stop()
 
-func _award_completed_overtakes() -> void:
-	var player_y := TrackGeometry.player_y(get_viewport_rect().size.y)
+func _award_pass_events() -> void:
+	var viewport_size := get_viewport_rect().size
+	var player_y := TrackGeometry.player_y(viewport_size.y)
+	var player_x := viewport_size.x * 0.5 + drive.lateral_position
+	var road_left := viewport_size.x * 0.5 - GameConfig.ROAD_HALF_WIDTH
+	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / GameConfig.ROAD_LANE_COUNT
 	for vehicle in traffic.vehicles:
-		if vehicle.y < player_y - 76.0:
-			vehicle.was_ahead_of_player = true
-		if not vehicle.passed_player and vehicle.y > player_y + 76.0 and is_eligible_overtake(vehicle.kind, vehicle.was_ahead_of_player, vehicle.collided_with_player):
-			vehicle.passed_player = true
+		var vehicle_x := road_left + lane_width * (vehicle.lane_position + 0.5)
+		var event := PassEventResolver.observe(vehicle, vehicle.kind, player_y, player_x, vehicle_x)
+		if event.overtake:
 			run.award_overtake(GameConfig.OVERTAKE_SCORE)
+		if event.near_miss:
+			run.register_near_miss()
 
 static func is_eligible_overtake(kind: int, was_ahead: bool, collided_with_player: bool) -> bool:
 	return kind != TrafficDirector.Kind.FAST_OVERTAKE and was_ahead and not collided_with_player

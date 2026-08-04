@@ -80,6 +80,10 @@ func award_overtake(points: int) -> void:
 		overtakes += 1
 		score += maxi(0, points)
 
+func register_near_miss() -> void:
+	if phase == Phase.RUNNING:
+		near_misses += 1
+
 func end() -> void:
 	if phase == Phase.RUNNING or phase == Phase.PAUSED or phase == Phase.COUNTDOWN:
 		phase = Phase.GAME_OVER
