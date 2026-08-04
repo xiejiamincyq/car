@@ -168,7 +168,9 @@ func _process(delta: float) -> void:
 	road_scroll = advance_road_scroll(road_scroll, drive.speed, delta, ROAD_MARK_REPEAT_DISTANCE)
 	run.tick(delta, drive.speed, GameConfig.MAX_SPEED)
 	feedback.tick(delta, run.fuel, run.difficulty_stage)
-	if run.phase == RunState.Phase.GAME_OVER:
+	if run.last_checkpoints_crossed > 0:
+		feedback.announce_checkpoint(run.difficulty_stage, GameConfig.CHECKPOINT_FUEL_REWARD * run.last_checkpoints_crossed)
+	if run.phase != RunState.Phase.RUNNING:
 		_stop_run_audio()
 		_update_hud()
 		queue_redraw()

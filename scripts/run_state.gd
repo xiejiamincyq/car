@@ -3,6 +3,7 @@ extends RefCounted
 
 const GameConfig = preload("res://scripts/game_config.gd")
 const ComboTracker = preload("res://scripts/combo_tracker.gd")
+const RaceProgression = preload("res://scripts/race_progression.gd")
 
 enum Phase {
 	TITLE,
@@ -30,6 +31,8 @@ var fuel: float
 var difficulty_stage: int = 0
 var _distance_score_remainder: float = 0.0
 var combo: ComboTracker
+var progression: RaceProgression
+var last_checkpoints_crossed: int = 0
 
 func _init(initial_max_fuel: float, drain_per_second: float, grace_seconds: float = 30.0) -> void:
 	max_fuel = initial_max_fuel
@@ -37,6 +40,7 @@ func _init(initial_max_fuel: float, drain_per_second: float, grace_seconds: floa
 	fuel_grace_seconds = grace_seconds
 	fuel = max_fuel
 	combo = ComboTracker.new(GameConfig.COMBO_WINDOW_SECONDS, GameConfig.COMBO_MAX_MULTIPLIER, GameConfig.COMBO_EVENTS_PER_MULTIPLIER)
+	progression = RaceProgression.new(GameConfig.RACE_CHECKPOINT_DISTANCES, GameConfig.RACE_FINISH_DISTANCE)
 
 func start() -> void:
 	if phase == Phase.TITLE:
@@ -73,7 +77,14 @@ func tick(delta: float, speed: float, maximum_speed: float) -> void:
 		_distance_score_remainder -= gained_score
 	var speed_ratio := clampf(speed / maxf(1.0, maximum_speed), 0.0, 1.0)
 	fuel = maxf(0.0, fuel - fuel_drain_per_second * (0.75 + speed_ratio * 0.25) * delta)
-	difficulty_stage = _stage_for_elapsed_time(elapsed_seconds)
+	var progress_event := progression.observe(distance)
+	difficulty_stage = progress_event.stage
+	last_checkpoints_crossed = progress_event.checkpoints_crossed
+	if last_checkpoints_crossed > 0:
+		fuel = clampf(fuel + GameConfig.CHECKPOINT_FUEL_REWARD * last_checkpoints_crossed, 0.0, max_fuel)
+	if progress_event.cleared:
+		phase = Phase.RUN_CLEAR
+		return
 	if fuel <= 0.0 and elapsed_seconds >= fuel_grace_seconds:
 		phase = Phase.GAME_OVER
 
@@ -122,6 +133,8 @@ func reset() -> void:
 	difficulty_stage = 0
 	_distance_score_remainder = 0.0
 	combo.clear()
+	progression.reset()
+	last_checkpoints_crossed = 0
 
 static func _stage_for_elapsed_time(seconds: float) -> int:
 	if seconds < 35.0:

@@ -24,4 +24,15 @@ func _run() -> void:
 	assert(main.fuel_pickups.is_empty(), "Pickups may not advance or spawn after the ending transition")
 	assert(is_equal_approx(main.collision.invulnerability_remaining, 0.5), "Collision timers may not advance after the ending transition")
 	main.free()
+
+	var cleared_main = MainScene.instantiate()
+	root.add_child(cleared_main)
+	cleared_main.run.start()
+	cleared_main.run.distance = cleared_main.GameConfig.RACE_FINISH_DISTANCE - 1.0
+	cleared_main.collision.invulnerability_remaining = 0.5
+	cleared_main._process(0.1)
+	assert(cleared_main.run.phase == cleared_main.RunState.Phase.RUN_CLEAR, "The finish frame must enter settlement immediately")
+	assert(cleared_main.traffic.vehicles.is_empty(), "Traffic may not advance or spawn after the clear transition")
+	assert(is_equal_approx(cleared_main.collision.invulnerability_remaining, 0.5), "Collision timers may not advance after the clear transition")
+	cleared_main.free()
 	quit()

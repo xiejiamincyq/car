@@ -24,6 +24,8 @@ func _init() -> void:
 
 	feedback.tick(0.0, 100.0, 1)
 	assert(feedback.stage_banner_text == "赛段 2" and is_zero_approx(feedback.stage_transition_mix), "Stage change must start a clear text banner and colour transition")
+	feedback.announce_checkpoint(1, 12.0)
+	assert(feedback.stage_banner_text == "检查点 1 / 3　燃油 +12", "Checkpoint feedback must explain both progress and its fuel reward")
 	feedback.tick(1.0, 100.0, 1)
 	assert(is_equal_approx(feedback.stage_transition_mix, 0.5), "Stage colour transition must interpolate over its configured duration")
 	var midway := VisualStyle.road_color_for_transition(feedback.previous_stage, feedback.current_stage, feedback.stage_transition_mix)

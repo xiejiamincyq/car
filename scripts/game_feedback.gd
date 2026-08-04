@@ -42,6 +42,10 @@ func tick(delta: float, fuel: float, stage: int) -> void:
 		if is_zero_approx(_stage_banner_remaining):
 			stage_banner_text = ""
 
+func announce_checkpoint(checkpoint_number: int, fuel_reward: float) -> void:
+	_stage_banner_remaining = STAGE_TRANSITION_SECONDS
+	stage_banner_text = "检查点 %d / %d　燃油 +%d" % [checkpoint_number, GameConfig.RACE_CHECKPOINT_DISTANCES.size(), roundi(fuel_reward)]
+
 func spawn_collision(position: Vector2, speed: float, maximum_speed: float) -> void:
 	var speed_ratio := clampf(speed / maxf(1.0, maximum_speed), 0.0, 1.0)
 	var spark_count := 6 + roundi(speed_ratio * 8.0)
