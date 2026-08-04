@@ -146,6 +146,18 @@ func has_minimum_lane_gap(lane: int) -> bool:
 				return false
 	return true
 
+func blocked_lanes_near(y: float, clearance: float) -> Array[int]:
+	var blocked: Array[int] = []
+	for vehicle in vehicles:
+		if absf(vehicle.y - y) >= clearance:
+			continue
+		if not blocked.has(vehicle.lane):
+			blocked.append(vehicle.lane)
+		if vehicle.kind == Kind.SIGNAL_CHANGE and vehicle.warning_started and not blocked.has(vehicle.target_lane):
+			blocked.append(vehicle.target_lane)
+	blocked.sort()
+	return blocked
+
 func _top_lane_has_minimum_gap(lane: int) -> bool:
 	var lane_vehicles: Array[TrafficVehicle] = []
 	for vehicle in vehicles:

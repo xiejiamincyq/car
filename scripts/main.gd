@@ -11,6 +11,7 @@ const VisualStyle = preload("res://scripts/visual_style.gd")
 const SoundEffects = preload("res://scripts/sound_effects.gd")
 const TrackGeometry = preload("res://scripts/track_geometry.gd")
 const RunSeedSequence = preload("res://scripts/run_seed_sequence.gd")
+const FuelSpawnDirector = preload("res://scripts/fuel_spawn_director.gd")
 
 const ROAD_MARK_REPEAT_DISTANCE := 92.0
 
@@ -29,8 +30,7 @@ var audio_volume := 0.65
 var audio_muted := false
 var warning_cooldown := 0.0
 var fuel_pickups: Array[FuelPickup] = []
-var fuel_spawn_remaining := GameConfig.FUEL_PICKUP_INTERVAL
-var pickup_lane_cursor := 0
+var fuel_spawn_director: FuelSpawnDirector
 var run_seed_sequence: RunSeedSequence
 var current_run_seed: int = 0
 
@@ -51,6 +51,7 @@ func _ready() -> void:
 	current_run_seed = run_seed_sequence.next_seed()
 	drive = DriveController.new(GameConfig.START_SPEED, GameConfig.MAX_SPEED, GameConfig.ACCELERATION, GameConfig.BRAKING, GameConfig.STEERING_SPEED, GameConfig.ROAD_HALF_WIDTH, 30.0)
 	traffic = TrafficDirector.new(current_run_seed, GameConfig.ROAD_LANE_COUNT, GameConfig.MIN_SPAWN_DISTANCE, GameConfig.MIN_TRAFFIC_GAP)
+	fuel_spawn_director = FuelSpawnDirector.new(_fuel_seed_for_run(current_run_seed), GameConfig.ROAD_LANE_COUNT, GameConfig.FUEL_PICKUP_INTERVAL)
 	collision = CollisionResponder.new(GameConfig.COLLISION_SPEED_PENALTY, GameConfig.COLLISION_INVULNERABILITY_SECONDS)
 	run = RunState.new(GameConfig.MAX_FUEL, GameConfig.FUEL_DRAIN_PER_SECOND, GameConfig.FUEL_GRACE_SECONDS)
 	collision_audio = AudioStreamPlayer.new()
@@ -176,11 +177,10 @@ func _traffic_color(kind: int) -> Color:
 		_: return VisualStyle.FAST_BODY
 
 func _update_fuel_pickups(delta: float) -> void:
-	fuel_spawn_remaining -= delta
-	if fuel_spawn_remaining <= 0.0:
-		fuel_pickups.append(FuelPickup.new(pickup_lane_cursor, -90.0))
-		pickup_lane_cursor = (pickup_lane_cursor + 2) % GameConfig.ROAD_LANE_COUNT
-		fuel_spawn_remaining = GameConfig.FUEL_PICKUP_INTERVAL
+	var blocked_lanes := traffic.blocked_lanes_near(FuelSpawnDirector.PICKUP_SPAWN_Y, GameConfig.FUEL_SPAWN_SAFETY_DISTANCE)
+	var spawned_pickup := fuel_spawn_director.tick(delta, blocked_lanes, _player_lane())
+	if spawned_pickup != null:
+		fuel_pickups.append(spawned_pickup)
 	var viewport_size := get_viewport_rect().size
 	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / GameConfig.ROAD_LANE_COUNT
 	var player_center := Vector2(viewport_size.x * 0.5 + drive.lateral_position, TrackGeometry.player_y(viewport_size.y))
@@ -282,8 +282,7 @@ func _reset_run(run_seed_override: int = -1) -> void:
 	_stop_run_audio()
 	run.reset()
 	fuel_pickups.clear()
-	fuel_spawn_remaining = GameConfig.FUEL_PICKUP_INTERVAL
-	pickup_lane_cursor = 0
+	fuel_spawn_director.reset(_fuel_seed_for_run(current_run_seed))
 
 func _restart_run() -> void:
 	_reset_run()
@@ -349,3 +348,6 @@ static func advance_road_scroll(current_offset: float, speed: float, delta: floa
 
 static func get_dash_start_y(scroll_offset: float, repeat_distance: float) -> float:
 	return scroll_offset - repeat_distance
+
+static func _fuel_seed_for_run(run_seed: int) -> int:
+	return run_seed ^ 1597463007

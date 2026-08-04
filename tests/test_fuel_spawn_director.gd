@@ -1,0 +1,56 @@
+extends SceneTree
+
+const FuelSpawnDirector = preload("res://scripts/fuel_spawn_director.gd")
+const GameConfig = preload("res://scripts/game_config.gd")
+const RunState = preload("res://scripts/run_state.gd")
+const TrafficDirector = preload("res://scripts/traffic_director.gd")
+
+func _init() -> void:
+	var pickup_supply_per_second := GameConfig.FUEL_PICKUP_AMOUNT / GameConfig.FUEL_PICKUP_INTERVAL
+	var expected_survival_ranges := {
+		280.0: Vector2(220.0, 320.0),
+		560.0: Vector2(110.0, 170.0),
+		760.0: Vector2(80.0, 120.0),
+	}
+	for speed in expected_survival_ranges:
+		var run := RunState.new(100.0, GameConfig.FUEL_DRAIN_PER_SECOND, 0.0)
+		run.start()
+		run.tick(1.0, speed, GameConfig.MAX_SPEED)
+		var actual_drain := 100.0 - run.fuel
+		assert(actual_drain > pickup_supply_per_second, "Collecting every pickup must still consume fuel at speed %.0f" % speed)
+		var ideal_survival_seconds := 100.0 / (actual_drain - pickup_supply_per_second)
+		var expected_range: Vector2 = expected_survival_ranges[speed]
+		assert(ideal_survival_seconds >= expected_range.x and ideal_survival_seconds <= expected_range.y, "Fuel budget at speed %.0f must stay inside the intended pressure range" % speed)
+
+	var reproducible_a := FuelSpawnDirector.new(77, 3, GameConfig.FUEL_PICKUP_INTERVAL)
+	var reproducible_b := FuelSpawnDirector.new(77, 3, GameConfig.FUEL_PICKUP_INTERVAL)
+	var sequence_a: Array[int] = []
+	var sequence_b: Array[int] = []
+	for _spawn_index in range(6):
+		sequence_a.append(reproducible_a.tick(GameConfig.FUEL_PICKUP_INTERVAL, [], 1).lane)
+		sequence_b.append(reproducible_b.tick(GameConfig.FUEL_PICKUP_INTERVAL, [], 1).lane)
+	assert(sequence_a == sequence_b, "A fixed run seed must reproduce the fuel sequence")
+
+	var varied := FuelSpawnDirector.new(78, 3, GameConfig.FUEL_PICKUP_INTERVAL)
+	var varied_sequence: Array[int] = []
+	for _spawn_index in range(6):
+		varied_sequence.append(varied.tick(GameConfig.FUEL_PICKUP_INTERVAL, [], 1).lane)
+	assert(varied_sequence != sequence_a, "Different run seeds must vary the fuel sequence")
+
+	var safe_spawn := FuelSpawnDirector.new(10, 3, GameConfig.FUEL_PICKUP_INTERVAL)
+	var only_center_safe = safe_spawn.tick(GameConfig.FUEL_PICKUP_INTERVAL, [0, 2], 1)
+	assert(only_center_safe != null and only_center_safe.lane == 1, "Fuel must use the only safe reachable lane")
+	var delayed = safe_spawn.tick(GameConfig.FUEL_PICKUP_INTERVAL, [0, 1, 2], 1)
+	assert(delayed == null, "Fuel must delay instead of spawning into a blocked route")
+	var adjacent_after_delay = safe_spawn.tick(0.5, [0, 2], 0)
+	assert(adjacent_after_delay != null and adjacent_after_delay.lane == 1, "A delayed pickup must choose an adjacent reachable lane when it becomes safe")
+
+	var traffic := TrafficDirector.new(22)
+	var steady = traffic.acquire_vehicle(TrafficDirector.Kind.STEADY_SLOW, 0, FuelSpawnDirector.PICKUP_SPAWN_Y)
+	traffic.vehicles.append(steady)
+	var changer = traffic.acquire_vehicle(TrafficDirector.Kind.SIGNAL_CHANGE, 1, FuelSpawnDirector.PICKUP_SPAWN_Y)
+	changer.target_lane = 2
+	changer.warning_started = true
+	traffic.vehicles.append(changer)
+	assert(traffic.blocked_lanes_near(FuelSpawnDirector.PICKUP_SPAWN_Y, GameConfig.FUEL_SPAWN_SAFETY_DISTANCE) == [0, 1, 2], "Fuel safety must reserve occupied and announced merge lanes")
+	quit()

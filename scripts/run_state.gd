@@ -41,7 +41,7 @@ func tick(delta: float, speed: float, maximum_speed: float) -> void:
 		score += gained_score
 		_distance_score_remainder -= gained_score
 	var speed_ratio := clampf(speed / maxf(1.0, maximum_speed), 0.0, 1.0)
-	fuel = maxf(0.0, fuel - fuel_drain_per_second * (0.4 + speed_ratio * 0.6) * delta)
+	fuel = maxf(0.0, fuel - fuel_drain_per_second * (0.75 + speed_ratio * 0.25) * delta)
 	difficulty_stage = _stage_for_elapsed_time(elapsed_seconds)
 	if fuel <= 0.0 and elapsed_seconds >= fuel_grace_seconds:
 		phase = Phase.ENDED

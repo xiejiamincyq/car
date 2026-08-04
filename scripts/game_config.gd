@@ -21,8 +21,9 @@ const TRAFFIC_RANDOM_SEED: int = 20260728
 const TRAFFIC_SPAWN_INTERVAL: float = 0.85
 
 const FUEL_DRAIN_PER_SECOND: float = 4.0
-const FUEL_PICKUP_AMOUNT: float = 28.0
+const FUEL_PICKUP_AMOUNT: float = 24.0
 const MAX_FUEL: float = 100.0
 const FUEL_GRACE_SECONDS: float = 30.0
-const FUEL_PICKUP_INTERVAL: float = 7.5
+const FUEL_PICKUP_INTERVAL: float = 8.0
+const FUEL_SPAWN_SAFETY_DISTANCE: float = 240.0
 const OVERTAKE_SCORE: int = 80
