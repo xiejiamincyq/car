@@ -23,6 +23,7 @@ func _run() -> void:
 	main._process(0.0)
 	assert(not main.engine_audio.playing, "Pause must stop run audio")
 	main.run.toggle_pause()
+	main.run.tick(3.0, 0.0, main.GameConfig.MAX_SPEED)
 	main.engine_audio.play()
 	main.run.elapsed_seconds = 30.0
 	main.run.fuel = 0.0

@@ -39,6 +39,7 @@ func _init() -> void:
 	paused_run.tick(2.0, 760.0, 760.0)
 	assert(is_equal_approx(paused_run.distance, distance_before_pause), "Pause must freeze run progress")
 	paused_run.toggle_pause()
+	paused_run.tick(3.0, 0.0, 760.0)
 	paused_run.add_fuel(25.0)
 	paused_run.award_overtake(75)
 	assert(paused_run.fuel > 90.0 and paused_run.score > 75, "Fuel pickups and overtakes must reward an active run")
