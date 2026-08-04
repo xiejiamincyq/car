@@ -21,6 +21,8 @@ var countdown_remaining: float = 0.0
 var elapsed_seconds: float = 0.0
 var distance: float = 0.0
 var score: int = 0
+var overtakes: int = 0
+var near_misses: int = 0
 var fuel: float
 var difficulty_stage: int = 0
 var _distance_score_remainder: float = 0.0
@@ -75,6 +77,7 @@ func add_fuel(amount: float) -> void:
 
 func award_overtake(points: int) -> void:
 	if phase == Phase.RUNNING:
+		overtakes += 1
 		score += maxi(0, points)
 
 func end() -> void:
@@ -96,6 +99,8 @@ func reset() -> void:
 	elapsed_seconds = 0.0
 	distance = 0.0
 	score = 0
+	overtakes = 0
+	near_misses = 0
 	fuel = max_fuel
 	difficulty_stage = 0
 	_distance_score_remainder = 0.0

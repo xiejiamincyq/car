@@ -309,3 +309,171 @@ theme_override_font_sizes/font_size = 86
 text = "3"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="PauseScreen" type="Control" parent="CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Shade" type="ColorRect" parent="CanvasLayer/PauseScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.01, 0.025, 0.06, 0.78)
+
+[node name="Center" type="CenterContainer" parent="CanvasLayer/PauseScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Card" type="PanelContainer" parent="CanvasLayer/PauseScreen/Center"]
+custom_minimum_size = Vector2(430, 0)
+layout_mode = 2
+
+[node name="Content" type="VBoxContainer" parent="CanvasLayer/PauseScreen/Center/Card"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Heading" type="Label" parent="CanvasLayer/PauseScreen/Center/Card/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
+theme_override_font_sizes/font_size = 34
+text = "比赛暂停"
+horizontal_alignment = 1
+
+[node name="ResumeButton" type="Button" parent="CanvasLayer/PauseScreen/Center/Card/Content"]
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+text = "继续比赛"
+
+[node name="RestartButton" type="Button" parent="CanvasLayer/PauseScreen/Center/Card/Content"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+text = "重新开始"
+
+[node name="SettingsButton" type="Button" parent="CanvasLayer/PauseScreen/Center/Card/Content"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+text = "声音设置"
+
+[node name="TitleButton" type="Button" parent="CanvasLayer/PauseScreen/Center/Card/Content"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+text = "返回标题"
+
+[node name="ResultScreen" type="Control" parent="CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Shade" type="ColorRect" parent="CanvasLayer/ResultScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.01, 0.025, 0.06, 0.84)
+
+[node name="Center" type="CenterContainer" parent="CanvasLayer/ResultScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Card" type="PanelContainer" parent="CanvasLayer/ResultScreen/Center"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+
+[node name="Content" type="VBoxContainer" parent="CanvasLayer/ResultScreen/Center/Card"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Heading" type="Label" parent="CanvasLayer/ResultScreen/Center/Card/Content"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "本局结束"
+horizontal_alignment = 1
+
+[node name="Summary" type="Label" parent="CanvasLayer/ResultScreen/Center/Card/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.83, 0.94, 0.97, 1)
+theme_override_font_sizes/font_size = 19
+text = "统计"
+horizontal_alignment = 1
+
+[node name="ReplayButton" type="Button" parent="CanvasLayer/ResultScreen/Center/Card/Content"]
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+text = "再来一局"
+
+[node name="TitleButton" type="Button" parent="CanvasLayer/ResultScreen/Center/Card/Content"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+text = "返回标题"
+
+[node name="ConfirmationScreen" type="Control" parent="CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Shade" type="ColorRect" parent="CanvasLayer/ConfirmationScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.005, 0.012, 0.03, 0.9)
+
+[node name="Center" type="CenterContainer" parent="CanvasLayer/ConfirmationScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Card" type="PanelContainer" parent="CanvasLayer/ConfirmationScreen/Center"]
+custom_minimum_size = Vector2(430, 0)
+layout_mode = 2
+
+[node name="Content" type="VBoxContainer" parent="CanvasLayer/ConfirmationScreen/Center/Card"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Prompt" type="Label" parent="CanvasLayer/ConfirmationScreen/Center/Card/Content"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 21
+text = "当前比赛进度将丢失，确定继续？"
+horizontal_alignment = 1
+
+[node name="ConfirmButton" type="Button" parent="CanvasLayer/ConfirmationScreen/Center/Card/Content"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "确定"
+
+[node name="CancelButton" type="Button" parent="CanvasLayer/ConfirmationScreen/Center/Card/Content"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "取消，保留本局"

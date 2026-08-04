@@ -24,7 +24,7 @@ func _run() -> void:
 	assert(main.get_node("CanvasLayer/ControlsScreen").visible, "Keyboard controls must be available in-game")
 	main._close_submenu()
 
-	main._start_new_run()
+	start_button.pressed.emit()
 	assert(main.run.phase == main.RunState.Phase.COUNTDOWN, "Start must enter the safety countdown")
 	assert(main.get_node("CanvasLayer/CountdownScreen").visible and not title_screen.visible, "Countdown must replace the title")
 	main._process(3.0)

@@ -55,6 +55,13 @@ var start_button: Button
 var difficulty_button: Button
 var settings_volume_label: Label
 var settings_mute_button: Button
+var pause_screen: Control
+var result_screen: Control
+var result_heading: Label
+var result_summary: Label
+var confirmation_screen: Control
+var destructive_action := ""
+var submenu_return := "title"
 
 func _ready() -> void:
 	_ensure_input_actions()
@@ -92,19 +99,28 @@ func _ready() -> void:
 	difficulty_button = $CanvasLayer/TitleScreen/Center/Card/Content/DifficultyButton
 	settings_volume_label = $CanvasLayer/SettingsScreen/Center/Card/Content/Volume
 	settings_mute_button = $CanvasLayer/SettingsScreen/Center/Card/Content/MuteButton
+	pause_screen = $CanvasLayer/PauseScreen
+	result_screen = $CanvasLayer/ResultScreen
+	result_heading = $CanvasLayer/ResultScreen/Center/Card/Content/Heading
+	result_summary = $CanvasLayer/ResultScreen/Center/Card/Content/Summary
+	confirmation_screen = $CanvasLayer/ConfirmationScreen
 	_bind_ui_actions()
 	_update_hud()
 	start_button.grab_focus()
 	queue_redraw()
 
 func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("ui_cancel") and confirmation_screen.visible:
+		_cancel_confirmation()
+		return
 	if Input.is_action_just_pressed("ui_cancel") and (settings_screen.visible or controls_screen.visible):
 		_close_submenu()
 		return
-	if Input.is_action_just_pressed("start_game") and run.phase == RunState.Phase.TITLE and title_screen.visible:
-		_start_new_run()
 	if Input.is_action_just_pressed("pause_game"):
-		run.toggle_pause()
+		if run.phase == RunState.Phase.RUNNING:
+			_pause_run()
+		elif run.phase == RunState.Phase.PAUSED:
+			_resume_run()
 	if Input.is_action_just_pressed("toggle_mute"):
 		_toggle_audio_mute()
 	if Input.is_action_just_pressed("volume_down"):
@@ -323,6 +339,7 @@ func _start_new_run() -> void:
 	_update_hud()
 
 func _show_settings() -> void:
+	submenu_return = "title"
 	title_screen.visible = false
 	controls_screen.visible = false
 	settings_screen.visible = true
@@ -330,6 +347,7 @@ func _show_settings() -> void:
 	settings_mute_button.grab_focus()
 
 func _show_controls() -> void:
+	submenu_return = "title"
 	title_screen.visible = false
 	settings_screen.visible = false
 	controls_screen.visible = true
@@ -338,7 +356,80 @@ func _show_controls() -> void:
 func _close_submenu() -> void:
 	settings_screen.visible = false
 	controls_screen.visible = false
+	if submenu_return == "pause" and run.phase == RunState.Phase.PAUSED:
+		pause_screen.visible = true
+		$CanvasLayer/PauseScreen/Center/Card/Content/ResumeButton.grab_focus()
+	else:
+		title_screen.visible = true
+		start_button.grab_focus()
+
+func _show_pause_settings() -> void:
+	submenu_return = "pause"
+	pause_screen.visible = false
+	settings_screen.visible = true
+	_update_settings_labels()
+	settings_mute_button.grab_focus()
+
+func _pause_run() -> void:
+	if run.phase != RunState.Phase.RUNNING:
+		return
+	run.toggle_pause()
+	_stop_run_audio()
+	_update_hud()
+	$CanvasLayer/PauseScreen/Center/Card/Content/ResumeButton.grab_focus()
+
+func _resume_run() -> void:
+	if run.phase != RunState.Phase.PAUSED:
+		return
+	pause_screen.visible = false
+	run.toggle_pause()
+	_update_hud()
+
+func _request_restart() -> void:
+	_show_confirmation("restart", "当前比赛进度将丢失，确定重新开始？")
+
+func _request_title() -> void:
+	_show_confirmation("title", "当前比赛进度将丢失，确定返回标题？")
+
+func _show_confirmation(action: String, prompt: String) -> void:
+	if run.phase != RunState.Phase.PAUSED:
+		return
+	destructive_action = action
+	pause_screen.visible = false
+	confirmation_screen.visible = true
+	$CanvasLayer/ConfirmationScreen/Center/Card/Content/Prompt.text = prompt
+	$CanvasLayer/ConfirmationScreen/Center/Card/Content/CancelButton.grab_focus()
+
+func _cancel_confirmation() -> void:
+	destructive_action = ""
+	confirmation_screen.visible = false
+	pause_screen.visible = run.phase == RunState.Phase.PAUSED
+	if pause_screen.visible:
+		$CanvasLayer/PauseScreen/Center/Card/Content/ResumeButton.grab_focus()
+
+func _confirm_destructive_action() -> void:
+	var action := destructive_action
+	destructive_action = ""
+	confirmation_screen.visible = false
+	if action == "restart":
+		_restart_run()
+	elif action == "title":
+		_return_to_title()
+	_update_hud()
+
+func _replay_run() -> void:
+	_restart_run()
+	_update_hud()
+
+func _return_to_title() -> void:
+	_reset_run()
+	settings_screen.visible = false
+	controls_screen.visible = false
+	pause_screen.visible = false
+	result_screen.visible = false
+	confirmation_screen.visible = false
 	title_screen.visible = true
+	_update_hud()
 	start_button.grab_focus()
 
 func _cycle_difficulty() -> void:
@@ -360,6 +451,14 @@ func _bind_ui_actions() -> void:
 	settings_mute_button.pressed.connect(_toggle_audio_mute)
 	$CanvasLayer/SettingsScreen/Center/Card/Content/BackButton.pressed.connect(_close_submenu)
 	$CanvasLayer/ControlsScreen/Center/Card/Content/BackButton.pressed.connect(_close_submenu)
+	$CanvasLayer/PauseScreen/Center/Card/Content/ResumeButton.pressed.connect(_resume_run)
+	$CanvasLayer/PauseScreen/Center/Card/Content/RestartButton.pressed.connect(_request_restart)
+	$CanvasLayer/PauseScreen/Center/Card/Content/SettingsButton.pressed.connect(_show_pause_settings)
+	$CanvasLayer/PauseScreen/Center/Card/Content/TitleButton.pressed.connect(_request_title)
+	$CanvasLayer/ResultScreen/Center/Card/Content/ReplayButton.pressed.connect(_replay_run)
+	$CanvasLayer/ResultScreen/Center/Card/Content/TitleButton.pressed.connect(_return_to_title)
+	$CanvasLayer/ConfirmationScreen/Center/Card/Content/ConfirmButton.pressed.connect(_confirm_destructive_action)
+	$CanvasLayer/ConfirmationScreen/Center/Card/Content/CancelButton.pressed.connect(_cancel_confirmation)
 
 func _player_lane() -> int:
 	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / GameConfig.ROAD_LANE_COUNT
@@ -371,21 +470,35 @@ func _update_hud() -> void:
 	position_label.text = ""
 	score_label.text = "SCORE  %06d    DIST  %05dm" % [run.score, roundi(run.distance)]
 	fuel_label.text = "FUEL  %03d%%" % roundi(run.fuel)
-	run_status_label.text = "STAGE %d  |  %s" % [run.difficulty_stage + 1, _phase_text()]
+	run_status_label.text = "STAGE %d  |  COMBO x1  |  %s" % [run.difficulty_stage + 1, _phase_text()]
 	controls_hint_label.text = "W/S 速度  A/D 转向  P 暂停  M 静音  |  SEED %d" % current_run_seed
 	for label in [speed_label, controls_hint_label, score_label, fuel_label, run_status_label]:
 		label.scale = Vector2.ONE * scale
-	var is_racing := run.phase == RunState.Phase.RUNNING or run.phase == RunState.Phase.COUNTDOWN
-	race_hud.visible = run.phase == RunState.Phase.RUNNING
+	var result_was_visible := result_screen.visible
+	race_hud.visible = run.phase == RunState.Phase.RUNNING or run.phase == RunState.Phase.PAUSED
 	countdown_screen.visible = run.phase == RunState.Phase.COUNTDOWN
 	if countdown_screen.visible:
 		countdown_label.text = str(maxi(1, ceili(run.countdown_remaining)))
-	menu_backdrop.visible = not is_racing
-	if run.phase != RunState.Phase.TITLE:
+	pause_screen.visible = run.phase == RunState.Phase.PAUSED and not confirmation_screen.visible and not settings_screen.visible
+	result_screen.visible = run.phase == RunState.Phase.GAME_OVER or run.phase == RunState.Phase.RUN_CLEAR
+	if result_screen.visible:
+		_update_result_labels()
+		if not result_was_visible:
+			$CanvasLayer/ResultScreen/Center/Card/Content/ReplayButton.grab_focus()
+	menu_backdrop.visible = run.phase == RunState.Phase.TITLE or result_screen.visible or (settings_screen.visible and submenu_return == "title") or controls_screen.visible
+	if run.phase == RunState.Phase.TITLE and not settings_screen.visible and not controls_screen.visible:
+		title_screen.visible = true
+	elif run.phase != RunState.Phase.TITLE:
 		title_screen.visible = false
 	overlay_shade.visible = false
 	overlay_label.visible = false
 	_update_settings_labels()
+
+func _update_result_labels() -> void:
+	var cleared := run.phase == RunState.Phase.RUN_CLEAR
+	result_heading.text = "赛程完成" if cleared else "比赛结束"
+	var reason := "抵达终点" if cleared else "燃油耗尽"
+	result_summary.text = "%s\n\n得分  %06d\n距离  %05dm\n超车  %d    近失  %d\n到达赛段  %d\n局种子  %d" % [reason, run.score, roundi(run.distance), run.overtakes, run.near_misses, run.difficulty_stage + 1, current_run_seed]
 
 func _phase_text() -> String:
 	match run.phase:
@@ -409,7 +522,6 @@ func _ensure_input_actions() -> void:
 	_register_action("brake", [KEY_DOWN, KEY_S])
 	_register_action("steer_left", [KEY_LEFT, KEY_A])
 	_register_action("steer_right", [KEY_RIGHT, KEY_D])
-	_register_action("start_game", [KEY_SPACE])
 	_register_action("pause_game", [KEY_P, KEY_ESCAPE])
 	_register_action("toggle_mute", [KEY_M])
 	_register_action("volume_down", [KEY_MINUS])
