@@ -57,7 +57,7 @@ theme_override_constants/separation = 3
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9, 0.98, 1, 1)
 theme_override_font_sizes/font_size = 28
-text = "SPEED"
+text = ""
 
 [node name="Position" type="Label" parent="CanvasLayer/RaceHUD/Rows"]
 layout_mode = 2
@@ -67,7 +67,7 @@ visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(0.62, 0.79, 0.84, 1)
 theme_override_font_sizes/font_size = 16
-text = "W/A/S/D or arrow keys"
+text = ""
 
 [node name="Score" type="Label" parent="CanvasLayer/RaceHUD/Rows"]
 layout_mode = 2
@@ -150,21 +150,21 @@ horizontal_alignment = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.79, 0.31, 1)
 theme_override_font_sizes/font_size = 19
-text = "霓虹海岸 · 极速生存赛"
+text = ""
 horizontal_alignment = 1
 
 [node name="Goal" type="Label" parent="CanvasLayer/TitleScreen/Center/Card/Content"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.83, 0.94, 0.97, 1)
 theme_override_font_sizes/font_size = 16
-text = "目标：穿越车流，抵达 3200 米终点。\n通过 3 个检查点会补充燃油；燃油耗尽则比赛结束。"
+text = ""
 horizontal_alignment = 1
 
 [node name="BestScores" type="Label" parent="CanvasLayer/TitleScreen/Center/Card/Content"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.86, 0.38, 1)
 theme_override_font_sizes/font_size = 15
-text = "最高成绩：暂无成绩"
+text = ""
 horizontal_alignment = 1
 
 [node name="Spacer" type="Control" parent="CanvasLayer/TitleScreen/Center/Card/Content"]
@@ -175,27 +175,27 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
-text = "开始比赛"
+text = ""
 
 [node name="DifficultyButton" type="Button" parent="CanvasLayer/TitleScreen/Center/Card/Content"]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
-text = "难度：标准"
+text = ""
 
 [node name="SettingsButton" type="Button" parent="CanvasLayer/TitleScreen/Center/Card/Content"]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
-text = "声音设置"
+text = ""
 
 [node name="ControlsButton" type="Button" parent="CanvasLayer/TitleScreen/Center/Card/Content"]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
-text = "操作说明"
+text = ""
 
 [node name="QuitButton" type="Button" parent="CanvasLayer/TitleScreen/Center/Card/Content"]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
-text = "退出游戏"
+text = ""
 
 [node name="Version" type="Label" parent="CanvasLayer/TitleScreen/Center/Card/Content"]
 layout_mode = 2
@@ -231,28 +231,33 @@ theme_override_constants/separation = 12
 [node name="Heading" type="Label" parent="CanvasLayer/SettingsScreen/Center/Card/Content"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "设置"
+text = ""
 horizontal_alignment = 1
 
 [node name="Volume" type="Label" parent="CanvasLayer/SettingsScreen/Center/Card/Content"]
 layout_mode = 2
-text = "主音量：65%（- / + 调整）"
+text = ""
 horizontal_alignment = 1
 
 [node name="MuteButton" type="Button" parent="CanvasLayer/SettingsScreen/Center/Card/Content"]
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
-text = "静音：关"
+text = ""
 
 [node name="FullscreenButton" type="Button" parent="CanvasLayer/SettingsScreen/Center/Card/Content"]
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
-text = "显示模式：窗口"
+text = ""
+
+[node name="LanguageButton" type="Button" parent="CanvasLayer/SettingsScreen/Center/Card/Content"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = ""
 
 [node name="BackButton" type="Button" parent="CanvasLayer/SettingsScreen/Center/Card/Content"]
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
-text = "返回"
+text = ""
 
 [node name="ControlsScreen" type="Control" parent="CanvasLayer"]
 visible = false
@@ -282,19 +287,19 @@ theme_override_constants/separation = 12
 [node name="Heading" type="Label" parent="CanvasLayer/ControlsScreen/Center/Card/Content"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "键盘操作"
+text = ""
 horizontal_alignment = 1
 
 [node name="Instructions" type="Label" parent="CanvasLayer/ControlsScreen/Center/Card/Content"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
-text = "W / ↑  加速      S / ↓  减速\nA / ←  左转      D / →  右转\nSpace  暂停      M  静音    F11  全屏\n菜单使用方向键，Enter 确认，Esc 返回"
+text = ""
 horizontal_alignment = 1
 
 [node name="BackButton" type="Button" parent="CanvasLayer/ControlsScreen/Center/Card/Content"]
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
-text = "返回"
+text = ""
 
 [node name="CountdownScreen" type="Control" parent="CanvasLayer"]
 visible = false
@@ -318,7 +323,7 @@ theme_override_colors/font_shadow_color = Color(0.01, 0.03, 0.07, 1)
 theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 3
 theme_override_font_sizes/font_size = 32
-text = "赛段 2"
+text = ""
 horizontal_alignment = 1
 vertical_alignment = 1
 mouse_filter = 2
@@ -377,28 +382,28 @@ theme_override_constants/separation = 12
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
 theme_override_font_sizes/font_size = 34
-text = "比赛暂停"
+text = ""
 horizontal_alignment = 1
 
 [node name="ResumeButton" type="Button" parent="CanvasLayer/PauseScreen/Center/Card/Content"]
 custom_minimum_size = Vector2(0, 46)
 layout_mode = 2
-text = "继续比赛"
+text = ""
 
 [node name="RestartButton" type="Button" parent="CanvasLayer/PauseScreen/Center/Card/Content"]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
-text = "重新开始"
+text = ""
 
 [node name="SettingsButton" type="Button" parent="CanvasLayer/PauseScreen/Center/Card/Content"]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
-text = "声音设置"
+text = ""
 
 [node name="TitleButton" type="Button" parent="CanvasLayer/PauseScreen/Center/Card/Content"]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
-text = "返回标题"
+text = ""
 
 [node name="ResultScreen" type="Control" parent="CanvasLayer"]
 visible = false
@@ -437,7 +442,7 @@ theme_override_constants/separation = 14
 [node name="Heading" type="Label" parent="CanvasLayer/ResultScreen/Center/Card/Content"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 36
-text = "本局结束"
+text = ""
 horizontal_alignment = 1
 
 [node name="NewRecord" type="Label" parent="CanvasLayer/ResultScreen/Center/Card/Content"]
@@ -445,32 +450,32 @@ visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.86, 0.25, 1)
 theme_override_font_sizes/font_size = 25
-text = "NEW RECORD"
+text = ""
 horizontal_alignment = 1
 
 [node name="Summary" type="Label" parent="CanvasLayer/ResultScreen/Center/Card/Content"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.83, 0.94, 0.97, 1)
 theme_override_font_sizes/font_size = 19
-text = "统计"
+text = ""
 horizontal_alignment = 1
 
 [node name="BestScores" type="Label" parent="CanvasLayer/ResultScreen/Center/Card/Content"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.86, 0.38, 1)
 theme_override_font_sizes/font_size = 15
-text = "最高成绩：暂无成绩"
+text = ""
 horizontal_alignment = 1
 
 [node name="ReplayButton" type="Button" parent="CanvasLayer/ResultScreen/Center/Card/Content"]
 custom_minimum_size = Vector2(0, 46)
 layout_mode = 2
-text = "再来一局"
+text = ""
 
 [node name="TitleButton" type="Button" parent="CanvasLayer/ResultScreen/Center/Card/Content"]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
-text = "返回标题"
+text = ""
 
 [node name="ConfirmationScreen" type="Control" parent="CanvasLayer"]
 visible = false
@@ -509,15 +514,15 @@ theme_override_constants/separation = 12
 [node name="Prompt" type="Label" parent="CanvasLayer/ConfirmationScreen/Center/Card/Content"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 21
-text = "当前比赛进度将丢失，确定继续？"
+text = ""
 horizontal_alignment = 1
 
 [node name="ConfirmButton" type="Button" parent="CanvasLayer/ConfirmationScreen/Center/Card/Content"]
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
-text = "确定"
+text = ""
 
 [node name="CancelButton" type="Button" parent="CanvasLayer/ConfirmationScreen/Center/Card/Content"]
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
-text = "取消，保留本局"
+text = ""

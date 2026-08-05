@@ -1,6 +1,8 @@
 class_name GameFeedback
 extends RefCounted
 
+const GameText = preload("res://scripts/game_text.gd")
+
 enum FuelTier { NORMAL, LOW, CRITICAL }
 
 const LOW_FUEL_THRESHOLD := 30.0
@@ -11,6 +13,7 @@ var maximum_sparks: int
 var sparks: Array[Dictionary] = []
 var low_fuel_tier: FuelTier = FuelTier.NORMAL
 var flashing_enabled := true
+var language := GameText.LANGUAGE_ZH
 var previous_stage := 0
 var current_stage := 0
 var stage_transition_mix := 1.0
@@ -19,6 +22,8 @@ var _elapsed_seconds := 0.0
 var _stage_transition_elapsed := STAGE_TRANSITION_SECONDS
 var _stage_banner_remaining := 0.0
 var _spark_serial := 0
+var _banner_key := ""
+var _banner_values: Array = []
 
 func _init(spark_cap: int) -> void:
 	maximum_sparks = maxi(1, spark_cap)
@@ -34,7 +39,9 @@ func tick(delta: float, fuel: float, stage: int) -> void:
 		_stage_transition_elapsed = 0.0
 		stage_transition_mix = 0.0
 		_stage_banner_remaining = STAGE_TRANSITION_SECONDS
-		stage_banner_text = "赛段 %d" % (current_stage + 1)
+		_banner_key = "feedback.stage"
+		_banner_values = [current_stage + 1]
+		stage_banner_text = GameText.get_text(_banner_key, language, _banner_values)
 	else:
 		_stage_transition_elapsed = minf(STAGE_TRANSITION_SECONDS, _stage_transition_elapsed + safe_delta)
 		stage_transition_mix = _stage_transition_elapsed / STAGE_TRANSITION_SECONDS
@@ -44,7 +51,14 @@ func tick(delta: float, fuel: float, stage: int) -> void:
 
 func announce_checkpoint(checkpoint_number: int, fuel_reward: float) -> void:
 	_stage_banner_remaining = STAGE_TRANSITION_SECONDS
-	stage_banner_text = "检查点 %d / %d　燃油 +%d" % [checkpoint_number, GameConfig.RACE_CHECKPOINT_DISTANCES.size(), roundi(fuel_reward)]
+	_banner_key = "feedback.checkpoint"
+	_banner_values = [checkpoint_number, GameConfig.RACE_CHECKPOINT_DISTANCES.size(), roundi(fuel_reward)]
+	stage_banner_text = GameText.get_text(_banner_key, language, _banner_values)
+
+func set_language(value: String) -> void:
+	language = value
+	if not _banner_key.is_empty() and not stage_banner_text.is_empty():
+		stage_banner_text = GameText.get_text(_banner_key, language, _banner_values)
 
 func spawn_collision(position: Vector2, speed: float, maximum_speed: float) -> void:
 	var speed_ratio := clampf(speed / maxf(1.0, maximum_speed), 0.0, 1.0)
@@ -60,10 +74,10 @@ func spawn_collision(position: Vector2, speed: float, maximum_speed: float) -> v
 func shake_magnitude_for_speed(speed: float, maximum_speed: float) -> float:
 	return lerpf(4.0, 14.0, clampf(speed / maxf(1.0, maximum_speed), 0.0, 1.0))
 
-func low_fuel_text() -> String:
+func low_fuel_text(value_language := GameText.LANGUAGE_ZH) -> String:
 	match low_fuel_tier:
-		FuelTier.LOW: return "燃油偏低"
-		FuelTier.CRITICAL: return "燃油危险"
+		FuelTier.LOW: return GameText.get_text("hud.fuel.low", value_language)
+		FuelTier.CRITICAL: return GameText.get_text("hud.fuel.critical", value_language)
 		_: return ""
 
 func is_fuel_warning_visible() -> bool:
@@ -81,6 +95,8 @@ func reset() -> void:
 	current_stage = 0
 	stage_transition_mix = 1.0
 	stage_banner_text = ""
+	_banner_key = ""
+	_banner_values = []
 	_elapsed_seconds = 0.0
 	_stage_transition_elapsed = STAGE_TRANSITION_SECONDS
 	_stage_banner_remaining = 0.0

@@ -18,6 +18,7 @@ const PassEventResolver = preload("res://scripts/pass_event_resolver.gd")
 const GameFeedback = preload("res://scripts/game_feedback.gd")
 const LaneEventDirector = preload("res://scripts/lane_event_director.gd")
 const DifficultyProfile = preload("res://scripts/difficulty_profile.gd")
+const GameText = preload("res://scripts/game_text.gd")
 
 const ROAD_MARK_REPEAT_DISTANCE := 92.0
 
@@ -41,7 +42,8 @@ var fuel_spawn_director: FuelSpawnDirector
 var run_seed_sequence: RunSeedSequence
 var current_run_seed: int = 0
 var difficulty_index := 1
-const DIFFICULTY_NAMES := ["轻松", "标准", "困难"]
+var language_preference := GameText.LANGUAGE_SYSTEM
+var language := GameText.LANGUAGE_EN
 
 var speed_label: Label
 var position_label: Label
@@ -63,6 +65,7 @@ var difficulty_button: Button
 var settings_volume_label: Label
 var settings_mute_button: Button
 var settings_fullscreen_button: Button
+var settings_language_button: Button
 var pause_screen: Control
 var result_screen: Control
 var result_heading: Label
@@ -119,6 +122,7 @@ func _ready() -> void:
 	settings_volume_label = $CanvasLayer/SettingsScreen/Center/Card/Content/Volume
 	settings_mute_button = $CanvasLayer/SettingsScreen/Center/Card/Content/MuteButton
 	settings_fullscreen_button = $CanvasLayer/SettingsScreen/Center/Card/Content/FullscreenButton
+	settings_language_button = $CanvasLayer/SettingsScreen/Center/Card/Content/LanguageButton
 	pause_screen = $CanvasLayer/PauseScreen
 	result_screen = $CanvasLayer/ResultScreen
 	result_heading = $CanvasLayer/ResultScreen/Center/Card/Content/Heading
@@ -477,10 +481,10 @@ func _resume_run() -> void:
 	_update_hud()
 
 func _request_restart() -> void:
-	_show_confirmation("restart", "当前比赛进度将丢失，确定重新开始？")
+	_show_confirmation("restart", _text("confirm.restart"))
 
 func _request_title() -> void:
-	_show_confirmation("title", "当前比赛进度将丢失，确定返回标题？")
+	_show_confirmation("title", _text("confirm.title"))
 
 func _show_confirmation(action: String, prompt: String) -> void:
 	if run.phase != RunState.Phase.PAUSED:
@@ -524,10 +528,25 @@ func _return_to_title() -> void:
 	start_button.grab_focus()
 
 func _cycle_difficulty() -> void:
-	difficulty_index = (difficulty_index + 1) % DIFFICULTY_NAMES.size()
-	difficulty_button.text = "难度：%s" % DIFFICULTY_NAMES[difficulty_index]
+	difficulty_index = (difficulty_index + 1) % 3
+	difficulty_button.text = _text("title.difficulty", [_difficulty_name(difficulty_index)])
 	_apply_difficulty_profile()
 	_save_preferences()
+
+func _cycle_language() -> void:
+	var index := GameText.LANGUAGE_PREFERENCES.find(language_preference)
+	_set_language_preference(GameText.LANGUAGE_PREFERENCES[(index + 1) % GameText.LANGUAGE_PREFERENCES.size()])
+
+func _set_language_preference(preference: String) -> void:
+	if not preference in GameText.LANGUAGE_PREFERENCES:
+		preference = GameText.LANGUAGE_SYSTEM
+	language_preference = preference
+	language = GameText.resolve_language(language_preference, TranslationServer.get_locale())
+	feedback.set_language(language)
+	_save_preferences()
+	_apply_localized_texts()
+	_update_scoreboards()
+	_update_hud()
 
 func _configure_persistence(store: SaveStore, enabled: bool) -> void:
 	save_store = store
@@ -542,7 +561,10 @@ func _apply_saved_preferences() -> void:
 	audio_muted = bool(save_data.settings.audio_muted)
 	difficulty_index = int(save_data.settings.difficulty)
 	fullscreen_enabled = bool(save_data.settings.fullscreen)
-	difficulty_button.text = "难度：%s" % DIFFICULTY_NAMES[difficulty_index]
+	language_preference = String(save_data.settings.language)
+	language = GameText.resolve_language(language_preference, TranslationServer.get_locale())
+	feedback.set_language(language)
+	_apply_localized_texts()
 	_apply_difficulty_profile()
 	_apply_window_mode()
 	if audio_muted:
@@ -560,16 +582,57 @@ func _save_preferences() -> void:
 	save_data.settings.audio_muted = audio_muted
 	save_data.settings.difficulty = difficulty_index
 	save_data.settings.fullscreen = fullscreen_enabled
+	save_data.settings.language = language_preference
 	if persistence_enabled:
 		save_store.save_data(save_data)
+	_update_settings_labels()
+
+func _text(key: String, values: Array = []) -> String:
+	return GameText.get_text(key, language, values)
+
+func _difficulty_name(index: int) -> String:
+	return _text(["difficulty.easy", "difficulty.normal", "difficulty.hard"][clampi(index, 0, 2)])
+
+func _fuel_warning_text() -> String:
+	match feedback.low_fuel_tier:
+		GameFeedback.FuelTier.LOW: return _text("hud.fuel.low")
+		GameFeedback.FuelTier.CRITICAL: return _text("hud.fuel.critical")
+		_: return ""
+
+func _apply_localized_texts() -> void:
+	$CanvasLayer/TitleScreen/Center/Card/Content/Subtitle.text = _text("title.subtitle")
+	$CanvasLayer/TitleScreen/Center/Card/Content/Goal.text = _text("title.objective")
+	start_button.text = _text("title.start")
+	difficulty_button.text = _text("title.difficulty", [_difficulty_name(difficulty_index)])
+	$CanvasLayer/TitleScreen/Center/Card/Content/SettingsButton.text = _text("title.settings")
+	$CanvasLayer/TitleScreen/Center/Card/Content/ControlsButton.text = _text("title.controls")
+	$CanvasLayer/TitleScreen/Center/Card/Content/QuitButton.text = _text("title.quit")
+	$CanvasLayer/SettingsScreen/Center/Card/Content/Heading.text = _text("settings.heading")
+	$CanvasLayer/SettingsScreen/Center/Card/Content/BackButton.text = _text("settings.back")
+	$CanvasLayer/ControlsScreen/Center/Card/Content/Heading.text = _text("controls.heading")
+	$CanvasLayer/ControlsScreen/Center/Card/Content/Instructions.text = _text("controls.body")
+	$CanvasLayer/ControlsScreen/Center/Card/Content/BackButton.text = _text("settings.back")
+	$CanvasLayer/PauseScreen/Center/Card/Content/Heading.text = _text("pause.heading")
+	$CanvasLayer/PauseScreen/Center/Card/Content/ResumeButton.text = _text("pause.resume")
+	$CanvasLayer/PauseScreen/Center/Card/Content/RestartButton.text = _text("pause.restart")
+	$CanvasLayer/PauseScreen/Center/Card/Content/SettingsButton.text = _text("pause.settings")
+	$CanvasLayer/PauseScreen/Center/Card/Content/TitleButton.text = _text("pause.title")
+	new_record_label.text = _text("result.new_record")
+	$CanvasLayer/ResultScreen/Center/Card/Content/ReplayButton.text = _text("result.replay")
+	$CanvasLayer/ResultScreen/Center/Card/Content/TitleButton.text = _text("result.title")
+	$CanvasLayer/ConfirmationScreen/Center/Card/Content/ConfirmButton.text = _text("confirm.yes")
+	$CanvasLayer/ConfirmationScreen/Center/Card/Content/CancelButton.text = _text("confirm.no")
+	if confirmation_screen.visible and not destructive_action.is_empty():
+		$CanvasLayer/ConfirmationScreen/Center/Card/Content/Prompt.text = _text("confirm.%s" % destructive_action)
 	_update_settings_labels()
 
 func _update_settings_labels() -> void:
 	if settings_volume_label == null:
 		return
-	settings_volume_label.text = "主音量：%d%%（- / + 调整）" % roundi(audio_volume * 100.0)
-	settings_mute_button.text = "静音：%s" % ("开" if audio_muted else "关")
-	settings_fullscreen_button.text = "显示模式：%s" % ("全屏" if fullscreen_enabled else "窗口")
+	settings_volume_label.text = _text("settings.volume", [roundi(audio_volume * 100.0)])
+	settings_mute_button.text = _text("settings.mute", [_text("common.on" if audio_muted else "common.off")])
+	settings_fullscreen_button.text = _text("settings.display", [_text("common.fullscreen" if fullscreen_enabled else "common.windowed")])
+	settings_language_button.text = _text("settings.language", [_text("settings.language.%s" % language_preference)])
 
 func _bind_ui_actions() -> void:
 	start_button.pressed.connect(_start_new_run)
@@ -579,6 +642,7 @@ func _bind_ui_actions() -> void:
 	$CanvasLayer/TitleScreen/Center/Card/Content/QuitButton.pressed.connect(get_tree().quit)
 	settings_mute_button.pressed.connect(_toggle_audio_mute)
 	settings_fullscreen_button.pressed.connect(_toggle_fullscreen)
+	settings_language_button.pressed.connect(_cycle_language)
 	$CanvasLayer/SettingsScreen/Center/Card/Content/BackButton.pressed.connect(_close_submenu)
 	$CanvasLayer/ControlsScreen/Center/Card/Content/BackButton.pressed.connect(_close_submenu)
 	$CanvasLayer/PauseScreen/Center/Card/Content/ResumeButton.pressed.connect(_resume_run)
@@ -596,15 +660,15 @@ func _player_lane() -> int:
 
 func _update_hud() -> void:
 	var scale := VisualStyle.hud_scale_for_width(get_viewport_rect().size.x)
-	speed_label.text = "SPEED  %03d km/h" % roundi(drive.speed * 0.42)
+	speed_label.text = _text("hud.speed", ["%03d" % roundi(drive.speed * 0.42)])
 	position_label.text = ""
-	score_label.text = "SCORE  %06d    DIST  %05dm" % [run.score, roundi(run.distance)]
-	var fuel_warning := feedback.low_fuel_text() if feedback.is_fuel_warning_visible() else ""
-	fuel_label.text = "FUEL  %03d%%  %s" % [roundi(run.fuel), fuel_warning]
+	score_label.text = _text("hud.score", ["%06d" % run.score, "%05d" % roundi(run.distance)])
+	var fuel_warning := _fuel_warning_text() if feedback.is_fuel_warning_visible() else ""
+	fuel_label.text = _text("hud.fuel", ["%03d" % roundi(run.fuel), fuel_warning])
 	fuel_label.modulate = Color("ff6b6b") if feedback.low_fuel_tier == GameFeedback.FuelTier.CRITICAL else (Color("ffd75a") if feedback.low_fuel_tier == GameFeedback.FuelTier.LOW else Color.WHITE)
-	var combo_time := "%.1fs" % run.combo.remaining_seconds if run.combo.event_count > 0 else "READY"
-	run_status_label.text = "STAGE %d  |  COMBO x%d %s  |  %s" % [run.difficulty_stage + 1, run.combo.multiplier, combo_time, _phase_text()]
-	controls_hint_label.text = "W/S 速度  A/D 转向  Space 暂停  M 静音  |  SEED %d" % current_run_seed
+	var combo_time := "%.1fs" % run.combo.remaining_seconds if run.combo.event_count > 0 else _text("hud.ready")
+	run_status_label.text = _text("hud.status", [run.difficulty_stage + 1, run.combo.multiplier, combo_time, _phase_text()])
+	controls_hint_label.text = _text("hud.controls", [current_run_seed])
 	for label in [speed_label, controls_hint_label, score_label, fuel_label, run_status_label]:
 		label.scale = Vector2.ONE * scale
 	var result_was_visible := result_screen.visible
@@ -659,43 +723,43 @@ func _update_scoreboards() -> void:
 
 func _format_top_scores(scores: Array) -> String:
 	if scores.is_empty():
-		return "最高成绩：暂无成绩"
-	var lines: Array[String] = ["最高成绩"]
+		return _text("scores.none")
+	var lines: Array[String] = [_text("scores.heading")]
 	for index in range(scores.size()):
 		var item: Dictionary = scores[index]
-		lines.append("%d. %06d  %s  %05dm" % [index + 1, item.score, DIFFICULTY_NAMES[item.difficulty], roundi(item.distance)])
+		lines.append(_text("scores.entry", [index + 1, "%06d" % item.score, _difficulty_name(item.difficulty), "%05d" % roundi(item.distance)]))
 	return "\n".join(lines)
 
 func _update_result_labels() -> void:
 	var cleared := run.phase == RunState.Phase.RUN_CLEAR
-	result_heading.text = "赛程完成" if cleared else "比赛结束"
+	result_heading.text = _text("result.clear" if cleared else "result.over")
 	new_record_label.visible = is_new_record
-	var reason := "抵达终点" if cleared else "燃油耗尽"
-	result_summary.text = "%s\n\n得分  %06d\n距离  %05dm\n超车  %d    近失  %d\n到达赛段  %d\n局种子  %d" % [reason, run.score, roundi(run.distance), run.overtakes, run.near_misses, run.difficulty_stage + 1, current_run_seed]
+	var reason := _text("result.reason.clear" if cleared else "result.reason.fuel")
+	result_summary.text = _text("result.summary", [reason, "%06d" % run.score, "%05d" % roundi(run.distance), run.overtakes, run.near_misses, run.difficulty_stage + 1, current_run_seed])
 
 func _phase_text() -> String:
 	match run.phase:
-		RunState.Phase.TITLE: return "TITLE"
-		RunState.Phase.COUNTDOWN: return "COUNTDOWN"
-		RunState.Phase.RUNNING: return "RUNNING"
-		RunState.Phase.PAUSED: return "PAUSED"
-		RunState.Phase.RUN_CLEAR: return "CLEAR"
-		_: return "GAME OVER"
+		RunState.Phase.TITLE: return _text("phase.title")
+		RunState.Phase.COUNTDOWN: return _text("phase.countdown")
+		RunState.Phase.RUNNING: return _text("phase.running")
+		RunState.Phase.PAUSED: return _text("phase.paused")
+		RunState.Phase.RUN_CLEAR: return _text("phase.clear")
+		_: return _text("phase.over")
 
 func _lane_event_text() -> String:
 	var blocked_lane := traffic.lane_events.blocked_lane()
 	if blocked_lane < 0:
 		return ""
 	if traffic.lane_events.state == LaneEventDirector.State.WARNING:
-		return "%d 号车道即将封闭" % (blocked_lane + 1)
-	return "%d 号车道封闭" % (blocked_lane + 1)
+		return _text("lane.warning", [blocked_lane + 1])
+	return _text("lane.closed", [blocked_lane + 1])
 
 func _overlay_text() -> String:
 	match run.phase:
 		RunState.Phase.TITLE: return "NEON COAST RUSH"
 		RunState.Phase.COUNTDOWN: return str(maxi(1, ceili(run.countdown_remaining)))
-		RunState.Phase.PAUSED: return "PAUSED\n\n[ SPACE ]  RESUME     [ R ]  RESTART"
-		RunState.Phase.GAME_OVER: return "OUT OF FUEL\n\nSCORE  %06d     DIST  %05dm" % [run.score, roundi(run.distance)]
+		RunState.Phase.PAUSED: return _text("overlay.paused")
+		RunState.Phase.GAME_OVER: return _text("overlay.game_over", ["%06d" % run.score, "%05d" % roundi(run.distance)])
 		_: return ""
 
 func _ensure_input_actions() -> void:

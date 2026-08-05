@@ -56,9 +56,9 @@ const TEXT_ROWS := [
 	["hud.speed", "速度  {0} km/h", "SPEED  {0} km/h"],
 	["hud.score", "得分  {0}    距离  {1}m", "SCORE  {0}    DIST  {1}m"],
 	["hud.fuel", "燃油  {0}%  {1}", "FUEL  {0}%  {1}"],
-	["hud.fuel.low", "燃油偏低！", "LOW FUEL!"],
-	["hud.fuel.critical", "燃油危险！", "FUEL CRITICAL!"],
-	["hud.status", "赛段 {0}  |  连击 x{1} {2}  |  {3}", "STAGE {0}  |  COMBO x{1} {2}  |  {3}"],
+	["hud.fuel.low", "燃油偏低", "LOW FUEL!"],
+	["hud.fuel.critical", "燃油危险", "FUEL CRITICAL!"],
+	["hud.status", "赛段 {0}  |  COMBO x{1} {2}  |  {3}", "STAGE {0}  |  COMBO x{1} {2}  |  {3}"],
 	["hud.ready", "就绪", "READY"],
 	["hud.controls", "W/S 速度  A/D 转向  Space 暂停  M 静音  |  种子 {0}", "W/S SPEED  A/D STEER  SPACE PAUSE  M MUTE  |  SEED {0}"],
 	["phase.title", "标题", "TITLE"],
@@ -71,6 +71,8 @@ const TEXT_ROWS := [
 	["lane.closed", "{0} 号车道封闭", "LANE {0} CLOSED"],
 	["feedback.stage", "赛段 {0}", "STAGE {0}"],
 	["feedback.checkpoint", "检查点 {0} / {1}　燃油 +{2}", "CHECKPOINT {0} / {1}  FUEL +{2}"],
+	["overlay.paused", "已暂停\n\n[ SPACE ]  继续     [ R ]  重开", "PAUSED\n\n[ SPACE ]  RESUME     [ R ]  RESTART"],
+	["overlay.game_over", "燃油耗尽\n\n得分  {0}     距离  {1}m", "OUT OF FUEL\n\nSCORE  {0}     DIST  {1}m"],
 ]
 
 static func resolve_language(preference: String, system_locale: String) -> String:
