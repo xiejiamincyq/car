@@ -14,6 +14,14 @@ func _run() -> void:
 	for event in InputMap.action_get_events("toggle_fullscreen"):
 		has_f11 = has_f11 or (event is InputEventKey and event.keycode == KEY_F11)
 	assert(has_f11, "The fullscreen action must be bound to F11")
+	assert(InputMap.has_action("pause_game"), "Manual pause must have an InputMap action")
+	var pause_keys: Array[int] = []
+	for event in InputMap.action_get_events("pause_game"):
+		if event is InputEventKey:
+			pause_keys.append(event.keycode)
+	assert(pause_keys.has(KEY_SPACE), "The manual pause action must be bound to Space")
+	assert(not pause_keys.has(KEY_P), "P must no longer trigger manual pause")
+	assert(not pause_keys.has(KEY_ESCAPE), "Escape must no longer trigger manual pause")
 	var fullscreen_button: Button = main.get_node("CanvasLayer/SettingsScreen/Center/Card/Content/FullscreenButton")
 	assert(not main.fullscreen_enabled and fullscreen_button.text.contains("窗口"), "The safe default must be windowed and visible in settings")
 	main._toggle_fullscreen()

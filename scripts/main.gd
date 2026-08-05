@@ -604,7 +604,7 @@ func _update_hud() -> void:
 	fuel_label.modulate = Color("ff6b6b") if feedback.low_fuel_tier == GameFeedback.FuelTier.CRITICAL else (Color("ffd75a") if feedback.low_fuel_tier == GameFeedback.FuelTier.LOW else Color.WHITE)
 	var combo_time := "%.1fs" % run.combo.remaining_seconds if run.combo.event_count > 0 else "READY"
 	run_status_label.text = "STAGE %d  |  COMBO x%d %s  |  %s" % [run.difficulty_stage + 1, run.combo.multiplier, combo_time, _phase_text()]
-	controls_hint_label.text = "W/S 速度  A/D 转向  P 暂停  M 静音  |  SEED %d" % current_run_seed
+	controls_hint_label.text = "W/S 速度  A/D 转向  Space 暂停  M 静音  |  SEED %d" % current_run_seed
 	for label in [speed_label, controls_hint_label, score_label, fuel_label, run_status_label]:
 		label.scale = Vector2.ONE * scale
 	var result_was_visible := result_screen.visible
@@ -694,7 +694,7 @@ func _overlay_text() -> String:
 	match run.phase:
 		RunState.Phase.TITLE: return "NEON COAST RUSH"
 		RunState.Phase.COUNTDOWN: return str(maxi(1, ceili(run.countdown_remaining)))
-		RunState.Phase.PAUSED: return "PAUSED\n\n[ P ]  RESUME     [ R ]  RESTART"
+		RunState.Phase.PAUSED: return "PAUSED\n\n[ SPACE ]  RESUME     [ R ]  RESTART"
 		RunState.Phase.GAME_OVER: return "OUT OF FUEL\n\nSCORE  %06d     DIST  %05dm" % [run.score, roundi(run.distance)]
 		_: return ""
 
@@ -703,15 +703,17 @@ func _ensure_input_actions() -> void:
 	_register_action("brake", [KEY_DOWN, KEY_S])
 	_register_action("steer_left", [KEY_LEFT, KEY_A])
 	_register_action("steer_right", [KEY_RIGHT, KEY_D])
-	_register_action("pause_game", [KEY_P, KEY_ESCAPE])
+	_register_action("pause_game", [KEY_SPACE], true)
 	_register_action("toggle_mute", [KEY_M])
 	_register_action("toggle_fullscreen", [KEY_F11])
 	_register_action("volume_down", [KEY_MINUS])
 	_register_action("volume_up", [KEY_EQUAL])
 
-func _register_action(action: StringName, keys: Array[int]) -> void:
+func _register_action(action: StringName, keys: Array[int], replace_existing := false) -> void:
 	if not InputMap.has_action(action):
 		InputMap.add_action(action)
+	elif replace_existing:
+		InputMap.action_erase_events(action)
 	for keycode in keys:
 		var event := InputEventKey.new()
 		event.keycode = keycode
