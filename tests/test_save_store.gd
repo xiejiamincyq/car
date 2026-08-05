@@ -16,6 +16,7 @@ func _init() -> void:
 	expected.settings.audio_volume = 0.4
 	expected.settings.audio_muted = true
 	expected.settings.difficulty = 2
+	expected.settings.fullscreen = true
 	expected.career.runs = 7
 	expected.career.total_distance = 4321.5
 	expected.top_scores = [{"score": 900, "difficulty": 2, "distance": 740.0, "date": "2026-08-04"}]
@@ -40,6 +41,19 @@ func _init() -> void:
 	legacy.save(test_path)
 	var migrated: Dictionary = store.load_data()
 	assert(migrated.version == SaveStore.CURRENT_VERSION and migrated.top_scores[0].score == 1200, "Version zero must migrate its best score")
+
+	var version_one := ConfigFile.new()
+	version_one.set_value("meta", "version", 1)
+	version_one.set_value("scores", "items", expected.top_scores)
+	version_one.set_value("settings", "audio_volume", 0.4)
+	version_one.set_value("settings", "audio_muted", true)
+	version_one.set_value("settings", "difficulty", 2)
+	for key in expected.career:
+		version_one.set_value("career", key, expected.career[key])
+	version_one.save(test_path)
+	var migrated_v1 := store.load_data()
+	assert(migrated_v1.version == SaveStore.CURRENT_VERSION and migrated_v1.settings.audio_volume == 0.4 and migrated_v1.settings.difficulty == 2, "Version one settings must migrate without data loss")
+	assert(not migrated_v1.settings.fullscreen, "Version one saves must receive the safe windowed default")
 
 	assert(store.save_data(expected), "The pre-failure save must exist")
 	var failing_store := FailingSaveStore.new(test_path)

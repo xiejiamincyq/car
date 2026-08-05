@@ -231,7 +231,7 @@ theme_override_constants/separation = 12
 [node name="Heading" type="Label" parent="CanvasLayer/SettingsScreen/Center/Card/Content"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "声音设置"
+text = "设置"
 horizontal_alignment = 1
 
 [node name="Volume" type="Label" parent="CanvasLayer/SettingsScreen/Center/Card/Content"]
@@ -243,6 +243,11 @@ horizontal_alignment = 1
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 text = "静音：关"
+
+[node name="FullscreenButton" type="Button" parent="CanvasLayer/SettingsScreen/Center/Card/Content"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "显示模式：窗口"
 
 [node name="BackButton" type="Button" parent="CanvasLayer/SettingsScreen/Center/Card/Content"]
 custom_minimum_size = Vector2(0, 44)
@@ -283,7 +288,7 @@ horizontal_alignment = 1
 [node name="Instructions" type="Label" parent="CanvasLayer/ControlsScreen/Center/Card/Content"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
-text = "W / ↑  加速      S / ↓  减速\nA / ←  左转      D / →  右转\nP / Esc  暂停    M  静音\n菜单使用方向键，Enter 确认，Esc 返回"
+text = "W / ↑  加速      S / ↓  减速\nA / ←  左转      D / →  右转\nP / Esc  暂停    M  静音    F11  全屏\n菜单使用方向键，Enter 确认，Esc 返回"
 horizontal_alignment = 1
 
 [node name="BackButton" type="Button" parent="CanvasLayer/ControlsScreen/Center/Card/Content"]

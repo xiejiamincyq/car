@@ -1,7 +1,7 @@
 class_name SaveStore
 extends RefCounted
 
-const CURRENT_VERSION := 1
+const CURRENT_VERSION := 2
 
 var save_path: String
 
@@ -16,6 +16,7 @@ static func default_data() -> Dictionary:
 			"audio_volume": 0.65,
 			"audio_muted": false,
 			"difficulty": 1,
+			"fullscreen": false,
 		},
 		"career": {
 			"runs": 0,
@@ -36,15 +37,16 @@ func load_data() -> Dictionary:
 		return default_data()
 	if version == 0:
 		return _migrate_version_zero(config)
-	if version != CURRENT_VERSION:
+	if version != 1 and version != CURRENT_VERSION:
 		return default_data()
 	var candidate := {
-		"version": version,
+		"version": CURRENT_VERSION,
 		"top_scores": config.get_value("scores", "items", []),
 		"settings": {
 			"audio_volume": _value_or_null(config, "settings", "audio_volume"),
 			"audio_muted": _value_or_null(config, "settings", "audio_muted"),
 			"difficulty": _value_or_null(config, "settings", "difficulty"),
+			"fullscreen": false if version == 1 else _value_or_null(config, "settings", "fullscreen"),
 		},
 		"career": {
 			"runs": _value_or_null(config, "career", "runs"),
@@ -110,7 +112,7 @@ static func _validated_data(data: Dictionary) -> Dictionary:
 		return {}
 	var settings: Dictionary = data.settings
 	var career: Dictionary = data.career
-	if not _is_number(settings.get("audio_volume")) or typeof(settings.get("audio_muted")) != TYPE_BOOL or typeof(settings.get("difficulty")) != TYPE_INT:
+	if not _is_number(settings.get("audio_volume")) or typeof(settings.get("audio_muted")) != TYPE_BOOL or typeof(settings.get("difficulty")) != TYPE_INT or typeof(settings.get("fullscreen")) != TYPE_BOOL:
 		return {}
 	if settings.audio_volume < 0.0 or settings.audio_volume > 1.0 or settings.difficulty < 0 or settings.difficulty > 2:
 		return {}

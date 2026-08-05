@@ -65,6 +65,11 @@ func toggle_pause() -> void:
 	elif phase == Phase.PAUSED:
 		begin_countdown()
 
+func pause_for_focus_loss() -> void:
+	if phase == Phase.RUNNING or phase == Phase.COUNTDOWN:
+		phase = Phase.PAUSED
+		countdown_remaining = 0.0
+
 func tick(delta: float, speed: float, maximum_speed: float) -> void:
 	if phase == Phase.COUNTDOWN:
 		countdown_remaining = maxf(0.0, countdown_remaining - maxf(0.0, delta))

@@ -5,7 +5,10 @@ func _init() -> void:
 
 func _run() -> void:
 	change_scene_to_file("res://scenes/main.tscn")
-	await process_frame
+	for _frame in range(5):
+		await process_frame
+		if current_scene != null and current_scene.persistence_enabled:
+			break
 	var main = current_scene
 	assert(main != null and main.persistence_enabled, "The real main-scene lifecycle must enable player persistence")
 	main._stop_run_audio()

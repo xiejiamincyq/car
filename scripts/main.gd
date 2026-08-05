@@ -34,6 +34,7 @@ var pickup_audio: AudioStreamPlayer
 var warning_audio: AudioStreamPlayer
 var audio_volume := 0.65
 var audio_muted := false
+var fullscreen_enabled := false
 var warning_cooldown := 0.0
 var fuel_pickups: Array[FuelPickup] = []
 var fuel_spawn_director: FuelSpawnDirector
@@ -61,6 +62,7 @@ var start_button: Button
 var difficulty_button: Button
 var settings_volume_label: Label
 var settings_mute_button: Button
+var settings_fullscreen_button: Button
 var pause_screen: Control
 var result_screen: Control
 var result_heading: Label
@@ -116,6 +118,7 @@ func _ready() -> void:
 	difficulty_button = $CanvasLayer/TitleScreen/Center/Card/Content/DifficultyButton
 	settings_volume_label = $CanvasLayer/SettingsScreen/Center/Card/Content/Volume
 	settings_mute_button = $CanvasLayer/SettingsScreen/Center/Card/Content/MuteButton
+	settings_fullscreen_button = $CanvasLayer/SettingsScreen/Center/Card/Content/FullscreenButton
 	pause_screen = $CanvasLayer/PauseScreen
 	result_screen = $CanvasLayer/ResultScreen
 	result_heading = $CanvasLayer/ResultScreen/Center/Card/Content/Heading
@@ -129,6 +132,18 @@ func _ready() -> void:
 	_configure_persistence(SaveStore.new(), get_tree().current_scene == self)
 	start_button.grab_focus()
 	queue_redraw()
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_APPLICATION_FOCUS_OUT:
+		_pause_for_focus_loss()
+
+func _pause_for_focus_loss() -> void:
+	if run == null or (run.phase != RunState.Phase.RUNNING and run.phase != RunState.Phase.COUNTDOWN):
+		return
+	run.pause_for_focus_loss()
+	_stop_run_audio()
+	_update_hud()
+	$CanvasLayer/PauseScreen/Center/Card/Content/ResumeButton.grab_focus()
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_cancel") and confirmation_screen.visible:
@@ -144,6 +159,8 @@ func _process(delta: float) -> void:
 			_resume_run()
 	if Input.is_action_just_pressed("toggle_mute"):
 		_toggle_audio_mute()
+	if Input.is_action_just_pressed("toggle_fullscreen"):
+		_toggle_fullscreen()
 	var volume_changed := false
 	if Input.is_action_just_pressed("volume_down"):
 		audio_volume = maxf(0.0, audio_volume - 0.1)
@@ -318,6 +335,16 @@ func _toggle_audio_mute() -> void:
 		_stop_run_audio()
 	_update_settings_labels()
 	_save_preferences()
+
+func _toggle_fullscreen() -> void:
+	fullscreen_enabled = not fullscreen_enabled
+	_apply_window_mode()
+	_save_preferences()
+
+func _apply_window_mode() -> void:
+	if DisplayServer.get_name() != "headless":
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN if fullscreen_enabled else DisplayServer.WINDOW_MODE_WINDOWED)
+	_update_settings_labels()
 
 func _make_audio_player(stream: AudioStream, base_volume_db: float) -> AudioStreamPlayer:
 	var player := AudioStreamPlayer.new()
@@ -514,8 +541,10 @@ func _apply_saved_preferences() -> void:
 	audio_volume = float(save_data.settings.audio_volume)
 	audio_muted = bool(save_data.settings.audio_muted)
 	difficulty_index = int(save_data.settings.difficulty)
+	fullscreen_enabled = bool(save_data.settings.fullscreen)
 	difficulty_button.text = "难度：%s" % DIFFICULTY_NAMES[difficulty_index]
 	_apply_difficulty_profile()
+	_apply_window_mode()
 	if audio_muted:
 		_stop_run_audio()
 
@@ -530,6 +559,7 @@ func _save_preferences() -> void:
 	save_data.settings.audio_volume = audio_volume
 	save_data.settings.audio_muted = audio_muted
 	save_data.settings.difficulty = difficulty_index
+	save_data.settings.fullscreen = fullscreen_enabled
 	if persistence_enabled:
 		save_store.save_data(save_data)
 	_update_settings_labels()
@@ -539,6 +569,7 @@ func _update_settings_labels() -> void:
 		return
 	settings_volume_label.text = "主音量：%d%%（- / + 调整）" % roundi(audio_volume * 100.0)
 	settings_mute_button.text = "静音：%s" % ("开" if audio_muted else "关")
+	settings_fullscreen_button.text = "显示模式：%s" % ("全屏" if fullscreen_enabled else "窗口")
 
 func _bind_ui_actions() -> void:
 	start_button.pressed.connect(_start_new_run)
@@ -547,6 +578,7 @@ func _bind_ui_actions() -> void:
 	$CanvasLayer/TitleScreen/Center/Card/Content/ControlsButton.pressed.connect(_show_controls)
 	$CanvasLayer/TitleScreen/Center/Card/Content/QuitButton.pressed.connect(get_tree().quit)
 	settings_mute_button.pressed.connect(_toggle_audio_mute)
+	settings_fullscreen_button.pressed.connect(_toggle_fullscreen)
 	$CanvasLayer/SettingsScreen/Center/Card/Content/BackButton.pressed.connect(_close_submenu)
 	$CanvasLayer/ControlsScreen/Center/Card/Content/BackButton.pressed.connect(_close_submenu)
 	$CanvasLayer/PauseScreen/Center/Card/Content/ResumeButton.pressed.connect(_resume_run)
@@ -673,6 +705,7 @@ func _ensure_input_actions() -> void:
 	_register_action("steer_right", [KEY_RIGHT, KEY_D])
 	_register_action("pause_game", [KEY_P, KEY_ESCAPE])
 	_register_action("toggle_mute", [KEY_M])
+	_register_action("toggle_fullscreen", [KEY_F11])
 	_register_action("volume_down", [KEY_MINUS])
 	_register_action("volume_up", [KEY_EQUAL])
 
