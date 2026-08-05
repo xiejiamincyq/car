@@ -1,7 +1,7 @@
 class_name SaveStore
 extends RefCounted
 
-const CURRENT_VERSION := 2
+const CURRENT_VERSION := 3
 
 var save_path: String
 
@@ -17,6 +17,7 @@ static func default_data() -> Dictionary:
 			"audio_muted": false,
 			"difficulty": 1,
 			"fullscreen": false,
+			"language": "system",
 		},
 		"career": {
 			"runs": 0,
@@ -37,7 +38,7 @@ func load_data() -> Dictionary:
 		return default_data()
 	if version == 0:
 		return _migrate_version_zero(config)
-	if version != 1 and version != CURRENT_VERSION:
+	if version != 1 and version != 2 and version != CURRENT_VERSION:
 		return default_data()
 	var candidate := {
 		"version": CURRENT_VERSION,
@@ -47,6 +48,7 @@ func load_data() -> Dictionary:
 			"audio_muted": _value_or_null(config, "settings", "audio_muted"),
 			"difficulty": _value_or_null(config, "settings", "difficulty"),
 			"fullscreen": false if version == 1 else _value_or_null(config, "settings", "fullscreen"),
+			"language": "system" if version < 3 else _value_or_null(config, "settings", "language"),
 		},
 		"career": {
 			"runs": _value_or_null(config, "career", "runs"),
@@ -112,9 +114,9 @@ static func _validated_data(data: Dictionary) -> Dictionary:
 		return {}
 	var settings: Dictionary = data.settings
 	var career: Dictionary = data.career
-	if not _is_number(settings.get("audio_volume")) or typeof(settings.get("audio_muted")) != TYPE_BOOL or typeof(settings.get("difficulty")) != TYPE_INT or typeof(settings.get("fullscreen")) != TYPE_BOOL:
+	if not _is_number(settings.get("audio_volume")) or typeof(settings.get("audio_muted")) != TYPE_BOOL or typeof(settings.get("difficulty")) != TYPE_INT or typeof(settings.get("fullscreen")) != TYPE_BOOL or typeof(settings.get("language")) != TYPE_STRING:
 		return {}
-	if settings.audio_volume < 0.0 or settings.audio_volume > 1.0 or settings.difficulty < 0 or settings.difficulty > 2:
+	if settings.audio_volume < 0.0 or settings.audio_volume > 1.0 or settings.difficulty < 0 or settings.difficulty > 2 or not settings.language in ["system", "zh", "en"]:
 		return {}
 	if typeof(career.get("runs")) != TYPE_INT or not _is_number(career.get("total_distance")) or typeof(career.get("overtakes")) != TYPE_INT or typeof(career.get("near_misses")) != TYPE_INT or not _is_number(career.get("longest_survival")) or typeof(career.get("highest_stage")) != TYPE_INT:
 		return {}
