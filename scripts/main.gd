@@ -44,6 +44,9 @@ var current_run_seed: int = 0
 var difficulty_index := 1
 var language_preference := GameText.LANGUAGE_SYSTEM
 var language := GameText.LANGUAGE_EN
+var high_contrast_enabled := false
+var reduced_flashing_enabled := false
+var screen_shake_enabled := true
 
 var speed_label: Label
 var position_label: Label
@@ -66,6 +69,9 @@ var settings_volume_label: Label
 var settings_mute_button: Button
 var settings_fullscreen_button: Button
 var settings_language_button: Button
+var settings_high_contrast_button: Button
+var settings_reduced_flashing_button: Button
+var settings_screen_shake_button: Button
 var pause_screen: Control
 var result_screen: Control
 var result_heading: Label
@@ -123,6 +129,9 @@ func _ready() -> void:
 	settings_mute_button = $CanvasLayer/SettingsScreen/Center/Card/Content/MuteButton
 	settings_fullscreen_button = $CanvasLayer/SettingsScreen/Center/Card/Content/FullscreenButton
 	settings_language_button = $CanvasLayer/SettingsScreen/Center/Card/Content/LanguageButton
+	settings_high_contrast_button = $CanvasLayer/SettingsScreen/Center/Card/Content/HighContrastButton
+	settings_reduced_flashing_button = $CanvasLayer/SettingsScreen/Center/Card/Content/ReducedFlashingButton
+	settings_screen_shake_button = $CanvasLayer/SettingsScreen/Center/Card/Content/ScreenShakeButton
 	pause_screen = $CanvasLayer/PauseScreen
 	result_screen = $CanvasLayer/ResultScreen
 	result_heading = $CanvasLayer/ResultScreen/Center/Card/Content/Heading
@@ -216,35 +225,41 @@ func _draw() -> void:
 	var center_x := viewport_size.x * 0.5
 	var road_left := center_x - GameConfig.ROAD_HALF_WIDTH
 	var road_right := center_x + GameConfig.ROAD_HALF_WIDTH
-	draw_rect(Rect2(Vector2.ZERO, viewport_size), VisualStyle.OCEAN)
-	draw_rect(Rect2(road_left - 30.0, 0.0, GameConfig.ROAD_HALF_WIDTH * 2.0 + 60.0, viewport_size.y), VisualStyle.SHOULDER)
-	var road_color := VisualStyle.road_color_for_transition(feedback.previous_stage, feedback.current_stage, feedback.stage_transition_mix)
+	var ocean_color := VisualStyle.HIGH_CONTRAST_OCEAN if high_contrast_enabled else VisualStyle.OCEAN
+	var shoulder_color := VisualStyle.HIGH_CONTRAST_SHOULDER if high_contrast_enabled else VisualStyle.SHOULDER
+	var edge_color := VisualStyle.HIGH_CONTRAST_EDGE if high_contrast_enabled else VisualStyle.EDGE_NEON
+	var lane_color := VisualStyle.HIGH_CONTRAST_LANE if high_contrast_enabled else VisualStyle.LANE_MARK
+	draw_rect(Rect2(Vector2.ZERO, viewport_size), ocean_color)
+	draw_rect(Rect2(road_left - 30.0, 0.0, GameConfig.ROAD_HALF_WIDTH * 2.0 + 60.0, viewport_size.y), shoulder_color)
+	var road_color := VisualStyle.road_color_for_transition(feedback.previous_stage, feedback.current_stage, feedback.stage_transition_mix, high_contrast_enabled)
 	draw_rect(Rect2(road_left, 0.0, GameConfig.ROAD_HALF_WIDTH * 2.0, viewport_size.y), road_color)
-	draw_line(Vector2(road_left, 0.0), Vector2(road_left, viewport_size.y), VisualStyle.EDGE_NEON, 8.0)
-	draw_line(Vector2(road_right, 0.0), Vector2(road_right, viewport_size.y), VisualStyle.EDGE_NEON, 8.0)
+	draw_line(Vector2(road_left, 0.0), Vector2(road_left, viewport_size.y), edge_color, 8.0)
+	draw_line(Vector2(road_right, 0.0), Vector2(road_right, viewport_size.y), edge_color, 8.0)
 	for lane_index in range(1, GameConfig.ROAD_LANE_COUNT):
 		var lane_x := road_left + GameConfig.ROAD_HALF_WIDTH * 2.0 * lane_index / GameConfig.ROAD_LANE_COUNT
 		var dash_y := get_dash_start_y(road_scroll, ROAD_MARK_REPEAT_DISTANCE)
 		while dash_y < viewport_size.y:
-			draw_rect(Rect2(lane_x - 4.0, dash_y, 8.0, 52.0), VisualStyle.LANE_MARK)
+			draw_rect(Rect2(lane_x - 4.0, dash_y, 8.0, 52.0), lane_color)
 			dash_y += ROAD_MARK_REPEAT_DISTANCE
 	_draw_lane_event(road_left, viewport_size.y)
 	_draw_traffic(road_left)
 	_draw_fuel_pickups(road_left)
 	var car_center := Vector2(center_x + drive.lateral_position, TrackGeometry.player_y(viewport_size.y))
-	var player_color := VisualStyle.PLAYER_BODY if not _is_player_flashing() else VisualStyle.PLAYER_GLOW
+	var player_body := VisualStyle.HIGH_CONTRAST_PLAYER if high_contrast_enabled else VisualStyle.PLAYER_BODY
+	var player_glow := VisualStyle.HIGH_CONTRAST_PLAYER_GLOW if high_contrast_enabled else VisualStyle.PLAYER_GLOW
+	var player_color := player_body if not _is_player_flashing() else player_glow
 	draw_circle(car_center, 39.0, Color(player_color, 0.16))
 	draw_colored_polygon(PackedVector2Array([car_center + Vector2(0.0, -48.0), car_center + Vector2(29.0, 32.0), car_center + Vector2(-29.0, 32.0)]), player_color)
 	draw_colored_polygon(PackedVector2Array([car_center + Vector2(0.0, -27.0), car_center + Vector2(15.0, 3.0), car_center + Vector2(-15.0, 3.0)]), Color("0b2a45"))
-	draw_rect(Rect2(car_center + Vector2(-22.0, 14.0), Vector2(44.0, 8.0)), VisualStyle.PLAYER_GLOW)
-	draw_circle(car_center + Vector2(0.0, 27.0), 5.0, VisualStyle.WARNING)
+	draw_rect(Rect2(car_center + Vector2(-22.0, 14.0), Vector2(44.0, 8.0)), player_glow)
+	draw_circle(car_center + Vector2(0.0, 27.0), 5.0, _warning_color())
 	_draw_sparks()
 	draw_set_transform(Vector2.ZERO)
 
 func _draw_sparks() -> void:
 	for spark in feedback.sparks:
 		var alpha := clampf(float(spark.life) * 2.0, 0.0, 1.0)
-		draw_circle(spark.position, 3.0, Color(VisualStyle.WARNING, alpha))
+		draw_circle(spark.position, 3.0, Color(_warning_color(), alpha))
 
 func _draw_lane_event(road_left: float, viewport_height: float) -> void:
 	var blocked_lane := traffic.lane_events.blocked_lane()
@@ -253,11 +268,11 @@ func _draw_lane_event(road_left: float, viewport_height: float) -> void:
 	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / GameConfig.ROAD_LANE_COUNT
 	var lane_left := road_left + lane_width * blocked_lane
 	var is_warning := traffic.lane_events.state == LaneEventDirector.State.WARNING
-	var overlay_color := Color(VisualStyle.WARNING, 0.13 if is_warning else 0.28)
+	var overlay_color := Color(_warning_color(), 0.13 if is_warning else 0.28)
 	draw_rect(Rect2(lane_left, 0.0, lane_width, viewport_height), overlay_color, true)
 	var marker_y := 24.0
 	while marker_y < viewport_height:
-		draw_line(Vector2(lane_left + 18.0, marker_y), Vector2(lane_left + lane_width - 18.0, marker_y + 42.0), VisualStyle.WARNING, 5.0)
+		draw_line(Vector2(lane_left + 18.0, marker_y), Vector2(lane_left + lane_width - 18.0, marker_y + 42.0), _warning_color(), 5.0)
 		marker_y += 120.0
 
 func _draw_traffic(road_left: float) -> void:
@@ -270,27 +285,28 @@ func _draw_traffic(road_left: float) -> void:
 		var cabin_y := -vehicle.half_length + 16.0
 		draw_rect(Rect2(car_center + Vector2(-vehicle.half_width + 9.0, cabin_y), Vector2((vehicle.half_width - 9.0) * 2.0, 28.0)), Color("111d2d"), true)
 		draw_rect(Rect2(car_center + Vector2(-vehicle.half_width + 5.0, vehicle.half_length - 19.0), Vector2((vehicle.half_width - 5.0) * 2.0, 7.0)), Color("ffdbd2"), true)
+		draw_string(ThemeDB.fallback_font, car_center + Vector2(-6.0, 7.0), VisualStyle.traffic_marker_for_kind(vehicle.kind), HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color("081018"))
 		if vehicle.kind == TrafficDirector.Kind.SIGNAL_CHANGE and vehicle.warning_remaining > 0.0:
 			var direction := signf(vehicle.target_lane - vehicle.lane_position)
-			draw_colored_polygon(PackedVector2Array([car_center + Vector2(18.0 * direction, -35.0), car_center + Vector2(4.0 * direction, -42.0), car_center + Vector2(4.0 * direction, -28.0)]), VisualStyle.WARNING)
+			draw_colored_polygon(PackedVector2Array([car_center + Vector2(18.0 * direction, -35.0), car_center + Vector2(4.0 * direction, -42.0), car_center + Vector2(4.0 * direction, -28.0)]), _warning_color())
 		if vehicle.kind == TrafficDirector.Kind.FAST_OVERTAKE and vehicle.overtake_warning_remaining > 0.0:
 			var warning_y := TrafficDirector.fast_warning_y(vehicle.y)
-			draw_line(Vector2(car_center.x - 22.0, warning_y), Vector2(car_center.x + 22.0, warning_y), VisualStyle.FAST_BODY, 5.0)
+			draw_line(Vector2(car_center.x - 22.0, warning_y), Vector2(car_center.x + 22.0, warning_y), _traffic_color(TrafficDirector.Kind.FAST_OVERTAKE), 5.0)
 
 func _draw_fuel_pickups(road_left: float) -> void:
 	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / GameConfig.ROAD_LANE_COUNT
 	for pickup in fuel_pickups:
 		var center := Vector2(road_left + lane_width * (pickup.lane + 0.5), pickup.y)
-		draw_circle(center, 28.0, Color(VisualStyle.FUEL_GLOW, 0.20))
-		draw_colored_polygon(PackedVector2Array([center + Vector2(0, -22), center + Vector2(20, 0), center + Vector2(0, 22), center + Vector2(-20, 0)]), VisualStyle.FUEL_GLOW)
+		var fuel_color := VisualStyle.HIGH_CONTRAST_FUEL if high_contrast_enabled else VisualStyle.FUEL_GLOW
+		draw_circle(center, 28.0, Color(fuel_color, 0.20))
+		draw_colored_polygon(PackedVector2Array([center + Vector2(0, -22), center + Vector2(20, 0), center + Vector2(0, 22), center + Vector2(-20, 0)]), fuel_color)
 		draw_string(ThemeDB.fallback_font, center + Vector2(-6, 6), "+", HORIZONTAL_ALIGNMENT_LEFT, -1, 22, Color("063526"))
 
 func _traffic_color(kind: int) -> Color:
-	match kind:
-		TrafficDirector.Kind.STEADY_SLOW: return VisualStyle.SLOW_BODY
-		TrafficDirector.Kind.SIGNAL_CHANGE: return VisualStyle.SIGNAL_BODY
-		TrafficDirector.Kind.TRUCK: return VisualStyle.TRUCK_BODY
-		_: return VisualStyle.FAST_BODY
+	return VisualStyle.traffic_color(kind, high_contrast_enabled)
+
+func _warning_color() -> Color:
+	return VisualStyle.HIGH_CONTRAST_WARNING if high_contrast_enabled else VisualStyle.WARNING
 
 func _update_fuel_pickups(delta: float) -> void:
 	var blocked_lanes := traffic.blocked_lanes_near(FuelSpawnDirector.PICKUP_SPAWN_Y, GameConfig.FUEL_SPAWN_SAFETY_DISTANCE)
@@ -329,8 +345,9 @@ func _check_collisions() -> void:
 				vehicle.collided_with_player = true
 				run.break_combo()
 				feedback.spawn_collision(player_center, impact_speed, GameConfig.MAX_SPEED)
-				var shake := feedback.shake_magnitude_for_speed(impact_speed, GameConfig.MAX_SPEED)
-				screen_shake = Vector2(shake, -shake * 0.7)
+				if screen_shake_enabled:
+					var shake := feedback.shake_magnitude_for_speed(impact_speed, GameConfig.MAX_SPEED)
+					screen_shake = Vector2(shake, -shake * 0.7)
 				_play_effect(collision_audio)
 
 func _toggle_audio_mute() -> void:
@@ -405,7 +422,7 @@ static func is_eligible_overtake(kind: int, was_ahead: bool, collided_with_playe
 	return kind != TrafficDirector.Kind.FAST_OVERTAKE and was_ahead and not collided_with_player
 
 func _is_player_flashing() -> bool:
-	return collision.invulnerability_remaining > 0.0 and int(collision.invulnerability_remaining * 14.0) % 2 == 0
+	return not reduced_flashing_enabled and collision.invulnerability_remaining > 0.0 and int(collision.invulnerability_remaining * 14.0) % 2 == 0
 
 func _reset_run(run_seed_override: int = -1) -> void:
 	current_run_seed = run_seed_override if run_seed_override >= 0 else run_seed_sequence.next_seed()
@@ -548,6 +565,24 @@ func _set_language_preference(preference: String) -> void:
 	_update_scoreboards()
 	_update_hud()
 
+func _toggle_high_contrast() -> void:
+	high_contrast_enabled = not high_contrast_enabled
+	_save_preferences()
+	queue_redraw()
+
+func _toggle_reduced_flashing() -> void:
+	reduced_flashing_enabled = not reduced_flashing_enabled
+	feedback.flashing_enabled = not reduced_flashing_enabled
+	_save_preferences()
+	queue_redraw()
+
+func _toggle_screen_shake() -> void:
+	screen_shake_enabled = not screen_shake_enabled
+	if not screen_shake_enabled:
+		screen_shake = Vector2.ZERO
+	_save_preferences()
+	queue_redraw()
+
 func _configure_persistence(store: SaveStore, enabled: bool) -> void:
 	save_store = store
 	persistence_enabled = enabled
@@ -562,8 +597,12 @@ func _apply_saved_preferences() -> void:
 	difficulty_index = int(save_data.settings.difficulty)
 	fullscreen_enabled = bool(save_data.settings.fullscreen)
 	language_preference = String(save_data.settings.language)
+	high_contrast_enabled = bool(save_data.settings.high_contrast)
+	reduced_flashing_enabled = bool(save_data.settings.reduced_flashing)
+	screen_shake_enabled = bool(save_data.settings.screen_shake)
 	language = GameText.resolve_language(language_preference, TranslationServer.get_locale())
 	feedback.set_language(language)
+	feedback.flashing_enabled = not reduced_flashing_enabled
 	_apply_localized_texts()
 	_apply_difficulty_profile()
 	_apply_window_mode()
@@ -583,6 +622,9 @@ func _save_preferences() -> void:
 	save_data.settings.difficulty = difficulty_index
 	save_data.settings.fullscreen = fullscreen_enabled
 	save_data.settings.language = language_preference
+	save_data.settings.high_contrast = high_contrast_enabled
+	save_data.settings.reduced_flashing = reduced_flashing_enabled
+	save_data.settings.screen_shake = screen_shake_enabled
 	if persistence_enabled:
 		save_store.save_data(save_data)
 	_update_settings_labels()
@@ -633,6 +675,9 @@ func _update_settings_labels() -> void:
 	settings_mute_button.text = _text("settings.mute", [_text("common.on" if audio_muted else "common.off")])
 	settings_fullscreen_button.text = _text("settings.display", [_text("common.fullscreen" if fullscreen_enabled else "common.windowed")])
 	settings_language_button.text = _text("settings.language", [_text("settings.language.%s" % language_preference)])
+	settings_high_contrast_button.text = _text("settings.high_contrast", [_text("common.on" if high_contrast_enabled else "common.off")])
+	settings_reduced_flashing_button.text = _text("settings.reduced_flashing", [_text("common.on" if reduced_flashing_enabled else "common.off")])
+	settings_screen_shake_button.text = _text("settings.screen_shake", [_text("common.on" if screen_shake_enabled else "common.off")])
 
 func _bind_ui_actions() -> void:
 	start_button.pressed.connect(_start_new_run)
@@ -643,6 +688,9 @@ func _bind_ui_actions() -> void:
 	settings_mute_button.pressed.connect(_toggle_audio_mute)
 	settings_fullscreen_button.pressed.connect(_toggle_fullscreen)
 	settings_language_button.pressed.connect(_cycle_language)
+	settings_high_contrast_button.pressed.connect(_toggle_high_contrast)
+	settings_reduced_flashing_button.pressed.connect(_toggle_reduced_flashing)
+	settings_screen_shake_button.pressed.connect(_toggle_screen_shake)
 	$CanvasLayer/SettingsScreen/Center/Card/Content/BackButton.pressed.connect(_close_submenu)
 	$CanvasLayer/ControlsScreen/Center/Card/Content/BackButton.pressed.connect(_close_submenu)
 	$CanvasLayer/PauseScreen/Center/Card/Content/ResumeButton.pressed.connect(_resume_run)

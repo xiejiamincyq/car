@@ -254,6 +254,21 @@ custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 text = ""
 
+[node name="HighContrastButton" type="Button" parent="CanvasLayer/SettingsScreen/Center/Card/Content"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = ""
+
+[node name="ReducedFlashingButton" type="Button" parent="CanvasLayer/SettingsScreen/Center/Card/Content"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = ""
+
+[node name="ScreenShakeButton" type="Button" parent="CanvasLayer/SettingsScreen/Center/Card/Content"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = ""
+
 [node name="BackButton" type="Button" parent="CanvasLayer/SettingsScreen/Center/Card/Content"]
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2

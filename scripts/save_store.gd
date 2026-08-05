@@ -1,7 +1,7 @@
 class_name SaveStore
 extends RefCounted
 
-const CURRENT_VERSION := 3
+const CURRENT_VERSION := 4
 
 var save_path: String
 
@@ -18,6 +18,9 @@ static func default_data() -> Dictionary:
 			"difficulty": 1,
 			"fullscreen": false,
 			"language": "system",
+			"high_contrast": false,
+			"reduced_flashing": false,
+			"screen_shake": true,
 		},
 		"career": {
 			"runs": 0,
@@ -38,7 +41,7 @@ func load_data() -> Dictionary:
 		return default_data()
 	if version == 0:
 		return _migrate_version_zero(config)
-	if version != 1 and version != 2 and version != CURRENT_VERSION:
+	if version != 1 and version != 2 and version != 3 and version != CURRENT_VERSION:
 		return default_data()
 	var candidate := {
 		"version": CURRENT_VERSION,
@@ -49,6 +52,9 @@ func load_data() -> Dictionary:
 			"difficulty": _value_or_null(config, "settings", "difficulty"),
 			"fullscreen": false if version == 1 else _value_or_null(config, "settings", "fullscreen"),
 			"language": "system" if version < 3 else _value_or_null(config, "settings", "language"),
+			"high_contrast": false if version < 4 else _value_or_null(config, "settings", "high_contrast"),
+			"reduced_flashing": false if version < 4 else _value_or_null(config, "settings", "reduced_flashing"),
+			"screen_shake": true if version < 4 else _value_or_null(config, "settings", "screen_shake"),
 		},
 		"career": {
 			"runs": _value_or_null(config, "career", "runs"),
@@ -114,7 +120,7 @@ static func _validated_data(data: Dictionary) -> Dictionary:
 		return {}
 	var settings: Dictionary = data.settings
 	var career: Dictionary = data.career
-	if not _is_number(settings.get("audio_volume")) or typeof(settings.get("audio_muted")) != TYPE_BOOL or typeof(settings.get("difficulty")) != TYPE_INT or typeof(settings.get("fullscreen")) != TYPE_BOOL or typeof(settings.get("language")) != TYPE_STRING:
+	if not _is_number(settings.get("audio_volume")) or typeof(settings.get("audio_muted")) != TYPE_BOOL or typeof(settings.get("difficulty")) != TYPE_INT or typeof(settings.get("fullscreen")) != TYPE_BOOL or typeof(settings.get("language")) != TYPE_STRING or typeof(settings.get("high_contrast")) != TYPE_BOOL or typeof(settings.get("reduced_flashing")) != TYPE_BOOL or typeof(settings.get("screen_shake")) != TYPE_BOOL:
 		return {}
 	if settings.audio_volume < 0.0 or settings.audio_volume > 1.0 or settings.difficulty < 0 or settings.difficulty > 2 or not settings.language in ["system", "zh", "en"]:
 		return {}
