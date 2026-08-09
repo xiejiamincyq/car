@@ -45,3 +45,11 @@
 | `assets/ui/result_emblem.png` | `art/source/generated/result_emblem_chroma.png` | 160×160 | 结算完成徽章 |
 
 提示词均要求原创 16-bit 海岸霓虹像素风、纯 `#00ff00` 色键背景、无文字/数字/标识/水印。HUD 外框、事件板保留动态信息安全区；路障采用俯视重型横栏、琥珀/浅青警示条与双警示灯；结算徽章由奖杯、速度翼和方格旗组成。HUD 外框、路障与徽章使用等比缩放；事件板属于弹性 UI 装饰，通过 `scripts/tools/prepare_ui_asset.py` 适配固定运行时画布，不参与车辆或碰撞几何。
+
+## A4 动画与特效批次
+
+| 运行时素材 | 原始色键图 | 画布 | 用途 |
+|---|---|---:|---|
+| `assets/effects/finish_burst.png` | `art/source/generated/finish_burst_chroma.png` | 320×320 | 通关成绩卡后的径向庆祝爆发 |
+
+通关爆发由内置图像模型生成，提示词要求原创 16-bit 像素风、纯 `#00ff00` 色键背景、中心留空，并仅使用青色速度射线、琥珀星形像素、洋红/象牙色方块纸屑和方格节奏；明确禁止文字、数字、标识、水印、车辆、人物、奖杯、烟雾和柔性透明渐变。运行时素材经 `remove_chroma_key.py` 去色键，再由 `scripts/tools/prepare_sprite.py` 等比缩放到冻结画布。制动、拾取、普通超车、近失和碰撞特效均为有硬上限的程序化图形，不加载额外逐帧贴图。
