@@ -20,4 +20,17 @@ func _init() -> void:
 	assert(impact_scale.x > 1.0 and impact_scale.y < 1.0, "A collision must briefly squash and widen the player car")
 	assert(settled_scale.is_equal_approx(Vector2.ONE), "Collision scale must return exactly to normal")
 	assert(is_equal_approx(VehicleVisualAnimation.collision_ring_alpha(0.0), 0.0), "The impact ring must disappear after the animation")
+
+	assert(is_zero_approx(VehicleVisualAnimation.brake_light_alpha(0.0, 0.0)), "Brake lights must be off without brake input")
+	var brake_alpha := VehicleVisualAnimation.brake_light_alpha(0.12, 1.0)
+	assert(brake_alpha >= 0.55 and brake_alpha <= 1.0, "Brake lights must pulse within a readable bounded range")
+	assert(is_zero_approx(VehicleVisualAnimation.brake_streak_length(500.0, 760.0, 0.0)), "Tire streaks must be absent without braking")
+	var streak_length := VehicleVisualAnimation.brake_streak_length(500.0, 760.0, 1.0)
+	assert(streak_length >= 10.0 and streak_length <= 54.0, "Braking streaks must scale with speed but remain bounded")
+
+	assert(VehicleVisualAnimation.finish_emblem_scale(0.0) < 1.0, "The finish emblem must enter from a smaller scale")
+	assert(VehicleVisualAnimation.finish_emblem_scale(0.35) <= 1.16, "The finish emblem overshoot must stay subtle")
+	assert(is_equal_approx(VehicleVisualAnimation.finish_emblem_scale(1.0), 1.0), "The finish emblem must settle exactly at normal scale")
+	assert(absf(VehicleVisualAnimation.finish_emblem_rotation(0.3)) <= 0.12, "The finish emblem rotation must remain bounded")
+	assert(is_zero_approx(VehicleVisualAnimation.finish_emblem_rotation(1.0)), "The finish emblem must settle upright")
 	quit()

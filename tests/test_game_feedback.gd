@@ -32,4 +32,17 @@ func _init() -> void:
 	assert(midway != VisualStyle.ROAD and midway != VisualStyle.STAGE_ROAD_COLORS[1], "Mid-transition road colour must be visibly interpolated")
 	feedback.tick(1.1, 100.0, 1)
 	assert(is_equal_approx(feedback.stage_transition_mix, 1.0) and feedback.stage_banner_text.is_empty(), "Stage banner and interpolation must finish cleanly")
+
+	for burst_index in range(20):
+		feedback.spawn_pickup(Vector2(100.0 + burst_index, 220.0))
+	assert(feedback.pickup_bursts.size() <= GameFeedback.MAX_PICKUP_BURSTS, "Pickup bursts must respect a hard object cap")
+	for pass_index in range(30):
+		feedback.spawn_pass(Vector2(300.0, 400.0 + pass_index), pass_index % 2 == 1)
+	assert(feedback.pass_streaks.size() <= GameFeedback.MAX_PASS_STREAKS, "Pass streaks must respect a hard object cap")
+	assert(feedback.pass_streaks.back().near_miss, "Near-miss streaks must retain a non-colour intensity cue")
+	feedback.start_finish()
+	assert(feedback.finish_remaining > 0.0, "Run clear must start a bounded finish effect")
+	feedback.tick(3.0, 100.0, 1)
+	assert(feedback.pickup_bursts.is_empty() and feedback.pass_streaks.is_empty(), "Transient pickup and pass effects must recycle promptly")
+	assert(is_zero_approx(feedback.finish_remaining), "Finish effects must end deterministically")
 	quit()

@@ -8,9 +8,17 @@ enum FuelTier { NORMAL, LOW, CRITICAL }
 const LOW_FUEL_THRESHOLD := 30.0
 const CRITICAL_FUEL_THRESHOLD := 15.0
 const STAGE_TRANSITION_SECONDS := 2.0
+const PICKUP_BURST_DURATION := 0.65
+const PASS_STREAK_DURATION := 0.45
+const FINISH_DURATION := 1.2
+const MAX_PICKUP_BURSTS := 8
+const MAX_PASS_STREAKS := 12
 
 var maximum_sparks: int
 var sparks: Array[Dictionary] = []
+var pickup_bursts: Array[Dictionary] = []
+var pass_streaks: Array[Dictionary] = []
+var finish_remaining := 0.0
 var low_fuel_tier: FuelTier = FuelTier.NORMAL
 var flashing_enabled := true
 var language := GameText.LANGUAGE_ZH
@@ -32,6 +40,8 @@ func tick(delta: float, fuel: float, stage: int) -> void:
 	var safe_delta := maxf(0.0, delta)
 	_elapsed_seconds += safe_delta
 	_update_sparks(safe_delta)
+	_update_transient_effects(safe_delta)
+	finish_remaining = maxf(0.0, finish_remaining - safe_delta)
 	low_fuel_tier = FuelTier.CRITICAL if fuel < CRITICAL_FUEL_THRESHOLD else (FuelTier.LOW if fuel < LOW_FUEL_THRESHOLD else FuelTier.NORMAL)
 	if stage != current_stage:
 		previous_stage = current_stage
@@ -71,6 +81,19 @@ func spawn_collision(position: Vector2, speed: float, maximum_speed: float) -> v
 		sparks.append({"position": position, "velocity": velocity, "life": 0.35 + 0.18 * float(spark_index % 3)})
 	_spark_serial += spark_count
 
+func spawn_pickup(position: Vector2) -> void:
+	while pickup_bursts.size() >= MAX_PICKUP_BURSTS:
+		pickup_bursts.pop_front()
+	pickup_bursts.append({"position": position, "life": PICKUP_BURST_DURATION})
+
+func spawn_pass(position: Vector2, near_miss: bool) -> void:
+	while pass_streaks.size() >= MAX_PASS_STREAKS:
+		pass_streaks.pop_front()
+	pass_streaks.append({"position": position, "life": PASS_STREAK_DURATION, "near_miss": near_miss})
+
+func start_finish() -> void:
+	finish_remaining = FINISH_DURATION
+
 func shake_magnitude_for_speed(speed: float, maximum_speed: float) -> float:
 	return lerpf(4.0, 14.0, clampf(speed / maxf(1.0, maximum_speed), 0.0, 1.0))
 
@@ -90,6 +113,9 @@ func is_fuel_warning_visible() -> bool:
 
 func reset() -> void:
 	sparks.clear()
+	pickup_bursts.clear()
+	pass_streaks.clear()
+	finish_remaining = 0.0
 	low_fuel_tier = FuelTier.NORMAL
 	previous_stage = 0
 	current_stage = 0
@@ -111,3 +137,21 @@ func _update_sparks(delta: float) -> void:
 		if updated.life > 0.0:
 			active.append(updated)
 	sparks = active
+
+func _update_transient_effects(delta: float) -> void:
+	var active_pickups: Array[Dictionary] = []
+	for burst in pickup_bursts:
+		var updated := burst.duplicate()
+		updated.life = maxf(0.0, float(updated.life) - delta)
+		if updated.life > 0.0:
+			active_pickups.append(updated)
+	pickup_bursts = active_pickups
+
+	var active_passes: Array[Dictionary] = []
+	for streak in pass_streaks:
+		var updated := streak.duplicate()
+		updated.life = maxf(0.0, float(updated.life) - delta)
+		updated.position.y += 90.0 * delta
+		if updated.life > 0.0:
+			active_passes.append(updated)
+	pass_streaks = active_passes
