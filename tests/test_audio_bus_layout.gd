@@ -13,7 +13,7 @@ func _run() -> void:
 	var main = MainScene.instantiate()
 	root.add_child(main)
 	await process_frame
-	for player in [main.collision_audio, main.engine_audio, main.acceleration_audio, main.pickup_audio, main.warning_audio]:
+	for player in [main.collision_audio, main.engine_audio, main.acceleration_audio, main.pickup_audio, main.warning_audio, main.ui_audio, main.event_audio]:
 		assert(player.bus == &"Effects", "Every current gameplay player must route through Effects")
 	main.audio_volume = 0.25
 	main.audio_muted = false
@@ -28,7 +28,7 @@ func _run() -> void:
 	main._apply_master_audio_settings()
 	assert(AudioServer.get_bus_volume_db(master_index) <= -70.0, "Zero percent volume must be effectively silent")
 	main._stop_run_audio()
-	for player in [main.collision_audio, main.engine_audio, main.acceleration_audio, main.pickup_audio, main.warning_audio]:
+	for player in [main.collision_audio, main.engine_audio, main.acceleration_audio, main.pickup_audio, main.warning_audio, main.ui_audio, main.event_audio]:
 		player.stream = null
 	main.queue_free()
 	await process_frame

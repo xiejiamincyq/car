@@ -33,6 +33,13 @@ var engine_audio: AudioStreamPlayer
 var acceleration_audio: AudioStreamPlayer
 var pickup_audio: AudioStreamPlayer
 var warning_audio: AudioStreamPlayer
+var ui_audio: AudioStreamPlayer
+var event_audio: AudioStreamPlayer
+var cue_catalog: Dictionary
+var last_audio_cue := ""
+var last_countdown_value := -1
+var last_fuel_audio_tier := GameFeedback.FuelTier.NORMAL
+var last_lane_audio_state := LaneEventDirector.State.IDLE
 var audio_volume := 0.65
 var audio_muted := false
 var fullscreen_enabled := false
@@ -110,6 +117,9 @@ func _ready() -> void:
 	acceleration_audio = _make_audio_player(SoundEffects.create_acceleration(), -12.0)
 	pickup_audio = _make_audio_player(SoundEffects.create_pickup(), -10.0)
 	warning_audio = _make_audio_player(SoundEffects.create_warning(), -13.0)
+	cue_catalog = SoundEffects.create_cue_catalog()
+	ui_audio = _make_audio_player(cue_catalog.ui_move, -14.0)
+	event_audio = _make_audio_player(cue_catalog.near_miss, -12.0)
 	race_hud = $CanvasLayer/RaceHUD
 	speed_label = $CanvasLayer/RaceHUD/Rows/Speed
 	position_label = $CanvasLayer/RaceHUD/Rows/Position
@@ -143,6 +153,7 @@ func _ready() -> void:
 	result_best_scores = $CanvasLayer/ResultScreen/Center/Card/Content/BestScores
 	new_record_label = $CanvasLayer/ResultScreen/Center/Card/Content/NewRecord
 	feedback_banner = $CanvasLayer/FeedbackBanner
+	_bind_ui_cues()
 	_bind_ui_actions()
 	_configure_persistence(SaveStore.new(), get_tree().current_scene == self)
 	start_button.grab_focus()
@@ -151,6 +162,16 @@ func _ready() -> void:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_APPLICATION_FOCUS_OUT:
 		_pause_for_focus_loss()
+
+func _exit_tree() -> void:
+	if ui_audio != null:
+		ui_audio.stop()
+		ui_audio.stream = null
+	if event_audio != null:
+		event_audio.stop()
+		event_audio.stream = null
+	if not cue_catalog.is_empty():
+		cue_catalog.clear()
 
 func _pause_for_focus_loss() -> void:
 	if run == null or (run.phase != RunState.Phase.RUNNING and run.phase != RunState.Phase.COUNTDOWN):
@@ -187,11 +208,14 @@ func _process(delta: float) -> void:
 		_save_preferences()
 	if run.phase == RunState.Phase.COUNTDOWN:
 		run.tick(delta, 0.0, GameConfig.MAX_SPEED)
+		_update_countdown_cue()
 		_update_hud()
 		queue_redraw()
 		return
 	if run.phase != RunState.Phase.RUNNING:
-		_stop_run_audio()
+		_stop_driving_audio()
+		if run.phase != RunState.Phase.RUN_CLEAR:
+			event_audio.stop()
 		_update_hud()
 		queue_redraw()
 		return
@@ -200,18 +224,24 @@ func _process(delta: float) -> void:
 	var steering_input := Input.get_axis("steer_left", "steer_right")
 	drive.step(delta, accelerate_input, brake_input, steering_input)
 	road_scroll = advance_road_scroll(road_scroll, drive.speed, delta, ROAD_MARK_REPEAT_DISTANCE)
+	var phase_before_tick := run.phase
 	run.tick(delta, drive.speed, GameConfig.MAX_SPEED)
 	feedback.tick(delta, run.fuel, run.difficulty_stage)
+	_update_low_fuel_cue()
 	if run.last_checkpoints_crossed > 0:
 		feedback.announce_checkpoint(run.difficulty_stage, GameConfig.CHECKPOINT_FUEL_REWARD * run.last_checkpoints_crossed)
+		_play_cue("checkpoint")
 	if run.phase != RunState.Phase.RUNNING:
 		_stop_run_audio()
+		if phase_before_tick == RunState.Phase.RUNNING and run.phase == RunState.Phase.RUN_CLEAR:
+			_play_cue("run_clear")
 		_update_hud()
 		queue_redraw()
 		return
 	traffic.set_difficulty_stage(run.difficulty_stage)
 	traffic.set_viewport_height(get_viewport_rect().size.y)
 	traffic.tick(delta, drive.speed, _player_lane())
+	_update_lane_event_cue()
 	_update_audio(delta, accelerate_input)
 	_update_fuel_pickups(delta)
 	collision.advance(delta)
@@ -356,6 +386,7 @@ func _toggle_audio_mute() -> void:
 	audio_muted = not audio_muted
 	if audio_muted:
 		_stop_run_audio()
+		ui_audio.stop()
 	_update_settings_labels()
 	_save_preferences()
 
@@ -400,6 +431,38 @@ func _play_effect(player: AudioStreamPlayer) -> void:
 		return
 	player.play()
 
+func _play_cue(cue_name: String, player: AudioStreamPlayer = null) -> void:
+	if audio_muted or audio_volume <= 0.0 or not cue_catalog.has(cue_name):
+		return
+	var channel := event_audio if player == null else player
+	channel.stream = cue_catalog[cue_name]
+	last_audio_cue = cue_name
+	channel.play()
+
+func _play_ui_cue(cue_name: String) -> void:
+	_play_cue(cue_name, ui_audio)
+
+func _update_countdown_cue() -> void:
+	if run.phase != RunState.Phase.COUNTDOWN:
+		return
+	var value := maxi(1, ceili(run.countdown_remaining))
+	if value != last_countdown_value:
+		last_countdown_value = value
+		_play_cue("countdown")
+
+func _update_low_fuel_cue() -> void:
+	if feedback.low_fuel_tier != last_fuel_audio_tier:
+		last_fuel_audio_tier = feedback.low_fuel_tier
+		if last_fuel_audio_tier != GameFeedback.FuelTier.NORMAL:
+			_play_cue("low_fuel")
+
+func _update_lane_event_cue() -> void:
+	var state := traffic.lane_events.state
+	if state != last_lane_audio_state:
+		last_lane_audio_state = state
+		if state == LaneEventDirector.State.WARNING:
+			_play_cue("lane_warning")
+
 func _apply_master_audio_settings() -> void:
 	var master_index := AudioServer.get_bus_index("Master")
 	if master_index < 0:
@@ -408,6 +471,10 @@ func _apply_master_audio_settings() -> void:
 	AudioServer.set_bus_mute(master_index, audio_muted)
 
 func _stop_run_audio() -> void:
+	_stop_driving_audio()
+	event_audio.stop()
+
+func _stop_driving_audio() -> void:
 	collision_audio.stop()
 	engine_audio.stop()
 	acceleration_audio.stop()
@@ -425,7 +492,12 @@ func _award_pass_events() -> void:
 		var event := PassEventResolver.observe(vehicle, vehicle.kind, player_y, player_x, vehicle_x)
 		if event.overtake:
 			var pass_score := GameConfig.OVERTAKE_SCORE + (GameConfig.NEAR_MISS_SCORE if event.near_miss else 0)
+			var multiplier_before := run.combo.multiplier
 			run.award_pass(pass_score, event.near_miss)
+			if event.near_miss:
+				_play_cue("near_miss")
+			elif run.combo.multiplier > multiplier_before:
+				_play_cue("combo")
 
 static func is_eligible_overtake(kind: int, was_ahead: bool, collided_with_player: bool) -> bool:
 	return kind != TrafficDirector.Kind.FAST_OVERTAKE and was_ahead and not collided_with_player
@@ -447,6 +519,10 @@ func _reset_run(run_seed_override: int = -1) -> void:
 	fuel_pickups.clear()
 	fuel_spawn_director.reset(_fuel_seed_for_run(current_run_seed))
 	feedback.reset()
+	last_audio_cue = ""
+	last_countdown_value = -1
+	last_fuel_audio_tier = GameFeedback.FuelTier.NORMAL
+	last_lane_audio_state = LaneEventDirector.State.IDLE
 	result_persisted = false
 	is_new_record = false
 
@@ -503,6 +579,7 @@ func _resume_run() -> void:
 	if run.phase != RunState.Phase.PAUSED:
 		return
 	pause_screen.visible = false
+	last_countdown_value = -1
 	run.toggle_pause()
 	_update_hud()
 
@@ -712,6 +789,13 @@ func _bind_ui_actions() -> void:
 	$CanvasLayer/ResultScreen/Center/Card/Content/TitleButton.pressed.connect(_return_to_title)
 	$CanvasLayer/ConfirmationScreen/Center/Card/Content/ConfirmButton.pressed.connect(_confirm_destructive_action)
 	$CanvasLayer/ConfirmationScreen/Center/Card/Content/CancelButton.pressed.connect(_cancel_confirmation)
+
+func _bind_ui_cues() -> void:
+	for node in find_children("*", "Button", true, false):
+		var button := node as Button
+		button.focus_entered.connect(_play_ui_cue.bind("ui_move"))
+		var cue_name := "ui_cancel" if button.name == "BackButton" or button.name == "CancelButton" else "ui_confirm"
+		button.pressed.connect(_play_ui_cue.bind(cue_name))
 
 func _player_lane() -> int:
 	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / GameConfig.ROAD_LANE_COUNT
