@@ -1,4 +1,4 @@
-# 0.1.0 发布与回滚检查清单
+# 0.2.0-rc.1 发布与回滚检查清单
 
 ## 发布前
 
@@ -20,7 +20,7 @@
    Get-FileHash .\exports\NeonCoastRush.exe -Algorithm SHA256
    ```
 
-2. 将压缩包命名为 `NeonCoastRush-0.1.0-rc.1-windows.zip`。
+2. 将压缩包命名为 `NeonCoastRush-0.2.0-rc.1-windows.zip`。
 3. 随压缩包附上版本号、日期、已知限制和操作说明。
 4. 在发布说明中明确这是 Windows 试玩候选版本，不承诺存档、联网或手柄支持。
 
