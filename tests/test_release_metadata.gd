@@ -11,6 +11,8 @@ func _init() -> void:
 	assert(export_presets.load("res://export_presets.cfg") == OK, "Release validation must read Windows export metadata")
 	assert(export_presets.get_value("preset.0.options", "application/product_version", "") == RELEASE_VERSION, "Windows product version must match the project version")
 	assert(export_presets.get_value("preset.0.options", "application/file_version", "") == "0.2.0.1", "Windows file version must remain numeric and identify RC1")
+	var excluded_resources := str(export_presets.get_value("preset.0", "exclude_filter", ""))
+	assert("tests/*" in excluded_resources, "Release exports must not ship the automated test scripts")
 
 	var readme := FileAccess.get_file_as_string("res://README.md")
 	assert(RELEASE_VERSION in readme, "README must name the exact candidate version")
