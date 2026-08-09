@@ -22,6 +22,15 @@ func _run() -> void:
 	assert(pause_keys.has(KEY_SPACE), "The manual pause action must be bound to Space")
 	assert(not pause_keys.has(KEY_P), "P must no longer trigger manual pause")
 	assert(not pause_keys.has(KEY_ESCAPE), "Escape must no longer trigger manual pause")
+	assert(InputMap.has_action("restart_run"), "The documented R restart shortcut must have an InputMap action")
+	var has_restart_key := false
+	for event in InputMap.action_get_events("restart_run"):
+		has_restart_key = has_restart_key or (event is InputEventKey and event.keycode == KEY_R)
+	assert(has_restart_key, "The restart action must be bound to R")
+	main.run.start()
+	assert(main._handle_restart_shortcut(), "A live run must accept the R restart shortcut")
+	assert(main.confirmation_screen.visible and main.destructive_action == "restart", "R during a live run must use the existing restart confirmation flow")
+	main._cancel_confirmation()
 	var fullscreen_button: Button = main.get_node("CanvasLayer/SettingsScreen/Center/Card/Content/FullscreenButton")
 	assert(not main.fullscreen_enabled and fullscreen_button.text.contains("窗口"), "The safe default must be windowed and visible in settings")
 	main._toggle_fullscreen()

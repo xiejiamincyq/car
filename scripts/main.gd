@@ -188,6 +188,9 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_cancel") and (settings_screen.visible or controls_screen.visible):
 		_close_submenu()
 		return
+	if Input.is_action_just_pressed("restart_run"):
+		if _handle_restart_shortcut():
+			return
 	if Input.is_action_just_pressed("pause_game"):
 		if run.phase == RunState.Phase.RUNNING:
 			_pause_run()
@@ -618,6 +621,23 @@ func _resume_run() -> void:
 func _request_restart() -> void:
 	_show_confirmation("restart", _text("confirm.restart"))
 
+func _handle_restart_shortcut() -> bool:
+	if confirmation_screen.visible:
+		return false
+	if run.phase == RunState.Phase.RUNNING:
+		_pause_run()
+	elif run.phase == RunState.Phase.COUNTDOWN:
+		run.pause_for_focus_loss()
+		_stop_run_audio()
+		_update_hud()
+	if run.phase == RunState.Phase.PAUSED:
+		_request_restart()
+		return true
+	if run.phase == RunState.Phase.GAME_OVER or run.phase == RunState.Phase.RUN_CLEAR:
+		_replay_run()
+		return true
+	return false
+
 func _request_title() -> void:
 	_show_confirmation("title", _text("confirm.title"))
 
@@ -943,6 +963,7 @@ func _ensure_input_actions() -> void:
 	_register_action("steer_left", [KEY_LEFT, KEY_A])
 	_register_action("steer_right", [KEY_RIGHT, KEY_D])
 	_register_action("pause_game", [KEY_SPACE], true)
+	_register_action("restart_run", [KEY_R], true)
 	_register_action("toggle_mute", [KEY_M])
 	_register_action("toggle_fullscreen", [KEY_F11])
 	_register_action("volume_down", [KEY_MINUS])
