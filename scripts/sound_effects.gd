@@ -17,6 +17,20 @@ static func create_pickup() -> AudioStreamWAV:
 static func create_warning() -> AudioStreamWAV:
 	return _make_chirp(760.0, 610.0, 0.12, 0.28)
 
+static func create_cue_catalog() -> Dictionary:
+	return {
+		"ui_move": _make_chirp(320.0, 380.0, 0.05, 0.18),
+		"ui_confirm": _make_chirp(440.0, 660.0, 0.09, 0.24),
+		"ui_cancel": _make_chirp(300.0, 180.0, 0.11, 0.22),
+		"near_miss": _make_chirp(980.0, 420.0, 0.16, 0.22),
+		"combo": _make_chirp(620.0, 920.0, 0.13, 0.24),
+		"countdown": _make_chirp(520.0, 500.0, 0.08, 0.26),
+		"checkpoint": _make_chirp(540.0, 980.0, 0.22, 0.28),
+		"run_clear": _make_chirp(440.0, 1040.0, 0.38, 0.25),
+		"low_fuel": _make_chirp(220.0, 170.0, 0.24, 0.25),
+		"lane_warning": _make_chirp(720.0, 540.0, 0.18, 0.25),
+	}
+
 static func volume_db(level: float) -> float:
 	return linear_to_db(clampf(level, 0.0, 1.0))
 
