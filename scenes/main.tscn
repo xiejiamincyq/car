@@ -260,7 +260,7 @@ text = ""
 [node name="Version" type="Label" parent="CanvasLayer/TitleScreen/Center/Card/Content"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.55, 0.72, 0.76, 1)
-text = "v0.1.0-rc.1"
+text = "v0.3.0"
 horizontal_alignment = 1
 
 [node name="SettingsScreen" type="Control" parent="CanvasLayer"]

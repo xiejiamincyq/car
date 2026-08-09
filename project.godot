@@ -4,7 +4,7 @@ config_version=5
 
 [application]
 config/name="Neon Coast Rush"
-config/version="0.3.0-dev"
+config/version="0.3.0"
 config/features=PackedStringArray("4.7")
 run/main_scene="res://scenes/main.tscn"
 
