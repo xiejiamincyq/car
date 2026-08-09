@@ -8,7 +8,7 @@ func _init() -> void:
 	for effect in [SoundEffects.create_acceleration(), SoundEffects.create_pickup(), SoundEffects.create_warning()]:
 		assert(effect is AudioStreamWAV and not effect.data.is_empty(), "Each gameplay cue must be a generated playable WAV")
 	var cues: Dictionary = SoundEffects.create_cue_catalog()
-	var expected_names := ["ui_move", "ui_confirm", "ui_cancel", "near_miss", "combo", "countdown", "checkpoint", "run_clear", "low_fuel", "lane_warning"]
+	var expected_names := ["ui_move", "ui_confirm", "ui_cancel", "near_miss", "combo", "countdown", "countdown_go", "checkpoint", "run_clear", "low_fuel", "lane_warning", "lane_closed"]
 	assert(cues.keys().size() == expected_names.size(), "The cue catalog must expose every planned F6 sound exactly once")
 	var fingerprints := {}
 	for cue_name in expected_names:

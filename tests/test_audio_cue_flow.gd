@@ -18,6 +18,10 @@ func _run() -> void:
 	main.last_countdown_value = -1
 	main._update_countdown_cue()
 	assert(main.last_audio_cue == "countdown", "Countdown number changes must trigger a cue")
+	main.last_audio_cue = ""
+	main.run.countdown_remaining = 0.01
+	main._process(0.02)
+	assert(main.run.phase == main.RunState.Phase.RUNNING and main.last_audio_cue == "countdown_go", "Countdown completion must play a distinct GO cue")
 	main.feedback.tick(0.0, 10.0, 0)
 	main.last_fuel_audio_tier = main.GameFeedback.FuelTier.NORMAL
 	main._update_low_fuel_cue()
@@ -26,6 +30,9 @@ func _run() -> void:
 	main.last_lane_audio_state = main.LaneEventDirector.State.IDLE
 	main._update_lane_event_cue()
 	assert(main.last_audio_cue == "lane_warning", "A new lane closure warning must trigger its cue")
+	main.traffic.lane_events.state = main.LaneEventDirector.State.CLOSED
+	main._update_lane_event_cue()
+	assert(main.last_audio_cue == "lane_closed", "The moment a warned lane closes must have a distinct confirmation cue")
 	main._play_cue("run_clear")
 	main.run.phase = main.RunState.Phase.RUN_CLEAR
 	main._process(0.0)

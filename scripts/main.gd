@@ -208,7 +208,11 @@ func _process(delta: float) -> void:
 		_save_preferences()
 	if run.phase == RunState.Phase.COUNTDOWN:
 		run.tick(delta, 0.0, GameConfig.MAX_SPEED)
-		_update_countdown_cue()
+		if run.phase == RunState.Phase.RUNNING:
+			last_countdown_value = 0
+			_play_cue("countdown_go")
+		else:
+			_update_countdown_cue()
 		_update_hud()
 		queue_redraw()
 		return
@@ -462,6 +466,8 @@ func _update_lane_event_cue() -> void:
 		last_lane_audio_state = state
 		if state == LaneEventDirector.State.WARNING:
 			_play_cue("lane_warning")
+		elif state == LaneEventDirector.State.CLOSED:
+			_play_cue("lane_closed")
 
 func _apply_master_audio_settings() -> void:
 	var master_index := AudioServer.get_bus_index("Master")
