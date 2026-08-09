@@ -55,4 +55,4 @@ Get-ChildItem tests -Filter "test_*.gd" | ForEach-Object {
 
 ## 当前开发状态
 
-当前版本：`0.2.0`。这是面向当前开发机签署的 Windows 本地正式版，包含完整界面、存档、四赛段终点、中后期交通和程序化音频；不再以多人试玩或其他电脑兼容性作为阻断条件。后续进入原创美术集成，进度见 [完成度加固计划](tasks/plan-foundation.md)。发布与回滚步骤见 [发布检查清单](docs/release-checklist.md)，视觉资产接入约束见 [美术需求清单](docs/art-requirements.md)，玩家可见改动见 [CHANGELOG](CHANGELOG.md)。
+当前开发版本：`0.3.0-dev`，正在集成原创美术。已验收的本机正式基线保存在 Git 标签 `v0.2.0`，包含完整界面、存档、四赛段终点、中后期交通和程序化音频。进度见 [完成度加固计划](tasks/plan-foundation.md)，本机基线的发布与回滚步骤见 [发布检查清单](docs/release-checklist.md)，视觉资产接入约束见 [美术需求清单](docs/art-requirements.md)，玩家可见改动见 [CHANGELOG](CHANGELOG.md)。
