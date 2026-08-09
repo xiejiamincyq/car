@@ -246,6 +246,7 @@ func _process(delta: float) -> void:
 	traffic.set_viewport_height(get_viewport_rect().size.y)
 	traffic.tick(delta, drive.speed, _player_lane())
 	_update_lane_event_cue()
+	_enforce_lane_closure()
 	_update_audio(delta, accelerate_input)
 	_update_fuel_pickups(delta)
 	collision.advance(delta)
@@ -308,8 +309,33 @@ func _draw_lane_event(road_left: float, viewport_height: float) -> void:
 	draw_rect(Rect2(lane_left, 0.0, lane_width, viewport_height), overlay_color, true)
 	var marker_y := 24.0
 	while marker_y < viewport_height:
-		draw_line(Vector2(lane_left + 18.0, marker_y), Vector2(lane_left + lane_width - 18.0, marker_y + 42.0), _warning_color(), 5.0)
+		if is_warning:
+			draw_line(Vector2(lane_left + 18.0, marker_y), Vector2(lane_left + lane_width - 18.0, marker_y + 42.0), _warning_color(), 5.0)
+		else:
+			var lane_right := lane_left + lane_width
+			draw_line(Vector2(lane_left + 10.0, marker_y), Vector2(lane_right - 10.0, marker_y), _warning_color(), 12.0)
+			draw_line(Vector2(lane_left + 24.0, marker_y - 22.0), Vector2(lane_right - 24.0, marker_y + 22.0), Color("10131c"), 7.0)
+			draw_line(Vector2(lane_right - 24.0, marker_y - 22.0), Vector2(lane_left + 24.0, marker_y + 22.0), Color("10131c"), 7.0)
 		marker_y += 120.0
+
+func _enforce_lane_closure() -> void:
+	var previous_position := drive.lateral_position
+	drive.lateral_position = traffic.lane_events.constrain_lateral_position(previous_position, drive.player_half_width, GameConfig.ROAD_HALF_WIDTH)
+	if is_equal_approx(previous_position, drive.lateral_position):
+		return
+	var impact_speed := drive.speed
+	var outcome := collision.try_collide(impact_speed)
+	if not outcome.hit:
+		return
+	drive.speed = outcome.speed
+	run.break_combo()
+	var viewport_size := get_viewport_rect().size
+	var player_center := Vector2(viewport_size.x * 0.5 + drive.lateral_position, TrackGeometry.player_y(viewport_size.y))
+	feedback.spawn_collision(player_center, impact_speed, GameConfig.MAX_SPEED)
+	if screen_shake_enabled:
+		var shake := feedback.shake_magnitude_for_speed(impact_speed, GameConfig.MAX_SPEED)
+		screen_shake = Vector2(shake, -shake * 0.7)
+	_play_effect(collision_audio)
 
 func _draw_traffic(road_left: float) -> void:
 	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / GameConfig.ROAD_LANE_COUNT

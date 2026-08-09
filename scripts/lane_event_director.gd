@@ -60,6 +60,29 @@ func begin_warning(target_lane: int) -> void:
 func blocked_lane() -> int:
 	return lane if state == State.WARNING or state == State.CLOSED else -1
 
+func constrain_lateral_position(position: float, player_half_width: float, road_half_width: float) -> float:
+	var road_limit := maxf(0.0, road_half_width)
+	var car_half_width := clampf(player_half_width, 0.0, road_limit)
+	var minimum_center := -road_limit + car_half_width
+	var maximum_center := road_limit - car_half_width
+	var safe_position := clampf(position, minimum_center, maximum_center)
+	if state != State.CLOSED or lane < 0 or lane >= lane_count:
+		return safe_position
+	var lane_width := road_limit * 2.0 / lane_count
+	var lane_left := -road_limit + lane_width * lane
+	var lane_right := lane_left + lane_width
+	var left_limit := lane_left - car_half_width
+	var right_limit := lane_right + car_half_width
+	if safe_position <= left_limit or safe_position >= right_limit:
+		return safe_position
+	var can_exit_left := left_limit >= minimum_center
+	var can_exit_right := right_limit <= maximum_center
+	if can_exit_left and can_exit_right:
+		return left_limit if absf(safe_position - left_limit) <= absf(safe_position - right_limit) else right_limit
+	if can_exit_left:
+		return left_limit
+	return right_limit if can_exit_right else safe_position
+
 func event_history() -> String:
 	return "|".join(_history)
 

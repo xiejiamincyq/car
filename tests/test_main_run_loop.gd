@@ -45,5 +45,10 @@ func _run() -> void:
 	event_main.traffic.lane_events.state = event_main.LaneEventDirector.State.CLOSED
 	event_main._update_hud()
 	assert("1 号车道封闭" in event_main.feedback_banner.text, "An active closure must remain explicit in the playable HUD")
+	event_main.drive.lateral_position = -300.0
+	var speed_before_barrier: float = event_main.drive.speed
+	event_main._process(0.0)
+	assert(is_equal_approx(event_main.drive.lateral_position, -100.0), "The playable loop must physically keep the full player car out of a closed lane")
+	assert(event_main.drive.speed < speed_before_barrier, "Hitting a closed-lane barrier must have a clear speed consequence")
 	event_main.free()
 	quit()

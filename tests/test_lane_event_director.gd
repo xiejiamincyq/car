@@ -39,4 +39,14 @@ func _init() -> void:
 		if traffic.lane_events.blocked_lane() >= 0:
 			assert(not traffic.reachable_player_lanes(1, 620.0, 72.0).has(0), "Navigation must not advertise a warned or closed lane as an escape route")
 	assert(traffic.lane_events.blocked_lane() == -1, "The lane must safely return after the event ends")
+
+	var barrier := LaneEventDirector.new(99, GameConfig.ROAD_LANE_COUNT, true)
+	barrier.begin_warning(1)
+	assert(is_equal_approx(barrier.constrain_lateral_position(0.0, 30.0, GameConfig.ROAD_HALF_WIDTH), 0.0), "A warning must leave the lane physically open during the reaction window")
+	barrier.state = LaneEventDirector.State.CLOSED
+	var projected_from_center: float = barrier.constrain_lateral_position(0.0, 30.0, GameConfig.ROAD_HALF_WIDTH)
+	assert(absf(projected_from_center) >= 160.0, "A closed center lane must project the whole player car into an open lane")
+	assert(is_equal_approx(barrier.constrain_lateral_position(-220.0, 30.0, GameConfig.ROAD_HALF_WIDTH), -220.0), "A player already outside the closed lane must not be moved")
+	barrier.lane = 0
+	assert(is_equal_approx(barrier.constrain_lateral_position(-300.0, 30.0, GameConfig.ROAD_HALF_WIDTH), -100.0), "A closed edge lane must push the player toward the remaining road")
 	quit()
