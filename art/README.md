@@ -1,6 +1,6 @@
 # Neon Coast Rush 原创美术来源
 
-- 日期：2026-08-09
+- 日期：2026-08-10
 - 生成方式：内置图像模型，以 `assets/neon-coast-menu.png` 作为风格参考
 - 权属：为本项目全新生成；未使用 Road Fighter 或第三方游戏素材
 - 透明处理：`remove_chroma_key.py`，边缘采样、soft matte、despill
@@ -34,3 +34,14 @@
 | `assets/environment/coast_right.png` | `art/source/generated/coast_right_source.png` | 256×1024 | 海浪、礁石与防护栏 |
 
 环境提示词要求原创严格俯视夜间海岸像素场景、纵向滚动、无道路/车辆/人物/文字/标识。运行时通过 `scripts/tools/prepare_environment_strip.py` 截取 1:2 纵向条带，并将下半段设为上半段的垂直镜像，使 1024 像素纹理首尾精确衔接。原始高分辨率图受 `art/source/.gdignore` 与导出排除规则保护，不进入 Windows 包。
+
+## A3 HUD 与事件反馈批次
+
+| 运行时素材 | 原始色键图 | 画布 | 用途 |
+|---|---|---:|---|
+| `assets/ui/hud_frame.png` | `art/source/generated/hud_frame_chroma.png` | 512×224 | 左上仪表舱外框 |
+| `assets/ui/event_plate.png` | `art/source/generated/event_plate_chroma.png` | 640×96 | 检查点、预警与封路事件铭牌 |
+| `assets/ui/road_barrier.png` | `art/source/generated/road_barrier_chroma.png` | 240×80 | 已封闭车道的实体路障 |
+| `assets/ui/result_emblem.png` | `art/source/generated/result_emblem_chroma.png` | 160×160 | 结算完成徽章 |
+
+提示词均要求原创 16-bit 海岸霓虹像素风、纯 `#00ff00` 色键背景、无文字/数字/标识/水印。HUD 外框、事件板保留动态信息安全区；路障采用俯视重型横栏、琥珀/浅青警示条与双警示灯；结算徽章由奖杯、速度翼和方格旗组成。HUD 外框、路障与徽章使用等比缩放；事件板属于弹性 UI 装饰，通过 `scripts/tools/prepare_ui_asset.py` 适配固定运行时画布，不参与车辆或碰撞几何。

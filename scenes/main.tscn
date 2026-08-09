@@ -1,7 +1,31 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
 [ext_resource type="Texture2D" path="res://assets/neon-coast-menu.png" id="2_menu"]
+[ext_resource type="Texture2D" path="res://assets/ui/hud_frame.png" id="3_hud_frame"]
+[ext_resource type="Texture2D" path="res://assets/ui/event_plate.png" id="4_event_plate"]
+[ext_resource type="Texture2D" path="res://assets/ui/result_emblem.png" id="6_result_emblem"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_gauge_background"]
+bg_color = Color(0.025, 0.07, 0.12, 0.94)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_fuel_fill"]
+bg_color = Color(0.18, 0.9, 0.5, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_progress_fill"]
+bg_color = Color(0.12, 0.82, 0.96, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_main")
@@ -30,27 +54,46 @@ grow_vertical = 2
 color = Color(0.015, 0.035, 0.075, 0.48)
 mouse_filter = 2
 
-[node name="RaceHUD" type="MarginContainer" parent="CanvasLayer"]
+[node name="RaceHUD" type="Control" parent="CanvasLayer"]
 visible = false
-anchors_preset = 10
-anchor_right = 1.0
 offset_left = 24.0
 offset_top = 20.0
-offset_right = -24.0
-offset_bottom = 166.0
-grow_horizontal = 2
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 12
-theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 12
+offset_right = 560.0
+offset_bottom = 254.0
 
 [node name="Panel" type="ColorRect" parent="CanvasLayer/RaceHUD"]
-layout_mode = 2
-color = Color(0.02, 0.07, 0.12, 0.84)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.02, 0.07, 0.12, 0.94)
+mouse_filter = 2
+
+[node name="HUDFrame" type="TextureRect" parent="CanvasLayer/RaceHUD"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_hud_frame")
+expand_mode = 1
+stretch_mode = 0
 mouse_filter = 2
 
 [node name="Rows" type="VBoxContainer" parent="CanvasLayer/RaceHUD"]
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 48.0
+offset_top = 32.0
+offset_right = -48.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/separation = 3
 
 [node name="Speed" type="Label" parent="CanvasLayer/RaceHUD/Rows"]
@@ -79,10 +122,26 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.4, 0.98, 0.68, 1)
 theme_override_font_sizes/font_size = 19
 
+[node name="FuelGauge" type="ProgressBar" parent="CanvasLayer/RaceHUD/Rows"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBox_gauge_background")
+theme_override_styles/fill = SubResource("StyleBox_fuel_fill")
+show_percentage = false
+mouse_filter = 2
+
 [node name="RunStatus" type="Label" parent="CanvasLayer/RaceHUD/Rows"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.72, 0.9, 0.96, 1)
 theme_override_font_sizes/font_size = 16
+
+[node name="ProgressGauge" type="ProgressBar" parent="CanvasLayer/RaceHUD/Rows"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBox_gauge_background")
+theme_override_styles/fill = SubResource("StyleBox_progress_fill")
+show_percentage = false
+mouse_filter = 2
 
 [node name="OverlayShade" type="ColorRect" parent="CanvasLayer"]
 visible = false
@@ -326,12 +385,26 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
+[node name="EventPlate" type="TextureRect" parent="CanvasLayer"]
+visible = false
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 256.0
+offset_top = 258.0
+offset_right = -256.0
+offset_bottom = 330.0
+grow_horizontal = 2
+texture = ExtResource("4_event_plate")
+expand_mode = 1
+stretch_mode = 0
+mouse_filter = 2
+
 [node name="FeedbackBanner" type="Label" parent="CanvasLayer"]
 visible = false
 anchors_preset = 10
 anchor_right = 1.0
-offset_top = 180.0
-offset_bottom = 236.0
+offset_top = 264.0
+offset_bottom = 324.0
 grow_horizontal = 2
 theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
 theme_override_colors/font_shadow_color = Color(0.01, 0.03, 0.07, 1)
@@ -453,6 +526,14 @@ layout_mode = 2
 [node name="Content" type="VBoxContainer" parent="CanvasLayer/ResultScreen/Center/Card"]
 layout_mode = 2
 theme_override_constants/separation = 14
+
+[node name="ResultEmblem" type="TextureRect" parent="CanvasLayer/ResultScreen/Center/Card/Content"]
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 2
+texture = ExtResource("6_result_emblem")
+expand_mode = 3
+stretch_mode = 5
+mouse_filter = 2
 
 [node name="Heading" type="Label" parent="CanvasLayer/ResultScreen/Center/Card/Content"]
 layout_mode = 2

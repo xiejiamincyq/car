@@ -30,6 +30,10 @@ const TRAFFIC_TRUCK_TEXTURE: Texture2D = preload("res://assets/vehicles/traffic_
 const FUEL_PICKUP_TEXTURE: Texture2D = preload("res://assets/pickups/fuel_pickup.png")
 const COAST_LEFT_TEXTURE: Texture2D = preload("res://assets/environment/coast_left.png")
 const COAST_RIGHT_TEXTURE: Texture2D = preload("res://assets/environment/coast_right.png")
+const HUD_FRAME_TEXTURE: Texture2D = preload("res://assets/ui/hud_frame.png")
+const EVENT_PLATE_TEXTURE: Texture2D = preload("res://assets/ui/event_plate.png")
+const ROAD_BARRIER_TEXTURE: Texture2D = preload("res://assets/ui/road_barrier.png")
+const RESULT_EMBLEM_TEXTURE: Texture2D = preload("res://assets/ui/result_emblem.png")
 
 const ROAD_MARK_REPEAT_DISTANCE := 92.0
 const ENVIRONMENT_TILE_HEIGHT := 1024.0
@@ -78,6 +82,9 @@ var controls_hint_label: Label
 var score_label: Label
 var fuel_label: Label
 var run_status_label: Label
+var fuel_gauge: ProgressBar
+var progress_gauge: ProgressBar
+var event_plate: TextureRect
 var overlay_label: Label
 var menu_backdrop: TextureRect
 var overlay_shade: ColorRect
@@ -145,6 +152,10 @@ func _ready() -> void:
 	score_label = $CanvasLayer/RaceHUD/Rows/Score
 	fuel_label = $CanvasLayer/RaceHUD/Rows/Fuel
 	run_status_label = $CanvasLayer/RaceHUD/Rows/RunStatus
+	fuel_gauge = $CanvasLayer/RaceHUD/Rows/FuelGauge
+	progress_gauge = $CanvasLayer/RaceHUD/Rows/ProgressGauge
+	event_plate = $CanvasLayer/EventPlate
+	fuel_gauge.max_value = GameConfig.MAX_FUEL
 	overlay_label = $CanvasLayer/Overlay
 	menu_backdrop = $CanvasLayer/MenuBackdrop
 	overlay_shade = $CanvasLayer/OverlayShade
@@ -359,7 +370,10 @@ func _draw_lane_event(road_left: float, viewport_height: float) -> void:
 			draw_line(Vector2(lane_left + 18.0, marker_y), Vector2(lane_left + lane_width - 18.0, marker_y + 42.0), _warning_color(), 5.0)
 		else:
 			var lane_right := lane_left + lane_width
-			draw_line(Vector2(lane_left + 10.0, marker_y), Vector2(lane_right - 10.0, marker_y), _warning_color(), 12.0)
+			var barrier_size := ROAD_BARRIER_TEXTURE.get_size()
+			var barrier_position := Vector2(lane_left + (lane_width - barrier_size.x) * 0.5, marker_y - barrier_size.y * 0.5)
+			var barrier_rect := Rect2(barrier_position, barrier_size)
+			draw_texture_rect(ROAD_BARRIER_TEXTURE, barrier_rect, false)
 			draw_line(Vector2(lane_left + 24.0, marker_y - 22.0), Vector2(lane_right - 24.0, marker_y + 22.0), Color("10131c"), 7.0)
 			draw_line(Vector2(lane_right - 24.0, marker_y - 22.0), Vector2(lane_left + 24.0, marker_y + 22.0), Color("10131c"), 7.0)
 		marker_y += 120.0
@@ -447,6 +461,15 @@ func _traffic_color(kind: int) -> Color:
 
 func _warning_color() -> Color:
 	return VisualStyle.HIGH_CONTRAST_WARNING if high_contrast_enabled else VisualStyle.WARNING
+
+func _event_plate_color() -> Color:
+	match traffic.lane_events.state:
+		LaneEventDirector.State.CLOSED:
+			return Color("ff6565")
+		LaneEventDirector.State.WARNING:
+			return Color("ffd75a")
+		_:
+			return Color("42e8df")
 
 func _update_fuel_pickups(delta: float) -> void:
 	var blocked_lanes := traffic.blocked_lanes_near(FuelSpawnDirector.PICKUP_SPAWN_Y, GameConfig.FUEL_SPAWN_SAFETY_DISTANCE)
@@ -941,6 +964,9 @@ func _update_hud() -> void:
 	var fuel_warning := _fuel_warning_text() if feedback.is_fuel_warning_visible() else ""
 	fuel_label.text = _text("hud.fuel", ["%03d" % roundi(run.fuel), fuel_warning])
 	fuel_label.modulate = Color("ff6b6b") if feedback.low_fuel_tier == GameFeedback.FuelTier.CRITICAL else (Color("ffd75a") if feedback.low_fuel_tier == GameFeedback.FuelTier.LOW else Color.WHITE)
+	fuel_gauge.value = clampf(run.fuel, 0.0, GameConfig.MAX_FUEL)
+	fuel_gauge.modulate = fuel_label.modulate
+	progress_gauge.value = clampf(run.distance / GameConfig.RACE_FINISH_DISTANCE * 100.0, 0.0, 100.0)
 	var combo_time := "%.1fs" % run.combo.remaining_seconds if run.combo.event_count > 0 else _text("hud.ready")
 	run_status_label.text = _text("hud.status", [run.difficulty_stage + 1, run.combo.multiplier, combo_time, _phase_text()])
 	controls_hint_label.text = _text("hud.controls", [current_run_seed])
@@ -952,6 +978,8 @@ func _update_hud() -> void:
 	var lane_event_text := _lane_event_text()
 	feedback_banner.visible = run.phase == RunState.Phase.RUNNING and (not lane_event_text.is_empty() or not feedback.stage_banner_text.is_empty())
 	feedback_banner.text = lane_event_text if not lane_event_text.is_empty() else feedback.stage_banner_text
+	event_plate.visible = feedback_banner.visible
+	event_plate.modulate = _event_plate_color()
 	if countdown_screen.visible:
 		countdown_label.text = str(maxi(1, ceili(run.countdown_remaining)))
 	pause_screen.visible = run.phase == RunState.Phase.PAUSED and not confirmation_screen.visible and not settings_screen.visible
