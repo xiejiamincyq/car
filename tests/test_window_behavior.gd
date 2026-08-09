@@ -31,6 +31,13 @@ func _run() -> void:
 	assert(main._handle_restart_shortcut(), "A live run must accept the R restart shortcut")
 	assert(main.confirmation_screen.visible and main.destructive_action == "restart", "R during a live run must use the existing restart confirmation flow")
 	main._cancel_confirmation()
+	main.run.phase = RunState.Phase.COUNTDOWN
+	assert(main._handle_restart_shortcut(), "The countdown must accept the R restart shortcut")
+	assert(main.confirmation_screen.visible and main.destructive_action == "restart", "R during the countdown must pause and ask for confirmation")
+	main._cancel_confirmation()
+	main.run.phase = RunState.Phase.GAME_OVER
+	assert(main._handle_restart_shortcut(), "The result screen must accept the R replay shortcut")
+	assert(main.run.phase == RunState.Phase.COUNTDOWN and not main.confirmation_screen.visible, "R on a result screen must begin a new countdown directly")
 	var fullscreen_button: Button = main.get_node("CanvasLayer/SettingsScreen/Center/Card/Content/FullscreenButton")
 	assert(not main.fullscreen_enabled and fullscreen_button.text.contains("窗口"), "The safe default must be windowed and visible in settings")
 	main._toggle_fullscreen()
