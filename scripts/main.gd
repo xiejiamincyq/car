@@ -19,8 +19,12 @@ const GameFeedback = preload("res://scripts/game_feedback.gd")
 const LaneEventDirector = preload("res://scripts/lane_event_director.gd")
 const DifficultyProfile = preload("res://scripts/difficulty_profile.gd")
 const GameText = preload("res://scripts/game_text.gd")
+const VehicleVisualAnimation = preload("res://scripts/vehicle_visual_animation.gd")
 const PLAYER_CAR_TEXTURE: Texture2D = preload("res://assets/vehicles/player_car.png")
 const TRAFFIC_SEDAN_TEXTURE: Texture2D = preload("res://assets/vehicles/traffic_sedan.png")
+const TRAFFIC_VAN_TEXTURE: Texture2D = preload("res://assets/vehicles/traffic_van.png")
+const TRAFFIC_HATCHBACK_TEXTURE: Texture2D = preload("res://assets/vehicles/traffic_hatchback.png")
+const TRAFFIC_SPORTS_TEXTURE: Texture2D = preload("res://assets/vehicles/traffic_sports.png")
 const TRAFFIC_TRUCK_TEXTURE: Texture2D = preload("res://assets/vehicles/traffic_truck.png")
 const FUEL_PICKUP_TEXTURE: Texture2D = preload("res://assets/pickups/fuel_pickup.png")
 
@@ -58,6 +62,10 @@ var language := GameText.LANGUAGE_EN
 var high_contrast_enabled := false
 var reduced_flashing_enabled := false
 var screen_shake_enabled := true
+var visual_animation_time := 0.0
+var acceleration_visual_strength := 0.0
+var collision_visual_remaining := 0.0
+var collision_visual_direction := 1.0
 
 var speed_label: Label
 var position_label: Label
@@ -215,6 +223,7 @@ func _process(delta: float) -> void:
 	if volume_changed:
 		_save_preferences()
 	if run.phase == RunState.Phase.COUNTDOWN:
+		acceleration_visual_strength = 0.0
 		run.tick(delta, 0.0, GameConfig.MAX_SPEED)
 		if run.phase == RunState.Phase.RUNNING:
 			last_countdown_value = 0
@@ -225,6 +234,7 @@ func _process(delta: float) -> void:
 		queue_redraw()
 		return
 	if run.phase != RunState.Phase.RUNNING:
+		acceleration_visual_strength = 0.0
 		_stop_driving_audio()
 		if run.phase != RunState.Phase.RUN_CLEAR:
 			event_audio.stop()
@@ -235,6 +245,9 @@ func _process(delta: float) -> void:
 	var brake_input := Input.get_action_strength("brake")
 	var steering_input := Input.get_axis("steer_left", "steer_right")
 	drive.step(delta, accelerate_input, brake_input, steering_input)
+	visual_animation_time += delta
+	acceleration_visual_strength = move_toward(acceleration_visual_strength, accelerate_input, delta * 5.0)
+	collision_visual_remaining = maxf(0.0, collision_visual_remaining - delta)
 	road_scroll = advance_road_scroll(road_scroll, drive.speed, delta, ROAD_MARK_REPEAT_DISTANCE)
 	var phase_before_tick := run.phase
 	run.tick(delta, drive.speed, GameConfig.MAX_SPEED)
@@ -294,9 +307,15 @@ func _draw() -> void:
 	var player_glow := VisualStyle.HIGH_CONTRAST_PLAYER_GLOW if high_contrast_enabled else VisualStyle.PLAYER_GLOW
 	var player_color := player_body if not _is_player_flashing() else player_glow
 	draw_circle(car_center, 39.0, Color(player_color, 0.16))
-	var player_rect := Rect2(car_center - PLAYER_CAR_TEXTURE.get_size() * 0.5, PLAYER_CAR_TEXTURE.get_size())
+	_draw_acceleration_effect(car_center)
+	var player_rect := Rect2(-PLAYER_CAR_TEXTURE.get_size() * 0.5, PLAYER_CAR_TEXTURE.get_size())
 	var player_modulate := Color(1.0, 1.0, 1.0, 0.45) if _is_player_flashing() else Color.WHITE
+	var impact_rotation := VehicleVisualAnimation.collision_rotation(collision_visual_remaining, collision_visual_direction)
+	var impact_scale := VehicleVisualAnimation.collision_scale(collision_visual_remaining)
+	draw_set_transform(screen_shake + car_center, impact_rotation, impact_scale)
 	draw_texture_rect(PLAYER_CAR_TEXTURE, player_rect, false, player_modulate)
+	draw_set_transform(screen_shake)
+	_draw_collision_ring(car_center)
 	_draw_sparks()
 	draw_set_transform(Vector2.ZERO)
 
@@ -343,6 +362,7 @@ func _enforce_lane_closure() -> void:
 		var shake := feedback.shake_magnitude_for_speed(impact_speed, GameConfig.MAX_SPEED)
 		screen_shake = Vector2(shake, -shake * 0.7)
 	_play_effect(collision_audio)
+	_start_collision_animation(signf(previous_position - drive.lateral_position))
 
 func _draw_traffic(road_left: float) -> void:
 	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / GameConfig.ROAD_LANE_COUNT
@@ -350,7 +370,7 @@ func _draw_traffic(road_left: float) -> void:
 		var car_center := Vector2(road_left + lane_width * (vehicle.lane_position + 0.5), vehicle.y)
 		var body_color := _traffic_color(vehicle.kind)
 		draw_circle(car_center, maxf(vehicle.half_width, vehicle.half_length * 0.55), Color(body_color, 0.13))
-		var traffic_texture := _traffic_texture_for_kind(vehicle.kind)
+		var traffic_texture := _traffic_texture_for_kind(vehicle.kind, vehicle.visual_variant)
 		var texture_rect := Rect2(car_center - traffic_texture.get_size() * 0.5, traffic_texture.get_size())
 		draw_texture_rect(traffic_texture, texture_rect, false)
 		draw_circle(car_center, 12.0, Color(body_color, 0.92))
@@ -371,8 +391,36 @@ func _draw_fuel_pickups(road_left: float) -> void:
 		var pickup_rect := Rect2(center - FUEL_PICKUP_TEXTURE.get_size() * 0.5, FUEL_PICKUP_TEXTURE.get_size())
 		draw_texture_rect(FUEL_PICKUP_TEXTURE, pickup_rect, false)
 
-func _traffic_texture_for_kind(kind: int) -> Texture2D:
-	return TRAFFIC_TRUCK_TEXTURE if kind == TrafficDirector.Kind.TRUCK else TRAFFIC_SEDAN_TEXTURE
+func _traffic_texture_for_kind(kind: int, visual_variant: int = 0) -> Texture2D:
+	match kind:
+		TrafficDirector.Kind.TRUCK:
+			return TRAFFIC_TRUCK_TEXTURE
+		TrafficDirector.Kind.FAST_OVERTAKE:
+			return TRAFFIC_SPORTS_TEXTURE
+		TrafficDirector.Kind.SIGNAL_CHANGE:
+			return TRAFFIC_HATCHBACK_TEXTURE
+		_:
+			return TRAFFIC_VAN_TEXTURE if visual_variant % 2 == 1 else TRAFFIC_SEDAN_TEXTURE
+
+func _draw_acceleration_effect(car_center: Vector2) -> void:
+	var flame_length := VehicleVisualAnimation.acceleration_flame_length(visual_animation_time, acceleration_visual_strength)
+	if flame_length <= 0.0:
+		return
+	for offset_x in [-19.0, 19.0]:
+		var exhaust := car_center + Vector2(offset_x, 43.0)
+		draw_colored_polygon(PackedVector2Array([exhaust + Vector2(-5.0, 0.0), exhaust + Vector2(5.0, 0.0), exhaust + Vector2(0.0, flame_length)]), Color("ff5b37"))
+		draw_colored_polygon(PackedVector2Array([exhaust + Vector2(-2.5, 1.0), exhaust + Vector2(2.5, 1.0), exhaust + Vector2(0.0, flame_length * 0.65)]), Color("ffe66d"))
+
+func _draw_collision_ring(car_center: Vector2) -> void:
+	var alpha := VehicleVisualAnimation.collision_ring_alpha(collision_visual_remaining)
+	if alpha <= 0.0:
+		return
+	var progress := 1.0 - collision_visual_remaining / VehicleVisualAnimation.COLLISION_DURATION
+	draw_arc(car_center, lerpf(42.0, 82.0, progress), 0.0, TAU, 32, Color(_warning_color(), alpha), 5.0)
+
+func _start_collision_animation(direction: float) -> void:
+	collision_visual_remaining = VehicleVisualAnimation.COLLISION_DURATION
+	collision_visual_direction = direction if not is_zero_approx(direction) else -collision_visual_direction
 
 func _traffic_color(kind: int) -> Color:
 	return VisualStyle.traffic_color(kind, high_contrast_enabled)
@@ -421,6 +469,7 @@ func _check_collisions() -> void:
 					var shake := feedback.shake_magnitude_for_speed(impact_speed, GameConfig.MAX_SPEED)
 					screen_shake = Vector2(shake, -shake * 0.7)
 				_play_effect(collision_audio)
+				_start_collision_animation(signf(player_center.x - traffic_center.x))
 
 func _toggle_audio_mute() -> void:
 	audio_muted = not audio_muted
@@ -554,6 +603,9 @@ func _reset_run(run_seed_override: int = -1) -> void:
 	traffic.reset(current_run_seed)
 	collision = CollisionResponder.new(GameConfig.COLLISION_SPEED_PENALTY, GameConfig.COLLISION_INVULNERABILITY_SECONDS)
 	screen_shake = Vector2.ZERO
+	visual_animation_time = 0.0
+	acceleration_visual_strength = 0.0
+	collision_visual_remaining = 0.0
 	collision_audio.stop()
 	_stop_run_audio()
 	run.reset()

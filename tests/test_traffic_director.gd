@@ -20,6 +20,9 @@ func _init() -> void:
 	assert(sequence_a.spawn_sequence() == sequence_b.spawn_sequence(), "Reset must reproduce the actual 30-second sequence")
 
 	var director = TrafficDirector.new(73)
+	var sedan_variant = director.acquire_vehicle(TrafficDirector.Kind.STEADY_SLOW, 0, 100.0)
+	var van_variant = director.acquire_vehicle(TrafficDirector.Kind.STEADY_SLOW, 1, 100.0)
+	assert(sedan_variant.visual_variant != van_variant.visual_variant, "Steady traffic must rotate between distinct sedan and van visuals")
 	for _second in range(300):
 		director.tick(1.0, 500.0, 1)
 	assert(director.vehicles.size() <= director.max_active_vehicles, "Five minutes must keep active traffic bounded")

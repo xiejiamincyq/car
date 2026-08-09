@@ -29,6 +29,7 @@ var lane_change_started_count: int = 0
 var _viewport_height: float = 720.0
 var lane_events: LaneEventDirector
 var spawn_interval_multiplier := 1.0
+var _visual_variant_cursor := 0
 
 func _init(seed: int, lanes: int = 3, safe_distance: float = 620.0, lane_gap: float = 180.0) -> void:
 	lane_count = lanes
@@ -56,13 +57,16 @@ func tick(delta: float, player_speed: float, player_lane: int = 1) -> void:
 
 func acquire_vehicle(kind: int, lane: int, y: float) -> TrafficVehicle:
 	var target_lane := _target_lane_for(kind, lane)
+	var visual_variant := _visual_variant_cursor % 2 if kind == Kind.STEADY_SLOW else 0
+	if kind == Kind.STEADY_SLOW:
+		_visual_variant_cursor += 1
 	var vehicle: TrafficVehicle
 	if _pool.is_empty():
-		vehicle = TrafficVehicle.new(kind, lane, y, target_lane)
+		vehicle = TrafficVehicle.new(kind, lane, y, target_lane, visual_variant)
 		allocated_vehicle_count += 1
 	else:
 		vehicle = _pool.pop_back()
-		vehicle.configure(kind, lane, y, target_lane)
+		vehicle.configure(kind, lane, y, target_lane, visual_variant)
 	return vehicle
 
 func reset(run_seed: int = -1) -> void:
@@ -71,6 +75,7 @@ func reset(run_seed: int = -1) -> void:
 	vehicles.clear()
 	_next_kind = 0
 	_schedule_cursor = 0
+	_visual_variant_cursor = 0
 	_spawn_cooldown = 0.7
 	if run_seed >= 0:
 		_initial_seed = run_seed

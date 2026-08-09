@@ -1,0 +1,104 @@
+{
+  "player_car": {
+    "source": "art/source/generated/player_car_volume_alpha.png",
+    "output": "assets/vehicles/player_car.png",
+    "source_bbox": [
+      659,
+      949
+    ],
+    "runtime_bbox": [
+      67,
+      96
+    ],
+    "uniform_scale": 0.101159114857745,
+    "canvas": [
+      96,
+      112
+    ]
+  },
+  "traffic_sedan": {
+    "source": "art/source/generated/traffic_sedan_volume_alpha.png",
+    "output": "assets/vehicles/traffic_sedan.png",
+    "source_bbox": [
+      629,
+      979
+    ],
+    "runtime_bbox": [
+      58,
+      90
+    ],
+    "uniform_scale": 0.09220985691573927,
+    "canvas": [
+      80,
+      112
+    ]
+  },
+  "traffic_van": {
+    "source": "art/source/generated/traffic_van_alpha.png",
+    "output": "assets/vehicles/traffic_van.png",
+    "source_bbox": [
+      572,
+      963
+    ],
+    "runtime_bbox": [
+      56,
+      94
+    ],
+    "uniform_scale": 0.0976116303219107,
+    "canvas": [
+      80,
+      112
+    ]
+  },
+  "traffic_hatchback": {
+    "source": "art/source/generated/traffic_hatchback_alpha.png",
+    "output": "assets/vehicles/traffic_hatchback.png",
+    "source_bbox": [
+      630,
+      919
+    ],
+    "runtime_bbox": [
+      60,
+      88
+    ],
+    "uniform_scale": 0.09523809523809523,
+    "canvas": [
+      80,
+      112
+    ]
+  },
+  "traffic_sports": {
+    "source": "art/source/generated/traffic_sports_alpha.png",
+    "output": "assets/vehicles/traffic_sports.png",
+    "source_bbox": [
+      666,
+      1017
+    ],
+    "runtime_bbox": [
+      60,
+      92
+    ],
+    "uniform_scale": 0.09046214355948869,
+    "canvas": [
+      80,
+      112
+    ]
+  },
+  "traffic_truck": {
+    "source": "art/source/generated/traffic_truck_volume_alpha.png",
+    "output": "assets/vehicles/traffic_truck.png",
+    "source_bbox": [
+      405,
+      1179
+    ],
+    "runtime_bbox": [
+      54,
+      156
+    ],
+    "uniform_scale": 0.13231552162849872,
+    "canvas": [
+      96,
+      176
+    ]
+  }
+}
