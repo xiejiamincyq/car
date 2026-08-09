@@ -13,6 +13,7 @@ func _init() -> void:
 	assert(export_presets.get_value("preset.0.options", "application/file_version", "") == "0.3.0.0", "Windows file version must remain numeric during 0.3.0 development")
 	var excluded_resources := str(export_presets.get_value("preset.0", "exclude_filter", ""))
 	assert("tests/*" in excluded_resources, "Release exports must not ship the automated test scripts")
+	assert("art/source/*" in excluded_resources, "Release exports must not ship high-resolution generated art sources")
 
 	var readme := FileAccess.get_file_as_string("res://README.md")
 	assert(RELEASE_VERSION in readme, "README must name the exact candidate version")

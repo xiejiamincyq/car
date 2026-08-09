@@ -19,6 +19,10 @@ const GameFeedback = preload("res://scripts/game_feedback.gd")
 const LaneEventDirector = preload("res://scripts/lane_event_director.gd")
 const DifficultyProfile = preload("res://scripts/difficulty_profile.gd")
 const GameText = preload("res://scripts/game_text.gd")
+const PLAYER_CAR_TEXTURE: Texture2D = preload("res://assets/vehicles/player_car.png")
+const TRAFFIC_SEDAN_TEXTURE: Texture2D = preload("res://assets/vehicles/traffic_sedan.png")
+const TRAFFIC_TRUCK_TEXTURE: Texture2D = preload("res://assets/vehicles/traffic_truck.png")
+const FUEL_PICKUP_TEXTURE: Texture2D = preload("res://assets/pickups/fuel_pickup.png")
 
 const ROAD_MARK_REPEAT_DISTANCE := 92.0
 
@@ -98,6 +102,7 @@ var feedback: GameFeedback
 var feedback_banner: Label
 
 func _ready() -> void:
+	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	_ensure_input_actions()
 	var sequence_seed := hash("%s:%s" % [Time.get_unix_time_from_system(), Time.get_ticks_usec()])
 	run_seed_sequence = RunSeedSequence.new(sequence_seed)
@@ -289,10 +294,9 @@ func _draw() -> void:
 	var player_glow := VisualStyle.HIGH_CONTRAST_PLAYER_GLOW if high_contrast_enabled else VisualStyle.PLAYER_GLOW
 	var player_color := player_body if not _is_player_flashing() else player_glow
 	draw_circle(car_center, 39.0, Color(player_color, 0.16))
-	draw_colored_polygon(PackedVector2Array([car_center + Vector2(0.0, -48.0), car_center + Vector2(29.0, 32.0), car_center + Vector2(-29.0, 32.0)]), player_color)
-	draw_colored_polygon(PackedVector2Array([car_center + Vector2(0.0, -27.0), car_center + Vector2(15.0, 3.0), car_center + Vector2(-15.0, 3.0)]), Color("0b2a45"))
-	draw_rect(Rect2(car_center + Vector2(-22.0, 14.0), Vector2(44.0, 8.0)), player_glow)
-	draw_circle(car_center + Vector2(0.0, 27.0), 5.0, _warning_color())
+	var player_rect := Rect2(car_center - PLAYER_CAR_TEXTURE.get_size() * 0.5, PLAYER_CAR_TEXTURE.get_size())
+	var player_modulate := Color(1.0, 1.0, 1.0, 0.45) if _is_player_flashing() else Color.WHITE
+	draw_texture_rect(PLAYER_CAR_TEXTURE, player_rect, false, player_modulate)
 	_draw_sparks()
 	draw_set_transform(Vector2.ZERO)
 
@@ -346,10 +350,10 @@ func _draw_traffic(road_left: float) -> void:
 		var car_center := Vector2(road_left + lane_width * (vehicle.lane_position + 0.5), vehicle.y)
 		var body_color := _traffic_color(vehicle.kind)
 		draw_circle(car_center, maxf(vehicle.half_width, vehicle.half_length * 0.55), Color(body_color, 0.13))
-		draw_rect(Rect2(car_center + Vector2(-vehicle.half_width, -vehicle.half_length), Vector2(vehicle.half_width * 2.0, vehicle.half_length * 2.0)), body_color, true)
-		var cabin_y := -vehicle.half_length + 16.0
-		draw_rect(Rect2(car_center + Vector2(-vehicle.half_width + 9.0, cabin_y), Vector2((vehicle.half_width - 9.0) * 2.0, 28.0)), Color("111d2d"), true)
-		draw_rect(Rect2(car_center + Vector2(-vehicle.half_width + 5.0, vehicle.half_length - 19.0), Vector2((vehicle.half_width - 5.0) * 2.0, 7.0)), Color("ffdbd2"), true)
+		var traffic_texture := _traffic_texture_for_kind(vehicle.kind)
+		var texture_rect := Rect2(car_center - traffic_texture.get_size() * 0.5, traffic_texture.get_size())
+		draw_texture_rect(traffic_texture, texture_rect, false)
+		draw_circle(car_center, 12.0, Color(body_color, 0.92))
 		draw_string(ThemeDB.fallback_font, car_center + Vector2(-6.0, 7.0), VisualStyle.traffic_marker_for_kind(vehicle.kind), HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color("081018"))
 		if vehicle.kind == TrafficDirector.Kind.SIGNAL_CHANGE and vehicle.warning_remaining > 0.0:
 			var direction := signf(vehicle.target_lane - vehicle.lane_position)
@@ -364,8 +368,11 @@ func _draw_fuel_pickups(road_left: float) -> void:
 		var center := Vector2(road_left + lane_width * (pickup.lane + 0.5), pickup.y)
 		var fuel_color := VisualStyle.HIGH_CONTRAST_FUEL if high_contrast_enabled else VisualStyle.FUEL_GLOW
 		draw_circle(center, 28.0, Color(fuel_color, 0.20))
-		draw_colored_polygon(PackedVector2Array([center + Vector2(0, -22), center + Vector2(20, 0), center + Vector2(0, 22), center + Vector2(-20, 0)]), fuel_color)
-		draw_string(ThemeDB.fallback_font, center + Vector2(-6, 6), "+", HORIZONTAL_ALIGNMENT_LEFT, -1, 22, Color("063526"))
+		var pickup_rect := Rect2(center - FUEL_PICKUP_TEXTURE.get_size() * 0.5, FUEL_PICKUP_TEXTURE.get_size())
+		draw_texture_rect(FUEL_PICKUP_TEXTURE, pickup_rect, false)
+
+func _traffic_texture_for_kind(kind: int) -> Texture2D:
+	return TRAFFIC_TRUCK_TEXTURE if kind == TrafficDirector.Kind.TRUCK else TRAFFIC_SEDAN_TEXTURE
 
 func _traffic_color(kind: int) -> Color:
 	return VisualStyle.traffic_color(kind, high_contrast_enabled)
