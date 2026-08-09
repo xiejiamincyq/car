@@ -20,6 +20,7 @@ const LaneEventDirector = preload("res://scripts/lane_event_director.gd")
 const DifficultyProfile = preload("res://scripts/difficulty_profile.gd")
 const GameText = preload("res://scripts/game_text.gd")
 const VehicleVisualAnimation = preload("res://scripts/vehicle_visual_animation.gd")
+const EnvironmentScroller = preload("res://scripts/environment_scroller.gd")
 const PLAYER_CAR_TEXTURE: Texture2D = preload("res://assets/vehicles/player_car.png")
 const TRAFFIC_SEDAN_TEXTURE: Texture2D = preload("res://assets/vehicles/traffic_sedan.png")
 const TRAFFIC_VAN_TEXTURE: Texture2D = preload("res://assets/vehicles/traffic_van.png")
@@ -27,14 +28,18 @@ const TRAFFIC_HATCHBACK_TEXTURE: Texture2D = preload("res://assets/vehicles/traf
 const TRAFFIC_SPORTS_TEXTURE: Texture2D = preload("res://assets/vehicles/traffic_sports.png")
 const TRAFFIC_TRUCK_TEXTURE: Texture2D = preload("res://assets/vehicles/traffic_truck.png")
 const FUEL_PICKUP_TEXTURE: Texture2D = preload("res://assets/pickups/fuel_pickup.png")
+const COAST_LEFT_TEXTURE: Texture2D = preload("res://assets/environment/coast_left.png")
+const COAST_RIGHT_TEXTURE: Texture2D = preload("res://assets/environment/coast_right.png")
 
 const ROAD_MARK_REPEAT_DISTANCE := 92.0
+const ENVIRONMENT_TILE_HEIGHT := 1024.0
 
 var drive: DriveController
 var traffic: TrafficDirector
 var collision: CollisionResponder
 var run: RunState
 var road_scroll := 0.0
+var environment_scroll := 0.0
 var screen_shake := Vector2.ZERO
 var collision_audio: AudioStreamPlayer
 var engine_audio: AudioStreamPlayer
@@ -249,6 +254,7 @@ func _process(delta: float) -> void:
 	acceleration_visual_strength = move_toward(acceleration_visual_strength, accelerate_input, delta * 5.0)
 	collision_visual_remaining = maxf(0.0, collision_visual_remaining - delta)
 	road_scroll = advance_road_scroll(road_scroll, drive.speed, delta, ROAD_MARK_REPEAT_DISTANCE)
+	environment_scroll = advance_road_scroll(environment_scroll, drive.speed, delta, ENVIRONMENT_TILE_HEIGHT)
 	var phase_before_tick := run.phase
 	run.tick(delta, drive.speed, GameConfig.MAX_SPEED)
 	feedback.tick(delta, run.fuel, run.difficulty_stage)
@@ -288,6 +294,7 @@ func _draw() -> void:
 	var edge_color := VisualStyle.HIGH_CONTRAST_EDGE if high_contrast_enabled else VisualStyle.EDGE_NEON
 	var lane_color := VisualStyle.HIGH_CONTRAST_LANE if high_contrast_enabled else VisualStyle.LANE_MARK
 	draw_rect(Rect2(Vector2.ZERO, viewport_size), ocean_color)
+	_draw_coastal_environment(road_left, road_right, viewport_size)
 	draw_rect(Rect2(road_left - 30.0, 0.0, GameConfig.ROAD_HALF_WIDTH * 2.0 + 60.0, viewport_size.y), shoulder_color)
 	var road_color := VisualStyle.road_color_for_transition(feedback.previous_stage, feedback.current_stage, feedback.stage_transition_mix, high_contrast_enabled)
 	draw_rect(Rect2(road_left, 0.0, GameConfig.ROAD_HALF_WIDTH * 2.0, viewport_size.y), road_color)
@@ -318,6 +325,19 @@ func _draw() -> void:
 	_draw_collision_ring(car_center)
 	_draw_sparks()
 	draw_set_transform(Vector2.ZERO)
+
+func _draw_coastal_environment(road_left: float, road_right: float, viewport_size: Vector2) -> void:
+	var side_modulate := Color(0.58, 0.58, 0.58, 1.0) if high_contrast_enabled else Color.WHITE
+	var left_width := maxf(0.0, road_left - 30.0)
+	var right_start := road_right + 30.0
+	var right_width := maxf(0.0, viewport_size.x - right_start)
+	for tile_y in EnvironmentScroller.tile_positions(environment_scroll, viewport_size.y, ENVIRONMENT_TILE_HEIGHT):
+		if left_width > 0.0:
+			var left_source := Rect2(COAST_LEFT_TEXTURE.get_width() - left_width, 0.0, left_width, ENVIRONMENT_TILE_HEIGHT)
+			draw_texture_rect_region(COAST_LEFT_TEXTURE, Rect2(0.0, tile_y, left_width, ENVIRONMENT_TILE_HEIGHT), left_source, side_modulate)
+		if right_width > 0.0:
+			var right_source := Rect2(0.0, 0.0, right_width, ENVIRONMENT_TILE_HEIGHT)
+			draw_texture_rect_region(COAST_RIGHT_TEXTURE, Rect2(right_start, tile_y, right_width, ENVIRONMENT_TILE_HEIGHT), right_source, side_modulate)
 
 func _draw_sparks() -> void:
 	for spark in feedback.sparks:
@@ -600,6 +620,7 @@ func _reset_run(run_seed_override: int = -1) -> void:
 	current_run_seed = run_seed_override if run_seed_override >= 0 else run_seed_sequence.next_seed()
 	drive.reset()
 	road_scroll = 0.0
+	environment_scroll = 0.0
 	traffic.reset(current_run_seed)
 	collision = CollisionResponder.new(GameConfig.COLLISION_SPEED_PENALTY, GameConfig.COLLISION_INVULNERABILITY_SECONDS)
 	screen_shake = Vector2.ZERO
