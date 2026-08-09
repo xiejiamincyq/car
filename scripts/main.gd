@@ -103,6 +103,8 @@ func _ready() -> void:
 	feedback = GameFeedback.new(GameConfig.SPARK_MAX_COUNT)
 	collision_audio = AudioStreamPlayer.new()
 	collision_audio.stream = CollisionSound.create_stream()
+	collision_audio.bus = &"Effects"
+	collision_audio.volume_db = -10.0
 	add_child(collision_audio)
 	engine_audio = _make_audio_player(SoundEffects.create_engine_loop(), -18.0)
 	acceleration_audio = _make_audio_player(SoundEffects.create_acceleration(), -12.0)
@@ -371,6 +373,7 @@ func _make_audio_player(stream: AudioStream, base_volume_db: float) -> AudioStre
 	var player := AudioStreamPlayer.new()
 	player.stream = stream
 	player.volume_db = base_volume_db
+	player.bus = &"Effects"
 	add_child(player)
 	return player
 
@@ -380,7 +383,7 @@ func _update_audio(delta: float, accelerate_input: float) -> void:
 		if not engine_audio.playing:
 			engine_audio.play()
 		engine_audio.pitch_scale = lerpf(0.78, 1.32, drive.speed / GameConfig.MAX_SPEED)
-		engine_audio.volume_db = SoundEffects.volume_db(audio_volume) - 18.0
+		engine_audio.volume_db = -18.0
 	else:
 		engine_audio.stop()
 	if accelerate_input > 0.0 and Input.is_action_just_pressed("accelerate"):
@@ -395,8 +398,14 @@ func _update_audio(delta: float, accelerate_input: float) -> void:
 func _play_effect(player: AudioStreamPlayer) -> void:
 	if audio_muted or audio_volume <= 0.0:
 		return
-	player.volume_db = SoundEffects.volume_db(audio_volume) - 10.0
 	player.play()
+
+func _apply_master_audio_settings() -> void:
+	var master_index := AudioServer.get_bus_index("Master")
+	if master_index < 0:
+		return
+	AudioServer.set_bus_volume_db(master_index, SoundEffects.volume_db(audio_volume))
+	AudioServer.set_bus_mute(master_index, audio_muted)
 
 func _stop_run_audio() -> void:
 	collision_audio.stop()
@@ -608,6 +617,7 @@ func _apply_saved_preferences() -> void:
 	_apply_window_mode()
 	if audio_muted:
 		_stop_run_audio()
+	_apply_master_audio_settings()
 
 func _apply_difficulty_profile() -> void:
 	var profile := DifficultyProfile.for_index(difficulty_index)
@@ -627,6 +637,7 @@ func _save_preferences() -> void:
 	save_data.settings.screen_shake = screen_shake_enabled
 	if persistence_enabled:
 		save_store.save_data(save_data)
+	_apply_master_audio_settings()
 	_update_settings_labels()
 
 func _text(key: String, values: Array = []) -> String:
