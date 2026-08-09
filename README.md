@@ -8,15 +8,16 @@
 
 | 按键 | 操作 |
 | --- | --- |
-| `Space` | 开始 |
+| `Space` | 比赛中暂停 / 继续；菜单聚焦按钮时确认 |
+| `Enter` | 菜单确认 |
 | `W` / `↑` | 加速 |
 | `S` / `↓` | 制动 |
 | `A` / `←`、`D` / `→` | 转向 |
-| `P` | 暂停 / 继续 |
-| `R` | 重新开始 |
+| `R` | 重新开始；比赛中需要二次确认，结算页直接重开 |
 | `M` | 静音 / 恢复声音 |
 | `-` / `+` | 调低 / 调高音量 |
-| `Esc` | 退出 |
+| `F11` | 窗口 / 全屏切换 |
+| `Esc` | 返回或取消菜单；退出游戏请使用标题页“退出”按钮 |
 
 ## 运行开发版
 
@@ -48,10 +49,10 @@ Get-ChildItem tests -Filter "test_*.gd" | ForEach-Object {
 1. 在 Godot 的 **Editor > Manage Export Templates** 安装与编辑器同版本的 Windows 导出模板。
 2. 打开 **Project > Export**，选择仓库内的 `Windows Desktop` 预设。
 3. 导出至默认路径 `exports/NeonCoastRush.exe`，或改为任意未纳入版本控制的目录。
-4. 在新目录中运行 `NeonCoastRush.exe`，至少完成「启动 → 开始 → 暂停 → 燃油结束 → R 重开」冒烟流程。
+4. 在新目录中运行 `NeonCoastRush.exe`，至少完成「启动 → 开始 → Space 暂停/继续 → 结算 → R 重开 → 返回标题并退出」冒烟流程。
 
 `exports/` 已被 Git 忽略，构建产物不会提交。
 
 ## 当前开发状态
 
-当前版本：`0.2.0-rc.1`，已形成包含正式界面、存档、四赛段终点、中后期交通与程序化音频的 Windows 发布候选。当前仍需完成三人平衡试玩和非开发机冒烟后才能签字发布；进度见 [完成度加固计划](tasks/plan-foundation.md)。发布与回滚步骤见 [发布检查清单](docs/release-checklist.md)，玩家可见改动见 [CHANGELOG](CHANGELOG.md)。
+当前版本：`0.2.0-rc.1`，已形成包含正式界面、存档、四赛段终点、中后期交通与程序化音频的 Windows 发布候选。当前仍需完成三人平衡试玩和非开发机冒烟后才能签字发布；进度见 [完成度加固计划](tasks/plan-foundation.md)。发布与回滚步骤见 [发布检查清单](docs/release-checklist.md)，视觉资产接入约束见 [美术需求清单](docs/art-requirements.md)，玩家可见改动见 [CHANGELOG](CHANGELOG.md)。
