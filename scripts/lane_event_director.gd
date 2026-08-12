@@ -60,6 +60,15 @@ func begin_warning(target_lane: int) -> void:
 func blocked_lane() -> int:
 	return lane if state == State.WARNING or state == State.CLOSED else -1
 
+func cancel_warning() -> void:
+	if state != State.WARNING:
+		return
+	_history.append("cancelled:%d" % lane)
+	state = State.IDLE
+	lane = -1
+	state_remaining = 0.0
+	_cooldown_remaining = _next_cooldown()
+
 func constrain_lateral_position(position: float, player_half_width: float, road_half_width: float) -> float:
 	var road_limit := maxf(0.0, road_half_width)
 	var car_half_width := clampf(player_half_width, 0.0, road_limit)

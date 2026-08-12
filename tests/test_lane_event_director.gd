@@ -30,12 +30,15 @@ func _init() -> void:
 	traffic.vehicles.append(conflict)
 	traffic.lane_events.begin_warning(0)
 	traffic.tick(0.0, 560.0, 1)
-	assert(traffic.vehicles.is_empty(), "Warning start must clear conflicting traffic before the lane becomes unavailable")
+	assert(traffic.vehicles.size() == 1, "A closure warning must preserve existing NPCs instead of making them disappear")
 	assert(traffic.lane_events.blocked_lane() == 0, "The warned lane must be reserved immediately")
+	traffic.tick(0.5, 200.0, 1)
+	assert(traffic.vehicles.has(conflict) and conflict.lane == 0, "Pre-existing traffic may visibly drive out through the warned lane")
 	for _step in range(25):
 		traffic.tick(0.25, 560.0, 1)
 		for vehicle in traffic.vehicles:
-			assert(vehicle.lane != 0, "No vehicle may spawn into a warned or closed lane")
+			if vehicle != conflict:
+				assert(vehicle.lane != 0, "No new vehicle may spawn into a warned or closed lane")
 		if traffic.lane_events.blocked_lane() >= 0:
 			assert(not traffic.reachable_player_lanes(1, 620.0, 72.0).has(0), "Navigation must not advertise a warned or closed lane as an escape route")
 	assert(traffic.lane_events.blocked_lane() == -1, "The lane must safely return after the event ends")
