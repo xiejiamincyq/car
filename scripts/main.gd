@@ -457,7 +457,7 @@ func _draw_traffic(road_left: float) -> void:
 		draw_set_transform(screen_shake)
 		draw_circle(car_center, 12.0, Color(body_color, 0.92))
 		draw_string(ThemeDB.fallback_font, car_center + Vector2(-6.0, 7.0), VisualStyle.traffic_marker_for_kind(vehicle.kind), HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color("081018"))
-		if vehicle.kind == TrafficDirector.Kind.SIGNAL_CHANGE and vehicle.warning_remaining > 0.0:
+		if vehicle.lane_change_enabled and vehicle.warning_remaining > 0.0:
 			var direction := signf(vehicle.target_lane - vehicle.lane_position)
 			draw_colored_polygon(PackedVector2Array([car_center + Vector2(18.0 * direction, -35.0), car_center + Vector2(4.0 * direction, -42.0), car_center + Vector2(4.0 * direction, -28.0)]), _warning_color())
 		if vehicle.kind == TrafficDirector.Kind.FAST_OVERTAKE and vehicle.overtake_warning_remaining > 0.0:
@@ -592,7 +592,7 @@ func _update_audio(delta: float, accelerate_input: float) -> void:
 		_play_effect(acceleration_audio)
 	if warning_cooldown <= 0.0:
 		for vehicle in traffic.vehicles:
-			if vehicle.kind == TrafficDirector.Kind.SIGNAL_CHANGE and vehicle.warning_remaining > 0.68:
+			if vehicle.lane_change_enabled and vehicle.warning_remaining > 0.68:
 				_play_effect(warning_audio)
 				warning_cooldown = 0.55
 				break

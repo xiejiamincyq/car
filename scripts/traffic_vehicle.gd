@@ -7,6 +7,7 @@ const TRUCK_HALF_WIDTH := 31.0
 const TRUCK_HALF_LENGTH := 74.0
 const FAST_OVERTAKE_KIND := 2
 const TRUCK_KIND := 3
+const SIGNAL_CHANGE_KIND := 1
 
 var kind: int
 var lane: int
@@ -26,6 +27,7 @@ var half_width: float = NORMAL_HALF_WIDTH
 var half_length: float = NORMAL_HALF_LENGTH
 var visual_variant: int = 0
 var cruise_speed: float = 200.0
+var lane_change_enabled: bool = false
 
 func _init(vehicle_kind: int, initial_lane: int, initial_y: float, change_target: int = -1, variant: int = 0) -> void:
 	configure(vehicle_kind, initial_lane, initial_y, change_target, variant)
@@ -49,6 +51,7 @@ func configure(vehicle_kind: int, initial_lane: int, initial_y: float, change_ta
 	half_length = TRUCK_HALF_LENGTH if kind == TRUCK_KIND else NORMAL_HALF_LENGTH
 	visual_variant = maxi(0, variant)
 	cruise_speed = _cruise_speed_for_kind(kind)
+	lane_change_enabled = kind == SIGNAL_CHANGE_KIND
 
 static func _cruise_speed_for_kind(vehicle_kind: int) -> float:
 	match vehicle_kind:

@@ -51,6 +51,17 @@ func _init() -> void:
 	director.vehicles.append(other_changer)
 	assert(not director.is_lane_change_safe(other_changer), "Two cars must not reserve the same merge lane")
 
+	director.reset()
+	var random_steady_changer = director.acquire_vehicle(TrafficDirector.Kind.STEADY_SLOW, 1, 120.0)
+	random_steady_changer.target_lane = 0
+	random_steady_changer.lane_change_enabled = true
+	director.vehicles.append(random_steady_changer)
+	director.update_vehicle(random_steady_changer, 0.1, 500.0)
+	assert(random_steady_changer.kind == TrafficDirector.Kind.STEADY_SLOW, "Random lane changes must preserve the vehicle's original visual kind")
+	assert(random_steady_changer.warning_remaining > 0.0, "Random steady-traffic lane changes must use the visible warning state machine")
+	random_steady_changer.configure(TrafficDirector.Kind.STEADY_SLOW, 1, 120.0)
+	assert(not random_steady_changer.lane_change_enabled, "Object-pool reuse must clear a previous random lane-change plan")
+
 	var overtaker = director.acquire_vehicle(TrafficDirector.Kind.FAST_OVERTAKE, 0, 820.0)
 	director.update_vehicle(overtaker, 1.0, 760.0)
 	assert(overtaker.overtake_warning_remaining >= 1.0, "Fast overtaker must warn for at least one visible second before collision risk")
