@@ -25,6 +25,7 @@ var closest_lateral_distance: float = INF
 var half_width: float = NORMAL_HALF_WIDTH
 var half_length: float = NORMAL_HALF_LENGTH
 var visual_variant: int = 0
+var cruise_speed: float = 200.0
 
 func _init(vehicle_kind: int, initial_lane: int, initial_y: float, change_target: int = -1, variant: int = 0) -> void:
 	configure(vehicle_kind, initial_lane, initial_y, change_target, variant)
@@ -47,3 +48,9 @@ func configure(vehicle_kind: int, initial_lane: int, initial_y: float, change_ta
 	half_width = TRUCK_HALF_WIDTH if kind == TRUCK_KIND else NORMAL_HALF_WIDTH
 	half_length = TRUCK_HALF_LENGTH if kind == TRUCK_KIND else NORMAL_HALF_LENGTH
 	visual_variant = maxi(0, variant)
+	cruise_speed = _cruise_speed_for_kind(kind)
+
+static func _cruise_speed_for_kind(vehicle_kind: int) -> float:
+	match vehicle_kind:
+		FAST_OVERTAKE_KIND: return 920.0
+		_: return 200.0

@@ -78,6 +78,7 @@ var screen_shake_enabled := true
 var visual_animation_time := 0.0
 var acceleration_visual_strength := 0.0
 var brake_visual_strength := 0.0
+var steering_visual_strength := 0.0
 var collision_visual_remaining := 0.0
 var collision_visual_direction := 1.0
 var current_vehicle: Dictionary = PlayerVehicleProfile.resolve(&"pulse_gt")
@@ -261,6 +262,7 @@ func _process(delta: float) -> void:
 	if run.phase == RunState.Phase.COUNTDOWN:
 		acceleration_visual_strength = 0.0
 		brake_visual_strength = 0.0
+		steering_visual_strength = move_toward(steering_visual_strength, 0.0, delta * 7.0)
 		run.tick(delta, 0.0, drive.max_speed)
 		if run.phase == RunState.Phase.RUNNING:
 			last_countdown_value = 0
@@ -273,6 +275,7 @@ func _process(delta: float) -> void:
 	if run.phase != RunState.Phase.RUNNING:
 		acceleration_visual_strength = 0.0
 		brake_visual_strength = 0.0
+		steering_visual_strength = move_toward(steering_visual_strength, 0.0, delta * 7.0)
 		_stop_driving_audio()
 		if run.phase == RunState.Phase.RUN_CLEAR:
 			visual_animation_time += delta
@@ -289,6 +292,7 @@ func _process(delta: float) -> void:
 	visual_animation_time += delta
 	acceleration_visual_strength = move_toward(acceleration_visual_strength, accelerate_input, delta * 5.0)
 	brake_visual_strength = move_toward(brake_visual_strength, brake_input, delta * 8.0)
+	steering_visual_strength = move_toward(steering_visual_strength, steering_input, delta * 7.0)
 	collision_visual_remaining = maxf(0.0, collision_visual_remaining - delta)
 	road_scroll = advance_road_scroll(road_scroll, drive.speed, delta, ROAD_MARK_REPEAT_DISTANCE)
 	environment_scroll = advance_road_scroll(environment_scroll, drive.speed, delta, ENVIRONMENT_TILE_HEIGHT)
@@ -336,6 +340,7 @@ func _draw() -> void:
 	draw_rect(Rect2(road_left - 30.0, 0.0, GameConfig.ROAD_HALF_WIDTH * 2.0 + 60.0, viewport_size.y), shoulder_color)
 	var road_color := VisualStyle.road_color_for_transition(feedback.previous_stage, feedback.current_stage, feedback.stage_transition_mix, high_contrast_enabled)
 	draw_rect(Rect2(road_left, 0.0, GameConfig.ROAD_HALF_WIDTH * 2.0, viewport_size.y), road_color)
+	RaceEffectRenderer.draw_speed_lines(self, viewport_size, drive.speed, drive.max_speed, visual_animation_time)
 	draw_line(Vector2(road_left, 0.0), Vector2(road_left, viewport_size.y), edge_color, 8.0)
 	draw_line(Vector2(road_right, 0.0), Vector2(road_right, viewport_size.y), edge_color, 8.0)
 	for lane_index in range(1, GameConfig.ROAD_LANE_COUNT):
@@ -356,11 +361,13 @@ func _draw() -> void:
 	RaceEffectRenderer.draw_acceleration(self, car_center, visual_animation_time, acceleration_visual_strength)
 	var fuel_effect_color := VisualStyle.HIGH_CONTRAST_FUEL if high_contrast_enabled else VisualStyle.FUEL_GLOW
 	RaceEffectRenderer.draw_pickup_bursts(self, feedback, fuel_effect_color)
-	var player_rect := Rect2(-current_player_texture.get_size() * 0.5, current_player_texture.get_size())
+	var player_size := VehicleVisualAnimation.corrected_vehicle_size(current_player_texture.get_size())
+	var player_rect := Rect2(-player_size * 0.5, player_size)
 	var player_modulate := Color(1.0, 1.0, 1.0, 0.45) if _is_player_flashing() else Color.WHITE
 	var impact_rotation := VehicleVisualAnimation.collision_rotation(collision_visual_remaining, collision_visual_direction)
+	var steering_rotation := VehicleVisualAnimation.steering_rotation(steering_visual_strength)
 	var impact_scale := VehicleVisualAnimation.collision_scale(collision_visual_remaining)
-	draw_set_transform(screen_shake + car_center, impact_rotation, impact_scale)
+	draw_set_transform(screen_shake + car_center, impact_rotation + steering_rotation, impact_scale)
 	draw_texture_rect(current_player_texture, player_rect, false, player_modulate)
 	draw_set_transform(screen_shake)
 	RaceEffectRenderer.draw_braking(self, car_center, visual_animation_time, brake_visual_strength, drive.speed, drive.max_speed)
@@ -436,8 +443,11 @@ func _draw_traffic(road_left: float) -> void:
 		var body_color := _traffic_color(vehicle.kind)
 		draw_circle(car_center, maxf(vehicle.half_width, vehicle.half_length * 0.55), Color(body_color, 0.13))
 		var traffic_texture := _traffic_texture_for_kind(vehicle.kind, vehicle.visual_variant)
-		var texture_rect := Rect2(car_center - traffic_texture.get_size() * 0.5, traffic_texture.get_size())
+		var traffic_size := VehicleVisualAnimation.corrected_vehicle_size(traffic_texture.get_size())
+		var texture_rect := Rect2(-traffic_size * 0.5, traffic_size)
+		draw_set_transform(screen_shake + car_center, VehicleVisualAnimation.traffic_facing_rotation())
 		draw_texture_rect(traffic_texture, texture_rect, false)
+		draw_set_transform(screen_shake)
 		draw_circle(car_center, 12.0, Color(body_color, 0.92))
 		draw_string(ThemeDB.fallback_font, car_center + Vector2(-6.0, 7.0), VisualStyle.traffic_marker_for_kind(vehicle.kind), HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color("081018"))
 		if vehicle.kind == TrafficDirector.Kind.SIGNAL_CHANGE and vehicle.warning_remaining > 0.0:
@@ -667,6 +677,7 @@ func _reset_run(run_seed_override: int = -1) -> void:
 	visual_animation_time = 0.0
 	acceleration_visual_strength = 0.0
 	brake_visual_strength = 0.0
+	steering_visual_strength = 0.0
 	collision_visual_remaining = 0.0
 	collision_audio.stop()
 	_stop_run_audio()

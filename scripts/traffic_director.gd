@@ -12,7 +12,7 @@ var lane_count: int = 3
 var minimum_spawn_distance: float = 620.0
 var minimum_lane_gap: float = 180.0
 var reaction_distance: float = 260.0
-var max_active_vehicles: int = 8
+var max_active_vehicles: int = 6
 var vehicles: Array[TrafficVehicle] = []
 var _pool: Array[TrafficVehicle] = []
 var allocated_vehicle_count: int = 0
@@ -121,11 +121,8 @@ func update_vehicle(vehicle: TrafficVehicle, delta: float, player_speed: float) 
 		else:
 			vehicle.y -= overtake_speed * delta
 		return
-	var relative_speed := player_speed * 0.45
-	if vehicle.kind == Kind.STEADY_SLOW or vehicle.kind == Kind.TRUCK:
-		relative_speed += 150.0 if vehicle.kind == Kind.TRUCK else 105.0
-	else:
-		relative_speed += 105.0
+	var relative_speed := player_speed - vehicle.cruise_speed
+	if vehicle.kind != Kind.STEADY_SLOW and vehicle.kind != Kind.TRUCK:
 		if not vehicle.warning_started and vehicle.y >= 80.0:
 			vehicle.warning_started = true
 			vehicle.warning_remaining = lane_change_warning_duration()
@@ -141,7 +138,8 @@ func update_vehicle(vehicle: TrafficVehicle, delta: float, player_speed: float) 
 			vehicle.lane_position = move_toward(vehicle.lane_position, float(vehicle.target_lane), 2.4 * delta)
 			if is_equal_approx(vehicle.lane_position, float(vehicle.target_lane)):
 				vehicle.lane = vehicle.target_lane
-	vehicle.y = _constrain_top_vehicle_y(vehicle, vehicle.y + relative_speed * _speed_multiplier_for_stage() * delta)
+	var proposed_y := vehicle.y + relative_speed * _speed_multiplier_for_stage() * delta
+	vehicle.y = _constrain_top_vehicle_y(vehicle, proposed_y) if relative_speed >= 0.0 else proposed_y
 
 func is_lane_valid(lane: int) -> bool:
 	return lane >= 0 and lane < lane_count
@@ -358,7 +356,7 @@ static func fast_warning_y(vehicle_y: float) -> float:
 func _recycle_offscreen_vehicles() -> void:
 	var active: Array[TrafficVehicle] = []
 	for vehicle in vehicles:
-		var is_offscreen := vehicle.y > TrackGeometry.normal_recycle_y(_viewport_height) if vehicle.kind != Kind.FAST_OVERTAKE else vehicle.y < TrackGeometry.FAST_RECYCLE_Y
+		var is_offscreen := vehicle.y > TrackGeometry.normal_recycle_y(_viewport_height) or vehicle.y < -minimum_spawn_distance * 2.0 if vehicle.kind != Kind.FAST_OVERTAKE else vehicle.y < TrackGeometry.FAST_RECYCLE_Y
 		if is_offscreen:
 			_pool.append(vehicle)
 		else:

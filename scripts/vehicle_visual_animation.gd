@@ -4,6 +4,8 @@ extends RefCounted
 const COLLISION_DURATION := 0.55
 const MAX_COLLISION_ROTATION := 0.18
 const FINISH_EMBLEM_DURATION := 0.75
+const MAX_STEERING_ROTATION := deg_to_rad(15.0)
+const VEHICLE_LENGTH_CORRECTION := 1.22
 
 static func acceleration_flame_length(time_seconds: float, throttle: float) -> float:
 	if throttle <= 0.0:
@@ -53,3 +55,16 @@ static func finish_emblem_rotation(elapsed: float) -> float:
 		return 0.0
 	var progress := clampf(elapsed / FINISH_EMBLEM_DURATION, 0.0, 1.0)
 	return sin(progress * TAU) * 0.10 * (1.0 - progress)
+
+static func steering_rotation(steering_strength: float) -> float:
+	return clampf(steering_strength, -1.0, 1.0) * MAX_STEERING_ROTATION
+
+static func traffic_facing_rotation() -> float:
+	return PI
+
+static func corrected_vehicle_size(source_size: Vector2) -> Vector2:
+	return Vector2(source_size.x, source_size.y * VEHICLE_LENGTH_CORRECTION)
+
+static func speed_line_count(speed: float, maximum_speed: float) -> int:
+	var ratio := clampf(speed / maxf(1.0, maximum_speed), 0.0, 1.0)
+	return maxi(0, floori((ratio - 0.30) * 10.0))

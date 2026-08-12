@@ -56,3 +56,17 @@ static func draw_collision_ring(canvas: CanvasItem, car_center: Vector2, remaini
 		return
 	var progress := 1.0 - remaining / VehicleVisualAnimation.COLLISION_DURATION
 	canvas.draw_arc(car_center, lerpf(42.0, 82.0, progress), 0.0, TAU, 32, Color(warning_color, alpha), 5.0)
+
+static func draw_speed_lines(canvas: CanvasItem, viewport_size: Vector2, speed: float, maximum_speed: float, animation_time: float) -> void:
+	var line_count := VehicleVisualAnimation.speed_line_count(speed, maximum_speed)
+	if line_count <= 0:
+		return
+	var speed_ratio := clampf(speed / maxf(1.0, maximum_speed), 0.0, 1.0)
+	var travel := fposmod(animation_time * speed * 1.7, viewport_size.y + 160.0)
+	for index in range(line_count):
+		var side := -1.0 if index % 2 == 0 else 1.0
+		var rank := float(index / 2)
+		var x := viewport_size.x * 0.5 + side * (360.0 + rank * 58.0)
+		var y := fposmod(travel + index * 137.0, viewport_size.y + 160.0) - 80.0
+		var length := lerpf(28.0, 105.0, speed_ratio)
+		canvas.draw_line(Vector2(x, y - length), Vector2(x, y), Color(0.55, 0.94, 1.0, 0.16 + speed_ratio * 0.30), 3.0)

@@ -23,6 +23,10 @@ func _init() -> void:
 	var sedan_variant = director.acquire_vehicle(TrafficDirector.Kind.STEADY_SLOW, 0, 100.0)
 	var van_variant = director.acquire_vehicle(TrafficDirector.Kind.STEADY_SLOW, 1, 100.0)
 	assert(sedan_variant.visual_variant != van_variant.visual_variant, "Steady traffic must rotate between distinct sedan and van visuals")
+	assert(sedan_variant.cruise_speed >= 180.0 and sedan_variant.cruise_speed <= 220.0, "Default NPC road speed should stay near 200")
+	var initial_y: float = sedan_variant.y
+	director.update_vehicle(sedan_variant, 1.0, 500.0)
+	assert(is_equal_approx(sedan_variant.y - initial_y, 500.0 - sedan_variant.cruise_speed), "NPC screen motion must reflect player speed minus its road speed")
 	for _second in range(300):
 		director.tick(1.0, 500.0, 1)
 	assert(director.vehicles.size() <= director.max_active_vehicles, "Five minutes must keep active traffic bounded")

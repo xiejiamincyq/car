@@ -18,7 +18,10 @@ func _init() -> void:
 
 	controller.reset()
 	controller.step(1.0, 0.0, 0.0)
-	assert(is_equal_approx(controller.speed, 100.0), "Coasting should retain current speed in the prototype")
+	assert(controller.speed < 100.0 and controller.speed >= 50.0, "Releasing the throttle must add gentle rolling resistance")
+	var coast_speed: float = controller.speed
+	controller.step(1.0, 1.0, 0.0)
+	assert(controller.speed > coast_speed, "Throttle must overcome rolling resistance")
 
 	var safe_controller = DriveController.new(100.0, 400.0, 100.0, 200.0, 300.0, 300.0, 30.0)
 	safe_controller.step(1.0, 0.0, 0.0, 1.0)
