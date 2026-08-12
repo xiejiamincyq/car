@@ -21,6 +21,7 @@ func _assert_track_contract() -> void:
 		assert(int(track.silver_score) > 0 and int(track.gold_score) > int(track.silver_score), "Track medal thresholds must be ordered")
 		assert(track.music_id is StringName and not String(track.music_id).is_empty(), "Every track must select a music ID")
 		assert(ResourceLoader.exists(String(track.environment_left_path)) and ResourceLoader.exists(String(track.environment_right_path)), "Every track needs two runtime environment strips")
+		assert(ResourceLoader.exists(String(track.environment_left_alt_path)) and ResourceLoader.exists(String(track.environment_right_alt_path)), "Every track needs alternate runtime environment strips")
 		assert(track.traffic_pattern is StringName and not String(track.traffic_pattern).is_empty(), "Every track needs a traffic identity")
 		assert(float(track.steering_multiplier) >= 0.85 and float(track.steering_multiplier) <= 1.10, "Track steering pressure must remain readable and deterministic")
 	var first_id: StringName = tracks[0].id

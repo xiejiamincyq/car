@@ -13,6 +13,8 @@ const TRACKS := [
 		"steering_multiplier": 1.00,
 		"environment_left_path": "res://assets/environment/coast_left.png",
 		"environment_right_path": "res://assets/environment/coast_right.png",
+		"environment_left_alt_path": "res://assets/environment/coast_left_alt.png",
+		"environment_right_alt_path": "res://assets/environment/coast_right_alt.png",
 		"silver_score": 5200,
 		"gold_score": 7600,
 		"music_id": &"neon_coast",
@@ -28,6 +30,8 @@ const TRACKS := [
 		"steering_multiplier": 0.96,
 		"environment_left_path": "res://assets/tracks/freight_harbor_left.png",
 		"environment_right_path": "res://assets/tracks/freight_harbor_right.png",
+		"environment_left_alt_path": "res://assets/tracks/freight_harbor_left_alt.png",
+		"environment_right_alt_path": "res://assets/tracks/freight_harbor_right_alt.png",
 		"silver_score": 5700,
 		"gold_score": 8300,
 		"music_id": &"freight_harbor",
@@ -43,6 +47,8 @@ const TRACKS := [
 		"steering_multiplier": 0.90,
 		"environment_left_path": "res://assets/tracks/storm_ridge_left.png",
 		"environment_right_path": "res://assets/tracks/storm_ridge_right.png",
+		"environment_left_alt_path": "res://assets/tracks/storm_ridge_left_alt.png",
+		"environment_right_alt_path": "res://assets/tracks/storm_ridge_right_alt.png",
 		"silver_score": 6100,
 		"gold_score": 8900,
 		"music_id": &"storm_ridge",
@@ -58,6 +64,8 @@ const TRACKS := [
 		"steering_multiplier": 1.04,
 		"environment_left_path": "res://assets/tracks/sunrise_express_left.png",
 		"environment_right_path": "res://assets/tracks/sunrise_express_right.png",
+		"environment_left_alt_path": "res://assets/tracks/sunrise_express_left_alt.png",
+		"environment_right_alt_path": "res://assets/tracks/sunrise_express_right_alt.png",
 		"silver_score": 6700,
 		"gold_score": 9800,
 		"music_id": &"sunrise_express",
@@ -95,7 +103,7 @@ static func validate() -> PackedStringArray:
 		var steering_multiplier := float(track.get("steering_multiplier", 0.0))
 		if steering_multiplier < 0.85 or steering_multiplier > 1.10:
 			errors.append("Track %s steering multiplier is outside the readable range" % track_id)
-		for side in ["environment_left_path", "environment_right_path"]:
+		for side in ["environment_left_path", "environment_right_path", "environment_left_alt_path", "environment_right_alt_path"]:
 			var path := String(track.get(side, ""))
 			if path.is_empty() or not ResourceLoader.exists(path):
 				errors.append("Track %s needs a valid %s" % [track_id, side])

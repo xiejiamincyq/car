@@ -84,8 +84,8 @@ var collision_visual_direction := 1.0
 var current_vehicle: Dictionary = PlayerVehicleProfile.resolve(&"pulse_gt")
 var current_player_texture: Texture2D = PlayerVehicleProfile.texture_for(current_vehicle)
 var current_track: Dictionary = TrackRuntimeProfile.resolve(&"neon_coast")
-var current_environment_left: Texture2D = COAST_LEFT_TEXTURE
-var current_environment_right: Texture2D = COAST_RIGHT_TEXTURE
+var current_environment_left: Array[Texture2D] = [COAST_LEFT_TEXTURE]
+var current_environment_right: Array[Texture2D] = [COAST_RIGHT_TEXTURE]
 
 var speed_label: Label
 var position_label: Label
@@ -295,7 +295,7 @@ func _process(delta: float) -> void:
 	steering_visual_strength = move_toward(steering_visual_strength, steering_input, delta * 7.0)
 	collision_visual_remaining = maxf(0.0, collision_visual_remaining - delta)
 	road_scroll = advance_road_scroll(road_scroll, drive.speed, delta, ROAD_MARK_REPEAT_DISTANCE)
-	environment_scroll = advance_road_scroll(environment_scroll, drive.speed, delta, ENVIRONMENT_TILE_HEIGHT)
+	environment_scroll += drive.speed * GameConfig.ROAD_SCROLL_MULTIPLIER * delta
 	var phase_before_tick := run.phase
 	run.tick(delta, drive.speed, drive.max_speed)
 	feedback.tick(delta, run.fuel, run.difficulty_stage)
@@ -380,13 +380,19 @@ func _draw_track_environment(road_left: float, road_right: float, viewport_size:
 	var left_width := maxf(0.0, road_left - 30.0)
 	var right_start := road_right + 30.0
 	var right_width := maxf(0.0, viewport_size.x - right_start)
-	for tile_y in EnvironmentScroller.tile_positions(environment_scroll, viewport_size.y, ENVIRONMENT_TILE_HEIGHT):
+	var tile_positions := EnvironmentScroller.tile_positions(environment_scroll, viewport_size.y, ENVIRONMENT_TILE_HEIGHT)
+	var first_tile_index := floori(environment_scroll / ENVIRONMENT_TILE_HEIGHT) - 1
+	for order in range(tile_positions.size()):
+		var tile_y: float = tile_positions[order]
+		var variant := EnvironmentScroller.variant_index(first_tile_index + order, current_run_seed, current_environment_left.size())
+		var left_texture := current_environment_left[variant]
+		var right_texture := current_environment_right[mini(variant, current_environment_right.size() - 1)]
 		if left_width > 0.0:
-			var left_source := Rect2(current_environment_left.get_width() - left_width, 0.0, left_width, ENVIRONMENT_TILE_HEIGHT)
-			draw_texture_rect_region(current_environment_left, Rect2(0.0, tile_y, left_width, ENVIRONMENT_TILE_HEIGHT), left_source, side_modulate)
+			var left_source := Rect2(left_texture.get_width() - left_width, 0.0, left_width, ENVIRONMENT_TILE_HEIGHT)
+			draw_texture_rect_region(left_texture, Rect2(0.0, tile_y, left_width, ENVIRONMENT_TILE_HEIGHT), left_source, side_modulate)
 		if right_width > 0.0:
 			var right_source := Rect2(0.0, 0.0, right_width, ENVIRONMENT_TILE_HEIGHT)
-			draw_texture_rect_region(current_environment_right, Rect2(right_start, tile_y, right_width, ENVIRONMENT_TILE_HEIGHT), right_source, side_modulate)
+			draw_texture_rect_region(right_texture, Rect2(right_start, tile_y, right_width, ENVIRONMENT_TILE_HEIGHT), right_source, side_modulate)
 
 func _draw_sparks() -> void:
 	for spark in feedback.sparks:
@@ -716,8 +722,8 @@ func _player_texture_for_id(vehicle_id: StringName) -> Texture2D:
 func _apply_selected_track() -> void:
 	var selected_id := StringName(save_data.get("tour", {}).get("selected_track_id", &"neon_coast"))
 	current_track = TrackRuntimeProfile.resolve(selected_id)
-	current_environment_left = TrackRuntimeProfile.texture_for(current_track, "left", COAST_LEFT_TEXTURE)
-	current_environment_right = TrackRuntimeProfile.texture_for(current_track, "right", COAST_RIGHT_TEXTURE)
+	current_environment_left = TrackRuntimeProfile.textures_for(current_track, "left", COAST_LEFT_TEXTURE)
+	current_environment_right = TrackRuntimeProfile.textures_for(current_track, "right", COAST_RIGHT_TEXTURE)
 	TrackRuntimeProfile.apply(current_track, drive, run, traffic)
 
 func _open_tour_map() -> void:

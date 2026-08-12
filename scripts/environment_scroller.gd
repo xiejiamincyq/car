@@ -11,3 +11,9 @@ static func tile_positions(scroll: float, viewport_height: float, tile_height: f
 		positions.append(y)
 		y += tile_height
 	return positions
+
+static func variant_index(tile_index: int, seed: int, variant_count: int) -> int:
+	if variant_count <= 1:
+		return 0
+	var mixed := tile_index * 1103515245 + seed * 12345 + 0x45D9F3B
+	return posmod(mixed ^ (mixed >> 16), variant_count)
