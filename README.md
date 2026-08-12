@@ -48,11 +48,11 @@ Get-ChildItem tests -Filter "test_*.gd" | ForEach-Object {
 
 1. 在 Godot 的 **Editor > Manage Export Templates** 安装与编辑器同版本的 Windows 导出模板。
 2. 打开 **Project > Export**，选择仓库内的 `Windows Desktop` 预设。
-3. 导出至默认路径 `exports/0.3.0/package/NeonCoastRush.exe`，或改为任意未纳入版本控制的目录。
+3. 导出至默认路径 `exports/0.4.0-dev/package/NeonCoastRush.exe`，或改为任意未纳入版本控制的目录。
 4. 在新目录中运行 `NeonCoastRush.exe`，至少完成「启动 → 开始 → Space 暂停/继续 → 结算 → R 重开 → 返回标题并退出」冒烟流程。
 
 `exports/` 已被 Git 忽略，构建产物不会提交。
 
 ## 当前开发状态
 
-当前本机发布候选版本：`0.3.0`。它在 `v0.2.0` 完整玩法基线上加入原创车辆、道路与海岸环境、HUD、事件反馈、制动/拾取/超车/通关动画；`v0.2.0` 继续作为稳定回滚标签。进度见 [完成度加固计划](tasks/plan-foundation.md)，本机发布与回滚步骤见 [发布检查清单](docs/release-checklist.md)，视觉资产接入约束见 [美术需求清单](docs/art-requirements.md)，玩家可见改动见 [CHANGELOG](CHANGELOG.md)。
+当前开发版本：`0.4.0-dev`，正在实现四节点海岸巡回赛、六辆可选车、四条主题赛道和原创 BGM。已验收正式版本保存在 Git 标签 `v0.3.0`，稳定回滚基线仍保留 `v0.2.0`。0.4.0 范围见 [技术规格](docs/spec-0.4.0.md) 和 [实施计划](tasks/plan.md)，0.3.0 发布与回滚记录见 [发布检查清单](docs/release-checklist.md)，玩家可见改动见 [CHANGELOG](CHANGELOG.md)。
