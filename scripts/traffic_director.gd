@@ -12,7 +12,8 @@ var lane_count: int = 3
 var minimum_spawn_distance: float = 620.0
 var minimum_lane_gap: float = 180.0
 var reaction_distance: float = 260.0
-var max_active_vehicles: int = 6
+var max_active_vehicles: int = 8
+var target_active_vehicles: int = 6
 var vehicles: Array[TrafficVehicle] = []
 var _pool: Array[TrafficVehicle] = []
 var allocated_vehicle_count: int = 0
@@ -241,7 +242,7 @@ func _top_lane_has_minimum_gap(lane: int) -> bool:
 	return true
 
 func _spawn_next(player_speed: float, player_lane: int) -> void:
-	if vehicles.size() >= max_active_vehicles:
+	if vehicles.size() >= target_active_vehicles:
 		return
 	var kind := _kind_for_next_spawn()
 	var lane := _random.randi_range(0, lane_count - 1)
