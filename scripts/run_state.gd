@@ -75,7 +75,7 @@ func pause_for_focus_loss() -> void:
 		phase = Phase.PAUSED
 		countdown_remaining = 0.0
 
-func tick(delta: float, speed: float, maximum_speed: float) -> void:
+func tick(delta: float, speed: float, maximum_speed: float, throttle_input: float = 0.0) -> void:
 	if phase == Phase.COUNTDOWN:
 		countdown_remaining = maxf(0.0, countdown_remaining - maxf(0.0, delta))
 		if is_zero_approx(countdown_remaining):
@@ -92,7 +92,9 @@ func tick(delta: float, speed: float, maximum_speed: float) -> void:
 		score += gained_score
 		_distance_score_remainder -= gained_score
 	var speed_ratio := clampf(speed / maxf(1.0, maximum_speed), 0.0, 1.0)
-	fuel = maxf(0.0, fuel - fuel_drain_per_second * (0.75 + speed_ratio * 0.25) * delta)
+	var throttle := clampf(throttle_input, 0.0, 1.0)
+	var fuel_load := 0.12 + throttle * (0.60 + speed_ratio * 0.34)
+	fuel = maxf(0.0, fuel - fuel_drain_per_second * fuel_load * delta)
 	var progress_event := progression.observe(distance)
 	difficulty_stage = progress_event.stage
 	last_checkpoints_crossed = progress_event.checkpoints_crossed

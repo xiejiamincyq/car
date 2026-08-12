@@ -297,7 +297,7 @@ func _process(delta: float) -> void:
 	road_scroll = advance_road_scroll(road_scroll, drive.speed, delta, ROAD_MARK_REPEAT_DISTANCE)
 	environment_scroll += drive.speed * GameConfig.ROAD_SCROLL_MULTIPLIER * delta
 	var phase_before_tick := run.phase
-	run.tick(delta, drive.speed, drive.max_speed)
+	run.tick(delta, drive.speed, drive.max_speed, accelerate_input)
 	feedback.tick(delta, run.fuel, run.difficulty_stage)
 	_update_low_fuel_cue()
 	if run.last_checkpoints_crossed > 0:

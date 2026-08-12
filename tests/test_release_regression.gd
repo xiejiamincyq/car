@@ -19,7 +19,7 @@ func _assert_real_fuel_end_and_second_run(seed: int) -> void:
 	var traffic := TrafficDirector.new(seed)
 	run.start()
 	for _second in range(120):
-		run.tick(1.0, 560.0, 760.0)
+		run.tick(1.0, 560.0, 760.0, 1.0)
 		traffic.set_difficulty_stage(run.difficulty_stage)
 		traffic.tick(1.0, 560.0, 1)
 		assert(traffic.all_active_spawns_are_fair(), "Seed %d must keep every actual spawn fair before fuel ends" % seed)
@@ -32,7 +32,7 @@ func _assert_real_fuel_end_and_second_run(seed: int) -> void:
 	assert(traffic.vehicles.is_empty() and run.phase == RunState.Phase.READY, "Seed %d reset must clear traffic and run state" % seed)
 	assert(is_equal_approx(run.fuel, 100.0) and run.score == 0 and is_zero_approx(run.distance), "Seed %d reset must restore fresh-run values" % seed)
 	run.start()
-	run.tick(1.0, 560.0, 760.0)
+	run.tick(1.0, 560.0, 760.0, 1.0)
 	traffic.tick(1.0, 560.0, 1)
 	assert(run.phase == RunState.Phase.RUNNING and run.distance > 0.0 and run.score > 0, "Seed %d must support a progressing second run after reset" % seed)
 

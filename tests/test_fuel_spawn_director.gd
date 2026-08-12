@@ -15,7 +15,7 @@ func _init() -> void:
 	for speed in expected_survival_ranges:
 		var run := RunState.new(100.0, GameConfig.FUEL_DRAIN_PER_SECOND, 0.0)
 		run.start()
-		run.tick(1.0, speed, GameConfig.MAX_SPEED)
+		run.tick(1.0, speed, GameConfig.MAX_SPEED, 1.0)
 		var actual_drain := 100.0 - run.fuel
 		assert(actual_drain > pickup_supply_per_second, "Collecting every pickup must still consume fuel at speed %.0f" % speed)
 		var ideal_survival_seconds := 100.0 / (actual_drain - pickup_supply_per_second)
