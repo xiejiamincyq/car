@@ -26,8 +26,12 @@ func _run() -> void:
 	screen.open()
 	await process_frame
 	assert(screen.visible and screen.vehicle_buttons[1].has_focus(), "The garage must focus the saved vehicle for keyboard play")
-	assert(screen.get_global_rect().encloses(screen.get_node("Center/Card").get_global_rect()), "The garage card must fit inside the 720p viewport")
+	for size in [Vector2i(1280, 720), Vector2i(1920, 1080)]:
+		root.content_scale_size = size
+		await process_frame
+		assert(screen.get_global_rect().encloses(screen.get_node("Center/Card").get_global_rect()), "The garage card must fit inside the %s viewport" % size)
 	assert(screen.heading.text == "选择赛车" and screen.vehicle_buttons.size() == 6, "The garage must render six localized vehicle choices")
+	root.content_scale_size = Vector2i(1280, 720)
 	screen.queue_free()
 	await process_frame
 	quit()

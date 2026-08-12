@@ -40,6 +40,10 @@ func _run() -> void:
 	main.run.mark_clear()
 	main._update_hud()
 	assert(result_screen.visible and result_summary.text.contains("抵达终点"), "Run clear must use a distinct settlement result")
+	main._return_to_tour_map()
+	var tour_map = main.get_node("CanvasLayer/TourMapScreen")
+	assert(main.run.phase == main.RunState.Phase.TITLE and tour_map.visible, "Settlement must return to the tour map without restarting the program")
+	assert(tour_map.controller.node_states()[1].unlocked, "Clearing the coast must unlock the harbor on return to the map")
 
 	main._return_to_title()
 	assert(main.run.phase == main.RunState.Phase.TITLE and main.get_node("CanvasLayer/TitleScreen").visible, "Settlement must return to title without restarting the program")

@@ -32,8 +32,12 @@ func _run() -> void:
 	screen.open()
 	await process_frame
 	assert(screen.visible and screen.track_buttons[1].has_focus(), "The tour screen must focus the saved track for keyboard play")
-	assert(screen.get_global_rect().encloses(screen.get_node("Center/Card").get_global_rect()), "The tour card must fit inside the 720p viewport")
+	for size in [Vector2i(1280, 720), Vector2i(1920, 1080)]:
+		root.content_scale_size = size
+		await process_frame
+		assert(screen.get_global_rect().encloses(screen.get_node("Center/Card").get_global_rect()), "The tour card must fit inside the %s viewport" % size)
 	assert(screen.heading.text == "霓虹海岸巡回赛" and screen.track_buttons.size() == 4, "The tour screen must render four localized nodes")
+	root.content_scale_size = Vector2i(1280, 720)
 	screen.queue_free()
 	await process_frame
 	quit()

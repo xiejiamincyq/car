@@ -79,7 +79,7 @@ const TEXT_ROWS := [
 	["result.over", "比赛结束", "RACE OVER"],
 	["result.new_record", "NEW RECORD", "NEW RECORD"],
 	["result.stats", "统计", "STATS"],
-	["result.replay", "再来一局", "RACE AGAIN"],
+	["result.replay", "返回巡回地图", "RETURN TO TOUR"],
 	["result.title", "返回标题", "RETURN TO TITLE"],
 	["result.reason.clear", "抵达终点", "FINISH REACHED"],
 	["result.reason.fuel", "燃油耗尽", "OUT OF FUEL"],

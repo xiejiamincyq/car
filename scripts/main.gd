@@ -14,6 +14,7 @@ const RunSeedSequence = preload("res://scripts/run_seed_sequence.gd")
 const FuelSpawnDirector = preload("res://scripts/fuel_spawn_director.gd")
 const SaveStore = preload("res://scripts/save_store.gd")
 const Progression = preload("res://scripts/progression.gd")
+const TrackCatalog = preload("res://scripts/catalog/track_catalog.gd")
 const PassEventResolver = preload("res://scripts/pass_event_resolver.gd")
 const GameFeedback = preload("res://scripts/game_feedback.gd")
 const LaneEventDirector = preload("res://scripts/lane_event_director.gd")
@@ -93,6 +94,8 @@ var menu_backdrop: TextureRect
 var overlay_shade: ColorRect
 var race_hud: Control
 var title_screen: Control
+var tour_map_screen
+var vehicle_select_screen
 var settings_screen: Control
 var controls_screen: Control
 var countdown_screen: Control
@@ -165,6 +168,8 @@ func _ready() -> void:
 	menu_backdrop = $CanvasLayer/MenuBackdrop
 	overlay_shade = $CanvasLayer/OverlayShade
 	title_screen = $CanvasLayer/TitleScreen
+	tour_map_screen = $CanvasLayer/TourMapScreen
+	vehicle_select_screen = $CanvasLayer/VehicleSelectScreen
 	settings_screen = $CanvasLayer/SettingsScreen
 	controls_screen = $CanvasLayer/ControlsScreen
 	countdown_screen = $CanvasLayer/CountdownScreen
@@ -678,6 +683,50 @@ func _start_new_run() -> void:
 	run.begin_countdown()
 	_update_hud()
 
+func _open_tour_map() -> void:
+	title_screen.visible = false
+	result_screen.visible = false
+	vehicle_select_screen.visible = false
+	tour_map_screen.setup(save_data.tour, language)
+	tour_map_screen.open()
+	menu_backdrop.visible = true
+
+func _open_vehicle_select(_track_id: StringName = &"") -> void:
+	_save_tour_selection()
+	tour_map_screen.visible = false
+	vehicle_select_screen.setup(save_data.tour, language)
+	vehicle_select_screen.open()
+
+func _start_selected_run(_vehicle_id: StringName = &"") -> void:
+	_save_tour_selection()
+	vehicle_select_screen.visible = false
+	_start_new_run()
+
+func _return_to_tour_map() -> void:
+	_reset_run()
+	settings_screen.visible = false
+	controls_screen.visible = false
+	pause_screen.visible = false
+	result_screen.visible = false
+	confirmation_screen.visible = false
+	_update_hud()
+	_open_tour_map()
+
+func _back_to_title_from_tour() -> void:
+	tour_map_screen.visible = false
+	vehicle_select_screen.visible = false
+	title_screen.visible = true
+	menu_backdrop.visible = true
+	start_button.grab_focus()
+
+func _back_to_tour_from_garage() -> void:
+	vehicle_select_screen.visible = false
+	_open_tour_map()
+
+func _save_tour_selection() -> void:
+	if persistence_enabled:
+		save_store.save_data(save_data)
+
 func _show_settings() -> void:
 	submenu_return = "title"
 	title_screen.visible = false
@@ -786,6 +835,8 @@ func _return_to_title() -> void:
 	pause_screen.visible = false
 	result_screen.visible = false
 	confirmation_screen.visible = false
+	tour_map_screen.visible = false
+	vehicle_select_screen.visible = false
 	title_screen.visible = true
 	_update_hud()
 	start_button.grab_focus()
@@ -928,7 +979,7 @@ func _update_settings_labels() -> void:
 	settings_screen_shake_button.text = _text("settings.screen_shake", [_text("common.on" if screen_shake_enabled else "common.off")])
 
 func _bind_ui_actions() -> void:
-	start_button.pressed.connect(_start_new_run)
+	start_button.pressed.connect(_open_tour_map)
 	difficulty_button.pressed.connect(_cycle_difficulty)
 	$CanvasLayer/TitleScreen/Center/Card/Content/SettingsButton.pressed.connect(_show_settings)
 	$CanvasLayer/TitleScreen/Center/Card/Content/ControlsButton.pressed.connect(_show_controls)
@@ -945,10 +996,14 @@ func _bind_ui_actions() -> void:
 	$CanvasLayer/PauseScreen/Center/Card/Content/RestartButton.pressed.connect(_request_restart)
 	$CanvasLayer/PauseScreen/Center/Card/Content/SettingsButton.pressed.connect(_show_pause_settings)
 	$CanvasLayer/PauseScreen/Center/Card/Content/TitleButton.pressed.connect(_request_title)
-	$CanvasLayer/ResultScreen/Center/Card/Content/ReplayButton.pressed.connect(_replay_run)
+	$CanvasLayer/ResultScreen/Center/Card/Content/ReplayButton.pressed.connect(_return_to_tour_map)
 	$CanvasLayer/ResultScreen/Center/Card/Content/TitleButton.pressed.connect(_return_to_title)
 	$CanvasLayer/ConfirmationScreen/Center/Card/Content/ConfirmButton.pressed.connect(_confirm_destructive_action)
 	$CanvasLayer/ConfirmationScreen/Center/Card/Content/CancelButton.pressed.connect(_cancel_confirmation)
+	tour_map_screen.track_confirmed.connect(_open_vehicle_select)
+	tour_map_screen.back_requested.connect(_back_to_title_from_tour)
+	vehicle_select_screen.vehicle_confirmed.connect(_start_selected_run)
+	vehicle_select_screen.back_requested.connect(_back_to_tour_from_garage)
 
 func _bind_ui_cues() -> void:
 	for node in find_children("*", "Button", true, false):
@@ -1007,8 +1062,8 @@ func _update_hud() -> void:
 		_update_result_labels()
 		if not result_was_visible:
 			$CanvasLayer/ResultScreen/Center/Card/Content/ReplayButton.grab_focus()
-	menu_backdrop.visible = run.phase == RunState.Phase.TITLE or result_screen.visible or (settings_screen.visible and submenu_return == "title") or controls_screen.visible
-	if run.phase == RunState.Phase.TITLE and not settings_screen.visible and not controls_screen.visible:
+	menu_backdrop.visible = run.phase == RunState.Phase.TITLE or result_screen.visible or tour_map_screen.visible or vehicle_select_screen.visible or (settings_screen.visible and submenu_return == "title") or controls_screen.visible
+	if run.phase == RunState.Phase.TITLE and not settings_screen.visible and not controls_screen.visible and not tour_map_screen.visible and not vehicle_select_screen.visible:
 		title_screen.visible = true
 	elif run.phase != RunState.Phase.TITLE:
 		title_screen.visible = false
@@ -1028,12 +1083,27 @@ func _persist_result_once() -> void:
 		"overtakes": run.overtakes,
 		"near_misses": run.near_misses,
 		"stage": run.difficulty_stage + 1,
+		"track_id": StringName(save_data.tour.selected_track_id),
+		"cleared": run.phase == RunState.Phase.RUN_CLEAR,
+		"medal": _tour_medal_for_result(),
 	}, Time.get_date_string_from_system())
 	save_data = outcome.data
 	is_new_record = outcome.new_record
 	if persistence_enabled:
 		save_store.save_data(save_data)
 	_update_scoreboards()
+
+func _tour_medal_for_result() -> int:
+	if run.phase != RunState.Phase.RUN_CLEAR:
+		return 0
+	var track := TrackCatalog.get_by_id(StringName(save_data.tour.selected_track_id))
+	if track.is_empty():
+		return 1
+	if run.score >= int(track.gold_score):
+		return 3
+	if run.score >= int(track.silver_score):
+		return 2
+	return 1
 
 func _update_scoreboards() -> void:
 	if save_data.is_empty():
