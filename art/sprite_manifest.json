@@ -100,5 +100,53 @@
       96,
       176
     ]
+  },
+  "player_pulse_gt": {
+    "source": "art/source/vehicles/pulse_gt_chroma.png",
+    "output": "assets/vehicles/player_pulse_gt.png",
+    "source_bbox": [702, 911],
+    "runtime_bbox": [70, 91],
+    "uniform_scale": 0.09971509971509972,
+    "canvas": [96, 112]
+  },
+  "player_driftwing": {
+    "source": "art/source/vehicles/driftwing_chroma.png",
+    "output": "assets/vehicles/player_driftwing.png",
+    "source_bbox": [658, 947],
+    "runtime_bbox": [69, 100],
+    "uniform_scale": 0.10559662090813093,
+    "canvas": [96, 112]
+  },
+  "player_flashpoint": {
+    "source": "art/source/vehicles/flashpoint_chroma.png",
+    "output": "assets/vehicles/player_flashpoint.png",
+    "source_bbox": [675, 952],
+    "runtime_bbox": [70, 99],
+    "uniform_scale": 0.1037037037037037,
+    "canvas": [96, 112]
+  },
+  "player_comet_rs": {
+    "source": "art/source/vehicles/comet_rs_chroma.png",
+    "output": "assets/vehicles/player_comet_rs.png",
+    "source_bbox": [646, 1076],
+    "runtime_bbox": [60, 100],
+    "uniform_scale": 0.09293680297397769,
+    "canvas": [96, 112]
+  },
+  "player_tidebreaker": {
+    "source": "art/source/vehicles/tidebreaker_chroma.png",
+    "output": "assets/vehicles/player_tidebreaker.png",
+    "source_bbox": [720, 1008],
+    "runtime_bbox": [70, 98],
+    "uniform_scale": 0.09722222222222222,
+    "canvas": [96, 112]
+  },
+  "player_aurora_x": {
+    "source": "art/source/vehicles/aurora_x_chroma.png",
+    "output": "assets/vehicles/player_aurora_x.png",
+    "source_bbox": [757, 1047],
+    "runtime_bbox": [70, 97],
+    "uniform_scale": 0.09247027741083223,
+    "canvas": [96, 112]
   }
 }
