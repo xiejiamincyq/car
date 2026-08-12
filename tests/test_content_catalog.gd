@@ -31,6 +31,8 @@ func _assert_vehicle_contract() -> void:
 	assert(VehicleCatalog.validate().is_empty(), "The frozen vehicle catalog must satisfy its own contract")
 	for vehicle in vehicles:
 		assert(vehicle.id is StringName and not String(vehicle.id).is_empty(), "Vehicles need stable StringName IDs")
+		assert(String(vehicle.get("texture_path", "")).begins_with("res://assets/vehicles/player_"), "Every player vehicle needs its own runtime sprite path")
+		assert(ResourceLoader.exists(String(vehicle.texture_path)), "Vehicle %s sprite must exist" % vehicle.id)
 		assert(float(vehicle.max_speed) > 0.0 and float(vehicle.acceleration) > 0.0, "Vehicle propulsion values must be positive")
 		assert(float(vehicle.braking) > 0.0 and float(vehicle.steering_speed) > 0.0, "Vehicle control values must be positive")
 		assert(float(vehicle.collision_speed_penalty) > 0.0, "Vehicle collision recovery must remain meaningful")

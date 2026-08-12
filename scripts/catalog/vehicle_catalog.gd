@@ -14,6 +14,7 @@ const VEHICLES := [
 		"id": &"pulse_gt",
 		"name_key": &"vehicle_pulse_gt",
 		"role_key": &"vehicle_role_balanced",
+		"texture_path": "res://assets/vehicles/player_pulse_gt.png",
 		"max_speed": 760.0,
 		"acceleration": 220.0,
 		"braking": 420.0,
@@ -24,6 +25,7 @@ const VEHICLES := [
 		"id": &"driftwing",
 		"name_key": &"vehicle_driftwing",
 		"role_key": &"vehicle_role_agile",
+		"texture_path": "res://assets/vehicles/player_driftwing.png",
 		"max_speed": 700.0,
 		"acceleration": 216.0,
 		"braking": 483.0,
@@ -34,6 +36,7 @@ const VEHICLES := [
 		"id": &"flashpoint",
 		"name_key": &"vehicle_flashpoint",
 		"role_key": &"vehicle_role_sprint",
+		"texture_path": "res://assets/vehicles/player_flashpoint.png",
 		"max_speed": 775.0,
 		"acceleration": 264.0,
 		"braking": 386.0,
@@ -44,6 +47,7 @@ const VEHICLES := [
 		"id": &"comet_rs",
 		"name_key": &"vehicle_comet_rs",
 		"role_key": &"vehicle_role_speed",
+		"texture_path": "res://assets/vehicles/player_comet_rs.png",
 		"max_speed": 859.0,
 		"acceleration": 224.0,
 		"braking": 378.0,
@@ -54,6 +58,7 @@ const VEHICLES := [
 		"id": &"tidebreaker",
 		"name_key": &"vehicle_tidebreaker",
 		"role_key": &"vehicle_role_stable",
+		"texture_path": "res://assets/vehicles/player_tidebreaker.png",
 		"max_speed": 714.0,
 		"acceleration": 198.0,
 		"braking": 470.0,
@@ -64,6 +69,7 @@ const VEHICLES := [
 		"id": &"aurora_x",
 		"name_key": &"vehicle_aurora_x",
 		"role_key": &"vehicle_role_expert",
+		"texture_path": "res://assets/vehicles/player_aurora_x.png",
 		"max_speed": 836.0,
 		"acceleration": 253.0,
 		"braking": 344.0,
@@ -101,6 +107,9 @@ static func validate() -> PackedStringArray:
 		for key in [&"max_speed", &"acceleration", &"braking", &"steering_speed", &"collision_speed_penalty"]:
 			if float(vehicle.get(key, 0.0)) <= 0.0:
 				errors.append("Vehicle %s has an invalid %s" % [vehicle_id, key])
+		var texture_path := String(vehicle.get("texture_path", ""))
+		if not texture_path.begins_with("res://assets/vehicles/player_") or not ResourceLoader.exists(texture_path):
+			errors.append("Vehicle %s needs a valid player sprite" % vehicle_id)
 		var budget := performance_budget(vehicle)
 		if budget < MIN_PERFORMANCE_BUDGET or budget > MAX_PERFORMANCE_BUDGET:
 			errors.append("Vehicle %s is outside the shared performance budget" % vehicle_id)

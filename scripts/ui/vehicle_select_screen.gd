@@ -18,6 +18,7 @@ var language := GameText.LANGUAGE_EN
 	$Center/Card/Content/Vehicles/Vehicle4, $Center/Card/Content/Vehicles/Vehicle5,
 ]
 @onready var details: Label = $Center/Card/Content/Details
+@onready var preview: TextureRect = $Center/Card/Content/Preview
 @onready var hint: Label = $Center/Card/Content/Hint
 @onready var back_button: Button = $Center/Card/Content/BackButton
 
@@ -88,6 +89,7 @@ func _refresh() -> void:
 		vehicle_buttons[index].modulate = Color.WHITE if state.unlocked else Color(0.62, 0.68, 0.76)
 	controller.selected_index = selected_index
 	var selected := controller.selected_state()
+	preview.texture = load(String(selected.texture_path)) as Texture2D
 	var availability := _text("garage.available") if selected.unlocked else _text(String(selected.unlock_key))
 	details.text = _text("garage.details", [_text(String(selected.name_key)), _text(String(selected.role_key)), availability,
 		roundi(selected.max_speed), roundi(selected.acceleration), roundi(selected.braking),

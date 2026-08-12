@@ -31,6 +31,7 @@ func _run() -> void:
 		await process_frame
 		assert(screen.get_global_rect().encloses(screen.get_node("Center/Card").get_global_rect()), "The garage card must fit inside the %s viewport" % size)
 	assert(screen.heading.text == "选择赛车" and screen.vehicle_buttons.size() == 6, "The garage must render six localized vehicle choices")
+	assert(screen.preview.texture != null and screen.preview.texture.resource_path.ends_with("player_driftwing.png"), "The garage must preview the focused vehicle sprite")
 	root.content_scale_size = Vector2i(1280, 720)
 	screen.queue_free()
 	await process_frame
