@@ -59,10 +59,8 @@ mouse_filter = 2
 
 [node name="RaceHUD" type="Control" parent="CanvasLayer"]
 visible = false
-offset_left = 24.0
-offset_top = 20.0
-offset_right = 560.0
-offset_bottom = 254.0
+offset_right = 500.0
+offset_bottom = 232.0
 
 [node name="Panel" type="ColorRect" parent="CanvasLayer/RaceHUD"]
 layout_mode = 1
@@ -71,7 +69,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.02, 0.07, 0.12, 0.94)
+color = Color(0.02, 0.07, 0.12, 0.7)
 mouse_filter = 2
 
 [node name="HUDFrame" type="TextureRect" parent="CanvasLayer/RaceHUD"]
@@ -82,6 +80,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_hud_frame")
+modulate = Color(1, 1, 1, 0.82)
 expand_mode = 1
 stretch_mode = 0
 mouse_filter = 2
@@ -91,10 +90,10 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 48.0
-offset_top = 32.0
-offset_right = -48.0
-offset_bottom = -40.0
+offset_left = 30.0
+offset_top = 20.0
+offset_right = -32.0
+offset_bottom = -26.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 3
@@ -102,7 +101,11 @@ theme_override_constants/separation = 3
 [node name="Speed" type="Label" parent="CanvasLayer/RaceHUD/Rows"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9, 0.98, 1, 1)
-theme_override_font_sizes/font_size = 28
+theme_override_colors/font_outline_color = Color(0.01, 0.04, 0.08, 0.95)
+theme_override_constants/outline_size = 4
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 32
 text = ""
 
 [node name="Position" type="Label" parent="CanvasLayer/RaceHUD/Rows"]
@@ -112,18 +115,24 @@ visible = false
 [node name="ControlsHint" type="Label" parent="CanvasLayer/RaceHUD/Rows"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.62, 0.79, 0.84, 1)
-theme_override_font_sizes/font_size = 16
+theme_override_colors/font_outline_color = Color(0.01, 0.04, 0.08, 0.9)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 15
 text = ""
 
 [node name="Score" type="Label" parent="CanvasLayer/RaceHUD/Rows"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.86, 0.38, 1)
-theme_override_font_sizes/font_size = 19
+theme_override_colors/font_outline_color = Color(0.1, 0.045, 0.005, 0.95)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 22
 
 [node name="Fuel" type="Label" parent="CanvasLayer/RaceHUD/Rows"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.4, 0.98, 0.68, 1)
-theme_override_font_sizes/font_size = 19
+theme_override_colors/font_outline_color = Color(0.005, 0.08, 0.045, 0.95)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 22
 
 [node name="FuelGauge" type="ProgressBar" parent="CanvasLayer/RaceHUD/Rows"]
 custom_minimum_size = Vector2(0, 10)
@@ -136,7 +145,9 @@ mouse_filter = 2
 [node name="RunStatus" type="Label" parent="CanvasLayer/RaceHUD/Rows"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.72, 0.9, 0.96, 1)
-theme_override_font_sizes/font_size = 16
+theme_override_colors/font_outline_color = Color(0.01, 0.04, 0.08, 0.9)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 18
 
 [node name="ProgressGauge" type="ProgressBar" parent="CanvasLayer/RaceHUD/Rows"]
 custom_minimum_size = Vector2(0, 8)
@@ -546,15 +557,15 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Card" type="PanelContainer" parent="CanvasLayer/ResultScreen/Center"]
-custom_minimum_size = Vector2(500, 0)
+custom_minimum_size = Vector2(480, 0)
 layout_mode = 2
 
 [node name="Content" type="VBoxContainer" parent="CanvasLayer/ResultScreen/Center/Card"]
 layout_mode = 2
-theme_override_constants/separation = 14
+theme_override_constants/separation = 8
 
 [node name="ResultEmblem" type="TextureRect" parent="CanvasLayer/ResultScreen/Center/Card/Content"]
-custom_minimum_size = Vector2(160, 160)
+custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 texture = ExtResource("6_result_emblem")
 expand_mode = 3
@@ -563,7 +574,7 @@ mouse_filter = 2
 
 [node name="Heading" type="Label" parent="CanvasLayer/ResultScreen/Center/Card/Content"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 30
 text = ""
 horizontal_alignment = 1
 
@@ -571,31 +582,31 @@ horizontal_alignment = 1
 visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.86, 0.25, 1)
-theme_override_font_sizes/font_size = 25
+theme_override_font_sizes/font_size = 22
 text = ""
 horizontal_alignment = 1
 
 [node name="Summary" type="Label" parent="CanvasLayer/ResultScreen/Center/Card/Content"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.83, 0.94, 0.97, 1)
-theme_override_font_sizes/font_size = 19
+theme_override_font_sizes/font_size = 17
 text = ""
 horizontal_alignment = 1
 
 [node name="BestScores" type="Label" parent="CanvasLayer/ResultScreen/Center/Card/Content"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.86, 0.38, 1)
-theme_override_font_sizes/font_size = 15
+theme_override_font_sizes/font_size = 13
 text = ""
 horizontal_alignment = 1
 
 [node name="ReplayButton" type="Button" parent="CanvasLayer/ResultScreen/Center/Card/Content"]
-custom_minimum_size = Vector2(0, 46)
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 text = ""
 
 [node name="TitleButton" type="Button" parent="CanvasLayer/ResultScreen/Center/Card/Content"]
-custom_minimum_size = Vector2(0, 42)
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 text = ""
 
