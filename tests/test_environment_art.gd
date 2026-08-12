@@ -2,12 +2,23 @@ extends SceneTree
 
 const MainScene = preload("res://scenes/main.tscn")
 const EnvironmentScroller = preload("res://scripts/environment_scroller.gd")
+const TrackCatalog = preload("res://scripts/catalog/track_catalog.gd")
 
 func _init() -> void:
 	for asset_path in ["res://assets/environment/coast_left.png", "res://assets/environment/coast_right.png"]:
 		var texture := load(asset_path) as Texture2D
 		assert(texture != null, "%s must import as a Texture2D" % asset_path)
 		assert(texture.get_size() == Vector2(256.0, 1024.0), "%s must use the frozen scrolling-strip canvas" % asset_path)
+	var track_paths := {}
+	for track in TrackCatalog.all():
+		for asset_path in [String(track.environment_left_path), String(track.environment_right_path)]:
+			track_paths[asset_path] = true
+			var texture := load(asset_path) as Texture2D
+			assert(texture != null and texture.get_size() == Vector2(256.0, 1024.0), "%s must use the frozen scrolling-strip canvas" % asset_path)
+			var image := texture.get_image()
+			for x in range(0, 256, 32):
+				assert(image.get_pixel(x, 0).is_equal_approx(image.get_pixel(x, 1023)), "%s must join cleanly across its vertical loop" % asset_path)
+	assert(track_paths.size() == 8, "Four tracks must expose distinct left and right environment strips")
 
 	var positions := EnvironmentScroller.tile_positions(1300.0, 720.0, 1024.0)
 	assert(not positions.is_empty(), "Environment scrolling must draw at least one strip")

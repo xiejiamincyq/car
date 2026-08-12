@@ -6,6 +6,7 @@ func _init() -> void:
 	_assert_fresh_progress()
 	_assert_linear_track_unlocks()
 	_assert_vehicle_unlocks()
+	_assert_per_track_bests_are_independent()
 	_assert_selection_fails_closed()
 	quit()
 
@@ -50,3 +51,12 @@ func _assert_selection_fails_closed() -> void:
 	assert(not TourProgress.select_vehicle(progress, &"missing"), "Unknown vehicle IDs must fail closed")
 	assert(TourProgress.select_track(progress, &"neon_coast"), "Unlocked tracks must be selectable")
 	assert(TourProgress.select_vehicle(progress, &"driftwing"), "Unlocked starter vehicles must be selectable")
+
+func _assert_per_track_bests_are_independent() -> void:
+	var progress := TourProgress.default_data()
+	progress = TourProgress.record_result(progress, &"neon_coast", 6200, 200.0, true, 2)
+	progress = TourProgress.record_result(progress, &"freight_harbor", 7100, 230.0, true, 1)
+	progress = TourProgress.record_result(progress, &"neon_coast", 5000, 240.0, false, 0)
+	assert(progress.track_results.neon_coast.best_score == 6200 and is_equal_approx(progress.track_results.neon_coast.best_time, 200.0), "A worse coast result must not replace its bests")
+	assert(progress.track_results.neon_coast.medal == 2 and progress.track_results.neon_coast.cleared, "A worse result must not reduce a medal or clear")
+	assert(progress.track_results.freight_harbor.best_score == 7100 and is_equal_approx(progress.track_results.freight_harbor.best_time, 230.0), "Harbor results must remain independent from coast results")

@@ -12,13 +12,17 @@ func _assert_track_contract() -> void:
 	var tracks := TrackCatalog.all()
 	assert(tracks.size() == 4, "The coastal tour must expose exactly four tracks")
 	assert(_unique_ids(tracks).size() == tracks.size(), "Every track ID must be unique")
-	assert(TrackCatalog.validate().is_empty(), "The frozen track catalog must satisfy its own contract")
+	var track_errors := TrackCatalog.validate()
+	assert(track_errors.is_empty(), "The frozen track catalog must satisfy its own contract: %s" % track_errors)
 	for track in tracks:
 		assert(track.id is StringName and not String(track.id).is_empty(), "Tracks need stable StringName IDs")
 		assert(track.checkpoint_distances.size() == 3, "Every track must retain four race stages")
 		assert(float(track.finish_distance) > float(track.checkpoint_distances[-1]), "Finish distance must follow every checkpoint")
 		assert(int(track.silver_score) > 0 and int(track.gold_score) > int(track.silver_score), "Track medal thresholds must be ordered")
 		assert(track.music_id is StringName and not String(track.music_id).is_empty(), "Every track must select a music ID")
+		assert(ResourceLoader.exists(String(track.environment_left_path)) and ResourceLoader.exists(String(track.environment_right_path)), "Every track needs two runtime environment strips")
+		assert(track.traffic_pattern is StringName and not String(track.traffic_pattern).is_empty(), "Every track needs a traffic identity")
+		assert(float(track.steering_multiplier) >= 0.85 and float(track.steering_multiplier) <= 1.10, "Track steering pressure must remain readable and deterministic")
 	var first_id: StringName = tracks[0].id
 	tracks[0].finish_distance = -1.0
 	assert(float(TrackCatalog.get_by_id(first_id).finish_distance) > 0.0, "Callers must not mutate the canonical track catalog")

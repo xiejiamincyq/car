@@ -30,6 +30,10 @@ var _viewport_height: float = 720.0
 var lane_events: LaneEventDirector
 var spawn_interval_multiplier := 1.0
 var _visual_variant_cursor := 0
+var track_pattern: StringName = &"coast_flow"
+var track_spawn_interval_multiplier := 1.0
+var track_event_interval_multiplier := 1.0
+var difficulty_event_interval_multiplier := 1.0
 
 func _init(seed: int, lanes: int = 3, safe_distance: float = 620.0, lane_gap: float = 180.0) -> void:
 	lane_count = lanes
@@ -93,7 +97,14 @@ func set_viewport_height(viewport_height: float) -> void:
 
 func configure_difficulty(profile: Dictionary) -> void:
 	spawn_interval_multiplier = maxf(0.1, float(profile.traffic_interval_multiplier))
-	lane_events.configure_interval_multiplier(float(profile.event_interval_multiplier))
+	difficulty_event_interval_multiplier = maxf(0.1, float(profile.event_interval_multiplier))
+	_apply_event_interval()
+
+func configure_track(profile: Dictionary) -> void:
+	track_pattern = StringName(profile.get("traffic_pattern", &"coast_flow"))
+	track_event_interval_multiplier = maxf(0.1, float(profile.get("lane_event_interval_multiplier", 1.0)))
+	track_spawn_interval_multiplier = maxf(0.1, float(profile.get("traffic_interval_multiplier", 1.0)))
+	_apply_event_interval()
 
 func update_vehicle(vehicle: TrafficVehicle, delta: float, player_speed: float) -> void:
 	if vehicle.kind == Kind.FAST_OVERTAKE:
@@ -311,12 +322,26 @@ func _kind_schedule() -> Array[int]:
 		1:
 			return [Kind.STEADY_SLOW, Kind.SIGNAL_CHANGE]
 		2:
-			return [Kind.STEADY_SLOW, Kind.SIGNAL_CHANGE, Kind.SIGNAL_CHANGE, Kind.FAST_OVERTAKE, Kind.SIGNAL_CHANGE]
+			match track_pattern:
+				&"harbor_heavy": return [Kind.STEADY_SLOW, Kind.TRUCK, Kind.SIGNAL_CHANGE, Kind.STEADY_SLOW]
+				&"ridge_weave": return [Kind.SIGNAL_CHANGE, Kind.STEADY_SLOW, Kind.SIGNAL_CHANGE, Kind.FAST_OVERTAKE]
+				&"express_fast": return [Kind.STEADY_SLOW, Kind.FAST_OVERTAKE, Kind.SIGNAL_CHANGE, Kind.FAST_OVERTAKE]
+				_: return [Kind.STEADY_SLOW, Kind.SIGNAL_CHANGE, Kind.SIGNAL_CHANGE, Kind.FAST_OVERTAKE, Kind.SIGNAL_CHANGE]
 		_:
-			return [Kind.SIGNAL_CHANGE, Kind.SIGNAL_CHANGE, Kind.TRUCK, Kind.SIGNAL_CHANGE, Kind.SIGNAL_CHANGE, Kind.FAST_OVERTAKE, Kind.SIGNAL_CHANGE, Kind.SIGNAL_CHANGE, Kind.STEADY_SLOW, Kind.SIGNAL_CHANGE, Kind.SIGNAL_CHANGE]
+			match track_pattern:
+				&"harbor_heavy": return [Kind.TRUCK, Kind.SIGNAL_CHANGE, Kind.STEADY_SLOW, Kind.TRUCK, Kind.SIGNAL_CHANGE, Kind.FAST_OVERTAKE]
+				&"ridge_weave": return [Kind.SIGNAL_CHANGE, Kind.SIGNAL_CHANGE, Kind.FAST_OVERTAKE, Kind.SIGNAL_CHANGE, Kind.TRUCK]
+				&"express_fast": return [Kind.FAST_OVERTAKE, Kind.SIGNAL_CHANGE, Kind.FAST_OVERTAKE, Kind.STEADY_SLOW, Kind.SIGNAL_CHANGE]
+				_: return [Kind.SIGNAL_CHANGE, Kind.SIGNAL_CHANGE, Kind.TRUCK, Kind.SIGNAL_CHANGE, Kind.SIGNAL_CHANGE, Kind.FAST_OVERTAKE, Kind.SIGNAL_CHANGE, Kind.SIGNAL_CHANGE, Kind.STEADY_SLOW, Kind.SIGNAL_CHANGE, Kind.SIGNAL_CHANGE]
+
+func _apply_event_interval() -> void:
+	lane_events.configure_interval_multiplier(track_event_interval_multiplier * difficulty_event_interval_multiplier)
 
 func _spawn_interval_for_stage() -> float:
-	return [0.85, 0.72, 0.62, 0.48][difficulty_stage] * spawn_interval_multiplier
+	return [0.85, 0.72, 0.62, 0.48][difficulty_stage] * effective_spawn_interval_multiplier()
+
+func effective_spawn_interval_multiplier() -> float:
+	return track_spawn_interval_multiplier * spawn_interval_multiplier
 
 func _speed_multiplier_for_stage() -> float:
 	return [1.0, 1.0, 1.12, 1.22][difficulty_stage]

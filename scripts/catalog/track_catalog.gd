@@ -9,6 +9,10 @@ const TRACKS := [
 		"finish_distance": 3200.0,
 		"traffic_interval_multiplier": 1.08,
 		"lane_event_interval_multiplier": 1.18,
+		"traffic_pattern": &"coast_flow",
+		"steering_multiplier": 1.00,
+		"environment_left_path": "res://assets/environment/coast_left.png",
+		"environment_right_path": "res://assets/environment/coast_right.png",
 		"silver_score": 5200,
 		"gold_score": 7600,
 		"music_id": &"neon_coast",
@@ -20,6 +24,10 @@ const TRACKS := [
 		"finish_distance": 3400.0,
 		"traffic_interval_multiplier": 1.02,
 		"lane_event_interval_multiplier": 1.12,
+		"traffic_pattern": &"harbor_heavy",
+		"steering_multiplier": 0.96,
+		"environment_left_path": "res://assets/tracks/freight_harbor_left.png",
+		"environment_right_path": "res://assets/tracks/freight_harbor_right.png",
 		"silver_score": 5700,
 		"gold_score": 8300,
 		"music_id": &"freight_harbor",
@@ -31,6 +39,10 @@ const TRACKS := [
 		"finish_distance": 3300.0,
 		"traffic_interval_multiplier": 0.98,
 		"lane_event_interval_multiplier": 1.05,
+		"traffic_pattern": &"ridge_weave",
+		"steering_multiplier": 0.90,
+		"environment_left_path": "res://assets/tracks/storm_ridge_left.png",
+		"environment_right_path": "res://assets/tracks/storm_ridge_right.png",
 		"silver_score": 6100,
 		"gold_score": 8900,
 		"music_id": &"storm_ridge",
@@ -42,6 +54,10 @@ const TRACKS := [
 		"finish_distance": 3600.0,
 		"traffic_interval_multiplier": 0.92,
 		"lane_event_interval_multiplier": 0.96,
+		"traffic_pattern": &"express_fast",
+		"steering_multiplier": 1.04,
+		"environment_left_path": "res://assets/tracks/sunrise_express_left.png",
+		"environment_right_path": "res://assets/tracks/sunrise_express_right.png",
 		"silver_score": 6700,
 		"gold_score": 9800,
 		"music_id": &"sunrise_express",
@@ -74,6 +90,15 @@ static func validate() -> PackedStringArray:
 			errors.append("Track %s medal thresholds must be ordered" % track_id)
 		if String(track.get("music_id", &"")).is_empty():
 			errors.append("Track %s needs a music ID" % track_id)
+		if String(track.get("traffic_pattern", &"")).is_empty():
+			errors.append("Track %s needs a traffic pattern" % track_id)
+		var steering_multiplier := float(track.get("steering_multiplier", 0.0))
+		if steering_multiplier < 0.85 or steering_multiplier > 1.10:
+			errors.append("Track %s steering multiplier is outside the readable range" % track_id)
+		for side in ["environment_left_path", "environment_right_path"]:
+			var path := String(track.get(side, ""))
+			if path.is_empty() or not ResourceLoader.exists(path):
+				errors.append("Track %s needs a valid %s" % [track_id, side])
 	return errors
 
 static func _strictly_increasing(values: Array) -> bool:

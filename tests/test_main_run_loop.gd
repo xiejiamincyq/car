@@ -51,4 +51,15 @@ func _run() -> void:
 	assert(is_equal_approx(event_main.drive.lateral_position, -100.0), "The playable loop must physically keep the full player car out of a closed lane")
 	assert(event_main.drive.speed < speed_before_barrier, "Hitting a closed-lane barrier must have a clear speed consequence")
 	event_main.free()
+
+	var track_main = MainScene.instantiate()
+	root.add_child(track_main)
+	track_main.save_data.tour.selected_track_id = &"storm_ridge"
+	track_main._start_new_run()
+	assert(track_main.current_track.id == &"storm_ridge", "Starting from the map must apply the selected track")
+	assert(is_equal_approx(track_main.run.progression.finish_distance, 3300.0), "The selected track must replace the default race distance")
+	assert(track_main.traffic.track_pattern == &"ridge_weave", "The selected track must replace the traffic identity")
+	assert(track_main.current_environment_left.resource_path.ends_with("storm_ridge_left.png"), "The selected track must replace the left environment strip")
+	assert(track_main.current_environment_right.resource_path.ends_with("storm_ridge_right.png"), "The selected track must replace the right environment strip")
+	track_main.free()
 	quit()

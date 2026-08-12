@@ -48,6 +48,11 @@ func configure_difficulty(profile: Dictionary) -> void:
 	fuel_drain_per_second = base_fuel_drain_per_second * maxf(0.0, float(profile.fuel_drain_multiplier))
 	combo.window_seconds = maxf(0.1, GameConfig.COMBO_WINDOW_SECONDS * float(profile.combo_window_multiplier))
 
+func configure_track(profile: Dictionary) -> void:
+	var checkpoints: Array = profile.get("checkpoint_distances", GameConfig.RACE_CHECKPOINT_DISTANCES)
+	var finish := float(profile.get("finish_distance", GameConfig.RACE_FINISH_DISTANCE))
+	progression = RaceProgression.new(checkpoints, finish)
+
 func start() -> void:
 	if phase == Phase.TITLE:
 		phase = Phase.RUNNING

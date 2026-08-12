@@ -15,6 +15,7 @@ const FuelSpawnDirector = preload("res://scripts/fuel_spawn_director.gd")
 const SaveStore = preload("res://scripts/save_store.gd")
 const Progression = preload("res://scripts/progression.gd")
 const TrackCatalog = preload("res://scripts/catalog/track_catalog.gd")
+const TrackRuntimeProfile = preload("res://scripts/track_runtime_profile.gd")
 const PlayerVehicleProfile = preload("res://scripts/player_vehicle_profile.gd")
 const PassEventResolver = preload("res://scripts/pass_event_resolver.gd")
 const GameFeedback = preload("res://scripts/game_feedback.gd")
@@ -81,6 +82,9 @@ var collision_visual_remaining := 0.0
 var collision_visual_direction := 1.0
 var current_vehicle: Dictionary = PlayerVehicleProfile.resolve(&"pulse_gt")
 var current_player_texture: Texture2D = PlayerVehicleProfile.texture_for(current_vehicle)
+var current_track: Dictionary = TrackRuntimeProfile.resolve(&"neon_coast")
+var current_environment_left: Texture2D = COAST_LEFT_TEXTURE
+var current_environment_right: Texture2D = COAST_RIGHT_TEXTURE
 
 var speed_label: Label
 var position_label: Label
@@ -142,6 +146,8 @@ func _ready() -> void:
 	fuel_spawn_director = FuelSpawnDirector.new(_fuel_seed_for_run(current_run_seed), GameConfig.ROAD_LANE_COUNT, GameConfig.FUEL_PICKUP_INTERVAL)
 	collision = CollisionResponder.new(GameConfig.COLLISION_SPEED_PENALTY, GameConfig.COLLISION_INVULNERABILITY_SECONDS)
 	run = RunState.new(GameConfig.MAX_FUEL, GameConfig.FUEL_DRAIN_PER_SECOND, GameConfig.FUEL_GRACE_SECONDS)
+	run.configure_track(current_track)
+	traffic.configure_track(current_track)
 	feedback = GameFeedback.new(GameConfig.SPARK_MAX_COUNT)
 	collision_audio = AudioStreamPlayer.new()
 	collision_audio.stream = CollisionSound.create_stream()
@@ -326,7 +332,7 @@ func _draw() -> void:
 	var edge_color := VisualStyle.HIGH_CONTRAST_EDGE if high_contrast_enabled else VisualStyle.EDGE_NEON
 	var lane_color := VisualStyle.HIGH_CONTRAST_LANE if high_contrast_enabled else VisualStyle.LANE_MARK
 	draw_rect(Rect2(Vector2.ZERO, viewport_size), ocean_color)
-	_draw_coastal_environment(road_left, road_right, viewport_size)
+	_draw_track_environment(road_left, road_right, viewport_size)
 	draw_rect(Rect2(road_left - 30.0, 0.0, GameConfig.ROAD_HALF_WIDTH * 2.0 + 60.0, viewport_size.y), shoulder_color)
 	var road_color := VisualStyle.road_color_for_transition(feedback.previous_stage, feedback.current_stage, feedback.stage_transition_mix, high_contrast_enabled)
 	draw_rect(Rect2(road_left, 0.0, GameConfig.ROAD_HALF_WIDTH * 2.0, viewport_size.y), road_color)
@@ -362,18 +368,18 @@ func _draw() -> void:
 	_draw_sparks()
 	draw_set_transform(Vector2.ZERO)
 
-func _draw_coastal_environment(road_left: float, road_right: float, viewport_size: Vector2) -> void:
+func _draw_track_environment(road_left: float, road_right: float, viewport_size: Vector2) -> void:
 	var side_modulate := Color(0.58, 0.58, 0.58, 1.0) if high_contrast_enabled else Color.WHITE
 	var left_width := maxf(0.0, road_left - 30.0)
 	var right_start := road_right + 30.0
 	var right_width := maxf(0.0, viewport_size.x - right_start)
 	for tile_y in EnvironmentScroller.tile_positions(environment_scroll, viewport_size.y, ENVIRONMENT_TILE_HEIGHT):
 		if left_width > 0.0:
-			var left_source := Rect2(COAST_LEFT_TEXTURE.get_width() - left_width, 0.0, left_width, ENVIRONMENT_TILE_HEIGHT)
-			draw_texture_rect_region(COAST_LEFT_TEXTURE, Rect2(0.0, tile_y, left_width, ENVIRONMENT_TILE_HEIGHT), left_source, side_modulate)
+			var left_source := Rect2(current_environment_left.get_width() - left_width, 0.0, left_width, ENVIRONMENT_TILE_HEIGHT)
+			draw_texture_rect_region(current_environment_left, Rect2(0.0, tile_y, left_width, ENVIRONMENT_TILE_HEIGHT), left_source, side_modulate)
 		if right_width > 0.0:
 			var right_source := Rect2(0.0, 0.0, right_width, ENVIRONMENT_TILE_HEIGHT)
-			draw_texture_rect_region(COAST_RIGHT_TEXTURE, Rect2(right_start, tile_y, right_width, ENVIRONMENT_TILE_HEIGHT), right_source, side_modulate)
+			draw_texture_rect_region(current_environment_right, Rect2(right_start, tile_y, right_width, ENVIRONMENT_TILE_HEIGHT), right_source, side_modulate)
 
 func _draw_sparks() -> void:
 	for spark in feedback.sparks:
@@ -682,6 +688,7 @@ func _restart_run() -> void:
 
 func _start_new_run() -> void:
 	_apply_selected_vehicle()
+	_apply_selected_track()
 	_reset_run()
 	run.begin_countdown()
 	_update_hud()
@@ -694,6 +701,13 @@ func _apply_selected_vehicle() -> void:
 
 func _player_texture_for_id(vehicle_id: StringName) -> Texture2D:
 	return PlayerVehicleProfile.texture_for(PlayerVehicleProfile.resolve(vehicle_id))
+
+func _apply_selected_track() -> void:
+	var selected_id := StringName(save_data.get("tour", {}).get("selected_track_id", &"neon_coast"))
+	current_track = TrackRuntimeProfile.resolve(selected_id)
+	current_environment_left = TrackRuntimeProfile.texture_for(current_track, "left", COAST_LEFT_TEXTURE)
+	current_environment_right = TrackRuntimeProfile.texture_for(current_track, "right", COAST_RIGHT_TEXTURE)
+	TrackRuntimeProfile.apply(current_track, drive, run, traffic)
 
 func _open_tour_map() -> void:
 	title_screen.visible = false
