@@ -11,6 +11,7 @@ enum Kind { STEADY_SLOW, SIGNAL_CHANGE, FAST_OVERTAKE, TRUCK }
 const FAST_ROUTE_LOOKAHEAD := 620.0
 const FAST_ROUTE_WARNING_SECONDS := 0.60
 const FAST_LANE_CHANGE_SPEED := 3.4
+const LANE_CHANGE_WARNING_ENTRY_Y := 80.0
 
 var lane_count: int = 3
 var minimum_spawn_distance: float = 620.0
@@ -132,12 +133,13 @@ func update_vehicle(vehicle: TrafficVehicle, delta: float, player_speed: float) 
 			vehicle.warning_started = false
 			vehicle.warning_remaining = 0.0
 		else:
-			if not vehicle.warning_started and vehicle.y >= 80.0:
+			var lane_change_is_visible := _is_lane_change_visible(vehicle)
+			if not vehicle.warning_started and lane_change_is_visible:
 				vehicle.warning_started = true
 				vehicle.warning_remaining = lane_change_warning_duration()
 			elif vehicle.warning_remaining > 0.0:
 				vehicle.warning_remaining = maxf(0.0, vehicle.warning_remaining - delta)
-			if is_zero_approx(vehicle.warning_remaining) and not vehicle.change_started:
+			if vehicle.warning_started and lane_change_is_visible and is_zero_approx(vehicle.warning_remaining) and not vehicle.change_started:
 				if is_lane_change_safe(vehicle):
 					vehicle.change_started = true
 					lane_change_started_count += 1
@@ -303,6 +305,9 @@ func _constrain_fast_overtaker_y(overtaker: TrafficVehicle, proposed_y: float) -
 
 func is_lane_valid(lane: int) -> bool:
 	return lane >= 0 and lane < lane_count
+
+func _is_lane_change_visible(vehicle: TrafficVehicle) -> bool:
+	return vehicle.y >= LANE_CHANGE_WARNING_ENTRY_Y and vehicle.y <= _viewport_height - vehicle.half_length
 
 func is_lane_change_safe(vehicle: TrafficVehicle) -> bool:
 	if not is_lane_valid(vehicle.target_lane):

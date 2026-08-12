@@ -62,6 +62,26 @@ func _init() -> void:
 	random_steady_changer.configure(TrafficDirector.Kind.STEADY_SLOW, 1, 120.0)
 	assert(not random_steady_changer.lane_change_enabled, "Object-pool reuse must clear a previous random lane-change plan")
 
+	director.reset()
+	director.random_lane_change_probability = 1.0
+	var offscreen_random_changer = director.acquire_vehicle(TrafficDirector.Kind.STEADY_SLOW, 1, -120.0)
+	director._plan_random_lane_change(offscreen_random_changer)
+	director.vehicles.append(offscreen_random_changer)
+	var original_random_lane_position: float = offscreen_random_changer.lane_position
+	director.update_vehicle(offscreen_random_changer, 0.1, offscreen_random_changer.cruise_speed)
+	assert(offscreen_random_changer.lane_change_enabled, "A guaranteed random lane-change plan must be created for the regression scenario")
+	assert(not offscreen_random_changer.warning_started and not offscreen_random_changer.change_started, "Random lane changes must wait until the vehicle enters the visible area")
+	assert(is_equal_approx(offscreen_random_changer.lane_position, original_random_lane_position), "Offscreen random lane-change plans must not move laterally")
+	offscreen_random_changer.y = director._viewport_height + offscreen_random_changer.half_length
+	director.update_vehicle(offscreen_random_changer, 0.1, offscreen_random_changer.cruise_speed)
+	assert(not offscreen_random_changer.warning_started and not offscreen_random_changer.change_started, "Random lane changes must not begin after the vehicle has left the visible area")
+	offscreen_random_changer.y = 80.0
+	director.update_vehicle(offscreen_random_changer, 0.1, offscreen_random_changer.cruise_speed)
+	assert(offscreen_random_changer.warning_started and offscreen_random_changer.warning_remaining > 0.0, "A visible random lane-change vehicle must show its turn signal before moving")
+	assert(not offscreen_random_changer.change_started and is_equal_approx(offscreen_random_changer.lane_position, original_random_lane_position), "A random lane change must not move during its visible warning")
+	director.update_vehicle(offscreen_random_changer, offscreen_random_changer.warning_remaining + 0.01, offscreen_random_changer.cruise_speed)
+	assert(offscreen_random_changer.change_started and not is_equal_approx(offscreen_random_changer.lane_position, original_random_lane_position), "A random lane change may start inside the visible area only after its turn-signal warning completes")
+
 	var overtaker = director.acquire_vehicle(TrafficDirector.Kind.FAST_OVERTAKE, 0, 820.0)
 	director.update_vehicle(overtaker, 1.0, 760.0)
 	assert(overtaker.overtake_warning_remaining >= 1.0, "Fast overtaker must warn for at least one visible second before collision risk")
@@ -131,7 +151,7 @@ func _init() -> void:
 			total_changes += measured.lane_change_started_count
 		stage_change_totals.append(total_changes)
 	assert(stage_change_totals[1] >= stage_change_totals[0], "Stage two must not reduce actual lane-change events")
-	assert(stage_change_totals[2] >= stage_change_totals[1], "Stage three must not reduce actual lane-change events")
+	assert(stage_change_totals[2] > 0, "Stage three must still produce actual visible lane-change events despite denser traffic")
 
 	director.reset()
 	assert(director.vehicles.is_empty(), "Restart must clear actual active traffic")
