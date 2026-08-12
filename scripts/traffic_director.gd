@@ -8,6 +8,10 @@ const LaneEventDirector = preload("res://scripts/lane_event_director.gd")
 
 enum Kind { STEADY_SLOW, SIGNAL_CHANGE, FAST_OVERTAKE, TRUCK }
 
+const FAST_ROUTE_LOOKAHEAD := 620.0
+const FAST_ROUTE_WARNING_SECONDS := 0.60
+const FAST_LANE_CHANGE_SPEED := 3.4
+
 var lane_count: int = 3
 var minimum_spawn_distance: float = 620.0
 var minimum_lane_gap: float = 180.0
@@ -119,18 +123,7 @@ func configure_track(profile: Dictionary) -> void:
 
 func update_vehicle(vehicle: TrafficVehicle, delta: float, player_speed: float) -> void:
 	if vehicle.kind == Kind.FAST_OVERTAKE:
-		var overtake_speed := (player_speed * 0.30 + 260.0) * _speed_multiplier_for_stage()
-		var staging_y := TrackGeometry.fast_overtake_staging_y(_viewport_height)
-		if vehicle.y > staging_y:
-			vehicle.y = maxf(staging_y, vehicle.y - overtake_speed * delta)
-			if vehicle.y <= staging_y:
-				vehicle.overtake_warning_remaining = 1.0
-		elif vehicle.overtake_warning_remaining > 0.0:
-			vehicle.overtake_warning_remaining = maxf(0.0, vehicle.overtake_warning_remaining - delta)
-			if is_zero_approx(vehicle.overtake_warning_remaining) and not _can_release_fast_overtaker(vehicle):
-				vehicle.overtake_warning_remaining = 0.25
-		else:
-			vehicle.y -= overtake_speed * delta
+		_update_fast_overtaker(vehicle, delta, player_speed)
 		return
 	var relative_speed := player_speed - vehicle.cruise_speed
 	if vehicle.lane_change_enabled:
@@ -157,8 +150,156 @@ func update_vehicle(vehicle: TrafficVehicle, delta: float, player_speed: float) 
 	var proposed_y := vehicle.y + relative_speed * _speed_multiplier_for_stage() * delta
 	if relative_speed >= 0.0:
 		proposed_y = _constrain_top_vehicle_y(vehicle, proposed_y)
+		proposed_y = _constrain_player_escape_y(vehicle, proposed_y)
 		proposed_y = _constrain_event_escape_y(vehicle, proposed_y)
 	vehicle.y = proposed_y
+
+func _update_fast_overtaker(vehicle: TrafficVehicle, delta: float, player_speed: float) -> void:
+	var overtake_speed: float = (player_speed * 0.30 + 260.0) * _speed_multiplier_for_stage()
+	var staging_y: float = TrackGeometry.fast_overtake_staging_y(_viewport_height)
+	if vehicle.y > staging_y:
+		vehicle.y = maxf(staging_y, vehicle.y - overtake_speed * delta)
+		if vehicle.y <= staging_y:
+			vehicle.overtake_warning_remaining = 1.0
+		return
+	if vehicle.overtake_warning_remaining > 0.0:
+		if not vehicle.lane_change_enabled:
+			_try_plan_fast_lane_change(vehicle)
+		if vehicle.lane_change_enabled:
+			_advance_fast_lane_change(vehicle, delta)
+		vehicle.overtake_warning_remaining = maxf(0.0, vehicle.overtake_warning_remaining - delta)
+		if is_zero_approx(vehicle.overtake_warning_remaining) and not _can_release_fast_overtaker(vehicle):
+			vehicle.overtake_warning_remaining = 0.25
+		return
+	if vehicle.lane_change_enabled:
+		_advance_fast_lane_change(vehicle, delta)
+		if vehicle.lane_change_enabled:
+			vehicle.y = _constrain_fast_overtaker_y(vehicle, vehicle.y)
+			return
+	if _try_plan_fast_lane_change(vehicle):
+		return
+	var proposed_y: float = vehicle.y - overtake_speed * delta
+	vehicle.y = _constrain_fast_overtaker_y(vehicle, proposed_y)
+
+func _try_plan_fast_lane_change(overtaker: TrafficVehicle) -> bool:
+	if _nearest_fast_route_blocker(overtaker, FAST_ROUTE_LOOKAHEAD) == null:
+		return false
+	var route_lane: int = _best_fast_route_lane(overtaker)
+	if route_lane < 0:
+		return false
+	_begin_fast_lane_change(overtaker, route_lane)
+	return true
+
+func _nearest_fast_route_blocker(overtaker: TrafficVehicle, lookahead: float) -> TrafficVehicle:
+	var nearest: TrafficVehicle = null
+	var nearest_distance: float = INF
+	for other in vehicles:
+		if other == overtaker or other.kind == Kind.FAST_OVERTAKE or other.lane != overtaker.lane:
+			continue
+		var forward_distance: float = overtaker.y - other.y
+		if forward_distance <= 0.0 or forward_distance > lookahead:
+			continue
+		if forward_distance < nearest_distance:
+			nearest = other
+			nearest_distance = forward_distance
+	return nearest
+
+func _best_fast_route_lane(overtaker: TrafficVehicle) -> int:
+	var best_lane: int = -1
+	var best_clearance: float = -1.0
+	for candidate_lane_value in [overtaker.lane - 1, overtaker.lane + 1]:
+		var candidate_lane: int = candidate_lane_value
+		if not is_lane_valid(candidate_lane) or candidate_lane == lane_events.blocked_lane():
+			continue
+		if not _fast_merge_lane_is_clear(overtaker, candidate_lane):
+			continue
+		if not _fast_route_preserves_player_options(overtaker, candidate_lane):
+			continue
+		var clearance: float = _fast_forward_clearance(overtaker, candidate_lane)
+		var avoids_player: bool = candidate_lane != _player_lane
+		var best_avoids_player: bool = best_lane >= 0 and best_lane != _player_lane
+		if clearance > best_clearance or (is_equal_approx(clearance, best_clearance) and avoids_player and not best_avoids_player):
+			best_lane = candidate_lane
+			best_clearance = clearance
+	return best_lane
+
+func _fast_merge_lane_is_clear(overtaker: TrafficVehicle, candidate_lane: int) -> bool:
+	for other in vehicles:
+		if other == overtaker:
+			continue
+		var reserves_lane: bool = other.lane_change_enabled and other.warning_started and other.target_lane == candidate_lane
+		if other.lane != candidate_lane and not reserves_lane:
+			continue
+		var required_gap: float = minimum_lane_gap + overtaker.half_length + other.half_length
+		if absf(overtaker.y - other.y) < required_gap:
+			return false
+	return true
+
+func _fast_forward_clearance(overtaker: TrafficVehicle, candidate_lane: int) -> float:
+	var clearance: float = FAST_ROUTE_LOOKAHEAD * 2.0
+	for other in vehicles:
+		if other == overtaker or other.kind == Kind.FAST_OVERTAKE or other.lane != candidate_lane:
+			continue
+		var forward_distance: float = overtaker.y - other.y
+		if forward_distance > 0.0:
+			clearance = minf(clearance, forward_distance)
+	return clearance
+
+func _begin_fast_lane_change(overtaker: TrafficVehicle, target_lane: int) -> void:
+	overtaker.target_lane = target_lane
+	overtaker.lane_change_enabled = true
+	overtaker.warning_started = true
+	overtaker.warning_remaining = FAST_ROUTE_WARNING_SECONDS
+	overtaker.change_started = false
+
+func _advance_fast_lane_change(overtaker: TrafficVehicle, delta: float) -> void:
+	if overtaker.target_lane == lane_events.blocked_lane() and not overtaker.change_started:
+		_cancel_fast_lane_change(overtaker)
+		return
+	if not _fast_route_preserves_player_options(overtaker, overtaker.target_lane):
+		var crossed_lane_center: bool = absf(overtaker.lane_position - float(overtaker.lane)) >= 0.5
+		if overtaker.change_started and crossed_lane_center:
+			_complete_fast_lane_change(overtaker)
+		else:
+			_cancel_fast_lane_change(overtaker)
+		return
+	if overtaker.warning_remaining > 0.0:
+		overtaker.warning_remaining = maxf(0.0, overtaker.warning_remaining - delta)
+		return
+	if not overtaker.change_started:
+		if not is_lane_change_safe(overtaker):
+			overtaker.warning_remaining = 0.20
+			return
+		overtaker.change_started = true
+		lane_change_started_count += 1
+	overtaker.lane_position = move_toward(overtaker.lane_position, float(overtaker.target_lane), FAST_LANE_CHANGE_SPEED * delta)
+	if is_equal_approx(overtaker.lane_position, float(overtaker.target_lane)):
+		_complete_fast_lane_change(overtaker)
+
+func _complete_fast_lane_change(overtaker: TrafficVehicle) -> void:
+	overtaker.lane = overtaker.target_lane
+	overtaker.lane_position = float(overtaker.lane)
+	overtaker.lane_change_enabled = false
+	overtaker.warning_started = false
+	overtaker.warning_remaining = 0.0
+	overtaker.change_started = false
+
+func _cancel_fast_lane_change(overtaker: TrafficVehicle) -> void:
+	overtaker.target_lane = overtaker.lane
+	overtaker.lane_position = float(overtaker.lane)
+	overtaker.lane_change_enabled = false
+	overtaker.warning_started = false
+	overtaker.warning_remaining = 0.0
+	overtaker.change_started = false
+
+func _constrain_fast_overtaker_y(overtaker: TrafficVehicle, proposed_y: float) -> float:
+	var constrained_y: float = proposed_y
+	for other in vehicles:
+		if other == overtaker or other.kind == Kind.FAST_OVERTAKE or other.lane != overtaker.lane or other.y >= overtaker.y:
+			continue
+		var required_gap: float = minimum_lane_gap + overtaker.half_length + other.half_length
+		constrained_y = maxf(constrained_y, other.y + required_gap)
+	return minf(overtaker.y, constrained_y)
 
 func is_lane_valid(lane: int) -> bool:
 	return lane >= 0 and lane < lane_count
@@ -229,22 +370,41 @@ func reachable_player_lanes(player_lane: int, player_y: float, clearance: float)
 	return reachable
 
 func _can_release_fast_overtaker(overtaker: TrafficVehicle) -> bool:
+	var planned_lane: int = overtaker.target_lane if overtaker.lane_change_enabled else -1
+	return _player_has_escape_around_fast(overtaker, planned_lane)
+
+func _fast_route_preserves_player_options(overtaker: TrafficVehicle, planned_lane: int) -> bool:
+	var options_before: int = _player_escape_count_around_fast(overtaker, -1)
+	var options_after: int = _player_escape_count_around_fast(overtaker, planned_lane)
+	return options_after > 0 or options_after >= options_before
+
+func _player_has_escape_around_fast(overtaker: TrafficVehicle, planned_lane: int = -1) -> bool:
+	return _player_escape_count_around_fast(overtaker, planned_lane) > 0
+
+func _player_escape_count_around_fast(overtaker: TrafficVehicle, planned_lane: int = -1) -> int:
 	var player_y := TrackGeometry.player_y(_viewport_height)
 	var clearance := maxf(minimum_lane_gap, _player_speed * 0.5)
-	var blocked: Array[int] = [overtaker.lane]
+	var blocked: Array[int] = []
+	if absf(overtaker.y - player_y) < clearance + overtaker.half_length - TrafficVehicle.NORMAL_HALF_LENGTH:
+		blocked.append(overtaker.lane)
+		if is_lane_valid(planned_lane) and not blocked.has(planned_lane):
+			blocked.append(planned_lane)
 	if lane_events.blocked_lane() >= 0 and not blocked.has(lane_events.blocked_lane()):
 		blocked.append(lane_events.blocked_lane())
 	for vehicle in vehicles:
 		if vehicle == overtaker or absf(vehicle.y - player_y) >= clearance + vehicle.half_length - TrafficVehicle.NORMAL_HALF_LENGTH:
 			continue
+		if vehicle.kind == Kind.FAST_OVERTAKE and vehicle.overtake_warning_remaining > 0.0:
+			continue
 		if not blocked.has(vehicle.lane):
 			blocked.append(vehicle.lane)
 		if vehicle.lane_change_enabled and vehicle.warning_started and not blocked.has(vehicle.target_lane):
 			blocked.append(vehicle.target_lane)
+	var available_lanes := 0
 	for lane in range(lane_count):
 		if abs(lane - _player_lane) <= 1 and not blocked.has(lane):
-			return true
-	return false
+			available_lanes += 1
+	return available_lanes
 
 func _top_lane_has_minimum_gap(lane: int) -> bool:
 	var lane_vehicles: Array[TrafficVehicle] = []
@@ -413,6 +573,41 @@ func _constrain_top_vehicle_y(vehicle: TrafficVehicle, proposed_y: float) -> flo
 		if vehicle.y <= other.y and proposed_y > other.y - required_gap:
 			forward_limit = minf(forward_limit, other.y - required_gap)
 	return forward_limit
+
+func _constrain_player_escape_y(vehicle: TrafficVehicle, proposed_y: float) -> float:
+	var player_y := TrackGeometry.player_y(_viewport_height)
+	if vehicle.y >= player_y:
+		return proposed_y
+	var clearance := GameConfig.COLLISION_LONGITUDINAL_DISTANCE + vehicle.half_length - TrafficVehicle.NORMAL_HALF_LENGTH
+	var forward_limit := player_y - clearance
+	if proposed_y < forward_limit or _player_keeps_escape_with_vehicle(vehicle, player_y, clearance):
+		return proposed_y
+	return minf(proposed_y, forward_limit)
+
+func _player_keeps_escape_with_vehicle(candidate: TrafficVehicle, player_y: float, clearance: float) -> bool:
+	var blocked: Array[int] = []
+	if lane_events.blocked_lane() >= 0:
+		blocked.append(lane_events.blocked_lane())
+	for other in vehicles:
+		if other == candidate:
+			continue
+		var other_clearance := clearance + other.half_length - TrafficVehicle.NORMAL_HALF_LENGTH
+		if absf(other.y - player_y) >= other_clearance:
+			continue
+		if other.kind == Kind.FAST_OVERTAKE and other.overtake_warning_remaining > 0.0:
+			continue
+		if not blocked.has(other.lane):
+			blocked.append(other.lane)
+		if other.lane_change_enabled and other.warning_started and not blocked.has(other.target_lane):
+			blocked.append(other.target_lane)
+	if not blocked.has(candidate.lane):
+		blocked.append(candidate.lane)
+	if candidate.lane_change_enabled and candidate.warning_started and not blocked.has(candidate.target_lane):
+		blocked.append(candidate.target_lane)
+	for lane in range(lane_count):
+		if abs(lane - _player_lane) <= 1 and not blocked.has(lane):
+			return true
+	return false
 
 func vehicles_have_minimum_gap(first: TrafficVehicle, second: TrafficVehicle, center_distance: float = -1.0) -> bool:
 	var separation := absf(first.y - second.y) if center_distance < 0.0 else center_distance

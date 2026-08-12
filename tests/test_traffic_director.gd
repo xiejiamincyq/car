@@ -68,6 +68,34 @@ func _init() -> void:
 	assert(director.is_fast_spawn_fair(760.0, 1), "Fast overtaker must use the player-speed reaction-distance fairness check")
 	assert(TrafficDirector.fast_warning_y(700.0) >= 0.0 and TrafficDirector.fast_warning_y(700.0) <= 720.0, "Fast warning must be visible in the viewport")
 
+	director.reset()
+	var route_blocker = director.acquire_vehicle(TrafficDirector.Kind.STEADY_SLOW, 1, 390.0)
+	var route_overtaker = director.acquire_vehicle(TrafficDirector.Kind.FAST_OVERTAKE, 1, 700.0)
+	route_blocker.spawn_was_fair = true
+	route_overtaker.spawn_was_fair = true
+	director.vehicles.assign([route_blocker, route_overtaker])
+	director.update_vehicle(route_overtaker, 0.1, 760.0)
+	assert(route_overtaker.lane_change_enabled, "Fast overtaker must plan a lane change when slower NPC traffic blocks its route")
+	assert(abs(route_overtaker.target_lane - route_overtaker.lane) == 1, "Fast overtaker must select an adjacent overtaking lane")
+	assert(route_overtaker.warning_remaining > 0.0, "Fast overtaker must signal before following its planned route")
+	var starting_route_lane: int = route_overtaker.lane
+	for _step in range(20):
+		director.update_vehicle(route_overtaker, 0.1, 760.0)
+	assert(route_overtaker.lane != starting_route_lane, "Fast overtaker must complete its planned lane change before passing the blocker")
+	assert(route_overtaker.y < route_blocker.y, "Fast overtaker must continue past the NPC after changing to a clear lane")
+
+	director.reset()
+	var no_route_blocker = director.acquire_vehicle(TrafficDirector.Kind.STEADY_SLOW, 1, 390.0)
+	var left_route_blocker = director.acquire_vehicle(TrafficDirector.Kind.STEADY_SLOW, 0, 690.0)
+	var right_route_blocker = director.acquire_vehicle(TrafficDirector.Kind.STEADY_SLOW, 2, 690.0)
+	var waiting_overtaker = director.acquire_vehicle(TrafficDirector.Kind.FAST_OVERTAKE, 1, 700.0)
+	for vehicle in [no_route_blocker, left_route_blocker, right_route_blocker, waiting_overtaker]:
+		vehicle.spawn_was_fair = true
+	director.vehicles.assign([no_route_blocker, left_route_blocker, right_route_blocker, waiting_overtaker])
+	director.update_vehicle(waiting_overtaker, 0.1, 760.0)
+	var required_following_gap: float = director.minimum_lane_gap + waiting_overtaker.half_length + no_route_blocker.half_length
+	assert(waiting_overtaker.y >= no_route_blocker.y + required_following_gap, "Fast overtaker must brake behind NPC traffic when no safe overtaking route exists")
+
 	for stage in range(4):
 		var staged_a = TrafficDirector.new(409)
 		var staged_b = TrafficDirector.new(409)
