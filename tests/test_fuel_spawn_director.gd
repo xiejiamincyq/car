@@ -3,6 +3,7 @@ extends SceneTree
 const FuelSpawnDirector = preload("res://scripts/fuel_spawn_director.gd")
 const GameConfig = preload("res://scripts/game_config.gd")
 const RunState = preload("res://scripts/run_state.gd")
+const TrackGeometry = preload("res://scripts/track_geometry.gd")
 const TrafficDirector = preload("res://scripts/traffic_director.gd")
 
 func _init() -> void:
@@ -53,4 +54,13 @@ func _init() -> void:
 	changer.warning_started = true
 	traffic.vehicles.append(changer)
 	assert(traffic.blocked_lanes_near(FuelSpawnDirector.PICKUP_SPAWN_Y, GameConfig.FUEL_SPAWN_SAFETY_DISTANCE) == [0, 1, 2], "Fuel safety must reserve occupied and announced merge lanes")
+
+	var bottom_spawn_y := TrackGeometry.fast_overtake_spawn_y(720.0)
+	traffic.set_spawn_exclusion_zones([Vector2(1, bottom_spawn_y)])
+	assert(not traffic.is_fast_spawn_fair(760.0, 1), "NPC traffic must not spawn over fuel waiting at the bottom boundary")
+	traffic.set_spawn_exclusion_zones([Vector2(0, bottom_spawn_y)])
+	assert(traffic.is_fast_spawn_fair(760.0, 1), "Fuel in another lane must not block a safe NPC bottom spawn")
+	traffic.set_spawn_exclusion_zones([Vector2(1, bottom_spawn_y)])
+	traffic.reset(22)
+	assert(traffic.is_fast_spawn_fair(760.0, 1), "Restarting a run must clear stale fuel spawn exclusions")
 	quit()

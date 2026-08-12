@@ -35,6 +35,7 @@ var track_pattern: StringName = &"coast_flow"
 var track_spawn_interval_multiplier := 1.0
 var track_event_interval_multiplier := 1.0
 var difficulty_event_interval_multiplier := 1.0
+var _spawn_exclusion_zones: Array[Vector2] = []
 
 func _init(seed: int, lanes: int = 3, safe_distance: float = 620.0, lane_gap: float = 180.0) -> void:
 	lane_count = lanes
@@ -83,6 +84,7 @@ func reset(run_seed: int = -1) -> void:
 	_schedule_cursor = 0
 	_visual_variant_cursor = 0
 	_spawn_cooldown = 0.7
+	_spawn_exclusion_zones.clear()
 	if run_seed >= 0:
 		_initial_seed = run_seed
 	_random.seed = _initial_seed
@@ -96,6 +98,9 @@ func set_difficulty_stage(stage: int) -> void:
 
 func set_viewport_height(viewport_height: float) -> void:
 	_viewport_height = maxf(1.0, viewport_height)
+
+func set_spawn_exclusion_zones(zones: Array[Vector2]) -> void:
+	_spawn_exclusion_zones.assign(zones)
 
 func configure_difficulty(profile: Dictionary) -> void:
 	spawn_interval_multiplier = maxf(0.1, float(profile.traffic_interval_multiplier))
@@ -273,12 +278,21 @@ func _can_spawn_candidate(candidate: TrafficVehicle, player_speed: float, player
 		return false
 	if candidate.kind == Kind.SIGNAL_CHANGE and candidate.target_lane == lane_events.blocked_lane():
 		return false
+	if _overlaps_spawn_exclusion(candidate):
+		return false
 	for vehicle in vehicles:
 		if vehicle.lane == candidate.lane and not vehicles_have_minimum_gap(vehicle, candidate):
 			return false
 		if candidate.kind != Kind.FAST_OVERTAKE and vehicle.kind != Kind.FAST_OVERTAKE and abs(vehicle.lane - candidate.lane) <= 1 and not vehicles_have_minimum_gap(vehicle, candidate):
 			return false
 	return _has_escape_lane(candidate, player_lane, player_speed)
+
+func _overlaps_spawn_exclusion(candidate: TrafficVehicle) -> bool:
+	var clearance := GameConfig.FUEL_SPAWN_SAFETY_DISTANCE + candidate.half_length - TrafficVehicle.NORMAL_HALF_LENGTH
+	for zone in _spawn_exclusion_zones:
+		if int(zone.x) == candidate.lane and absf(zone.y - candidate.y) < clearance:
+			return true
+	return false
 
 func _has_escape_lane(candidate: TrafficVehicle, player_lane: int, player_speed: float) -> bool:
 	var dynamic_reaction_distance := maxf(minimum_lane_gap, player_speed)

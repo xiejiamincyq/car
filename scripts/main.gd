@@ -313,6 +313,7 @@ func _process(delta: float) -> void:
 		return
 	traffic.set_difficulty_stage(run.difficulty_stage)
 	traffic.set_viewport_height(get_viewport_rect().size.y)
+	traffic.set_spawn_exclusion_zones(_fuel_spawn_exclusion_zones())
 	traffic.tick(delta, drive.speed, _player_lane())
 	_update_lane_event_cue()
 	_enforce_lane_closure()
@@ -522,6 +523,12 @@ func _update_fuel_pickups(delta: float) -> void:
 		if pickup.y < viewport_size.y + 60.0:
 			active.append(pickup)
 	fuel_pickups = active
+
+func _fuel_spawn_exclusion_zones() -> Array[Vector2]:
+	var zones: Array[Vector2] = []
+	for pickup in fuel_pickups:
+		zones.append(Vector2(pickup.lane, pickup.y))
+	return zones
 
 func _check_collisions() -> void:
 	var viewport_size := get_viewport_rect().size
