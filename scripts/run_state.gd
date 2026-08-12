@@ -75,7 +75,7 @@ func pause_for_focus_loss() -> void:
 		phase = Phase.PAUSED
 		countdown_remaining = 0.0
 
-func tick(delta: float, speed: float, maximum_speed: float, throttle_input: float = 0.0) -> void:
+func tick(delta: float, speed: float, maximum_speed: float, forward_acceleration: float = 0.0) -> void:
 	if phase == Phase.COUNTDOWN:
 		countdown_remaining = maxf(0.0, countdown_remaining - maxf(0.0, delta))
 		if is_zero_approx(countdown_remaining):
@@ -91,10 +91,7 @@ func tick(delta: float, speed: float, maximum_speed: float, throttle_input: floa
 	if gained_score > 0:
 		score += gained_score
 		_distance_score_remainder -= gained_score
-	var speed_ratio := clampf(speed / maxf(1.0, maximum_speed), 0.0, 1.0)
-	var throttle := clampf(throttle_input, 0.0, 1.0)
-	var fuel_load := 0.12 + throttle * (0.60 + speed_ratio * 0.34)
-	fuel = maxf(0.0, fuel - fuel_drain_per_second * fuel_load * delta)
+	fuel = maxf(0.0, fuel - fuel_drain_per_second * fuel_load(speed, maximum_speed, forward_acceleration) * delta)
 	var progress_event := progression.observe(distance)
 	difficulty_stage = progress_event.stage
 	last_checkpoints_crossed = progress_event.checkpoints_crossed
@@ -162,3 +159,20 @@ static func _stage_for_elapsed_time(seconds: float) -> int:
 	if seconds < 115.0:
 		return 2
 	return 3
+
+static func resistance_fuel_load(speed: float, maximum_speed: float) -> float:
+	var speed_ratio := clampf(maxf(0.0, speed) / maxf(1.0, maximum_speed), 0.0, 1.0)
+	var rolling_load := GameConfig.FUEL_ROLLING_RESISTANCE_LOAD * clampf(
+		speed_ratio / GameConfig.FUEL_ROLLING_RESISTANCE_FULL_SPEED_RATIO,
+		0.0,
+		1.0
+	)
+	var aerodynamic_load := GameConfig.FUEL_AERODYNAMIC_RESISTANCE_LOAD * speed_ratio * speed_ratio
+	return rolling_load + aerodynamic_load
+
+static func acceleration_fuel_load(forward_acceleration: float) -> float:
+	var acceleration_ratio := maxf(0.0, forward_acceleration) / GameConfig.ACCELERATION
+	return GameConfig.FUEL_ACCELERATION_LOAD * minf(acceleration_ratio, 1.25)
+
+static func fuel_load(speed: float, maximum_speed: float, forward_acceleration: float) -> float:
+	return resistance_fuel_load(speed, maximum_speed) + acceleration_fuel_load(forward_acceleration)

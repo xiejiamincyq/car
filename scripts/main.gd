@@ -286,7 +286,9 @@ func _process(delta: float) -> void:
 	var accelerate_input := Input.get_action_strength("accelerate")
 	var brake_input := Input.get_action_strength("brake")
 	var steering_input := Input.get_axis("steer_left", "steer_right")
+	var speed_before_step := drive.speed
 	drive.step(delta, accelerate_input, brake_input, steering_input)
+	var forward_acceleration := 0.0 if delta <= 0.0 else maxf(0.0, (drive.speed - speed_before_step) / delta)
 	visual_animation_time += delta
 	acceleration_visual_strength = move_toward(acceleration_visual_strength, accelerate_input, delta * 5.0)
 	brake_visual_strength = move_toward(brake_visual_strength, brake_input, delta * 8.0)
@@ -294,7 +296,7 @@ func _process(delta: float) -> void:
 	collision_visual_remaining = maxf(0.0, collision_visual_remaining - delta)
 	road_scroll = advance_road_scroll(road_scroll, drive.speed, delta, ROAD_MARK_REPEAT_DISTANCE)
 	var phase_before_tick := run.phase
-	run.tick(delta, drive.speed, drive.max_speed, accelerate_input)
+	run.tick(delta, drive.speed, drive.max_speed, forward_acceleration)
 	feedback.tick(delta, run.fuel, run.difficulty_stage)
 	_update_low_fuel_cue()
 	if run.last_checkpoints_crossed > 0:

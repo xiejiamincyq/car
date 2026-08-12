@@ -9,30 +9,30 @@ const PLAYER_SPEEDS := [360.0, 560.0, 760.0]
 
 func _init() -> void:
 	for seed in range(1, RANDOM_SEED_COUNT + 1):
-		_assert_real_fuel_end_and_second_run(seed)
+		_assert_steady_run_clear_and_second_run(seed)
 	_assert_difficulty_stages_and_vehicle_kinds()
 	_assert_five_minute_multi_seed_stress()
 	quit()
 
-func _assert_real_fuel_end_and_second_run(seed: int) -> void:
+func _assert_steady_run_clear_and_second_run(seed: int) -> void:
 	var run := RunState.new(100.0, 4.0, 30.0)
 	var traffic := TrafficDirector.new(seed)
 	run.start()
 	for _second in range(120):
-		run.tick(1.0, 560.0, 760.0, 1.0)
+		run.tick(1.0, 560.0, 760.0)
 		traffic.set_difficulty_stage(run.difficulty_stage)
 		traffic.tick(1.0, 560.0, 1)
-		assert(traffic.all_active_spawns_are_fair(), "Seed %d must keep every actual spawn fair before fuel ends" % seed)
-		if run.phase == RunState.Phase.ENDED:
+		assert(traffic.all_active_spawns_are_fair(), "Seed %d must keep every actual spawn fair before the finish" % seed)
+		if run.phase != RunState.Phase.RUNNING:
 			break
-	assert(run.phase == RunState.Phase.ENDED, "Seed %d must reach a real fuel-ended result" % seed)
-	assert(run.distance > 0.0 and run.score > 0, "Seed %d must progress before fuel ends" % seed)
+	assert(run.phase == RunState.Phase.RUN_CLEAR, "Seed %d must finish under steady resistance-driven fuel consumption" % seed)
+	assert(run.distance > 0.0 and run.score > 0, "Seed %d must progress before the finish" % seed)
 	traffic.reset()
 	run.reset()
 	assert(traffic.vehicles.is_empty() and run.phase == RunState.Phase.READY, "Seed %d reset must clear traffic and run state" % seed)
 	assert(is_equal_approx(run.fuel, 100.0) and run.score == 0 and is_zero_approx(run.distance), "Seed %d reset must restore fresh-run values" % seed)
 	run.start()
-	run.tick(1.0, 560.0, 760.0, 1.0)
+	run.tick(1.0, 560.0, 760.0)
 	traffic.tick(1.0, 560.0, 1)
 	assert(run.phase == RunState.Phase.RUNNING and run.distance > 0.0 and run.score > 0, "Seed %d must support a progressing second run after reset" % seed)
 

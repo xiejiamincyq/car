@@ -1,5 +1,6 @@
 extends SceneTree
 
+const GameConfig = preload("res://scripts/game_config.gd")
 const RunState = preload("res://scripts/run_state.gd")
 
 func _init() -> void:
@@ -15,9 +16,9 @@ func _init() -> void:
 
 	var protected_run := RunState.new(1.0, 4.0, 30.0)
 	protected_run.start()
-	protected_run.tick(29.9, 0.0, 760.0, 1.0)
+	protected_run.tick(29.9, 0.0, 760.0, GameConfig.ACCELERATION)
 	assert(protected_run.phase == RunState.Phase.RUNNING, "Fuel may not end a run during its first 30 seconds")
-	protected_run.tick(0.2, 0.0, 760.0, 1.0)
+	protected_run.tick(0.2, 0.0, 760.0, GameConfig.ACCELERATION)
 	assert(protected_run.phase == RunState.Phase.ENDED, "An empty tank must end the run after the grace period")
 
 	var coasting := RunState.new(100.0, 4.0, 0.0)
@@ -25,18 +26,18 @@ func _init() -> void:
 	coasting.start()
 	accelerating.start()
 	coasting.tick(1.0, 560.0, 760.0, 0.0)
-	accelerating.tick(1.0, 560.0, 760.0, 1.0)
+	accelerating.tick(1.0, 560.0, 760.0, GameConfig.ACCELERATION)
 	var coasting_drain := 100.0 - coasting.fuel
 	var accelerating_drain := 100.0 - accelerating.fuel
-	assert(coasting_drain > 0.0, "A running engine must retain a small idle fuel cost while coasting")
-	assert(accelerating_drain > coasting_drain * 4.0, "Pressing the accelerator must be the dominant source of fuel consumption")
+	assert(coasting_drain > 0.0, "A moving vehicle must consume fuel against rolling and aerodynamic resistance")
+	assert(accelerating_drain > coasting_drain * 2.0, "Positive acceleration must add a meaningful fuel cost on top of resistance")
 	var low_speed_acceleration := RunState.new(100.0, 4.0, 0.0)
 	var high_speed_acceleration := RunState.new(100.0, 4.0, 0.0)
 	low_speed_acceleration.start()
 	high_speed_acceleration.start()
-	low_speed_acceleration.tick(1.0, 280.0, 760.0, 1.0)
-	high_speed_acceleration.tick(1.0, 760.0, 760.0, 1.0)
-	assert(high_speed_acceleration.fuel < low_speed_acceleration.fuel, "Full-throttle fuel use must rise with engine load at higher speed")
+	low_speed_acceleration.tick(1.0, 280.0, 760.0, GameConfig.ACCELERATION)
+	high_speed_acceleration.tick(1.0, 760.0, 760.0, GameConfig.ACCELERATION)
+	assert(high_speed_acceleration.fuel < low_speed_acceleration.fuel, "Equal positive acceleration must consume more fuel at higher speed because resistance is greater")
 
 	var stages := RunState.new(100.0, 0.0, 30.0)
 	stages.start()

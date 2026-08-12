@@ -8,20 +8,15 @@ const TrafficDirector = preload("res://scripts/traffic_director.gd")
 
 func _init() -> void:
 	var pickup_supply_per_second := GameConfig.FUEL_PICKUP_AMOUNT / GameConfig.FUEL_PICKUP_INTERVAL
-	var expected_survival_ranges := {
-		280.0: Vector2(220.0, 320.0),
-		560.0: Vector2(110.0, 170.0),
-		760.0: Vector2(80.0, 120.0),
-	}
-	for speed in expected_survival_ranges:
+	var previous_drain := 0.0
+	for speed in [280.0, 560.0, 760.0]:
 		var run := RunState.new(100.0, GameConfig.FUEL_DRAIN_PER_SECOND, 0.0)
 		run.start()
-		run.tick(1.0, speed, GameConfig.MAX_SPEED, 1.0)
+		run.tick(1.0, speed, GameConfig.MAX_SPEED)
 		var actual_drain := 100.0 - run.fuel
-		assert(actual_drain > pickup_supply_per_second, "Collecting every pickup must still consume fuel at speed %.0f" % speed)
-		var ideal_survival_seconds := 100.0 / (actual_drain - pickup_supply_per_second)
-		var expected_range: Vector2 = expected_survival_ranges[speed]
-		assert(ideal_survival_seconds >= expected_range.x and ideal_survival_seconds <= expected_range.y, "Fuel budget at speed %.0f must stay inside the intended pressure range" % speed)
+		assert(actual_drain > previous_drain, "Steady fuel consumption must rise with speed %.0f" % speed)
+		assert(pickup_supply_per_second > actual_drain, "A collected pickup must provide a meaningful recovery at speed %.0f" % speed)
+		previous_drain = actual_drain
 
 	var reproducible_a := FuelSpawnDirector.new(77, 3, GameConfig.FUEL_PICKUP_INTERVAL)
 	var reproducible_b := FuelSpawnDirector.new(77, 3, GameConfig.FUEL_PICKUP_INTERVAL)
