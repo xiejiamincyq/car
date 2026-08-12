@@ -16,6 +16,7 @@ func _init() -> void:
 	var excluded_resources := str(export_presets.get_value("preset.0", "exclude_filter", ""))
 	assert("tests/*" in excluded_resources, "Release exports must not ship the automated test scripts")
 	assert("art/source/*" in excluded_resources, "Release exports must not ship high-resolution generated art sources")
+	assert("assets/environment/*" in excluded_resources and "assets/tracks/*" in excluded_resources, "Release exports must not retain superseded looping scenery textures")
 
 	var readme := FileAccess.get_file_as_string("res://README.md")
 	assert(RELEASE_VERSION in readme, "README must name the exact candidate version")
