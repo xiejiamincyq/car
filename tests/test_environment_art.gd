@@ -16,6 +16,11 @@ func _init() -> void:
 	for index in range(1, positions.size()):
 		assert(is_equal_approx(positions[index] - positions[index - 1], 1024.0), "Environment strips must meet without a gap")
 
+	var initial_positions := EnvironmentScroller.tile_positions(0.0, 720.0, 1024.0)
+	var advanced_positions := EnvironmentScroller.tile_positions(100.0, 720.0, 1024.0)
+	assert(not initial_positions.is_empty() and not advanced_positions.is_empty(), "Environment direction check needs visible strips")
+	assert(is_equal_approx(advanced_positions[-1] - initial_positions[-1], 100.0), "Roadside scenery must move down toward the player as the car advances")
+
 	var main = MainScene.instantiate()
 	root.add_child(main)
 	await process_frame
