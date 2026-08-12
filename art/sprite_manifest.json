@@ -20,14 +20,14 @@
     "source": "art/source/generated/traffic_sedan_volume_alpha.png",
     "output": "assets/vehicles/traffic_sedan.png",
     "source_bbox": [
-      629,
-      979
+      713,
+      1189
     ],
     "runtime_bbox": [
       58,
-      90
+      96
     ],
-    "uniform_scale": 0.09220985691573927,
+    "uniform_scale": 0.08074011774600505,
     "canvas": [
       80,
       112
@@ -37,14 +37,14 @@
     "source": "art/source/generated/traffic_van_alpha.png",
     "output": "assets/vehicles/traffic_van.png",
     "source_bbox": [
-      572,
-      963
+      670,
+      1156
     ],
     "runtime_bbox": [
       56,
-      94
+      96
     ],
-    "uniform_scale": 0.0976116303219107,
+    "uniform_scale": 0.08304498269896193,
     "canvas": [
       80,
       112
@@ -54,14 +54,14 @@
     "source": "art/source/generated/traffic_hatchback_alpha.png",
     "output": "assets/vehicles/traffic_hatchback.png",
     "source_bbox": [
-      630,
-      919
+      673,
+      1086
     ],
     "runtime_bbox": [
-      60,
-      88
+      59,
+      96
     ],
-    "uniform_scale": 0.09523809523809523,
+    "uniform_scale": 0.08839779005524862,
     "canvas": [
       80,
       112
@@ -71,14 +71,14 @@
     "source": "art/source/generated/traffic_sports_alpha.png",
     "output": "assets/vehicles/traffic_sports.png",
     "source_bbox": [
-      666,
-      1017
+      708,
+      1160
     ],
     "runtime_bbox": [
       60,
-      92
+      98
     ],
-    "uniform_scale": 0.09046214355948869,
+    "uniform_scale": 0.08448275862068966,
     "canvas": [
       80,
       112
@@ -88,14 +88,14 @@
     "source": "art/source/generated/traffic_truck_volume_alpha.png",
     "output": "assets/vehicles/traffic_truck.png",
     "source_bbox": [
-      405,
-      1179
+      460,
+      1314
     ],
     "runtime_bbox": [
-      54,
+      55,
       156
     ],
-    "uniform_scale": 0.13231552162849872,
+    "uniform_scale": 0.1187214611872146,
     "canvas": [
       96,
       176

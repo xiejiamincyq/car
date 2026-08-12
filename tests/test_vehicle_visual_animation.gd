@@ -37,7 +37,7 @@ func _init() -> void:
 	assert(is_equal_approx(VehicleVisualAnimation.steering_rotation(1.0), deg_to_rad(15.0)), "Full right steering must lean the car fifteen degrees right")
 	assert(is_equal_approx(VehicleVisualAnimation.steering_rotation(-1.0), deg_to_rad(-15.0)), "Full left steering must lean the car fifteen degrees left")
 	assert(is_zero_approx(VehicleVisualAnimation.steering_rotation(0.0)), "A centered wheel must keep the car upright")
-	assert(is_equal_approx(VehicleVisualAnimation.traffic_facing_rotation(), PI), "NPC source art must be rotated to face the race direction")
+	assert(is_zero_approx(VehicleVisualAnimation.traffic_facing_rotation()), "Top-down NPC source art must share the player's upright race direction")
 	var corrected_size: Vector2 = VehicleVisualAnimation.corrected_vehicle_size(Vector2(80.0, 112.0))
 	assert(corrected_size.y >= 136.0 and corrected_size.x / corrected_size.y <= 0.60, "Vehicle rendering must correct the source art's flattened silhouette")
 	assert(VehicleVisualAnimation.speed_line_count(700.0, 760.0) > VehicleVisualAnimation.speed_line_count(250.0, 760.0), "High speed must produce denser motion feedback")

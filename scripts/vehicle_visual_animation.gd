@@ -60,7 +60,7 @@ static func steering_rotation(steering_strength: float) -> float:
 	return clampf(steering_strength, -1.0, 1.0) * MAX_STEERING_ROTATION
 
 static func traffic_facing_rotation() -> float:
-	return PI
+	return 0.0
 
 static func corrected_vehicle_size(source_size: Vector2) -> Vector2:
 	return Vector2(source_size.x, source_size.y * VEHICLE_LENGTH_CORRECTION)
