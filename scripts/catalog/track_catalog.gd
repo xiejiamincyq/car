@@ -1,6 +1,63 @@
 class_name TrackCatalog
 extends RefCounted
 
+const NEON_COAST_LEFT_SEQUENCE := [
+	"res://assets/environment_sequences/neon_coast/left_00.png",
+	"res://assets/environment_sequences/neon_coast/left_01.png",
+	"res://assets/environment_sequences/neon_coast/left_02.png",
+	"res://assets/environment_sequences/neon_coast/left_03.png",
+	"res://assets/environment_sequences/neon_coast/left_04.png",
+]
+const NEON_COAST_RIGHT_SEQUENCE := [
+	"res://assets/environment_sequences/neon_coast/right_00.png",
+	"res://assets/environment_sequences/neon_coast/right_01.png",
+	"res://assets/environment_sequences/neon_coast/right_02.png",
+	"res://assets/environment_sequences/neon_coast/right_03.png",
+	"res://assets/environment_sequences/neon_coast/right_04.png",
+]
+const FREIGHT_HARBOR_LEFT_SEQUENCE := [
+	"res://assets/environment_sequences/freight_harbor/left_00.png",
+	"res://assets/environment_sequences/freight_harbor/left_01.png",
+	"res://assets/environment_sequences/freight_harbor/left_02.png",
+	"res://assets/environment_sequences/freight_harbor/left_03.png",
+	"res://assets/environment_sequences/freight_harbor/left_04.png",
+]
+const FREIGHT_HARBOR_RIGHT_SEQUENCE := [
+	"res://assets/environment_sequences/freight_harbor/right_00.png",
+	"res://assets/environment_sequences/freight_harbor/right_01.png",
+	"res://assets/environment_sequences/freight_harbor/right_02.png",
+	"res://assets/environment_sequences/freight_harbor/right_03.png",
+	"res://assets/environment_sequences/freight_harbor/right_04.png",
+]
+const STORM_RIDGE_LEFT_SEQUENCE := [
+	"res://assets/environment_sequences/storm_ridge/left_00.png",
+	"res://assets/environment_sequences/storm_ridge/left_01.png",
+	"res://assets/environment_sequences/storm_ridge/left_02.png",
+	"res://assets/environment_sequences/storm_ridge/left_03.png",
+	"res://assets/environment_sequences/storm_ridge/left_04.png",
+]
+const STORM_RIDGE_RIGHT_SEQUENCE := [
+	"res://assets/environment_sequences/storm_ridge/right_00.png",
+	"res://assets/environment_sequences/storm_ridge/right_01.png",
+	"res://assets/environment_sequences/storm_ridge/right_02.png",
+	"res://assets/environment_sequences/storm_ridge/right_03.png",
+	"res://assets/environment_sequences/storm_ridge/right_04.png",
+]
+const SUNRISE_EXPRESS_LEFT_SEQUENCE := [
+	"res://assets/environment_sequences/sunrise_express/left_00.png",
+	"res://assets/environment_sequences/sunrise_express/left_01.png",
+	"res://assets/environment_sequences/sunrise_express/left_02.png",
+	"res://assets/environment_sequences/sunrise_express/left_03.png",
+	"res://assets/environment_sequences/sunrise_express/left_04.png",
+]
+const SUNRISE_EXPRESS_RIGHT_SEQUENCE := [
+	"res://assets/environment_sequences/sunrise_express/right_00.png",
+	"res://assets/environment_sequences/sunrise_express/right_01.png",
+	"res://assets/environment_sequences/sunrise_express/right_02.png",
+	"res://assets/environment_sequences/sunrise_express/right_03.png",
+	"res://assets/environment_sequences/sunrise_express/right_04.png",
+]
+
 const TRACKS := [
 	{
 		"id": &"neon_coast",
@@ -11,10 +68,8 @@ const TRACKS := [
 		"lane_event_interval_multiplier": 1.18,
 		"traffic_pattern": &"coast_flow",
 		"steering_multiplier": 1.00,
-		"environment_left_path": "res://assets/environment/coast_left.png",
-		"environment_right_path": "res://assets/environment/coast_right.png",
-		"environment_left_alt_path": "res://assets/environment/coast_left_alt.png",
-		"environment_right_alt_path": "res://assets/environment/coast_right_alt.png",
+		"environment_left_sequence_paths": NEON_COAST_LEFT_SEQUENCE,
+		"environment_right_sequence_paths": NEON_COAST_RIGHT_SEQUENCE,
 		"silver_score": 5200,
 		"gold_score": 7600,
 		"music_id": &"neon_coast",
@@ -28,10 +83,8 @@ const TRACKS := [
 		"lane_event_interval_multiplier": 1.12,
 		"traffic_pattern": &"harbor_heavy",
 		"steering_multiplier": 0.96,
-		"environment_left_path": "res://assets/tracks/freight_harbor_left.png",
-		"environment_right_path": "res://assets/tracks/freight_harbor_right.png",
-		"environment_left_alt_path": "res://assets/tracks/freight_harbor_left_alt.png",
-		"environment_right_alt_path": "res://assets/tracks/freight_harbor_right_alt.png",
+		"environment_left_sequence_paths": FREIGHT_HARBOR_LEFT_SEQUENCE,
+		"environment_right_sequence_paths": FREIGHT_HARBOR_RIGHT_SEQUENCE,
 		"silver_score": 5700,
 		"gold_score": 8300,
 		"music_id": &"freight_harbor",
@@ -45,10 +98,8 @@ const TRACKS := [
 		"lane_event_interval_multiplier": 1.05,
 		"traffic_pattern": &"ridge_weave",
 		"steering_multiplier": 0.90,
-		"environment_left_path": "res://assets/tracks/storm_ridge_left.png",
-		"environment_right_path": "res://assets/tracks/storm_ridge_right.png",
-		"environment_left_alt_path": "res://assets/tracks/storm_ridge_left_alt.png",
-		"environment_right_alt_path": "res://assets/tracks/storm_ridge_right_alt.png",
+		"environment_left_sequence_paths": STORM_RIDGE_LEFT_SEQUENCE,
+		"environment_right_sequence_paths": STORM_RIDGE_RIGHT_SEQUENCE,
 		"silver_score": 6100,
 		"gold_score": 8900,
 		"music_id": &"storm_ridge",
@@ -62,10 +113,8 @@ const TRACKS := [
 		"lane_event_interval_multiplier": 0.96,
 		"traffic_pattern": &"express_fast",
 		"steering_multiplier": 1.04,
-		"environment_left_path": "res://assets/tracks/sunrise_express_left.png",
-		"environment_right_path": "res://assets/tracks/sunrise_express_right.png",
-		"environment_left_alt_path": "res://assets/tracks/sunrise_express_left_alt.png",
-		"environment_right_alt_path": "res://assets/tracks/sunrise_express_right_alt.png",
+		"environment_left_sequence_paths": SUNRISE_EXPRESS_LEFT_SEQUENCE,
+		"environment_right_sequence_paths": SUNRISE_EXPRESS_RIGHT_SEQUENCE,
 		"silver_score": 6700,
 		"gold_score": 9800,
 		"music_id": &"sunrise_express",
@@ -103,10 +152,19 @@ static func validate() -> PackedStringArray:
 		var steering_multiplier := float(track.get("steering_multiplier", 0.0))
 		if steering_multiplier < 0.85 or steering_multiplier > 1.10:
 			errors.append("Track %s steering multiplier is outside the readable range" % track_id)
-		for side in ["environment_left_path", "environment_right_path", "environment_left_alt_path", "environment_right_alt_path"]:
-			var path := String(track.get(side, ""))
-			if path.is_empty() or not ResourceLoader.exists(path):
-				errors.append("Track %s needs a valid %s" % [track_id, side])
+		var left_paths: Array = track.get("environment_left_sequence_paths", [])
+		var right_paths: Array = track.get("environment_right_sequence_paths", [])
+		if left_paths.size() < 2 or left_paths.size() != right_paths.size():
+			errors.append("Track %s needs paired multi-part environment sequences" % track_id)
+		for side_paths in [left_paths, right_paths]:
+			var seen_paths := {}
+			for path_value in side_paths:
+				var path := String(path_value)
+				if path.is_empty() or not ResourceLoader.exists(path):
+					errors.append("Track %s needs valid environment sequence textures" % track_id)
+				if seen_paths.has(path):
+					errors.append("Track %s may not repeat an environment texture" % track_id)
+				seen_paths[path] = true
 	return errors
 
 static func _strictly_increasing(values: Array) -> bool:

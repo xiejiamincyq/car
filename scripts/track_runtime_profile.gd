@@ -9,8 +9,9 @@ static func resolve(track_id: StringName) -> Dictionary:
 
 static func textures_for(profile: Dictionary, side: String, fallback: Texture2D) -> Array[Texture2D]:
 	var textures: Array[Texture2D] = []
-	for suffix in ["", "_alt"]:
-		var path := String(profile.get("environment_%s%s_path" % [side, suffix], ""))
+	var sequence_paths: Array = profile.get("environment_%s_sequence_paths" % side, [])
+	for path_value in sequence_paths:
+		var path := String(path_value)
 		var texture := load(path) as Texture2D
 		if texture != null:
 			textures.append(texture)

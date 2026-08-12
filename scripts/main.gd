@@ -31,8 +31,8 @@ const TRAFFIC_HATCHBACK_TEXTURE: Texture2D = preload("res://assets/vehicles/traf
 const TRAFFIC_SPORTS_TEXTURE: Texture2D = preload("res://assets/vehicles/traffic_sports.png")
 const TRAFFIC_TRUCK_TEXTURE: Texture2D = preload("res://assets/vehicles/traffic_truck.png")
 const FUEL_PICKUP_TEXTURE: Texture2D = preload("res://assets/pickups/fuel_pickup.png")
-const COAST_LEFT_TEXTURE: Texture2D = preload("res://assets/environment/coast_left.png")
-const COAST_RIGHT_TEXTURE: Texture2D = preload("res://assets/environment/coast_right.png")
+const COAST_LEFT_TEXTURE: Texture2D = preload("res://assets/environment_sequences/neon_coast/left_00.png")
+const COAST_RIGHT_TEXTURE: Texture2D = preload("res://assets/environment_sequences/neon_coast/right_00.png")
 const HUD_FRAME_TEXTURE: Texture2D = preload("res://assets/ui/hud_frame.png")
 const EVENT_PLATE_TEXTURE: Texture2D = preload("res://assets/ui/event_plate.png")
 const ROAD_BARRIER_TEXTURE: Texture2D = preload("res://assets/ui/road_barrier.png")
@@ -40,14 +40,12 @@ const RESULT_EMBLEM_TEXTURE: Texture2D = preload("res://assets/ui/result_emblem.
 const FINISH_BURST_TEXTURE: Texture2D = preload("res://assets/effects/finish_burst.png")
 
 const ROAD_MARK_REPEAT_DISTANCE := 92.0
-const ENVIRONMENT_TILE_HEIGHT := 1024.0
 
 var drive: DriveController
 var traffic: TrafficDirector
 var collision: CollisionResponder
 var run: RunState
 var road_scroll := 0.0
-var environment_scroll := 0.0
 var screen_shake := Vector2.ZERO
 var collision_audio: AudioStreamPlayer
 var engine_audio: AudioStreamPlayer
@@ -295,7 +293,6 @@ func _process(delta: float) -> void:
 	steering_visual_strength = move_toward(steering_visual_strength, steering_input, delta * 7.0)
 	collision_visual_remaining = maxf(0.0, collision_visual_remaining - delta)
 	road_scroll = advance_road_scroll(road_scroll, drive.speed, delta, ROAD_MARK_REPEAT_DISTANCE)
-	environment_scroll += drive.speed * GameConfig.ROAD_SCROLL_MULTIPLIER * delta
 	var phase_before_tick := run.phase
 	run.tick(delta, drive.speed, drive.max_speed, accelerate_input)
 	feedback.tick(delta, run.fuel, run.difficulty_stage)
@@ -381,19 +378,24 @@ func _draw_track_environment(road_left: float, road_right: float, viewport_size:
 	var left_width := maxf(0.0, road_left - 30.0)
 	var right_start := road_right + 30.0
 	var right_width := maxf(0.0, viewport_size.x - right_start)
-	var tile_positions := EnvironmentScroller.tile_positions(environment_scroll, viewport_size.y, ENVIRONMENT_TILE_HEIGHT)
-	var first_tile_index := floori(environment_scroll / ENVIRONMENT_TILE_HEIGHT) - 1
-	for order in range(tile_positions.size()):
-		var tile_y: float = tile_positions[order]
-		var variant := EnvironmentScroller.variant_index(first_tile_index + order, current_run_seed, current_environment_left.size())
-		var left_texture := current_environment_left[variant]
-		var right_texture := current_environment_right[mini(variant, current_environment_right.size() - 1)]
+	if current_environment_left.is_empty() or current_environment_right.is_empty():
+		return
+	var tile_height := float(current_environment_left[0].get_height())
+	var finish_distance := run.progression.finish_distance
+	var sequence_tiles := EnvironmentScroller.sequence_tiles(run.distance, finish_distance, viewport_size.y, tile_height, current_environment_left.size())
+	for tile in sequence_tiles:
+		var tile_y := float(tile.y)
+		var texture_index := int(tile.index)
+		var left_texture := current_environment_left[texture_index]
+		var right_texture := current_environment_right[mini(texture_index, current_environment_right.size() - 1)]
 		if left_width > 0.0:
-			var left_source := Rect2(left_texture.get_width() - left_width, 0.0, left_width, ENVIRONMENT_TILE_HEIGHT)
-			draw_texture_rect_region(left_texture, Rect2(0.0, tile_y, left_width, ENVIRONMENT_TILE_HEIGHT), left_source, side_modulate)
+			var left_source_width := minf(left_width, float(left_texture.get_width()))
+			var left_source := Rect2(left_texture.get_width() - left_source_width, 0.0, left_source_width, tile_height)
+			draw_texture_rect_region(left_texture, Rect2(left_width - left_source_width, tile_y, left_source_width, tile_height), left_source, side_modulate)
 		if right_width > 0.0:
-			var right_source := Rect2(0.0, 0.0, right_width, ENVIRONMENT_TILE_HEIGHT)
-			draw_texture_rect_region(right_texture, Rect2(right_start, tile_y, right_width, ENVIRONMENT_TILE_HEIGHT), right_source, side_modulate)
+			var right_source_width := minf(right_width, float(right_texture.get_width()))
+			var right_source := Rect2(0.0, 0.0, right_source_width, tile_height)
+			draw_texture_rect_region(right_texture, Rect2(right_start, tile_y, right_source_width, tile_height), right_source, side_modulate)
 
 func _draw_sparks() -> void:
 	for spark in feedback.sparks:
@@ -683,7 +685,6 @@ func _reset_run(run_seed_override: int = -1) -> void:
 	current_run_seed = run_seed_override if run_seed_override >= 0 else run_seed_sequence.next_seed()
 	drive.reset()
 	road_scroll = 0.0
-	environment_scroll = 0.0
 	traffic.reset(current_run_seed)
 	collision = CollisionResponder.new(float(current_vehicle.collision_speed_penalty), GameConfig.COLLISION_INVULNERABILITY_SECONDS)
 	screen_shake = Vector2.ZERO

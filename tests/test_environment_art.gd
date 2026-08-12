@@ -5,38 +5,56 @@ const EnvironmentScroller = preload("res://scripts/environment_scroller.gd")
 const TrackCatalog = preload("res://scripts/catalog/track_catalog.gd")
 
 func _init() -> void:
-	for asset_path in ["res://assets/environment/coast_left.png", "res://assets/environment/coast_right.png"]:
-		var texture := load(asset_path) as Texture2D
-		assert(texture != null, "%s must import as a Texture2D" % asset_path)
-		assert(texture.get_size() == Vector2(256.0, 1024.0), "%s must use the frozen scrolling-strip canvas" % asset_path)
-	var track_paths := {}
+	var all_sequence_paths := {}
+	var all_content_hashes := {}
 	for track in TrackCatalog.all():
-		for asset_path in [String(track.environment_left_path), String(track.environment_right_path), String(track.environment_left_alt_path), String(track.environment_right_alt_path)]:
-			track_paths[asset_path] = true
-			var texture := load(asset_path) as Texture2D
-			assert(texture != null and texture.get_size() == Vector2(256.0, 1024.0), "%s must use the frozen scrolling-strip canvas" % asset_path)
-			var image := texture.get_image()
-			for x in range(0, 256, 32):
-				assert(image.get_pixel(x, 0).is_equal_approx(image.get_pixel(x, 1023)), "%s must join cleanly across its vertical loop" % asset_path)
-	assert(track_paths.size() == 16, "Four tracks must expose paired base and alternate environment strips")
+		var left_paths: Array = track.environment_left_sequence_paths
+		var right_paths: Array = track.environment_right_sequence_paths
+		assert(left_paths.size() >= 4 and left_paths.size() == right_paths.size(), "%s must provide a multi-part paired scenery sequence" % track.id)
+		var track_paths := {}
+		for side_paths in [left_paths, right_paths]:
+			for asset_path_value in side_paths:
+				var asset_path := String(asset_path_value)
+				assert(not track_paths.has(asset_path), "%s may not repeat a scenery image inside one race" % track.id)
+				track_paths[asset_path] = true
+				all_sequence_paths[asset_path] = true
+				var content_hash := FileAccess.get_sha256(asset_path)
+				assert(not all_content_hashes.has(content_hash), "%s must contain unique scenery content instead of copied files" % track.id)
+				all_content_hashes[content_hash] = true
+				var texture := load(asset_path) as Texture2D
+				assert(texture != null and texture.get_size() == Vector2(256.0, 1024.0), "%s must use the sequence-strip canvas" % asset_path)
+		for side_paths in [left_paths, right_paths]:
+			for index in range(1, side_paths.size()):
+				var previous := (load(String(side_paths[index - 1])) as Texture2D).get_image()
+				var current := (load(String(side_paths[index])) as Texture2D).get_image()
+				for x in range(256):
+					assert(previous.get_pixel(x, 0).is_equal_approx(current.get_pixel(x, 1023)), "%s segment %d must join the preceding scenery without a seam" % [track.id, index])
+		var distances := EnvironmentScroller.segment_distances(float(track.finish_distance), left_paths.size() - 1)
+		var total_distance := 0.0
+		for distance in distances:
+			total_distance += distance
+		assert(is_equal_approx(total_distance, float(track.finish_distance)), "%s scenery segments must add up to the exact race length" % track.id)
+	assert(all_sequence_paths.size() >= 40, "Four tracks must use five distinct left/right scenery panels without repetition")
 
-	var positions := EnvironmentScroller.tile_positions(1300.0, 720.0, 1024.0)
-	assert(not positions.is_empty(), "Environment scrolling must draw at least one strip")
-	assert(positions[0] <= 0.0, "The first environment strip must begin above or at the viewport")
-	assert(positions[-1] + 1024.0 >= 720.0, "The last environment strip must cover the viewport bottom")
-	for index in range(1, positions.size()):
-		assert(is_equal_approx(positions[index] - positions[index - 1], 1024.0), "Environment strips must meet without a gap")
-
-	var initial_positions := EnvironmentScroller.tile_positions(0.0, 720.0, 1024.0)
-	var advanced_positions := EnvironmentScroller.tile_positions(100.0, 720.0, 1024.0)
-	assert(not initial_positions.is_empty() and not advanced_positions.is_empty(), "Environment direction check needs visible strips")
-	assert(is_equal_approx(advanced_positions[-1] - initial_positions[-1], 100.0), "Roadside scenery must move down toward the player as the car advances")
-	var seen_variants := {}
-	for tile_index in range(16):
-		var variant: int = EnvironmentScroller.variant_index(tile_index, 731, 2)
-		seen_variants[variant] = true
-		assert(variant == EnvironmentScroller.variant_index(tile_index, 731, 2), "Background variation must be deterministic for a fixed run seed")
-	assert(seen_variants.size() == 2, "Long runs must alternate between more than one background texture variant")
+	var initial_sequence := EnvironmentScroller.sequence_tiles(0.0, 3200.0, 720.0, 1024.0, 5)
+	var advanced_sequence := EnvironmentScroller.sequence_tiles(100.0, 3200.0, 720.0, 1024.0, 5)
+	assert(initial_sequence.size() == 1 and advanced_sequence.size() == 2, "Ordered scenery must cover both the start and a moving transition")
+	assert(float(advanced_sequence[0].y) > float(initial_sequence[0].y), "Roadside scenery must move down toward the player as the car advances")
+	var visible_sequence := EnvironmentScroller.sequence_tiles(1200.0, 3200.0, 720.0, 1024.0, 5)
+	assert(not visible_sequence.is_empty(), "A race-distance scenery sequence must cover the viewport")
+	var top_edge := INF
+	var bottom_edge := -INF
+	var seen_indexes := {}
+	for tile in visible_sequence:
+		var tile_index := int(tile.index)
+		assert(tile_index >= 0 and tile_index < 5, "Scenery sequence may only reference generated route panels")
+		assert(not seen_indexes.has(tile_index), "A visible frame may not repeat the same scenery segment")
+		seen_indexes[tile_index] = true
+		top_edge = minf(top_edge, float(tile.y))
+		bottom_edge = maxf(bottom_edge, float(tile.y) + 1024.0)
+	assert(top_edge <= 0.0 and bottom_edge >= 720.0, "The ordered scenery sequence must cover the full viewport without a gap")
+	var finish_sequence := EnvironmentScroller.sequence_tiles(3200.0, 3200.0, 720.0, 1024.0, 5)
+	assert(finish_sequence.size() == 1 and int(finish_sequence[0].index) == 4 and is_zero_approx(float(finish_sequence[0].y)), "The last unique scenery panel must align with the exact finish line")
 
 	var main = MainScene.instantiate()
 	root.add_child(main)

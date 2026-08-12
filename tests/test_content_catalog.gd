@@ -20,8 +20,11 @@ func _assert_track_contract() -> void:
 		assert(float(track.finish_distance) > float(track.checkpoint_distances[-1]), "Finish distance must follow every checkpoint")
 		assert(int(track.silver_score) > 0 and int(track.gold_score) > int(track.silver_score), "Track medal thresholds must be ordered")
 		assert(track.music_id is StringName and not String(track.music_id).is_empty(), "Every track must select a music ID")
-		assert(ResourceLoader.exists(String(track.environment_left_path)) and ResourceLoader.exists(String(track.environment_right_path)), "Every track needs two runtime environment strips")
-		assert(ResourceLoader.exists(String(track.environment_left_alt_path)) and ResourceLoader.exists(String(track.environment_right_alt_path)), "Every track needs alternate runtime environment strips")
+		assert(track.environment_left_sequence_paths.size() == 5, "Every track needs five ordered left scenery panels")
+		assert(track.environment_right_sequence_paths.size() == track.environment_left_sequence_paths.size(), "Left and right scenery sequences must stay paired")
+		for side_paths in [track.environment_left_sequence_paths, track.environment_right_sequence_paths]:
+			for path_value in side_paths:
+				assert(ResourceLoader.exists(String(path_value)), "Every scenery sequence entry must resolve to a runtime texture")
 		assert(track.traffic_pattern is StringName and not String(track.traffic_pattern).is_empty(), "Every track needs a traffic identity")
 		assert(float(track.steering_multiplier) >= 0.85 and float(track.steering_multiplier) <= 1.10, "Track steering pressure must remain readable and deterministic")
 	var first_id: StringName = tracks[0].id
