@@ -8,6 +8,7 @@ func _init() -> void:
 	var car = director.acquire_vehicle(TrafficDirector.Kind.STEADY_SLOW, 1, 100.0)
 	var truck = director.acquire_vehicle(TrafficDirector.Kind.TRUCK, 1, 100.0)
 	assert(truck.half_length > car.half_length and truck.half_width > car.half_width, "A truck must have a genuinely larger body than a car")
+	assert(is_equal_approx(truck.cruise_speed, car.cruise_speed * 0.80), "Truck cruise speed must be exactly 80 percent of normal traffic speed")
 	assert(truck.target_lane == truck.lane, "Trucks must never schedule a lane change")
 	var car_collision_distance := GameConfig.COLLISION_LONGITUDINAL_DISTANCE
 	var truck_collision_distance := director.collision_distance_for(truck)
