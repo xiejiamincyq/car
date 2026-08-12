@@ -1,6 +1,8 @@
 class_name Progression
 extends RefCounted
 
+const TourProgress = preload("res://scripts/catalog/tour_progress.gd")
+
 static func record_run(current_data: Dictionary, result: Dictionary, date: String) -> Dictionary:
 	var data := current_data.duplicate(true)
 	var new_entry := {
@@ -26,6 +28,15 @@ static func record_run(current_data: Dictionary, result: Dictionary, date: Strin
 	data.career.near_misses += maxi(0, int(result.near_misses))
 	data.career.longest_survival = maxf(data.career.longest_survival, maxf(0.0, float(result.survival)))
 	data.career.highest_stage = maxi(data.career.highest_stage, maxi(0, int(result.stage)))
+	if result.has("track_id") and result.track_id is StringName:
+		data.tour = TourProgress.record_result(
+			data.tour,
+			result.track_id,
+			maxi(0, int(result.score)),
+			maxf(0.0, float(result.survival)),
+			bool(result.get("cleared", false)),
+			clampi(int(result.get("medal", 0)), 0, 3)
+		)
 	return {"data": data, "new_record": rank == 1, "rank": rank}
 
 static func _comes_before(left: Dictionary, right: Dictionary) -> bool:

@@ -26,6 +26,13 @@ func _init() -> void:
 
 	var lower := Progression.record_run(data, _result(1, 0, 1.0, 1.0, 0, 0, 0), "2026-08-03")
 	assert(not lower.new_record and lower.rank == 0, "A score outside the leaderboard must not report a rank")
+	var tour_result := _result(6200, 1, 3200.0, 198.5, 12, 3, 4)
+	tour_result.track_id = &"neon_coast"
+	tour_result.cleared = true
+	tour_result.medal = 2
+	var toured := Progression.record_run(data, tour_result, "2026-08-04")
+	assert(toured.data.tour.track_results.neon_coast.cleared, "A cleared run must update the selected track progress")
+	assert(toured.data.tour.track_results.neon_coast.best_score == 6200 and toured.data.tour.track_results.neon_coast.medal == 2, "A settled tour result must retain its score and medal")
 	quit()
 
 func _result(score: int, difficulty: int, distance: float, survival: float, overtakes: int, near_misses: int, stage: int) -> Dictionary:

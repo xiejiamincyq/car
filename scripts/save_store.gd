@@ -1,7 +1,10 @@
 class_name SaveStore
 extends RefCounted
 
-const CURRENT_VERSION := 4
+const TourProgress = preload("res://scripts/catalog/tour_progress.gd")
+const TrackCatalog = preload("res://scripts/catalog/track_catalog.gd")
+
+const CURRENT_VERSION := 5
 
 var save_path: String
 
@@ -14,6 +17,8 @@ static func default_data() -> Dictionary:
 		"top_scores": [],
 		"settings": {
 			"audio_volume": 0.65,
+			"music_volume": 0.65,
+			"effects_volume": 0.65,
 			"audio_muted": false,
 			"difficulty": 1,
 			"fullscreen": false,
@@ -30,6 +35,7 @@ static func default_data() -> Dictionary:
 			"longest_survival": 0.0,
 			"highest_stage": 0,
 		},
+		"tour": TourProgress.default_data(),
 	}
 
 func load_data() -> Dictionary:
@@ -41,13 +47,16 @@ func load_data() -> Dictionary:
 		return default_data()
 	if version == 0:
 		return _migrate_version_zero(config)
-	if version != 1 and version != 2 and version != 3 and version != CURRENT_VERSION:
+	if version != 1 and version != 2 and version != 3 and version != 4 and version != CURRENT_VERSION:
 		return default_data()
+	var legacy_audio_volume = _value_or_null(config, "settings", "audio_volume")
 	var candidate := {
 		"version": CURRENT_VERSION,
 		"top_scores": config.get_value("scores", "items", []),
 		"settings": {
-			"audio_volume": _value_or_null(config, "settings", "audio_volume"),
+			"audio_volume": legacy_audio_volume,
+			"music_volume": legacy_audio_volume if version < 5 else _value_or_null(config, "settings", "music_volume"),
+			"effects_volume": legacy_audio_volume if version < 5 else _value_or_null(config, "settings", "effects_volume"),
 			"audio_muted": _value_or_null(config, "settings", "audio_muted"),
 			"difficulty": _value_or_null(config, "settings", "difficulty"),
 			"fullscreen": false if version == 1 else _value_or_null(config, "settings", "fullscreen"),
@@ -64,6 +73,11 @@ func load_data() -> Dictionary:
 			"longest_survival": _value_or_null(config, "career", "longest_survival"),
 			"highest_stage": _value_or_null(config, "career", "highest_stage"),
 		},
+		"tour": TourProgress.default_data() if version < 5 else {
+			"selected_track_id": _value_or_null(config, "tour", "selected_track_id"),
+			"selected_vehicle_id": _value_or_null(config, "tour", "selected_vehicle_id"),
+			"track_results": _value_or_null(config, "tour", "track_results"),
+		},
 	}
 	var validated := _validated_data(candidate)
 	return default_data() if validated.is_empty() else validated
@@ -79,6 +93,8 @@ func save_data(data: Dictionary) -> bool:
 		config.set_value("settings", key, validated.settings[key])
 	for key in validated.career:
 		config.set_value("career", key, validated.career[key])
+	for key in validated.tour:
+		config.set_value("tour", key, validated.tour[key])
 
 	var temporary_path := save_path + ".tmp"
 	var backup_path := save_path + ".bak"
@@ -116,13 +132,13 @@ func _promote_temp_file(temporary_path: String, target_path: String) -> Error:
 static func _validated_data(data: Dictionary) -> Dictionary:
 	if typeof(data.get("version")) != TYPE_INT or data.version != CURRENT_VERSION:
 		return {}
-	if typeof(data.get("settings")) != TYPE_DICTIONARY or typeof(data.get("career")) != TYPE_DICTIONARY or typeof(data.get("top_scores")) != TYPE_ARRAY:
+	if typeof(data.get("settings")) != TYPE_DICTIONARY or typeof(data.get("career")) != TYPE_DICTIONARY or typeof(data.get("top_scores")) != TYPE_ARRAY or typeof(data.get("tour")) != TYPE_DICTIONARY:
 		return {}
 	var settings: Dictionary = data.settings
 	var career: Dictionary = data.career
-	if not _is_number(settings.get("audio_volume")) or typeof(settings.get("audio_muted")) != TYPE_BOOL or typeof(settings.get("difficulty")) != TYPE_INT or typeof(settings.get("fullscreen")) != TYPE_BOOL or typeof(settings.get("language")) != TYPE_STRING or typeof(settings.get("high_contrast")) != TYPE_BOOL or typeof(settings.get("reduced_flashing")) != TYPE_BOOL or typeof(settings.get("screen_shake")) != TYPE_BOOL:
+	if not _is_number(settings.get("audio_volume")) or not _is_number(settings.get("music_volume")) or not _is_number(settings.get("effects_volume")) or typeof(settings.get("audio_muted")) != TYPE_BOOL or typeof(settings.get("difficulty")) != TYPE_INT or typeof(settings.get("fullscreen")) != TYPE_BOOL or typeof(settings.get("language")) != TYPE_STRING or typeof(settings.get("high_contrast")) != TYPE_BOOL or typeof(settings.get("reduced_flashing")) != TYPE_BOOL or typeof(settings.get("screen_shake")) != TYPE_BOOL:
 		return {}
-	if settings.audio_volume < 0.0 or settings.audio_volume > 1.0 or settings.difficulty < 0 or settings.difficulty > 2 or not settings.language in ["system", "zh", "en"]:
+	if settings.audio_volume < 0.0 or settings.audio_volume > 1.0 or settings.music_volume < 0.0 or settings.music_volume > 1.0 or settings.effects_volume < 0.0 or settings.effects_volume > 1.0 or settings.difficulty < 0 or settings.difficulty > 2 or not settings.language in ["system", "zh", "en"]:
 		return {}
 	if typeof(career.get("runs")) != TYPE_INT or not _is_number(career.get("total_distance")) or typeof(career.get("overtakes")) != TYPE_INT or typeof(career.get("near_misses")) != TYPE_INT or not _is_number(career.get("longest_survival")) or typeof(career.get("highest_stage")) != TYPE_INT:
 		return {}
@@ -138,7 +154,27 @@ static func _validated_data(data: Dictionary) -> Dictionary:
 			return {}
 		if item.score < 0 or item.difficulty < 0 or item.difficulty > 2 or item.distance < 0.0:
 			return {}
+	if not _valid_tour(data.tour):
+		return {}
 	return data.duplicate(true)
+
+static func _valid_tour(tour: Dictionary) -> bool:
+	if not tour.get("selected_track_id") is StringName or not tour.get("selected_vehicle_id") is StringName or not tour.get("track_results") is Dictionary:
+		return false
+	var results: Dictionary = tour.track_results
+	for track in TrackCatalog.all():
+		if not results.has(track.id) or not results[track.id] is Dictionary:
+			return false
+		var result: Dictionary = results[track.id]
+		if typeof(result.get("cleared")) != TYPE_BOOL or typeof(result.get("best_score")) != TYPE_INT or not _is_number(result.get("best_time")) or typeof(result.get("medal")) != TYPE_INT:
+			return false
+		if result.best_score < 0 or result.best_time < 0.0 or result.medal < 0 or result.medal > 3:
+			return false
+	if not TourProgress.is_track_unlocked(tour, tour.selected_track_id):
+		return false
+	if not TourProgress.is_vehicle_unlocked(tour, tour.selected_vehicle_id):
+		return false
+	return true
 
 static func _migrate_version_zero(config: ConfigFile) -> Dictionary:
 	var best_score = config.get_value("progress", "best_score", 0)
