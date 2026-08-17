@@ -5,38 +5,12 @@ const GameConfig = preload("res://scripts/game_config.gd")
 const VisualStyle = preload("res://scripts/visual_style.gd")
 const EnvironmentScroller = preload("res://scripts/environment_scroller.gd")
 
-const SHARPEN_SHADER := """
-shader_type canvas_item;
-
-uniform float sharpness : hint_range(0.0, 0.6) = 0.25;
-
-void fragment() {
-	vec4 tint = COLOR;
-	vec4 center = texture(TEXTURE, UV);
-	vec2 pixel = TEXTURE_PIXEL_SIZE;
-	vec3 neighbours = (
-		texture(TEXTURE, UV + vec2(pixel.x, 0.0)).rgb
-		+ texture(TEXTURE, UV - vec2(pixel.x, 0.0)).rgb
-		+ texture(TEXTURE, UV + vec2(0.0, pixel.y)).rgb
-		+ texture(TEXTURE, UV - vec2(0.0, pixel.y)).rgb
-	) * 0.25;
-	vec3 sharpened = clamp(center.rgb + (center.rgb - neighbours) * sharpness, vec3(0.0), vec3(1.0));
-	COLOR = vec4(sharpened, center.a) * tint;
-}
-"""
-
 var source_main: Node2D
-var _shader_material: ShaderMaterial
 
 func _ready() -> void:
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	z_index = -100
 	z_as_relative = false
-	var shader := Shader.new()
-	shader.code = SHARPEN_SHADER
-	_shader_material = ShaderMaterial.new()
-	_shader_material.shader = shader
-	material = _shader_material
 
 func _process(_delta: float) -> void:
 	queue_redraw()
@@ -59,7 +33,6 @@ func _draw_environment(road_left: float, road_right: float, viewport_size: Vecto
 	var right_textures: Array = source_main.current_environment_right
 	if left_textures.is_empty() or right_textures.is_empty():
 		return
-	_shader_material.set_shader_parameter("sharpness", clampf(float(source_main.current_track.get("environment_sharpness", 0.25)), 0.0, 0.6))
 	var side_modulate := Color(0.58, 0.58, 0.58, 1.0) if source_main.high_contrast_enabled else Color.WHITE
 	var left_width := maxf(0.0, road_left - 30.0)
 	var right_start := road_right + 30.0

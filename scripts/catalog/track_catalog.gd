@@ -68,7 +68,6 @@ const TRACKS := [
 		"lane_event_interval_multiplier": 1.18,
 		"traffic_pattern": &"coast_flow",
 		"steering_multiplier": 1.00,
-		"environment_sharpness": 0.48,
 		"environment_left_sequence_paths": NEON_COAST_LEFT_SEQUENCE,
 		"environment_right_sequence_paths": NEON_COAST_RIGHT_SEQUENCE,
 		"silver_score": 5200,
@@ -84,7 +83,6 @@ const TRACKS := [
 		"lane_event_interval_multiplier": 1.12,
 		"traffic_pattern": &"harbor_heavy",
 		"steering_multiplier": 0.96,
-		"environment_sharpness": 0.38,
 		"environment_left_sequence_paths": FREIGHT_HARBOR_LEFT_SEQUENCE,
 		"environment_right_sequence_paths": FREIGHT_HARBOR_RIGHT_SEQUENCE,
 		"silver_score": 5700,
@@ -100,7 +98,6 @@ const TRACKS := [
 		"lane_event_interval_multiplier": 1.05,
 		"traffic_pattern": &"ridge_weave",
 		"steering_multiplier": 0.90,
-		"environment_sharpness": 0.20,
 		"environment_left_sequence_paths": STORM_RIDGE_LEFT_SEQUENCE,
 		"environment_right_sequence_paths": STORM_RIDGE_RIGHT_SEQUENCE,
 		"silver_score": 6100,
@@ -116,7 +113,6 @@ const TRACKS := [
 		"lane_event_interval_multiplier": 0.96,
 		"traffic_pattern": &"express_fast",
 		"steering_multiplier": 1.04,
-		"environment_sharpness": 0.12,
 		"environment_left_sequence_paths": SUNRISE_EXPRESS_LEFT_SEQUENCE,
 		"environment_right_sequence_paths": SUNRISE_EXPRESS_RIGHT_SEQUENCE,
 		"silver_score": 6700,
@@ -156,9 +152,6 @@ static func validate() -> PackedStringArray:
 		var steering_multiplier := float(track.get("steering_multiplier", 0.0))
 		if steering_multiplier < 0.85 or steering_multiplier > 1.10:
 			errors.append("Track %s steering multiplier is outside the readable range" % track_id)
-		var environment_sharpness := float(track.get("environment_sharpness", -1.0))
-		if environment_sharpness < 0.0 or environment_sharpness > 0.6:
-			errors.append("Track %s environment sharpness is outside the safe range" % track_id)
 		var left_paths: Array = track.get("environment_left_sequence_paths", [])
 		var right_paths: Array = track.get("environment_right_sequence_paths", [])
 		if left_paths.size() < 2 or left_paths.size() != right_paths.size():
