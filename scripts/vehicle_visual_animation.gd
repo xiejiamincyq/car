@@ -62,6 +62,15 @@ static func steering_rotation(steering_strength: float) -> float:
 static func traffic_facing_rotation() -> float:
 	return 0.0
 
+static func traffic_lane_change_rotation(lane_position: float, target_lane: float, change_started: bool) -> float:
+	if not change_started:
+		return 0.0
+	var remaining_distance := absf(target_lane - lane_position)
+	if is_zero_approx(remaining_distance):
+		return 0.0
+	var progress := 1.0 - clampf(remaining_distance, 0.0, 1.0)
+	return sin(progress * PI) * MAX_STEERING_ROTATION * signf(target_lane - lane_position)
+
 static func corrected_vehicle_size(source_size: Vector2) -> Vector2:
 	return Vector2(source_size.x, source_size.y * VEHICLE_LENGTH_CORRECTION)
 
