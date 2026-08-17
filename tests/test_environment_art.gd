@@ -6,7 +6,7 @@ const RoadsideRenderer = preload("res://scripts/roadside_renderer.gd")
 const TrackCatalog = preload("res://scripts/catalog/track_catalog.gd")
 
 func _init() -> void:
-	for section_track in ["neon_coast", "freight_harbor", "storm_ridge"]:
+	for section_track in ["neon_coast", "freight_harbor", "storm_ridge", "sunrise_express"]:
 		for section_index in range(5):
 			assert(FileAccess.file_exists("res://art/source/environment_sequences/%s_sections/section_%02d.png" % [section_track, section_index]), "%s must use one full-resolution source image per route section" % section_track)
 	var all_sequence_paths := {}
@@ -77,6 +77,9 @@ func _init() -> void:
 	var storm_track := TrackCatalog.get_by_id(&"storm_ridge")
 	var storm_luminance := _sampled_average_luminance(storm_track.environment_left_sequence_paths + storm_track.environment_right_sequence_paths)
 	assert(storm_luminance >= 0.06, "Storm Ridge roadside art must retain readable wet-rock midtones")
+	var sunrise_track := TrackCatalog.get_by_id(&"sunrise_express")
+	var sunrise_luminance := _sampled_average_luminance(sunrise_track.environment_left_sequence_paths + sunrise_track.environment_right_sequence_paths)
+	assert(sunrise_luminance >= 0.25 and sunrise_luminance <= 0.65, "Sunrise Express roadside art must remain bright without clipping its rooftop detail")
 	var constants: Dictionary = main.get_script().get_script_constant_map()
 	assert(constants.has("COAST_LEFT_TEXTURE") and constants.has("COAST_RIGHT_TEXTURE"), "Main must preload both coastal environment strips")
 	main.queue_free()

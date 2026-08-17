@@ -30,7 +30,13 @@ $tracks = @(
         LeftRoadEdges = @(277.0, 277.0, 273.0, 277.0, 251.0)
         RightRoadEdges = @(706.0, 705.0, 705.0, 703.0, 687.0)
     },
-    @{ Id = 'sunrise_express'; Source = 'sunrise_express_master.png'; LeftRoadEdge = 254.0; RightRoadEdge = 468.0 }
+    @{
+        Id = 'sunrise_express'
+        Sections = @('section_00.png', 'section_01.png', 'section_02.png', 'section_03.png', 'section_04.png')
+        SectionRoot = 'sunrise_express_sections'
+        LeftRoadEdges = @(250.0, 250.0, 251.0, 253.0, 253.0)
+        RightRoadEdges = @(705.0, 704.0, 704.0, 704.0, 703.0)
+    }
 )
 
 function New-SectionPanel {
