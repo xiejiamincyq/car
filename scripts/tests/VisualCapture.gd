@@ -19,8 +19,8 @@ func _capture() -> void:
 	var capture_size := Vector2i(maxi(640, int(arguments[3])), maxi(360, int(arguments[4])))
 	var high_contrast := arguments.size() >= 6 and arguments[5] == "true"
 
-	root.content_scale_size = capture_size
-	root.size = capture_size
+	DisplayServer.window_set_size(capture_size)
+	await process_frame
 	var main = MainScene.instantiate()
 	root.add_child(main)
 	await process_frame
@@ -42,6 +42,10 @@ func _capture() -> void:
 	await process_frame
 	await RenderingServer.frame_post_draw
 	var image := main.get_viewport().get_texture().get_image()
+	if image.get_size() != capture_size:
+		push_error("Capture viewport is %s instead of requested %s" % [image.get_size(), capture_size])
+		quit(4)
+		return
 	var error := image.save_png(output_path)
 	if error != OK:
 		push_error("Unable to save capture to %s: %s" % [output_path, error_string(error)])

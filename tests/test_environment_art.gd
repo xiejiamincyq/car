@@ -6,6 +6,8 @@ const RoadsideRenderer = preload("res://scripts/roadside_renderer.gd")
 const TrackCatalog = preload("res://scripts/catalog/track_catalog.gd")
 
 func _init() -> void:
+	var build_script := FileAccess.get_file_as_string("res://scripts/art/build_environment_sequences.ps1")
+	assert(not build_script.contains("New-RouteStrip") and not build_script.contains("$stripHeight"), "Environment build must not retain the legacy whole-master upscaling path")
 	for section_track in ["neon_coast", "freight_harbor", "storm_ridge", "sunrise_express"]:
 		for section_index in range(5):
 			assert(FileAccess.file_exists("res://art/source/environment_sequences/%s_sections/section_%02d.png" % [section_track, section_index]), "%s must use one full-resolution source image per route section" % section_track)
