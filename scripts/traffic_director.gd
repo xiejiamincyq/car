@@ -58,7 +58,7 @@ func tick(delta: float, player_speed: float, player_lane: int = 1) -> void:
 	_player_lane = player_lane
 	if lane_events.state == LaneEventDirector.State.WARNING and not _closure_can_continue():
 		lane_events.cancel_warning()
-	lane_events.tick(delta, difficulty_stage, player_lane)
+	lane_events.tick(delta, difficulty_stage, player_lane, player_speed)
 	if lane_events.state == LaneEventDirector.State.WARNING and not _closure_can_continue():
 		lane_events.cancel_warning()
 	_spawn_cooldown -= delta
@@ -106,6 +106,7 @@ func set_difficulty_stage(stage: int) -> void:
 
 func set_viewport_height(viewport_height: float) -> void:
 	_viewport_height = maxf(1.0, viewport_height)
+	lane_events.set_viewport_height(_viewport_height)
 
 func set_spawn_exclusion_zones(zones: Array[Vector2]) -> void:
 	_spawn_exclusion_zones.assign(zones)

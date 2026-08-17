@@ -121,8 +121,10 @@ func _init() -> void:
 	construction_route._player_lane = 1
 	construction_route._player_speed = 760.0
 	construction_route.lane_events.begin_warning(0)
-	construction_route.lane_events.state = construction_route.LaneEventDirector.State.CLOSED
-	construction_route.lane_events.state_remaining = 2.0
+	var construction_player_y: float = construction_route.TrackGeometry.player_y(1080.0)
+	var construction_taper_length: float = GameConfig.LANE_EVENT_TAPER_CONE_SPACING * float(GameConfig.LANE_EVENT_TAPER_CONE_COUNT - 1)
+	var construction_core_distance: float = construction_player_y + GameConfig.LANE_EVENT_CORE_TRAVEL_MARGIN + construction_taper_length + GameConfig.LANE_EVENT_CORE_GAP
+	construction_route.lane_events.tick(construction_core_distance / (GameConfig.START_SPEED * GameConfig.ROAD_SCROLL_MULTIPLIER), 3, 1, GameConfig.START_SPEED)
 	var construction_overtaker = construction_route.acquire_vehicle(TrafficDirector.Kind.FAST_OVERTAKE, 2, 911.0)
 	construction_route.vehicles.append(construction_overtaker)
 	assert(not construction_route._fast_route_preserves_player_options(construction_overtaker, 1), "A fast overtaker must not claim the last escape lane beside an approaching construction core")

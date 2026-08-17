@@ -17,8 +17,8 @@ func _init() -> void:
 	var first := LaneEventDirector.new(73, GameConfig.ROAD_LANE_COUNT, true)
 	var second := LaneEventDirector.new(73, GameConfig.ROAD_LANE_COUNT, true)
 	for _step in range(240):
-		first.tick(0.25, 3, 1)
-		second.tick(0.25, 3, 1)
+		first.tick(0.25, 3, 1, 560.0)
+		second.tick(0.25, 3, 1, 560.0)
 		if first.blocked_lane() >= 0:
 			assert(first.blocked_lane() != 1, "A new closure may not suddenly target the player's occupied lane")
 			assert(first.blocked_lane() == 0 or first.blocked_lane() == GameConfig.ROAD_LANE_COUNT - 1, "A single construction diversion must close an outside lane for a readable merge")
@@ -27,18 +27,63 @@ func _init() -> void:
 	var construction := LaneEventDirector.new(131, GameConfig.ROAD_LANE_COUNT, true)
 	construction.begin_warning(0)
 	assert(construction.closed_lanes() == [0], "A single construction event must expose its complete closed-lane set")
-	construction.tick(GameConfig.LANE_EVENT_WARNING_SECONDS * 0.5, 2, 1)
+	construction.tick(GameConfig.LANE_EVENT_WARNING_SECONDS * 0.5, 2, 1, GameConfig.START_SPEED)
 	var warning_cones: Array[Dictionary] = construction.cone_markers(720.0)
 	assert(not warning_cones.is_empty(), "The warning phase must expose visible taper-cone geometry")
+	var first_encountered_cone: Dictionary = warning_cones[0]
+	for cone in warning_cones:
+		if float(cone.y) > float(first_encountered_cone.y):
+			first_encountered_cone = cone
+	assert(is_equal_approx(float(first_encountered_cone.lane_position), 0.0), "A left-lane taper must begin at the closed road edge before narrowing toward the open-lane boundary")
+	var warning_geometry := construction.cone_markers(720.0)
+	construction.state = LaneEventDirector.State.CLOSED
+	assert(construction.cone_markers(720.0) == warning_geometry, "Changing construction phase must not replace or teleport road-fixed cones")
+	construction.state = LaneEventDirector.State.WARNING
 	assert(construction.lanes_blocked_near(592.0, 72.0, 720.0).is_empty(), "Breakable warning cones must not turn the whole lane into a navigation exclusion zone")
 	assert(construction.navigation_blocked_lanes(592.0, 72.0, 720.0) == [0], "The warning must reserve the planned construction lane for route selection before the solid core arrives")
 	var first_cone_id: int = int(warning_cones[0].id)
 	assert(construction.consume_cone(first_cone_id), "The first player contact must knock a taper cone away")
 	assert(not construction.consume_cone(first_cone_id), "A knocked cone must not apply collision twice")
-	construction.tick(GameConfig.LANE_EVENT_WARNING_SECONDS, 2, 1)
+
+	var right_taper := LaneEventDirector.new(133, GameConfig.ROAD_LANE_COUNT, true)
+	right_taper.begin_warning(GameConfig.ROAD_LANE_COUNT - 1)
+	right_taper.tick(GameConfig.LANE_EVENT_WARNING_SECONDS * 0.5, 2, 1, GameConfig.START_SPEED)
+	var right_cones := right_taper.cone_markers(720.0)
+	var right_first_encountered: Dictionary = right_cones[0]
+	for cone in right_cones:
+		if float(cone.y) > float(right_first_encountered.y):
+			right_first_encountered = cone
+	assert(is_equal_approx(float(right_first_encountered.lane_position), float(GameConfig.ROAD_LANE_COUNT)), "A right-lane taper must begin at the right road edge before narrowing toward the open-lane boundary")
+
+	var continuous_segment := LaneEventDirector.new(134, GameConfig.ROAD_LANE_COUNT, true)
+	continuous_segment.set_viewport_height(1400.0)
+	continuous_segment.begin_warning(0)
+	continuous_segment.tick(1000.0 / (GameConfig.START_SPEED * GameConfig.ROAD_SCROLL_MULTIPLIER), 2, 1, GameConfig.START_SPEED)
+	var full_segment := continuous_segment.cone_markers(1400.0)
+	assert(full_segment.size() == GameConfig.LANE_EVENT_TAPER_CONE_COUNT + GameConfig.LANE_EVENT_STRAIGHT_CONE_COUNT, "The taper and straight construction boundary must coexist as one complete segment")
+	for index in range(1, full_segment.size()):
+		assert(is_equal_approx(float(full_segment[index - 1].y) - float(full_segment[index].y), GameConfig.LANE_EVENT_TAPER_CONE_SPACING), "Every adjacent construction cone must keep one continuous road-space spacing across the taper boundary")
+
+	var road_fixed := TrafficDirector.new(132)
+	road_fixed.set_viewport_height(720.0)
+	road_fixed.set_difficulty_stage(2)
+	road_fixed.lane_events.begin_warning(0)
+	road_fixed.tick(0.5, 560.0, 1)
+	var moving_cones := road_fixed.lane_events.cone_markers(720.0)
+	assert(not moving_cones.is_empty(), "A moving construction segment must enter the viewport")
+	var moving_y := float(moving_cones[0].y)
+	road_fixed.tick(0.25, 560.0, 1)
+	var advanced_cones := road_fixed.lane_events.cone_markers(720.0)
+	assert(is_equal_approx(float(advanced_cones[0].y) - moving_y, 560.0 * GameConfig.ROAD_SCROLL_MULTIPLIER * 0.25), "Construction cones must move by the same road-relative distance as lane markings")
+	var stopped_y := float(advanced_cones[0].y)
+	road_fixed.tick(0.5, 0.0, 1)
+	assert(is_equal_approx(float(road_fixed.lane_events.cone_markers(720.0)[0].y), stopped_y), "Construction cones must remain fixed to the ground while the player is stopped")
+
+	construction.tick(GameConfig.LANE_EVENT_WARNING_SECONDS, 2, 1, GameConfig.START_SPEED)
 	assert(construction.state == LaneEventDirector.State.CLOSED, "The construction core must follow the taper warning")
 	assert(construction.core_markers(720.0).size() == 1, "A single-lane closure must expose one solid construction core obstacle")
-	construction.state_remaining = 1.0
+	var core_y_before := construction.core_markers(720.0)[0].y
+	construction.tick((592.0 - core_y_before) / (GameConfig.START_SPEED * GameConfig.ROAD_SCROLL_MULTIPLIER), 2, 1, GameConfig.START_SPEED)
 	assert(construction.lanes_blocked_near(592.0, 72.0, 720.0) == [0], "Only a solid construction core near the queried position may block its lane")
 
 	var hard_edge := LaneEventDirector.new(811, GameConfig.ROAD_LANE_COUNT, true)
@@ -53,7 +98,7 @@ func _init() -> void:
 	var bounded_events := LaneEventDirector.new(901, GameConfig.ROAD_LANE_COUNT, true)
 	bounded_events.configure_double_lane_probability(1.0)
 	for _step in range(600):
-		bounded_events.tick(0.25, 3, 0)
+		bounded_events.tick(0.25, 3, 0, 560.0)
 	assert(bounded_events.events_started_count >= 2 and bounded_events.events_started_count <= 4, "A full run must bound construction events to two through four starts")
 	assert(bounded_events.double_lane_events_started <= 1, "Hard mode may schedule at most one double-lane closure per run")
 
@@ -71,7 +116,7 @@ func _init() -> void:
 	for _step in range(25):
 		traffic.tick(0.25, 560.0, 1)
 		for vehicle in traffic.vehicles:
-			if vehicle != conflict:
+			if vehicle != conflict and traffic.lane_events.is_lane_blocked(0):
 				assert(vehicle.lane != 0, "No new vehicle may spawn into a warned or closed lane")
 		for physically_blocked_lane in traffic.lane_events.lanes_blocked_near(620.0, 72.0, 720.0):
 			assert(not traffic.reachable_player_lanes(1, 620.0, 72.0).has(physically_blocked_lane), "Navigation must not advertise a nearby solid construction core as an escape route")

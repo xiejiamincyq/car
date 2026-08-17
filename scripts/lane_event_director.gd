@@ -22,6 +22,8 @@ var events_started_count := 0
 var double_lane_events_started := 0
 var event_limit := 2
 var _warning_duration := GameConfig.LANE_EVENT_WARNING_SECONDS
+var _travel_distance := 0.0
+var _viewport_height := 720.0
 
 func _init(seed: int, lanes: int = 3, events_enabled: bool = true) -> void:
 	_initial_seed = seed
@@ -29,7 +31,7 @@ func _init(seed: int, lanes: int = 3, events_enabled: bool = true) -> void:
 	enabled = events_enabled
 	reset(seed)
 
-func tick(delta: float, stage: int, player_lane: int) -> Dictionary:
+func tick(delta: float, stage: int, player_lane: int, player_speed: float = 0.0) -> Dictionary:
 	var event := {"began_warning": false, "began_closure": false, "ended": false}
 	if not enabled or stage < 1:
 		return event
@@ -43,15 +45,15 @@ func tick(delta: float, stage: int, player_lane: int) -> Dictionary:
 				_begin_scheduled_warning(stage, player_lane)
 				event.began_warning = true
 		State.WARNING:
-			state_remaining -= safe_delta
-			if state_remaining <= 0.0:
+			_advance_road_distance(safe_delta, player_speed)
+			if _travel_distance >= _warning_distance():
 				state = State.CLOSED
-				state_remaining = GameConfig.LANE_EVENT_CLOSED_SECONDS
 				_history.append("closed:%d" % lane)
 				event.began_closure = true
+			_refresh_state_remaining()
 		State.CLOSED:
-			state_remaining -= safe_delta
-			if state_remaining <= 0.0:
+			_advance_road_distance(safe_delta, player_speed)
+			if _event_tail_y() > _viewport_height + GameConfig.LANE_EVENT_CORE_TRAVEL_MARGIN:
 				_history.append("ended:%d" % lane)
 				state = State.IDLE
 				lane = -1
@@ -60,6 +62,8 @@ func tick(delta: float, stage: int, player_lane: int) -> Dictionary:
 				state_remaining = 0.0
 				_cooldown_remaining = _next_cooldown()
 				event.ended = true
+			else:
+				_refresh_state_remaining()
 	return event
 
 func begin_warning(target_lane: int) -> void:
@@ -77,6 +81,7 @@ func begin_warning_lanes(target_lanes: Array[int]) -> void:
 	lane = _closed_lanes[0]
 	_consumed_cones.clear()
 	_warning_duration = GameConfig.LANE_EVENT_DOUBLE_WARNING_SECONDS if _closed_lanes.size() > 1 else GameConfig.LANE_EVENT_WARNING_SECONDS
+	_travel_distance = 0.0
 	state = State.WARNING
 	state_remaining = _warning_duration
 	events_started_count += 1
@@ -107,34 +112,30 @@ func cone_markers(viewport_height: float) -> Array[Dictionary]:
 	if _closed_lanes.is_empty() or (state != State.WARNING and state != State.CLOSED):
 		return markers
 	var boundary := _open_lane_boundary()
-	if state == State.WARNING:
-		var progress := clampf(1.0 - state_remaining / maxf(0.01, _warning_duration), 0.0, 1.0)
-		var tip_y := lerpf(-20.0, viewport_height * 0.82, progress)
-		var closed_edge := 0.0 if _closed_lanes.has(0) else float(lane_count)
-		for index in range(GameConfig.LANE_EVENT_TAPER_CONE_COUNT):
-			if _consumed_cones.has(index):
-				continue
-			var ratio := float(index) / maxf(1.0, float(GameConfig.LANE_EVENT_TAPER_CONE_COUNT - 1))
-			var marker_y := tip_y - GameConfig.LANE_EVENT_TAPER_CONE_SPACING * index
-			if marker_y >= -60.0 and marker_y <= viewport_height + 60.0:
-				markers.append({"id": index, "lane_position": lerpf(boundary, closed_edge, ratio), "y": marker_y})
-		return markers
-	var core_y := _core_y(viewport_height)
+	var closed_edge := 0.0 if _closed_lanes.has(0) else float(lane_count)
 	for index in range(GameConfig.LANE_EVENT_TAPER_CONE_COUNT):
+		if _consumed_cones.has(index):
+			continue
+		var ratio := float(index) / maxf(1.0, float(GameConfig.LANE_EVENT_TAPER_CONE_COUNT - 1))
+		var marker_y := _event_origin_y() - GameConfig.LANE_EVENT_TAPER_CONE_SPACING * index
+		if marker_y >= -60.0 and marker_y <= viewport_height + 60.0:
+			markers.append({"id": index, "lane_position": lerpf(closed_edge, boundary, ratio), "y": marker_y})
+	for index in range(1, GameConfig.LANE_EVENT_STRAIGHT_CONE_COUNT + 1):
 		var marker_id := 100 + index
 		if _consumed_cones.has(marker_id):
 			continue
-		var centered_index := float(index) - float(GameConfig.LANE_EVENT_TAPER_CONE_COUNT - 1) * 0.5
-		var marker_y := core_y + centered_index * GameConfig.LANE_EVENT_TAPER_CONE_SPACING
+		var marker_y := _taper_end_y() - GameConfig.LANE_EVENT_TAPER_CONE_SPACING * index
 		if marker_y >= -60.0 and marker_y <= viewport_height + 60.0:
 			markers.append({"id": marker_id, "lane_position": boundary, "y": marker_y})
 	return markers
 
 func core_markers(viewport_height: float) -> Array[Vector2]:
 	var markers: Array[Vector2] = []
-	if state != State.CLOSED:
+	if state != State.WARNING and state != State.CLOSED:
 		return markers
-	var marker_y := _core_y(viewport_height)
+	var marker_y := _core_y()
+	if marker_y < -GameConfig.LANE_EVENT_CORE_TRAVEL_MARGIN or marker_y > viewport_height + GameConfig.LANE_EVENT_CORE_TRAVEL_MARGIN:
+		return markers
 	for closed_lane in _closed_lanes:
 		markers.append(Vector2(float(closed_lane) + 0.5, marker_y))
 	return markers
@@ -196,6 +197,9 @@ func configure_interval_multiplier(multiplier: float) -> void:
 func configure_double_lane_probability(probability: float) -> void:
 	double_lane_probability = clampf(probability, 0.0, 1.0)
 
+func set_viewport_height(viewport_height: float) -> void:
+	_viewport_height = maxf(1.0, viewport_height)
+
 func reset(seed: int = -1) -> void:
 	if seed >= 0:
 		_initial_seed = seed
@@ -210,6 +214,7 @@ func reset(seed: int = -1) -> void:
 	double_lane_events_started = 0
 	event_limit = _random.randi_range(2, 4)
 	_warning_duration = GameConfig.LANE_EVENT_WARNING_SECONDS
+	_travel_distance = 0.0
 	_cooldown_remaining = _next_cooldown()
 
 func _choose_lane_away_from(player_lane: int) -> int:
@@ -241,9 +246,31 @@ func _open_lane_boundary() -> float:
 		return float(_closed_lanes.size())
 	return float(lane_count - _closed_lanes.size())
 
-func _core_y(viewport_height: float) -> float:
-	var progress := clampf(1.0 - state_remaining / maxf(0.01, GameConfig.LANE_EVENT_CLOSED_SECONDS), 0.0, 1.0)
-	return lerpf(-GameConfig.LANE_EVENT_CORE_TRAVEL_MARGIN, viewport_height + GameConfig.LANE_EVENT_CORE_TRAVEL_MARGIN, progress)
+func _advance_road_distance(delta: float, player_speed: float) -> void:
+	_travel_distance += maxf(0.0, player_speed) * GameConfig.ROAD_SCROLL_MULTIPLIER * delta
+
+func _warning_distance() -> float:
+	return _warning_duration * GameConfig.START_SPEED * GameConfig.ROAD_SCROLL_MULTIPLIER
+
+func _event_origin_y() -> float:
+	var extra_warning_distance := maxf(0.0, _warning_duration - GameConfig.LANE_EVENT_WARNING_SECONDS) * GameConfig.START_SPEED * GameConfig.ROAD_SCROLL_MULTIPLIER
+	return -GameConfig.LANE_EVENT_CORE_TRAVEL_MARGIN - extra_warning_distance + _travel_distance
+
+func _taper_end_y() -> float:
+	return _event_origin_y() - GameConfig.LANE_EVENT_TAPER_CONE_SPACING * float(GameConfig.LANE_EVENT_TAPER_CONE_COUNT - 1)
+
+func _core_y() -> float:
+	return _taper_end_y() - GameConfig.LANE_EVENT_CORE_GAP
+
+func _event_tail_y() -> float:
+	return _taper_end_y() - GameConfig.LANE_EVENT_TAPER_CONE_SPACING * GameConfig.LANE_EVENT_STRAIGHT_CONE_COUNT
+
+func _refresh_state_remaining() -> void:
+	var reference_scroll_speed := GameConfig.START_SPEED * GameConfig.ROAD_SCROLL_MULTIPLIER
+	if state == State.WARNING:
+		state_remaining = maxf(0.0, (_warning_distance() - _travel_distance) / reference_scroll_speed)
+	elif state == State.CLOSED:
+		state_remaining = maxf(0.0, (_viewport_height + GameConfig.LANE_EVENT_CORE_TRAVEL_MARGIN - _event_tail_y()) / reference_scroll_speed)
 
 func _next_cooldown() -> float:
 	return _random.randf_range(GameConfig.LANE_EVENT_MIN_INTERVAL_SECONDS, GameConfig.LANE_EVENT_MAX_INTERVAL_SECONDS) * interval_multiplier

@@ -413,8 +413,8 @@ func _draw_lane_event(road_left: float, viewport_height: float) -> void:
 	var closed_lanes := traffic.lane_events.closed_lanes()
 	if traffic.lane_events.state == LaneEventDirector.State.WARNING and not closed_lanes.is_empty():
 		var merge_right := closed_lanes.has(0)
-		var open_lane := closed_lanes.size() if merge_right else GameConfig.ROAD_LANE_COUNT - closed_lanes.size() - 1
-		var arrow_center := Vector2(road_left + lane_width * (float(open_lane) + 0.5), 112.0)
+		var arrow_lane := _construction_arrow_lane(closed_lanes)
+		var arrow_center := Vector2(road_left + lane_width * (float(arrow_lane) + 0.5), 112.0)
 		_draw_diversion_arrow(arrow_center, 1.0 if merge_right else -1.0)
 	for marker in traffic.lane_events.cone_markers(viewport_height):
 		var cone_center := Vector2(road_left + lane_width * float(marker.lane_position), float(marker.y))
@@ -435,6 +435,15 @@ func _draw_diversion_arrow(center: Vector2, direction: float) -> void:
 	draw_line(center - Vector2(30.0 * direction, 0.0), tip, _warning_color(), 10.0)
 	draw_line(tip, tip + Vector2(-22.0 * direction, -20.0), _warning_color(), 10.0)
 	draw_line(tip, tip + Vector2(-22.0 * direction, 20.0), _warning_color(), 10.0)
+
+func _construction_arrow_lane(closed_lanes: Array) -> int:
+	if closed_lanes.is_empty():
+		return GameConfig.ROAD_LANE_COUNT / 2
+	var merge_right := closed_lanes.has(0)
+	var arrow_lane := int(closed_lanes[0])
+	for closed_lane in closed_lanes:
+		arrow_lane = maxi(arrow_lane, int(closed_lane)) if merge_right else mini(arrow_lane, int(closed_lane))
+	return clampi(arrow_lane, 0, GameConfig.ROAD_LANE_COUNT - 1)
 
 func _draw_construction_cone(center: Vector2, rotation: float) -> void:
 	draw_set_transform(screen_shake + center, rotation)
