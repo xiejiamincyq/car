@@ -79,6 +79,8 @@ var brake_visual_strength := 0.0
 var steering_visual_strength := 0.0
 var collision_visual_remaining := 0.0
 var collision_visual_direction := 1.0
+var cone_hit_cooldown := 0.0
+var knocked_cones: Array[Dictionary] = []
 var current_vehicle: Dictionary = PlayerVehicleProfile.resolve(&"pulse_gt")
 var current_player_texture: Texture2D = PlayerVehicleProfile.texture_for(current_vehicle)
 var current_track: Dictionary = TrackRuntimeProfile.resolve(&"neon_coast")
@@ -294,6 +296,8 @@ func _process(delta: float) -> void:
 	brake_visual_strength = move_toward(brake_visual_strength, brake_input, delta * 8.0)
 	steering_visual_strength = move_toward(steering_visual_strength, steering_input, delta * 7.0)
 	collision_visual_remaining = maxf(0.0, collision_visual_remaining - delta)
+	cone_hit_cooldown = maxf(0.0, cone_hit_cooldown - delta)
+	_update_knocked_cones(delta)
 	road_scroll = advance_road_scroll(road_scroll, drive.speed, delta, ROAD_MARK_REPEAT_DISTANCE)
 	var phase_before_tick := run.phase
 	run.tick(delta, drive.speed, drive.max_speed, forward_acceleration)
@@ -315,7 +319,7 @@ func _process(delta: float) -> void:
 	traffic.set_spawn_exclusion_zones(_fuel_spawn_exclusion_zones())
 	traffic.tick(delta, drive.speed, _player_lane())
 	_update_lane_event_cue()
-	_enforce_lane_closure()
+	_check_construction_collisions()
 	_update_audio(delta, accelerate_input)
 	_update_fuel_pickups(delta)
 	collision.advance(delta)
@@ -405,47 +409,39 @@ func _draw_sparks() -> void:
 		draw_circle(spark.position, 3.0, Color(_warning_color(), alpha))
 
 func _draw_lane_event(road_left: float, viewport_height: float) -> void:
-	var blocked_lane := traffic.lane_events.blocked_lane()
-	if blocked_lane < 0:
-		return
 	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / GameConfig.ROAD_LANE_COUNT
-	var lane_left := road_left + lane_width * blocked_lane
-	var is_warning := traffic.lane_events.state == LaneEventDirector.State.WARNING
-	var overlay_color := Color(_warning_color(), 0.13 if is_warning else 0.28)
-	draw_rect(Rect2(lane_left, 0.0, lane_width, viewport_height), overlay_color, true)
-	var marker_y := 24.0
-	while marker_y < viewport_height:
-		if is_warning:
-			draw_line(Vector2(lane_left + 18.0, marker_y), Vector2(lane_left + lane_width - 18.0, marker_y + 42.0), _warning_color(), 5.0)
-		else:
-			var lane_right := lane_left + lane_width
-			var barrier_size := ROAD_BARRIER_TEXTURE.get_size()
-			var barrier_position := Vector2(lane_left + (lane_width - barrier_size.x) * 0.5, marker_y - barrier_size.y * 0.5)
-			var barrier_rect := Rect2(barrier_position, barrier_size)
-			draw_texture_rect(ROAD_BARRIER_TEXTURE, barrier_rect, false)
-			draw_line(Vector2(lane_left + 24.0, marker_y - 22.0), Vector2(lane_right - 24.0, marker_y + 22.0), Color("10131c"), 7.0)
-			draw_line(Vector2(lane_right - 24.0, marker_y - 22.0), Vector2(lane_left + 24.0, marker_y + 22.0), Color("10131c"), 7.0)
-		marker_y += 120.0
+	var closed_lanes := traffic.lane_events.closed_lanes()
+	if traffic.lane_events.state == LaneEventDirector.State.WARNING and not closed_lanes.is_empty():
+		var merge_right := closed_lanes.has(0)
+		var open_lane := closed_lanes.size() if merge_right else GameConfig.ROAD_LANE_COUNT - closed_lanes.size() - 1
+		var arrow_center := Vector2(road_left + lane_width * (float(open_lane) + 0.5), 112.0)
+		_draw_diversion_arrow(arrow_center, 1.0 if merge_right else -1.0)
+	for marker in traffic.lane_events.cone_markers(viewport_height):
+		var cone_center := Vector2(road_left + lane_width * float(marker.lane_position), float(marker.y))
+		_draw_construction_cone(cone_center, 0.0)
+	for marker in traffic.lane_events.core_markers(viewport_height):
+		var core_center := Vector2(road_left + lane_width * marker.x, marker.y)
+		var core_rect := Rect2(core_center.x - lane_width * GameConfig.LANE_EVENT_CORE_HALF_LANE_RATIO, core_center.y - 34.0, lane_width * GameConfig.LANE_EVENT_CORE_HALF_LANE_RATIO * 2.0, 68.0)
+		draw_rect(core_rect.grow(7.0), Color("0b1018"), true)
+		draw_texture_rect(ROAD_BARRIER_TEXTURE, core_rect, false)
+		draw_line(core_rect.position + Vector2(12.0, 10.0), core_rect.end - Vector2(12.0, 10.0), _warning_color(), 7.0)
+		draw_circle(core_center + Vector2(-lane_width * 0.24, -28.0), 7.0, Color("ff4f4f"))
+		draw_circle(core_center + Vector2(lane_width * 0.24, -28.0), 7.0, Color("ff4f4f"))
+	for knocked in knocked_cones:
+		_draw_construction_cone(Vector2(knocked.position), float(knocked.rotation))
 
-func _enforce_lane_closure() -> void:
-	var previous_position := drive.lateral_position
-	drive.lateral_position = traffic.lane_events.constrain_lateral_position(previous_position, drive.player_half_width, GameConfig.ROAD_HALF_WIDTH)
-	if is_equal_approx(previous_position, drive.lateral_position):
-		return
-	var impact_speed := drive.speed
-	var outcome := collision.try_collide(impact_speed)
-	if not outcome.hit:
-		return
-	drive.speed = outcome.speed
-	run.break_combo()
-	var viewport_size := get_viewport_rect().size
-	var player_center := Vector2(viewport_size.x * 0.5 + drive.lateral_position, TrackGeometry.player_y(viewport_size.y))
-	feedback.spawn_collision(player_center, impact_speed, drive.max_speed)
-	if screen_shake_enabled:
-		var shake := feedback.shake_magnitude_for_speed(impact_speed, drive.max_speed)
-		screen_shake = Vector2(shake, -shake * 0.7)
-	_play_effect(collision_audio)
-	_start_collision_animation(signf(previous_position - drive.lateral_position))
+func _draw_diversion_arrow(center: Vector2, direction: float) -> void:
+	var tip := center + Vector2(38.0 * direction, 0.0)
+	draw_line(center - Vector2(30.0 * direction, 0.0), tip, _warning_color(), 10.0)
+	draw_line(tip, tip + Vector2(-22.0 * direction, -20.0), _warning_color(), 10.0)
+	draw_line(tip, tip + Vector2(-22.0 * direction, 20.0), _warning_color(), 10.0)
+
+func _draw_construction_cone(center: Vector2, rotation: float) -> void:
+	draw_set_transform(screen_shake + center, rotation)
+	draw_colored_polygon(PackedVector2Array([Vector2(-12.0, 14.0), Vector2(0.0, -20.0), Vector2(12.0, 14.0)]), Color("ff8a24"))
+	draw_line(Vector2(-7.0, 3.0), Vector2(7.0, 3.0), Color("fff4d6"), 5.0)
+	draw_rect(Rect2(-16.0, 12.0, 32.0, 7.0), Color("20242d"), true)
+	draw_set_transform(screen_shake)
 
 func _draw_traffic(road_left: float) -> void:
 	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / GameConfig.ROAD_LANE_COUNT
@@ -556,6 +552,69 @@ func _check_collisions() -> void:
 					screen_shake = Vector2(shake, -shake * 0.7)
 				_play_effect(collision_audio)
 				_start_collision_animation(signf(player_center.x - traffic_center.x))
+
+func _check_construction_collisions() -> void:
+	var viewport_size := get_viewport_rect().size
+	var road_left := viewport_size.x * 0.5 - GameConfig.ROAD_HALF_WIDTH
+	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / GameConfig.ROAD_LANE_COUNT
+	var player_center := Vector2(viewport_size.x * 0.5 + drive.lateral_position, TrackGeometry.player_y(viewport_size.y))
+	for marker in traffic.lane_events.cone_markers(viewport_size.y):
+		var cone_center := Vector2(road_left + lane_width * float(marker.lane_position), float(marker.y))
+		if absf(cone_center.x - player_center.x) >= drive.player_half_width + 14.0 or absf(cone_center.y - player_center.y) >= 46.0:
+			continue
+		if traffic.lane_events.consume_cone(int(marker.id)):
+			_spawn_knocked_cone(cone_center, signf(cone_center.x - player_center.x))
+			_apply_cone_hit(player_center, cone_center)
+	for marker in traffic.lane_events.core_markers(viewport_size.y):
+		var core_center := Vector2(road_left + lane_width * marker.x, marker.y)
+		if absf(core_center.x - player_center.x) < lane_width * GameConfig.LANE_EVENT_CORE_HALF_LANE_RATIO + drive.player_half_width and absf(core_center.y - player_center.y) < 62.0:
+			_apply_solid_construction_hit(player_center, core_center)
+
+func _apply_cone_hit(player_center: Vector2, cone_center: Vector2) -> void:
+	if cone_hit_cooldown > 0.0:
+		return
+	var impact_speed := drive.speed
+	drive.speed = maxf(0.0, drive.speed * (1.0 - GameConfig.LANE_EVENT_CONE_SPEED_PENALTY_RATIO))
+	cone_hit_cooldown = GameConfig.LANE_EVENT_CONE_HIT_COOLDOWN
+	run.break_combo()
+	feedback.spawn_collision(player_center, impact_speed * 0.45, drive.max_speed)
+	if screen_shake_enabled:
+		screen_shake = Vector2(3.0 * signf(player_center.x - cone_center.x), -2.0)
+	_play_effect(collision_audio)
+	_start_collision_animation(signf(player_center.x - cone_center.x))
+
+func _apply_solid_construction_hit(player_center: Vector2, core_center: Vector2) -> void:
+	var impact_speed := drive.speed
+	var outcome := collision.try_collide(impact_speed)
+	if not outcome.hit:
+		return
+	drive.speed = outcome.speed
+	run.break_combo()
+	feedback.spawn_collision(player_center, impact_speed, drive.max_speed)
+	if screen_shake_enabled:
+		var shake := feedback.shake_magnitude_for_speed(impact_speed, drive.max_speed)
+		screen_shake = Vector2(shake * signf(player_center.x - core_center.x), -shake * 0.7)
+	_play_effect(collision_audio)
+	_start_collision_animation(signf(player_center.x - core_center.x))
+
+func _spawn_knocked_cone(position: Vector2, horizontal_direction: float) -> void:
+	var direction := horizontal_direction if not is_zero_approx(horizontal_direction) else 1.0
+	knocked_cones.append({"position": position, "velocity": Vector2(170.0 * direction, -120.0), "rotation": 0.0, "spin": 5.5 * direction, "life": 0.9})
+
+func _update_knocked_cones(delta: float) -> void:
+	var active: Array[Dictionary] = []
+	for knocked in knocked_cones:
+		var life := float(knocked.life) - delta
+		if life <= 0.0:
+			continue
+		var velocity := Vector2(knocked.velocity)
+		velocity.y += 280.0 * delta
+		knocked["position"] = Vector2(knocked.position) + velocity * delta
+		knocked["velocity"] = velocity
+		knocked["rotation"] = float(knocked.rotation) + float(knocked.spin) * delta
+		knocked["life"] = life
+		active.append(knocked)
+	knocked_cones = active
 
 func _toggle_audio_mute() -> void:
 	audio_muted = not audio_muted
@@ -695,6 +754,8 @@ func _reset_run(run_seed_override: int = -1) -> void:
 	brake_visual_strength = 0.0
 	steering_visual_strength = 0.0
 	collision_visual_remaining = 0.0
+	cone_hit_cooldown = 0.0
+	knocked_cones.clear()
 	collision_audio.stop()
 	_stop_run_audio()
 	run.reset()
@@ -1191,12 +1252,12 @@ func _phase_text() -> String:
 		_: return _text("phase.over")
 
 func _lane_event_text() -> String:
-	var blocked_lane := traffic.lane_events.blocked_lane()
-	if blocked_lane < 0:
+	var closed_lanes := traffic.lane_events.closed_lanes()
+	if closed_lanes.is_empty():
 		return ""
-	if traffic.lane_events.state == LaneEventDirector.State.WARNING:
-		return _text("lane.warning", [blocked_lane + 1])
-	return _text("lane.closed", [blocked_lane + 1])
+	var direction := "right" if closed_lanes.has(0) else "left"
+	var phase := "warning" if traffic.lane_events.state == LaneEventDirector.State.WARNING else "active"
+	return _text("construction.%s.%s" % [phase, direction])
 
 func _overlay_text() -> String:
 	match run.phase:

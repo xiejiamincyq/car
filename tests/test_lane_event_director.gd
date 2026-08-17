@@ -21,7 +21,41 @@ func _init() -> void:
 		second.tick(0.25, 3, 1)
 		if first.blocked_lane() >= 0:
 			assert(first.blocked_lane() != 1, "A new closure may not suddenly target the player's occupied lane")
+			assert(first.blocked_lane() == 0 or first.blocked_lane() == GameConfig.ROAD_LANE_COUNT - 1, "A single construction diversion must close an outside lane for a readable merge")
 	assert(first.event_history() == second.event_history() and not first.event_history().is_empty(), "A fixed seed must reproduce the same closure timing and lanes")
+
+	var construction := LaneEventDirector.new(131, GameConfig.ROAD_LANE_COUNT, true)
+	construction.begin_warning(0)
+	assert(construction.closed_lanes() == [0], "A single construction event must expose its complete closed-lane set")
+	construction.tick(GameConfig.LANE_EVENT_WARNING_SECONDS * 0.5, 2, 1)
+	var warning_cones: Array[Dictionary] = construction.cone_markers(720.0)
+	assert(not warning_cones.is_empty(), "The warning phase must expose visible taper-cone geometry")
+	assert(construction.lanes_blocked_near(592.0, 72.0, 720.0).is_empty(), "Breakable warning cones must not turn the whole lane into a navigation exclusion zone")
+	assert(construction.navigation_blocked_lanes(592.0, 72.0, 720.0) == [0], "The warning must reserve the planned construction lane for route selection before the solid core arrives")
+	var first_cone_id: int = int(warning_cones[0].id)
+	assert(construction.consume_cone(first_cone_id), "The first player contact must knock a taper cone away")
+	assert(not construction.consume_cone(first_cone_id), "A knocked cone must not apply collision twice")
+	construction.tick(GameConfig.LANE_EVENT_WARNING_SECONDS, 2, 1)
+	assert(construction.state == LaneEventDirector.State.CLOSED, "The construction core must follow the taper warning")
+	assert(construction.core_markers(720.0).size() == 1, "A single-lane closure must expose one solid construction core obstacle")
+	construction.state_remaining = 1.0
+	assert(construction.lanes_blocked_near(592.0, 72.0, 720.0) == [0], "Only a solid construction core near the queried position may block its lane")
+
+	var hard_edge := LaneEventDirector.new(811, GameConfig.ROAD_LANE_COUNT, true)
+	hard_edge.configure_double_lane_probability(1.0)
+	hard_edge.tick(120.0, 3, 0)
+	assert(hard_edge.closed_lanes() == [1, 2], "A hard-mode double closure must leave the player's outside lane fully open")
+	assert(hard_edge.state_remaining >= GameConfig.LANE_EVENT_DOUBLE_WARNING_SECONDS, "A double closure must provide the longer warning window")
+	var hard_center := LaneEventDirector.new(812, GameConfig.ROAD_LANE_COUNT, true)
+	hard_center.configure_double_lane_probability(1.0)
+	hard_center.tick(120.0, 3, 1)
+	assert(hard_center.closed_lanes().size() == 1, "A centered player must force a double closure to fall back to a safe single-lane event")
+	var bounded_events := LaneEventDirector.new(901, GameConfig.ROAD_LANE_COUNT, true)
+	bounded_events.configure_double_lane_probability(1.0)
+	for _step in range(600):
+		bounded_events.tick(0.25, 3, 0)
+	assert(bounded_events.events_started_count >= 2 and bounded_events.events_started_count <= 4, "A full run must bound construction events to two through four starts")
+	assert(bounded_events.double_lane_events_started <= 1, "Hard mode may schedule at most one double-lane closure per run")
 
 	var traffic := TrafficDirector.new(501)
 	traffic.set_difficulty_stage(2)
@@ -39,17 +73,16 @@ func _init() -> void:
 		for vehicle in traffic.vehicles:
 			if vehicle != conflict:
 				assert(vehicle.lane != 0, "No new vehicle may spawn into a warned or closed lane")
-		if traffic.lane_events.blocked_lane() >= 0:
-			assert(not traffic.reachable_player_lanes(1, 620.0, 72.0).has(0), "Navigation must not advertise a warned or closed lane as an escape route")
+		for physically_blocked_lane in traffic.lane_events.lanes_blocked_near(620.0, 72.0, 720.0):
+			assert(not traffic.reachable_player_lanes(1, 620.0, 72.0).has(physically_blocked_lane), "Navigation must not advertise a nearby solid construction core as an escape route")
 	assert(traffic.lane_events.blocked_lane() == -1, "The lane must safely return after the event ends")
 
 	var barrier := LaneEventDirector.new(99, GameConfig.ROAD_LANE_COUNT, true)
 	barrier.begin_warning(1)
 	assert(is_equal_approx(barrier.constrain_lateral_position(0.0, 30.0, GameConfig.ROAD_HALF_WIDTH), 0.0), "A warning must leave the lane physically open during the reaction window")
 	barrier.state = LaneEventDirector.State.CLOSED
-	var projected_from_center: float = barrier.constrain_lateral_position(0.0, 30.0, GameConfig.ROAD_HALF_WIDTH)
-	assert(absf(projected_from_center) >= 160.0, "A closed center lane must project the whole player car into an open lane")
+	assert(is_equal_approx(barrier.constrain_lateral_position(0.0, 30.0, GameConfig.ROAD_HALF_WIDTH), 0.0), "A construction closure must never seize steering control or project the player sideways")
 	assert(is_equal_approx(barrier.constrain_lateral_position(-220.0, 30.0, GameConfig.ROAD_HALF_WIDTH), -220.0), "A player already outside the closed lane must not be moved")
 	barrier.lane = 0
-	assert(is_equal_approx(barrier.constrain_lateral_position(-300.0, 30.0, GameConfig.ROAD_HALF_WIDTH), -100.0), "A closed edge lane must push the player toward the remaining road")
+	assert(is_equal_approx(barrier.constrain_lateral_position(-300.0, 30.0, GameConfig.ROAD_HALF_WIDTH), -300.0), "An edge-lane construction closure must still leave steering entirely under player control")
 	quit()

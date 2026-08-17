@@ -114,6 +114,7 @@ func configure_difficulty(profile: Dictionary) -> void:
 	spawn_interval_multiplier = maxf(0.1, float(profile.traffic_interval_multiplier))
 	difficulty_event_interval_multiplier = maxf(0.1, float(profile.event_interval_multiplier))
 	random_lane_change_probability = clampf(float(profile.get("random_lane_change_probability", 0.0)), 0.0, 1.0)
+	lane_events.configure_double_lane_probability(float(profile.get("double_lane_closure_probability", 0.0)))
 	_apply_event_interval()
 
 func configure_track(profile: Dictionary) -> void:
@@ -128,7 +129,7 @@ func update_vehicle(vehicle: TrafficVehicle, delta: float, player_speed: float) 
 		return
 	var relative_speed := player_speed - vehicle.cruise_speed
 	if vehicle.lane_change_enabled:
-		if lane_events.blocked_lane() >= 0 and vehicle.target_lane == lane_events.blocked_lane() and not vehicle.change_started:
+		if lane_events.is_lane_blocked(vehicle.target_lane) and not vehicle.change_started:
 			vehicle.target_lane = vehicle.lane
 			vehicle.warning_started = false
 			vehicle.warning_remaining = 0.0
@@ -211,7 +212,7 @@ func _best_fast_route_lane(overtaker: TrafficVehicle) -> int:
 	var best_clearance: float = -1.0
 	for candidate_lane_value in [overtaker.lane - 1, overtaker.lane + 1]:
 		var candidate_lane: int = candidate_lane_value
-		if not is_lane_valid(candidate_lane) or candidate_lane == lane_events.blocked_lane():
+		if not is_lane_valid(candidate_lane) or lane_events.is_lane_blocked(candidate_lane):
 			continue
 		if not _fast_merge_lane_is_clear(overtaker, candidate_lane):
 			continue
@@ -255,7 +256,7 @@ func _begin_fast_lane_change(overtaker: TrafficVehicle, target_lane: int) -> voi
 	overtaker.change_started = false
 
 func _advance_fast_lane_change(overtaker: TrafficVehicle, delta: float) -> void:
-	if overtaker.target_lane == lane_events.blocked_lane() and not overtaker.change_started:
+	if lane_events.is_lane_blocked(overtaker.target_lane) and not overtaker.change_started:
 		_cancel_fast_lane_change(overtaker)
 		return
 	if not _fast_route_preserves_player_options(overtaker, overtaker.target_lane):
@@ -343,8 +344,8 @@ func has_minimum_lane_gap(lane: int) -> bool:
 
 func blocked_lanes_near(y: float, clearance: float) -> Array[int]:
 	var blocked: Array[int] = []
-	if lane_events.blocked_lane() >= 0:
-		blocked.append(lane_events.blocked_lane())
+	for closed_lane in lane_events.navigation_blocked_lanes(y, clearance, _viewport_height):
+		blocked.append(closed_lane)
 	for vehicle in vehicles:
 		if absf(vehicle.y - y) >= clearance + vehicle.half_length - TrafficVehicle.NORMAL_HALF_LENGTH:
 			continue
@@ -357,8 +358,9 @@ func blocked_lanes_near(y: float, clearance: float) -> Array[int]:
 
 func reachable_player_lanes(player_lane: int, player_y: float, clearance: float) -> Array[int]:
 	var blocked: Array[int] = []
-	if lane_events.blocked_lane() >= 0:
-		blocked.append(lane_events.blocked_lane())
+	var event_clearance := maxf(clearance, _player_speed * 0.5)
+	for closed_lane in lane_events.navigation_blocked_lanes(player_y, event_clearance, _viewport_height):
+		blocked.append(closed_lane)
 	for vehicle in vehicles:
 		if absf(vehicle.y - player_y) >= clearance + vehicle.half_length - TrafficVehicle.NORMAL_HALF_LENGTH:
 			continue
@@ -379,9 +381,8 @@ func _can_release_fast_overtaker(overtaker: TrafficVehicle) -> bool:
 	return _player_has_escape_around_fast(overtaker, planned_lane)
 
 func _fast_route_preserves_player_options(overtaker: TrafficVehicle, planned_lane: int) -> bool:
-	var options_before: int = _player_escape_count_around_fast(overtaker, -1)
 	var options_after: int = _player_escape_count_around_fast(overtaker, planned_lane)
-	return options_after > 0 or options_after >= options_before
+	return options_after > 0
 
 func _player_has_escape_around_fast(overtaker: TrafficVehicle, planned_lane: int = -1) -> bool:
 	return _player_escape_count_around_fast(overtaker, planned_lane) > 0
@@ -394,8 +395,9 @@ func _player_escape_count_around_fast(overtaker: TrafficVehicle, planned_lane: i
 		blocked.append(overtaker.lane)
 		if is_lane_valid(planned_lane) and not blocked.has(planned_lane):
 			blocked.append(planned_lane)
-	if lane_events.blocked_lane() >= 0 and not blocked.has(lane_events.blocked_lane()):
-		blocked.append(lane_events.blocked_lane())
+	for closed_lane in lane_events.navigation_blocked_lanes(player_y, clearance, _viewport_height):
+		if not blocked.has(closed_lane):
+			blocked.append(closed_lane)
 	for vehicle in vehicles:
 		if vehicle == overtaker or absf(vehicle.y - player_y) >= clearance + vehicle.half_length - TrafficVehicle.NORMAL_HALF_LENGTH:
 			continue
@@ -446,9 +448,9 @@ func _can_spawn_vehicle(kind: int, lane: int, y: float, player_speed: float, pla
 	return _can_spawn_candidate(candidate, player_speed, player_lane)
 
 func _can_spawn_candidate(candidate: TrafficVehicle, player_speed: float, player_lane: int) -> bool:
-	if candidate.lane == lane_events.blocked_lane():
+	if lane_events.is_lane_blocked(candidate.lane):
 		return false
-	if candidate.lane_change_enabled and candidate.target_lane == lane_events.blocked_lane():
+	if candidate.lane_change_enabled and lane_events.is_lane_blocked(candidate.target_lane):
 		return false
 	if _overlaps_spawn_exclusion(candidate):
 		return false
@@ -471,7 +473,7 @@ func _has_escape_lane(candidate: TrafficVehicle, player_lane: int, player_speed:
 	for candidate_lane in [player_lane - 1, player_lane + 1]:
 		if not is_lane_valid(candidate_lane):
 			continue
-		if candidate_lane == lane_events.blocked_lane():
+		if lane_events.is_lane_blocked(candidate_lane):
 			continue
 		var clear := true
 		for vehicle in vehicles:
@@ -591,8 +593,9 @@ func _constrain_player_escape_y(vehicle: TrafficVehicle, proposed_y: float) -> f
 
 func _player_keeps_escape_with_vehicle(candidate: TrafficVehicle, player_y: float, clearance: float) -> bool:
 	var blocked: Array[int] = []
-	if lane_events.blocked_lane() >= 0:
-		blocked.append(lane_events.blocked_lane())
+	var event_clearance := maxf(clearance, _player_speed * 0.5)
+	for closed_lane in lane_events.navigation_blocked_lanes(player_y, event_clearance, _viewport_height):
+		blocked.append(closed_lane)
 	for other in vehicles:
 		if other == candidate:
 			continue
@@ -628,14 +631,14 @@ func _closure_can_continue() -> bool:
 	var player_y := TrackGeometry.player_y(_viewport_height)
 	if reachable_player_lanes(_player_lane, player_y, GameConfig.COLLISION_LONGITUDINAL_DISTANCE).is_empty():
 		return false
-	var reserved_lane := lane_events.blocked_lane()
+	var reserved_lanes := lane_events.closed_lanes()
 	for vehicle in vehicles:
-		if vehicle.change_started and vehicle.target_lane == reserved_lane:
+		if vehicle.change_started and reserved_lanes.has(vehicle.target_lane):
 			return false
 	return true
 
 func _constrain_event_escape_y(vehicle: TrafficVehicle, proposed_y: float) -> float:
-	if lane_events.blocked_lane() < 0 or vehicle.lane != _player_lane or vehicle.y >= TrackGeometry.player_y(_viewport_height):
+	if lane_events.closed_lanes().is_empty() or vehicle.lane != _player_lane or vehicle.y >= TrackGeometry.player_y(_viewport_height):
 		return proposed_y
 	var player_y := TrackGeometry.player_y(_viewport_height)
 	var clearance := GameConfig.COLLISION_LONGITUDINAL_DISTANCE + vehicle.half_length - TrafficVehicle.NORMAL_HALF_LENGTH

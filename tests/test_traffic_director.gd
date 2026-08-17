@@ -116,6 +116,17 @@ func _init() -> void:
 	var required_following_gap: float = director.minimum_lane_gap + waiting_overtaker.half_length + no_route_blocker.half_length
 	assert(waiting_overtaker.y >= no_route_blocker.y + required_following_gap, "Fast overtaker must brake behind NPC traffic when no safe overtaking route exists")
 
+	var construction_route = TrafficDirector.new(407)
+	construction_route.set_viewport_height(1080.0)
+	construction_route._player_lane = 1
+	construction_route._player_speed = 760.0
+	construction_route.lane_events.begin_warning(0)
+	construction_route.lane_events.state = construction_route.LaneEventDirector.State.CLOSED
+	construction_route.lane_events.state_remaining = 2.0
+	var construction_overtaker = construction_route.acquire_vehicle(TrafficDirector.Kind.FAST_OVERTAKE, 2, 911.0)
+	construction_route.vehicles.append(construction_overtaker)
+	assert(not construction_route._fast_route_preserves_player_options(construction_overtaker, 1), "A fast overtaker must not claim the last escape lane beside an approaching construction core")
+
 	for stage in range(4):
 		var staged_a = TrafficDirector.new(409)
 		var staged_b = TrafficDirector.new(409)

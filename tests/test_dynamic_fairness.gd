@@ -46,7 +46,7 @@ func _closest_lane(current_lane: int, candidates: Array[int]) -> int:
 	return closest
 
 func _fail_unreachable(seed: int, viewport_height: float, player_lane: int, player_speed: float, step: int, traffic, reason: String) -> void:
-	var traffic_state: PackedStringArray = []
+	var traffic_state: PackedStringArray = ["event_state=%d closed=%s cores=%s" % [traffic.lane_events.state, str(traffic.lane_events.closed_lanes()), str(traffic.lane_events.core_markers(viewport_height))]]
 	for vehicle in traffic.vehicles:
 		traffic_state.append("kind=%d lane=%d target=%d y=%.1f" % [vehicle.kind, vehicle.lane, vehicle.target_lane, vehicle.y])
 	push_error("Seed %d viewport %.0f lane %d speed %.0f %s at %.2fs: %s" % [seed, viewport_height, player_lane, player_speed, reason, step * STEP_SECONDS, "; ".join(traffic_state)])

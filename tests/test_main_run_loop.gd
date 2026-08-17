@@ -41,15 +41,20 @@ func _run() -> void:
 	event_main.run.start()
 	event_main.traffic.lane_events.begin_warning(0)
 	event_main._update_hud()
-	assert(event_main.feedback_banner.visible and "1 号车道即将封闭" in event_main.feedback_banner.text, "A lane warning must be explicit in the playable HUD")
+	assert(event_main.feedback_banner.visible and "前方施工 · 向右并线" in event_main.feedback_banner.text, "A construction warning must state the safe merge direction")
 	event_main.traffic.lane_events.state = event_main.LaneEventDirector.State.CLOSED
 	event_main._update_hud()
-	assert("1 号车道封闭" in event_main.feedback_banner.text, "An active closure must remain explicit in the playable HUD")
+	assert("施工路段 · 右侧通行" in event_main.feedback_banner.text, "An active construction zone must state the open side")
 	event_main.drive.lateral_position = -300.0
-	var speed_before_barrier: float = event_main.drive.speed
 	event_main._process(0.0)
-	assert(is_equal_approx(event_main.drive.lateral_position, -100.0), "The playable loop must physically keep the full player car out of a closed lane")
-	assert(event_main.drive.speed < speed_before_barrier, "Hitting a closed-lane barrier must have a clear speed consequence")
+	assert(is_equal_approx(event_main.drive.lateral_position, -300.0), "A construction closure must never force the player sideways")
+	event_main.traffic.lane_events.begin_warning(0)
+	event_main.traffic.lane_events.state_remaining = 0.01
+	event_main.drive.lateral_position = -130.0
+	var speed_before_cone: float = event_main.drive.speed
+	event_main._check_construction_collisions()
+	assert(is_equal_approx(event_main.drive.speed, speed_before_cone * (1.0 - event_main.GameConfig.LANE_EVENT_CONE_SPEED_PENALTY_RATIO)), "Knocking over a cone must apply the bounded percentage speed penalty")
+	assert(event_main.cone_hit_cooldown > 0.0 and event_main.knocked_cones.size() == 1, "A cone hit must start repeat-damage protection and create one knock-away visual")
 	event_main.free()
 
 	var track_main = MainScene.instantiate()
