@@ -6,8 +6,9 @@ const RoadsideRenderer = preload("res://scripts/roadside_renderer.gd")
 const TrackCatalog = preload("res://scripts/catalog/track_catalog.gd")
 
 func _init() -> void:
-	for section_index in range(5):
-		assert(FileAccess.file_exists("res://art/source/environment_sequences/neon_coast_sections/section_%02d.png" % section_index), "Neon Coast must use one full-resolution source image per route section")
+	for section_track in ["neon_coast", "freight_harbor"]:
+		for section_index in range(5):
+			assert(FileAccess.file_exists("res://art/source/environment_sequences/%s_sections/section_%02d.png" % [section_track, section_index]), "%s must use one full-resolution source image per route section" % section_track)
 	var all_sequence_paths := {}
 	var all_content_hashes := {}
 	for track in TrackCatalog.all():
@@ -70,6 +71,9 @@ func _init() -> void:
 	var neon_track := TrackCatalog.get_by_id(&"neon_coast")
 	var neon_luminance := _sampled_average_luminance(neon_track.environment_left_sequence_paths + neon_track.environment_right_sequence_paths)
 	assert(neon_luminance >= 0.085, "Neon Coast roadside art must retain readable night-scene midtones")
+	var freight_track := TrackCatalog.get_by_id(&"freight_harbor")
+	var freight_luminance := _sampled_average_luminance(freight_track.environment_left_sequence_paths + freight_track.environment_right_sequence_paths)
+	assert(freight_luminance >= 0.07, "Freight Harbor roadside art must retain readable industrial midtones")
 	var constants: Dictionary = main.get_script().get_script_constant_map()
 	assert(constants.has("COAST_LEFT_TEXTURE") and constants.has("COAST_RIGHT_TEXTURE"), "Main must preload both coastal environment strips")
 	main.queue_free()
