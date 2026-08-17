@@ -23,7 +23,13 @@ $tracks = @(
         LeftRoadEdges = @(244.0, 247.0, 244.0, 244.0, 246.0)
         RightRoadEdges = @(691.0, 690.0, 689.0, 689.0, 686.0)
     },
-    @{ Id = 'storm_ridge'; Source = 'storm_ridge_master.png'; LeftRoadEdge = 319.0; RightRoadEdge = 480.0 },
+    @{
+        Id = 'storm_ridge'
+        Sections = @('section_00.png', 'section_01.png', 'section_02.png', 'section_03.png', 'section_04.png')
+        SectionRoot = 'storm_ridge_sections'
+        LeftRoadEdges = @(277.0, 277.0, 273.0, 277.0, 251.0)
+        RightRoadEdges = @(706.0, 705.0, 705.0, 703.0, 687.0)
+    },
     @{ Id = 'sunrise_express'; Source = 'sunrise_express_master.png'; LeftRoadEdge = 254.0; RightRoadEdge = 468.0 }
 )
 
