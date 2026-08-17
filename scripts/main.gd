@@ -23,8 +23,8 @@ const LaneEventDirector = preload("res://scripts/lane_event_director.gd")
 const DifficultyProfile = preload("res://scripts/difficulty_profile.gd")
 const GameText = preload("res://scripts/game_text.gd")
 const VehicleVisualAnimation = preload("res://scripts/vehicle_visual_animation.gd")
-const EnvironmentScroller = preload("res://scripts/environment_scroller.gd")
 const RaceEffectRenderer = preload("res://scripts/race_effect_renderer.gd")
+const RoadsideRenderer = preload("res://scripts/roadside_renderer.gd")
 const TRAFFIC_SEDAN_TEXTURE: Texture2D = preload("res://assets/vehicles/traffic_sedan.png")
 const TRAFFIC_VAN_TEXTURE: Texture2D = preload("res://assets/vehicles/traffic_van.png")
 const TRAFFIC_HATCHBACK_TEXTURE: Texture2D = preload("res://assets/vehicles/traffic_hatchback.png")
@@ -135,6 +135,7 @@ var result_best_scores: Label
 var new_record_label: Label
 var feedback: GameFeedback
 var feedback_banner: Label
+var roadside_renderer: RoadsideRenderer
 
 func _ready() -> void:
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
@@ -203,6 +204,10 @@ func _ready() -> void:
 	result_best_scores = $CanvasLayer/ResultScreen/Center/Card/Content/BestScores
 	new_record_label = $CanvasLayer/ResultScreen/Center/Card/Content/NewRecord
 	feedback_banner = $CanvasLayer/FeedbackBanner
+	roadside_renderer = RoadsideRenderer.new()
+	roadside_renderer.name = "RoadsideRenderer"
+	roadside_renderer.source_main = self
+	add_child(roadside_renderer)
 	_bind_ui_cues()
 	_bind_ui_actions()
 	_configure_persistence(SaveStore.new(), get_tree().current_scene == self)
@@ -335,12 +340,9 @@ func _draw() -> void:
 	var center_x := viewport_size.x * 0.5
 	var road_left := center_x - GameConfig.ROAD_HALF_WIDTH
 	var road_right := center_x + GameConfig.ROAD_HALF_WIDTH
-	var ocean_color := VisualStyle.HIGH_CONTRAST_OCEAN if high_contrast_enabled else VisualStyle.OCEAN
 	var shoulder_color := VisualStyle.HIGH_CONTRAST_SHOULDER if high_contrast_enabled else VisualStyle.SHOULDER
 	var edge_color := VisualStyle.HIGH_CONTRAST_EDGE if high_contrast_enabled else VisualStyle.EDGE_NEON
 	var lane_color := VisualStyle.HIGH_CONTRAST_LANE if high_contrast_enabled else VisualStyle.LANE_MARK
-	draw_rect(Rect2(Vector2.ZERO, viewport_size), ocean_color)
-	_draw_track_environment(road_left, road_right, viewport_size)
 	draw_rect(Rect2(road_left - 30.0, 0.0, GameConfig.ROAD_HALF_WIDTH * 2.0 + 60.0, viewport_size.y), shoulder_color)
 	var road_color := VisualStyle.road_color_for_transition(feedback.previous_stage, feedback.current_stage, feedback.stage_transition_mix, high_contrast_enabled)
 	draw_rect(Rect2(road_left, 0.0, GameConfig.ROAD_HALF_WIDTH * 2.0, viewport_size.y), road_color)
@@ -378,30 +380,6 @@ func _draw() -> void:
 	RaceEffectRenderer.draw_collision_ring(self, car_center, collision_visual_remaining, _warning_color())
 	_draw_sparks()
 	draw_set_transform(Vector2.ZERO)
-
-func _draw_track_environment(road_left: float, road_right: float, viewport_size: Vector2) -> void:
-	var side_modulate := Color(0.58, 0.58, 0.58, 1.0) if high_contrast_enabled else Color.WHITE
-	var left_width := maxf(0.0, road_left - 30.0)
-	var right_start := road_right + 30.0
-	var right_width := maxf(0.0, viewport_size.x - right_start)
-	if current_environment_left.is_empty() or current_environment_right.is_empty():
-		return
-	var tile_height := float(current_environment_left[0].get_height())
-	var finish_distance := run.progression.finish_distance
-	var sequence_tiles := EnvironmentScroller.sequence_tiles(run.distance, finish_distance, viewport_size.y, tile_height, current_environment_left.size())
-	for tile in sequence_tiles:
-		var tile_y := float(tile.y)
-		var texture_index := int(tile.index)
-		var left_texture := current_environment_left[texture_index]
-		var right_texture := current_environment_right[mini(texture_index, current_environment_right.size() - 1)]
-		if left_width > 0.0:
-			var left_source_width := minf(left_width, float(left_texture.get_width()))
-			var left_source := Rect2(left_texture.get_width() - left_source_width, 0.0, left_source_width, tile_height)
-			draw_texture_rect_region(left_texture, Rect2(left_width - left_source_width, tile_y, left_source_width, tile_height), left_source, side_modulate)
-		if right_width > 0.0:
-			var right_source_width := minf(right_width, float(right_texture.get_width()))
-			var right_source := Rect2(0.0, 0.0, right_source_width, tile_height)
-			draw_texture_rect_region(right_texture, Rect2(right_start, tile_y, right_source_width, tile_height), right_source, side_modulate)
 
 func _draw_sparks() -> void:
 	for spark in feedback.sparks:

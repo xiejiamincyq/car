@@ -2,12 +2,14 @@ extends SceneTree
 
 const MainScene = preload("res://scenes/main.tscn")
 const EnvironmentScroller = preload("res://scripts/environment_scroller.gd")
+const RoadsideRenderer = preload("res://scripts/roadside_renderer.gd")
 const TrackCatalog = preload("res://scripts/catalog/track_catalog.gd")
 
 func _init() -> void:
 	var all_sequence_paths := {}
 	var all_content_hashes := {}
 	for track in TrackCatalog.all():
+		assert(float(track.get("environment_sharpness", -1.0)) >= 0.0 and float(track.get("environment_sharpness", -1.0)) <= 0.6, "%s must define a bounded roadside sharpening profile" % track.id)
 		var left_paths: Array = track.environment_left_sequence_paths
 		var right_paths: Array = track.environment_right_sequence_paths
 		assert(left_paths.size() >= 4 and left_paths.size() == right_paths.size(), "%s must provide a multi-part paired scenery sequence" % track.id)
@@ -35,6 +37,9 @@ func _init() -> void:
 			total_distance += distance
 		assert(is_equal_approx(total_distance, float(track.finish_distance)), "%s scenery segments must add up to the exact race length" % track.id)
 	assert(all_sequence_paths.size() >= 40, "Four tracks must use five distinct left/right scenery panels without repetition")
+	assert(float(TrackCatalog.get_by_id(&"neon_coast").environment_sharpness) > float(TrackCatalog.get_by_id(&"sunrise_express").environment_sharpness), "The soft coastal source art must receive stronger sharpening than the already crisp sunrise art")
+	assert(RoadsideRenderer.pixel_aligned_y(12.6) == 13.0, "Roadside panels must snap fractional scrolling to physical pixels")
+	assert(RoadsideRenderer.visible_source_width(250.0, 256.0) == 250.0 and RoadsideRenderer.visible_source_width(320.0, 256.0) == 256.0, "Roadside panels must crop at native width instead of stretching beyond source resolution")
 
 	var initial_sequence := EnvironmentScroller.sequence_tiles(0.0, 3200.0, 720.0, 1024.0, 5)
 	var advanced_sequence := EnvironmentScroller.sequence_tiles(100.0, 3200.0, 720.0, 1024.0, 5)
@@ -59,6 +64,9 @@ func _init() -> void:
 	var main = MainScene.instantiate()
 	root.add_child(main)
 	await process_frame
+	var roadside_renderer := main.get_node_or_null("RoadsideRenderer")
+	assert(roadside_renderer != null and roadside_renderer.z_index < 0, "Roadside scenery must render in an isolated layer behind the road")
+	assert(roadside_renderer.material is ShaderMaterial, "The isolated roadside layer must own its sharpening material without affecting cars or road UI")
 	var constants: Dictionary = main.get_script().get_script_constant_map()
 	assert(constants.has("COAST_LEFT_TEXTURE") and constants.has("COAST_RIGHT_TEXTURE"), "Main must preload both coastal environment strips")
 	main.queue_free()
