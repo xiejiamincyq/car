@@ -27,7 +27,7 @@ func _init() -> void:
 	assert(director.target_active_vehicles < director.max_active_vehicles, "Visible traffic density and object-pool capacity must remain separate budgets")
 	var initial_y: float = sedan_variant.y
 	director.update_vehicle(sedan_variant, 1.0, 500.0)
-	assert(is_equal_approx(sedan_variant.y - initial_y, 500.0 - sedan_variant.cruise_speed), "NPC screen motion must reflect player speed minus its road speed")
+	assert(is_equal_approx(sedan_variant.y - initial_y, (500.0 - sedan_variant.cruise_speed) * GameConfig.ROAD_SCROLL_MULTIPLIER), "NPC screen motion must reflect player speed minus its road speed on the same world scale as the road")
 	for _second in range(300):
 		director.tick(1.0, 500.0, 1)
 	assert(director.vehicles.size() <= director.max_active_vehicles, "Five minutes must keep active traffic bounded")
@@ -99,8 +99,10 @@ func _init() -> void:
 	assert(abs(route_overtaker.target_lane - route_overtaker.lane) == 1, "Fast overtaker must select an adjacent overtaking lane")
 	assert(route_overtaker.warning_remaining > 0.0, "Fast overtaker must signal before following its planned route")
 	var starting_route_lane: int = route_overtaker.lane
-	for _step in range(20):
+	for _step in range(50):
 		director.update_vehicle(route_overtaker, 0.1, 760.0)
+		if route_overtaker.y < route_blocker.y:
+			break
 	assert(route_overtaker.lane != starting_route_lane, "Fast overtaker must complete its planned lane change before passing the blocker")
 	assert(route_overtaker.y < route_blocker.y, "Fast overtaker must continue past the NPC after changing to a clear lane")
 

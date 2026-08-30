@@ -69,18 +69,18 @@ func tick(delta: float, player_speed: float, player_lane: int = 1) -> void:
 		update_vehicle(vehicle, delta, player_speed)
 	_recycle_offscreen_vehicles()
 
-func acquire_vehicle(kind: int, lane: int, y: float) -> TrafficVehicle:
+func acquire_vehicle(kind: int, lane: int, y: float, assigned_cruise_speed: float = -1.0) -> TrafficVehicle:
 	var target_lane := _target_lane_for(kind, lane)
 	var visual_variant := _visual_variant_cursor % 2 if kind == Kind.STEADY_SLOW else 0
 	if kind == Kind.STEADY_SLOW:
 		_visual_variant_cursor += 1
 	var vehicle: TrafficVehicle
 	if _pool.is_empty():
-		vehicle = TrafficVehicle.new(kind, lane, y, target_lane, visual_variant)
+		vehicle = TrafficVehicle.new(kind, lane, y, target_lane, visual_variant, assigned_cruise_speed)
 		allocated_vehicle_count += 1
 	else:
 		vehicle = _pool.pop_back()
-		vehicle.configure(kind, lane, y, target_lane, visual_variant)
+		vehicle.configure(kind, lane, y, target_lane, visual_variant, assigned_cruise_speed)
 	return vehicle
 
 func reset(run_seed: int = -1) -> void:
@@ -151,7 +151,7 @@ func update_vehicle(vehicle: TrafficVehicle, delta: float, player_speed: float) 
 			vehicle.lane_position = move_toward(vehicle.lane_position, float(vehicle.target_lane), 2.4 * delta)
 			if is_equal_approx(vehicle.lane_position, float(vehicle.target_lane)):
 				vehicle.lane = vehicle.target_lane
-	var proposed_y := vehicle.y + relative_speed * _speed_multiplier_for_stage() * delta
+	var proposed_y := vehicle.y + relative_speed * GameConfig.ROAD_SCROLL_MULTIPLIER * delta
 	if relative_speed >= 0.0:
 		proposed_y = _constrain_top_vehicle_y(vehicle, proposed_y)
 		proposed_y = _constrain_player_escape_y(vehicle, proposed_y)
@@ -159,10 +159,10 @@ func update_vehicle(vehicle: TrafficVehicle, delta: float, player_speed: float) 
 	vehicle.y = proposed_y
 
 func _update_fast_overtaker(vehicle: TrafficVehicle, delta: float, player_speed: float) -> void:
-	var overtake_speed: float = (player_speed * 0.30 + 260.0) * _speed_multiplier_for_stage()
+	var relative_speed: float = (player_speed - vehicle.cruise_speed) * GameConfig.ROAD_SCROLL_MULTIPLIER
 	var staging_y: float = TrackGeometry.fast_overtake_staging_y(_viewport_height)
 	if vehicle.y > staging_y:
-		vehicle.y = maxf(staging_y, vehicle.y - overtake_speed * delta)
+		vehicle.y = maxf(staging_y, vehicle.y + relative_speed * delta)
 		if vehicle.y <= staging_y:
 			vehicle.overtake_warning_remaining = 1.0
 		return
@@ -182,7 +182,7 @@ func _update_fast_overtaker(vehicle: TrafficVehicle, delta: float, player_speed:
 			return
 	if _try_plan_fast_lane_change(vehicle):
 		return
-	var proposed_y: float = vehicle.y - overtake_speed * delta
+	var proposed_y: float = vehicle.y + relative_speed * delta
 	vehicle.y = _constrain_fast_overtaker_y(vehicle, proposed_y)
 
 func _try_plan_fast_lane_change(overtaker: TrafficVehicle) -> bool:
@@ -303,6 +303,8 @@ func _constrain_fast_overtaker_y(overtaker: TrafficVehicle, proposed_y: float) -
 			continue
 		var required_gap: float = minimum_lane_gap + overtaker.half_length + other.half_length
 		constrained_y = maxf(constrained_y, other.y + required_gap)
+	if constrained_y < overtaker.y and _player_escape_count_around_fast_at_y(overtaker, constrained_y) == 0:
+		return overtaker.y
 	return minf(overtaker.y, constrained_y)
 
 func is_lane_valid(lane: int) -> bool:
@@ -389,10 +391,13 @@ func _player_has_escape_around_fast(overtaker: TrafficVehicle, planned_lane: int
 	return _player_escape_count_around_fast(overtaker, planned_lane) > 0
 
 func _player_escape_count_around_fast(overtaker: TrafficVehicle, planned_lane: int = -1) -> int:
+	return _player_escape_count_around_fast_at_y(overtaker, overtaker.y, planned_lane)
+
+func _player_escape_count_around_fast_at_y(overtaker: TrafficVehicle, overtaker_y: float, planned_lane: int = -1) -> int:
 	var player_y := TrackGeometry.player_y(_viewport_height)
 	var clearance := maxf(minimum_lane_gap, _player_speed * 0.5)
 	var blocked: Array[int] = []
-	if absf(overtaker.y - player_y) < clearance + overtaker.half_length - TrafficVehicle.NORMAL_HALF_LENGTH:
+	if absf(overtaker_y - player_y) < clearance + overtaker.half_length - TrafficVehicle.NORMAL_HALF_LENGTH:
 		blocked.append(overtaker.lane)
 		if is_lane_valid(planned_lane) and not blocked.has(planned_lane):
 			blocked.append(planned_lane)
@@ -431,7 +436,7 @@ func _spawn_next(player_speed: float, player_lane: int) -> void:
 	var kind := _kind_for_next_spawn()
 	var lane := _random.randi_range(0, lane_count - 1)
 	var y := TrackGeometry.fast_overtake_spawn_y(_viewport_height) if kind == Kind.FAST_OVERTAKE else -minimum_spawn_distance
-	var candidate := acquire_vehicle(kind, lane, y)
+	var candidate := acquire_vehicle(kind, lane, y, _world_speed_for_spawn(kind))
 	_plan_random_lane_change(candidate)
 	if not _can_spawn_candidate(candidate, player_speed, player_lane):
 		_pool.append(candidate)
@@ -440,7 +445,13 @@ func _spawn_next(player_speed: float, player_lane: int) -> void:
 	vehicles.append(candidate)
 	if candidate.kind == Kind.STEADY_SLOW and candidate.lane_change_enabled:
 		random_lane_change_planned_count += 1
-	_spawn_history.append("%d:%d" % [kind, lane])
+	_spawn_history.append("%d:%d:%d" % [kind, lane, roundi(candidate.cruise_speed)])
+
+func _world_speed_for_spawn(kind: int) -> float:
+	if kind == Kind.FAST_OVERTAKE:
+		return TrafficVehicle._cruise_speed_for_kind(kind)
+	var normal_speed := float(_random.randi_range(9, 11) * 20)
+	return normal_speed * TrafficVehicle.TRUCK_CRUISE_SPEED_MULTIPLIER if kind == Kind.TRUCK else normal_speed
 
 func _can_spawn_vehicle(kind: int, lane: int, y: float, player_speed: float, player_lane: int) -> bool:
 	if not is_lane_valid(lane):
@@ -546,9 +557,6 @@ func _spawn_interval_for_stage() -> float:
 
 func effective_spawn_interval_multiplier() -> float:
 	return track_spawn_interval_multiplier * spawn_interval_multiplier
-
-func _speed_multiplier_for_stage() -> float:
-	return [1.0, 1.0, 1.12, 1.22][difficulty_stage]
 
 func is_fast_spawn_fair(player_speed: float, player_lane: int) -> bool:
 	return _can_spawn_vehicle(Kind.FAST_OVERTAKE, player_lane, TrackGeometry.fast_overtake_spawn_y(_viewport_height), player_speed, player_lane)

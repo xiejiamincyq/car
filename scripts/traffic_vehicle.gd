@@ -31,10 +31,10 @@ var visual_variant: int = 0
 var cruise_speed: float = NORMAL_CRUISE_SPEED
 var lane_change_enabled: bool = false
 
-func _init(vehicle_kind: int, initial_lane: int, initial_y: float, change_target: int = -1, variant: int = 0) -> void:
-	configure(vehicle_kind, initial_lane, initial_y, change_target, variant)
+func _init(vehicle_kind: int, initial_lane: int, initial_y: float, change_target: int = -1, variant: int = 0, assigned_cruise_speed: float = -1.0) -> void:
+	configure(vehicle_kind, initial_lane, initial_y, change_target, variant, assigned_cruise_speed)
 
-func configure(vehicle_kind: int, initial_lane: int, initial_y: float, change_target: int = -1, variant: int = 0) -> void:
+func configure(vehicle_kind: int, initial_lane: int, initial_y: float, change_target: int = -1, variant: int = 0, assigned_cruise_speed: float = -1.0) -> void:
 	kind = vehicle_kind
 	lane = initial_lane
 	target_lane = change_target
@@ -52,7 +52,7 @@ func configure(vehicle_kind: int, initial_lane: int, initial_y: float, change_ta
 	half_width = TRUCK_HALF_WIDTH if kind == TRUCK_KIND else NORMAL_HALF_WIDTH
 	half_length = TRUCK_HALF_LENGTH if kind == TRUCK_KIND else NORMAL_HALF_LENGTH
 	visual_variant = maxi(0, variant)
-	cruise_speed = _cruise_speed_for_kind(kind)
+	cruise_speed = assigned_cruise_speed if assigned_cruise_speed > 0.0 else _cruise_speed_for_kind(kind)
 	lane_change_enabled = kind == SIGNAL_CHANGE_KIND
 
 static func _cruise_speed_for_kind(vehicle_kind: int) -> float:
