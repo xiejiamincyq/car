@@ -4,6 +4,7 @@ extends Node
 const CollisionSound = preload("res://scripts/collision_sound.gd")
 const SoundEffects = preload("res://scripts/sound_effects.gd")
 const MusicDirector = preload("res://scripts/audio/music_director.gd")
+const MusicCatalog = preload("res://scripts/audio/music_catalog.gd")
 
 var collision_audio: AudioStreamPlayer
 var engine_audio: AudioStreamPlayer
@@ -166,7 +167,10 @@ func stop_driving_audio() -> void:
 			player.stop()
 
 func begin_music_countdown(track_id: StringName, stream: AudioStream = null) -> void:
-	music.begin_countdown(track_id, stream)
+	var selected_stream := stream
+	if selected_stream == null:
+		selected_stream = MusicCatalog.stream_for(track_id)
+	music.begin_countdown(track_id, selected_stream, MusicCatalog.gain_db_for(track_id))
 
 func begin_music_race() -> void:
 	music.begin_race()

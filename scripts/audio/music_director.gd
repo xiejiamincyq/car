@@ -12,6 +12,7 @@ var current_track_id: StringName = &""
 var phase: Phase = Phase.STOPPED
 var phase_before_pause: Phase = Phase.STOPPED
 var muted := false
+var target_volume_db := 0.0
 var _fade_elapsed := 0.0
 var _fade_start_db := SILENT_DB
 
@@ -21,12 +22,13 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	tick(delta)
 
-func begin_countdown(track_id: StringName, stream: AudioStream = null) -> void:
+func begin_countdown(track_id: StringName, stream: AudioStream = null, gain_db: float = 0.0) -> void:
 	_ensure_player()
 	if current_track_id != track_id or player.stream != stream:
 		player.stop()
 		player.stream = stream
 	current_track_id = track_id
+	target_volume_db = gain_db
 	phase = Phase.FADING_IN
 	phase_before_pause = Phase.STOPPED
 	_fade_elapsed = 0.0
@@ -42,7 +44,7 @@ func begin_race() -> void:
 	_ensure_player()
 	phase = Phase.PLAYING
 	player.stream_paused = muted
-	player.volume_db = 0.0
+	player.volume_db = target_volume_db
 	if not muted and player.stream != null and not player.playing:
 		player.play()
 
@@ -85,7 +87,7 @@ func tick(delta: float) -> void:
 	var safe_delta := maxf(0.0, delta)
 	if phase == Phase.FADING_IN:
 		_fade_elapsed = minf(FADE_IN_SECONDS, _fade_elapsed + safe_delta)
-		player.volume_db = lerpf(_fade_start_db, 0.0, _fade_elapsed / FADE_IN_SECONDS)
+		player.volume_db = lerpf(_fade_start_db, target_volume_db, _fade_elapsed / FADE_IN_SECONDS)
 	elif phase == Phase.FADING_OUT:
 		_fade_elapsed = minf(FADE_OUT_SECONDS, _fade_elapsed + safe_delta)
 		player.volume_db = lerpf(_fade_start_db, SILENT_DB, _fade_elapsed / FADE_OUT_SECONDS)
@@ -100,6 +102,7 @@ func stop() -> void:
 	phase = Phase.STOPPED
 	phase_before_pause = Phase.STOPPED
 	_fade_elapsed = 0.0
+	target_volume_db = 0.0
 
 func shutdown() -> void:
 	stop()

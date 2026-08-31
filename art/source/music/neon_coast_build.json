@@ -1,0 +1,17 @@
+{
+  "title": "Neon Coast Circuit",
+  "original": true,
+  "seed": 20260831,
+  "sample_rate": 48000,
+  "bpm": 120.0,
+  "bars": 32,
+  "duration_seconds": 64.0,
+  "peak": 0.6698105335235596,
+  "rms": 0.10499998927116394,
+  "runtime_bytes": 826108,
+  "sha256": "cc1be016983a55791a03a0c04c444247da73755d4b3a4b86ea620eae2736641b",
+  "decoded_duration_seconds": 64.0,
+  "loop_seam_max_abs": 0.003403913462534547,
+  "integrated_lufs": -18.5,
+  "true_peak_dbfs": -3.0
+}

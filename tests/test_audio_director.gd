@@ -30,6 +30,8 @@ func _run() -> void:
 	director.apply_bus_settings(0.80, 0.40, 0.70, false)
 	director.play_cue("checkpoint")
 	assert(director.last_audio_cue == "checkpoint" and director.event_audio.playing, "Unmuted named cues must use the event channel")
+	director.begin_music_countdown(&"neon_coast")
+	assert(director.music.player.stream != null and director.music.target_volume_db <= -3.0, "Finished catalog tracks must load with effects-readable mix headroom")
 	director.begin_music_countdown(&"storm_ridge")
 	director.begin_music_race()
 	assert(director.music.current_track_id == &"storm_ridge" and director.music.phase == director.music.Phase.PLAYING, "Main-facing music calls must forward track and lifecycle state")
