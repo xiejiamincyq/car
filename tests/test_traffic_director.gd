@@ -1,6 +1,8 @@
 extends SceneTree
 
 const TrafficDirector = preload("res://scripts/traffic_director.gd")
+const GameConfig = preload("res://scripts/game_config.gd")
+const TrackGeometry = preload("res://scripts/track_geometry.gd")
 
 func _init() -> void:
 	for seed in range(1, 11):
@@ -44,6 +46,16 @@ func _init() -> void:
 	director.update_vehicle(changer, 0.1, 500.0)
 	assert(changer.change_started, "Lane change must begin after its visible warning")
 	assert(changer.lane_position != float(changer.lane), "Lane change must move smoothly instead of jumping lanes")
+	var maximum_speed_timing = TrafficDirector.new(731)
+	maximum_speed_timing.set_viewport_height(720.0)
+	maximum_speed_timing._player_speed = GameConfig.MAX_SPEED
+	var early_changer = maximum_speed_timing.acquire_vehicle(TrafficDirector.Kind.SIGNAL_CHANGE, 0, TrafficDirector.LANE_CHANGE_WARNING_ENTRY_Y, TrafficDirector.NORMAL_SPEED_MIN)
+	early_changer.target_lane = 1
+	maximum_speed_timing.vehicles.append(early_changer)
+	while not early_changer.change_started and early_changer.y < TrackGeometry.player_y(720.0):
+		maximum_speed_timing.update_vehicle(early_changer, 0.02, GameConfig.MAX_SPEED)
+	assert(early_changer.change_started, "A lane-changing NPC must begin moving before a maximum-speed player overtakes it")
+	assert(early_changer.y < TrackGeometry.player_y(720.0) - GameConfig.COLLISION_LONGITUDINAL_DISTANCE, "The lane change must begin with visible reaction distance remaining at maximum player speed")
 	var other_changer = director.acquire_vehicle(TrafficDirector.Kind.SIGNAL_CHANGE, 0, 120.0)
 	other_changer.target_lane = changer.target_lane
 	other_changer.warning_started = true

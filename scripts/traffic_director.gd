@@ -11,7 +11,7 @@ enum Kind { STEADY_SLOW, SIGNAL_CHANGE, FAST_OVERTAKE, TRUCK }
 const FAST_ROUTE_LOOKAHEAD := 620.0
 const FAST_ROUTE_WARNING_SECONDS := 0.60
 const FAST_LANE_CHANGE_SPEED := 3.4
-const LANE_CHANGE_WARNING_ENTRY_Y := 80.0
+const LANE_CHANGE_WARNING_ENTRY_Y := 40.0
 const BRAKING_REACTION_SECONDS := 0.25
 const NORMAL_SPEED_MIN := 180.0
 const NORMAL_SPEED_MAX := 220.0
@@ -578,7 +578,7 @@ func maximum_kind_for_stage() -> int:
 	return Kind.TRUCK if difficulty_stage == 3 else Kind.FAST_OVERTAKE
 
 func lane_change_warning_duration() -> float:
-	return [0.90, 0.80, 0.70, 0.60][difficulty_stage]
+	return [0.66, 0.62, 0.60, 0.59][difficulty_stage]
 
 func _kind_for_next_spawn() -> int:
 	var schedule := _kind_schedule()

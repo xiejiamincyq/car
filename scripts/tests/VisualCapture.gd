@@ -3,6 +3,7 @@ extends SceneTree
 const MainScene = preload("res://scenes/main.tscn")
 const RunState = preload("res://scripts/run_state.gd")
 const TrackRuntimeProfile = preload("res://scripts/track_runtime_profile.gd")
+const TrafficDirector = preload("res://scripts/traffic_director.gd")
 
 func _init() -> void:
 	_capture()
@@ -33,6 +34,8 @@ func _capture() -> void:
 	main.run.distance = main.run.progression.finish_distance * distance_ratio
 	main.drive.speed = 200.0
 	main.high_contrast_enabled = high_contrast
+	if arguments.size() >= 7 and arguments[6] == "lane_change_preview":
+		_stage_lane_change_preview(main)
 	_hide_overlays(main)
 	main.race_hud.visible = true
 	main._update_hud()
@@ -55,6 +58,18 @@ func _capture() -> void:
 	main.queue_free()
 	await process_frame
 	quit()
+
+func _stage_lane_change_preview(main: Node) -> void:
+	main.traffic.reset()
+	var change_right = main.traffic.acquire_vehicle(TrafficDirector.Kind.SIGNAL_CHANGE, 0, 370.0, 200.0)
+	change_right.target_lane = 1
+	change_right.warning_started = true
+	change_right.warning_remaining = 0.5
+	var change_left = main.traffic.acquire_vehicle(TrafficDirector.Kind.SIGNAL_CHANGE, 2, 480.0, 200.0)
+	change_left.target_lane = 1
+	change_left.warning_started = true
+	change_left.warning_remaining = 0.5
+	main.traffic.vehicles.assign([change_right, change_left])
 
 func _hide_overlays(main: Node) -> void:
 	for control_name in [

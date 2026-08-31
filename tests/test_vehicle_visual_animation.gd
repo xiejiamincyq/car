@@ -42,6 +42,14 @@ func _init() -> void:
 	assert(is_equal_approx(VehicleVisualAnimation.traffic_lane_change_rotation(0.5, 1.0, true), deg_to_rad(15.0)), "An NPC changing right must lean fifteen degrees at the midpoint")
 	assert(is_equal_approx(VehicleVisualAnimation.traffic_lane_change_rotation(1.5, 1.0, true), deg_to_rad(-15.0)), "An NPC changing left must lean fifteen degrees toward the target lane")
 	assert(is_zero_approx(VehicleVisualAnimation.traffic_lane_change_rotation(1.0, 1.0, true)), "An NPC must settle upright when it reaches the target lane")
+	var right_arrow := VehicleVisualAnimation.traffic_lane_change_arrow_points(25.0, 1.0)
+	var left_arrow := VehicleVisualAnimation.traffic_lane_change_arrow_points(25.0, -1.0)
+	assert(right_arrow.size() == 7 and left_arrow.size() == 7, "A lane-change warning must use a substantial arrow silhouette")
+	for point in right_arrow:
+		assert(point.x > 25.0, "A right-change arrow must sit fully outside the right side of the NPC body")
+	for point in left_arrow:
+		assert(point.x < -25.0, "A left-change arrow must sit fully outside the left side of the NPC body")
+	assert(right_arrow[3].x > right_arrow[0].x and left_arrow[3].x < left_arrow[0].x, "The arrow tip must point toward the target lane")
 	var corrected_size: Vector2 = VehicleVisualAnimation.corrected_vehicle_size(Vector2(80.0, 112.0))
 	assert(corrected_size.y >= 136.0 and corrected_size.x / corrected_size.y <= 0.60, "Vehicle rendering must correct the source art's flattened silhouette")
 	assert(VehicleVisualAnimation.speed_line_count(700.0, 760.0) > VehicleVisualAnimation.speed_line_count(250.0, 760.0), "High speed must produce denser motion feedback")

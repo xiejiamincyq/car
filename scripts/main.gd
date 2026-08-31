@@ -407,11 +407,18 @@ func _draw_traffic(road_left: float) -> void:
 		draw_set_transform(screen_shake + car_center, VehicleVisualAnimation.traffic_facing_rotation() + lane_change_rotation)
 		draw_texture_rect(traffic_texture, texture_rect, false)
 		draw_set_transform(screen_shake)
-		draw_circle(car_center, 12.0, Color(body_color, 0.92))
-		draw_string(ThemeDB.fallback_font, car_center + Vector2(-6.0, 7.0), VisualStyle.traffic_marker_for_kind(vehicle.kind), HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color("081018"))
 		if vehicle.lane_change_enabled and vehicle.warning_remaining > 0.0:
 			var direction := signf(vehicle.target_lane - vehicle.lane_position)
-			draw_colored_polygon(PackedVector2Array([car_center + Vector2(18.0 * direction, -35.0), car_center + Vector2(4.0 * direction, -42.0), car_center + Vector2(4.0 * direction, -28.0)]), _warning_color())
+			var arrow_points := VehicleVisualAnimation.traffic_lane_change_arrow_points(vehicle.half_width, direction)
+			for index in range(arrow_points.size()):
+				arrow_points[index] += car_center
+			var arrow_center := car_center + Vector2((vehicle.half_width + 28.0) * direction, 0.0)
+			var warning_color := _warning_color()
+			draw_circle(arrow_center, 23.0, Color(warning_color, 0.22))
+			draw_colored_polygon(arrow_points, Color(warning_color, 0.98))
+			var arrow_outline := arrow_points.duplicate()
+			arrow_outline.append(arrow_points[0])
+			draw_polyline(arrow_outline, Color("081018"), 3.0, true)
 		if vehicle.kind == TrafficDirector.Kind.FAST_OVERTAKE and vehicle.overtake_warning_remaining > 0.0:
 			var warning_y := TrafficDirector.fast_warning_y(vehicle.y)
 			draw_line(Vector2(car_center.x - 22.0, warning_y), Vector2(car_center.x + 22.0, warning_y), _traffic_color(TrafficDirector.Kind.FAST_OVERTAKE), 5.0)

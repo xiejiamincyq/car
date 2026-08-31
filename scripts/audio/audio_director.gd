@@ -98,9 +98,9 @@ func update_driving(delta: float, speed_ratio: float, acceleration_pressed: bool
 	if warning_cooldown > 0.0:
 		return
 	for vehicle in vehicles:
-		if vehicle.lane_change_enabled and vehicle.warning_remaining > 0.68:
+		if vehicle.lane_change_enabled and vehicle.warning_started and not vehicle.change_started and vehicle.warning_remaining > 0.0:
 			play_effect(warning_audio)
-			warning_cooldown = 0.55
+			warning_cooldown = 0.70
 			break
 
 func play_effect(player: AudioStreamPlayer) -> void:

@@ -2,6 +2,7 @@ extends SceneTree
 
 const AudioDirector = preload("res://scripts/audio/audio_director.gd")
 const SoundEffects = preload("res://scripts/sound_effects.gd")
+const TrafficVehicle = preload("res://scripts/traffic_vehicle.gd")
 
 func _init() -> void:
 	call_deferred("_run")
@@ -30,6 +31,13 @@ func _run() -> void:
 	director.apply_bus_settings(0.80, 0.40, 0.70, false)
 	director.play_cue("checkpoint")
 	assert(director.last_audio_cue == "checkpoint" and director.event_audio.playing, "Unmuted named cues must use the event channel")
+	var lane_changer := TrafficVehicle.new(TrafficVehicle.SIGNAL_CHANGE_KIND, 0, 120.0, 1, 0, 200.0)
+	lane_changer.warning_started = true
+	lane_changer.warning_remaining = 0.10
+	director.update_driving(0.02, 0.5, false, [lane_changer])
+	assert(director.warning_audio.playing, "Shorter lane-change warnings must still trigger their audible turn signal")
+	director.stop_driving_audio()
+	await process_frame
 	director.begin_music_countdown(&"neon_coast")
 	assert(director.music.player.stream != null and director.music.target_volume_db <= -3.0, "Finished catalog tracks must load with effects-readable mix headroom")
 	director.begin_music_countdown(&"storm_ridge")

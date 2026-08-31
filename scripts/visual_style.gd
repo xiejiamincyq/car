@@ -58,8 +58,5 @@ static func traffic_color(kind: int, high_contrast: bool) -> Color:
 		return HIGH_CONTRAST_TRAFFIC[clampi(kind, 0, HIGH_CONTRAST_TRAFFIC.size() - 1)]
 	return [SLOW_BODY, SIGNAL_BODY, FAST_BODY, TRUCK_BODY][clampi(kind, 0, 3)]
 
-static func traffic_marker_for_kind(kind: int) -> String:
-	return ["I", ">", "X", "="][clampi(kind, 0, 3)]
-
 static func _luminance(color: Color) -> float:
 	return color.r * 0.2126 + color.g * 0.7152 + color.b * 0.0722
