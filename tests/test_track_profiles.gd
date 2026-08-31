@@ -60,13 +60,25 @@ func _assert_profile_fairness(track: Dictionary) -> void:
 			traffic.set_viewport_height(720.0)
 			traffic.set_difficulty_stage(3)
 			var player_lane := 1
+			var target_player_speed := 560.0
+			var player_speed := target_player_speed
+			var recent_states: PackedStringArray = []
 			for step in range(120):
-				traffic.tick(0.25, 560.0, player_lane)
+				traffic.tick(0.25, player_speed, player_lane)
 				var immediate := traffic.reachable_player_lanes(player_lane, player_y, 72.0)
-				assert(not immediate.is_empty(), "%s difficulty %d seed %d must preserve an immediate escape lane" % [track.id, difficulty, seed])
-				var reaction := traffic.reachable_player_lanes(player_lane, player_y, GameConfig.MIN_TRAFFIC_GAP)
-				if not reaction.is_empty() and not reaction.has(player_lane):
+				if immediate.is_empty():
+					_fail_unreachable(track.id, difficulty, seed, step, player_lane, player_speed, traffic, recent_states)
+					return
+				var reaction := traffic.reachable_player_lanes(player_lane, player_y, traffic.braking_reaction_clearance(target_player_speed))
+				recent_states.append("t=%.2f lane=%d speed=%.0f immediate=%s reaction=%s traffic=%s" % [step * 0.25, player_lane, player_speed, str(immediate), str(reaction), _traffic_snapshot(traffic)])
+				if recent_states.size() > 8:
+					recent_states.remove_at(0)
+				if reaction.is_empty():
+					player_speed = maxf(0.0, player_speed - GameConfig.BRAKING * 0.25)
+				elif not reaction.has(player_lane):
 					player_lane = _closest_lane(player_lane, reaction)
+				else:
+					player_speed = minf(target_player_speed, player_speed + GameConfig.ACCELERATION * 0.25)
 
 func _closest_lane(current_lane: int, candidates: Array[int]) -> int:
 	var closest := candidates[0]
@@ -74,3 +86,15 @@ func _closest_lane(current_lane: int, candidates: Array[int]) -> int:
 		if abs(lane - current_lane) < abs(closest - current_lane):
 			closest = lane
 	return closest
+
+func _fail_unreachable(track_id: StringName, difficulty: int, seed: int, step: int, player_lane: int, player_speed: float, traffic, recent_states: PackedStringArray) -> void:
+	var traffic_state: PackedStringArray = ["event_state=%d closed=%s cores=%s" % [traffic.lane_events.state, str(traffic.lane_events.closed_lanes()), str(traffic.lane_events.core_markers(720.0))]]
+	for vehicle in traffic.vehicles:
+		traffic_state.append("kind=%d lane=%d target=%d y=%.1f speed=%.0f warned=%s changing=%s" % [vehicle.kind, vehicle.lane, vehicle.target_lane, vehicle.y, vehicle.cruise_speed, str(vehicle.warning_started), str(vehicle.change_started)])
+	push_error("%s difficulty %d seed %d lane %d speed %.0f has no immediate escape at %.2fs: %s; recent=%s" % [track_id, difficulty, seed, player_lane, player_speed, step * 0.25, "; ".join(traffic_state), " | ".join(recent_states)])
+
+func _traffic_snapshot(traffic) -> String:
+	var state: PackedStringArray = []
+	for vehicle in traffic.vehicles:
+		state.append("%d/%d/%.0f/%.0f" % [vehicle.kind, vehicle.lane, vehicle.y, vehicle.cruise_speed])
+	return ",".join(state)
