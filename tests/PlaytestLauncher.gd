@@ -16,7 +16,17 @@ func _launch() -> void:
 	var main = MainScene.instantiate()
 	root.add_child(main)
 	await process_frame
+	configure_main(main, config)
 
+	print("PLAYTEST track=%s vehicle=%s difficulty=%d seed=%d persistence=off" % [
+		config.track_id,
+		config.vehicle_id,
+		config.difficulty_index,
+		config.run_seed,
+	])
+
+
+static func configure_main(main, config: Dictionary) -> void:
 	# The launcher changes only this process's in-memory selections. Real player
 	# progress and settings remain untouched during a reproducible playtest.
 	main.persistence_enabled = false
@@ -27,12 +37,6 @@ func _launch() -> void:
 	main._apply_selected_track()
 	main._reset_run(config.run_seed)
 	main.run.begin_countdown()
+	main.audio_director.begin_music_countdown(StringName(main.current_track.get("music_id", &"")))
 	main._update_hud()
 	main.queue_redraw()
-
-	print("PLAYTEST track=%s vehicle=%s difficulty=%d seed=%d persistence=off" % [
-		config.track_id,
-		config.vehicle_id,
-		config.difficulty_index,
-		config.run_seed,
-	])
