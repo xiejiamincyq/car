@@ -60,6 +60,8 @@ var last_countdown_value := -1
 var last_fuel_audio_tier := GameFeedback.FuelTier.NORMAL
 var last_lane_audio_state := LaneEventDirector.State.IDLE
 var audio_volume := 0.65
+var music_volume := 0.65
+var effects_volume := 0.65
 var audio_muted := false
 var fullscreen_enabled := false
 var warning_cooldown := 0.0
@@ -693,6 +695,12 @@ func _apply_master_audio_settings() -> void:
 		return
 	AudioServer.set_bus_volume_db(master_index, SoundEffects.volume_db(audio_volume))
 	AudioServer.set_bus_mute(master_index, audio_muted)
+	var music_index := AudioServer.get_bus_index("Music")
+	if music_index >= 0:
+		AudioServer.set_bus_volume_db(music_index, SoundEffects.volume_db(music_volume))
+	var effects_index := AudioServer.get_bus_index("Effects")
+	if effects_index >= 0:
+		AudioServer.set_bus_volume_db(effects_index, SoundEffects.volume_db(effects_volume))
 
 func _stop_run_audio() -> void:
 	_stop_driving_audio()
@@ -992,6 +1000,8 @@ func _configure_persistence(store: SaveStore, enabled: bool) -> void:
 
 func _apply_saved_preferences() -> void:
 	audio_volume = float(save_data.settings.audio_volume)
+	music_volume = float(save_data.settings.music_volume)
+	effects_volume = float(save_data.settings.effects_volume)
 	audio_muted = bool(save_data.settings.audio_muted)
 	difficulty_index = int(save_data.settings.difficulty)
 	fullscreen_enabled = bool(save_data.settings.fullscreen)
@@ -1018,6 +1028,8 @@ func _save_preferences() -> void:
 	if save_data.is_empty():
 		return
 	save_data.settings.audio_volume = audio_volume
+	save_data.settings.music_volume = music_volume
+	save_data.settings.effects_volume = effects_volume
 	save_data.settings.audio_muted = audio_muted
 	save_data.settings.difficulty = difficulty_index
 	save_data.settings.fullscreen = fullscreen_enabled
