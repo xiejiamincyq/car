@@ -40,8 +40,8 @@ func _run() -> void:
 	assert(main.run.phase == main.RunState.Phase.RUNNING, "Countdown must enter gameplay")
 	assert(main.get_node("CanvasLayer/RaceHUD").visible and not main.get_node("CanvasLayer/CountdownScreen").visible, "The formal HUD must appear when driving")
 
-	main._stop_run_audio()
-	for player in [main.collision_audio, main.engine_audio, main.acceleration_audio, main.pickup_audio, main.warning_audio]:
+	main.audio_director.stop_run_audio()
+	for player in [main.audio_director.collision_audio, main.audio_director.engine_audio, main.audio_director.acceleration_audio, main.audio_director.pickup_audio, main.audio_director.warning_audio]:
 		player.stream = null
 	main.queue_free()
 	await process_frame

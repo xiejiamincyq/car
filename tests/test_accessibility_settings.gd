@@ -19,8 +19,8 @@ func _run() -> void:
 	main.screen_shake = Vector2(8.0, -5.0)
 	main._toggle_screen_shake()
 	assert(not main.screen_shake_enabled and main.screen_shake == Vector2.ZERO and not main.save_data.settings.screen_shake, "Disabling screen shake must stop active movement and persist")
-	main._stop_run_audio()
-	for player in [main.collision_audio, main.engine_audio, main.acceleration_audio, main.pickup_audio, main.warning_audio]:
+	main.audio_director.stop_run_audio()
+	for player in [main.audio_director.collision_audio, main.audio_director.engine_audio, main.audio_director.acceleration_audio, main.audio_director.pickup_audio, main.audio_director.warning_audio]:
 		player.stream = null
 	main.queue_free()
 	await process_frame

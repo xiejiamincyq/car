@@ -10,12 +10,12 @@ func _run() -> void:
 	root.add_child(main)
 	await process_frame
 	main.run.start()
-	main.engine_audio.play()
-	main.collision_audio.play()
+	main.audio_director.engine_audio.play()
+	main.audio_director.collision_audio.play()
 	main._notification(NOTIFICATION_APPLICATION_FOCUS_OUT)
 	assert(main.run.phase == main.RunState.Phase.PAUSED, "A running game must pause immediately when the window loses focus")
 	assert(main.pause_screen.visible, "Focus pause must expose an explicit confirmation screen")
-	for player in [main.collision_audio, main.engine_audio, main.acceleration_audio, main.pickup_audio, main.warning_audio]:
+	for player in [main.audio_director.collision_audio, main.audio_director.engine_audio, main.audio_director.acceleration_audio, main.audio_director.pickup_audio, main.audio_director.warning_audio]:
 		assert(not player.playing, "No gameplay audio may continue after focus loss")
 	main._notification(NOTIFICATION_APPLICATION_FOCUS_IN)
 	assert(main.run.phase == main.RunState.Phase.PAUSED, "Returning focus must never resume driving automatically")
@@ -34,8 +34,8 @@ func _run() -> void:
 	main._notification(NOTIFICATION_APPLICATION_FOCUS_IN)
 	assert(main.run.phase == main.RunState.Phase.PAUSED, "Countdown focus recovery must also require confirmation")
 
-	main._stop_run_audio()
-	for player in [main.collision_audio, main.engine_audio, main.acceleration_audio, main.pickup_audio, main.warning_audio]:
+	main.audio_director.stop_run_audio()
+	for player in [main.audio_director.collision_audio, main.audio_director.engine_audio, main.audio_director.acceleration_audio, main.audio_director.pickup_audio, main.audio_director.warning_audio]:
 		player.stream = null
 	main.queue_free()
 	await process_frame

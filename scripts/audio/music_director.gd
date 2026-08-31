@@ -11,6 +11,7 @@ var player: AudioStreamPlayer
 var current_track_id: StringName = &""
 var phase: Phase = Phase.STOPPED
 var phase_before_pause: Phase = Phase.STOPPED
+var muted := false
 var _fade_elapsed := 0.0
 var _fade_start_db := SILENT_DB
 
@@ -30,9 +31,9 @@ func begin_countdown(track_id: StringName, stream: AudioStream = null) -> void:
 	phase_before_pause = Phase.STOPPED
 	_fade_elapsed = 0.0
 	_fade_start_db = SILENT_DB
-	player.stream_paused = false
+	player.stream_paused = muted
 	player.volume_db = SILENT_DB
-	if player.stream != null and not player.playing:
+	if not muted and player.stream != null and not player.playing:
 		player.play()
 
 func begin_race() -> void:
@@ -40,9 +41,9 @@ func begin_race() -> void:
 		return
 	_ensure_player()
 	phase = Phase.PLAYING
-	player.stream_paused = false
+	player.stream_paused = muted
 	player.volume_db = 0.0
-	if player.stream != null and not player.playing:
+	if not muted and player.stream != null and not player.playing:
 		player.play()
 
 func pause() -> void:
@@ -60,8 +61,15 @@ func resume_countdown() -> void:
 	phase = Phase.FADING_IN
 	_fade_elapsed = 0.0
 	_fade_start_db = player.volume_db
-	player.stream_paused = false
-	if player.stream != null and not player.playing:
+	player.stream_paused = muted
+	if not muted and player.stream != null and not player.playing:
+		player.play()
+
+func set_muted(value: bool) -> void:
+	muted = value
+	_ensure_player()
+	player.stream_paused = muted or phase == Phase.PAUSED
+	if not player.stream_paused and phase != Phase.STOPPED and player.stream != null and not player.playing:
 		player.play()
 
 func finish() -> void:

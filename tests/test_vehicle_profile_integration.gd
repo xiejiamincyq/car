@@ -27,8 +27,8 @@ func _run() -> void:
 	main._start_new_run()
 	main._restart_run()
 	assert(main.current_vehicle.id == &"driftwing" and is_equal_approx(main.drive.steering_speed, VehicleCatalog.get_by_id(&"driftwing").steering_speed), "Restart must retain the selected vehicle")
-	main._stop_run_audio()
-	for player in [main.collision_audio, main.engine_audio, main.acceleration_audio, main.pickup_audio, main.warning_audio]:
+	main.audio_director.stop_run_audio()
+	for player in [main.audio_director.collision_audio, main.audio_director.engine_audio, main.audio_director.acceleration_audio, main.audio_director.pickup_audio, main.audio_director.warning_audio]:
 		player.stream = null
 	main.queue_free()
 	await process_frame

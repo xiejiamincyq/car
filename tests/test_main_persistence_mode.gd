@@ -11,8 +11,8 @@ func _run() -> void:
 			break
 	var main = current_scene
 	assert(main != null and main.persistence_enabled, "The real main-scene lifecycle must enable player persistence")
-	main._stop_run_audio()
-	for player in [main.collision_audio, main.engine_audio, main.acceleration_audio, main.pickup_audio, main.warning_audio]:
+	main.audio_director.stop_run_audio()
+	for player in [main.audio_director.collision_audio, main.audio_director.engine_audio, main.audio_director.acceleration_audio, main.audio_director.pickup_audio, main.audio_director.warning_audio]:
 		player.stream = null
 	main.queue_free()
 	await process_frame
