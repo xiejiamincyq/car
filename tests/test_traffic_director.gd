@@ -46,6 +46,51 @@ func _init() -> void:
 	director.update_vehicle(changer, 0.1, 500.0)
 	assert(changer.change_started, "Lane change must begin after its visible warning")
 	assert(changer.lane_position != float(changer.lane), "Lane change must move smoothly instead of jumping lanes")
+
+	var committed_change = TrafficDirector.new(741)
+	committed_change.set_viewport_height(720.0)
+	committed_change._player_lane = 0
+	committed_change._player_speed = 500.0
+	var committed_changer = committed_change.acquire_vehicle(TrafficDirector.Kind.SIGNAL_CHANGE, 1, 120.0, 200.0)
+	committed_changer.target_lane = 0
+	committed_change.vehicles.append(committed_changer)
+	committed_change.update_vehicle(committed_changer, 0.1, 500.0)
+	assert(committed_changer.warning_started, "A safe visible lane change must begin its warning")
+	for _step in range(20):
+		committed_change.update_vehicle(committed_changer, 0.05, 500.0)
+		if committed_changer.change_started:
+			break
+	assert(committed_changer.change_started, "Once an NPC displays a lane-change arrow, it must honor that warning instead of cancelling the plan")
+
+	var departing_change = TrafficDirector.new(742)
+	departing_change.set_viewport_height(720.0)
+	departing_change._player_lane = 1
+	departing_change._player_speed = 0.0
+	var departing_changer = departing_change.acquire_vehicle(TrafficDirector.Kind.SIGNAL_CHANGE, 0, TrafficDirector.LANE_CHANGE_WARNING_ENTRY_Y, 200.0)
+	departing_changer.target_lane = 1
+	departing_change.vehicles.append(departing_changer)
+	departing_change.update_vehicle(departing_changer, 0.1, 0.0)
+	assert(not departing_changer.warning_started, "An NPC leaving the visible area before it can move must not display a false lane-change warning")
+
+	var late_change = TrafficDirector.new(743)
+	late_change.set_viewport_height(720.0)
+	late_change._player_lane = 2
+	late_change._player_speed = 550.0
+	var late_changer = late_change.acquire_vehicle(TrafficDirector.Kind.SIGNAL_CHANGE, 1, 340.0, 220.0)
+	late_changer.target_lane = 2
+	late_change.vehicles.append(late_changer)
+	late_change.update_vehicle(late_changer, 0.1, 550.0)
+	assert(not late_changer.warning_started, "A lane change that cannot finish warning before the immediate collision corridor must stay unannounced")
+
+	var passed_change = TrafficDirector.new(744)
+	passed_change.set_viewport_height(720.0)
+	passed_change._player_lane = 2
+	passed_change._player_speed = 180.0
+	var passed_changer = passed_change.acquire_vehicle(TrafficDirector.Kind.SIGNAL_CHANGE, 1, TrackGeometry.player_y(720.0) + 60.0, 220.0)
+	passed_changer.target_lane = 2
+	passed_change.vehicles.append(passed_changer)
+	passed_change.update_vehicle(passed_changer, 0.1, 180.0)
+	assert(not passed_changer.warning_started, "An NPC that the player has already passed must not begin a new lane-change warning behind them")
 	var maximum_speed_timing = TrafficDirector.new(731)
 	maximum_speed_timing.set_viewport_height(720.0)
 	maximum_speed_timing._player_speed = GameConfig.MAX_SPEED

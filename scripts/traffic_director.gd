@@ -11,6 +11,7 @@ enum Kind { STEADY_SLOW, SIGNAL_CHANGE, FAST_OVERTAKE, TRUCK }
 const FAST_ROUTE_LOOKAHEAD := 620.0
 const FAST_ROUTE_WARNING_SECONDS := 0.60
 const FAST_LANE_CHANGE_SPEED := 3.4
+const NORMAL_LANE_CHANGE_SPEED := 2.4
 const LANE_CHANGE_WARNING_ENTRY_Y := 40.0
 const BRAKING_REACTION_SECONDS := 0.25
 const NORMAL_SPEED_MIN := 180.0
@@ -81,6 +82,9 @@ func tick(delta: float, player_speed: float, player_lane: int = 1) -> void:
 	for vehicle in vehicles:
 		if vehicle.kind != Kind.FAST_OVERTAKE:
 			_advance_normal_vehicle(vehicle, delta, player_speed)
+	for vehicle in vehicles:
+		if vehicle.kind != Kind.FAST_OVERTAKE:
+			_recheck_lane_change_commitment_after_advance(vehicle)
 	# A warning that was safe at the start of the frame can become unsafe after
 	# fixed-speed traffic advances. Recheck the resulting frame before keeping it.
 	if lane_events.state == LaneEventDirector.State.WARNING and not _closure_can_continue():
@@ -143,33 +147,35 @@ func configure_track(profile: Dictionary) -> void:
 	_apply_event_interval()
 
 func update_vehicle(vehicle: TrafficVehicle, delta: float, player_speed: float) -> void:
+	_player_speed = player_speed
 	if vehicle.kind == Kind.FAST_OVERTAKE:
 		_update_fast_overtaker(vehicle, delta, player_speed)
 		return
 	_update_normal_lane_behavior(vehicle, delta)
 	_advance_normal_vehicle(vehicle, delta, player_speed)
+	_recheck_lane_change_commitment_after_advance(vehicle)
 
 func _update_normal_lane_behavior(vehicle: TrafficVehicle, delta: float) -> void:
 	if vehicle.lane_change_enabled:
 		if lane_events.is_lane_blocked(vehicle.target_lane) and not vehicle.change_started:
 			_cancel_planned_lane_change(vehicle)
-		elif vehicle.warning_started and not vehicle.change_started and not _lane_change_preserves_player_options(vehicle):
+		elif vehicle.warning_started and not vehicle.change_started and not _lane_change_warning_preserves_immediate_player_options(vehicle):
 			_cancel_planned_lane_change(vehicle)
 		else:
 			var lane_change_is_visible := _is_lane_change_visible(vehicle)
-			if not vehicle.warning_started and lane_change_is_visible:
+			if not vehicle.warning_started and lane_change_is_visible and _can_commit_lane_change_warning(vehicle):
 				vehicle.warning_started = true
 				vehicle.warning_remaining = lane_change_warning_duration()
-			elif vehicle.warning_remaining > 0.0:
+			if vehicle.warning_remaining > 0.0:
 				vehicle.warning_remaining = maxf(0.0, vehicle.warning_remaining - delta)
-			if vehicle.warning_started and lane_change_is_visible and is_zero_approx(vehicle.warning_remaining) and not vehicle.change_started:
+			if vehicle.warning_started and is_zero_approx(vehicle.warning_remaining) and not vehicle.change_started:
 				if is_lane_change_safe(vehicle):
 					vehicle.change_started = true
 					lane_change_started_count += 1
 				else:
-					vehicle.warning_remaining = 0.35
+					_cancel_planned_lane_change(vehicle)
 		if vehicle.change_started:
-			vehicle.lane_position = move_toward(vehicle.lane_position, float(vehicle.target_lane), 2.4 * delta)
+			vehicle.lane_position = move_toward(vehicle.lane_position, float(vehicle.target_lane), NORMAL_LANE_CHANGE_SPEED * delta)
 			if is_equal_approx(vehicle.lane_position, float(vehicle.target_lane)):
 				vehicle.lane = vehicle.target_lane
 
@@ -180,7 +186,58 @@ func _advance_normal_vehicle(vehicle: TrafficVehicle, delta: float, player_speed
 func _lane_change_preserves_player_options(vehicle: TrafficVehicle) -> bool:
 	var player_y := TrackGeometry.player_y(_viewport_height)
 	var clearance := maxf(GameConfig.COLLISION_LONGITUDINAL_DISTANCE, _player_speed * 0.5)
-	return _player_keeps_escape_with_vehicle(vehicle, player_y, clearance)
+	return _player_keeps_escape_after_lane_change(vehicle, player_y, clearance)
+
+func _can_commit_lane_change_warning(vehicle: TrafficVehicle) -> bool:
+	return is_lane_change_safe(vehicle) \
+		and _lane_change_preserves_player_options(vehicle) \
+		and _lane_change_starts_while_visible(vehicle) \
+		and _lane_change_transition_is_safe(vehicle)
+
+func _lane_change_starts_while_visible(vehicle: TrafficVehicle) -> bool:
+	var relative_speed := (_player_speed - vehicle.cruise_speed) * GameConfig.ROAD_SCROLL_MULTIPLIER
+	var start_y := vehicle.y + relative_speed * lane_change_warning_duration()
+	return start_y >= LANE_CHANGE_WARNING_ENTRY_Y and start_y <= _viewport_height - vehicle.half_length
+
+func _lane_change_transition_is_safe(vehicle: TrafficVehicle) -> bool:
+	var player_y := TrackGeometry.player_y(_viewport_height)
+	if vehicle.y > player_y - collision_distance_for(vehicle):
+		return false
+	if _player_keeps_escape_with_candidate_lanes(
+		vehicle,
+		player_y,
+		GameConfig.COLLISION_LONGITUDINAL_DISTANCE,
+		player_y,
+		[vehicle.lane, vehicle.target_lane]
+	):
+		return true
+	var relative_speed := (_player_speed - vehicle.cruise_speed) * GameConfig.ROAD_SCROLL_MULTIPLIER
+	if relative_speed <= 0.0:
+		return true
+	return _lane_change_completion_y(vehicle) <= player_y - collision_distance_for(vehicle)
+
+func _recheck_lane_change_commitment_after_advance(vehicle: TrafficVehicle) -> void:
+	if vehicle.lane_change_enabled \
+		and vehicle.warning_started \
+		and not vehicle.change_started \
+		and not _lane_change_warning_preserves_immediate_player_options(vehicle):
+		_cancel_planned_lane_change(vehicle)
+
+func _lane_change_warning_preserves_immediate_player_options(vehicle: TrafficVehicle) -> bool:
+	var player_y := TrackGeometry.player_y(_viewport_height)
+	return _player_keeps_escape_with_candidate_lanes(
+		vehicle,
+		player_y,
+		GameConfig.COLLISION_LONGITUDINAL_DISTANCE,
+		vehicle.y,
+		[vehicle.lane, vehicle.target_lane]
+	)
+
+func _lane_change_completion_y(vehicle: TrafficVehicle) -> float:
+	var warning_time := vehicle.warning_remaining if vehicle.warning_started else lane_change_warning_duration()
+	var lateral_time := absf(float(vehicle.target_lane) - vehicle.lane_position) / NORMAL_LANE_CHANGE_SPEED
+	var relative_speed := (_player_speed - vehicle.cruise_speed) * GameConfig.ROAD_SCROLL_MULTIPLIER
+	return vehicle.y + relative_speed * (warning_time + lateral_time)
 
 func _cancel_planned_lane_change(vehicle: TrafficVehicle) -> void:
 	vehicle.target_lane = vehicle.lane
@@ -633,7 +690,16 @@ func _recycle_offscreen_vehicles() -> void:
 			active.append(vehicle)
 	vehicles = active
 
-func _player_keeps_escape_with_vehicle(candidate: TrafficVehicle, player_y: float, clearance: float) -> bool:
+func _player_keeps_escape_after_lane_change(candidate: TrafficVehicle, player_y: float, clearance: float) -> bool:
+	return _player_keeps_escape_with_candidate_lanes(
+		candidate,
+		player_y,
+		clearance,
+		_lane_change_completion_y(candidate),
+		[candidate.target_lane]
+	)
+
+func _player_keeps_escape_with_candidate_lanes(candidate: TrafficVehicle, player_y: float, clearance: float, candidate_y: float, candidate_lanes: Array[int]) -> bool:
 	var blocked: Array[int] = []
 	var event_clearance := maxf(clearance, _player_speed * 0.5)
 	for closed_lane in lane_events.navigation_blocked_lanes(player_y, event_clearance, _viewport_height):
@@ -648,10 +714,11 @@ func _player_keeps_escape_with_vehicle(candidate: TrafficVehicle, player_y: floa
 			blocked.append(other.lane)
 		if other.lane_change_enabled and other.warning_started and not blocked.has(other.target_lane):
 			blocked.append(other.target_lane)
-	if not blocked.has(candidate.lane):
-		blocked.append(candidate.lane)
-	if candidate.lane_change_enabled and candidate.warning_started and not blocked.has(candidate.target_lane):
-		blocked.append(candidate.target_lane)
+	var candidate_clearance := clearance + candidate.half_length - TrafficVehicle.NORMAL_HALF_LENGTH
+	if absf(candidate_y - player_y) < candidate_clearance:
+		for candidate_lane in candidate_lanes:
+			if not blocked.has(int(candidate_lane)):
+				blocked.append(int(candidate_lane))
 	for lane in range(lane_count):
 		if abs(lane - _player_lane) <= 1 and not blocked.has(lane):
 			return true

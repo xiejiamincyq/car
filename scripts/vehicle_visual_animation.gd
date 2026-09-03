@@ -68,8 +68,7 @@ static func traffic_lane_change_rotation(lane_position: float, target_lane: floa
 	var remaining_distance := absf(target_lane - lane_position)
 	if is_zero_approx(remaining_distance):
 		return 0.0
-	var progress := 1.0 - clampf(remaining_distance, 0.0, 1.0)
-	return sin(progress * PI) * MAX_STEERING_ROTATION * signf(target_lane - lane_position)
+	return steering_rotation(signf(target_lane - lane_position))
 
 static func traffic_lane_change_arrow_points(body_half_width: float, direction: float) -> PackedVector2Array:
 	var side := 1.0 if direction >= 0.0 else -1.0

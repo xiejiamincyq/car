@@ -34,8 +34,12 @@ func _capture() -> void:
 	main.run.distance = main.run.progression.finish_distance * distance_ratio
 	main.drive.speed = 200.0
 	main.high_contrast_enabled = high_contrast
-	if arguments.size() >= 7 and arguments[6] == "lane_change_preview":
-		_stage_lane_change_preview(main)
+	if arguments.size() >= 7:
+		match arguments[6]:
+			"lane_change_preview":
+				_stage_lane_change_preview(main)
+			"lane_change_motion_preview":
+				_stage_lane_change_motion_preview(main)
 	_hide_overlays(main)
 	main.race_hud.visible = true
 	main._update_hud()
@@ -69,6 +73,20 @@ func _stage_lane_change_preview(main: Node) -> void:
 	change_left.target_lane = 1
 	change_left.warning_started = true
 	change_left.warning_remaining = 0.5
+	main.traffic.vehicles.assign([change_right, change_left])
+
+func _stage_lane_change_motion_preview(main: Node) -> void:
+	main.traffic.reset()
+	var change_right = main.traffic.acquire_vehicle(TrafficDirector.Kind.SIGNAL_CHANGE, 0, 370.0, 200.0)
+	change_right.target_lane = 1
+	change_right.warning_started = true
+	change_right.change_started = true
+	change_right.lane_position = 0.35
+	var change_left = main.traffic.acquire_vehicle(TrafficDirector.Kind.SIGNAL_CHANGE, 2, 480.0, 200.0)
+	change_left.target_lane = 1
+	change_left.warning_started = true
+	change_left.change_started = true
+	change_left.lane_position = 1.65
 	main.traffic.vehicles.assign([change_right, change_left])
 
 func _hide_overlays(main: Node) -> void:
