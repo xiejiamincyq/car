@@ -13,6 +13,22 @@ static func acceleration_flame_length(time_seconds: float, throttle: float) -> f
 	var pulse := 0.5 + 0.5 * sin(time_seconds * 34.0)
 	return lerpf(8.0, 24.0, clampf(throttle, 0.0, 1.0) * (0.65 + pulse * 0.35))
 
+static func overdrive_flame_length(time_seconds: float, strength: float, reduced_flashing: bool) -> float:
+	if strength <= 0.0:
+		return 0.0
+	var pulse := 1.0 if reduced_flashing else 0.82 + 0.18 * sin(time_seconds * 42.0)
+	return lerpf(30.0, 54.0, clampf(strength, 0.0, 1.0)) * pulse
+
+static func overdrive_glow_alpha(time_seconds: float, strength: float, reduced_flashing: bool) -> float:
+	if strength <= 0.0:
+		return 0.0
+	var pulse := 1.0 if reduced_flashing else 0.78 + 0.22 * sin(time_seconds * 18.0)
+	return clampf(strength, 0.0, 1.0) * 0.34 * pulse
+
+static func overdrive_afterimage_alpha(layer_index: int, strength: float) -> float:
+	var layer_alpha := 0.22 if layer_index <= 0 else 0.10
+	return layer_alpha * clampf(strength, 0.0, 1.0)
+
 static func collision_rotation(remaining: float, direction: float) -> float:
 	if remaining <= 0.0:
 		return 0.0

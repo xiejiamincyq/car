@@ -40,6 +40,8 @@ func _capture() -> void:
 				_stage_lane_change_preview(main)
 			"lane_change_motion_preview":
 				_stage_lane_change_motion_preview(main)
+			"overdrive_preview":
+				_stage_overdrive_preview(main)
 	_hide_overlays(main)
 	main.race_hud.visible = true
 	main._update_hud()
@@ -88,6 +90,13 @@ func _stage_lane_change_motion_preview(main: Node) -> void:
 	change_left.change_started = true
 	change_left.lane_position = 1.65
 	main.traffic.vehicles.assign([change_right, change_left])
+
+func _stage_overdrive_preview(main: Node) -> void:
+	main.overdrive.observe_accelerate_press(main.run.max_fuel, main.run.max_fuel)
+	main.overdrive.tick(0.1, main.run.max_fuel)
+	main.overdrive.observe_accelerate_press(main.run.max_fuel, main.run.max_fuel)
+	main.overdrive.tick(main.GameConfig.OVERDRIVE_RAMP_IN_SECONDS, main.run.max_fuel)
+	main.drive.speed = main.drive.max_speed + main.GameConfig.OVERDRIVE_SPEED_BONUS
 
 func _hide_overlays(main: Node) -> void:
 	for control_name in [

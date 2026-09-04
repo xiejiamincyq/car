@@ -30,10 +30,12 @@ func _run() -> void:
 		assert(is_equal_approx(panel.color.a, 0.70), "The HUD background must use seventy-percent opacity")
 		assert(main.speed_label.get_theme_font_size("font_size") >= 32 and main.speed_label.get_theme_constant("outline_size") >= 3, "Primary HUD numbers must be larger and outlined")
 		assert(panel.get_global_rect().size.y > 0.0, "HUD panel must receive an actual layout rect")
-		for label_name in ["Speed", "ControlsHint", "Score", "Fuel", "RunStatus"]:
+		for label_name in ["Speed", "ControlsHint", "Score", "Fuel", "OverdriveLabel", "RunStatus"]:
 			var label: Control = main.get_node("CanvasLayer/RaceHUD/Rows/" + label_name)
 			assert(hud.get_global_rect().encloses(label.get_global_rect()), "%s HUD label must fit at %s" % [label_name, size])
 			assert(panel.get_global_rect().encloses(label.get_global_rect()), "%s must not be clipped by its panel at %s" % [label_name, size])
+		var overdrive_gauge: Control = main.get_node("CanvasLayer/RaceHUD/Rows/OverdriveGauge")
+		assert(panel.get_global_rect().encloses(overdrive_gauge.get_global_rect()), "Overdrive meter must fit inside the HUD at %s" % size)
 		main.run.end()
 		main._update_hud()
 		await process_frame

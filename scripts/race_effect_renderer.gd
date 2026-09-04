@@ -13,6 +13,45 @@ static func draw_acceleration(canvas: CanvasItem, car_center: Vector2, animation
 		canvas.draw_colored_polygon(PackedVector2Array([exhaust + Vector2(-5.0, 0.0), exhaust + Vector2(5.0, 0.0), exhaust + Vector2(0.0, flame_length)]), Color("ff5b37"))
 		canvas.draw_colored_polygon(PackedVector2Array([exhaust + Vector2(-2.5, 1.0), exhaust + Vector2(2.5, 1.0), exhaust + Vector2(0.0, flame_length * 0.65)]), Color("ffe66d"))
 
+static func draw_overdrive_speed_streaks(canvas: CanvasItem, viewport_size: Vector2, road_left: float, road_right: float, animation_time: float, strength: float, reduced_flashing: bool) -> void:
+	if strength <= 0.0:
+		return
+	var line_count := 4 if reduced_flashing else 8
+	var travel := fposmod(animation_time * 980.0, viewport_size.y + 180.0)
+	for index in range(line_count):
+		var side := -1.0 if index % 2 == 0 else 1.0
+		var rank := float(index / 2)
+		var edge_x := road_left if side < 0.0 else road_right
+		var x := edge_x - side * (34.0 + rank * 42.0)
+		var y := fposmod(travel + index * 109.0, viewport_size.y + 180.0) - 90.0
+		var length := lerpf(44.0, 126.0, strength)
+		var color := Color(0.22, 0.94, 1.0, (0.16 + rank * 0.025) * strength)
+		canvas.draw_line(Vector2(x, y - length), Vector2(x, y), color, 3.0)
+
+static func draw_overdrive_ignition(canvas: CanvasItem, car_center: Vector2, animation_time: float, strength: float, reduced_flashing: bool) -> void:
+	var flame_length := VehicleVisualAnimation.overdrive_flame_length(animation_time, strength, reduced_flashing)
+	if flame_length <= 0.0:
+		return
+	var glow_alpha := VehicleVisualAnimation.overdrive_glow_alpha(animation_time, strength, reduced_flashing)
+	canvas.draw_circle(car_center, 48.0 + strength * 8.0, Color(0.18, 0.92, 1.0, glow_alpha * 0.42))
+	canvas.draw_arc(car_center, 43.0 + strength * 5.0, 0.0, TAU, 30, Color(0.35, 0.98, 1.0, glow_alpha), 3.0)
+	for offset_x in [-19.0, 19.0]:
+		var exhaust := car_center + Vector2(offset_x, 42.0)
+		canvas.draw_colored_polygon(PackedVector2Array([exhaust + Vector2(-7.0, 0.0), exhaust + Vector2(7.0, 0.0), exhaust + Vector2(0.0, flame_length)]), Color(0.10, 0.90, 1.0, 0.88 * strength))
+		canvas.draw_colored_polygon(PackedVector2Array([exhaust + Vector2(-4.0, 1.0), exhaust + Vector2(4.0, 1.0), exhaust + Vector2(0.0, flame_length * 0.74)]), Color(1.0, 0.43, 0.10, 0.96 * strength))
+		canvas.draw_colored_polygon(PackedVector2Array([exhaust + Vector2(-2.0, 2.0), exhaust + Vector2(2.0, 2.0), exhaust + Vector2(0.0, flame_length * 0.48)]), Color(1.0, 0.93, 0.46, strength))
+
+static func draw_overdrive_afterimages(canvas: CanvasItem, texture: Texture2D, car_center: Vector2, player_size: Vector2, rotation: float, scale: Vector2, screen_offset: Vector2, strength: float) -> void:
+	if texture == null or strength <= 0.0:
+		return
+	var player_rect := Rect2(-player_size * 0.5, player_size)
+	for layer_index in range(1, -1, -1):
+		var trail_offset := Vector2(0.0, 27.0 * float(layer_index + 1))
+		var alpha := VehicleVisualAnimation.overdrive_afterimage_alpha(layer_index, strength)
+		canvas.draw_set_transform(screen_offset + car_center + trail_offset, rotation, scale)
+		canvas.draw_texture_rect(texture, player_rect, false, Color(0.35, 0.95, 1.0, alpha))
+	canvas.draw_set_transform(screen_offset)
+
 static func draw_braking(canvas: CanvasItem, car_center: Vector2, animation_time: float, strength: float, speed: float, maximum_speed: float) -> void:
 	var light_alpha := VehicleVisualAnimation.brake_light_alpha(animation_time, strength)
 	if light_alpha <= 0.0:

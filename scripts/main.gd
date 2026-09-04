@@ -81,6 +81,8 @@ var score_label: Label
 var fuel_label: Label
 var run_status_label: Label
 var fuel_gauge: ProgressBar
+var overdrive_label: Label
+var overdrive_gauge: ProgressBar
 var progress_gauge: ProgressBar
 var event_plate: TextureRect
 var overlay_label: Label
@@ -150,6 +152,8 @@ func _ready() -> void:
 	fuel_label = $CanvasLayer/RaceHUD/Rows/Fuel
 	run_status_label = $CanvasLayer/RaceHUD/Rows/RunStatus
 	fuel_gauge = $CanvasLayer/RaceHUD/Rows/FuelGauge
+	overdrive_label = $CanvasLayer/RaceHUD/Rows/OverdriveLabel
+	overdrive_gauge = $CanvasLayer/RaceHUD/Rows/OverdriveGauge
 	progress_gauge = $CanvasLayer/RaceHUD/Rows/ProgressGauge
 	event_plate = $CanvasLayer/EventPlate
 	fuel_gauge.max_value = GameConfig.MAX_FUEL
@@ -321,6 +325,8 @@ func _draw() -> void:
 	var road_color := VisualStyle.road_color_for_transition(feedback.previous_stage, feedback.current_stage, feedback.stage_transition_mix, high_contrast_enabled)
 	draw_rect(Rect2(road_left, 0.0, GameConfig.ROAD_HALF_WIDTH * 2.0, viewport_size.y), road_color)
 	RaceEffectRenderer.draw_speed_lines(self, viewport_size, drive.speed, drive.max_speed, visual_animation_time)
+	var overdrive_strength := overdrive.intensity()
+	RaceEffectRenderer.draw_overdrive_speed_streaks(self, viewport_size, road_left, road_right, visual_animation_time, overdrive_strength, reduced_flashing_enabled)
 	draw_line(Vector2(road_left, 0.0), Vector2(road_left, viewport_size.y), edge_color, 8.0)
 	draw_line(Vector2(road_right, 0.0), Vector2(road_right, viewport_size.y), edge_color, 8.0)
 	for lane_index in range(1, GameConfig.ROAD_LANE_COUNT):
@@ -338,7 +344,10 @@ func _draw() -> void:
 	var player_glow := VisualStyle.HIGH_CONTRAST_PLAYER_GLOW if high_contrast_enabled else VisualStyle.PLAYER_GLOW
 	var player_color := player_body if not _is_player_flashing() else player_glow
 	draw_circle(car_center, 39.0, Color(player_color, 0.16))
-	RaceEffectRenderer.draw_acceleration(self, car_center, visual_animation_time, acceleration_visual_strength)
+	if overdrive_strength > 0.0:
+		RaceEffectRenderer.draw_overdrive_ignition(self, car_center, visual_animation_time, overdrive_strength, reduced_flashing_enabled)
+	else:
+		RaceEffectRenderer.draw_acceleration(self, car_center, visual_animation_time, acceleration_visual_strength)
 	var fuel_effect_color := VisualStyle.HIGH_CONTRAST_FUEL if high_contrast_enabled else VisualStyle.FUEL_GLOW
 	RaceEffectRenderer.draw_pickup_bursts(self, feedback, fuel_effect_color)
 	var player_size := VehicleVisualAnimation.corrected_vehicle_size(current_player_texture.get_size())
@@ -347,6 +356,7 @@ func _draw() -> void:
 	var impact_rotation := VehicleVisualAnimation.collision_rotation(collision_visual_remaining, collision_visual_direction)
 	var steering_rotation := VehicleVisualAnimation.steering_rotation(steering_visual_strength)
 	var impact_scale := VehicleVisualAnimation.collision_scale(collision_visual_remaining)
+	RaceEffectRenderer.draw_overdrive_afterimages(self, current_player_texture, car_center, player_size, impact_rotation + steering_rotation, impact_scale, screen_shake, overdrive_strength)
 	draw_set_transform(screen_shake + car_center, impact_rotation + steering_rotation, impact_scale)
 	draw_texture_rect(current_player_texture, player_rect, false, player_modulate)
 	draw_set_transform(screen_shake)
@@ -1011,11 +1021,27 @@ func _update_hud() -> void:
 	fuel_label.modulate = Color("ff6b6b") if feedback.low_fuel_tier == GameFeedback.FuelTier.CRITICAL else (Color("ffd75a") if feedback.low_fuel_tier == GameFeedback.FuelTier.LOW else Color.WHITE)
 	fuel_gauge.value = clampf(run.fuel, 0.0, GameConfig.MAX_FUEL)
 	fuel_gauge.modulate = fuel_label.modulate
+	match overdrive.state:
+		OverdriveController.State.ACTIVE:
+			overdrive_label.text = _text("hud.overdrive.active", ["%.1f" % overdrive.active_remaining])
+			overdrive_gauge.value = clampf(overdrive.active_remaining / GameConfig.OVERDRIVE_DURATION_SECONDS, 0.0, 1.0)
+			overdrive_label.modulate = Color.WHITE
+			overdrive_gauge.modulate = Color.WHITE
+		OverdriveController.State.COOLDOWN:
+			overdrive_label.text = _text("hud.overdrive.cooldown", ["%.1f" % overdrive.cooldown_remaining])
+			overdrive_gauge.value = 1.0 - clampf(overdrive.cooldown_remaining / GameConfig.OVERDRIVE_COOLDOWN_SECONDS, 0.0, 1.0)
+			overdrive_label.modulate = Color(0.62, 0.72, 0.78, 1.0)
+			overdrive_gauge.modulate = Color(0.42, 0.52, 0.58, 0.75)
+		_:
+			overdrive_label.text = _text("hud.overdrive.ready")
+			overdrive_gauge.value = 0.0
+			overdrive_label.modulate = Color(0.45, 0.95, 1.0, 0.82)
+			overdrive_gauge.modulate = Color(0.45, 0.95, 1.0, 0.58)
 	progress_gauge.value = clampf(run.distance / GameConfig.RACE_FINISH_DISTANCE * 100.0, 0.0, 100.0)
 	var combo_time := "%.1fs" % run.combo.remaining_seconds if run.combo.event_count > 0 else _text("hud.ready")
 	run_status_label.text = _text("hud.status", [run.difficulty_stage + 1, run.combo.multiplier, combo_time, _phase_text()])
 	controls_hint_label.text = _text("hud.controls", [current_run_seed])
-	for label in [speed_label, controls_hint_label, score_label, fuel_label, run_status_label]:
+	for label in [speed_label, controls_hint_label, score_label, fuel_label, overdrive_label, run_status_label]:
 		label.scale = Vector2.ONE * scale
 	var result_was_visible := result_screen.visible
 	race_hud.visible = run.phase == RunState.Phase.RUNNING or run.phase == RunState.Phase.PAUSED

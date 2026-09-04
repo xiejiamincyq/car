@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene load_steps=13 format=3]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
 [ext_resource type="Texture2D" path="res://assets/neon-coast-menu.png" id="2_menu"]
@@ -25,6 +25,18 @@ corner_radius_bottom_left = 3
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_progress_fill"]
 bg_color = Color(0.12, 0.82, 0.96, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_overdrive_fill"]
+bg_color = Color(0.12, 0.88, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.53, 0.12, 1)
 corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
@@ -60,7 +72,7 @@ mouse_filter = 2
 [node name="RaceHUD" type="Control" parent="CanvasLayer"]
 visible = false
 offset_right = 500.0
-offset_bottom = 232.0
+offset_bottom = 266.0
 
 [node name="Panel" type="ColorRect" parent="CanvasLayer/RaceHUD"]
 layout_mode = 1
@@ -139,6 +151,22 @@ custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 theme_override_styles/background = SubResource("StyleBox_gauge_background")
 theme_override_styles/fill = SubResource("StyleBox_fuel_fill")
+show_percentage = false
+mouse_filter = 2
+
+[node name="OverdriveLabel" type="Label" parent="CanvasLayer/RaceHUD/Rows"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.95, 1, 1)
+theme_override_colors/font_outline_color = Color(0.01, 0.04, 0.08, 0.95)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 16
+
+[node name="OverdriveGauge" type="ProgressBar" parent="CanvasLayer/RaceHUD/Rows"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+max_value = 1.0
+theme_override_styles/background = SubResource("StyleBox_gauge_background")
+theme_override_styles/fill = SubResource("StyleBox_overdrive_fill")
 show_percentage = false
 mouse_filter = 2
 
