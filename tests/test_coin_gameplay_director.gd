@@ -9,6 +9,7 @@ func _init() -> void:
 	var director := CoinGameplayDirector.new(611, GameConfig.ROAD_LANE_COUNT)
 	assert(director.tick(0.0, 0.0, 1, 720.0, [], [], [], []), "A new run must expose its first coin route without requiring elapsed time")
 	assert(director.coins.size() >= 6 and director.coins.size() <= 12, "The gameplay director must publish one bounded route")
+	assert(not director.guidance_reserved_lanes().is_empty(), "An active route must expose its destination lane for traffic and construction planning")
 	var initial_signature := CoinRouteDirector.route_signature(director.coins)
 	var first_y: float = director.coins[0].y
 	director.tick(0.5, 400.0, 1, 720.0, [], [], [], [])

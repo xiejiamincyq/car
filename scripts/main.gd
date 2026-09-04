@@ -306,6 +306,7 @@ func _process(delta: float) -> void:
 	traffic.set_difficulty_stage(run.difficulty_stage)
 	traffic.set_viewport_height(get_viewport_rect().size.y)
 	traffic.set_spawn_exclusion_zones(_world_spawn_exclusion_zones())
+	traffic.set_guidance_reserved_lanes(coin_director.guidance_reserved_lanes())
 	traffic.tick(delta, drive.speed, _player_lane())
 	audio_director.update_lane_event_cue(traffic.lane_events.state, LaneEventDirector.State.WARNING, LaneEventDirector.State.CLOSED)
 	_check_construction_collisions()

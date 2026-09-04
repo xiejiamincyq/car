@@ -24,6 +24,15 @@ func _init() -> void:
 			assert(first.blocked_lane() == 0 or first.blocked_lane() == GameConfig.ROAD_LANE_COUNT - 1, "A single construction diversion must close an outside lane for a readable merge")
 	assert(first.event_history() == second.event_history() and not first.event_history().is_empty(), "A fixed seed must reproduce the same closure timing and lanes")
 
+	var guided_closure := LaneEventDirector.new(74, GameConfig.ROAD_LANE_COUNT, true)
+	guided_closure.set_guidance_reserved_lanes([0])
+	guided_closure.tick(120.0, 2, 1, 560.0)
+	assert(guided_closure.state == LaneEventDirector.State.WARNING and not guided_closure.closed_lanes().has(0), "A scheduled closure must preserve the active coin route destination lane")
+	var fully_reserved := LaneEventDirector.new(75, GameConfig.ROAD_LANE_COUNT, true)
+	fully_reserved.set_guidance_reserved_lanes([0, 2])
+	fully_reserved.tick(120.0, 2, 1, 560.0)
+	assert(fully_reserved.state == LaneEventDirector.State.IDLE, "A construction event must wait when every readable outside lane is reserved by the player and coin guidance")
+
 	var construction := LaneEventDirector.new(131, GameConfig.ROAD_LANE_COUNT, true)
 	construction.begin_warning(0)
 	assert(construction.closed_lanes() == [0], "A single construction event must expose its complete closed-lane set")

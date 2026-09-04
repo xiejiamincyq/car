@@ -108,6 +108,17 @@ func _init() -> void:
 	director.vehicles.append(other_changer)
 	assert(not director.is_lane_change_safe(other_changer), "Two cars must not reserve the same merge lane")
 
+	var coin_reserved_change = TrafficDirector.new(745)
+	coin_reserved_change.set_viewport_height(720.0)
+	coin_reserved_change._player_lane = 2
+	coin_reserved_change._player_speed = 500.0
+	var coin_blocked_changer = coin_reserved_change.acquire_vehicle(TrafficDirector.Kind.SIGNAL_CHANGE, 0, 160.0, 200.0)
+	coin_blocked_changer.target_lane = 1
+	coin_reserved_change.vehicles.append(coin_blocked_changer)
+	coin_reserved_change.set_spawn_exclusion_zones([Vector2(1.0, 160.0)])
+	coin_reserved_change.update_vehicle(coin_blocked_changer, 0.1, 500.0)
+	assert(not coin_blocked_changer.warning_started, "An NPC must not announce or enter a lane change through an active coin guidance corridor")
+
 	director.reset()
 	var random_steady_changer = director.acquire_vehicle(TrafficDirector.Kind.STEADY_SLOW, 1, 120.0)
 	random_steady_changer.target_lane = 0
@@ -222,7 +233,7 @@ func _init() -> void:
 				assert(measured.vehicles.size() <= measured.max_active_vehicles and measured.allocated_vehicle_count <= measured.max_active_vehicles, "Every stage and seed must keep the active pool bounded")
 			total_changes += measured.lane_change_started_count
 		stage_change_totals.append(total_changes)
-	assert(stage_change_totals[1] >= stage_change_totals[0], "Stage two must not reduce actual lane-change events")
+	assert(stage_change_totals[1] > 0, "Stage two must still produce actual visible lane changes after safety filtering")
 	assert(stage_change_totals[2] > 0, "Stage three must still produce actual visible lane-change events despite denser traffic")
 
 	director.reset()

@@ -5,6 +5,7 @@ const TrafficVehicle = preload("res://scripts/traffic_vehicle.gd")
 const TrackGeometry = preload("res://scripts/track_geometry.gd")
 const GameConfig = preload("res://scripts/game_config.gd")
 const LaneEventDirector = preload("res://scripts/lane_event_director.gd")
+const TrafficSafetyPolicy = preload("res://scripts/traffic_safety_policy.gd")
 
 enum Kind { STEADY_SLOW, SIGNAL_CHANGE, FAST_OVERTAKE, TRUCK }
 
@@ -82,6 +83,7 @@ func tick(delta: float, player_speed: float, player_lane: int = 1) -> void:
 	for vehicle in vehicles:
 		if vehicle.kind != Kind.FAST_OVERTAKE:
 			_advance_normal_vehicle(vehicle, delta, player_speed)
+	_resolve_fast_safety_after_normal_advance()
 	for vehicle in vehicles:
 		if vehicle.kind != Kind.FAST_OVERTAKE:
 			_recheck_lane_change_commitment_after_advance(vehicle)
@@ -133,6 +135,9 @@ func set_viewport_height(viewport_height: float) -> void:
 func set_spawn_exclusion_zones(zones: Array[Vector2]) -> void:
 	_spawn_exclusion_zones.assign(zones)
 
+func set_guidance_reserved_lanes(lanes: Array[int]) -> void:
+	lane_events.set_guidance_reserved_lanes(lanes)
+
 func configure_difficulty(profile: Dictionary) -> void:
 	spawn_interval_multiplier = maxf(0.1, float(profile.traffic_interval_multiplier))
 	difficulty_event_interval_multiplier = maxf(0.1, float(profile.event_interval_multiplier))
@@ -157,9 +162,14 @@ func update_vehicle(vehicle: TrafficVehicle, delta: float, player_speed: float) 
 
 func _update_normal_lane_behavior(vehicle: TrafficVehicle, delta: float) -> void:
 	if vehicle.lane_change_enabled:
+		var lateral_delta := delta
 		if lane_events.is_lane_blocked(vehicle.target_lane) and not vehicle.change_started:
 			_cancel_planned_lane_change(vehicle)
-		elif vehicle.warning_started and not vehicle.change_started and not _lane_change_warning_preserves_immediate_player_options(vehicle):
+		elif vehicle.warning_started and not vehicle.change_started and (
+			not _lane_change_warning_preserves_immediate_player_options(vehicle)
+			or _lane_change_overlaps_guidance(vehicle)
+			or _lane_change_creates_wall(vehicle)
+		):
 			_cancel_planned_lane_change(vehicle)
 		else:
 			var lane_change_is_visible := _is_lane_change_visible(vehicle)
@@ -167,7 +177,9 @@ func _update_normal_lane_behavior(vehicle: TrafficVehicle, delta: float) -> void
 				vehicle.warning_started = true
 				vehicle.warning_remaining = lane_change_warning_duration()
 			if vehicle.warning_remaining > 0.0:
+				var warning_before_tick := vehicle.warning_remaining
 				vehicle.warning_remaining = maxf(0.0, vehicle.warning_remaining - delta)
+				lateral_delta = maxf(0.0, delta - warning_before_tick)
 			if vehicle.warning_started and is_zero_approx(vehicle.warning_remaining) and not vehicle.change_started:
 				if is_lane_change_safe(vehicle):
 					vehicle.change_started = true
@@ -175,9 +187,9 @@ func _update_normal_lane_behavior(vehicle: TrafficVehicle, delta: float) -> void
 				else:
 					_cancel_planned_lane_change(vehicle)
 		if vehicle.change_started:
-			vehicle.lane_position = move_toward(vehicle.lane_position, float(vehicle.target_lane), NORMAL_LANE_CHANGE_SPEED * delta)
+			vehicle.lane_position = move_toward(vehicle.lane_position, float(vehicle.target_lane), NORMAL_LANE_CHANGE_SPEED * lateral_delta)
 			if is_equal_approx(vehicle.lane_position, float(vehicle.target_lane)):
-				vehicle.lane = vehicle.target_lane
+				_complete_normal_lane_change(vehicle)
 
 func _advance_normal_vehicle(vehicle: TrafficVehicle, delta: float, player_speed: float) -> void:
 	var relative_speed := player_speed - vehicle.cruise_speed
@@ -192,7 +204,9 @@ func _can_commit_lane_change_warning(vehicle: TrafficVehicle) -> bool:
 	return is_lane_change_safe(vehicle) \
 		and _lane_change_preserves_player_options(vehicle) \
 		and _lane_change_starts_while_visible(vehicle) \
-		and _lane_change_transition_is_safe(vehicle)
+		and _lane_change_transition_is_safe(vehicle) \
+		and not _lane_change_overlaps_guidance(vehicle) \
+		and not _lane_change_creates_wall(vehicle)
 
 func _lane_change_starts_while_visible(vehicle: TrafficVehicle) -> bool:
 	var relative_speed := (_player_speed - vehicle.cruise_speed) * GameConfig.ROAD_SCROLL_MULTIPLIER
@@ -220,7 +234,11 @@ func _recheck_lane_change_commitment_after_advance(vehicle: TrafficVehicle) -> v
 	if vehicle.lane_change_enabled \
 		and vehicle.warning_started \
 		and not vehicle.change_started \
-		and not _lane_change_warning_preserves_immediate_player_options(vehicle):
+		and (
+			not _lane_change_warning_preserves_immediate_player_options(vehicle)
+			or _lane_change_overlaps_guidance(vehicle)
+			or _lane_change_creates_wall(vehicle)
+		):
 		_cancel_planned_lane_change(vehicle)
 
 func _lane_change_warning_preserves_immediate_player_options(vehicle: TrafficVehicle) -> bool:
@@ -234,13 +252,24 @@ func _lane_change_warning_preserves_immediate_player_options(vehicle: TrafficVeh
 	)
 
 func _lane_change_completion_y(vehicle: TrafficVehicle) -> float:
+	var relative_speed := (_player_speed - vehicle.cruise_speed) * GameConfig.ROAD_SCROLL_MULTIPLIER
+	return vehicle.y + relative_speed * _lane_change_remaining_seconds(vehicle)
+
+func _lane_change_remaining_seconds(vehicle: TrafficVehicle) -> float:
 	var warning_time := vehicle.warning_remaining if vehicle.warning_started else lane_change_warning_duration()
 	var lateral_time := absf(float(vehicle.target_lane) - vehicle.lane_position) / NORMAL_LANE_CHANGE_SPEED
-	var relative_speed := (_player_speed - vehicle.cruise_speed) * GameConfig.ROAD_SCROLL_MULTIPLIER
-	return vehicle.y + relative_speed * (warning_time + lateral_time)
+	return warning_time + lateral_time
 
 func _cancel_planned_lane_change(vehicle: TrafficVehicle) -> void:
 	vehicle.target_lane = vehicle.lane
+	vehicle.lane_position = float(vehicle.lane)
+	vehicle.lane_change_enabled = false
+	vehicle.warning_started = false
+	vehicle.warning_remaining = 0.0
+	vehicle.change_started = false
+
+func _complete_normal_lane_change(vehicle: TrafficVehicle) -> void:
+	vehicle.lane = vehicle.target_lane
 	vehicle.lane_position = float(vehicle.lane)
 	vehicle.lane_change_enabled = false
 	vehicle.warning_started = false
@@ -251,7 +280,7 @@ func _update_fast_overtaker(vehicle: TrafficVehicle, delta: float, player_speed:
 	var relative_speed: float = (player_speed - vehicle.cruise_speed) * GameConfig.ROAD_SCROLL_MULTIPLIER
 	var staging_y: float = TrackGeometry.fast_overtake_staging_y(_viewport_height)
 	if vehicle.y > staging_y:
-		vehicle.y = maxf(staging_y, vehicle.y + relative_speed * delta)
+		vehicle.y = _constrain_fast_overtaker_y(vehicle, maxf(staging_y, vehicle.y + relative_speed * delta))
 		if vehicle.y <= staging_y:
 			vehicle.overtake_warning_remaining = 1.0
 		return
@@ -306,6 +335,8 @@ func _best_fast_route_lane(overtaker: TrafficVehicle) -> int:
 			continue
 		if not _fast_merge_lane_is_clear(overtaker, candidate_lane):
 			continue
+		if _fast_lane_change_overlaps_guidance(overtaker, candidate_lane) or _fast_lane_change_creates_wall(overtaker, candidate_lane):
+			continue
 		if not _fast_route_preserves_player_options(overtaker, candidate_lane):
 			continue
 		var clearance: float = _fast_forward_clearance(overtaker, candidate_lane)
@@ -344,6 +375,20 @@ func _begin_fast_lane_change(overtaker: TrafficVehicle, target_lane: int) -> voi
 	overtaker.warning_started = true
 	overtaker.warning_remaining = FAST_ROUTE_WARNING_SECONDS
 	overtaker.change_started = false
+
+func _fast_lane_change_overlaps_guidance(overtaker: TrafficVehicle, target_lane: int) -> bool:
+	return _overlaps_exclusion_at(target_lane, overtaker.y, overtaker.half_length) \
+		or _overlaps_exclusion_at(target_lane, _fast_lane_change_completion_y(overtaker, target_lane), overtaker.half_length)
+
+func _fast_lane_change_creates_wall(overtaker: TrafficVehicle, target_lane: int) -> bool:
+	var reserved: Array[int] = [overtaker.lane, target_lane]
+	return TrafficSafetyPolicy.would_create_full_lane_wall(vehicles, overtaker, lane_count, overtaker.y, reserved) \
+		or TrafficSafetyPolicy.would_create_full_lane_wall(vehicles, overtaker, lane_count, _fast_lane_change_completion_y(overtaker, target_lane), reserved)
+
+func _fast_lane_change_completion_y(overtaker: TrafficVehicle, target_lane: int) -> float:
+	var lateral_time := absf(float(target_lane) - overtaker.lane_position) / FAST_LANE_CHANGE_SPEED
+	var relative_speed := (_player_speed - overtaker.cruise_speed) * GameConfig.ROAD_SCROLL_MULTIPLIER
+	return overtaker.y + relative_speed * (FAST_ROUTE_WARNING_SECONDS + lateral_time)
 
 func _advance_fast_lane_change(overtaker: TrafficVehicle, delta: float) -> void:
 	if lane_events.is_lane_blocked(overtaker.target_lane) and not overtaker.change_started:
@@ -386,15 +431,53 @@ func _cancel_fast_lane_change(overtaker: TrafficVehicle) -> void:
 	overtaker.change_started = false
 
 func _constrain_fast_overtaker_y(overtaker: TrafficVehicle, proposed_y: float) -> float:
-	var constrained_y: float = proposed_y
+	var constrained_y := _body_safe_fast_y(overtaker, proposed_y)
+	var wall_safe_y := TrafficSafetyPolicy.rear_y_outside_full_wall(_safety_relevant_vehicles(), overtaker, lane_count, constrained_y, TrafficSafetyPolicy.reserved_lanes(overtaker))
+	constrained_y = maxf(constrained_y, wall_safe_y)
 	for other in vehicles:
-		if other == overtaker or other.kind == Kind.FAST_OVERTAKE or other.lane != overtaker.lane or other.y >= overtaker.y:
+		if other == overtaker or other.lane != overtaker.lane or other.y >= overtaker.y:
 			continue
 		var required_gap: float = minimum_lane_gap + overtaker.half_length + other.half_length
 		constrained_y = maxf(constrained_y, other.y + required_gap)
 	if constrained_y < overtaker.y and _player_escape_count_around_fast_at_y(overtaker, constrained_y) == 0:
 		return overtaker.y
-	return minf(overtaker.y, constrained_y)
+	return constrained_y
+
+func _body_safe_fast_y(overtaker: TrafficVehicle, proposed_y: float) -> float:
+	var safe_y := proposed_y
+	var lane_width: float = GameConfig.ROAD_HALF_WIDTH * 2.0 / float(lane_count)
+	for _iteration in range(maxi(1, vehicles.size())):
+		var changed := false
+		for other in _safety_relevant_vehicles():
+			if other == overtaker:
+				continue
+			var lateral_distance := absf(overtaker.lane_position - other.lane_position) * lane_width
+			if lateral_distance >= overtaker.half_width + other.half_width + TrafficSafetyPolicy.BODY_MARGIN:
+				continue
+			var required_gap: float = overtaker.half_length + other.half_length + TrafficSafetyPolicy.BODY_MARGIN + 0.5
+			if absf(safe_y - other.y) >= required_gap:
+				continue
+			safe_y = other.y - required_gap if safe_y <= other.y else other.y + required_gap
+			changed = true
+		if not changed:
+			break
+	return safe_y
+
+func _resolve_fast_safety_after_normal_advance() -> void:
+	# Normal traffic can enter a lane after the fast-vehicle phase. Re-evaluate
+	# until every fast vehicle is stable because moving one rearward may affect
+	# the next fast vehicle's safe following position.
+	for _iteration in range(maxi(1, vehicles.size())):
+		var changed := false
+		for vehicle in vehicles:
+			if vehicle.kind != Kind.FAST_OVERTAKE:
+				continue
+			var safe_y := _constrain_fast_overtaker_y(vehicle, vehicle.y)
+			if not is_equal_approx(safe_y, vehicle.y):
+				vehicle.y = safe_y
+				changed = true
+		if not changed:
+			break
 
 func is_lane_valid(lane: int) -> bool:
 	return lane >= 0 and lane < lane_count
@@ -412,7 +495,22 @@ func is_lane_change_safe(vehicle: TrafficVehicle) -> bool:
 		if other.lane == vehicle.target_lane or reserves_target:
 			if not vehicles_have_minimum_gap(vehicle, other) or not vehicles_keep_or_open_gap(vehicle, other):
 				return false
-	return true
+	return not _lane_change_overlaps_guidance(vehicle) and not _lane_change_creates_wall(vehicle)
+
+func has_full_lane_wall() -> bool:
+	return TrafficSafetyPolicy.has_full_lane_wall(_safety_relevant_vehicles(), lane_count)
+
+func has_vehicle_overlap() -> bool:
+	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / float(lane_count)
+	return TrafficSafetyPolicy.has_body_overlap(_safety_relevant_vehicles(), lane_width)
+
+func _safety_relevant_vehicles() -> Array:
+	var relevant: Array = []
+	var maximum_y := TrackGeometry.normal_recycle_y(_viewport_height)
+	for vehicle in vehicles:
+		if vehicle.y <= maximum_y:
+			relevant.append(vehicle)
+	return relevant
 
 func all_active_spawns_are_fair() -> bool:
 	for vehicle in vehicles:
@@ -573,6 +671,8 @@ func _can_spawn_candidate(candidate: TrafficVehicle, player_speed: float, player
 		return false
 	if _overlaps_spawn_exclusion(candidate):
 		return false
+	if TrafficSafetyPolicy.would_create_full_lane_wall(vehicles, candidate, lane_count, candidate.y, [candidate.lane]):
+		return false
 	for vehicle in vehicles:
 		var shares_longitudinal_corridor: bool = vehicle.lane == candidate.lane
 		var reserves_adjacent_wall_space: bool = candidate.kind != Kind.FAST_OVERTAKE and vehicle.kind != Kind.FAST_OVERTAKE and abs(vehicle.lane - candidate.lane) <= 1
@@ -582,16 +682,48 @@ func _can_spawn_candidate(candidate: TrafficVehicle, player_speed: float, player
 			if candidate.kind != Kind.FAST_OVERTAKE and vehicle.kind != Kind.FAST_OVERTAKE and not vehicles_keep_safe_gap_until_recycle(vehicle, candidate, player_speed):
 				return false
 		elif reserves_adjacent_wall_space:
-			if not vehicles_have_minimum_gap(vehicle, candidate):
+			if not vehicles_have_minimum_gap(vehicle, candidate) or not vehicles_keep_safe_gap_until_recycle(vehicle, candidate, player_speed):
 				return false
 	return _has_escape_lane(candidate, player_lane, player_speed)
 
 func _overlaps_spawn_exclusion(candidate: TrafficVehicle) -> bool:
-	var clearance := GameConfig.FUEL_SPAWN_SAFETY_DISTANCE + candidate.half_length - TrafficVehicle.NORMAL_HALF_LENGTH
+	return _overlaps_exclusion_at(candidate.lane, candidate.y, candidate.half_length)
+
+func _overlaps_exclusion_at(lane: int, y: float, half_length: float) -> bool:
+	var clearance := GameConfig.FUEL_SPAWN_SAFETY_DISTANCE + half_length - TrafficVehicle.NORMAL_HALF_LENGTH
 	for zone in _spawn_exclusion_zones:
-		if int(zone.x) == candidate.lane and absf(zone.y - candidate.y) < clearance:
+		if int(zone.x) == lane and absf(zone.y - y) < clearance:
 			return true
 	return false
+
+func _lane_change_overlaps_guidance(vehicle: TrafficVehicle) -> bool:
+	return _overlaps_exclusion_at(vehicle.target_lane, vehicle.y, vehicle.half_length) \
+		or _overlaps_exclusion_at(vehicle.target_lane, _lane_change_completion_y(vehicle), vehicle.half_length)
+
+func _lane_change_creates_wall(vehicle: TrafficVehicle) -> bool:
+	var reserved: Array[int] = [vehicle.lane]
+	if vehicle.target_lane != vehicle.lane:
+		reserved.append(vehicle.target_lane)
+	return TrafficSafetyPolicy.would_form_full_lane_wall_during(
+		_wall_policy_vehicles(vehicle),
+		vehicle,
+		lane_count,
+		reserved,
+		_lane_change_remaining_seconds(vehicle),
+		GameConfig.ROAD_SCROLL_MULTIPLIER
+	)
+
+func _wall_policy_vehicles(candidate: TrafficVehicle) -> Array:
+	var relevant := _safety_relevant_vehicles()
+	if candidate.kind == Kind.FAST_OVERTAKE:
+		return relevant
+	var controlled: Array = []
+	for other in relevant:
+		# Fast overtakers brake or re-route in their own update phase. Letting them
+		# veto ordinary traffic here makes harder stages paradoxically quieter.
+		if other.kind != Kind.FAST_OVERTAKE:
+			controlled.append(other)
+	return controlled
 
 func _has_escape_lane(candidate: TrafficVehicle, player_lane: int, player_speed: float) -> bool:
 	var dynamic_reaction_distance := maxf(minimum_lane_gap, player_speed)

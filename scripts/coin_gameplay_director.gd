@@ -77,6 +77,19 @@ func blocked_lanes_near(y: float, clearance: float) -> Array[int]:
 	blocked.sort()
 	return blocked
 
+func guidance_reserved_lanes() -> Array[int]:
+	var route_destinations := {}
+	for coin in coins:
+		if not coin.collected:
+			route_destinations[coin.route_id] = clampi(roundi(coin.lane_position), 0, route_director.lane_count - 1)
+	var reserved: Array[int] = []
+	for route_id in route_destinations:
+		var lane: int = route_destinations[route_id]
+		if not reserved.has(lane):
+			reserved.append(lane)
+	reserved.sort()
+	return reserved
+
 func _recycle_offscreen(viewport_height: float) -> void:
 	var active: Array[CoinPickup] = []
 	for coin in coins:

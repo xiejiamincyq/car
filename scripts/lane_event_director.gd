@@ -24,6 +24,7 @@ var event_limit := 2
 var _warning_duration := GameConfig.LANE_EVENT_WARNING_SECONDS
 var _travel_distance := 0.0
 var _viewport_height := 720.0
+var _guidance_reserved_lanes: Array[int] = []
 
 func _init(seed: int, lanes: int = 3, events_enabled: bool = true) -> void:
 	_initial_seed = seed
@@ -42,8 +43,7 @@ func tick(delta: float, stage: int, player_lane: int, player_speed: float = 0.0)
 				return event
 			_cooldown_remaining -= safe_delta
 			if _cooldown_remaining <= 0.0:
-				_begin_scheduled_warning(stage, player_lane)
-				event.began_warning = true
+				event.began_warning = _begin_scheduled_warning(stage, player_lane)
 		State.WARNING:
 			_advance_road_distance(safe_delta, player_speed)
 			if _travel_distance >= _warning_distance():
@@ -197,6 +197,14 @@ func configure_interval_multiplier(multiplier: float) -> void:
 func configure_double_lane_probability(probability: float) -> void:
 	double_lane_probability = clampf(probability, 0.0, 1.0)
 
+func set_guidance_reserved_lanes(lanes: Array[int]) -> void:
+	_guidance_reserved_lanes.clear()
+	for lane_value in lanes:
+		var reserved_lane := clampi(lane_value, 0, lane_count - 1)
+		if not _guidance_reserved_lanes.has(reserved_lane):
+			_guidance_reserved_lanes.append(reserved_lane)
+	_guidance_reserved_lanes.sort()
+
 func set_viewport_height(viewport_height: float) -> void:
 	_viewport_height = maxf(1.0, viewport_height)
 
@@ -216,24 +224,37 @@ func reset(seed: int = -1) -> void:
 	_warning_duration = GameConfig.LANE_EVENT_WARNING_SECONDS
 	_travel_distance = 0.0
 	_cooldown_remaining = _next_cooldown()
+	_guidance_reserved_lanes.clear()
 
 func _choose_lane_away_from(player_lane: int) -> int:
 	var candidates: Array[int] = [0]
 	if lane_count > 1:
 		candidates.append(lane_count - 1)
 	candidates.erase(player_lane)
+	for reserved_lane in _guidance_reserved_lanes:
+		candidates.erase(reserved_lane)
 	if candidates.is_empty():
-		return clampi(player_lane, 0, lane_count - 1)
+		return -1
 	return candidates[_random.randi_range(0, candidates.size() - 1)]
 
-func _begin_scheduled_warning(stage: int, player_lane: int) -> void:
+func _begin_scheduled_warning(stage: int, player_lane: int) -> bool:
 	var may_close_two := stage >= 3 and lane_count >= 3 and player_lane != 1 and double_lane_events_started == 0 and _random.randf() < double_lane_probability
 	if may_close_two:
 		var double_lanes: Array[int] = []
 		double_lanes.assign([1, 2] if player_lane == 0 else [0, 1])
-		begin_warning_lanes(double_lanes)
-		return
-	begin_warning(_choose_lane_away_from(player_lane))
+		var conflicts_with_guidance := false
+		for double_lane in double_lanes:
+			if _guidance_reserved_lanes.has(double_lane):
+				conflicts_with_guidance = true
+		if not conflicts_with_guidance:
+			begin_warning_lanes(double_lanes)
+			return true
+	var target_lane := _choose_lane_away_from(player_lane)
+	if target_lane < 0:
+		_cooldown_remaining = maxf(0.5, _next_cooldown() * 0.25)
+		return false
+	begin_warning(target_lane)
+	return true
 
 func _lane_signature() -> String:
 	var parts := PackedStringArray()
