@@ -4,6 +4,7 @@ const MainScene = preload("res://scenes/main.tscn")
 const RunState = preload("res://scripts/run_state.gd")
 const TrackRuntimeProfile = preload("res://scripts/track_runtime_profile.gd")
 const TrafficDirector = preload("res://scripts/traffic_director.gd")
+const CoinPickup = preload("res://scripts/coin_pickup.gd")
 
 func _init() -> void:
 	_capture()
@@ -42,6 +43,8 @@ func _capture() -> void:
 				_stage_lane_change_motion_preview(main)
 			"overdrive_preview":
 				_stage_overdrive_preview(main)
+			"coin_preview":
+				_stage_coin_preview(main)
 	_hide_overlays(main)
 	main.race_hud.visible = true
 	main._update_hud()
@@ -97,6 +100,15 @@ func _stage_overdrive_preview(main: Node) -> void:
 	main.overdrive.observe_accelerate_press(main.run.max_fuel, main.run.max_fuel)
 	main.overdrive.tick(main.GameConfig.OVERDRIVE_RAMP_IN_SECONDS, main.run.max_fuel)
 	main.drive.speed = main.drive.max_speed + main.GameConfig.OVERDRIVE_SPEED_BONUS
+
+func _stage_coin_preview(main: Node) -> void:
+	main.coin_director.coins.clear()
+	main.coin_director.spawn_distance_remaining = 99999.0
+	var lane_positions := [0.0, 0.0, 0.15, 0.42, 0.72, 1.0, 1.0, 1.0, 1.28, 1.58, 1.85, 2.0]
+	for index in range(lane_positions.size()):
+		main.coin_director.coins.append(CoinPickup.new(900 + index, lane_positions[index], 120.0 + 48.0 * index, 90, 1))
+	main.run.coins = 7
+	main.feedback.spawn_coin(Vector2(640.0, 430.0), 2)
 
 func _hide_overlays(main: Node) -> void:
 	for control_name in [

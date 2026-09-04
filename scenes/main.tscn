@@ -185,6 +185,23 @@ theme_override_styles/fill = SubResource("StyleBox_progress_fill")
 show_percentage = false
 mouse_filter = 2
 
+[node name="CoinLabel" type="Label" parent="CanvasLayer/RaceHUD"]
+layout_mode = 0
+offset_left = 350.0
+offset_top = 84.0
+offset_right = 482.0
+offset_bottom = 114.0
+theme_override_colors/font_color = Color(1, 0.83, 0.25, 1)
+theme_override_colors/font_outline_color = Color(0.16, 0.065, 0.005, 0.98)
+theme_override_colors/font_shadow_color = Color(1, 0.47, 0.02, 0.4)
+theme_override_constants/outline_size = 4
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 22
+text = "金币  00"
+horizontal_alignment = 2
+mouse_filter = 2
+
 [node name="OverlayShade" type="ColorRect" parent="CanvasLayer"]
 visible = false
 anchors_preset = 15

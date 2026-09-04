@@ -93,6 +93,7 @@ const TEXT_ROWS := [
 	["scores.entry", "{0}. {1}  {2}  {3}m", "{0}. {1}  {2}  {3}m"],
 	["hud.speed", "速度  {0} km/h", "SPEED  {0} km/h"],
 	["hud.score", "得分  {0}    距离  {1}m", "SCORE  {0}    DIST  {1}m"],
+	["hud.coins", "金币  {0}", "COINS  {0}"],
 	["hud.fuel", "燃油  {0}%  {1}", "FUEL  {0}%  {1}"],
 	["hud.fuel.low", "燃油偏低", "LOW FUEL!"],
 	["hud.fuel.critical", "燃油危险", "FUEL CRITICAL!"],

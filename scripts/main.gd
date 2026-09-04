@@ -25,6 +25,9 @@ const GameText = preload("res://scripts/game_text.gd")
 const VehicleVisualAnimation = preload("res://scripts/vehicle_visual_animation.gd")
 const RaceEffectRenderer = preload("res://scripts/race_effect_renderer.gd")
 const RoadsideRenderer = preload("res://scripts/roadside_renderer.gd")
+const CoinGameplayDirector = preload("res://scripts/coin_gameplay_director.gd")
+const CoinRouteDirector = preload("res://scripts/coin_route_director.gd")
+const CoinRenderer = preload("res://scripts/coin_renderer.gd")
 const TRAFFIC_SEDAN_TEXTURE: Texture2D = preload("res://assets/vehicles/traffic_sedan.png")
 const TRAFFIC_VAN_TEXTURE: Texture2D = preload("res://assets/vehicles/traffic_van.png")
 const TRAFFIC_HATCHBACK_TEXTURE: Texture2D = preload("res://assets/vehicles/traffic_hatchback.png")
@@ -52,6 +55,7 @@ var audio_director: AudioDirector
 var fullscreen_enabled := false
 var fuel_pickups: Array[FuelPickup] = []
 var fuel_spawn_director: FuelSpawnDirector
+var coin_director: CoinGameplayDirector
 var run_seed_sequence: RunSeedSequence
 var current_run_seed: int = 0
 var difficulty_index := 1
@@ -78,6 +82,7 @@ var speed_label: Label
 var position_label: Label
 var controls_hint_label: Label
 var score_label: Label
+var coin_label: Label
 var fuel_label: Label
 var run_status_label: Label
 var fuel_gauge: ProgressBar
@@ -135,6 +140,7 @@ func _ready() -> void:
 	drive = DriveController.new(GameConfig.START_SPEED, GameConfig.MAX_SPEED, GameConfig.ACCELERATION, GameConfig.BRAKING, GameConfig.STEERING_SPEED, GameConfig.ROAD_HALF_WIDTH, 30.0)
 	traffic = TrafficDirector.new(current_run_seed, GameConfig.ROAD_LANE_COUNT, GameConfig.MIN_SPAWN_DISTANCE, GameConfig.MIN_TRAFFIC_GAP)
 	fuel_spawn_director = FuelSpawnDirector.new(_fuel_seed_for_run(current_run_seed), GameConfig.ROAD_LANE_COUNT, GameConfig.FUEL_PICKUP_INTERVAL)
+	coin_director = CoinGameplayDirector.new(_coin_seed_for_run(current_run_seed), GameConfig.ROAD_LANE_COUNT)
 	collision = CollisionResponder.new(GameConfig.COLLISION_SPEED_PENALTY, GameConfig.COLLISION_INVULNERABILITY_SECONDS)
 	run = RunState.new(GameConfig.MAX_FUEL, GameConfig.FUEL_DRAIN_PER_SECOND, GameConfig.FUEL_GRACE_SECONDS)
 	overdrive = OverdriveController.new()
@@ -149,6 +155,7 @@ func _ready() -> void:
 	position_label = $CanvasLayer/RaceHUD/Rows/Position
 	controls_hint_label = $CanvasLayer/RaceHUD/Rows/ControlsHint
 	score_label = $CanvasLayer/RaceHUD/Rows/Score
+	coin_label = $CanvasLayer/RaceHUD/CoinLabel
 	fuel_label = $CanvasLayer/RaceHUD/Rows/Fuel
 	run_status_label = $CanvasLayer/RaceHUD/Rows/RunStatus
 	fuel_gauge = $CanvasLayer/RaceHUD/Rows/FuelGauge
@@ -298,7 +305,7 @@ func _process(delta: float) -> void:
 		return
 	traffic.set_difficulty_stage(run.difficulty_stage)
 	traffic.set_viewport_height(get_viewport_rect().size.y)
-	traffic.set_spawn_exclusion_zones(_fuel_spawn_exclusion_zones())
+	traffic.set_spawn_exclusion_zones(_world_spawn_exclusion_zones())
 	traffic.tick(delta, drive.speed, _player_lane())
 	audio_director.update_lane_event_cue(traffic.lane_events.state, LaneEventDirector.State.WARNING, LaneEventDirector.State.CLOSED)
 	_check_construction_collisions()
@@ -306,6 +313,7 @@ func _process(delta: float) -> void:
 	audio_director.update_overdrive(overdrive.is_active(), overdrive.intensity())
 	audio_director.update_driving(delta, drive.speed / maxf(1.0, effective_max_speed), accelerate_input > 0.0 and Input.is_action_just_pressed("accelerate"), traffic.vehicles)
 	_update_fuel_pickups(delta)
+	_update_coins(delta)
 	collision.advance(delta)
 	_check_collisions()
 	_award_pass_events()
@@ -319,6 +327,8 @@ func _draw() -> void:
 	var center_x := viewport_size.x * 0.5
 	var road_left := center_x - GameConfig.ROAD_HALF_WIDTH
 	var road_right := center_x + GameConfig.ROAD_HALF_WIDTH
+	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / GameConfig.ROAD_LANE_COUNT
+	var car_center := Vector2(center_x + drive.lateral_position, TrackGeometry.player_y(viewport_size.y))
 	var shoulder_color := VisualStyle.HIGH_CONTRAST_SHOULDER if high_contrast_enabled else VisualStyle.SHOULDER
 	var edge_color := VisualStyle.HIGH_CONTRAST_EDGE if high_contrast_enabled else VisualStyle.EDGE_NEON
 	var lane_color := VisualStyle.HIGH_CONTRAST_LANE if high_contrast_enabled else VisualStyle.LANE_MARK
@@ -336,11 +346,11 @@ func _draw() -> void:
 		while dash_y < viewport_size.y:
 			draw_rect(Rect2(lane_x - 4.0, dash_y, 8.0, 52.0), lane_color)
 			dash_y += ROAD_MARK_REPEAT_DISTANCE
+	CoinRenderer.draw_coins(self, coin_director.coins, road_left, lane_width, car_center, visual_animation_time, high_contrast_enabled, reduced_flashing_enabled, screen_shake)
 	_draw_lane_event(road_left, viewport_size.y)
 	_draw_traffic(road_left)
 	_draw_fuel_pickups(road_left)
 	RaceEffectRenderer.draw_pass_streaks(self, feedback, _warning_color())
-	var car_center := Vector2(center_x + drive.lateral_position, TrackGeometry.player_y(viewport_size.y))
 	var player_body := VisualStyle.HIGH_CONTRAST_PLAYER if high_contrast_enabled else VisualStyle.PLAYER_BODY
 	var player_glow := VisualStyle.HIGH_CONTRAST_PLAYER_GLOW if high_contrast_enabled else VisualStyle.PLAYER_GLOW
 	var player_color := player_body if not _is_player_flashing() else player_glow
@@ -351,6 +361,7 @@ func _draw() -> void:
 		RaceEffectRenderer.draw_acceleration(self, car_center, visual_animation_time, acceleration_visual_strength)
 	var fuel_effect_color := VisualStyle.HIGH_CONTRAST_FUEL if high_contrast_enabled else VisualStyle.FUEL_GLOW
 	RaceEffectRenderer.draw_pickup_bursts(self, feedback, fuel_effect_color)
+	CoinRenderer.draw_bursts(self, feedback, screen_shake)
 	var player_size := VehicleVisualAnimation.corrected_vehicle_size(current_player_texture.get_size())
 	var player_rect := Rect2(-player_size * 0.5, player_size)
 	var player_modulate := Color(1.0, 1.0, 1.0, 0.45) if _is_player_flashing() else Color.WHITE
@@ -485,6 +496,9 @@ func _event_plate_color() -> Color:
 
 func _update_fuel_pickups(delta: float) -> void:
 	var blocked_lanes := traffic.blocked_lanes_near(FuelSpawnDirector.PICKUP_SPAWN_Y, GameConfig.FUEL_SPAWN_SAFETY_DISTANCE)
+	for coin_lane in coin_director.blocked_lanes_near(FuelSpawnDirector.PICKUP_SPAWN_Y, GameConfig.FUEL_SPAWN_SAFETY_DISTANCE):
+		if not blocked_lanes.has(coin_lane):
+			blocked_lanes.append(coin_lane)
 	var spawned_pickup := fuel_spawn_director.tick(delta, blocked_lanes, _player_lane())
 	if spawned_pickup != null:
 		fuel_pickups.append(spawned_pickup)
@@ -509,6 +523,36 @@ func _fuel_spawn_exclusion_zones() -> Array[Vector2]:
 	for pickup in fuel_pickups:
 		zones.append(Vector2(pickup.lane, pickup.y))
 	return zones
+
+func _world_spawn_exclusion_zones() -> Array[Vector2]:
+	var zones := _fuel_spawn_exclusion_zones()
+	zones.append_array(CoinRouteDirector.traffic_spawn_exclusion_zones(coin_director.coins, GameConfig.ROAD_LANE_COUNT))
+	return zones
+
+func _update_coins(delta: float) -> void:
+	var viewport_size := get_viewport_rect().size
+	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / GameConfig.ROAD_LANE_COUNT
+	var road_left := viewport_size.x * 0.5 - GameConfig.ROAD_HALF_WIDTH
+	var player_center := Vector2(viewport_size.x * 0.5 + drive.lateral_position, TrackGeometry.player_y(viewport_size.y))
+	var player_lane_position := float(GameConfig.ROAD_LANE_COUNT - 1) * 0.5 + drive.lateral_position / lane_width
+	var core_markers: Array = traffic.lane_events.core_markers(viewport_size.y)
+	coin_director.tick(
+		delta,
+		drive.speed,
+		_player_lane(),
+		viewport_size.y,
+		CoinRouteDirector.npc_exclusion_zones(traffic.vehicles),
+		CoinRouteDirector.fuel_exclusion_zones(fuel_pickups),
+		CoinRouteDirector.construction_exclusion_zones(core_markers),
+		traffic.lane_events.closed_lanes()
+	)
+	for coin in coin_director.collect_near(player_lane_position, player_center.y, lane_width):
+		var coin_center := Vector2(road_left + lane_width * (coin.lane_position + 0.5), coin.y)
+		var awarded_points := run.award_coin()
+		if awarded_points <= 0:
+			continue
+		feedback.spawn_coin(coin_center, run.combo.multiplier)
+		audio_director.play_coin_pickup(run.combo.multiplier)
 
 func _check_collisions() -> void:
 	var viewport_size := get_viewport_rect().size
@@ -654,6 +698,7 @@ func _reset_run(run_seed_override: int = -1) -> void:
 	_apply_difficulty_profile()
 	fuel_pickups.clear()
 	fuel_spawn_director.reset(_fuel_seed_for_run(current_run_seed))
+	coin_director.reset(_coin_seed_for_run(current_run_seed))
 	feedback.reset()
 	result_persisted = false
 	is_new_record = false
@@ -1017,6 +1062,7 @@ func _update_hud() -> void:
 	speed_label.text = _text("hud.speed", ["%03d" % roundi(drive.speed * GameConfig.HUD_SPEED_SCALE)])
 	position_label.text = ""
 	score_label.text = _text("hud.score", ["%06d" % run.score, "%05d" % roundi(run.distance)])
+	coin_label.text = _text("hud.coins", ["%02d" % run.coins])
 	var fuel_warning := _fuel_warning_text() if feedback.is_fuel_warning_visible() else ""
 	fuel_label.text = _text("hud.fuel", ["%03d" % roundi(run.fuel), fuel_warning])
 	fuel_label.modulate = Color("ff6b6b") if feedback.low_fuel_tier == GameFeedback.FuelTier.CRITICAL else (Color("ffd75a") if feedback.low_fuel_tier == GameFeedback.FuelTier.LOW else Color.WHITE)
@@ -1042,7 +1088,7 @@ func _update_hud() -> void:
 	var combo_time := "%.1fs" % run.combo.remaining_seconds if run.combo.event_count > 0 else _text("hud.ready")
 	run_status_label.text = _text("hud.status", [run.difficulty_stage + 1, run.combo.multiplier, combo_time, _phase_text()])
 	controls_hint_label.text = _text("hud.controls", [current_run_seed])
-	for label in [speed_label, controls_hint_label, score_label, fuel_label, overdrive_label, run_status_label]:
+	for label in [speed_label, controls_hint_label, score_label, coin_label, fuel_label, overdrive_label, run_status_label]:
 		label.scale = Vector2.ONE * scale
 	var result_was_visible := result_screen.visible
 	race_hud.visible = run.phase == RunState.Phase.RUNNING or run.phase == RunState.Phase.PAUSED
@@ -1197,3 +1243,6 @@ static func get_dash_start_y(scroll_offset: float, repeat_distance: float) -> fl
 
 static func _fuel_seed_for_run(run_seed: int) -> int:
 	return run_seed ^ 1597463007
+
+static func _coin_seed_for_run(run_seed: int) -> int:
+	return run_seed ^ 1070382849

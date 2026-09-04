@@ -66,6 +66,17 @@ func collect_near(player_lane_position: float, player_y: float, lane_width: floa
 	coins = active
 	return collected_coins
 
+func blocked_lanes_near(y: float, clearance: float) -> Array[int]:
+	var blocked: Array[int] = []
+	for coin in coins:
+		if coin.collected or absf(coin.y - y) > maxf(0.0, clearance):
+			continue
+		for lane in range(route_director.lane_count):
+			if absf(coin.lane_position - float(lane)) <= 0.5 and not blocked.has(lane):
+				blocked.append(lane)
+	blocked.sort()
+	return blocked
+
 func _recycle_offscreen(viewport_height: float) -> void:
 	var active: Array[CoinPickup] = []
 	for coin in coins:

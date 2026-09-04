@@ -10,5 +10,7 @@ func _init() -> void:
 	assert(GameText.resolve_language(GameText.LANGUAGE_EN, "zh_CN") == GameText.LANGUAGE_EN, "An explicit English preference must override the system locale")
 	assert(GameText.get_text("title.start", GameText.LANGUAGE_ZH) == "开始比赛", "Chinese UI text must be available by key")
 	assert(GameText.get_text("title.start", GameText.LANGUAGE_EN) == "START RACE", "English UI text must be available by key")
+	assert(GameText.get_text("hud.coins", GameText.LANGUAGE_ZH, ["07"]) == "金币  07", "The Chinese coin counter must be compact and zero-padded")
+	assert(GameText.get_text("hud.coins", GameText.LANGUAGE_EN, ["07"]) == "COINS  07", "The English coin counter must be compact and zero-padded")
 	assert(GameText.get_text("missing.key", GameText.LANGUAGE_EN) == "[missing.key]", "Missing UI keys must remain visible for diagnosis")
 	quit()

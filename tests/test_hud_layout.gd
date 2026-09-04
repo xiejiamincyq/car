@@ -15,6 +15,9 @@ func _run() -> void:
 	main.run.tick(1.0, 0.0, main.GameConfig.MAX_SPEED)
 	main._update_hud()
 	assert(main.run_status_label.text.contains("COMBO x2 1.5s"), "The HUD must show the live multiplier and remaining combo window")
+	main.run.coins = 7
+	main._update_hud()
+	assert(main.coin_label.text.contains("07"), "The HUD must expose a compact zero-padded coin counter")
 	main.feedback.flashing_enabled = false
 	main.feedback.tick(0.0, 10.0, 1)
 	main._update_hud()
@@ -34,6 +37,9 @@ func _run() -> void:
 			var label: Control = main.get_node("CanvasLayer/RaceHUD/Rows/" + label_name)
 			assert(hud.get_global_rect().encloses(label.get_global_rect()), "%s HUD label must fit at %s" % [label_name, size])
 			assert(panel.get_global_rect().encloses(label.get_global_rect()), "%s must not be clipped by its panel at %s" % [label_name, size])
+		var coin_label: Control = main.get_node("CanvasLayer/RaceHUD/CoinLabel")
+		assert(hud.get_global_rect().encloses(coin_label.get_global_rect()), "Coin counter must fit inside the HUD at %s" % size)
+		assert(panel.get_global_rect().encloses(coin_label.get_global_rect()), "Coin counter must not be clipped by its panel at %s" % size)
 		var overdrive_gauge: Control = main.get_node("CanvasLayer/RaceHUD/Rows/OverdriveGauge")
 		assert(panel.get_global_rect().encloses(overdrive_gauge.get_global_rect()), "Overdrive meter must fit inside the HUD at %s" % size)
 		main.run.end()

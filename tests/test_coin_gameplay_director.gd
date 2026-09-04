@@ -21,6 +21,10 @@ func _init() -> void:
 
 	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / GameConfig.ROAD_LANE_COUNT
 	director.coins.assign([CoinPickup.new(99, 1.0, 592.0)])
+	assert(director.blocked_lanes_near(592.0, 10.0) == [1], "A coin near a spawn row must reserve its occupied lane")
+	director.coins.assign([CoinPickup.new(98, 0.5, 592.0)])
+	assert(director.blocked_lanes_near(592.0, 10.0) == [0, 1], "A coin path on a divider must reserve both adjacent lanes")
+	director.coins.assign([CoinPickup.new(99, 1.0, 592.0)])
 	var collected: Array[CoinPickup] = director.collect_near(1.0, 592.0, lane_width)
 	assert(collected.size() == 1 and collected[0].id == 99 and director.coins.is_empty(), "A nearby coin must be removed and returned for one-shot settlement")
 	assert(director.collect_near(1.0, 592.0, lane_width).is_empty(), "A settled coin must not be collected twice")
