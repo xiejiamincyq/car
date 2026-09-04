@@ -29,6 +29,8 @@ var score: int = 0
 var overtakes: int = 0
 var near_misses: int = 0
 var coins: int = 0
+var collisions: int = 0
+var failure_reason: StringName = &""
 var fuel: float
 var difficulty_stage: int = 0
 var _distance_score_remainder: float = 0.0
@@ -102,6 +104,7 @@ func tick(delta: float, speed: float, maximum_speed: float, forward_acceleration
 		phase = Phase.RUN_CLEAR
 		return
 	if fuel <= 0.0 and elapsed_seconds >= fuel_grace_seconds:
+		failure_reason = &"fuel"
 		phase = Phase.GAME_OVER
 
 func add_fuel(amount: float) -> void:
@@ -136,6 +139,16 @@ func award_coin(points: int = GameConfig.COIN_SCORE) -> int:
 func break_combo() -> void:
 	combo.clear()
 
+func register_collision() -> void:
+	if phase == Phase.RUNNING:
+		collisions += 1
+
+func fail_integrity() -> void:
+	if phase != Phase.RUNNING:
+		return
+	failure_reason = &"integrity"
+	phase = Phase.GAME_OVER
+
 func end() -> void:
 	if phase == Phase.RUNNING or phase == Phase.PAUSED or phase == Phase.COUNTDOWN:
 		phase = Phase.GAME_OVER
@@ -158,6 +171,8 @@ func reset() -> void:
 	overtakes = 0
 	near_misses = 0
 	coins = 0
+	collisions = 0
+	failure_reason = &""
 	fuel = max_fuel
 	difficulty_stage = 0
 	_distance_score_remainder = 0.0

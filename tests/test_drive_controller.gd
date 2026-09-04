@@ -14,6 +14,11 @@ func _init() -> void:
 	controller.step(0.5, 1.0, 0.0, 0.0, 100.0, 100.0)
 	assert(is_equal_approx(controller.speed, 490.0), "Temporary overdrive bonuses must raise acceleration and the speed ceiling without changing the base maximum")
 	assert(is_equal_approx(controller.max_speed, 400.0), "Overdrive must not permanently mutate the vehicle profile's maximum speed")
+	controller.speed = 390.0
+	controller.lateral_position = 0.0
+	controller.step(1.0, 1.0, 0.0, 1.0, 100.0, 100.0, 0.78, 0.68)
+	assert(is_equal_approx(controller.speed, 390.0), "Critical damage must clamp the combined base and overdrive speed ceiling")
+	assert(is_equal_approx(controller.lateral_position, 204.0), "Critical damage must reduce lateral steering authority without mutating the base profile")
 	controller.speed = 400.0
 
 	controller.step(1.0, 0.0, 1.0)
