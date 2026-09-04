@@ -5,7 +5,9 @@ const SoundEffects = preload("res://scripts/sound_effects.gd")
 func _init() -> void:
 	var engine := SoundEffects.create_engine_loop()
 	assert(engine is AudioStreamWAV and engine.loop_mode == AudioStreamWAV.LOOP_FORWARD, "Engine audio must be an original looping WAV")
-	for effect in [SoundEffects.create_acceleration(), SoundEffects.create_pickup(), SoundEffects.create_warning()]:
+	var overdrive_loop := SoundEffects.create_overdrive_loop()
+	assert(overdrive_loop is AudioStreamWAV and overdrive_loop.loop_mode == AudioStreamWAV.LOOP_FORWARD, "Mechanical overdrive must include a bounded looping turbine layer")
+	for effect in [SoundEffects.create_acceleration(), SoundEffects.create_pickup(), SoundEffects.create_warning(), SoundEffects.create_overdrive_ignition(), SoundEffects.create_overdrive_release()]:
 		assert(effect is AudioStreamWAV and not effect.data.is_empty(), "Each gameplay cue must be a generated playable WAV")
 	var cues: Dictionary = SoundEffects.create_cue_catalog()
 	var expected_names := ["ui_move", "ui_confirm", "ui_cancel", "near_miss", "combo", "countdown", "countdown_go", "checkpoint", "run_clear", "low_fuel", "lane_warning", "lane_closed"]

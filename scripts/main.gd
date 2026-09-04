@@ -303,6 +303,7 @@ func _process(delta: float) -> void:
 	audio_director.update_lane_event_cue(traffic.lane_events.state, LaneEventDirector.State.WARNING, LaneEventDirector.State.CLOSED)
 	_check_construction_collisions()
 	var effective_max_speed := drive.max_speed + overdrive.speed_limit_bonus()
+	audio_director.update_overdrive(overdrive.is_active(), overdrive.intensity())
 	audio_director.update_driving(delta, drive.speed / maxf(1.0, effective_max_speed), accelerate_input > 0.0 and Input.is_action_just_pressed("accelerate"), traffic.vehicles)
 	_update_fuel_pickups(delta)
 	collision.advance(delta)

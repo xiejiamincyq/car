@@ -11,6 +11,19 @@ static func create_engine_loop() -> AudioStreamWAV:
 static func create_acceleration() -> AudioStreamWAV:
 	return _make_chirp(260.0, 520.0, 0.10, 0.32)
 
+static func create_overdrive_ignition() -> AudioStreamWAV:
+	return _make_chirp(150.0, 760.0, 0.24, 0.38)
+
+static func create_overdrive_loop() -> AudioStreamWAV:
+	var stream := _make_wave(138.0, 0.36, 0.18, true, 1.35)
+	stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
+	stream.loop_begin = 0
+	stream.loop_end = stream.data.size() / 2
+	return stream
+
+static func create_overdrive_release() -> AudioStreamWAV:
+	return _make_chirp(620.0, 130.0, 0.22, 0.30)
+
 static func create_pickup() -> AudioStreamWAV:
 	return _make_chirp(480.0, 880.0, 0.14, 0.34)
 

@@ -14,6 +14,7 @@ func _run() -> void:
 
 	for player in director.effect_players():
 		assert(player.bus == &"Effects", "AudioDirector must keep every effect channel on the Effects bus")
+	assert(director.overdrive_start_audio in director.effect_players() and director.overdrive_loop_audio in director.effect_players() and director.overdrive_end_audio in director.effect_players(), "All three mechanical overdrive layers must be managed effect channels")
 	assert(director.music.player.bus == &"Music", "AudioDirector must expose music only through MusicDirector")
 
 	director.apply_bus_settings(0.80, 0.40, 0.70, false)
@@ -31,6 +32,14 @@ func _run() -> void:
 	director.apply_bus_settings(0.80, 0.40, 0.70, false)
 	director.play_cue("checkpoint")
 	assert(director.last_audio_cue == "checkpoint" and director.event_audio.playing, "Unmuted named cues must use the event channel")
+	director.update_overdrive(true, 0.5)
+	assert(director.overdrive_start_audio.playing and director.overdrive_loop_audio.playing, "Overdrive activation must play ignition and begin the turbine loop")
+	director.pause_for_gameplay()
+	assert(not director.overdrive_loop_audio.playing, "Pausing gameplay must stop the turbine loop immediately")
+	director.update_overdrive(true, 0.5)
+	assert(director.overdrive_loop_audio.playing, "An active overdrive must restore its turbine loop after gameplay resumes")
+	director.update_overdrive(false, 0.0)
+	assert(not director.overdrive_loop_audio.playing and director.overdrive_end_audio.playing, "Overdrive exit must stop the turbine and play its release cue")
 	var lane_changer := TrafficVehicle.new(TrafficVehicle.SIGNAL_CHANGE_KIND, 0, 120.0, 1, 0, 200.0)
 	lane_changer.warning_started = true
 	lane_changer.warning_remaining = 0.10

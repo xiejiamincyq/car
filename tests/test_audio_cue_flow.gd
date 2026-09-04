@@ -22,6 +22,11 @@ func _run() -> void:
 	main.run.countdown_remaining = 0.01
 	main._process(0.02)
 	assert(main.run.phase == main.RunState.Phase.RUNNING and main.audio_director.last_audio_cue == "countdown_go", "Countdown completion must play a distinct GO cue")
+	main.overdrive.observe_accelerate_press(main.run.fuel, main.run.max_fuel)
+	main.overdrive.tick(0.1, main.run.fuel)
+	main.overdrive.observe_accelerate_press(main.run.fuel, main.run.max_fuel)
+	main._process(0.1)
+	assert(main.audio_director.overdrive_start_audio.playing and main.audio_director.overdrive_loop_audio.playing, "The main loop must route an overdrive activation into its mechanical audio layers")
 	main.feedback.tick(0.0, 10.0, 0)
 	main.audio_director.last_fuel_audio_tier = main.GameFeedback.FuelTier.NORMAL
 	main.audio_director.update_low_fuel_cue(main.feedback.low_fuel_tier, main.GameFeedback.FuelTier.NORMAL)
@@ -43,7 +48,7 @@ func _run() -> void:
 	assert(main.audio_director.last_audio_cue.is_empty(), "Muted cues must not enter the playback route")
 	main.audio_director.stop_run_audio()
 	main.audio_director.ui_audio.stop()
-	for player in [main.audio_director.collision_audio, main.audio_director.engine_audio, main.audio_director.acceleration_audio, main.audio_director.pickup_audio, main.audio_director.warning_audio, main.audio_director.ui_audio, main.audio_director.event_audio]:
+	for player in main.audio_director.effect_players():
 		player.stream = null
 	main.queue_free()
 	await process_frame

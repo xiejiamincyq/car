@@ -11,6 +11,9 @@ var engine_audio: AudioStreamPlayer
 var acceleration_audio: AudioStreamPlayer
 var pickup_audio: AudioStreamPlayer
 var warning_audio: AudioStreamPlayer
+var overdrive_start_audio: AudioStreamPlayer
+var overdrive_loop_audio: AudioStreamPlayer
+var overdrive_end_audio: AudioStreamPlayer
 var ui_audio: AudioStreamPlayer
 var event_audio: AudioStreamPlayer
 var music: MusicDirector
@@ -24,6 +27,7 @@ var master_volume := 0.65
 var music_volume := 0.65
 var effects_volume := 0.65
 var muted := false
+var _overdrive_was_active := false
 
 func _ready() -> void:
 	collision_audio = _make_effect_player(CollisionSound.create_stream(), -10.0)
@@ -31,6 +35,9 @@ func _ready() -> void:
 	acceleration_audio = _make_effect_player(SoundEffects.create_acceleration(), -12.0)
 	pickup_audio = _make_effect_player(SoundEffects.create_pickup(), -10.0)
 	warning_audio = _make_effect_player(SoundEffects.create_warning(), -13.0)
+	overdrive_start_audio = _make_effect_player(SoundEffects.create_overdrive_ignition(), -9.0)
+	overdrive_loop_audio = _make_effect_player(SoundEffects.create_overdrive_loop(), -16.0)
+	overdrive_end_audio = _make_effect_player(SoundEffects.create_overdrive_release(), -11.0)
 	cue_catalog = SoundEffects.create_cue_catalog()
 	ui_audio = _make_effect_player(cue_catalog.ui_move, -14.0)
 	event_audio = _make_effect_player(cue_catalog.near_miss, -12.0)
@@ -39,7 +46,7 @@ func _ready() -> void:
 	add_child(music)
 
 func effect_players() -> Array[AudioStreamPlayer]:
-	return [collision_audio, engine_audio, acceleration_audio, pickup_audio, warning_audio, ui_audio, event_audio]
+	return [collision_audio, engine_audio, acceleration_audio, pickup_audio, warning_audio, overdrive_start_audio, overdrive_loop_audio, overdrive_end_audio, ui_audio, event_audio]
 
 func apply_bus_settings(new_master_volume: float, new_music_volume: float, new_effects_volume: float, is_muted: bool) -> void:
 	master_volume = clampf(new_master_volume, 0.0, 1.0)
@@ -103,6 +110,21 @@ func update_driving(delta: float, speed_ratio: float, acceleration_pressed: bool
 			warning_cooldown = 0.70
 			break
 
+func update_overdrive(active: bool, strength: float) -> void:
+	if active:
+		if not _overdrive_was_active:
+			play_effect(overdrive_start_audio)
+		if _effects_enabled() and not overdrive_loop_audio.playing:
+			overdrive_loop_audio.play()
+		overdrive_loop_audio.pitch_scale = lerpf(0.88, 1.22, clampf(strength, 0.0, 1.0))
+		overdrive_loop_audio.volume_db = lerpf(-20.0, -13.0, clampf(strength, 0.0, 1.0))
+	elif _overdrive_was_active:
+		overdrive_loop_audio.stop()
+		play_effect(overdrive_end_audio)
+	elif overdrive_loop_audio.playing:
+		overdrive_loop_audio.stop()
+	_overdrive_was_active = active
+
 func play_effect(player: AudioStreamPlayer) -> void:
 	if not _effects_enabled() or player == null:
 		return
@@ -143,6 +165,7 @@ func update_lane_event_cue(state: int, warning_state: int, closed_state: int) ->
 
 func reset_run_state(normal_fuel_tier: int, idle_lane_state: int) -> void:
 	stop_run_audio()
+	_overdrive_was_active = false
 	if music != null:
 		music.stop()
 	last_audio_cue = ""
@@ -162,7 +185,7 @@ func stop_run_audio() -> void:
 		event_audio.stop()
 
 func stop_driving_audio() -> void:
-	for player in [collision_audio, engine_audio, acceleration_audio, pickup_audio, warning_audio]:
+	for player in [collision_audio, engine_audio, acceleration_audio, pickup_audio, warning_audio, overdrive_start_audio, overdrive_loop_audio, overdrive_end_audio]:
 		if player != null:
 			player.stop()
 
