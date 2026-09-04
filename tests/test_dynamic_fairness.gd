@@ -7,6 +7,8 @@ const TrafficDirector = preload("res://scripts/traffic_director.gd")
 const SIMULATION_SECONDS := 60.0
 const STEP_SECONDS := 0.25
 const PLAYER_SPEEDS := [360.0, 560.0, 760.0]
+const OVERDRIVE_TARGET_SPEED := GameConfig.MAX_SPEED + GameConfig.OVERDRIVE_SPEED_BONUS
+const OVERDRIVE_START_SECONDS := 18.0
 
 func _init() -> void:
 	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / GameConfig.ROAD_LANE_COUNT
@@ -43,8 +45,40 @@ func _init() -> void:
 						else:
 							player_speed = minf(target_player_speed, player_speed + GameConfig.ACCELERATION * STEP_SECONDS)
 						assert(traffic.vehicles.size() <= traffic.max_active_vehicles and traffic.allocated_vehicle_count <= traffic.max_active_vehicles, "Dynamic simulation must keep traffic bounded")
+	longitudinal_avoidance_count += _simulate_overdrive_bursts()
 	assert(longitudinal_avoidance_count > 0, "The fairness simulation must exercise braking as a real escape option instead of relying only on lateral movement")
 	quit()
+
+func _simulate_overdrive_bursts() -> int:
+	var avoidance_count := 0
+	for viewport_height in [720.0, 1080.0]:
+		var player_y := TrackGeometry.player_y(viewport_height)
+		for seed in range(1, 21):
+			for initial_lane in range(GameConfig.ROAD_LANE_COUNT):
+				var traffic := TrafficDirector.new(seed, GameConfig.ROAD_LANE_COUNT, GameConfig.MIN_SPAWN_DISTANCE, GameConfig.MIN_TRAFFIC_GAP)
+				traffic.set_viewport_height(viewport_height)
+				var player_lane := initial_lane
+				var player_speed := GameConfig.MAX_SPEED
+				for step in range(int(SIMULATION_SECONDS / STEP_SECONDS)):
+					var elapsed := step * STEP_SECONDS
+					var overdrive_active := elapsed >= OVERDRIVE_START_SECONDS and elapsed < OVERDRIVE_START_SECONDS + GameConfig.OVERDRIVE_DURATION_SECONDS
+					var target_speed := OVERDRIVE_TARGET_SPEED if overdrive_active else GameConfig.MAX_SPEED
+					traffic.set_difficulty_stage(mini(3, int(elapsed / 15.0)))
+					traffic.tick(STEP_SECONDS, player_speed, player_lane)
+					var immediate: Array[int] = traffic.reachable_player_lanes(player_lane, player_y, GameConfig.COLLISION_LONGITUDINAL_DISTANCE)
+					if immediate.is_empty():
+						_fail_unreachable(seed, viewport_height, player_lane, player_speed, step, traffic, "no lane during a temporary overdrive scenario")
+						return avoidance_count
+					var reachable: Array[int] = traffic.reachable_player_lanes(player_lane, player_y, traffic.braking_reaction_clearance(target_speed))
+					if reachable.is_empty():
+						player_speed = maxf(0.0, player_speed - GameConfig.BRAKING * STEP_SECONDS)
+						avoidance_count += 1
+					elif not reachable.has(player_lane):
+						player_lane = _closest_lane(player_lane, reachable)
+					else:
+						var acceleration := GameConfig.ACCELERATION + (GameConfig.OVERDRIVE_ACCELERATION_BONUS if overdrive_active else 0.0)
+						player_speed = minf(target_speed, player_speed + acceleration * STEP_SECONDS)
+	return avoidance_count
 
 func _closest_lane(current_lane: int, candidates: Array[int]) -> int:
 	var closest := candidates[0]

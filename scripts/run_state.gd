@@ -107,6 +107,10 @@ func add_fuel(amount: float) -> void:
 	if phase == Phase.RUNNING:
 		fuel = clampf(fuel + maxf(0.0, amount), 0.0, max_fuel)
 
+func consume_fuel(amount: float) -> void:
+	if phase == Phase.RUNNING:
+		fuel = maxf(0.0, fuel - maxf(0.0, amount))
+
 func award_overtake(points: int) -> void:
 	award_pass(points, false)
 

@@ -10,9 +10,14 @@ func _init() -> void:
 
 	controller.step(2.0, 1.0, 0.0)
 	assert(is_equal_approx(controller.speed, 400.0), "Speed must clamp to maximum")
+	controller.speed = 390.0
+	controller.step(0.5, 1.0, 0.0, 0.0, 100.0, 100.0)
+	assert(is_equal_approx(controller.speed, 490.0), "Temporary overdrive bonuses must raise acceleration and the speed ceiling without changing the base maximum")
+	assert(is_equal_approx(controller.max_speed, 400.0), "Overdrive must not permanently mutate the vehicle profile's maximum speed")
+	controller.speed = 400.0
 
 	controller.step(1.0, 0.0, 1.0)
-	assert(is_equal_approx(controller.speed, 200.0), "Braking should lower speed")
+	assert(is_equal_approx(controller.speed, 200.0), "Braking should lower speed and clamp back to the base limit")
 	controller.step(2.0, 0.0, 1.0)
 	assert(is_zero_approx(controller.speed), "Braking must clamp speed to zero")
 

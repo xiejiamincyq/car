@@ -18,6 +18,7 @@ const TrackRuntimeProfile = preload("res://scripts/track_runtime_profile.gd")
 const PlayerVehicleProfile = preload("res://scripts/player_vehicle_profile.gd")
 const PassEventResolver = preload("res://scripts/pass_event_resolver.gd")
 const GameFeedback = preload("res://scripts/game_feedback.gd")
+const OverdriveController = preload("res://scripts/overdrive_controller.gd")
 const LaneEventDirector = preload("res://scripts/lane_event_director.gd")
 const DifficultyProfile = preload("res://scripts/difficulty_profile.gd")
 const GameText = preload("res://scripts/game_text.gd")
@@ -44,6 +45,7 @@ var drive: DriveController
 var traffic: TrafficDirector
 var collision: CollisionResponder
 var run: RunState
+var overdrive: OverdriveController
 var road_scroll := 0.0
 var screen_shake := Vector2.ZERO
 var audio_director: AudioDirector
@@ -133,6 +135,7 @@ func _ready() -> void:
 	fuel_spawn_director = FuelSpawnDirector.new(_fuel_seed_for_run(current_run_seed), GameConfig.ROAD_LANE_COUNT, GameConfig.FUEL_PICKUP_INTERVAL)
 	collision = CollisionResponder.new(GameConfig.COLLISION_SPEED_PENALTY, GameConfig.COLLISION_INVULNERABILITY_SECONDS)
 	run = RunState.new(GameConfig.MAX_FUEL, GameConfig.FUEL_DRAIN_PER_SECOND, GameConfig.FUEL_GRACE_SECONDS)
+	overdrive = OverdriveController.new()
 	run.configure_track(current_track)
 	traffic.configure_track(current_track)
 	feedback = GameFeedback.new(GameConfig.SPARK_MAX_COUNT)
@@ -202,6 +205,7 @@ func _pause_for_focus_loss() -> void:
 	if run == null or (run.phase != RunState.Phase.RUNNING and run.phase != RunState.Phase.COUNTDOWN):
 		return
 	run.pause_for_focus_loss()
+	overdrive.cancel_tap_sequence()
 	audio_director.pause_for_gameplay()
 	_update_hud()
 	$CanvasLayer/PauseScreen/Center/Card/Content/ResumeButton.grab_focus()
@@ -255,8 +259,12 @@ func _process(delta: float) -> void:
 	var accelerate_input := Input.get_action_strength("accelerate")
 	var brake_input := Input.get_action_strength("brake")
 	var steering_input := Input.get_axis("steer_left", "steer_right")
+	if Input.is_action_just_pressed("overdrive_tap"):
+		overdrive.observe_accelerate_press(run.fuel, run.max_fuel)
+	var overdrive_fuel_cost := overdrive.tick(delta, run.fuel)
+	run.consume_fuel(overdrive_fuel_cost)
 	var speed_before_step := drive.speed
-	drive.step(delta, accelerate_input, brake_input, steering_input)
+	drive.step(delta, accelerate_input, brake_input, steering_input, overdrive.speed_limit_bonus(), overdrive.acceleration_bonus())
 	var forward_acceleration := 0.0 if delta <= 0.0 else maxf(0.0, (drive.speed - speed_before_step) / delta)
 	visual_animation_time += delta
 	acceleration_visual_strength = move_toward(acceleration_visual_strength, accelerate_input, delta * 5.0)
@@ -274,6 +282,7 @@ func _process(delta: float) -> void:
 		feedback.announce_checkpoint(run.difficulty_stage, GameConfig.CHECKPOINT_FUEL_REWARD * run.last_checkpoints_crossed)
 		audio_director.play_cue("checkpoint")
 	if run.phase != RunState.Phase.RUNNING:
+		overdrive.reset()
 		audio_director.stop_run_audio()
 		if phase_before_tick == RunState.Phase.RUNNING:
 			audio_director.finish_music()
@@ -289,7 +298,8 @@ func _process(delta: float) -> void:
 	traffic.tick(delta, drive.speed, _player_lane())
 	audio_director.update_lane_event_cue(traffic.lane_events.state, LaneEventDirector.State.WARNING, LaneEventDirector.State.CLOSED)
 	_check_construction_collisions()
-	audio_director.update_driving(delta, drive.speed / drive.max_speed, accelerate_input > 0.0 and Input.is_action_just_pressed("accelerate"), traffic.vehicles)
+	var effective_max_speed := drive.max_speed + overdrive.speed_limit_bonus()
+	audio_director.update_driving(delta, drive.speed / maxf(1.0, effective_max_speed), accelerate_input > 0.0 and Input.is_action_just_pressed("accelerate"), traffic.vehicles)
 	_update_fuel_pickups(delta)
 	collision.advance(delta)
 	_check_collisions()
@@ -616,6 +626,7 @@ func _is_player_flashing() -> bool:
 func _reset_run(run_seed_override: int = -1) -> void:
 	current_run_seed = run_seed_override if run_seed_override >= 0 else run_seed_sequence.next_seed()
 	drive.reset()
+	overdrive.reset()
 	road_scroll = 0.0
 	traffic.reset(current_run_seed)
 	collision = CollisionResponder.new(float(current_vehicle.collision_speed_penalty), GameConfig.COLLISION_INVULNERABILITY_SECONDS)
@@ -745,6 +756,7 @@ func _pause_run() -> void:
 	if run.phase != RunState.Phase.RUNNING:
 		return
 	run.toggle_pause()
+	overdrive.cancel_tap_sequence()
 	audio_director.pause_for_gameplay()
 	_update_hud()
 	$CanvasLayer/PauseScreen/Center/Card/Content/ResumeButton.grab_focus()
@@ -991,7 +1003,7 @@ func _player_lane() -> int:
 
 func _update_hud() -> void:
 	var scale := VisualStyle.hud_scale_for_width(get_viewport_rect().size.x)
-	speed_label.text = _text("hud.speed", ["%03d" % roundi(drive.speed * 0.42)])
+	speed_label.text = _text("hud.speed", ["%03d" % roundi(drive.speed * GameConfig.HUD_SPEED_SCALE)])
 	position_label.text = ""
 	score_label.text = _text("hud.score", ["%06d" % run.score, "%05d" % roundi(run.distance)])
 	var fuel_warning := _fuel_warning_text() if feedback.is_fuel_warning_visible() else ""
@@ -1128,6 +1140,7 @@ func _overlay_text() -> String:
 
 func _ensure_input_actions() -> void:
 	_register_action("accelerate", [KEY_UP, KEY_W])
+	_register_action("overdrive_tap", [KEY_W], true)
 	_register_action("brake", [KEY_DOWN, KEY_S])
 	_register_action("steer_left", [KEY_LEFT, KEY_A])
 	_register_action("steer_right", [KEY_RIGHT, KEY_D])

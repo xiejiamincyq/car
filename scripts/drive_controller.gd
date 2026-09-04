@@ -32,10 +32,19 @@ func _init(
 	rolling_resistance = maxf(0.0, coasting_resistance)
 	speed = start_speed
 
-func step(delta: float, accelerate_input: float, brake_input: float, steering_input: float = 0.0) -> void:
+func step(
+		delta: float,
+		accelerate_input: float,
+		brake_input: float,
+		steering_input: float = 0.0,
+		temporary_max_speed_bonus: float = 0.0,
+		temporary_acceleration_bonus: float = 0.0
+	) -> void:
 	var resistance := rolling_resistance if accelerate_input <= 0.0 and brake_input <= 0.0 else 0.0
-	var speed_change := (accelerate_input * acceleration - brake_input * braking - resistance) * delta
-	speed = clampf(speed + speed_change, 0.0, max_speed)
+	var effective_acceleration := acceleration + maxf(0.0, temporary_acceleration_bonus)
+	var effective_max_speed := max_speed + maxf(0.0, temporary_max_speed_bonus)
+	var speed_change := (accelerate_input * effective_acceleration - brake_input * braking - resistance) * delta
+	speed = clampf(speed + speed_change, 0.0, effective_max_speed)
 	var center_limit := maxf(0.0, road_half_width - player_half_width)
 	lateral_position = clampf(
 		lateral_position + steering_input * steering_speed * delta,
