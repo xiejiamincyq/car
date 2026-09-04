@@ -15,6 +15,7 @@ func _run() -> void:
 	for player in director.effect_players():
 		assert(player.bus == &"Effects", "AudioDirector must keep every effect channel on the Effects bus")
 	assert(director.overdrive_start_audio in director.effect_players() and director.overdrive_loop_audio in director.effect_players() and director.overdrive_end_audio in director.effect_players(), "All three mechanical overdrive layers must be managed effect channels")
+	assert(director.coin_audio in director.effect_players(), "Coin pickups must use a dedicated managed effect channel")
 	assert(director.music.player.bus == &"Music", "AudioDirector must expose music only through MusicDirector")
 
 	director.apply_bus_settings(0.80, 0.40, 0.70, false)
@@ -32,6 +33,8 @@ func _run() -> void:
 	director.apply_bus_settings(0.80, 0.40, 0.70, false)
 	director.play_cue("checkpoint")
 	assert(director.last_audio_cue == "checkpoint" and director.event_audio.playing, "Unmuted named cues must use the event channel")
+	director.play_coin_pickup(3)
+	assert(director.coin_audio.playing and is_equal_approx(director.coin_audio.pitch_scale, 1.12), "Coin pickups must sound immediately and rise subtly with the shared combo")
 	director.update_overdrive(true, 0.5)
 	assert(director.overdrive_start_audio.playing and director.overdrive_loop_audio.playing, "Overdrive activation must play ignition and begin the turbine loop")
 	director.pause_for_gameplay()

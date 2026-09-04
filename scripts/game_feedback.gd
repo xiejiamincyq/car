@@ -9,14 +9,17 @@ const LOW_FUEL_THRESHOLD := 30.0
 const CRITICAL_FUEL_THRESHOLD := 15.0
 const STAGE_TRANSITION_SECONDS := 2.0
 const PICKUP_BURST_DURATION := 0.65
+const COIN_BURST_DURATION := 0.50
 const PASS_STREAK_DURATION := 0.45
 const FINISH_DURATION := 1.2
 const MAX_PICKUP_BURSTS := 8
+const MAX_COIN_BURSTS := 12
 const MAX_PASS_STREAKS := 12
 
 var maximum_sparks: int
 var sparks: Array[Dictionary] = []
 var pickup_bursts: Array[Dictionary] = []
+var coin_bursts: Array[Dictionary] = []
 var pass_streaks: Array[Dictionary] = []
 var finish_remaining := 0.0
 var low_fuel_tier: FuelTier = FuelTier.NORMAL
@@ -86,6 +89,11 @@ func spawn_pickup(position: Vector2) -> void:
 		pickup_bursts.pop_front()
 	pickup_bursts.append({"position": position, "life": PICKUP_BURST_DURATION})
 
+func spawn_coin(position: Vector2, combo_multiplier: int) -> void:
+	while coin_bursts.size() >= MAX_COIN_BURSTS:
+		coin_bursts.pop_front()
+	coin_bursts.append({"position": position, "life": COIN_BURST_DURATION, "combo_multiplier": clampi(combo_multiplier, 1, 3)})
+
 func spawn_pass(position: Vector2, near_miss: bool) -> void:
 	while pass_streaks.size() >= MAX_PASS_STREAKS:
 		pass_streaks.pop_front()
@@ -114,6 +122,7 @@ func is_fuel_warning_visible() -> bool:
 func reset() -> void:
 	sparks.clear()
 	pickup_bursts.clear()
+	coin_bursts.clear()
 	pass_streaks.clear()
 	finish_remaining = 0.0
 	low_fuel_tier = FuelTier.NORMAL
@@ -146,6 +155,14 @@ func _update_transient_effects(delta: float) -> void:
 		if updated.life > 0.0:
 			active_pickups.append(updated)
 	pickup_bursts = active_pickups
+
+	var active_coins: Array[Dictionary] = []
+	for burst in coin_bursts:
+		var updated := burst.duplicate()
+		updated.life = maxf(0.0, float(updated.life) - delta)
+		if updated.life > 0.0:
+			active_coins.append(updated)
+	coin_bursts = active_coins
 
 	var active_passes: Array[Dictionary] = []
 	for streak in pass_streaks:

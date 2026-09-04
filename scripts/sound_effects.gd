@@ -27,6 +27,9 @@ static func create_overdrive_release() -> AudioStreamWAV:
 static func create_pickup() -> AudioStreamWAV:
 	return _make_chirp(480.0, 880.0, 0.14, 0.34)
 
+static func create_coin_pickup() -> AudioStreamWAV:
+	return _make_chirp(720.0, 1280.0, 0.11, 0.28)
+
 static func create_warning() -> AudioStreamWAV:
 	return _make_chirp(760.0, 610.0, 0.12, 0.28)
 

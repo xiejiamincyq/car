@@ -10,6 +10,7 @@ var collision_audio: AudioStreamPlayer
 var engine_audio: AudioStreamPlayer
 var acceleration_audio: AudioStreamPlayer
 var pickup_audio: AudioStreamPlayer
+var coin_audio: AudioStreamPlayer
 var warning_audio: AudioStreamPlayer
 var overdrive_start_audio: AudioStreamPlayer
 var overdrive_loop_audio: AudioStreamPlayer
@@ -34,6 +35,7 @@ func _ready() -> void:
 	engine_audio = _make_effect_player(SoundEffects.create_engine_loop(), -18.0)
 	acceleration_audio = _make_effect_player(SoundEffects.create_acceleration(), -12.0)
 	pickup_audio = _make_effect_player(SoundEffects.create_pickup(), -10.0)
+	coin_audio = _make_effect_player(SoundEffects.create_coin_pickup(), -11.0)
 	warning_audio = _make_effect_player(SoundEffects.create_warning(), -13.0)
 	overdrive_start_audio = _make_effect_player(SoundEffects.create_overdrive_ignition(), -9.0)
 	overdrive_loop_audio = _make_effect_player(SoundEffects.create_overdrive_loop(), -16.0)
@@ -46,7 +48,7 @@ func _ready() -> void:
 	add_child(music)
 
 func effect_players() -> Array[AudioStreamPlayer]:
-	return [collision_audio, engine_audio, acceleration_audio, pickup_audio, warning_audio, overdrive_start_audio, overdrive_loop_audio, overdrive_end_audio, ui_audio, event_audio]
+	return [collision_audio, engine_audio, acceleration_audio, pickup_audio, coin_audio, warning_audio, overdrive_start_audio, overdrive_loop_audio, overdrive_end_audio, ui_audio, event_audio]
 
 func apply_bus_settings(new_master_volume: float, new_music_volume: float, new_effects_volume: float, is_muted: bool) -> void:
 	master_volume = clampf(new_master_volume, 0.0, 1.0)
@@ -130,6 +132,10 @@ func play_effect(player: AudioStreamPlayer) -> void:
 		return
 	player.play()
 
+func play_coin_pickup(combo_multiplier: int) -> void:
+	coin_audio.pitch_scale = 1.0 + 0.06 * float(clampi(combo_multiplier, 1, 3) - 1)
+	play_effect(coin_audio)
+
 func play_cue(cue_name: String, player: AudioStreamPlayer = null) -> void:
 	if not _effects_enabled() or not cue_catalog.has(cue_name):
 		return
@@ -185,7 +191,7 @@ func stop_run_audio() -> void:
 		event_audio.stop()
 
 func stop_driving_audio() -> void:
-	for player in [collision_audio, engine_audio, acceleration_audio, pickup_audio, warning_audio, overdrive_start_audio, overdrive_loop_audio, overdrive_end_audio]:
+	for player in [collision_audio, engine_audio, acceleration_audio, pickup_audio, coin_audio, warning_audio, overdrive_start_audio, overdrive_loop_audio, overdrive_end_audio]:
 		if player != null:
 			player.stop()
 

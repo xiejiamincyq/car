@@ -36,6 +36,10 @@ func _init() -> void:
 	for burst_index in range(20):
 		feedback.spawn_pickup(Vector2(100.0 + burst_index, 220.0))
 	assert(feedback.pickup_bursts.size() <= GameFeedback.MAX_PICKUP_BURSTS, "Pickup bursts must respect a hard object cap")
+	for coin_index in range(24):
+		feedback.spawn_coin(Vector2(180.0 + coin_index, 260.0), coin_index % 3 + 1)
+	assert(feedback.coin_bursts.size() <= GameFeedback.MAX_COIN_BURSTS, "Coin star bursts must respect a separate hard object cap")
+	assert(feedback.coin_bursts.back().combo_multiplier == 3, "Coin feedback must retain the non-colour combo intensity cue")
 	for pass_index in range(30):
 		feedback.spawn_pass(Vector2(300.0, 400.0 + pass_index), pass_index % 2 == 1)
 	assert(feedback.pass_streaks.size() <= GameFeedback.MAX_PASS_STREAKS, "Pass streaks must respect a hard object cap")
@@ -43,6 +47,6 @@ func _init() -> void:
 	feedback.start_finish()
 	assert(feedback.finish_remaining > 0.0, "Run clear must start a bounded finish effect")
 	feedback.tick(3.0, 100.0, 1)
-	assert(feedback.pickup_bursts.is_empty() and feedback.pass_streaks.is_empty(), "Transient pickup and pass effects must recycle promptly")
+	assert(feedback.pickup_bursts.is_empty() and feedback.coin_bursts.is_empty() and feedback.pass_streaks.is_empty(), "Transient pickup, coin, and pass effects must recycle promptly")
 	assert(is_zero_approx(feedback.finish_remaining), "Finish effects must end deterministically")
 	quit()
