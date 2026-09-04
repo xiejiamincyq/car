@@ -11,10 +11,16 @@ func _init() -> void:
 	assert(controller.is_active(), "A successful double tap must enter the active state")
 	assert(controller.observe_accelerate_press(100.0, 100.0) == OverdriveController.ActivationResult.UNAVAILABLE, "Repeated presses must not stack an active overdrive")
 
-	controller.tick(GameConfig.OVERDRIVE_RAMP_IN_SECONDS, 100.0)
+	controller.tick(0.35, 100.0)
+	assert(is_equal_approx(controller.intensity(), 0.5), "The doubled acceleration ramp must reach half strength after 0.35 seconds")
+	controller.tick(0.35, 100.0)
 	assert(is_equal_approx(controller.intensity(), 1.0), "Overdrive must reach full strength after its ramp-in")
 	assert(is_equal_approx(controller.speed_limit_bonus(), GameConfig.OVERDRIVE_SPEED_BONUS), "Full overdrive must add exactly 100 km/h to the speed limit")
 	assert(is_equal_approx(controller.acceleration_bonus(), GameConfig.OVERDRIVE_ACCELERATION_BONUS), "Full overdrive must expose its configured acceleration bonus")
+	controller.tick(2.8, 100.0)
+	assert(is_equal_approx(controller.intensity(), 1.0), "Overdrive must hold full strength until the one-second ramp-out begins")
+	controller.tick(0.5, 100.0)
+	assert(is_equal_approx(controller.intensity(), 0.5), "The doubled deceleration ramp must fall to half strength with 0.5 seconds remaining")
 
 	controller.reset()
 	controller.observe_accelerate_press(100.0, 100.0)

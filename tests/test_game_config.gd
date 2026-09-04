@@ -5,6 +5,8 @@ func _init() -> void:
 	assert(config.ROAD_LANE_COUNT == 3, "MVP road must begin with three lanes")
 	assert(config.MAX_SPEED > config.START_SPEED, "Maximum speed must exceed start speed")
 	assert(is_equal_approx(config.OVERDRIVE_DURATION_SECONDS, 4.5), "Playtest tuning must extend overdrive duration by two seconds")
+	assert(is_equal_approx(config.OVERDRIVE_RAMP_IN_SECONDS, 0.70), "Overdrive acceleration ramp must take twice as long as the original value")
+	assert(is_equal_approx(config.OVERDRIVE_RAMP_OUT_SECONDS, 1.00), "Overdrive deceleration ramp must take twice as long as the original value")
 	assert(is_equal_approx(config.OVERDRIVE_FUEL_COST_RATIO, 0.15), "A complete overdrive must commit fifteen percent of the maximum fuel tank")
 	assert(is_equal_approx(config.OVERDRIVE_SPEED_BONUS * config.HUD_SPEED_SCALE, 100.0), "Overdrive must add 100 km/h in the same units shown by the HUD")
 	assert(is_equal_approx(config.OVERDRIVE_ACCELERATION_BONUS * config.HUD_SPEED_SCALE, 280.0), "Overdrive acceleration must use the HUD speed unit contract")
