@@ -22,9 +22,9 @@ func _init() -> void:
 	assert(controller.observe_accelerate_press(100.0, 100.0) == OverdriveController.ActivationResult.NONE, "Two W presses outside the time window must start a new sequence instead of activating")
 
 	controller.reset()
-	controller.observe_accelerate_press(9.99, 100.0)
-	controller.tick(0.1, 9.99)
-	assert(controller.observe_accelerate_press(9.99, 100.0) == OverdriveController.ActivationResult.INSUFFICIENT_FUEL, "Less than ten percent fuel must reject overdrive")
+	controller.observe_accelerate_press(14.99, 100.0)
+	controller.tick(0.1, 14.99)
+	assert(controller.observe_accelerate_press(14.99, 100.0) == OverdriveController.ActivationResult.INSUFFICIENT_FUEL, "Less than fifteen percent fuel must reject overdrive")
 	assert(not controller.is_active(), "A rejected activation must not change the speed limit")
 
 	controller.reset()
@@ -32,18 +32,18 @@ func _init() -> void:
 	controller.tick(0.1, 100.0)
 	controller.observe_accelerate_press(100.0, 100.0)
 	var total_extra_fuel := 0.0
-	for _step in range(50):
+	for _step in range(90):
 		var drained := controller.tick(0.05, 100.0 - total_extra_fuel)
 		total_extra_fuel += drained
-	assert(is_equal_approx(total_extra_fuel, 10.0), "One complete overdrive must gradually consume exactly ten percent of the maximum fuel")
+	assert(is_equal_approx(total_extra_fuel, 15.0), "One complete overdrive must gradually consume exactly fifteen percent of the maximum fuel")
 	assert(controller.is_cooling_down(), "A completed overdrive must enter cooldown")
-	controller.tick(GameConfig.OVERDRIVE_COOLDOWN_SECONDS, 90.0)
+	controller.tick(GameConfig.OVERDRIVE_COOLDOWN_SECONDS, 85.0)
 	assert(controller.is_ready(), "Overdrive must become available after its cooldown")
 
-	controller.observe_accelerate_press(90.0, 100.0)
-	controller.tick(0.1, 90.0)
-	controller.observe_accelerate_press(90.0, 100.0)
-	controller.tick(0.2, 90.0)
+	controller.observe_accelerate_press(85.0, 100.0)
+	controller.tick(0.1, 85.0)
+	controller.observe_accelerate_press(85.0, 100.0)
+	controller.tick(0.2, 85.0)
 	assert(controller.is_active(), "The controller must support a new activation after cooldown")
 	controller.reset()
 	assert(controller.is_ready() and is_zero_approx(controller.intensity()), "Restart must clear active overdrive, cooldown, and visual strength")
