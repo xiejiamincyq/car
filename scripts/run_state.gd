@@ -28,6 +28,7 @@ var distance: float = 0.0
 var score: int = 0
 var overtakes: int = 0
 var near_misses: int = 0
+var coins: int = 0
 var fuel: float
 var difficulty_stage: int = 0
 var _distance_score_remainder: float = 0.0
@@ -124,6 +125,14 @@ func register_near_miss() -> void:
 	if phase == Phase.RUNNING:
 		near_misses += 1
 
+func award_coin(points: int = GameConfig.COIN_SCORE) -> int:
+	if phase != Phase.RUNNING:
+		return 0
+	coins += 1
+	var awarded_points := combo.award(points)
+	score += awarded_points
+	return awarded_points
+
 func break_combo() -> void:
 	combo.clear()
 
@@ -148,6 +157,7 @@ func reset() -> void:
 	score = 0
 	overtakes = 0
 	near_misses = 0
+	coins = 0
 	fuel = max_fuel
 	difficulty_stage = 0
 	_distance_score_remainder = 0.0

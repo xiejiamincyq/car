@@ -62,6 +62,9 @@ func _init() -> void:
 	paused_run.add_fuel(25.0)
 	paused_run.award_overtake(75)
 	assert(paused_run.fuel > 90.0 and paused_run.score > 75, "Fuel pickups and overtakes must reward an active run")
+	var score_before_coin := paused_run.score
+	var coin_score: int = paused_run.award_coin(20)
+	assert(coin_score == 20 and paused_run.coins == 1 and paused_run.score == score_before_coin + 20, "The first coin must add one count, twenty immediate points, and extend the shared combo")
 	var fuel_before_overdrive_cost: float = paused_run.fuel
 	paused_run.consume_fuel(10.0)
 	assert(is_equal_approx(paused_run.fuel, fuel_before_overdrive_cost - 10.0), "An active run must accept explicit gradual overdrive fuel costs")
@@ -69,6 +72,7 @@ func _init() -> void:
 	var paused_fuel: float = paused_run.fuel
 	paused_run.consume_fuel(10.0)
 	assert(is_equal_approx(paused_run.fuel, paused_fuel), "Paused gameplay must not consume overdrive fuel")
+	assert(paused_run.award_coin(20) == 0 and paused_run.coins == 1, "Paused gameplay must not settle coins")
 	paused_run.reset()
-	assert(paused_run.phase == RunState.Phase.READY and is_zero_approx(paused_run.distance) and paused_run.score == 0 and is_equal_approx(paused_run.fuel, 100.0), "Reset must clear all per-run state")
+	assert(paused_run.phase == RunState.Phase.READY and is_zero_approx(paused_run.distance) and paused_run.score == 0 and paused_run.coins == 0 and is_equal_approx(paused_run.fuel, 100.0), "Reset must clear all per-run state")
 	quit()
