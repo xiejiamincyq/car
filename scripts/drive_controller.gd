@@ -46,7 +46,11 @@ func step(
 	var effective_acceleration := acceleration + maxf(0.0, temporary_acceleration_bonus)
 	var effective_max_speed := (max_speed + maxf(0.0, temporary_max_speed_bonus)) * clampf(maximum_speed_multiplier, 0.0, 1.0)
 	var speed_change := (accelerate_input * effective_acceleration - brake_input * braking - resistance) * delta
-	speed = clampf(speed + speed_change, 0.0, effective_max_speed)
+	if speed > effective_max_speed:
+		# Damage lowers the attainable speed, not the instantaneous velocity.
+		speed = maxf(0.0, move_toward(speed, effective_max_speed, maxf(rolling_resistance, braking * 0.35) * delta) + minf(0.0, speed_change))
+	else:
+		speed = clampf(speed + speed_change, 0.0, effective_max_speed)
 	var center_limit := maxf(0.0, road_half_width - player_half_width)
 	lateral_position = clampf(
 		lateral_position + steering_input * steering_speed * clampf(steering_multiplier, 0.0, 1.0) * delta,

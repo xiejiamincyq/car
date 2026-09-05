@@ -41,16 +41,17 @@ func is_failed() -> bool:
 	return current < FAILURE_THRESHOLD
 
 func max_speed_multiplier() -> float:
-	match condition():
-		Condition.DAMAGED: return DAMAGED_MAX_SPEED_MULTIPLIER
-		Condition.CRITICAL, Condition.FAILED: return CRITICAL_MAX_SPEED_MULTIPLIER
-		_: return 1.0
+	return _performance_curve(1.0, 0.92, 0.78, 0.72)
 
 func steering_multiplier() -> float:
-	match condition():
-		Condition.DAMAGED: return DAMAGED_STEERING_MULTIPLIER
-		Condition.CRITICAL, Condition.FAILED: return CRITICAL_STEERING_MULTIPLIER
-		_: return 1.0
+	return _performance_curve(1.0, 0.88, 0.68, 0.60)
+
+func _performance_curve(full: float, damaged: float, critical: float, minimum: float) -> float:
+	if current > 70.0:
+		return lerpf(damaged, full, clampf((current-70.0)/30.0, 0.0, 1.0))
+	if current > 30.0:
+		return lerpf(critical, damaged, (current-30.0)/40.0)
+	return lerpf(minimum, critical, clampf((current-20.0)/10.0, 0.0, 1.0))
 
 func reset() -> void:
 	current = MAX_INTEGRITY

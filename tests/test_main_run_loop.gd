@@ -59,8 +59,8 @@ func _run() -> void:
 	event_main.drive.lateral_position = -130.0
 	var speed_before_cone: float = event_main.drive.speed
 	event_main._check_construction_collisions()
-	assert(is_equal_approx(event_main.drive.speed, speed_before_cone * (1.0 - event_main.GameConfig.LANE_EVENT_CONE_SPEED_PENALTY_RATIO)), "Knocking over a cone must apply the bounded percentage speed penalty")
-	assert(event_main.cone_hit_cooldown > 0.0 and event_main.knocked_cones.size() == 1, "A cone hit must start repeat-damage protection and create one knock-away visual")
+	assert(event_main.drive.speed <= speed_before_cone and event_main.drive.speed >= speed_before_cone * 0.99, "Lightweight cones must cause only a small impulse")
+	assert(event_main.integrity.current >= 98.0 and event_main.knocked_cones.size() == 1, "A cone must be knocked away with at most two points of damage")
 	event_main.free()
 
 	var track_main = MainScene.instantiate()

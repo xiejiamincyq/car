@@ -18,5 +18,10 @@ func _init() -> void:
 	assert(is_equal_approx(VehicleIntegrity.damage_for_impact(0.0, 760.0), 12.0), "A low-speed contact must still cause the minimum integrity loss")
 	assert(is_equal_approx(VehicleIntegrity.damage_for_impact(760.0, 760.0), 22.0), "A top-speed impact must use the bounded maximum integrity loss")
 	integrity.reset()
+	integrity.current = 85.0
+	assert(is_equal_approx(integrity.max_speed_multiplier(), 0.96) and is_equal_approx(integrity.steering_multiplier(), 0.94), "Performance interpolates continuously between nodes")
+	integrity.current = 20.0
+	assert(is_equal_approx(integrity.max_speed_multiplier(), 0.72) and is_equal_approx(integrity.steering_multiplier(), 0.60))
+	integrity.reset()
 	assert(is_equal_approx(integrity.current, 100.0) and integrity.condition() == VehicleIntegrity.Condition.HEALTHY, "Restarting must restore full integrity")
 	quit()

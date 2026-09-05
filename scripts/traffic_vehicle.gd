@@ -30,6 +30,11 @@ var half_length: float = NORMAL_HALF_LENGTH
 var visual_variant: int = 0
 var cruise_speed: float = NORMAL_CRUISE_SPEED
 var lane_change_enabled: bool = false
+var impact_speed_offset := 0.0
+var previous_lane_position := 0.0
+var lateral_velocity := 0.0
+var previous_y := 0.0
+var actual_world_speed := 0.0
 
 func _init(vehicle_kind: int, initial_lane: int, initial_y: float, change_target: int = -1, variant: int = 0, assigned_cruise_speed: float = -1.0) -> void:
 	configure(vehicle_kind, initial_lane, initial_y, change_target, variant, assigned_cruise_speed)
@@ -39,11 +44,15 @@ func configure(vehicle_kind: int, initial_lane: int, initial_y: float, change_ta
 	lane = initial_lane
 	target_lane = change_target
 	y = initial_y
+	previous_y = y
 	warning_remaining = 0.0
 	change_started = false
 	warning_started = false
 	spawn_was_fair = false
 	lane_position = float(lane)
+	previous_lane_position = lane_position
+	lateral_velocity = 0.0
+	impact_speed_offset = 0.0
 	overtake_warning_remaining = 0.0
 	passed_player = false
 	was_ahead_of_player = false
@@ -53,6 +62,7 @@ func configure(vehicle_kind: int, initial_lane: int, initial_y: float, change_ta
 	half_length = TRUCK_HALF_LENGTH if kind == TRUCK_KIND else NORMAL_HALF_LENGTH
 	visual_variant = maxi(0, variant)
 	cruise_speed = assigned_cruise_speed if assigned_cruise_speed > 0.0 else _cruise_speed_for_kind(kind)
+	actual_world_speed = cruise_speed
 	lane_change_enabled = kind == SIGNAL_CHANGE_KIND
 
 static func _cruise_speed_for_kind(vehicle_kind: int) -> float:

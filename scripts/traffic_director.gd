@@ -60,6 +60,9 @@ func _init(seed: int, lanes: int = 3, safe_distance: float = 620.0, lane_gap: fl
 	lane_events = LaneEventDirector.new(_event_seed(_initial_seed), lane_count, GameConfig.LANE_EVENTS_ENABLED)
 
 func tick(delta: float, player_speed: float, player_lane: int = 1) -> void:
+	for vehicle in vehicles:
+		vehicle.previous_lane_position = vehicle.lane_position
+		vehicle.previous_y = vehicle.y
 	_player_speed = player_speed
 	_player_lane = player_lane
 	if lane_events.state == LaneEventDirector.State.WARNING and not _closure_can_continue():
@@ -85,6 +88,15 @@ func tick(delta: float, player_speed: float, player_lane: int = 1) -> void:
 			_advance_normal_vehicle(vehicle, delta, player_speed)
 	_resolve_fast_safety_after_normal_advance()
 	for vehicle in vehicles:
+		vehicle.lateral_velocity = (vehicle.lane_position - vehicle.previous_lane_position) * (GameConfig.ROAD_HALF_WIDTH * 2.0 / lane_count) / maxf(0.001, delta)
+		if not is_zero_approx(vehicle.impact_speed_offset):
+			var previous_y := vehicle.y
+			vehicle.y -= vehicle.impact_speed_offset * GameConfig.ROAD_SCROLL_MULTIPLIER * delta
+			if has_full_lane_wall() or has_vehicle_overlap():
+				vehicle.y = previous_y
+				vehicle.impact_speed_offset = 0.0
+			vehicle.impact_speed_offset = move_toward(vehicle.impact_speed_offset, 0.0, 90.0 * delta)
+	for vehicle in vehicles:
 		if vehicle.kind != Kind.FAST_OVERTAKE:
 			_recheck_lane_change_commitment_after_advance(vehicle)
 	# A warning that was safe at the start of the frame can become unsafe after
@@ -92,6 +104,9 @@ func tick(delta: float, player_speed: float, player_lane: int = 1) -> void:
 	if lane_events.state == LaneEventDirector.State.WARNING and not _closure_can_continue():
 		lane_events.cancel_warning()
 	_recycle_offscreen_vehicles()
+	if delta > 0.0:
+		for vehicle in vehicles:
+			vehicle.actual_world_speed = player_speed - (vehicle.y-vehicle.previous_y) / (GameConfig.ROAD_SCROLL_MULTIPLIER * delta)
 
 func acquire_vehicle(kind: int, lane: int, y: float, assigned_cruise_speed: float = -1.0) -> TrafficVehicle:
 	var target_lane := _target_lane_for(kind, lane)

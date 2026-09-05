@@ -4,11 +4,12 @@ extends RefCounted
 const GameFeedback = preload("res://scripts/game_feedback.gd")
 const VehicleVisualAnimation = preload("res://scripts/vehicle_visual_animation.gd")
 
-static func draw_vehicle_damage(canvas: CanvasItem, time: float, condition: int, reduced: bool) -> void:
+static func draw_vehicle_damage(canvas: CanvasItem, time: float, condition: int, reduced: bool, impact_normal: Vector2 = Vector2.UP) -> void:
 	if condition <= 0:
 		return
 	var critical := condition >= 2
-	canvas.draw_polyline(PackedVector2Array([Vector2(-18,-42), Vector2(-5,-30), Vector2(-12,-21), Vector2(8,-10)]), Color("282d35"), 3.0, true)
+	var dent := Vector2(impact_normal.x * 24.0, impact_normal.y * 35.0)
+	canvas.draw_polyline(PackedVector2Array([dent+Vector2(-9,-7), dent+Vector2(4,0), dent+Vector2(-3,9), dent+Vector2(7,15)]), Color("282d35"), 3.0, true)
 	var count := 7 if critical else 3
 	for index in range(count):
 		var age := fposmod(time * 0.65 + float(index) / count, 1.0)

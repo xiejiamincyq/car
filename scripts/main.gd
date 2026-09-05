@@ -6,6 +6,7 @@ const TrafficDirector = preload("res://scripts/traffic_director.gd")
 const CollisionResponder = preload("res://scripts/collision_responder.gd")
 const RunState = preload("res://scripts/run_state.gd")
 const VehicleIntegrity = preload("res://scripts/vehicle_integrity.gd")
+const ImpactModel = preload("res://scripts/impact_model.gd")
 const FuelPickup = preload("res://scripts/fuel_pickup.gd")
 const VisualStyle = preload("res://scripts/visual_style.gd")
 const AudioDirector = preload("res://scripts/audio/audio_director.gd")
@@ -51,6 +52,12 @@ var collision: CollisionResponder
 var run: RunState
 var integrity := VehicleIntegrity.new()
 var integrity_label: Label
+var impact_contacts: Dictionary = {}
+var construction_contacts: Dictionary = {}
+var impact_cooldown := 0.0
+var lateral_velocity := 0.0
+var lateral_impulse := 0.0
+var last_impact_normal := Vector2.UP
 var overdrive: OverdriveController
 var road_scroll := 0.0
 var screen_shake := Vector2.ZERO
@@ -279,7 +286,12 @@ func _process(delta: float) -> void:
 	var overdrive_fuel_cost := overdrive.tick(delta, run.fuel)
 	run.consume_fuel(overdrive_fuel_cost)
 	var speed_before_step := drive.speed
+	var lateral_before_step := drive.lateral_position
 	drive.step(delta, accelerate_input, brake_input, steering_input, overdrive.speed_limit_bonus(), overdrive.acceleration_bonus(), integrity.max_speed_multiplier(), integrity.steering_multiplier())
+	drive.lateral_position = clampf(drive.lateral_position + lateral_impulse * delta, -drive.road_half_width + drive.player_half_width, drive.road_half_width - drive.player_half_width)
+	lateral_impulse = move_toward(lateral_impulse, 0.0, 500.0 * delta)
+	lateral_velocity = (drive.lateral_position-lateral_before_step) / maxf(0.001, delta)
+	impact_cooldown = maxf(0.0, impact_cooldown-delta)
 	var forward_acceleration := 0.0 if delta <= 0.0 else maxf(0.0, (drive.speed - speed_before_step) / delta)
 	visual_animation_time += delta
 	acceleration_visual_strength = move_toward(acceleration_visual_strength, accelerate_input, delta * 5.0)
@@ -382,7 +394,7 @@ func _draw() -> void:
 	RaceEffectRenderer.draw_overdrive_afterimages(self, current_player_texture, car_center, player_size, impact_rotation + steering_rotation, impact_scale, screen_shake, overdrive_strength)
 	draw_set_transform(screen_shake + car_center, impact_rotation + steering_rotation, impact_scale)
 	draw_texture_rect(current_player_texture, player_rect, false, player_modulate)
-	RaceEffectRenderer.draw_vehicle_damage(self, visual_animation_time, integrity.condition(), reduced_flashing_enabled)
+	RaceEffectRenderer.draw_vehicle_damage(self, visual_animation_time, integrity.condition(), reduced_flashing_enabled, last_impact_normal)
 	draw_set_transform(screen_shake)
 	RaceEffectRenderer.draw_braking(self, car_center, visual_animation_time, brake_visual_strength, drive.speed, drive.max_speed)
 	RaceEffectRenderer.draw_collision_ring(self, car_center, collision_visual_remaining, _warning_color())
@@ -577,12 +589,20 @@ func _check_collisions() -> void:
 	for vehicle in traffic.vehicles:
 		var traffic_center := Vector2(road_left + lane_width * (vehicle.lane_position + 0.5), vehicle.y)
 		if absf(traffic_center.x - player_center.x) < traffic.collision_lateral_distance_for(vehicle) and absf(traffic_center.y - player_center.y) < traffic.collision_distance_for(vehicle):
+			var key := vehicle.get_instance_id()
+			if impact_contacts.has(key):
+				continue
+			impact_contacts[key] = vehicle
+			var extents := Vector2(traffic.collision_lateral_distance_for(vehicle), traffic.collision_distance_for(vehicle))
+			var normal := ImpactModel.contact_normal(traffic_center-player_center, extents)
+			var mass := 2.5 if vehicle.kind == TrafficDirector.Kind.TRUCK else (1.3 if vehicle.visual_variant % 2 == 1 else 1.0)
+			var other_velocity := Vector2(vehicle.lateral_velocity / GameConfig.ROAD_SCROLL_MULTIPLIER, -vehicle.actual_world_speed) * GameConfig.HUD_SPEED_SCALE
 			var impact_speed := drive.speed
-			var outcome := collision.try_collide(drive.speed)
-			if outcome.hit:
-				drive.speed = outcome.speed
+			var outcome := _resolve_impact(other_velocity, normal, mass)
+			if outcome.damage > 0.0:
+				vehicle.impact_speed_offset = clampf(vehicle.impact_speed_offset - outcome.other_delta.y / GameConfig.HUD_SPEED_SCALE, -100.0, 100.0)
 				# Preserve NPC world position; teleporting it behind the player can
-				# place its body inside another NPC. Invulnerability permits separation.
+				# place its body inside another NPC. Contact tracking prevents repeat hits.
 				vehicle.collided_with_player = true
 				run.break_combo()
 				feedback.spawn_collision(player_center, impact_speed, drive.max_speed)
@@ -591,8 +611,31 @@ func _check_collisions() -> void:
 					screen_shake = Vector2(shake, -shake * 0.7)
 				audio_director.play_effect(audio_director.collision_audio)
 				_start_collision_animation(signf(player_center.x - traffic_center.x))
-				_apply_integrity_damage(VehicleIntegrity.damage_for_impact(impact_speed, drive.max_speed))
-				return
+				_apply_integrity_damage(outcome.damage)
+	# Retain contacts until there is an actual gap, including a small hysteresis.
+	for key in impact_contacts.keys():
+		var vehicle = impact_contacts[key]
+		var x: float = road_left + lane_width * (vehicle.lane_position + 0.5)
+		if not traffic.vehicles.has(vehicle) or absf(x-player_center.x) > traffic.collision_lateral_distance_for(vehicle)+5.0 or absf(vehicle.y-player_center.y) > traffic.collision_distance_for(vehicle)+5.0:
+			impact_contacts.erase(key)
+
+func _resolve_impact(other_velocity: Vector2, normal: Vector2, mass: float, fixed: bool = false, cone: bool = false) -> Dictionary:
+	var player_mass := 1.0
+	match StringName(current_vehicle.id):
+		&"tidebreaker": player_mass = 1.3
+		&"driftwing", &"flashpoint": player_mass = 0.9
+	var protection := clampf(260.0 / float(current_vehicle.collision_speed_penalty), 0.85, 1.15)
+	var velocity := Vector2(lateral_velocity / GameConfig.ROAD_SCROLL_MULTIPLIER, -drive.speed) * GameConfig.HUD_SPEED_SCALE
+	var outcome := ImpactModel.resolve(velocity, other_velocity, normal, player_mass, mass, protection, fixed, cone)
+	if impact_cooldown > 0.0 or run.phase != RunState.Phase.RUNNING:
+		outcome.damage = 0.0
+		return outcome
+	if outcome.damage > 0.0:
+		impact_cooldown = 0.15
+		last_impact_normal = normal
+		drive.speed = clampf(drive.speed - outcome.player_delta.y / GameConfig.HUD_SPEED_SCALE, 0.0, drive.max_speed + GameConfig.OVERDRIVE_SPEED_BONUS)
+		lateral_impulse = clampf(lateral_impulse + outcome.player_delta.x / GameConfig.HUD_SPEED_SCALE * GameConfig.ROAD_SCROLL_MULTIPLIER, -120.0, 120.0)
+	return outcome
 
 func _check_construction_collisions() -> void:
 	var viewport_size := get_viewport_rect().size
@@ -608,16 +651,24 @@ func _check_construction_collisions() -> void:
 			_apply_cone_hit(player_center, cone_center)
 			if run.phase != RunState.Phase.RUNNING:
 				return
+	var touched_core := false
 	for marker in traffic.lane_events.core_markers(viewport_size.y):
 		var core_center := Vector2(road_left + lane_width * marker.x, marker.y)
 		if absf(core_center.x - player_center.x) < lane_width * GameConfig.LANE_EVENT_CORE_HALF_LANE_RATIO + drive.player_half_width and absf(core_center.y - player_center.y) < 62.0:
-			_apply_solid_construction_hit(player_center, core_center)
+			touched_core = true
+			if not construction_contacts.has("core"):
+				construction_contacts["core"] = true
+				_apply_solid_construction_hit(player_center, core_center)
+	if not touched_core:
+		construction_contacts.clear()
 
 func _apply_cone_hit(player_center: Vector2, cone_center: Vector2) -> void:
 	if cone_hit_cooldown > 0.0 or run.phase != RunState.Phase.RUNNING:
 		return
 	var impact_speed := drive.speed
-	drive.speed = maxf(0.0, drive.speed * (1.0 - GameConfig.LANE_EVENT_CONE_SPEED_PENALTY_RATIO))
+	var outcome := _resolve_impact(Vector2.ZERO, ImpactModel.contact_normal(cone_center-player_center, Vector2(44,46)), 0.01, false, true)
+	if outcome.damage <= 0.0:
+		return
 	cone_hit_cooldown = GameConfig.LANE_EVENT_CONE_HIT_COOLDOWN
 	run.break_combo()
 	feedback.spawn_collision(player_center, impact_speed * 0.45, drive.max_speed)
@@ -625,16 +676,15 @@ func _apply_cone_hit(player_center: Vector2, cone_center: Vector2) -> void:
 		screen_shake = Vector2(3.0 * signf(player_center.x - cone_center.x), -2.0)
 	audio_director.play_effect(audio_director.collision_audio)
 	_start_collision_animation(signf(player_center.x - cone_center.x))
-	_apply_integrity_damage(GameConfig.INTEGRITY_CONE_DAMAGE)
+	_apply_integrity_damage(outcome.damage)
 
 func _apply_solid_construction_hit(player_center: Vector2, core_center: Vector2) -> void:
 	if run.phase != RunState.Phase.RUNNING:
 		return
 	var impact_speed := drive.speed
-	var outcome := collision.try_collide(impact_speed)
-	if not outcome.hit:
+	var outcome := _resolve_impact(Vector2.ZERO, ImpactModel.contact_normal(core_center-player_center, Vector2(100,62)), 100.0, true)
+	if outcome.damage <= 0.0:
 		return
-	drive.speed = outcome.speed
 	run.break_combo()
 	feedback.spawn_collision(player_center, impact_speed, drive.max_speed)
 	if screen_shake_enabled:
@@ -642,14 +692,13 @@ func _apply_solid_construction_hit(player_center: Vector2, core_center: Vector2)
 		screen_shake = Vector2(shake * signf(player_center.x - core_center.x), -shake * 0.7)
 	audio_director.play_effect(audio_director.collision_audio)
 	_start_collision_animation(signf(player_center.x - core_center.x))
-	_apply_integrity_damage(GameConfig.INTEGRITY_CONSTRUCTION_DAMAGE)
+	_apply_integrity_damage(outcome.damage)
 
 func _apply_integrity_damage(amount: float) -> void:
 	if run.phase != RunState.Phase.RUNNING:
 		return
 	run.register_collision()
 	integrity.apply_damage(amount)
-	drive.speed = minf(drive.speed, (drive.max_speed + overdrive.speed_limit_bonus()) * integrity.max_speed_multiplier())
 	if integrity.is_failed():
 		run.fail_integrity()
 		overdrive.reset()
@@ -717,6 +766,12 @@ func _reset_run(run_seed_override: int = -1) -> void:
 	current_run_seed = run_seed_override if run_seed_override >= 0 else run_seed_sequence.next_seed()
 	drive.reset()
 	integrity.reset()
+	impact_contacts.clear()
+	construction_contacts.clear()
+	impact_cooldown = 0.0
+	lateral_velocity = 0.0
+	lateral_impulse = 0.0
+	last_impact_normal = Vector2.UP
 	overdrive.reset()
 	road_scroll = 0.0
 	traffic.reset(current_run_seed)
