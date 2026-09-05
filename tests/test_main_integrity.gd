@@ -9,6 +9,15 @@ func _run() -> void:
 	var main = MainScene.instantiate()
 	root.add_child(main)
 	main.set_process(false)
+	for difficulty in range(3):
+		main.difficulty_index = difficulty
+		main._reset_run(611)
+		main.run.start()
+		main._apply_integrity_damage(20.0)
+		assert(is_equal_approx(main.integrity.current, [96.0, 90.0, 80.0][difficulty]), "Difficulty must scale final integrity loss exactly once")
+		assert(main.run.collisions == 1, "Difficulty must not scale collision counts")
+	main.difficulty_index = 2
+	main._reset_run(611)
 	main.run.start()
 	main.drive.speed = main.drive.max_speed
 	var npc = main.traffic.acquire_vehicle(0, 1, main.TrackGeometry.player_y(main.get_viewport_rect().size.y))

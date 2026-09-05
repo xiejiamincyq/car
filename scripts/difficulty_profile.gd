@@ -4,6 +4,7 @@ extends RefCounted
 const PROFILES := [
 	{
 		"fuel_drain_multiplier": 0.80,
+		"integrity_damage_multiplier": 0.2,
 		"traffic_interval_multiplier": 1.15,
 		"event_interval_multiplier": 1.35,
 		"combo_window_multiplier": 1.20,
@@ -12,6 +13,7 @@ const PROFILES := [
 	},
 	{
 		"fuel_drain_multiplier": 1.0,
+		"integrity_damage_multiplier": 0.5,
 		"traffic_interval_multiplier": 1.0,
 		"event_interval_multiplier": 1.0,
 		"combo_window_multiplier": 1.0,
@@ -20,6 +22,7 @@ const PROFILES := [
 	},
 	{
 		"fuel_drain_multiplier": 1.15,
+		"integrity_damage_multiplier": 1.0,
 		"traffic_interval_multiplier": 0.85,
 		"event_interval_multiplier": 0.80,
 		"combo_window_multiplier": 0.85,

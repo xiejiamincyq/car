@@ -698,7 +698,8 @@ func _apply_integrity_damage(amount: float) -> void:
 	if run.phase != RunState.Phase.RUNNING:
 		return
 	run.register_collision()
-	integrity.apply_damage(amount)
+	var damage_multiplier := float(DifficultyProfile.for_index(difficulty_index).integrity_damage_multiplier)
+	integrity.apply_damage(amount * damage_multiplier)
 	if integrity.is_failed():
 		run.fail_integrity()
 		overdrive.reset()
