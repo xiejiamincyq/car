@@ -83,6 +83,8 @@ const TEXT_ROWS := [
 	["result.title", "返回标题", "RETURN TO TITLE"],
 	["result.reason.clear", "抵达终点", "FINISH REACHED"],
 	["result.reason.fuel", "燃油耗尽", "OUT OF FUEL"],
+	["result.reason.integrity", "车辆严重损毁 · 完整度低于20%", "VEHICLE WRECKED · INTEGRITY BELOW 20%"],
+	["hud.integrity", "完整度 {0}%", "HULL {0}%"],
 	["result.summary", "{0}\n\n得分  {1}\n距离  {2}m\n超车  {3}    近失  {4}\n到达赛段  {5}\n局种子  {6}", "{0}\n\nSCORE  {1}\nDISTANCE  {2}m\nOVERTAKES  {3}    NEAR MISSES  {4}\nSTAGE REACHED  {5}\nRUN SEED  {6}"],
 	["confirm.restart", "当前比赛进度将丢失，确定重新开始？", "Current race progress will be lost. Restart?"],
 	["confirm.title", "当前比赛进度将丢失，确定返回标题？", "Current race progress will be lost. Return to title?"],

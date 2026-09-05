@@ -18,11 +18,11 @@ func _run() -> void:
 		assert(is_equal_approx(main.drive.acceleration, vehicle.acceleration), "%s acceleration must reach the controller" % vehicle.id)
 		assert(is_equal_approx(main.drive.braking, vehicle.braking), "%s braking must reach the controller" % vehicle.id)
 		assert(is_equal_approx(main.drive.steering_speed, vehicle.steering_speed), "%s steering must reach the controller" % vehicle.id)
-		assert(is_equal_approx(main.collision.speed_penalty, vehicle.collision_speed_penalty), "%s collision loss must reach the responder" % vehicle.id)
+		assert(is_equal_approx(main.collision.speed_penalty, vehicle.collision_speed_penalty * main.GameConfig.COLLISION_SPEED_PENALTY_MULTIPLIER), "%s collision loss must include the global penalty adjustment" % vehicle.id)
 		assert(main.current_player_texture.resource_path == String(vehicle.texture_path), "%s must render its own sprite" % vehicle.id)
 		main.drive.speed = vehicle.max_speed
 		var hit = main.collision.try_collide(main.drive.speed)
-		assert(is_equal_approx(hit.speed, vehicle.max_speed - vehicle.collision_speed_penalty), "%s collision must apply its profile penalty" % vehicle.id)
+		assert(is_equal_approx(hit.speed, vehicle.max_speed - vehicle.collision_speed_penalty * main.GameConfig.COLLISION_SPEED_PENALTY_MULTIPLIER), "%s collision must apply its adjusted profile penalty" % vehicle.id)
 	main.save_data.tour.selected_vehicle_id = &"driftwing"
 	main._start_new_run()
 	main._restart_run()

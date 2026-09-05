@@ -37,6 +37,9 @@ func _capture() -> void:
 	main.high_contrast_enabled = high_contrast
 	if arguments.size() >= 7:
 		match arguments[6]:
+			"damage_preview":
+				main.integrity.current = 25.0
+				main.visual_animation_time = 1.7
 			"lane_change_preview":
 				_stage_lane_change_preview(main)
 			"lane_change_motion_preview":

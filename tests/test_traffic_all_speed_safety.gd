@@ -9,6 +9,7 @@ const STEPS_PER_CASE := 600
 
 func _init() -> void:
 	var player_speeds := [0.0, 180.0, GameConfig.START_SPEED, 560.0, GameConfig.MAX_SPEED, GameConfig.MAX_SPEED + GameConfig.OVERDRIVE_SPEED_BONUS]
+	player_speeds.append(-1.0)
 	for seed in range(1, 21):
 		for player_speed in player_speeds:
 			var traffic := TrafficDirector.new(seed, GameConfig.ROAD_LANE_COUNT, GameConfig.MIN_SPAWN_DISTANCE, GameConfig.MIN_TRAFFIC_GAP)
@@ -17,7 +18,8 @@ func _init() -> void:
 			traffic.configure_difficulty(DifficultyProfile.for_index(2))
 			for step in range(STEPS_PER_CASE):
 				var player_lane := (seed + step / 90) % GameConfig.ROAD_LANE_COUNT
-				traffic.tick(STEP_SECONDS, player_speed, player_lane)
+				var actual_speed: float = player_speed if player_speed >= 0.0 else (0.5 + 0.5 * sin(float(step) * 0.035)) * (GameConfig.MAX_SPEED + GameConfig.OVERDRIVE_SPEED_BONUS)
+				traffic.tick(STEP_SECONDS, actual_speed, player_lane)
 				assert(not traffic.has_full_lane_wall(), "Seed %d speed %.0f must never form a three-lane NPC wall at step %d: %s" % [seed, player_speed, step, _traffic_signature(traffic.vehicles)])
 				assert(not traffic.has_vehicle_overlap(), "Seed %d speed %.0f must never allow NPC body clipping at step %d: %s" % [seed, player_speed, step, _traffic_signature(traffic.vehicles)])
 	quit()

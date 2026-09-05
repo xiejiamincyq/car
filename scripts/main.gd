@@ -5,6 +5,7 @@ const DriveController = preload("res://scripts/drive_controller.gd")
 const TrafficDirector = preload("res://scripts/traffic_director.gd")
 const CollisionResponder = preload("res://scripts/collision_responder.gd")
 const RunState = preload("res://scripts/run_state.gd")
+const VehicleIntegrity = preload("res://scripts/vehicle_integrity.gd")
 const FuelPickup = preload("res://scripts/fuel_pickup.gd")
 const VisualStyle = preload("res://scripts/visual_style.gd")
 const AudioDirector = preload("res://scripts/audio/audio_director.gd")
@@ -48,6 +49,8 @@ var drive: DriveController
 var traffic: TrafficDirector
 var collision: CollisionResponder
 var run: RunState
+var integrity := VehicleIntegrity.new()
+var integrity_label: Label
 var overdrive: OverdriveController
 var road_scroll := 0.0
 var screen_shake := Vector2.ZERO
@@ -141,7 +144,7 @@ func _ready() -> void:
 	traffic = TrafficDirector.new(current_run_seed, GameConfig.ROAD_LANE_COUNT, GameConfig.MIN_SPAWN_DISTANCE, GameConfig.MIN_TRAFFIC_GAP)
 	fuel_spawn_director = FuelSpawnDirector.new(_fuel_seed_for_run(current_run_seed), GameConfig.ROAD_LANE_COUNT, GameConfig.FUEL_PICKUP_INTERVAL)
 	coin_director = CoinGameplayDirector.new(_coin_seed_for_run(current_run_seed), GameConfig.ROAD_LANE_COUNT)
-	collision = CollisionResponder.new(GameConfig.COLLISION_SPEED_PENALTY, GameConfig.COLLISION_INVULNERABILITY_SECONDS)
+	collision = CollisionResponder.new(GameConfig.COLLISION_SPEED_PENALTY * GameConfig.COLLISION_SPEED_PENALTY_MULTIPLIER, GameConfig.COLLISION_INVULNERABILITY_SECONDS)
 	run = RunState.new(GameConfig.MAX_FUEL, GameConfig.FUEL_DRAIN_PER_SECOND, GameConfig.FUEL_GRACE_SECONDS)
 	overdrive = OverdriveController.new()
 	run.configure_track(current_track)
@@ -157,6 +160,7 @@ func _ready() -> void:
 	score_label = $CanvasLayer/RaceHUD/Rows/Score
 	coin_label = $CanvasLayer/RaceHUD/CoinLabel
 	fuel_label = $CanvasLayer/RaceHUD/Rows/Fuel
+	integrity_label = $CanvasLayer/RaceHUD/IntegrityLabel
 	run_status_label = $CanvasLayer/RaceHUD/Rows/RunStatus
 	fuel_gauge = $CanvasLayer/RaceHUD/Rows/FuelGauge
 	overdrive_label = $CanvasLayer/RaceHUD/Rows/OverdriveLabel
@@ -275,7 +279,7 @@ func _process(delta: float) -> void:
 	var overdrive_fuel_cost := overdrive.tick(delta, run.fuel)
 	run.consume_fuel(overdrive_fuel_cost)
 	var speed_before_step := drive.speed
-	drive.step(delta, accelerate_input, brake_input, steering_input, overdrive.speed_limit_bonus(), overdrive.acceleration_bonus())
+	drive.step(delta, accelerate_input, brake_input, steering_input, overdrive.speed_limit_bonus(), overdrive.acceleration_bonus(), integrity.max_speed_multiplier(), integrity.steering_multiplier())
 	var forward_acceleration := 0.0 if delta <= 0.0 else maxf(0.0, (drive.speed - speed_before_step) / delta)
 	visual_animation_time += delta
 	acceleration_visual_strength = move_toward(acceleration_visual_strength, accelerate_input, delta * 5.0)
@@ -310,14 +314,19 @@ func _process(delta: float) -> void:
 	traffic.tick(delta, drive.speed, _player_lane())
 	audio_director.update_lane_event_cue(traffic.lane_events.state, LaneEventDirector.State.WARNING, LaneEventDirector.State.CLOSED)
 	_check_construction_collisions()
-	var effective_max_speed := drive.max_speed + overdrive.speed_limit_bonus()
+	if run.phase != RunState.Phase.RUNNING:
+		_update_hud()
+		queue_redraw()
+		return
+	var effective_max_speed := (drive.max_speed + overdrive.speed_limit_bonus()) * integrity.max_speed_multiplier()
 	audio_director.update_overdrive(overdrive.is_active(), overdrive.intensity())
 	audio_director.update_driving(delta, drive.speed / maxf(1.0, effective_max_speed), accelerate_input > 0.0 and Input.is_action_just_pressed("accelerate"), traffic.vehicles)
 	_update_fuel_pickups(delta)
 	_update_coins(delta)
 	collision.advance(delta)
 	_check_collisions()
-	_award_pass_events()
+	if run.phase == RunState.Phase.RUNNING:
+		_award_pass_events()
 	screen_shake = screen_shake.move_toward(Vector2.ZERO, 140.0 * delta)
 	_update_hud()
 	queue_redraw()
@@ -368,10 +377,12 @@ func _draw() -> void:
 	var player_modulate := Color(1.0, 1.0, 1.0, 0.45) if _is_player_flashing() else Color.WHITE
 	var impact_rotation := VehicleVisualAnimation.collision_rotation(collision_visual_remaining, collision_visual_direction)
 	var steering_rotation := VehicleVisualAnimation.steering_rotation(steering_visual_strength)
+	steering_rotation += VehicleVisualAnimation.damage_wobble(visual_animation_time, integrity.condition(), reduced_flashing_enabled)
 	var impact_scale := VehicleVisualAnimation.collision_scale(collision_visual_remaining)
 	RaceEffectRenderer.draw_overdrive_afterimages(self, current_player_texture, car_center, player_size, impact_rotation + steering_rotation, impact_scale, screen_shake, overdrive_strength)
 	draw_set_transform(screen_shake + car_center, impact_rotation + steering_rotation, impact_scale)
 	draw_texture_rect(current_player_texture, player_rect, false, player_modulate)
+	RaceEffectRenderer.draw_vehicle_damage(self, visual_animation_time, integrity.condition(), reduced_flashing_enabled)
 	draw_set_transform(screen_shake)
 	RaceEffectRenderer.draw_braking(self, car_center, visual_animation_time, brake_visual_strength, drive.speed, drive.max_speed)
 	RaceEffectRenderer.draw_collision_ring(self, car_center, collision_visual_remaining, _warning_color())
@@ -556,6 +567,8 @@ func _update_coins(delta: float) -> void:
 		audio_director.play_coin_pickup(run.combo.multiplier)
 
 func _check_collisions() -> void:
+	if run.phase != RunState.Phase.RUNNING:
+		return
 	var viewport_size := get_viewport_rect().size
 	var center_x := viewport_size.x * 0.5
 	var road_left := center_x - GameConfig.ROAD_HALF_WIDTH
@@ -568,7 +581,8 @@ func _check_collisions() -> void:
 			var outcome := collision.try_collide(drive.speed)
 			if outcome.hit:
 				drive.speed = outcome.speed
-				vehicle.y = player_center.y + 130.0
+				# Preserve NPC world position; teleporting it behind the player can
+				# place its body inside another NPC. Invulnerability permits separation.
 				vehicle.collided_with_player = true
 				run.break_combo()
 				feedback.spawn_collision(player_center, impact_speed, drive.max_speed)
@@ -577,6 +591,8 @@ func _check_collisions() -> void:
 					screen_shake = Vector2(shake, -shake * 0.7)
 				audio_director.play_effect(audio_director.collision_audio)
 				_start_collision_animation(signf(player_center.x - traffic_center.x))
+				_apply_integrity_damage(VehicleIntegrity.damage_for_impact(impact_speed, drive.max_speed))
+				return
 
 func _check_construction_collisions() -> void:
 	var viewport_size := get_viewport_rect().size
@@ -590,13 +606,15 @@ func _check_construction_collisions() -> void:
 		if traffic.lane_events.consume_cone(int(marker.id)):
 			_spawn_knocked_cone(cone_center, signf(cone_center.x - player_center.x))
 			_apply_cone_hit(player_center, cone_center)
+			if run.phase != RunState.Phase.RUNNING:
+				return
 	for marker in traffic.lane_events.core_markers(viewport_size.y):
 		var core_center := Vector2(road_left + lane_width * marker.x, marker.y)
 		if absf(core_center.x - player_center.x) < lane_width * GameConfig.LANE_EVENT_CORE_HALF_LANE_RATIO + drive.player_half_width and absf(core_center.y - player_center.y) < 62.0:
 			_apply_solid_construction_hit(player_center, core_center)
 
 func _apply_cone_hit(player_center: Vector2, cone_center: Vector2) -> void:
-	if cone_hit_cooldown > 0.0:
+	if cone_hit_cooldown > 0.0 or run.phase != RunState.Phase.RUNNING:
 		return
 	var impact_speed := drive.speed
 	drive.speed = maxf(0.0, drive.speed * (1.0 - GameConfig.LANE_EVENT_CONE_SPEED_PENALTY_RATIO))
@@ -607,8 +625,11 @@ func _apply_cone_hit(player_center: Vector2, cone_center: Vector2) -> void:
 		screen_shake = Vector2(3.0 * signf(player_center.x - cone_center.x), -2.0)
 	audio_director.play_effect(audio_director.collision_audio)
 	_start_collision_animation(signf(player_center.x - cone_center.x))
+	_apply_integrity_damage(GameConfig.INTEGRITY_CONE_DAMAGE)
 
 func _apply_solid_construction_hit(player_center: Vector2, core_center: Vector2) -> void:
+	if run.phase != RunState.Phase.RUNNING:
+		return
 	var impact_speed := drive.speed
 	var outcome := collision.try_collide(impact_speed)
 	if not outcome.hit:
@@ -621,6 +642,19 @@ func _apply_solid_construction_hit(player_center: Vector2, core_center: Vector2)
 		screen_shake = Vector2(shake * signf(player_center.x - core_center.x), -shake * 0.7)
 	audio_director.play_effect(audio_director.collision_audio)
 	_start_collision_animation(signf(player_center.x - core_center.x))
+	_apply_integrity_damage(GameConfig.INTEGRITY_CONSTRUCTION_DAMAGE)
+
+func _apply_integrity_damage(amount: float) -> void:
+	if run.phase != RunState.Phase.RUNNING:
+		return
+	run.register_collision()
+	integrity.apply_damage(amount)
+	drive.speed = minf(drive.speed, (drive.max_speed + overdrive.speed_limit_bonus()) * integrity.max_speed_multiplier())
+	if integrity.is_failed():
+		run.fail_integrity()
+		overdrive.reset()
+		audio_director.stop_run_audio()
+		audio_director.finish_music()
 
 func _spawn_knocked_cone(position: Vector2, horizontal_direction: float) -> void:
 	var direction := horizontal_direction if not is_zero_approx(horizontal_direction) else 1.0
@@ -682,10 +716,11 @@ func _is_player_flashing() -> bool:
 func _reset_run(run_seed_override: int = -1) -> void:
 	current_run_seed = run_seed_override if run_seed_override >= 0 else run_seed_sequence.next_seed()
 	drive.reset()
+	integrity.reset()
 	overdrive.reset()
 	road_scroll = 0.0
 	traffic.reset(current_run_seed)
-	collision = CollisionResponder.new(float(current_vehicle.collision_speed_penalty), GameConfig.COLLISION_INVULNERABILITY_SECONDS)
+	collision = CollisionResponder.new(float(current_vehicle.collision_speed_penalty) * GameConfig.COLLISION_SPEED_PENALTY_MULTIPLIER, GameConfig.COLLISION_INVULNERABILITY_SECONDS)
 	screen_shake = Vector2.ZERO
 	visual_animation_time = 0.0
 	acceleration_visual_strength = 0.0
@@ -1064,6 +1099,8 @@ func _update_hud() -> void:
 	position_label.text = ""
 	score_label.text = _text("hud.score", ["%06d" % run.score, "%05d" % roundi(run.distance)])
 	coin_label.text = _text("hud.coins", ["%02d" % run.coins])
+	integrity_label.text = _text("hud.integrity", ["%03d" % ceili(integrity.current)])
+	integrity_label.modulate = Color("ff6b6b") if integrity.current <= 30.0 else (Color("ffd75a") if integrity.current <= 70.0 else Color("72e9ef"))
 	var fuel_warning := _fuel_warning_text() if feedback.is_fuel_warning_visible() else ""
 	fuel_label.text = _text("hud.fuel", ["%03d" % roundi(run.fuel), fuel_warning])
 	fuel_label.modulate = Color("ff6b6b") if feedback.low_fuel_tier == GameFeedback.FuelTier.CRITICAL else (Color("ffd75a") if feedback.low_fuel_tier == GameFeedback.FuelTier.LOW else Color.WHITE)
@@ -1184,7 +1221,7 @@ func _update_result_labels() -> void:
 	var cleared := run.phase == RunState.Phase.RUN_CLEAR
 	result_heading.text = _text("result.clear" if cleared else "result.over")
 	new_record_label.visible = is_new_record
-	var reason := _text("result.reason.clear" if cleared else "result.reason.fuel")
+	var reason := _text("result.reason.clear" if cleared else ("result.reason.integrity" if run.failure_reason == &"integrity" else "result.reason.fuel"))
 	result_summary.text = _text("result.summary", [reason, "%06d" % run.score, "%05d" % roundi(run.distance), run.overtakes, run.near_misses, run.difficulty_stage + 1, current_run_seed])
 
 func _phase_text() -> String:

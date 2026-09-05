@@ -4,6 +4,21 @@ extends RefCounted
 const GameFeedback = preload("res://scripts/game_feedback.gd")
 const VehicleVisualAnimation = preload("res://scripts/vehicle_visual_animation.gd")
 
+static func draw_vehicle_damage(canvas: CanvasItem, time: float, condition: int, reduced: bool) -> void:
+	if condition <= 0:
+		return
+	var critical := condition >= 2
+	canvas.draw_polyline(PackedVector2Array([Vector2(-18,-42), Vector2(-5,-30), Vector2(-12,-21), Vector2(8,-10)]), Color("282d35"), 3.0, true)
+	var count := 7 if critical else 3
+	for index in range(count):
+		var age := fposmod(time * 0.65 + float(index) / count, 1.0)
+		var center := Vector2(-12.0 + sin(float(index) * 2.4 + age * 2.0) * 13.0, -38.0 + age * 100.0)
+		canvas.draw_circle(center, 5.0 + age * 13.0, Color(0.22, 0.24, 0.28, (1.0-age) * (0.65 if critical else 0.35)))
+	if critical:
+		for side in [-1.0, 1.0]:
+			var length := 10.0 if reduced else 8.0 + 8.0 * (0.5 + sin(time * 13.0) * 0.5)
+			canvas.draw_line(Vector2(side * 26.0, 32.0), Vector2(side * 30.0, 32.0 + length), Color("ffb747"), 2.5, true)
+
 static func draw_acceleration(canvas: CanvasItem, car_center: Vector2, animation_time: float, strength: float) -> void:
 	var flame_length := VehicleVisualAnimation.acceleration_flame_length(animation_time, strength)
 	if flame_length <= 0.0:

@@ -38,6 +38,7 @@ func _run() -> void:
 			assert(hud.get_global_rect().encloses(label.get_global_rect()), "%s HUD label must fit at %s" % [label_name, size])
 			assert(panel.get_global_rect().encloses(label.get_global_rect()), "%s must not be clipped by its panel at %s" % [label_name, size])
 		var coin_label: Control = main.get_node("CanvasLayer/RaceHUD/CoinLabel")
+		assert(panel.get_global_rect().encloses(main.integrity_label.get_global_rect()), "Integrity indicator must fit inside the HUD")
 		assert(hud.get_global_rect().encloses(coin_label.get_global_rect()), "Coin counter must fit inside the HUD at %s" % size)
 		assert(panel.get_global_rect().encloses(coin_label.get_global_rect()), "Coin counter must not be clipped by its panel at %s" % size)
 		var overdrive_gauge: Control = main.get_node("CanvasLayer/RaceHUD/Rows/OverdriveGauge")

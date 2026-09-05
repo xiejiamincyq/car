@@ -7,6 +7,11 @@ const FINISH_EMBLEM_DURATION := 0.75
 const MAX_STEERING_ROTATION := deg_to_rad(15.0)
 const VEHICLE_LENGTH_CORRECTION := 1.22
 
+static func damage_wobble(time: float, condition: int, reduced: bool) -> float:
+	if condition <= 0 or reduced:
+		return 0.0
+	return sin(time * 9.0) * (0.012 if condition == 1 else 0.028)
+
 static func acceleration_flame_length(time_seconds: float, throttle: float) -> float:
 	if throttle <= 0.0:
 		return 0.0

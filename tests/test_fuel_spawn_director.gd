@@ -51,6 +51,7 @@ func _init() -> void:
 	assert(traffic.blocked_lanes_near(FuelSpawnDirector.PICKUP_SPAWN_Y, GameConfig.FUEL_SPAWN_SAFETY_DISTANCE) == [0, 1, 2], "Fuel safety must reserve occupied and announced merge lanes")
 
 	var bottom_spawn_y := TrackGeometry.fast_overtake_spawn_y(720.0)
+	traffic.reset(22)
 	traffic.set_spawn_exclusion_zones([Vector2(1, bottom_spawn_y)])
 	assert(not traffic.is_fast_spawn_fair(760.0, 1), "NPC traffic must not spawn over fuel waiting at the bottom boundary")
 	traffic.set_spawn_exclusion_zones([Vector2(0, bottom_spawn_y)])
