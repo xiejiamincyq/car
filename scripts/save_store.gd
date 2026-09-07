@@ -3,8 +3,9 @@ extends RefCounted
 
 const TourProgress = preload("res://scripts/catalog/tour_progress.gd")
 const TrackCatalog = preload("res://scripts/catalog/track_catalog.gd")
+const RunRating = preload("res://scripts/run_rating.gd")
 
-const CURRENT_VERSION := 5
+const CURRENT_VERSION := 6
 
 var save_path: String
 
@@ -36,6 +37,7 @@ static func default_data() -> Dictionary:
 			"highest_stage": 0,
 		},
 		"tour": TourProgress.default_data(),
+		"ratings": {},
 	}
 
 func load_data() -> Dictionary:
@@ -47,11 +49,12 @@ func load_data() -> Dictionary:
 		return default_data()
 	if version == 0:
 		return _migrate_version_zero(config)
-	if version != 1 and version != 2 and version != 3 and version != 4 and version != CURRENT_VERSION:
+	if version < 1 or version > CURRENT_VERSION:
 		return default_data()
 	var legacy_audio_volume = _value_or_null(config, "settings", "audio_volume")
 	var candidate := {
 		"version": CURRENT_VERSION,
+		"ratings": {} if version < 6 else _value_or_null(config, "ratings", "track_bests"),
 		"top_scores": config.get_value("scores", "items", []),
 		"settings": {
 			"audio_volume": legacy_audio_volume,
@@ -89,6 +92,7 @@ func save_data(data: Dictionary) -> bool:
 	var config := ConfigFile.new()
 	config.set_value("meta", "version", CURRENT_VERSION)
 	config.set_value("scores", "items", validated.top_scores)
+	config.set_value("ratings", "track_bests", validated.ratings)
 	for key in validated.settings:
 		config.set_value("settings", key, validated.settings[key])
 	for key in validated.career:
@@ -156,7 +160,20 @@ static func _validated_data(data: Dictionary) -> Dictionary:
 			return {}
 	if not _valid_tour(data.tour):
 		return {}
+	if not data.get("ratings") is Dictionary or not _valid_ratings(data.ratings):
+		return {}
 	return data.duplicate(true)
+
+static func _valid_ratings(ratings: Dictionary) -> bool:
+	for track_id in ratings:
+		if not track_id is StringName or TrackCatalog.get_by_id(track_id).is_empty():
+			return false
+		var record = ratings[track_id]
+		if not record is Dictionary or not record.get("total") is int or not record.get("grade") is String:
+			return false
+		if record.total < 0 or record.total > 100 or record.grade != RunRating.grade_for(record.total):
+			return false
+	return true
 
 static func _valid_tour(tour: Dictionary) -> bool:
 	if not tour.get("selected_track_id") is StringName or not tour.get("selected_vehicle_id") is StringName or not tour.get("track_results") is Dictionary:

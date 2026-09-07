@@ -2,6 +2,8 @@ class_name Progression
 extends RefCounted
 
 const TourProgress = preload("res://scripts/catalog/tour_progress.gd")
+const TrackCatalog = preload("res://scripts/catalog/track_catalog.gd")
+const RunRating = preload("res://scripts/run_rating.gd")
 
 static func record_run(current_data: Dictionary, result: Dictionary, date: String) -> Dictionary:
 	var data := current_data.duplicate(true)
@@ -37,7 +39,17 @@ static func record_run(current_data: Dictionary, result: Dictionary, date: Strin
 			bool(result.get("cleared", false)),
 			clampi(int(result.get("medal", 0)), 0, 3)
 		)
-	return {"data": data, "new_record": rank == 1, "rank": rank}
+	var rating := {}
+	var new_rating_record := false
+	if result.get("track_id") is StringName:
+		var track := TrackCatalog.get_by_id(result.track_id)
+		rating = RunRating.evaluate(result, track.get("rating_targets", {}))
+		if not rating.is_empty():
+			var best: Dictionary = data.ratings.get(result.track_id, {})
+			if best.is_empty() or int(rating.total) > int(best.total):
+				data.ratings[result.track_id] = {"total": rating.total, "grade": rating.grade}
+				new_rating_record = true
+	return {"data": data, "new_record": rank == 1, "rank": rank, "rating": rating, "new_rating_record": new_rating_record}
 
 static func _comes_before(left: Dictionary, right: Dictionary) -> bool:
 	if left.score != right.score:

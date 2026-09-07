@@ -134,6 +134,7 @@ var save_data: Dictionary
 var persistence_enabled := false
 var result_persisted := false
 var is_new_record := false
+var last_run_rating: Dictionary = {}
 var title_best_scores: Label
 var result_best_scores: Label
 var new_record_label: Label
@@ -794,6 +795,7 @@ func _reset_run(run_seed_override: int = -1) -> void:
 	feedback.reset()
 	result_persisted = false
 	is_new_record = false
+	last_run_rating = {}
 
 func _restart_run() -> void:
 	_reset_run()
@@ -1232,6 +1234,8 @@ func _persist_result_once() -> void:
 		"difficulty": difficulty_index,
 		"distance": run.distance,
 		"survival": run.elapsed_seconds,
+		"coins": run.coins,
+		"collisions": run.collisions,
 		"overtakes": run.overtakes,
 		"near_misses": run.near_misses,
 		"stage": run.difficulty_stage + 1,
@@ -1241,6 +1245,7 @@ func _persist_result_once() -> void:
 	}, Time.get_date_string_from_system())
 	save_data = outcome.data
 	is_new_record = outcome.new_record
+	last_run_rating = outcome.rating
 	if persistence_enabled:
 		save_store.save_data(save_data)
 	_update_scoreboards()
