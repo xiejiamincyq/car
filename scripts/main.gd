@@ -1283,7 +1283,9 @@ func _update_result_labels() -> void:
 	result_heading.text = _text("result.clear" if cleared else "result.over")
 	new_record_label.visible = is_new_record
 	var reason := _text("result.reason.clear" if cleared else ("result.reason.integrity" if run.failure_reason == &"integrity" else "result.reason.fuel"))
-	result_summary.text = _text("result.summary", [reason, "%06d" % run.score, "%05d" % roundi(run.distance), run.overtakes, run.near_misses, run.difficulty_stage + 1, current_run_seed])
+	result_summary.text = _text("rating.summary", [reason, "%06d" % run.score, "%05d" % roundi(run.distance), run.overtakes, run.near_misses, run.difficulty_stage + 1, current_run_seed])
+	var track := TrackCatalog.get_by_id(StringName(save_data.tour.selected_track_id))
+	$CanvasLayer/ResultScreen/Center/Card/Content/RatingCard.populate(last_run_rating, save_data.ratings.get(save_data.tour.selected_track_id, {}), {"time": run.elapsed_seconds, "overtakes": run.overtakes, "collisions": run.collisions, "coins": run.coins}, track.rating_targets, language, high_contrast_enabled)
 
 func _phase_text() -> String:
 	match run.phase:

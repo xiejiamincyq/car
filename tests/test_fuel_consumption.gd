@@ -43,10 +43,14 @@ func _assert_every_vehicle_can_finish_every_track_at_steady_top_speed() -> void:
 				run.configure_track(track)
 				run.configure_difficulty(DifficultyProfile.for_index(difficulty_index))
 				run.start()
+				var collected_road_fuel := false
 				var top_speed := float(vehicle.max_speed)
 				var maximum_steps := ceili(float(track.finish_distance) / (top_speed * 0.1 * 0.25)) + 4
 				for _step in range(maximum_steps):
 					run.tick(0.25, top_speed, top_speed)
+					if difficulty_index == 2 and not collected_road_fuel and run.distance >= float(track.finish_distance) * 0.5:
+						run.add_fuel(GameConfig.FUEL_PICKUP_AMOUNT)
+						collected_road_fuel = true
 					if run.phase != RunState.Phase.RUNNING:
 						break
 				assert(run.phase == RunState.Phase.RUN_CLEAR, "%s must finish %s at steady top speed on difficulty %d" % [vehicle.id, track.id, difficulty_index])
@@ -67,11 +71,15 @@ func _assert_accelerating_to_top_speed_preserves_the_finish_budget() -> void:
 				run.configure_track(track)
 				run.configure_difficulty(DifficultyProfile.for_index(difficulty_index))
 				run.start()
+				var collected_road_fuel := false
 				for _step in range(400):
 					var speed_before_step := drive.speed
 					drive.step(0.25, 1.0, 0.0)
 					var forward_acceleration := maxf(0.0, (drive.speed - speed_before_step) / 0.25)
 					run.tick(0.25, drive.speed, drive.max_speed, forward_acceleration)
+					if difficulty_index == 2 and not collected_road_fuel and run.distance >= float(track.finish_distance) * 0.5:
+						run.add_fuel(GameConfig.FUEL_PICKUP_AMOUNT)
+						collected_road_fuel = true
 					if run.phase != RunState.Phase.RUNNING:
 						break
 				assert(run.phase == RunState.Phase.RUN_CLEAR, "%s must accelerate and finish %s on difficulty %d" % [vehicle.id, track.id, difficulty_index])

@@ -1,6 +1,7 @@
-[gd_scene load_steps=13 format=3]
+[gd_scene load_steps=14 format=3]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
+[ext_resource type="Script" path="res://scripts/rating_card.gd" id="10_rating"]
 [ext_resource type="Texture2D" path="res://assets/neon-coast-menu.png" id="2_menu"]
 [ext_resource type="Texture2D" path="res://assets/ui/hud_frame.png" id="3_hud_frame"]
 [ext_resource type="Texture2D" path="res://assets/ui/event_plate.png" id="4_event_plate"]
@@ -613,7 +614,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Card" type="PanelContainer" parent="CanvasLayer/ResultScreen/Center"]
-custom_minimum_size = Vector2(480, 0)
+custom_minimum_size = Vector2(600, 0)
 layout_mode = 2
 
 [node name="Content" type="VBoxContainer" parent="CanvasLayer/ResultScreen/Center/Card"]
@@ -621,7 +622,7 @@ layout_mode = 2
 theme_override_constants/separation = 8
 
 [node name="ResultEmblem" type="TextureRect" parent="CanvasLayer/ResultScreen/Center/Card/Content"]
-custom_minimum_size = Vector2(96, 96)
+custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 texture = ExtResource("6_result_emblem")
 expand_mode = 3
@@ -642,6 +643,10 @@ theme_override_font_sizes/font_size = 22
 text = ""
 horizontal_alignment = 1
 
+[node name="RatingCard" type="VBoxContainer" parent="CanvasLayer/ResultScreen/Center/Card/Content"]
+layout_mode = 2
+script = ExtResource("10_rating")
+
 [node name="Summary" type="Label" parent="CanvasLayer/ResultScreen/Center/Card/Content"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.83, 0.94, 0.97, 1)
@@ -650,6 +655,7 @@ text = ""
 horizontal_alignment = 1
 
 [node name="BestScores" type="Label" parent="CanvasLayer/ResultScreen/Center/Card/Content"]
+visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.86, 0.38, 1)
 theme_override_font_sizes/font_size = 13

@@ -12,7 +12,7 @@ const PROFILES := [
 		"double_lane_closure_probability": 0.0,
 	},
 	{
-		"fuel_drain_multiplier": 1.0,
+		"fuel_drain_multiplier": 1.2,
 		"integrity_damage_multiplier": 0.5,
 		"traffic_interval_multiplier": 1.0,
 		"event_interval_multiplier": 1.0,
@@ -21,7 +21,7 @@ const PROFILES := [
 		"double_lane_closure_probability": 0.0,
 	},
 	{
-		"fuel_drain_multiplier": 1.15,
+		"fuel_drain_multiplier": 2.0,
 		"integrity_damage_multiplier": 1.0,
 		"traffic_interval_multiplier": 0.85,
 		"event_interval_multiplier": 0.80,
