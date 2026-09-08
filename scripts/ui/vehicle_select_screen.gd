@@ -6,6 +6,7 @@ signal back_requested
 
 const GameText = preload("res://scripts/game_text.gd")
 const VehicleCatalog = preload("res://scripts/catalog/vehicle_catalog.gd")
+const PlayerVehicleProfile = preload("res://scripts/player_vehicle_profile.gd")
 const VehicleSelectController = preload("res://scripts/ui/vehicle_select_controller.gd")
 
 var controller: VehicleSelectController
@@ -23,6 +24,7 @@ var language := GameText.LANGUAGE_EN
 @onready var back_button: Button = $Center/Card/Content/BackButton
 
 func _ready() -> void:
+	preview.resized.connect(func(): preview.pivot_offset = preview.size * 0.5)
 	for index in vehicle_buttons.size():
 		vehicle_buttons[index].pressed.connect(_confirm_index.bind(index))
 		vehicle_buttons[index].focus_entered.connect(_select_index.bind(index))
@@ -90,6 +92,8 @@ func _refresh() -> void:
 	controller.selected_index = selected_index
 	var selected := controller.selected_state()
 	preview.texture = load(String(selected.texture_path)) as Texture2D
+	preview.pivot_offset = preview.size * 0.5
+	preview.rotation = PlayerVehicleProfile.texture_rotation(selected)
 	var availability := _text("garage.available") if selected.unlocked else _text(String(selected.unlock_key))
 	details.text = _text("garage.details", [_text(String(selected.name_key)), _text(String(selected.role_key)), availability,
 		roundi(selected.max_speed), roundi(selected.acceleration), roundi(selected.braking),

@@ -35,6 +35,11 @@ func _capture() -> void:
 	main.run.distance = main.run.progression.finish_distance * distance_ratio
 	main.drive.speed = 200.0
 	main.high_contrast_enabled = high_contrast
+	if arguments.size() >= 8:
+		main.set_process(false)
+		main.save_data.tour.selected_vehicle_id = StringName(arguments[7])
+		main._apply_selected_vehicle()
+		main.steering_visual_strength = 0.75
 	if arguments.size() >= 7:
 		match arguments[6]:
 			"damage_preview":

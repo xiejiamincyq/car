@@ -5,6 +5,16 @@ const VehicleCatalog = preload("res://scripts/catalog/vehicle_catalog.gd")
 const GameConfig = preload("res://scripts/game_config.gd")
 const DEFAULT_VEHICLE_ID := &"pulse_gt"
 
+# Individually audited source sprites: their nose is at the bottom of the PNG.
+# Keep this correction separate from the vehicle's physical steering transform.
+const SOURCE_ROTATIONS := {
+	&"pulse_gt": PI, &"driftwing": PI, &"flashpoint": PI,
+	&"comet_rs": PI, &"tidebreaker": PI, &"aurora_x": PI,
+}
+
+static func texture_rotation(profile: Dictionary) -> float:
+	return float(SOURCE_ROTATIONS.get(profile.get("id", DEFAULT_VEHICLE_ID), 0.0))
+
 static func resolve(vehicle_id: StringName) -> Dictionary:
 	var profile := VehicleCatalog.get_by_id(vehicle_id)
 	return VehicleCatalog.get_by_id(DEFAULT_VEHICLE_ID) if profile.is_empty() else profile
