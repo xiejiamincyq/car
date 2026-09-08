@@ -5,15 +5,20 @@ const VehicleCatalog = preload("res://scripts/catalog/vehicle_catalog.gd")
 const GameConfig = preload("res://scripts/game_config.gd")
 const DEFAULT_VEHICLE_ID := &"pulse_gt"
 
-# Individually audited source sprites: their nose is at the bottom of the PNG.
+# Legacy sources face down; the approved C replacement for driftwing faces up.
 # Keep this correction separate from the vehicle's physical steering transform.
 const SOURCE_ROTATIONS := {
-	&"pulse_gt": PI, &"driftwing": PI, &"flashpoint": PI,
+	&"pulse_gt": PI, &"driftwing": 0.0, &"flashpoint": PI,
 	&"comet_rs": PI, &"tidebreaker": PI, &"aurora_x": PI,
 }
 
 static func texture_rotation(profile: Dictionary) -> float:
 	return float(SOURCE_ROTATIONS.get(profile.get("id", DEFAULT_VEHICLE_ID), 0.0))
+
+static func visual_size(profile: Dictionary, source_size: Vector2) -> Vector2:
+	if profile.id == &"driftwing":
+		return source_size * 0.1
+	return preload("res://scripts/vehicle_visual_animation.gd").corrected_vehicle_size(source_size)
 
 static func resolve(vehicle_id: StringName) -> Dictionary:
 	var profile := VehicleCatalog.get_by_id(vehicle_id)

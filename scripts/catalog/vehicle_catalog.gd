@@ -25,7 +25,7 @@ const VEHICLES := [
 		"id": &"driftwing",
 		"name_key": &"vehicle_driftwing",
 		"role_key": &"vehicle_role_agile",
-		"texture_path": "res://assets/vehicles/player_driftwing.png",
+		"texture_path": "res://assets/vehicles/player_driftwing_c.png",
 		"max_speed": 700.0,
 		"acceleration": 216.0,
 		"braking": 483.0,

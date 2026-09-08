@@ -385,7 +385,7 @@ func _draw() -> void:
 	var fuel_effect_color := VisualStyle.HIGH_CONTRAST_FUEL if high_contrast_enabled else VisualStyle.FUEL_GLOW
 	RaceEffectRenderer.draw_pickup_bursts(self, feedback, fuel_effect_color)
 	CoinRenderer.draw_bursts(self, feedback, screen_shake)
-	var player_size := VehicleVisualAnimation.corrected_vehicle_size(current_player_texture.get_size())
+	var player_size := PlayerVehicleProfile.visual_size(current_vehicle, current_player_texture.get_size())
 	var player_rect := Rect2(-player_size * 0.5, player_size)
 	var player_modulate := Color(1.0, 1.0, 1.0, 0.45) if _is_player_flashing() else Color.WHITE
 	var impact_rotation := VehicleVisualAnimation.collision_rotation(collision_visual_remaining, collision_visual_direction)
