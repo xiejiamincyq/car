@@ -7,8 +7,12 @@ const Visual = preload("res://scripts/vehicle_visual_animation.gd")
 func _init() -> void:
 	for car in Catalog.all():
 		var rotation := Profile.texture_rotation(car)
-		var source_forward := Vector2.UP if car.id == &"driftwing" else Vector2.DOWN
-		assert(is_equal_approx(rotation, 0.0 if car.id == &"driftwing" else PI))
+		var source_forward := Vector2.UP
+		assert(is_zero_approx(rotation), "All C sprites already face upward")
+		var sprite := Image.load_from_file(car.texture_path)
+		assert(sprite.get_size() == Vector2i(800, 1360))
+		assert(sprite.get_pixel(0, 0).a == 0.0 and sprite.get_pixel(400, 680).a == 1.0)
+		assert(Profile.visual_size(car, sprite.get_size()).is_equal_approx(Vector2(80, 136)))
 		assert(source_forward.rotated(rotation).is_equal_approx(Vector2.UP))
 		for direction in [-1.0, 1.0]:
 			var forward := source_forward.rotated(rotation + Visual.steering_rotation(direction))
