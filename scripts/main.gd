@@ -379,9 +379,9 @@ func _draw() -> void:
 	var player_color := player_body if not _is_player_flashing() else player_glow
 	draw_circle(car_center, 39.0, Color(player_color, 0.16))
 	if overdrive_strength > 0.0:
-		RaceEffectRenderer.draw_overdrive_ignition(self, car_center, visual_animation_time, overdrive_strength, reduced_flashing_enabled)
+		RaceEffectRenderer.draw_overdrive_ignition(self, car_center, visual_animation_time, overdrive_strength, reduced_flashing_enabled, PlayerVehicleProfile.VISUAL_PROPORTION_SCALE.x)
 	else:
-		RaceEffectRenderer.draw_acceleration(self, car_center, visual_animation_time, acceleration_visual_strength)
+		RaceEffectRenderer.draw_acceleration(self, car_center, visual_animation_time, acceleration_visual_strength, PlayerVehicleProfile.VISUAL_PROPORTION_SCALE.x)
 	var fuel_effect_color := VisualStyle.HIGH_CONTRAST_FUEL if high_contrast_enabled else VisualStyle.FUEL_GLOW
 	RaceEffectRenderer.draw_pickup_bursts(self, feedback, fuel_effect_color)
 	CoinRenderer.draw_bursts(self, feedback, screen_shake)
@@ -396,10 +396,10 @@ func _draw() -> void:
 	RaceEffectRenderer.draw_overdrive_afterimages(self, current_player_texture, car_center, player_size, texture_rotation, impact_scale, screen_shake, overdrive_strength)
 	draw_set_transform(screen_shake + car_center, texture_rotation, impact_scale)
 	draw_texture_rect(current_player_texture, player_rect, false, player_modulate)
-	draw_set_transform(screen_shake + car_center, impact_rotation + steering_rotation, impact_scale)
+	draw_set_transform(screen_shake + car_center, impact_rotation + steering_rotation, impact_scale * PlayerVehicleProfile.VISUAL_PROPORTION_SCALE)
 	RaceEffectRenderer.draw_vehicle_damage(self, visual_animation_time, integrity.condition(), reduced_flashing_enabled, last_impact_normal)
 	draw_set_transform(screen_shake)
-	RaceEffectRenderer.draw_braking(self, car_center, visual_animation_time, brake_visual_strength, drive.speed, drive.max_speed)
+	RaceEffectRenderer.draw_braking(self, car_center, visual_animation_time, brake_visual_strength, drive.speed, drive.max_speed, PlayerVehicleProfile.VISUAL_PROPORTION_SCALE.x)
 	RaceEffectRenderer.draw_collision_ring(self, car_center, collision_visual_remaining, _warning_color())
 	_draw_sparks()
 	draw_set_transform(Vector2.ZERO)

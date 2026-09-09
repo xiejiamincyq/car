@@ -4,6 +4,7 @@ extends RefCounted
 const VehicleCatalog = preload("res://scripts/catalog/vehicle_catalog.gd")
 const GameConfig = preload("res://scripts/game_config.gd")
 const DEFAULT_VEHICLE_ID := &"pulse_gt"
+const VISUAL_PROPORTION_SCALE := Vector2(1.15, 1.0)
 
 # All approved C-style sources face up and use a normalized canvas.
 # Keep this correction separate from the vehicle's physical steering transform.
@@ -16,7 +17,8 @@ static func texture_rotation(profile: Dictionary) -> float:
 	return float(SOURCE_ROTATIONS.get(profile.get("id", DEFAULT_VEHICLE_ID), 0.0))
 
 static func visual_size(_profile: Dictionary, source_size: Vector2) -> Vector2:
-	return source_size * 0.1
+	# User-confirmed proportions: +15% width, unchanged length. Visuals only.
+	return source_size * 0.1 * VISUAL_PROPORTION_SCALE
 
 static func resolve(vehicle_id: StringName) -> Dictionary:
 	var profile := VehicleCatalog.get_by_id(vehicle_id)

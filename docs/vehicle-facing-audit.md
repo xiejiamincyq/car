@@ -1,5 +1,11 @@
 # 车辆朝向校正
 
+## 最终比例确认（2026-09-09）
+
+用户已确认六款玩家车的“车宽增加15%、车长不变”实际预览。渲染画布从80×136变为92×136，实际不透明车身约62～64×128；原始PNG不重采样。`PlayerVehicleProfile.VISUAL_PROPORTION_SCALE`统一比赛和选车页的视觉比例；残影使用同一尺寸，尾焰/刹车横向偏移和局部受损效果同步加宽。NPC、碰撞范围和车辆性能全部保持原值。
+
+选车页增加独立Control预览层，避免VBoxContainer布局重排将缩放重置；回归测试曾捕获该问题，现验证比例与居中。已经检查720p、1080p车库和比赛内超载/受损截图（`tmp/width-garage-720.png`、`tmp/width-garage-1080.png`、`tmp/width-final-overdrive.png`、`tmp/width-final-damage.png`）。全量78项测试通过，Sol独立复核无阻断问题；测试日志为 `tmp/width-final-tests.log`。本节覆盖下方历史记录中的等比显示约定。
+
 ## C版全车型接入（2026-09-09）
 
 用户已确认 driftwing C 版试玩效果，允许扩展同风格。其余五款玩家车已接入 `assets/vehicles/player_<id>_c.png`，原图全部保留；NPC、车辆性能、碰撞判定与燃油数值未改。
