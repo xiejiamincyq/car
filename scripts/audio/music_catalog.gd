@@ -15,8 +15,16 @@ const TRACKS := {
 static func get_by_id(track_id: StringName) -> Dictionary:
 	return TRACKS.get(track_id, {}).duplicate(true)
 
-static func stream_for(track_id: StringName) -> AudioStream:
+static func playback_profile(track_id: StringName) -> Dictionary:
 	var profile := get_by_id(track_id)
+	# Temporary shared score for known courses only; unknown IDs remain silent.
+	# Dedicated future catalog entries take precedence without changing callers.
+	if profile.is_empty() and track_id in [&"freight_harbor", &"storm_ridge", &"sunrise_express"]:
+		return get_by_id(&"neon_coast")
+	return profile
+
+static func stream_for(track_id: StringName) -> AudioStream:
+	var profile := playback_profile(track_id)
 	if profile.is_empty():
 		return null
 	var path := String(profile.get("path", ""))
@@ -28,7 +36,7 @@ static func stream_for(track_id: StringName) -> AudioStream:
 	return stream
 
 static func gain_db_for(track_id: StringName) -> float:
-	return float(get_by_id(track_id).get("gain_db", 0.0))
+	return float(playback_profile(track_id).get("gain_db", 0.0))
 
 static func validate() -> PackedStringArray:
 	var errors := PackedStringArray()

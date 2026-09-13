@@ -20,5 +20,9 @@ func _init() -> void:
 	assert(float(report_data.true_peak_dbfs) <= -1.0, "The encoded technical sample must retain true-peak headroom")
 	var stream := MusicCatalog.stream_for(&"neon_coast")
 	assert(stream != null and bool(stream.get("loop")), "The runtime stream must load with seamless looping enabled")
+	for id in [&"freight_harbor", &"storm_ridge", &"sunrise_express"]:
+		var fallback := MusicCatalog.stream_for(id)
+		assert(fallback != null and bool(fallback.get("loop")), "Playable tracks must not be silent while their own music is unfinished")
+		assert(is_equal_approx(MusicCatalog.gain_db_for(id), MusicCatalog.gain_db_for(&"neon_coast")), "Fallback must retain the source mix headroom")
 	assert(MusicCatalog.stream_for(&"missing") == null, "Unknown or unfinished tracks must use the silent fallback")
 	quit()
