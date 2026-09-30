@@ -25,6 +25,9 @@ func _run() -> void:
 				main.run.phase = main.RunState.Phase.RUN_CLEAR if cleared else main.RunState.Phase.GAME_OVER
 				main.run.elapsed_seconds = 66.0
 				main.run.distance = 3200.0
+				if not cleared:
+					main.run.distance = main.run.progression.finish_distance * 0.5
+					main.run.elapsed_seconds = 30.0
 				main.run.overtakes = 11
 				main.run.coins = 54
 				main.run.score = 7200
@@ -32,9 +35,13 @@ func _run() -> void:
 				for frame in range(4): await process_frame
 				var content: Control = main.get_node("CanvasLayer/ResultScreen/Center/Card/Content")
 				var rating: Control = content.get_node("RatingCard")
-				assert(rating.headline.text.contains("92 / 100") if cleared else not rating.headline.text.contains("/ 100"))
+				assert(rating.headline.text.contains("92 / 100") if cleared else rating.headline.text.contains("/ 100"))
+				if not cleared:
+					assert(rating.best_label.text.contains("未完赛" if language == "zh" else "NOT FINISHED"))
+					assert(rating.best_label.text.contains("50%"))
+					assert(main.last_run_rating.total == 49)
 				assert(rating.cells.size() == 4)
-				assert(rating.cells[3].points.text == ("18 / 20" if cleared else "54"))
+				assert(rating.cells[3].points.text.contains("/ 20"))
 				assert(main.result_screen.get_global_rect().encloses(content.get_parent().get_global_rect()), "Result card must fit the viewport")
 				for button_name in ["ReplayButton", "TitleButton"]:
 					var button: Button = content.get_node(button_name)
@@ -42,6 +49,6 @@ func _run() -> void:
 				assert(content.get_node("ReplayButton").has_focus(), "Keyboard focus must start on replay")
 				if capture:
 					await RenderingServer.frame_post_draw
-					assert(root.get_texture().get_image().save_png("res://tmp/rating-%s-%s-%s.png" % [resolution.x, language, "clear" if cleared else "failed"]) == OK)
+					assert(root.get_texture().get_image().save_png(ProjectSettings.globalize_path("res://tmp/rating-%s-%s-%s.png" % [resolution.x, language, "clear" if cleared else "failed"])) == OK)
 				main.free()
 	quit()

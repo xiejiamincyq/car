@@ -37,14 +37,16 @@ static func record_run(current_data: Dictionary, result: Dictionary, date: Strin
 			maxi(0, int(result.score)),
 			maxf(0.0, float(result.survival)),
 			bool(result.get("cleared", false)),
-			clampi(int(result.get("medal", 0)), 0, 3)
+			clampi(int(result.get("medal", 0)), 0, 3) if result.get("cleared", false) == true else 0
 		)
 	var rating := {}
 	var new_rating_record := false
 	if result.get("track_id") is StringName:
 		var track := TrackCatalog.get_by_id(result.track_id)
-		rating = RunRating.evaluate(result, track.get("rating_targets", {}))
-		if not rating.is_empty():
+		var rating_input := result.duplicate(true)
+		rating_input["finish_distance"] = track.get("finish_distance", 0.0)
+		rating = RunRating.evaluate(rating_input, track.get("rating_targets", {}))
+		if not rating.is_empty() and result.get("cleared", false) == true:
 			var best: Dictionary = data.ratings.get(result.track_id, {})
 			if best.is_empty() or int(rating.total) > int(best.total):
 				data.ratings[result.track_id] = {"total": rating.total, "grade": rating.grade}

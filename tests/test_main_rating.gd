@@ -28,8 +28,9 @@ func _run() -> void:
 	assert(main.last_run_rating.is_empty(), "Restart must clear the previous rating")
 	main.run.phase = main.RunState.Phase.GAME_OVER
 	main.run.elapsed_seconds = 60.0
+	main.run.distance = main.run.progression.finish_distance * 0.5
 	main._persist_result_once()
-	assert(main.last_run_rating.is_empty())
+	assert(not main.last_run_rating.is_empty() and main.last_run_rating.total <= 49)
 	assert(main.save_data.ratings.neon_coast.total == 82)
 	main.free()
 	quit()

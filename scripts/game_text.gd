@@ -8,6 +8,7 @@ const LANGUAGE_PREFERENCES := [LANGUAGE_SYSTEM, LANGUAGE_ZH, LANGUAGE_EN]
 
 const TEXT_ROWS := [
 	["rating.unrated", "未完赛 · 不评级", "NOT FINISHED · UNRATED"],
+	["rating.failed_progress", "未完赛 · 进度 {0}% · 本局上限 {1} 分", "NOT FINISHED · {0}% PROGRESS · LIMIT {1}"],
 	["rating.best", "本赛道最佳  {0} · {1} 分", "TRACK BEST  {0} · {1} POINTS"],
 	["rating.time", "用时", "TIME"],
 	["rating.overtakes", "超车", "OVERTAKES"],

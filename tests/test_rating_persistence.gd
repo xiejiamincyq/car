@@ -25,7 +25,12 @@ func _init() -> void:
 	assert(not tied.new_rating_record and tied.data.ratings.neon_coast == best)
 	run.cleared = false
 	var failed := Progression.record_run(data, run, "2026-09-11")
-	assert(failed.rating.is_empty() and failed.data.ratings.neon_coast == best)
+	assert(not failed.rating.is_empty() and failed.data.ratings.neon_coast == best)
+	assert(not failed.new_rating_record)
+	var failed_first := Progression.record_run(SaveStore.default_data(), run, "2026-10-01")
+	assert(failed_first.data.ratings.is_empty(), "Failure must not create a completion rating record")
+	var failed_track: Dictionary = failed_first.data.tour.track_results.neon_coast
+	assert(not failed_track.cleared and failed_track.medal == 0 and failed_track.best_time == 0.0, "Failure must not grant completion rewards or fastest completion time")
 	for track in Tracks.all():
 		run.track_id = track.id
 		run.cleared = true

@@ -43,8 +43,11 @@ func populate(rating: Dictionary, best: Dictionary, metrics: Dictionary, targets
 	headline.text = "%s   %d / 100" % [rating.grade, rating.total] if rated else GameText.get_text("rating.unrated", language)
 	headline.add_theme_color_override("font_color", Color("ffd071") if rated else Color.WHITE)
 	best_label.text = GameText.get_text("rating.best", language, [best.get("grade", "—"), best.get("total", "—")])
+	if rated and rating.get("cleared", true) == false:
+		best_label.text = GameText.get_text("rating.failed_progress", language, [roundi(float(rating.progress) * 100.0), rating.cap]) + "\n" + best_label.text
 	var values := ["%.1f s" % metrics.time, str(metrics.overtakes), str(metrics.collisions), str(metrics.coins)]
-	var goals := ["%.0f s" % float(targets.time), str(targets.overtakes), "0", str(targets.coins)]
+	var time_goal := float(targets.time) * float(rating.get("progress", 1.0))
+	var goals := ["%.1f s" % time_goal, str(targets.overtakes), "0", str(targets.coins)]
 	for index in range(cells.size()):
 		var cell := cells[index]
 		cell.title.text = GameText.get_text("rating." + cell.key, language)
