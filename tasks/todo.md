@@ -166,3 +166,5 @@ P7验收：2026-09-13用户回复“确认”，对应上一轮困难模式综�
 - [ ] 完成四关多分辨率/高对比截图检查与人工试玩
 
 2026-10-01 N6.1：四关A/B/C对比板已生成并视觉检查，保存在 `docs/previews/pavement/option-A.png`、`option-B.png`、`option-C.png`；源为 `scripts/tests/PavementPreview.gd`。等待用户选定后完成该项，推荐B克制材质。未改运行时道路绘制，动态拼接、世界静止和高对比验证将在N6.2/N6.3完成。
+
+第二轮反馈：用户要求更大的材质差异并允许非铺装地形。新增木栈道、混凝土、钢板、格栅、砂地、砂砾、湿泥车辙、碎岩、砖路和石板组合，预览为 `docs/previews/pavement/distinct-A.png` / `distinct-B.png` / `distinct-C.png`；Godot渲染和逐图视觉检查完成，推荐四关混搭A/B/B/A。原推荐被本轮替代，等待选定后接入。
