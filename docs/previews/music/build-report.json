@@ -1,0 +1,35 @@
+{
+  "freight_harbor": {
+    "decoded_duration_seconds": 17.777770833333335,
+    "loop_seam_max_abs": 0.0002648784138727933,
+    "integrated_lufs": -20.1,
+    "true_peak_dbfs": -4.1,
+    "bpm": 108,
+    "bars": 8,
+    "seed": 20260915,
+    "sha256": "7ff628e6451a698cac3a74ff1424d1d592b18af88f1693fdfc3e94f37a83fcfd",
+    "bytes": 208360
+  },
+  "storm_ridge": {
+    "decoded_duration_seconds": 14.545458333333332,
+    "loop_seam_max_abs": 0.00012401462299749255,
+    "integrated_lufs": -20.0,
+    "true_peak_dbfs": -6.3,
+    "bpm": 132,
+    "bars": 8,
+    "seed": 20260915,
+    "sha256": "f04cbfdc75557103e23bca9c175575ba44d4d539bf6028738f41ecae8d66c261",
+    "bytes": 187705
+  },
+  "sunrise_express": {
+    "decoded_duration_seconds": 15.483875,
+    "loop_seam_max_abs": 4.239538611727767e-05,
+    "integrated_lufs": -20.0,
+    "true_peak_dbfs": -5.1,
+    "bpm": 124,
+    "bars": 8,
+    "seed": 20260915,
+    "sha256": "dfcca5dbc7cb51df73c2e7d35c26ac72820b6225344243ff6e10624850382ba9",
+    "bytes": 192257
+  }
+}
