@@ -10,6 +10,11 @@ class RoadPanel:
 	var track_index := 0
 	var option := 0
 	var distinct := false
+	var coherent := false
+	var left_pixels: Image
+	var right_pixels: Image
+	var left_light := PackedColorArray()
+	var right_light := PackedColorArray()
 	const MATERIALS := [["wood", "concrete", "gravel", "brick"], ["wood", "steel", "mud", "stone"], ["sand", "grate", "rock", "brick"]]
 	const MATERIAL_LABELS := [["木栈道", "大板混凝土", "砂砾山路", "红褐砖路"], ["灰木栈道", "钢板甲板", "湿泥车辙", "暖色石板"], ["压实砂地", "金属格栅", "碎岩山路", "旧砖街道"]]
 	var road_texture: ImageTexture
@@ -24,6 +29,12 @@ class RoadPanel:
 		var track: Dictionary = Tracks.all()[track_index]
 		left = load(track.environment_left_sequence_paths[0])
 		right = load(track.environment_right_sequence_paths[0])
+		left_pixels = left.get_image()
+		right_pixels = right.get_image()
+		if coherent:
+			for y in range(720):
+				left_light.append(edge_light(left_pixels, left_pixels.get_width()-42, y))
+				right_light.append(edge_light(right_pixels, 42, y))
 		player = load(Vehicles.all()[0].texture_path)
 		rng.seed = 20261001 + track_index
 		var noise := FastNoiseLite.new()
@@ -39,13 +50,62 @@ class RoadPanel:
 				var shade := base + Color(grain, grain, grain, 0)
 				if distinct:
 					shade = material_color(x, y, noise)
-				if not distinct and track_index == 2 and option > 0:
+				if coherent:
+					shade = contextual_color(x, y, noise)
+				if not distinct and not coherent and track_index == 2 and option > 0:
 					var distortion := noise.get_noise_2d(x * 0.02, y * 0.02) * 0.08
 					var shine := exp(-pow(sin(x * 0.013 + distortion), 2.0) * 35.0) * clampf(noise.get_noise_2d(x * 0.03, y * 0.01) + 0.45, 0.0, 1.0)
 					shade += Color(0.04, 0.07, 0.09, 0) * shine * (1.0 if option == 1 else 2.0)
 				surface.set_pixel(x, y, shade)
 		road_texture = ImageTexture.create_from_image(surface)
 		queue_redraw()
+
+	func edge_light(source: Image, x: int, y: int) -> Color:
+		var total := Color(0, 0, 0, 0)
+		for offset in [-32, -16, 0, 16, 32]:
+			total += source.get_pixel(x, clampi(y + offset, 0, source.get_height()-1))
+		return total / 5.0
+
+	func contextual_color(x: int, y: int, noise: FastNoiseLite) -> Color:
+		var base: Color = [Color("162a37"), Color("303c40"), Color("15232e"), Color("55534f")][track_index]
+		var strength: float = [0.65, 1.0, 1.4][option]
+		var grain := noise.get_noise_2d(x, y)
+		var broad := noise.get_noise_2d(x * 0.016, y * 0.02)
+		var edge_distance := minf(x, 779-x)
+		var edge_falloff := exp(-edge_distance / 65.0)
+		var shade := base + Color(1, 1, 1, 0) * grain * (0.07 if track_index == 1 else 0.04)
+		# Sample the actual background's near-road lighting at the same height.
+		var lighting := left_light[y] if x < 390 else right_light[y]
+		shade += Color(lighting.r, lighting.g, lighting.b, 0) * edge_falloff * strength * 0.28
+		if track_index == 1:
+			# Staggered heavy concrete slabs; cool, worn and dark like the yard.
+			var row := floori(y / 240.0)
+			var shifted := x + (row % 2) * 130
+			shade += Color(1, 1, 0.9, 0) * sin(row*1.7 + floor(shifted/260.0)) * 0.016
+			if shifted % 260 < 2 or y % 240 < 2: shade = shade.darkened(0.28 * strength)
+			var stain := minf(pow((x-160)/70.0, 2.0)+pow((y-180)/80.0, 2.0), pow((x-660)/55.0, 2.0)+pow((y-440)/90.0, 2.0))
+			if option > 0 and stain < 1.0 and broad < 0.0: shade = shade.darkened(0.15 * strength * (1.0-stain))
+			# Tire wear is a subtle stain, not a new lane barrier.
+			var tire := minf(absf(float(x % 260)-95), absf(float(x % 260)-165))
+			if tire < 10: shade = shade.darkened(0.08 * strength)
+		elif track_index == 2:
+			var coarse := noise.get_noise_2d(x*0.3, y*0.3)
+			shade += Color(0.8, 0.95, 1, 0) * coarse * 0.035
+			if broad > 0.15:
+				shade = shade.darkened(0.15 * strength)
+				shade += Color(0.02, 0.045, 0.065, 0) * broad * strength
+			# Loose aggregate remains at the shoulder, outside the driving lanes.
+			if edge_distance < 26 and coarse > 0.15:
+				shade = Color("414a4d").lerp(shade, 0.35)
+		elif track_index == 0:
+			shade = shade.darkened(maxf(0.0, broad) * 0.09 * strength)
+			if edge_distance < 12 and grain > 0.25 and option > 0:
+				shade = shade.lerp(Color("79745f"), 0.25)
+		else:
+			# Clean, warm morning asphalt; narrow seams, not stone paving.
+			shade += Color(0.055, 0.035, 0.012, 0) * edge_falloff
+			if option == 2 and y % 360 < 2: shade = shade.darkened(0.15)
+		return shade
 
 	func material_color(x: int, y: int, noise: FastNoiseLite) -> Color:
 		var grain := noise.get_noise_2d(x, y)
@@ -102,14 +162,24 @@ class RoadPanel:
 		draw_texture_rect_region(right, Rect2(1060, 0, 220, 720), Rect2(0, 0, 220, 720))
 		draw_rect(Rect2(220, 0, 840, 720), Color("25353a"))
 		draw_texture(road_texture, Vector2(250, 0))
-		if not distinct and option > 0 and track_index == 1:
+		if coherent:
+			var curb: Color = [Color("23333f"), Color("30393c"), Color("242f34"), Color("797369")][track_index]
+			for x in [220, 1030]:
+				draw_rect(Rect2(x, 0, 30, 720), curb)
+				for y in range(0, 720, 100):
+					draw_line(Vector2(x,y), Vector2(x+30,y), curb.darkened(0.4), 2)
+				if track_index == 1:
+					for y in range(90, 650, 180):
+						for stripe in range(3):
+							draw_line(Vector2(x+2,y+stripe*16), Vector2(x+28,y+stripe*16-12), Color("8d783a"), 5)
+		if not distinct and not coherent and option > 0 and track_index == 1:
 			for lane in range(3):
 				var x := 250.0 + lane * 260.0
 				for y in range(-100 + lane*70, 720, 240):
 					draw_line(Vector2(x+8, y), Vector2(x+252, y), Color(0.04, 0.06, 0.07, 0.5), 2.0)
 				if option == 2:
 					draw_rect(Rect2(x+25, 160 + lane*120, 180, 120), Color(0.08, 0.10, 0.11, 0.45))
-		if not distinct and option == 2 and track_index in [0, 3]:
+		if not distinct and not coherent and option == 2 and track_index in [0, 3]:
 			for y in range(160, 720, 280):
 				draw_line(Vector2(270, y), Vector2(1010, y+12), Color(0.02, 0.03, 0.03, 0.25), 3.0)
 		var edge := Color("45e6e0") if track_index == 0 else Color("e0ded0")
@@ -132,6 +202,7 @@ func _init() -> void:
 
 func capture() -> void:
 	var distinct := OS.get_cmdline_user_args().has("distinct")
+	var coherent := OS.get_cmdline_user_args().has("coherent")
 	root.size = Vector2i(1320, 840)
 	root.content_scale_size = Vector2i.ZERO
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path("res://docs/previews/pavement"))
@@ -146,6 +217,8 @@ func capture() -> void:
 		heading.text = ["A · 干净街机 / 轻纹理、强标线", "B · 克制材质 / 推荐：细沥青、工业接缝、湿地微反光", "C · 强环境表现 / 更粗颗粒、修补块与明显湿地反光"][option]
 		if distinct:
 			heading.text = ["新版 A · 木栈道 / 混凝土 / 砂砾 / 砖路", "新版 B · 木栈道 / 钢板 / 湿泥车辙 / 石板", "新版 C · 压实砂地 / 金属格栅 / 碎岩 / 旧砖"][option]
+		if coherent:
+			heading.text = ["场景匹配 A · 清洁路面 / 低磨损与柔和环境光", "场景匹配 B · 日常使用 / 工业接缝、湿地与晨光", "场景匹配 C · 强化环境 / 更明显的磨损、潮湿与光照"][option]
 		heading.position = Vector2(20, 4)
 		heading.add_theme_font_size_override("font_size", 24)
 		board.add_child(heading)
@@ -158,6 +231,7 @@ func capture() -> void:
 			panel.track_index = index
 			panel.option = option
 			panel.distinct = distinct
+			panel.coherent = coherent
 			viewport.add_child(panel)
 			var picture := TextureRect.new()
 			picture.texture = viewport.get_texture()
@@ -169,12 +243,15 @@ func capture() -> void:
 			title.text = ["霓虹海岸 · 深色沥青", "货运港 · 工业铺装", "暴雨山道 · 湿沥青", "日出高速 · 浅灰沥青"][index]
 			if distinct:
 				title.text = ["霓虹海岸", "货运港", "暴雨山道", "日出高速"][index] + " · " + RoadPanel.MATERIAL_LABELS[option][index]
+			if coherent:
+				title.text = ["霓虹海岸 · 蓝紫灯光 / 深色滨海沥青", "货运港 · 冷灰混凝土 / 暖灯与警戒路肩", "暴雨山道 · 湿冷粗沥青 / 碎石路肩", "日出高速 · 晨光浅灰沥青 / 规整路肩"][index]
 			title.position = picture.position - Vector2(0, 30)
 			title.add_theme_font_size_override("font_size", 20)
 			board.add_child(title)
 		for frame in range(3): await process_frame
 		await RenderingServer.frame_post_draw
 		var prefix := "distinct" if distinct else "option"
+		if coherent: prefix = "coherent"
 		var path := ProjectSettings.globalize_path("res://docs/previews/pavement/%s-%s.png" % [prefix, ["A", "B", "C"][option]])
 		assert(root.get_texture().get_image().save_png(path) == OK)
 		board.queue_free()
