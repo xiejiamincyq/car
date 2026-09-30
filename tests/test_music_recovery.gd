@@ -4,6 +4,7 @@ const MainScene = preload("res://scenes/main.tscn")
 const Launcher = preload("res://tests/PlaytestLauncher.gd")
 const Config = preload("res://tests/playtest_launch_config.gd")
 const Tracks = preload("res://scripts/catalog/track_catalog.gd")
+const MusicCatalog = preload("res://scripts/audio/music_catalog.gd")
 
 func _init() -> void:
 	call_deferred("_run")
@@ -46,3 +47,4 @@ func _assert_playing(main) -> void:
 	assert(music.player.stream != null and music.player.playing)
 	assert(not music.player.stream_paused and music.player.volume_db > -80.0)
 	assert(music.current_track_id == main.current_track.music_id)
+	assert(music.player.stream.resource_path == String(MusicCatalog.get_by_id(music.current_track_id).path), "Recovery must preserve dedicated course music")

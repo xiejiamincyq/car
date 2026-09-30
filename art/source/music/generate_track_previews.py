@@ -15,13 +15,13 @@ PROFILES = {
 }
 
 
-def compose(track_id, bpm, roots, motif, voice):
+def compose(track_id, bpm, roots, motif, voice, bars=8, arranged=False):
     beat = 60.0 / bpm
-    duration = 8 * 4 * beat
+    duration = bars * 4 * beat
     synth.SAMPLE_COUNT = round(synth.SAMPLE_RATE * duration)
     mix = np.zeros((synth.SAMPLE_COUNT, 2), dtype=np.float32)
     rng = np.random.default_rng(20260915)
-    for bar in range(8):
+    for bar in range(bars):
         root = roots[bar % 4]
         major = track_id == "sunrise_express" and bar % 4 != 2
         chord = [root + 12, root + (16 if major else 15), root + 19]
@@ -30,7 +30,14 @@ def compose(track_id, bpm, roots, motif, voice):
         for step in range(8):
             at = (bar * 4 + step * .5) * beat
             synth.add_note(mix, at, beat * .36, root + (12 if step == 6 else 0), .15, "square", 0, .008, .06)
-            synth.add_note(mix, at, beat * .42, root + 24 + motif[(step + bar * 2) % 8], .075, voice, .25 if step % 2 else -.25, .012, .09)
+            # Full songs alternate the approved motif with a sparse bridge and
+            # an octave response; the opening retains the audition's melody.
+            section = (bar // 8) % 4 if arranged else 0
+            if section != 2 or step % 2 == 0:
+                melody_gain = .055 if section == 2 else .075
+                synth.add_note(mix, at, beat * .42, root + 24 + motif[(step + bar * 2) % 8], melody_gain, voice, .25 if step % 2 else -.25, .012, .09)
+            if arranged and section in (1, 3) and step in (1, 5):
+                synth.add_note(mix, at, beat * .65, root + 36 + motif[step], .025, "sine", -.35, .025, .12)
         kicks = [0, 1.5, 2.5] if track_id == "storm_ridge" else [0, 1, 2, 3]
         for onset in kicks:
             start = round((bar * 4 + onset) * beat * synth.SAMPLE_RATE)

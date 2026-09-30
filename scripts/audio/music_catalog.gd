@@ -9,6 +9,30 @@ const TRACKS := {
 		"source_path": "res://art/source/music/generate_neon_coast.py",
 		"duration_seconds": 64.0,
 		"gain_db": -4.0,
+	},
+	&"freight_harbor": {
+		"id": &"freight_harbor",
+		"title": "Freight Harbor Drive",
+		"path": "res://assets/music/freight_harbor.ogg",
+		"source_path": "res://art/source/music/generate_course_music.py",
+		"duration_seconds": 71.111111,
+		"gain_db": -4.0,
+	},
+	&"storm_ridge": {
+		"id": &"storm_ridge",
+		"title": "Storm Ridge Run",
+		"path": "res://assets/music/storm_ridge.ogg",
+		"source_path": "res://art/source/music/generate_course_music.py",
+		"duration_seconds": 72.727273,
+		"gain_db": -4.0,
+	},
+	&"sunrise_express": {
+		"id": &"sunrise_express",
+		"title": "Sunrise Express",
+		"path": "res://assets/music/sunrise_express.ogg",
+		"source_path": "res://art/source/music/generate_course_music.py",
+		"duration_seconds": 61.935484,
+		"gain_db": -4.0,
 	}
 }
 

@@ -1,0 +1,12 @@
+{
+  "decoded_duration_seconds": 71.11110416666666,
+  "loop_seam_max_abs": 0.0002106871543219313,
+  "integrated_lufs": -18.6,
+  "true_peak_dbfs": -2.8,
+  "original": true,
+  "seed": 20260915,
+  "bpm": 108,
+  "bars": 32,
+  "runtime_bytes": 820537,
+  "sha256": "b7918882e6ccda3869b27ca1d02b96eaa2a59d1021a4a593eb144a21d3deed56"
+}
