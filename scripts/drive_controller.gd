@@ -53,10 +53,18 @@ func step(
 		speed = clampf(speed + speed_change, 0.0, effective_max_speed)
 	var center_limit := maxf(0.0, road_half_width - player_half_width)
 	lateral_position = clampf(
-		lateral_position + steering_input * steering_speed * clampf(steering_multiplier, 0.0, 1.0) * delta,
+		lateral_position + steering_input * steering_speed * speed_steering_multiplier() * clampf(steering_multiplier, 0.0, 1.0) * delta,
 		-center_limit,
 		center_limit
 	)
+
+func speed_steering_multiplier() -> float:
+	# Base speed normalization keeps damage/overdrive ceiling changes from
+	# instantly changing steering. Retain at least 85% authority at high speed.
+	var speed_ratio := speed / maxf(1.0, max_speed)
+	var ratio := clampf((speed_ratio - 0.25) / 0.75, 0.0, 1.0)
+	var blend := ratio * ratio * (3.0 - 2.0 * ratio)
+	return lerpf(1.0, 0.85, blend)
 
 func reset() -> void:
 	speed = start_speed

@@ -18,7 +18,7 @@ func _init() -> void:
 	controller.lateral_position = 0.0
 	controller.step(1.0, 1.0, 0.0, 1.0, 100.0, 100.0, 0.78, 0.68)
 	assert(is_equal_approx(controller.speed, 390.0), "Critical damage must clamp the combined base and overdrive speed ceiling")
-	assert(is_equal_approx(controller.lateral_position, 204.0), "Critical damage must reduce lateral steering authority without mutating the base profile")
+	assert(is_equal_approx(controller.lateral_position, 204.0 * controller.speed_steering_multiplier()), "Critical damage must combine with speed steering without mutating the base profile")
 	controller.speed = 400.0
 
 	controller.step(1.0, 0.0, 1.0)
