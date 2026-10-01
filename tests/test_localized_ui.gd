@@ -7,6 +7,7 @@ func _init() -> void:
 
 func _run() -> void:
 	var main = MainScene.instantiate()
+	main.persistence_enabled = false
 	root.add_child(main)
 	await process_frame
 	var language_button: Button = main.get_node("CanvasLayer/SettingsScreen/Center/Card/Content/LanguageButton")
@@ -15,7 +16,8 @@ func _run() -> void:
 	assert(main.get_node("CanvasLayer/TitleScreen/Center/Card/Content/StartButton").text == "START RACE", "Title actions must refresh in English")
 	assert(language_button.text == "LANGUAGE: ENGLISH", "Settings must expose the active language")
 	assert(main.get_node("CanvasLayer/ControlsScreen/Center/Card/Content/Heading").text == "KEYBOARD CONTROLS", "The controls screen must refresh in English")
-	assert(main.controls_hint_label.text.contains("SPACE PAUSE"), "Dynamic HUD text must refresh in English")
+	assert(main.controls_hint_label.text.is_empty() and not main.controls_hint_label.visible, "Driving hints must remain removed after language changes")
+	assert(main.position_label.text.contains("DISTANCE") and main.run_status_label.text.contains("STAGE"), "Instrument HUD labels must refresh in English")
 	main._set_language_preference("zh")
 	assert(main.get_node("CanvasLayer/TitleScreen/Center/Card/Content/StartButton").text == "开始比赛", "Title actions must refresh in Chinese")
 	assert(language_button.text == "语言：中文", "Settings must expose Chinese as the active language")

@@ -7,6 +7,7 @@ func _init() -> void:
 
 func _run() -> void:
 	var main = MainScene.instantiate()
+	main.persistence_enabled = false
 	root.add_child(main)
 	main._start_new_run()
 	main.run.tick(3.0, 0.0, main.GameConfig.MAX_SPEED)
@@ -22,6 +23,12 @@ func _run() -> void:
 	main.feedback.tick(0.0, 10.0, 1)
 	main._update_hud()
 	assert(main.fuel_label.text.contains("燃油危险"), "Critical fuel must remain understandable without relying on colour or flashing")
+	assert(main.fuel_label.get_theme_color("font_color") == Color.WHITE, "Critical warning tint must not be multiplied by the old green font colour")
+	assert(main.fuel_gauge.modulate.r > main.fuel_gauge.modulate.g, "Critical fuel bar must be visibly red")
+	main.run.progression.finish_distance = 3400.0
+	main.run.distance = 1700.0
+	main._update_hud()
+	assert(is_equal_approx(main.progress_gauge.value, 50.0), "Distance bar must use the selected course finish, not the global default")
 	assert(main.feedback_banner.visible and main.feedback_banner.text == "赛段 2", "A stage change must show an explicit HUD banner")
 	for size in [Vector2i(1280, 720), Vector2i(1920, 1080)]:
 		root.content_scale_size = size
@@ -33,16 +40,23 @@ func _run() -> void:
 		assert(is_equal_approx(panel.color.a, 0.70), "The HUD background must use seventy-percent opacity")
 		assert(main.speed_label.get_theme_font_size("font_size") >= 32 and main.speed_label.get_theme_constant("outline_size") >= 3, "Primary HUD numbers must be larger and outlined")
 		assert(panel.get_global_rect().size.y > 0.0, "HUD panel must receive an actual layout rect")
-		for label_name in ["Speed", "ControlsHint", "Score", "Fuel", "OverdriveLabel", "RunStatus"]:
+		assert(not main.controls_hint_label.visible and main.controls_hint_label.text.is_empty(), "Driving HUD must remove key hints and seed text")
+		assert(main.speed_label.get_global_rect().position.y > size.y * 0.5, "Speed instrument must be bottom-left")
+		assert(main.score_label.get_global_rect().position.x > size.x * 0.7, "Score must move to top-right")
+		assert(main.coin_label.get_global_rect().position.x > size.x * 0.7, "Coins must move to top-right")
+		assert(main.race_hud.get_node("IntegrityGauge").value == main.integrity.current, "Hull bar must expose actual integrity")
+		assert(not main.score_label.text.contains("距离") and not main.score_label.text.contains("DIST"), "Distance must not remain coupled to score")
+		for label_name in ["Speed", "Score", "Fuel", "OverdriveLabel", "RunStatus"]:
 			var label: Control = main.get_node("CanvasLayer/RaceHUD/Rows/" + label_name)
 			assert(hud.get_global_rect().encloses(label.get_global_rect()), "%s HUD label must fit at %s" % [label_name, size])
-			assert(panel.get_global_rect().encloses(label.get_global_rect()), "%s must not be clipped by its panel at %s" % [label_name, size])
 		var coin_label: Control = main.get_node("CanvasLayer/RaceHUD/CoinLabel")
-		assert(panel.get_global_rect().encloses(main.integrity_label.get_global_rect()), "Integrity indicator must fit inside the HUD")
+		assert(hud.get_global_rect().encloses(main.integrity_label.get_global_rect()), "Integrity indicator must fit inside the HUD")
 		assert(hud.get_global_rect().encloses(coin_label.get_global_rect()), "Coin counter must fit inside the HUD at %s" % size)
-		assert(panel.get_global_rect().encloses(coin_label.get_global_rect()), "Coin counter must not be clipped by its panel at %s" % size)
 		var overdrive_gauge: Control = main.get_node("CanvasLayer/RaceHUD/Rows/OverdriveGauge")
-		assert(panel.get_global_rect().encloses(overdrive_gauge.get_global_rect()), "Overdrive meter must fit inside the HUD at %s" % size)
+		assert(hud.get_global_rect().encloses(overdrive_gauge.get_global_rect()), "Overdrive meter must fit inside the HUD at %s" % size)
+		main.run.phase = main.RunState.Phase.PAUSED
+		main._update_hud()
+		assert(main.run_status_label.text.contains(main._phase_text()), "Pause state must remain visible in the top-left status strip")
 		main.run.end()
 		main._update_hud()
 		await process_frame

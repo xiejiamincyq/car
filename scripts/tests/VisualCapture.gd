@@ -24,6 +24,7 @@ func _capture() -> void:
 	DisplayServer.window_set_size(capture_size)
 	await process_frame
 	var main = MainScene.instantiate()
+	main.persistence_enabled = false
 	root.add_child(main)
 	await process_frame
 
@@ -35,6 +36,8 @@ func _capture() -> void:
 	main.run.distance = main.run.progression.finish_distance * distance_ratio
 	main.drive.speed = 200.0
 	main.high_contrast_enabled = high_contrast
+	if arguments.size() >= 9:
+		main._set_language_preference(arguments[8])
 	if arguments.size() >= 8:
 		main.set_process(false)
 		main.save_data.tour.selected_vehicle_id = StringName(arguments[7])
@@ -53,6 +56,17 @@ func _capture() -> void:
 				_stage_overdrive_preview(main)
 			"coin_preview":
 				_stage_coin_preview(main)
+				main.reduced_flashing_enabled = false
+				main.feedback.tick(0.12, main.run.fuel, main.run.difficulty_stage)
+			"hud_warning_preview":
+				_stage_coin_preview(main)
+				main.run.fuel = 10.0
+				main.integrity.current = 25.0
+				main.run.score = 9999999
+				main.run.coins = 9999
+				main.reduced_flashing_enabled = true
+				main.feedback.flashing_enabled = false
+				main.feedback.tick(0.2, main.run.fuel, main.run.difficulty_stage)
 	_hide_overlays(main)
 	main.race_hud.visible = true
 	main._update_hud()
@@ -117,6 +131,7 @@ func _stage_coin_preview(main: Node) -> void:
 		main.coin_director.coins.append(CoinPickup.new(900 + index, lane_positions[index], 120.0 + 48.0 * index, 90, 1))
 	main.run.coins = 7
 	main.feedback.spawn_coin(Vector2(640.0, 430.0), 2)
+	main.feedback.spawn_coin(Vector2(640.0, 570.0), 3)
 
 func _hide_overlays(main: Node) -> void:
 	for control_name in [

@@ -34,6 +34,7 @@ func _run() -> void:
 	director.play_cue("checkpoint")
 	assert(director.last_audio_cue == "checkpoint" and director.event_audio.playing, "Unmuted named cues must use the event channel")
 	director.play_coin_pickup(3)
+	assert(director.coin_audio.max_polyphony == 3, "Dense pickups may overlap bounded bell tails instead of restarting one voice")
 	assert(director.coin_audio.playing and is_equal_approx(director.coin_audio.pitch_scale, 1.12), "Coin pickups must sound immediately and rise subtly with the shared combo")
 	director.update_overdrive(true, 0.5)
 	assert(director.overdrive_start_audio.playing and director.overdrive_loop_audio.playing, "Overdrive activation must play ignition and begin the turbine loop")

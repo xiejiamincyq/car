@@ -36,6 +36,7 @@ func _ready() -> void:
 	acceleration_audio = _make_effect_player(SoundEffects.create_acceleration(), -12.0)
 	pickup_audio = _make_effect_player(SoundEffects.create_pickup(), -10.0)
 	coin_audio = _make_effect_player(SoundEffects.create_coin_pickup(), -11.0)
+	coin_audio.max_polyphony = 3
 	warning_audio = _make_effect_player(SoundEffects.create_warning(), -13.0)
 	overdrive_start_audio = _make_effect_player(SoundEffects.create_overdrive_ignition(), -9.0)
 	overdrive_loop_audio = _make_effect_player(SoundEffects.create_overdrive_loop(), -16.0)

@@ -104,6 +104,8 @@ const TEXT_ROWS := [
 	["scores.heading", "最高成绩", "BEST SCORES"],
 	["scores.entry", "{0}. {1}  {2}  {3}m", "{0}. {1}  {2}  {3}m"],
 	["hud.speed", "速度  {0} km/h", "SPEED  {0} km/h"],
+	["hud.score.compact", "{0}", "{0}"],
+	["hud.distance.bar", "距离  {0} / {1} m", "DISTANCE  {0} / {1} m"],
 	["hud.score", "得分  {0}    距离  {1}m", "SCORE  {0}    DIST  {1}m"],
 	["hud.coins", "金币  {0}", "COINS  {0}"],
 	["hud.fuel", "燃油  {0}%  {1}", "FUEL  {0}%  {1}"],

@@ -28,7 +28,24 @@ static func create_pickup() -> AudioStreamWAV:
 	return _make_chirp(480.0, 880.0, 0.14, 0.34)
 
 static func create_coin_pickup() -> AudioStreamWAV:
-	return _make_chirp(720.0, 1280.0, 0.11, 0.28)
+	# Two stable musical pitches with a soft mallet attack and short bell decay.
+	var rate := 44100
+	var duration := 0.22
+	var data := PackedByteArray()
+	data.resize(int(rate*duration)*2)
+	for index in range(data.size()/2):
+		var time := float(index)/rate
+		var value := 0.0
+		for note in range(2):
+			var age := time-float(note)*0.035
+			if age < 0: continue
+			var frequency := 1174.66 if note == 0 else 1567.98
+			var attack := minf(1.0, age/0.004)
+			var release := clampf((duration-time)/0.035, 0.0, 1.0)
+			var phase := TAU*frequency*age
+			value += (sin(phase)*0.68+sin(phase*2.76)*0.16+sin(phase*5.4)*0.04)*attack*exp(-age*24.0)*release*0.28
+		data.encode_s16(index*2, int(clampf(value, -0.4, 0.4)*30000.0))
+	return _stream_from_data(data, rate)
 
 static func create_warning() -> AudioStreamWAV:
 	return _make_chirp(760.0, 610.0, 0.12, 0.28)

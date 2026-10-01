@@ -386,7 +386,6 @@ func _draw() -> void:
 		RaceEffectRenderer.draw_acceleration(self, car_center, visual_animation_time, acceleration_visual_strength, PlayerVehicleProfile.VISUAL_PROPORTION_SCALE.x)
 	var fuel_effect_color := VisualStyle.HIGH_CONTRAST_FUEL if high_contrast_enabled else VisualStyle.FUEL_GLOW
 	RaceEffectRenderer.draw_pickup_bursts(self, feedback, fuel_effect_color)
-	CoinRenderer.draw_bursts(self, feedback, screen_shake)
 	var player_size := PlayerVehicleProfile.visual_size(current_vehicle, current_player_texture.get_size())
 	var player_rect := Rect2(-player_size * 0.5, player_size)
 	var player_modulate := Color(1.0, 1.0, 1.0, 0.45) if _is_player_flashing() else Color.WHITE
@@ -404,6 +403,7 @@ func _draw() -> void:
 	RaceEffectRenderer.draw_braking(self, car_center, visual_animation_time, brake_visual_strength, drive.speed, drive.max_speed, PlayerVehicleProfile.VISUAL_PROPORTION_SCALE.x)
 	RaceEffectRenderer.draw_collision_ring(self, car_center, collision_visual_remaining, _warning_color())
 	_draw_sparks()
+	CoinRenderer.draw_bursts(self, feedback, screen_shake, reduced_flashing_enabled)
 	draw_set_transform(Vector2.ZERO)
 
 func _draw_sparks() -> void:
@@ -1156,16 +1156,15 @@ func _player_lane() -> int:
 	return clampi(int(floor((drive.lateral_position + GameConfig.ROAD_HALF_WIDTH) / lane_width)), 0, GameConfig.ROAD_LANE_COUNT - 1)
 
 func _update_hud() -> void:
-	var scale := VisualStyle.hud_scale_for_width(get_viewport_rect().size.x)
-	speed_label.text = _text("hud.speed", ["%03d" % roundi(drive.speed * GameConfig.HUD_SPEED_SCALE)])
-	position_label.text = ""
-	score_label.text = _text("hud.score", ["%06d" % run.score, "%05d" % roundi(run.distance)])
+	speed_label.text = "%03d" % roundi(drive.speed * GameConfig.HUD_SPEED_SCALE)
+	position_label.text = _text("hud.distance.bar", [roundi(run.distance), roundi(run.progression.finish_distance)])
+	score_label.text = _text("hud.score.compact", ["%06d" % run.score])
 	coin_label.text = _text("hud.coins", ["%02d" % run.coins])
 	integrity_label.text = _text("hud.integrity", ["%03d" % ceili(integrity.current)])
 	integrity_label.modulate = Color("ff6b6b") if integrity.current <= 30.0 else (Color("ffd75a") if integrity.current <= 70.0 else Color("72e9ef"))
 	var fuel_warning := _fuel_warning_text() if feedback.is_fuel_warning_visible() else ""
-	fuel_label.text = _text("hud.fuel", ["%03d" % roundi(run.fuel), fuel_warning])
-	fuel_label.modulate = Color("ff6b6b") if feedback.low_fuel_tier == GameFeedback.FuelTier.CRITICAL else (Color("ffd75a") if feedback.low_fuel_tier == GameFeedback.FuelTier.LOW else Color.WHITE)
+	fuel_label.text = _text("hud.fuel", [str(roundi(run.fuel)), fuel_warning])
+	fuel_label.modulate = Color("ff7676") if feedback.low_fuel_tier == GameFeedback.FuelTier.CRITICAL else (Color("ffd75a") if feedback.low_fuel_tier == GameFeedback.FuelTier.LOW else Color("76edb6"))
 	fuel_gauge.value = clampf(run.fuel, 0.0, GameConfig.MAX_FUEL)
 	fuel_gauge.modulate = fuel_label.modulate
 	match overdrive.state:
@@ -1184,12 +1183,11 @@ func _update_hud() -> void:
 			overdrive_gauge.value = 0.0
 			overdrive_label.modulate = Color(0.45, 0.95, 1.0, 0.82)
 			overdrive_gauge.modulate = Color(0.45, 0.95, 1.0, 0.58)
-	progress_gauge.value = clampf(run.distance / GameConfig.RACE_FINISH_DISTANCE * 100.0, 0.0, 100.0)
+	progress_gauge.value = clampf(run.distance / run.progression.finish_distance * 100.0, 0.0, 100.0)
 	var combo_time := "%.1fs" % run.combo.remaining_seconds if run.combo.event_count > 0 else _text("hud.ready")
 	run_status_label.text = _text("hud.status", [run.difficulty_stage + 1, run.combo.multiplier, combo_time, _phase_text()])
-	controls_hint_label.text = _text("hud.controls", [current_run_seed])
-	for label in [speed_label, controls_hint_label, score_label, coin_label, fuel_label, overdrive_label, run_status_label]:
-		label.scale = Vector2.ONE * scale
+	controls_hint_label.text = ""
+	race_hud.present(drive.speed, drive.max_speed + GameConfig.OVERDRIVE_SPEED_BONUS, run.fuel, integrity.current, language, run.coins)
 	var result_was_visible := result_screen.visible
 	race_hud.visible = run.phase == RunState.Phase.RUNNING or run.phase == RunState.Phase.PAUSED
 	countdown_screen.visible = run.phase == RunState.Phase.COUNTDOWN
