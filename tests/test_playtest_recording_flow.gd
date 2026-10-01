@@ -49,4 +49,5 @@ func _run() -> void:
 	assert(file.get_line().is_empty(), "Exactly one record per attempt")
 	file.close()
 	DirAccess.remove_absolute(path)
+	print("TEST_COMPLETE test_playtest_recording_flow.gd")
 	quit()

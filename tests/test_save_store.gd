@@ -131,6 +131,7 @@ func _init() -> void:
 	assert(store.load_data().career.runs == 7, "A failed promotion must preserve the prior readable save")
 
 	_cleanup()
+	print("TEST_COMPLETE test_save_store.gd")
 	quit()
 
 func _cleanup() -> void:

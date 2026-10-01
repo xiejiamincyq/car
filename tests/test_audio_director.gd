@@ -3,6 +3,7 @@ extends SceneTree
 const AudioDirector = preload("res://scripts/audio/audio_director.gd")
 const SoundEffects = preload("res://scripts/sound_effects.gd")
 const TrafficVehicle = preload("res://scripts/traffic_vehicle.gd")
+const AudioTeardown = preload("res://tests/support/audio_teardown.gd")
 
 func _init() -> void:
 	call_deferred("_run")
@@ -65,11 +66,11 @@ func _run() -> void:
 	director.resume_music_countdown()
 	assert(director.music.phase == director.music.Phase.FADING_IN, "Gameplay resume must return music through countdown fade-in")
 
+	var pending_audio := AudioTeardown.capture(director)
 	director.shutdown()
 	for player in director.effect_players():
 		assert(player.stream == null, "AudioDirector shutdown must release effect streams")
 	director.queue_free()
 	await process_frame
-	await process_frame
-	await process_frame
+	assert(await AudioTeardown.wait_for_release(self, pending_audio), "Shutdown must release captured audio playbacks before the test exits")
 	quit()

@@ -97,6 +97,7 @@ func _run() -> void:
 	for outcome in ["clear", "failed"]:
 		for action in ["replay", "title"]:
 			await _same_frame_terminal(config, outcome, action)
+	await _initialization_and_consecutive_restarts(config)
 	await _failed_log_does_not_stop_driving(config)
 	for filename in ["synthetic-career.cfg", "results.jsonl", "not-a-directory"]:
 		var target: String = folder + "/" + filename
@@ -104,9 +105,11 @@ func _run() -> void:
 			DirAccess.remove_absolute(ProjectSettings.globalize_path(target))
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(folder))
 	print("PLAYTEST_ISOLATION checks complete; failures=", failures.size())
+	print("TEST_COMPLETE test_playtest_isolation.gd")
 	quit(0 if failures.is_empty() else 1)
 
 func _same_frame_terminal(config: Dictionary, outcome: String, action: String) -> void:
+	var failures_before := failures.size()
 	var main = MainScene.instantiate()
 	root.add_child(main)
 	main.set_process(false)
@@ -140,6 +143,37 @@ func _same_frame_terminal(config: Dictionary, outcome: String, action: String) -
 		_check(rows[0].outcome == outcome, "Immediate %s must not downgrade the prior %s to aborted" % [action, outcome])
 	if action == "replay" and rows.size() == 2:
 		_check(rows[1].outcome == "aborted", "Closing an unfinished retry must record aborted")
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(log_path))
+	print("M1_TERMINAL_CASE outcome=%s action=%s status=%s" % [outcome, action, "pass" if failures.size() == failures_before else "fail"])
+
+func _initialization_and_consecutive_restarts(config: Dictionary) -> void:
+	var main = MainScene.instantiate()
+	root.add_child(main)
+	main.set_process(false)
+	var recorder = Recorder.new()
+	recorder.source_main = main
+	recorder.source_label = "automated_headless"
+	var log_path := folder + "/consecutive-restarts.jsonl"
+	recorder.output_path = log_path
+	main.add_child(recorder)
+	recorder.set_process(false)
+	recorder._process(0)
+	main._reset_run()
+	main._reset_run()
+	_check(not FileAccess.file_exists(log_path), "Title initialization and idle resets must not create phantom attempts")
+	Launcher.configure_main(main, config)
+	main._replay_run()
+	main._replay_run()
+	# Three real countdown attempts, including two same-frame abandoned retries.
+	main.queue_free()
+	await process_frame
+	var rows := _rows(log_path)
+	_check(rows.size() == 3, "Consecutive restart/exit must record exactly the three launched attempts")
+	var seeds: Array = []
+	for row in rows:
+		_check(row.outcome == "aborted" and is_zero_approx(float(row.seconds)), "An unstarted retry must not acquire a phantom terminal result")
+		_check(not seeds.has(row.seed), "A launched attempt must not be recorded twice")
+		seeds.append(row.seed)
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(log_path))
 
 func _failed_log_does_not_stop_driving(config: Dictionary) -> void:

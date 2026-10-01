@@ -62,6 +62,7 @@ func _run() -> void:
 	await _legacy_round_trip(main)
 	main.queue_free()
 	await process_frame
+	print("TEST_COMPLETE test_audio_settings_ui.gd")
 	quit()
 
 func _press(key: Key) -> void:

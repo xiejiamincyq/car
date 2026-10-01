@@ -19,12 +19,32 @@ const SESSIONS := [
 ]
 var failures: Array[String] = []
 
+# Transparent input spies: all gameplay still executes the original methods.
+# Expectations never infer damage or fuel cost from the resulting hull/fuel.
+class RunInputProbe extends "res://scripts/run_state.gd":
+	var tick_inputs: Dictionary = {}
+
+	func tick(delta: float, speed: float, maximum_speed: float, forward_acceleration: float = 0.0) -> void:
+		tick_inputs = {"delta": delta, "speed": speed, "maximum_speed": maximum_speed, "acceleration": forward_acceleration}
+		super.tick(delta, speed, maximum_speed, forward_acceleration)
+
+class HullInputProbe extends "res://scripts/vehicle_integrity.gd":
+	var events: Array[Dictionary] = []
+
+	func apply_damage(amount: float) -> Dictionary:
+		events.append({"kind": "damage", "amount": amount})
+		return super.apply_damage(amount)
+
+	func repair(amount: float) -> float:
+		events.append({"kind": "repair", "amount": amount})
+		return super.repair(amount)
+
 func _init() -> void:
 	call_deferred("_run")
 
 func _run() -> void:
 	root.size = Vector2i(1280, 720)
-	var totals := {"fuel": 0, "repair": 0, "coins": 0, "traffic_frames": 0, "construction_frames": 0, "oracle_frames": 0, "collision_frames": 0}
+	var totals := {"fuel": 0, "repair": 0, "coins": 0, "traffic_frames": 0, "construction_frames": 0, "oracle_frames": 0, "collision_frames": 0, "damage_events": 0}
 	for index in range(SESSIONS.size()):
 		var stats := _sample(index)
 		print("DYNAMIC_PICKUP_SAMPLE ", JSON.stringify(stats))
@@ -36,6 +56,7 @@ func _run() -> void:
 			"sample %d must include live traffic and scheduled construction" % (index + 1))
 	print("DYNAMIC_PICKUP_TOTAL samples=10 ", JSON.stringify(totals), " failures=", failures.size())
 	for failure in failures: push_error(failure)
+	print("TEST_COMPLETE test_dynamic_pickup_smoke.gd")
 	quit(0 if failures.is_empty() else 1)
 
 func _sample(index: int) -> Dictionary:
@@ -43,13 +64,15 @@ func _sample(index: int) -> Dictionary:
 	var main = MainScene.instantiate()
 	root.add_child(main)
 	main.set_process(false)
+	main.run = RunInputProbe.new(main.run.max_fuel, main.run.base_fuel_drain_per_second, main.run.fuel_grace_seconds)
+	main.integrity = HullInputProbe.new()
 	Launcher.configure_main(main, {"track_id": config[0], "vehicle_id": config[1], "difficulty_index": 1, "run_seed": config[2]})
 	_check(not main.persistence_enabled, "Smoke must not write career/settings")
 	main.run.begin_countdown(0.0)
 	main.run.phase = Run.Phase.RUNNING
 	main.integrity.current = 60.0
 	var stats := {"sample": index + 1, "track": config[0], "vehicle": config[1], "seed": config[2], "fuel": 0, "repair": 0, "coins": 0,
-		"traffic_frames": 0, "construction_frames": 0, "oracle_frames": 0, "collision_frames": 0}
+		"traffic_frames": 0, "construction_frames": 0, "oracle_frames": 0, "collision_frames": 0, "damage_events": 0}
 	for frame in range(60 * 60):
 		if main.run.phase != Run.Phase.RUNNING: break
 		_apply_directed_input(main, stats)
@@ -59,8 +82,10 @@ func _sample(index: int) -> Dictionary:
 		var fuel_before: float = main.run.fuel
 		var hull_before: float = main.integrity.current
 		var coins_before: int = main.run.coins
-		var speed_before: float = main.drive.speed
+		var distance_before: float = main.run.distance
 		var collisions_before: int = main.run.collisions
+		main.integrity.events.clear()
+		main.run.tick_inputs.clear()
 		main._process(DT)
 		if main.run.phase != Run.Phase.RUNNING: break
 		_check(not main.traffic.has_vehicle_overlap(), "sample %d frame %d NPC body overlap" % [index + 1, frame])
@@ -75,18 +100,40 @@ func _sample(index: int) -> Dictionary:
 		stats.coins += coin_contacts
 		_check(main.run.coins - coins_before == coin_contacts, "Coin reward must equal actual contact count")
 		if main.run.collisions != collisions_before:
-			# Collisions can change speed after fuel integration and hull after repair.
-			# Geometric removal/coin checks still ran; skip only numeric fuel/hull oracle.
 			stats.collision_frames += 1
-			continue
 		stats.oracle_frames += 1
-		var acceleration := maxf(0.0, (float(main.drive.speed) - speed_before) / DT)
-		var expected_fuel := maxf(0.0, fuel_before - main.run.fuel_drain_per_second * Run.fuel_load(main.drive.speed, main.drive.max_speed, acceleration) * DT)
-		expected_fuel = minf(main.run.max_fuel, expected_fuel + main.run.last_checkpoints_crossed * Config.CHECKPOINT_FUEL_REWARD)
+		# Read tick entry parameters, before NPC/construction impulses change speed.
+		var inputs: Dictionary = main.run.tick_inputs
+		_check(not inputs.is_empty(), "Each checked frame must execute the real RunState tick")
+		var speed_ratio := clampf(float(inputs.speed) / maxf(1.0, inputs.maximum_speed), 0.0, 1.0)
+		var load := Config.FUEL_ROLLING_RESISTANCE_LOAD * clampf(speed_ratio / Config.FUEL_ROLLING_RESISTANCE_FULL_SPEED_RATIO, 0.0, 1.0)
+		load += Config.FUEL_AERODYNAMIC_RESISTANCE_LOAD * speed_ratio * speed_ratio
+		load += Config.FUEL_ACCELERATION_LOAD * minf(maxf(0.0, inputs.acceleration) / Config.ACCELERATION, 1.25)
+		var expected_fuel := maxf(0.0, fuel_before - main.run.fuel_drain_per_second * load * inputs.delta)
+		var checkpoint_count := 0
+		var distance_after: float = distance_before + maxf(0.0, inputs.speed) * inputs.delta * 0.1
+		for checkpoint in main.run.progression.checkpoint_distances:
+			if checkpoint > distance_before and checkpoint <= distance_after: checkpoint_count += 1
+		_check(main.run.last_checkpoints_crossed == checkpoint_count, "Checkpoint fuel credit must match crossed track thresholds")
+		expected_fuel = minf(main.run.max_fuel, expected_fuel + checkpoint_count * Config.CHECKPOINT_FUEL_REWARD)
 		expected_fuel = minf(main.run.max_fuel, expected_fuel + fuel_contacts * Config.FUEL_PICKUP_AMOUNT)
 		_check(absf(main.run.fuel - expected_fuel) < 0.001, "Fuel must change only by drain, checkpoint, and geometric pickup")
-		_check(absf(main.integrity.current - minf(100.0, hull_before + repair_contacts * 20.0)) < 0.001,
-			"Repair must restore 20 per geometric contact, capped at 100")
+		# Order matters: construction hits precede repairs; NPC impacts follow them.
+		# Validate deduction application, not the independent physical damage model.
+		var expected_hull := hull_before
+		var repair_requested := 0.0
+		var damage_events := 0
+		for event in main.integrity.events:
+			if event.kind == "damage":
+				expected_hull = maxf(0.0, expected_hull - maxf(0.0, event.amount))
+				damage_events += 1
+			else:
+				repair_requested += event.amount
+				if expected_hull >= 20.0: expected_hull = minf(100.0, expected_hull + maxf(0.0, event.amount))
+		_check(repair_requested == repair_contacts * 20.0, "Repair ledger entries must match geometric pickups, not reported hull changes")
+		_check(damage_events == main.run.collisions - collisions_before, "Every counted collision must have exactly one damage ledger entry")
+		_check(absf(main.integrity.current - expected_hull) < 0.001, "Hull must equal the ordered damage/repair ledger with cap and failure boundary")
+		stats.damage_events += damage_events
 	stats.seconds = main.run.elapsed_seconds
 	stats.phase = main.run.phase
 	stats.collisions = main.run.collisions

@@ -46,6 +46,7 @@ func _run() -> void:
 	assert(reopened.save_data.career.total_distance == 845.0 and reopened.save_data.career.overtakes == 4, "Career totals must reload unchanged")
 	await _free_main(reopened)
 	_cleanup()
+	print("TEST_COMPLETE test_persistence_integration.gd")
 	quit()
 
 func _free_main(main: Node) -> void:

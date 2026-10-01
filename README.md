@@ -32,15 +32,15 @@ godot --path . --editor
 
 ## 运行测试
 
-每个 `tests/test_*.gd` 是独立的无头测试。以下 PowerShell 命令运行全部测试：
+每个 `tests/test_*.gd` 是独立的无头测试。以下 PowerShell 命令运行全部测试（自动定位本机Godot，也可显式传入）：
 
 ```powershell
-$godot = "C:\Path\To\Godot_v4.7-stable_win64_console.exe"
-Get-ChildItem tests -Filter "test_*.gd" | ForEach-Object {
-  & $godot --headless --path . --script $_.FullName
-  if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-}
+./scripts/tests/run_tests.ps1
+# 单项：./scripts/tests/run_tests.ps1 -TestFilter test_playtest_isolation.gd
+# 指定引擎：./scripts/tests/run_tests.ps1 -GodotExecutable 'C:\Path\To\Godot_v4.7-stable_win64_console.exe'
 ```
+
+运行器使用每项120秒墙钟看门狗，超时计失败；不使用会提前返回成功的“60帧后自动退出”。关键异步/存档测试还必须到达末尾完成标记。`-TestTimeoutSeconds`可调整独立测试的上限；不会终止其他游戏进程。
 
 `tests/test_release_regression.gd` 额外覆盖 20 个真实燃油结算与第二局重开流程、四个难度阶段及其实际车种，以及 20 个种子 × 3 个玩家车道 × 3 个速度组合下 300 秒的出生公平性、回收和对象池压力模拟。
 

@@ -2,6 +2,7 @@ extends SceneTree
 
 const MainScene = preload("res://scenes/main.tscn")
 const SoundEffects = preload("res://scripts/sound_effects.gd")
+const AudioTeardown = preload("res://tests/support/audio_teardown.gd")
 
 func _init() -> void:
 	call_deferred("_run")
@@ -36,9 +37,11 @@ func _run() -> void:
 	main.audio_director.master_volume = 0.0
 	main.audio_director.apply_bus_settings(main.audio_director.master_volume, main.audio_director.music_volume, main.audio_director.effects_volume, main.audio_director.muted)
 	assert(AudioServer.get_bus_volume_db(master_index) <= -70.0, "Zero percent volume must be effectively silent")
+	var pending_audio := AudioTeardown.capture(main.audio_director)
 	main.audio_director.stop_run_audio()
 	for player in [main.audio_director.collision_audio, main.audio_director.engine_audio, main.audio_director.acceleration_audio, main.audio_director.pickup_audio, main.audio_director.warning_audio, main.audio_director.ui_audio, main.audio_director.event_audio]:
 		player.stream = null
 	main.queue_free()
 	await process_frame
+	assert(await AudioTeardown.wait_for_release(self, pending_audio), "Audio bus test teardown must finish audio retirement before exit")
 	quit()

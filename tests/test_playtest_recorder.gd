@@ -45,4 +45,5 @@ func _init() -> void:
 	file.close()
 	DirAccess.remove_absolute(path)
 	recorder.free()
+	print("TEST_COMPLETE test_playtest_recorder.gd")
 	quit()
