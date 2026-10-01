@@ -68,6 +68,12 @@ func announce_checkpoint(checkpoint_number: int, fuel_reward: float) -> void:
 	_banner_values = [checkpoint_number, GameConfig.RACE_CHECKPOINT_DISTANCES.size(), roundi(fuel_reward)]
 	stage_banner_text = GameText.get_text(_banner_key, language, _banner_values)
 
+func announce_repair(amount: int) -> void:
+	_stage_banner_remaining = STAGE_TRANSITION_SECONDS
+	_banner_key = "feedback.repair"
+	_banner_values = [amount]
+	stage_banner_text = GameText.get_text(_banner_key, language, _banner_values)
+
 func set_language(value: String) -> void:
 	language = value
 	if not _banner_key.is_empty() and not stage_banner_text.is_empty():

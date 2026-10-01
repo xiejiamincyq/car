@@ -65,6 +65,7 @@ var screen_shake := Vector2.ZERO
 var audio_director: AudioDirector
 var fullscreen_enabled := false
 var fuel_pickups: Array[FuelPickup] = []
+var repair_supplies = preload("res://scripts/repair_supply_director.gd").new(611 ^ 7841)
 var fuel_spawn_director: FuelSpawnDirector
 var coin_director: CoinGameplayDirector
 var run_seed_sequence: RunSeedSequence
@@ -337,6 +338,7 @@ func _process(delta: float) -> void:
 	audio_director.update_overdrive(overdrive.is_active(), overdrive.intensity())
 	audio_director.update_driving(delta, drive.speed / maxf(1.0, effective_max_speed), accelerate_input > 0.0 and Input.is_action_just_pressed("accelerate"), traffic.vehicles)
 	_update_fuel_pickups(delta)
+	_update_repair_pickups(delta)
 	_update_coins(delta)
 	collision.advance(delta)
 	_check_collisions()
@@ -489,10 +491,10 @@ func _draw_fuel_pickups(road_left: float) -> void:
 	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / GameConfig.ROAD_LANE_COUNT
 	for pickup in fuel_pickups:
 		var center := Vector2(road_left + lane_width * (pickup.lane + 0.5), pickup.y)
-		var fuel_color := VisualStyle.HIGH_CONTRAST_FUEL if high_contrast_enabled else VisualStyle.FUEL_GLOW
-		draw_circle(center, 28.0, Color(fuel_color, 0.20))
-		var pickup_rect := Rect2(center - FUEL_PICKUP_TEXTURE.get_size() * 0.5, FUEL_PICKUP_TEXTURE.get_size())
-		draw_texture_rect(FUEL_PICKUP_TEXTURE, pickup_rect, false)
+		preload("res://scripts/supply_renderer.gd").draw_pickup(self, center, false, high_contrast_enabled)
+	for pickup in repair_supplies.pickups:
+		var center := Vector2(road_left + lane_width * (pickup.lane + 0.5), pickup.y)
+		preload("res://scripts/supply_renderer.gd").draw_pickup(self, center, true, high_contrast_enabled)
 
 func _traffic_texture_for_kind(kind: int, visual_variant: int = 0) -> Texture2D:
 	match kind:
@@ -526,6 +528,9 @@ func _event_plate_color() -> Color:
 
 func _update_fuel_pickups(delta: float) -> void:
 	var blocked_lanes := traffic.blocked_lanes_near(FuelSpawnDirector.PICKUP_SPAWN_Y, GameConfig.FUEL_SPAWN_SAFETY_DISTANCE)
+	for zone in repair_supplies.exclusion_zones():
+		if absf(zone.y-FuelSpawnDirector.PICKUP_SPAWN_Y) < GameConfig.FUEL_SPAWN_SAFETY_DISTANCE and not blocked_lanes.has(int(zone.x)):
+			blocked_lanes.append(int(zone.x))
 	for coin_lane in coin_director.blocked_lanes_near(FuelSpawnDirector.PICKUP_SPAWN_Y, GameConfig.FUEL_SPAWN_SAFETY_DISTANCE):
 		if not blocked_lanes.has(coin_lane):
 			blocked_lanes.append(coin_lane)
@@ -552,7 +557,26 @@ func _fuel_spawn_exclusion_zones() -> Array[Vector2]:
 	var zones: Array[Vector2] = []
 	for pickup in fuel_pickups:
 		zones.append(Vector2(pickup.lane, pickup.y))
+	zones.append_array(repair_supplies.exclusion_zones())
 	return zones
+
+func _update_repair_pickups(delta: float) -> void:
+	var spawn_y := FuelSpawnDirector.PICKUP_SPAWN_Y
+	var blocked := traffic.blocked_lanes_near(spawn_y, GameConfig.FUEL_SPAWN_SAFETY_DISTANCE)
+	for lane in coin_director.blocked_lanes_near(spawn_y, GameConfig.FUEL_SPAWN_SAFETY_DISTANCE):
+		if not blocked.has(lane): blocked.append(lane)
+	for zone in _fuel_spawn_exclusion_zones():
+		if absf(zone.y-spawn_y) < GameConfig.FUEL_SPAWN_SAFETY_DISTANCE and not blocked.has(int(zone.x)):
+			blocked.append(int(zone.x))
+	var viewport_size := get_viewport_rect().size
+	var lane_width := GameConfig.ROAD_HALF_WIDTH*2.0/GameConfig.ROAD_LANE_COUNT
+	var center := Vector2(viewport_size.x*0.5+drive.lateral_position, TrackGeometry.player_y(viewport_size.y))
+	var collected: int = repair_supplies.tick(delta, drive.speed, blocked, _player_lane(), center, viewport_size.x*0.5-GameConfig.ROAD_HALF_WIDTH, lane_width, viewport_size.y)
+	var restored := integrity.repair(collected*repair_supplies.REPAIR_AMOUNT)
+	if restored > 0.0:
+		feedback.spawn_pickup(center)
+		feedback.announce_repair(roundi(restored))
+		audio_director.play_effect(audio_director.pickup_audio)
 
 func _world_spawn_exclusion_zones() -> Array[Vector2]:
 	var zones := _fuel_spawn_exclusion_zones()
@@ -572,7 +596,7 @@ func _update_coins(delta: float) -> void:
 		_player_lane(),
 		viewport_size.y,
 		CoinRouteDirector.npc_exclusion_zones(traffic.vehicles),
-		CoinRouteDirector.fuel_exclusion_zones(fuel_pickups),
+		CoinRouteDirector.fuel_exclusion_zones(fuel_pickups+repair_supplies.pickups),
 		CoinRouteDirector.construction_exclusion_zones(core_markers),
 		traffic.lane_events.closed_lanes()
 	)
@@ -795,6 +819,7 @@ func _reset_run(run_seed_override: int = -1) -> void:
 	run.reset()
 	_apply_difficulty_profile()
 	fuel_pickups.clear()
+	repair_supplies.reset(current_run_seed ^ 7841)
 	fuel_spawn_director.reset(_fuel_seed_for_run(current_run_seed))
 	coin_director.reset(_coin_seed_for_run(current_run_seed))
 	feedback.reset()

@@ -41,6 +41,7 @@ const TEXT_ROWS := [
 	["garage.heading", "选择赛车", "SELECT YOUR CAR"],
 	["garage.hint", "点击或方向键查看车辆 · 点击下方确认选择出赛 · Esc 返回", "SELECT A CAR TO INSPECT · CONFIRM BELOW TO RACE · ESC BACK"],
 	["garage.confirm", "确认选择 · 开始比赛", "CONFIRM CAR · START RACE"],
+	["feedback.repair", "车辆维修 · 完整度 +{0}", "REPAIR · INTEGRITY +{0}"],
 	["garage.locked_short", "未解锁", "LOCKED"],
 	["garage.available", "可以驾驶", "AVAILABLE"],
 	["garage.details", "{0}  ·  {1}  ·  {2}\n极速 {3}   加速 {4}   制动 {5}   转向 {6}   碰撞损速 {7}", "{0}  ·  {1}  ·  {2}\nSPEED {3}   ACCEL {4}   BRAKE {5}   STEER {6}   CRASH LOSS {7}"],

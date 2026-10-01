@@ -56,6 +56,12 @@ func _performance_curve(full: float, damaged: float, critical: float, minimum: f
 func reset() -> void:
 	current = MAX_INTEGRITY
 
+func repair(amount: float) -> float:
+	if is_failed(): return 0.0
+	var restored := minf(maxf(0.0, amount), MAX_INTEGRITY-current)
+	current += restored
+	return restored
+
 static func damage_for_impact(speed: float, maximum_speed: float) -> float:
 	var ratio := clampf(maxf(0.0, speed) / maxf(1.0, maximum_speed), 0.0, 1.0)
 	return lerpf(GameConfig.INTEGRITY_NPC_DAMAGE_MIN, GameConfig.INTEGRITY_NPC_DAMAGE_MAX, ratio)

@@ -58,6 +58,13 @@ func _capture() -> void:
 				_stage_coin_preview(main)
 				main.reduced_flashing_enabled = false
 				main.feedback.tick(0.12, main.run.fuel, main.run.difficulty_stage)
+			"supply_preview":
+				main.fuel_pickups.clear()
+				main.repair_supplies.pickups.clear()
+				main.fuel_pickups.append(main.FuelPickup.new(0, 360))
+				main.repair_supplies.pickups.append(main.FuelPickup.new(1, 435))
+				main.integrity.current = 55
+				main.run.fuel = 42
 			"hud_warning_preview":
 				_stage_coin_preview(main)
 				main.run.fuel = 10.0
