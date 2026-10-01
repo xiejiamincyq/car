@@ -74,6 +74,7 @@ const TRACKS := [
 		"silver_score": 5200,
 		"gold_score": 7600,
 		"music_id": &"neon_coast",
+		"surface_id": &"neon_coast",
 	},
 	{
 		"id": &"freight_harbor",
@@ -90,6 +91,7 @@ const TRACKS := [
 		"silver_score": 5700,
 		"gold_score": 8300,
 		"music_id": &"freight_harbor",
+		"surface_id": &"freight_harbor",
 	},
 	{
 		"id": &"storm_ridge",
@@ -106,6 +108,7 @@ const TRACKS := [
 		"silver_score": 6100,
 		"gold_score": 8900,
 		"music_id": &"storm_ridge",
+		"surface_id": &"storm_ridge",
 	},
 	{
 		"id": &"sunrise_express",
@@ -122,6 +125,7 @@ const TRACKS := [
 		"silver_score": 6700,
 		"gold_score": 9800,
 		"music_id": &"sunrise_express",
+		"surface_id": &"sunrise_express",
 	},
 ]
 

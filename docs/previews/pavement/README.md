@@ -1,5 +1,15 @@
 # 四赛道路面风格预览
 
+## 已获批准：第三轮 A
+
+用户选择 `coherent-A.png`，正式版本采用四关对应的低磨损材质与柔和环境光。历史候选只供对照，不是当前待选项。
+
+运行时入口为 `scripts/pavement_surface.gd`，四关绑定独立 `surface_id`。`art/source/generate_pavement.gd`生成780×960周期纹理：噪声沿纵向周期采样，全部RGB边界连续。复现：Godot以`--headless --path . --script art/source/generate_pavement.gd`运行，之后执行资源导入。
+
+赛程距离单位是速度积分的0.1倍，正式滚动换算为`distance × 10 × ROAD_SCROLL_MULTIPLIER`，与白线、燃油和锥桶的世界静止位移一致。路肩接缝同样使用这个换算。环境光单独跟随两侧背景序列；它不是地面实体，不改变地面运动。高对比模式直接绕过材质层，保留现有暗色高对比道路；资源缺失时安全回退到原道路。
+
+自动检查入口为 `tests/test_pavement_surface.gd`，涵盖四关资源、全部RGB边界、循环边界/不同速度、真实RunState推进及暂停。实际游戏截图使用 `scripts/tests/VisualCapture.gd`，覆盖四关起点/中段/近终点的720p与1080p，以及两种分辨率的高对比模式。自动/截图检查不替代最终人工滚动与视觉试玩。
+
 ## 当前第三轮：先匹配背景
 
 第二轮被用户明确否决：材质与现有背景不搭。`distinct-*`全部作废作当前选择，保留仅作历史对照；不再推荐A/B/B/A。用户同意继续按场景重做。
