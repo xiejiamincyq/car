@@ -2,7 +2,7 @@ class_name ImpactModel
 extends RefCounted
 
 const SPEEDS := [3.0, 10.0, 30.0, 60.0, 100.0, 150.0, 200.0]
-const DAMAGE := [0.0, 1.0, 4.0, 11.0, 23.0, 40.0, 60.0]
+const DAMAGE := [0.0, 0.4, 1.5, 4.0, 12.0, 30.0, 60.0]
 
 static func base_damage(kmh: float) -> float:
 	if kmh <= SPEEDS[0]:
@@ -19,8 +19,12 @@ static func resolve(player_velocity: Vector2, other_velocity: Vector2, normal: V
 	var closing := maxf(0.0, (player_velocity-other_velocity).dot(n))
 	var share := 1.0 if fixed else other_mass / maxf(0.01, player_mass+other_mass)
 	var mass_factor := clampf(share * 2.0, 0.7, 1.4)
-	var location_factor := 1.15 if absf(n.x) > 0.5 else (0.85 if n.y > 0.0 else 1.0)
-	var damage := base_damage(closing) * mass_factor * location_factor / clampf(protection, 0.85, 1.15)
+	var sideswipe := absf(n.x) > 0.5
+	# Steering is deliberately fast for playability. Do not treat its full speed
+	# as frontal crumple energy; keep physical closing speed for impulses below.
+	var deformation_speed := closing * 0.35 if sideswipe else closing
+	var location_factor := 0.7 if sideswipe else (0.85 if n.y > 0.0 else 1.0)
+	var damage := base_damage(deformation_speed) * mass_factor * location_factor / clampf(protection, 0.85, 1.15)
 	if cone:
 		damage = minf(2.0, base_damage(closing) * 0.035)
 	var impulse := closing * share * (0.08 if cone else 0.9)

@@ -2,7 +2,7 @@ extends SceneTree
 const Impact = preload("res://scripts/impact_model.gd")
 func _init() -> void:
 	assert(Impact.base_damage(3.0) == 0.0)
-	assert(Impact.base_damage(60.0) == 11.0)
+	assert(Impact.base_damage(60.0) == 4.0)
 	var hit := Impact.resolve(Vector2(0,-250), Vector2(0,-200), Vector2.UP)
 	assert(hit.closing == 50.0 and hit.damage < 11.0)
 	assert(Impact.resolve(Vector2(0,-250), Vector2(0,-250), Vector2.RIGHT).damage == 0.0)
