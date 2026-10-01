@@ -1,5 +1,7 @@
 extends Node2D
 
+signal run_resetting
+
 const GameConfig = preload("res://scripts/game_config.gd")
 const DriveController = preload("res://scripts/drive_controller.gd")
 const TrafficDirector = preload("res://scripts/traffic_director.gd")
@@ -800,6 +802,7 @@ func _is_player_flashing() -> bool:
 	return not reduced_flashing_enabled and collision.invulnerability_remaining > 0.0 and int(collision.invulnerability_remaining * 14.0) % 2 == 0
 
 func _reset_run(run_seed_override: int = -1) -> void:
+	run_resetting.emit()
 	current_run_seed = run_seed_override if run_seed_override >= 0 else run_seed_sequence.next_seed()
 	drive.reset()
 	integrity.reset()

@@ -8,6 +8,16 @@ var _last: Dictionary = {}
 var _finished := false
 var _write_failed := false
 
+func _ready() -> void:
+	if is_instance_valid(source_main):
+		source_main.run_resetting.connect(_before_run_reset)
+
+func _before_run_reset() -> void:
+	# Preserve the terminal state before a result-screen action erases it,
+	# even when the action occurs before this observer's next frame.
+	_store(observe(_snapshot()))
+	_store(finish())
+
 func _process(_delta: float) -> void:
 	if is_instance_valid(source_main):
 		_store(observe(_snapshot()))
