@@ -2,6 +2,7 @@ extends SceneTree
 
 const MainScene = preload("res://scenes/main.tscn")
 const PlaytestLaunchConfig = preload("res://tests/playtest_launch_config.gd")
+const SessionRecorder = preload("res://tests/playtest_session_recorder.gd")
 
 func _init() -> void:
 	call_deferred("_launch")
@@ -17,6 +18,7 @@ func _launch() -> void:
 	root.add_child(main)
 	await process_frame
 	configure_main(main, config)
+	attach_recorder(main)
 
 	print("PLAYTEST track=%s vehicle=%s difficulty=%d seed=%d persistence=off" % [
 		config.track_id,
@@ -24,6 +26,22 @@ func _launch() -> void:
 		config.difficulty_index,
 		config.run_seed,
 	])
+
+static func attach_recorder(main):
+	var recorder := SessionRecorder.new()
+	recorder.source_main = main
+	recorder.source_label = "automated_headless" if DisplayServer.get_name() == "headless" else "interactive_unverified"
+	var folder := "user://playtests"
+	var error := DirAccess.make_dir_recursive_absolute(folder)
+	if error == OK:
+		var stamp := Time.get_datetime_string_from_system(true).replace(":", "-")
+		recorder.output_path = "%s/session-%s-%d.jsonl" % [folder,stamp,Time.get_ticks_usec()]
+	else:
+		push_warning("Cannot create playtest log folder; recording disabled")
+	main.add_child(recorder)
+	if not recorder.output_path.is_empty():
+		print("PLAYTEST_LOG ",ProjectSettings.globalize_path(recorder.output_path))
+	return recorder
 
 
 static func configure_main(main, config: Dictionary) -> void:
