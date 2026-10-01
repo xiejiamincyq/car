@@ -16,7 +16,7 @@ const TEXT_ROWS := [
 	["rating.coins", "金币", "COINS"],
 	["rating.detail", "本局 {0}  /  目标 {1}", "ACTUAL {0}  /  TARGET {1}"],
 	["rating.no_points", "仅记录本局数据", "RUN STATISTICS ONLY"],
-	["rating.summary", "{0}\n得分  {1}    距离  {2}m\n超车  {3}    近失  {4}    赛段  {5}    种子  {6}", "{0}\nSCORE  {1}    DISTANCE  {2}m\nOVERTAKES  {3}    NEAR MISSES  {4}    STAGE  {5}    SEED  {6}"],
+	["rating.summary", "{0}\n得分  {1}    距离  {2}m\n超车  {3}    近失  {4}    赛段  {5}", "{0}\nSCORE  {1}    DISTANCE  {2}m\nOVERTAKES  {3}    NEAR MISSES  {4}    STAGE  {5}"],
 	["title.subtitle", "霓虹海岸 · 极速生存赛", "NEON COAST · SURVIVAL RACE"],
 	["title.objective", "目标：穿越车流，抵达 3200 米终点。\n通过 3 个检查点会补充燃油；燃油耗尽则比赛结束。", "GOAL: Weave through traffic and reach the 3200 m finish.\nThree checkpoints restore fuel; running dry ends the race."],
 	["title.start", "开始比赛", "START RACE"],

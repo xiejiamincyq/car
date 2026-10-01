@@ -32,6 +32,10 @@ func _run() -> void:
 				main.run.coins = 54
 				main.run.score = 7200
 				main._update_hud()
+				if main.result_summary.text.contains("种子") or main.result_summary.text.to_upper().contains("SEED"):
+					push_error("Player-facing result summaries must omit debug seeds in both languages and outcomes")
+					quit(1)
+					return
 				for frame in range(4): await process_frame
 				var content: Control = main.get_node("CanvasLayer/ResultScreen/Center/Card/Content")
 				var rating: Control = content.get_node("RatingCard")
@@ -51,4 +55,5 @@ func _run() -> void:
 					await RenderingServer.frame_post_draw
 					assert(root.get_texture().get_image().save_png(ProjectSettings.globalize_path("res://tmp/rating-%s-%s-%s.png" % [resolution.x, language, "clear" if cleared else "failed"])) == OK)
 				main.free()
+	print("TEST_COMPLETE test_rating_ui.gd")
 	quit()
