@@ -115,7 +115,7 @@ var countdown_screen: Control
 var countdown_label: Label
 var start_button: Button
 var difficulty_button: Button
-var settings_volume_label: Label
+var settings_audio_panel: VBoxContainer
 var settings_mute_button: Button
 var settings_fullscreen_button: Button
 var settings_language_button: Button
@@ -190,7 +190,7 @@ func _ready() -> void:
 	countdown_label = $CanvasLayer/CountdownScreen/Label
 	start_button = $CanvasLayer/TitleScreen/Center/Card/Content/StartButton
 	difficulty_button = $CanvasLayer/TitleScreen/Center/Card/Content/DifficultyButton
-	settings_volume_label = $CanvasLayer/SettingsScreen/Center/Card/Content/Volume
+	settings_audio_panel = $CanvasLayer/SettingsScreen/Center/Card/Content/AudioLevels
 	settings_mute_button = $CanvasLayer/SettingsScreen/Center/Card/Content/MuteButton
 	settings_fullscreen_button = $CanvasLayer/SettingsScreen/Center/Card/Content/FullscreenButton
 	settings_language_button = $CanvasLayer/SettingsScreen/Center/Card/Content/LanguageButton
@@ -912,7 +912,7 @@ func _show_settings() -> void:
 	controls_screen.visible = false
 	settings_screen.visible = true
 	_update_settings_labels()
-	settings_mute_button.grab_focus()
+	settings_audio_panel.focus_first_channel()
 
 func _show_controls() -> void:
 	submenu_return = "title"
@@ -936,7 +936,7 @@ func _show_pause_settings() -> void:
 	pause_screen.visible = false
 	settings_screen.visible = true
 	_update_settings_labels()
-	settings_mute_button.grab_focus()
+	settings_audio_panel.focus_first_channel()
 
 func _pause_run() -> void:
 	if run.phase != RunState.Phase.RUNNING:
@@ -1146,9 +1146,9 @@ func _apply_localized_texts() -> void:
 	_update_settings_labels()
 
 func _update_settings_labels() -> void:
-	if settings_volume_label == null:
+	if settings_audio_panel == null:
 		return
-	settings_volume_label.text = _text("settings.volume", [roundi(audio_director.master_volume * 100.0)])
+	settings_audio_panel.synchronize(audio_director.master_volume, audio_director.music_volume, audio_director.effects_volume, language, persistence_enabled)
 	settings_mute_button.text = _text("settings.mute", [_text("common.on" if audio_director.muted else "common.off")])
 	settings_fullscreen_button.text = _text("settings.display", [_text("common.fullscreen" if fullscreen_enabled else "common.windowed")])
 	settings_language_button.text = _text("settings.language", [_text("settings.language.%s" % language_preference)])
@@ -1156,7 +1156,15 @@ func _update_settings_labels() -> void:
 	settings_reduced_flashing_button.text = _text("settings.reduced_flashing", [_text("common.on" if reduced_flashing_enabled else "common.off")])
 	settings_screen_shake_button.text = _text("settings.screen_shake", [_text("common.on" if screen_shake_enabled else "common.off")])
 
+func _set_audio_channel_volume(channel: StringName, value: float) -> void:
+	var master: float = value if channel == &"Master" else audio_director.master_volume
+	var music: float = value if channel == &"Music" else audio_director.music_volume
+	var effects: float = value if channel == &"Effects" else audio_director.effects_volume
+	audio_director.apply_bus_settings(master, music, effects, audio_director.muted)
+	_save_preferences()
+
 func _bind_ui_actions() -> void:
+	settings_audio_panel.volume_changed.connect(_set_audio_channel_volume)
 	start_button.pressed.connect(_open_tour_map)
 	difficulty_button.pressed.connect(_cycle_difficulty)
 	$CanvasLayer/TitleScreen/Center/Card/Content/SettingsButton.pressed.connect(_show_settings)
