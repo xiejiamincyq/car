@@ -57,6 +57,6 @@ godot --path .
 
 ## 当前开发状态
 
-当前开发版本：`0.4.0-dev`，四节点巡回、六车、四关及原创BGM已进入本机技术收尾，按[网页监督路线](tasks/plan-continuous-completion.md)推进。技术证据、已接受的退出音频告警及未覆盖边界见[连续验证记录](docs/continuous-validation-20261002.md)；[十局真人试玩](docs/balance/manual-sessions.md)仍待实际参与，未授权打包发布。
+当前开发版本：`0.4.0-dev`。四节点巡回、六车、四关及原创BGM已完成[网页监督路线](tasks/plan-continuous-completion.md)约定的本机技术验证，候选9e7cd09全95项/十项完成标记及18张实际渲染复验通过，M1–M4技术门已关闭。技术证据、已接受的退出音频告警及未覆盖边界见[连续验证记录](docs/continuous-validation-20261002.md)；[十局真人试玩](docs/balance/manual-sessions.md)和剩余体验仍待实际确认，不代表产品全面人工验收，未授权打包发布。
 
 已验收正式版本保存在 Git 标签 `v0.3.0`，稳定回滚基线仍保留 `v0.2.0`。0.4.0 范围见 [技术规格](docs/spec-0.4.0.md) 和 [实施计划](tasks/plan.md)，0.3.0 发布与回滚记录见 [发布检查清单](docs/release-checklist.md)，玩家可见改动见 [CHANGELOG](CHANGELOG.md)。
