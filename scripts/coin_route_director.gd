@@ -40,7 +40,9 @@ func generate_route(
 	fuel_zones: Array,
 	construction_zones: Array,
 	blocked_lanes: Array[int],
-	preferred_template: int = -1
+	preferred_template: int = -1,
+	entry_lane_range: Vector2 = Vector2(-INF, INF),
+	maximum_lane_slope: float = INF
 ) -> Array[CoinPickup]:
 	var open_lanes := _open_lanes(blocked_lanes)
 	if open_lanes.is_empty():
@@ -58,10 +60,20 @@ func generate_route(
 		var lane_positions := _build_lane_positions(template, count, player_lane, open_lanes, blocked_lanes)
 		if lane_positions.size() != count:
 			continue
+		if lane_positions[0] < entry_lane_range.x or lane_positions[0] > entry_lane_range.y:
+			continue
+		if not _slope_is_followable(lane_positions, spacing, maximum_lane_slope):
+			continue
 		if not _route_path_is_safe(lane_positions, anchor_y, spacing, zones, blocked_lanes):
 			continue
 		return _make_route(lane_positions, anchor_y, spacing, template)
 	return []
+
+static func _slope_is_followable(positions: Array[float], spacing: float, maximum_slope: float) -> bool:
+	for index in range(1, positions.size()):
+		if absf(positions[index]-positions[index-1]) > spacing*maxf(0.0,maximum_slope):
+			return false
+	return true
 
 func _template_for_attempt(preferred_template: int, attempt: int, blocked_lanes: Array[int]) -> int:
 	if preferred_template >= 0 and preferred_template < Template.size():

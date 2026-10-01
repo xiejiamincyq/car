@@ -4,6 +4,7 @@ extends RefCounted
 const CoinPickup = preload("res://scripts/coin_pickup.gd")
 const CoinRouteDirector = preload("res://scripts/coin_route_director.gd")
 const GameConfig = preload("res://scripts/game_config.gd")
+const TrackGeometry = preload("res://scripts/track_geometry.gd")
 
 var coins: Array[CoinPickup] = []
 var route_director: CoinRouteDirector
@@ -27,7 +28,9 @@ func tick(
 	npc_zones: Array,
 	fuel_zones: Array,
 	construction_zones: Array,
-	blocked_lanes: Array[int]
+	blocked_lanes: Array[int],
+	entry_lane_range: Vector2 = Vector2(-INF, INF),
+	maximum_lane_slope: float = INF
 ) -> bool:
 	var safe_delta := maxf(0.0, delta)
 	var safe_speed := maxf(0.0, player_speed)
@@ -43,7 +46,10 @@ func tick(
 		npc_zones,
 		fuel_zones,
 		construction_zones,
-		blocked_lanes
+		blocked_lanes,
+		-1,
+		entry_lane_range,
+		maximum_lane_slope
 	)
 	if route.is_empty():
 		spawn_distance_remaining = GameConfig.COIN_ROUTE_RETRY_DISTANCE
@@ -52,6 +58,18 @@ func tick(
 	spawn_distance_remaining = GameConfig.COIN_ROUTE_INTERVAL_DISTANCE
 	spawned_route_count += 1
 	return true
+
+static func reachable_entry_lanes(player_lane_position: float, maximum_speed: float, lateral_speed: float, viewport_height: float) -> Vector2:
+	# Start the reaction clock when a coin is fully visible, not at its offscreen spawn.
+	var visible_y := 20.0
+	var seconds := maxf(0.0, (TrackGeometry.player_y(viewport_height)-visible_y) / maxf(1.0, maximum_speed*GameConfig.ROAD_SCROLL_MULTIPLIER)-0.2)
+	var lane_width := GameConfig.ROAD_HALF_WIDTH*2.0/GameConfig.ROAD_LANE_COUNT
+	var reach := (maxf(0.0,lateral_speed)*seconds+GameConfig.COIN_PICKUP_LATERAL_DISTANCE*0.9)/lane_width
+	return Vector2(player_lane_position-reach,player_lane_position+reach)
+
+static func followable_lane_slope(maximum_speed: float, lateral_speed: float) -> float:
+	var lane_width := GameConfig.ROAD_HALF_WIDTH*2.0/GameConfig.ROAD_LANE_COUNT
+	return maxf(0.0,lateral_speed)*0.9/(maxf(1.0,maximum_speed*GameConfig.ROAD_SCROLL_MULTIPLIER)*lane_width)
 
 func collect_near(player_lane_position: float, player_y: float, lane_width: float) -> Array[CoinPickup]:
 	var collected_coins: Array[CoinPickup] = []

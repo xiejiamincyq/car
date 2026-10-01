@@ -598,7 +598,13 @@ func _update_coins(delta: float) -> void:
 		CoinRouteDirector.npc_exclusion_zones(traffic.vehicles),
 		CoinRouteDirector.fuel_exclusion_zones(fuel_pickups+repair_supplies.pickups),
 		CoinRouteDirector.construction_exclusion_zones(core_markers),
-		traffic.lane_events.closed_lanes()
+		traffic.lane_events.closed_lanes(),
+		CoinGameplayDirector.reachable_entry_lanes(player_lane_position,
+			maxf(drive.speed, (drive.max_speed+GameConfig.OVERDRIVE_SPEED_BONUS)*integrity.max_speed_multiplier()),
+			drive.steering_speed*0.85*integrity.steering_multiplier(), viewport_size.y),
+		CoinGameplayDirector.followable_lane_slope(
+			maxf(drive.speed, (drive.max_speed+GameConfig.OVERDRIVE_SPEED_BONUS)*integrity.max_speed_multiplier()),
+			drive.steering_speed*0.85*integrity.steering_multiplier())
 	)
 	for coin in coin_director.collect_near(player_lane_position, player_center.y, lane_width):
 		var coin_center := Vector2(road_left + lane_width * (coin.lane_position + 0.5), coin.y)
