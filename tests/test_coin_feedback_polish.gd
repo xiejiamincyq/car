@@ -21,4 +21,6 @@ func _init() -> void:
 		for particle in range(10):
 			var point: Vector2 = Renderer.burst_particle_offset(progress, particle, 10)
 			assert(point.is_finite() and point.length() < 90, "Coin particles must stay bounded and not obstruct adjacent lanes")
+			if progress > 0.0:
+				assert(point.y > 0.0, "Pickup fragments must trail toward the car rear (screen down), not fly ahead")
 	quit()

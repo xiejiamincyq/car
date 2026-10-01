@@ -60,9 +60,10 @@ static func draw_coins(
 
 static func burst_particle_offset(progress: float, particle: int, count: int) -> Vector2:
 	var p := clampf(progress, 0.0, 1.0)
-	var direction := Vector2.from_angle(TAU*float(particle)/maxi(1, count)+0.4)
+	# The camera faces forward: positive screen Y is behind the player.
+	var direction := Vector2.from_angle(lerpf(PI*0.12, PI*0.88, float(particle)/maxi(1, count-1)))
 	var distance := (1.0-pow(1.0-p, 3))*lerpf(25.0, 54.0, float(particle%3)/2.0)
-	return direction*distance+Vector2(0, -24*p*p)
+	return direction*distance+Vector2(0, 24*p*p)
 
 static func draw_bursts(canvas: CanvasItem, feedback, screen_offset: Vector2, reduced_flashing: bool = false) -> void:
 	canvas.draw_set_transform(screen_offset)
