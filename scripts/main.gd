@@ -214,6 +214,7 @@ func _ready() -> void:
 	audio_director.bind_ui_cues(self)
 	_bind_ui_actions()
 	_configure_persistence(SaveStore.new(), get_tree().current_scene == self)
+	preload("res://scripts/ui/menu_presentation.gd").apply($CanvasLayer)
 	start_button.grab_focus()
 	queue_redraw()
 
