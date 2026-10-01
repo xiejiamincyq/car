@@ -118,3 +118,7 @@ horizontal_alignment = 1
 [node name="BackButton" type="Button" parent="Center/Card/Content"]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
+
+[node name="ConfirmButton" type="Button" parent="Center/Card/Content"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2

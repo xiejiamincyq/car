@@ -8,9 +8,11 @@ const GameText = preload("res://scripts/game_text.gd")
 const VehicleCatalog = preload("res://scripts/catalog/vehicle_catalog.gd")
 const PlayerVehicleProfile = preload("res://scripts/player_vehicle_profile.gd")
 const VehicleSelectController = preload("res://scripts/ui/vehicle_select_controller.gd")
+const PerformanceChart = preload("res://scripts/ui/vehicle_performance_chart.gd")
 
 var controller: VehicleSelectController
 var language := GameText.LANGUAGE_EN
+var performance_chart: Control
 
 @onready var heading: Label = $Center/Card/Content/Heading
 @onready var vehicle_buttons: Array[Button] = [
@@ -22,13 +24,26 @@ var language := GameText.LANGUAGE_EN
 @onready var preview: TextureRect = $Center/Card/Content/PreviewFrame/Preview
 @onready var hint: Label = $Center/Card/Content/Hint
 @onready var back_button: Button = $Center/Card/Content/BackButton
+@onready var confirm_button: Button = $Center/Card/Content/ConfirmButton
 
 func _ready() -> void:
+	performance_chart = PerformanceChart.new()
+	performance_chart.position = Vector2(180, 0)
+	performance_chart.size = Vector2(720, 180)
+	performance_chart.scale = Vector2(0.88, 0.88)
+	$Center/Card/Content/PreviewFrame.add_child(performance_chart)
+	preview.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	preview.position = Vector2(44, 34)
+	preview.size = Vector2(80, 112)
 	preview.resized.connect(func(): preview.pivot_offset = preview.size * 0.5)
 	for index in vehicle_buttons.size():
-		vehicle_buttons[index].pressed.connect(_confirm_index.bind(index))
+		vehicle_buttons[index].pressed.connect(_select_index.bind(index))
 		vehicle_buttons[index].focus_entered.connect(_select_index.bind(index))
 	back_button.pressed.connect(_request_back)
+	confirm_button.pressed.connect(confirm_selection)
+	$Center/Card/Content.move_child(confirm_button, back_button.get_index())
+	for index in range(3, 6):
+		vehicle_buttons[index].focus_neighbor_bottom = vehicle_buttons[index].get_path_to(confirm_button)
 
 func setup(progress: Dictionary, active_language: String) -> void:
 	language = active_language
@@ -63,12 +78,6 @@ func _select_index(index: int) -> void:
 	controller.selected_index = index
 	_refresh()
 
-func _confirm_index(index: int) -> void:
-	if controller == null:
-		return
-	controller.selected_index = index
-	confirm_selection()
-
 func _request_back() -> void:
 	back_requested.emit()
 
@@ -91,14 +100,15 @@ func _refresh() -> void:
 		vehicle_buttons[index].modulate = Color.WHITE if state.unlocked else Color(0.62, 0.68, 0.76)
 	controller.selected_index = selected_index
 	var selected := controller.selected_state()
+	performance_chart.present(selected, language)
+	confirm_button.disabled = not selected.unlocked
+	confirm_button.text = _text("garage.confirm") if selected.unlocked else _text("garage.locked_short")
 	preview.texture = load(String(selected.texture_path)) as Texture2D
 	preview.pivot_offset = preview.size * 0.5
 	preview.rotation = PlayerVehicleProfile.texture_rotation(selected)
 	preview.scale = PlayerVehicleProfile.VISUAL_PROPORTION_SCALE
 	var availability := _text("garage.available") if selected.unlocked else _text(String(selected.unlock_key))
-	details.text = _text("garage.details", [_text(String(selected.name_key)), _text(String(selected.role_key)), availability,
-		roundi(selected.max_speed), roundi(selected.acceleration), roundi(selected.braking),
-		roundi(selected.steering_speed), roundi(selected.collision_speed_penalty)])
+	details.text = "%s  ·  %s  ·  %s" % [_text(String(selected.name_key)), _text(String(selected.role_key)), availability]
 	hint.text = _text("garage.hint")
 	back_button.text = _text("settings.back")
 

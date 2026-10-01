@@ -22,6 +22,8 @@ func _ready() -> void:
 	$Panel.visible = false
 	$HUDFrame.visible = false
 	$Rows/ControlsHint.visible = false
+	$Rows/Fuel.visible = false
+	$Rows/FuelGauge.visible = false
 	integrity_gauge = ProgressBar.new()
 	integrity_gauge.name = "IntegrityGauge"
 	integrity_gauge.show_percentage = false
@@ -63,8 +65,8 @@ func layout_instruments() -> void:
 	_place(integrity_gauge, Rect2(12, 112, 198, 12))
 	_place($Rows/Fuel, Rect2(12, 130, 198, 26), 14)
 	_place($Rows/FuelGauge, Rect2(12, 160, 198, 12))
-	_place($Rows/OverdriveLabel, Rect2(12, 180, 198, 24), 14)
-	_place($Rows/OverdriveGauge, Rect2(12, 208, 198, 6))
+	_place($Rows/OverdriveLabel, Rect2(12, 132, 198, 24), 14)
+	_place($Rows/OverdriveGauge, Rect2(12, 160, 198, 6))
 	_place($Rows/Position, Rect2(w*0.5-220, 9, 440, 24), 15, HORIZONTAL_ALIGNMENT_CENTER)
 	$Rows/Position.visible = true
 	_place($Rows/ProgressGauge, Rect2(w*0.5-220, 42, 440, 8))
@@ -105,7 +107,7 @@ func _dial(center: Vector2, radius: float, ratio: float, accent: Color, ticks: i
 
 func _draw() -> void:
 	_panel(Rect2(0, 0, 386, 64))
-	_panel(Rect2(0, 74, 224, 154))
+	_panel(Rect2(0, 74, 224, 106))
 	_panel(Rect2(size.x-234, 0, 234, 110))
 	_panel(Rect2(size.x*0.5-234, 0, 468, 62))
 	_panel(Rect2(0, size.y-262, 224, 262))

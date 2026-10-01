@@ -26,6 +26,9 @@ func _run() -> void:
 			await process_frame
 			for name in MENUS:
 				var screen: Control = main.get_node("CanvasLayer/"+name)
+				screen.show()
+				await process_frame
+				await process_frame
 				var card: PanelContainer = screen.get_node("Center/Card")
 				var panel = card.get_theme_stylebox("panel") as StyleBoxFlat
 				assert(panel != null and panel.bg_color.b > panel.bg_color.r and panel.border_width_top >= 2, "All menu cards need the shared navy/cyan presentation")
@@ -35,6 +38,7 @@ func _run() -> void:
 					var focus = button.get_theme_stylebox("focus") as StyleBoxFlat
 					assert(focus != null and focus.border_width_left >= 2, "Keyboard focus needs a clear, non-color-only outline")
 					assert(button.get_theme_color("font_disabled_color") != button.get_theme_color("font_color"), "Disabled actions must be visually distinct")
+				screen.hide()
 	main.queue_free()
 	await process_frame
 	quit()

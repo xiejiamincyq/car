@@ -14,7 +14,7 @@ static func apply(canvas_layer: Node) -> void:
 		var content: VBoxContainer = screen.get_node("Center/Card/Content")
 		content.add_theme_constant_override("separation", 10)
 		for button in content.find_children("*", "Button", true, false):
-			if button.name in ["StartButton", "ResumeButton", "ReplayButton"]:
+			if button.name in ["StartButton", "ResumeButton", "ReplayButton"] or (name == "VehicleSelectScreen" and button.name == "ConfirmButton"):
 				button.theme_type_variation = &"PrimaryButton"
 			elif button.name in ["QuitButton", "ConfirmButton"]:
 				button.theme_type_variation = &"DangerButton"
@@ -36,9 +36,13 @@ static func apply(canvas_layer: Node) -> void:
 	canvas_layer.get_node("ResultScreen/Center/Card").add_theme_stylebox_override("panel", result_panel)
 	# Garage has a live vehicle preview in addition to six cards.
 	var garage: VBoxContainer = canvas_layer.get_node("VehicleSelectScreen/Center/Card/Content")
-	garage.add_theme_constant_override("separation", 8)
-	garage.get_node("Details").custom_minimum_size.y = 94
-	garage.get_node("PreviewFrame").custom_minimum_size.y = 86
+	garage.add_theme_constant_override("separation", 6)
+	garage.get_node("Details").custom_minimum_size.y = 26
+	garage.get_node("PreviewFrame").custom_minimum_size = Vector2(900, 160)
+	garage.get_node("Hint").add_theme_font_size_override("font_size", 14)
+	for button in garage.get_node("Vehicles").get_children():
+		button.custom_minimum_size.y = 76
+		button.add_theme_font_size_override("font_size", 15)
 
 static func _theme() -> Theme:
 	var theme := Theme.new()
