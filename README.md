@@ -27,8 +27,10 @@
 2. 也可在命令行执行：
 
 ```powershell
-godot --path . --editor
+godot --path .
 ```
+
+本机固定组合的隔离试玩入口：`./scripts/tests/start_balance_playtest.ps1 -Session 1`（可选1–10）。它自动定位已安装Godot，不写生涯/设置，结果只保存在本机；并不代表已经完成真人试玩。需要编辑项目时再使用 `godot --path . --editor`。
 
 ## 运行测试
 
@@ -55,4 +57,6 @@ godot --path . --editor
 
 ## 当前开发状态
 
-当前开发版本：`0.4.0-dev`，正在实现四节点海岸巡回赛、六辆可选车、四条主题赛道和原创 BGM。已验收正式版本保存在 Git 标签 `v0.3.0`，稳定回滚基线仍保留 `v0.2.0`。0.4.0 范围见 [技术规格](docs/spec-0.4.0.md) 和 [实施计划](tasks/plan.md)，0.3.0 发布与回滚记录见 [发布检查清单](docs/release-checklist.md)，玩家可见改动见 [CHANGELOG](CHANGELOG.md)。
+当前开发版本：`0.4.0-dev`，四节点巡回、六车、四关及原创BGM已进入本机技术收尾，按[网页监督路线](tasks/plan-continuous-completion.md)推进。技术证据、已接受的退出音频告警及未覆盖边界见[连续验证记录](docs/continuous-validation-20261002.md)；[十局真人试玩](docs/balance/manual-sessions.md)仍待实际参与，未授权打包发布。
+
+已验收正式版本保存在 Git 标签 `v0.3.0`，稳定回滚基线仍保留 `v0.2.0`。0.4.0 范围见 [技术规格](docs/spec-0.4.0.md) 和 [实施计划](tasks/plan.md)，0.3.0 发布与回滚记录见 [发布检查清单](docs/release-checklist.md)，玩家可见改动见 [CHANGELOG](CHANGELOG.md)。
