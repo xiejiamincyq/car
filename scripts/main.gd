@@ -420,10 +420,6 @@ func _draw() -> void:
 	var player_glow := VisualStyle.HIGH_CONTRAST_PLAYER_GLOW if high_contrast_enabled else VisualStyle.PLAYER_GLOW
 	var player_color := player_body if not _is_player_flashing() else player_glow
 	draw_circle(car_center, 39.0, Color(player_color, 0.16))
-	if overdrive_strength > 0.0:
-		RaceEffectRenderer.draw_overdrive_ignition(self, car_center, visual_animation_time, overdrive_strength, reduced_flashing_enabled, PlayerVehicleProfile.VISUAL_PROPORTION_SCALE.x)
-	else:
-		RaceEffectRenderer.draw_acceleration(self, car_center, visual_animation_time, acceleration_visual_strength, PlayerVehicleProfile.VISUAL_PROPORTION_SCALE.x)
 	var fuel_effect_color := VisualStyle.HIGH_CONTRAST_FUEL if high_contrast_enabled else VisualStyle.FUEL_GLOW
 	RaceEffectRenderer.draw_pickup_bursts(self, feedback, fuel_effect_color)
 	var player_size := PlayerVehicleProfile.visual_size(current_vehicle, current_player_texture.get_size())
@@ -433,8 +429,15 @@ func _draw() -> void:
 	var steering_rotation := VehicleVisualAnimation.steering_rotation(steering_visual_strength)
 	steering_rotation += VehicleVisualAnimation.damage_wobble(visual_animation_time, integrity.condition(), reduced_flashing_enabled)
 	var impact_scale := VehicleVisualAnimation.collision_scale(collision_visual_remaining)
-	var texture_rotation := impact_rotation + steering_rotation + PlayerVehicleProfile.texture_rotation(current_vehicle)
-	RaceEffectRenderer.draw_overdrive_afterimages(self, current_player_texture, car_center, player_size, texture_rotation, impact_scale, screen_shake, overdrive_strength)
+	var body_rotation := impact_rotation + steering_rotation
+	var texture_rotation := body_rotation + PlayerVehicleProfile.texture_rotation(current_vehicle)
+	draw_set_transform_matrix(RaceEffectRenderer.body_effect_transform(screen_shake + car_center, body_rotation, impact_scale))
+	if overdrive_strength > 0.0:
+		RaceEffectRenderer.draw_overdrive_ignition(self, Vector2.ZERO, visual_animation_time, overdrive_strength, reduced_flashing_enabled, 1.0, player_size)
+	else:
+		RaceEffectRenderer.draw_acceleration(self, Vector2.ZERO, visual_animation_time, acceleration_visual_strength, 1.0, player_size)
+	draw_set_transform(screen_shake)
+	RaceEffectRenderer.draw_overdrive_afterimages(self, current_player_texture, car_center, player_size, texture_rotation, impact_scale, screen_shake, overdrive_strength, body_rotation)
 	draw_set_transform(screen_shake + car_center, texture_rotation, impact_scale)
 	draw_texture_rect(current_player_texture, player_rect, false, player_modulate)
 	draw_set_transform(screen_shake + car_center, impact_rotation + steering_rotation, impact_scale * PlayerVehicleProfile.VISUAL_PROPORTION_SCALE)
