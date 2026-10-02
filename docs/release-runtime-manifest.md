@@ -39,7 +39,7 @@ schema 核对采用实际本机引擎 `4.7.stable.official.5b4e0cb0f` 对应的 
 
 ## 许可与来源准备，不替用户选择项目许可
 
-未来包外侧最小组成：`NeonCoastRush.exe`、`NeonCoastRush.pck`、精简玩家 `README.md`、`GODOT_LICENSE.txt`、`GODOT_COPYRIGHT.txt`、现用素材来源/已知限制材料。许可文件尚未生成。可在后续获准构建阶段从实际引擎的 `Engine.get_license_text()`、`get_license_info()`、`get_copyright_info()` 收集对应版本材料；应保留第三方版权与适用许可文本，不只一句“使用 MIT”。Godot 不要求游戏代码也选择 MIT。[官方许可说明](https://docs.godotengine.org/en/stable/about/complying_with_licenses.html)
+未来包外侧最小组成：`NeonCoastRush.exe`、`NeonCoastRush.pck`、精简玩家 `README.md`、`GODOT_LICENSE.txt`、`GODOT_COPYRIGHT.txt`、现用素材来源/已知限制材料。已从本机引擎的 `Engine.get_license_text()`、`get_license_info()`、`get_copyright_info()` 提取临时取证材料（见下），尚未安装到候选包；应保留第三方版权与适用许可文本，不只一句“使用 MIT”。Godot 不要求游戏代码也选择 MIT。[官方许可说明](https://docs.godotengine.org/en/stable/about/complying_with_licenses.html)
 
 现有来源记录可查：
 
@@ -51,6 +51,17 @@ schema 核对采用实际本机引擎 `4.7.stable.official.5b4e0cb0f` 对应的 
 - 4 首音乐：`art/source/music/README.md` 及三份合成脚本；记录说明无外部采样。程序音效见 `scripts/sound_effects.gd`、`scripts/collision_sound.gd`。
 
 目前未发现项目 LICENSE/NOTICE 或用户字体文件。游戏自身版权声明、许可选择、菜单图授权证据与完整最新版素材清单仍待确认/整理，不填未知版权所有者，不把来源记录当法律结论。
+
+### 本机引擎与现用媒体事实取证
+
+本地目录`tmp/r4-license-e9db487-2a9a2b2ef69547898c55227ca8c5012d/`保存独立最小工程、提取脚本、API原始JSON、许可全文、验证/哈希和66项媒体来源映射；没有加载游戏或访问正式存档。实际4.7 editor API返回19项非空许可、102个组件、106组版权条目，名称映射检查0失败、退出0且stderr空。入口`README-evidence.md`保留命令与范围；这些是editor材料，不证明未来export template或EXE组件完全相同。
+
+- `engine-license-api-raw.json` SHA-256：`1522e423aca163a07c6374ea53e00344a3af85ef765aa3aa379c4729c3bff4f5`。
+- `GODOT_LICENSE.txt` SHA-256：`b0435e3b3e4e55238f05f4b306f30524a1b2e20147810d436eaa554fa6855c80`。
+- `GODOT_COPYRIGHT.txt` SHA-256：`92b24143f6083111537353995ac84f0f89077b444d513c942c1d9106df272c7c`，包含组件声明及其引用许可全文，不是本游戏版权声明。
+- `runtime-media-provenance-facts.json` SHA-256：`27b3e84a962a31acda73ae2ea5ece2c9e5a4c1ead4a3e1a286559a776903d3d3`，覆盖18张界面/车辆等PNG、40背景、4程序路面、4音乐及59个现有来源/工具/记录文件。四首音乐实际大小/SHA与构建记录相符。
+
+发现的材料缺口继续保留：`art/README.md`提到的`remove_chroma_key.py`仓库内未找到，不能声称完整可重建；旧非C车清单不适用于现用六车；菜单只有项目所有者提供的记录，原作者/授权/必需署名未知。未重生成素材、未替用户选择游戏开源许可证、未宣称权属审计通过。上述原始材料只在本地tmp，源码仓库目前仅备份本索引，不声称已备份全文。
 
 ## 后续门槛与未覆盖项
 
