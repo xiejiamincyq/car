@@ -43,13 +43,23 @@ func _init() -> void:
 	faster_follower.spawn_was_fair = true
 	spawn_guard.vehicles.append(faster_follower)
 	var slower_ahead = spawn_guard.acquire_vehicle(TrafficDirector.Kind.STEADY_SLOW, 0, -620.0, 180.0)
-	assert(not spawn_guard._can_spawn_candidate(slower_ahead, 220.0, 1), "Spawning must reject an NPC speed order that would close the safe gap before either vehicle recycles")
-	faster_follower.cruise_speed = 180.0
-	var faster_ahead = spawn_guard.acquire_vehicle(TrafficDirector.Kind.STEADY_SLOW, 0, -620.0, 220.0)
-	assert(spawn_guard._can_spawn_candidate(faster_ahead, 500.0, 1), "Spawning may accept an NPC speed order whose road-space gap can only grow")
-	faster_follower.cruise_speed = 200.0
-	var truck_ahead = spawn_guard.acquire_vehicle(TrafficDirector.Kind.TRUCK, 0, -620.0, 160.0)
-	assert(spawn_guard._can_spawn_candidate(truck_ahead, 500.0, 1), "A slower truck may spawn when the leading vehicle will recycle before a faster follower can close the safe gap")
+	assert(spawn_guard._can_spawn_candidate(slower_ahead, 220.0, 1), "A closing speed order may spawn only with a physically brakeable body gap, not a recycle-time exemption")
+	spawn_guard._spawn_cooldown = 1000.0
+	spawn_guard.lane_events.enabled = false
+	spawn_guard.vehicles.append(slower_ahead)
+	for step in range(480):
+		var changed_player_speed := 0.0 if step < 240 else 760.0
+		spawn_guard.tick(1.0 / 60.0, changed_player_speed, 1)
+		assert(faster_follower.y - slower_ahead.y >= faster_follower.half_length + slower_ahead.half_length, "Accepted speed inversions must remain body-safe after the player stops and accelerates")
+	assert(is_equal_approx(faster_follower.cruise_speed, 220.0) and is_equal_approx(slower_ahead.cruise_speed, 180.0), "Following must not rewrite either assigned desired speed")
+	var opening_guard := TrafficDirector.new(619)
+	opening_guard.vehicles.append(opening_guard.acquire_vehicle(TrafficDirector.Kind.STEADY_SLOW, 0, 0.0, 180.0))
+	var faster_ahead = opening_guard.acquire_vehicle(TrafficDirector.Kind.STEADY_SLOW, 0, -620.0, 220.0)
+	assert(opening_guard._can_spawn_candidate(faster_ahead, 500.0, 1), "Spawning may accept an NPC speed order whose road-space gap can only grow")
+	var truck_guard := TrafficDirector.new(620)
+	truck_guard.vehicles.append(truck_guard.acquire_vehicle(TrafficDirector.Kind.STEADY_SLOW, 0, 0.0, 200.0))
+	var truck_ahead = truck_guard.acquire_vehicle(TrafficDirector.Kind.TRUCK, 0, -620.0, 160.0)
+	assert(truck_guard._can_spawn_candidate(truck_ahead, 500.0, 1) == truck_guard._can_spawn_candidate(truck_ahead, 0.0, 1), "A truck's braking-gap admission must not depend on a player's temporary recycle prediction")
 
 	var warning_guard := TrafficDirector.new(617)
 	warning_guard._player_speed = 560.0
@@ -83,8 +93,9 @@ func _init() -> void:
 	hard_director.update_vehicle(hard_npc, 1.0, 500.0)
 	assert(is_equal_approx(hard_npc.y, 300.0 + (500.0 - 200.0) * GameConfig.ROAD_SCROLL_MULTIPLIER), "Difficulty must not rewrite the physics of an NPC's fixed world speed")
 
-	var overtaker = director.acquire_vehicle(TrafficDirector.Kind.FAST_OVERTAKE, 1, 600.0, 920.0)
+	var overtaker = director.acquire_vehicle(TrafficDirector.Kind.FAST_OVERTAKE, 1, 100.0, 920.0)
 	overtaker.overtake_warning_remaining = 0.0
+	overtaker.arrival_warning_started = true
 	var overtaker_y: float = overtaker.y
 	director.update_vehicle(overtaker, 0.1, 760.0)
 	assert(is_equal_approx(overtaker.y, overtaker_y + (760.0 - 920.0) * GameConfig.ROAD_SCROLL_MULTIPLIER * 0.1), "Fast traffic must use its own fixed world speed instead of a player-speed-derived animation speed")

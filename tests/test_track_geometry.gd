@@ -19,7 +19,14 @@ func _init() -> void:
 		assert(normal_vehicle.y > player_y, "Normal traffic must be able to pass the player at every supported height")
 
 		var rear_vehicle = director.acquire_vehicle(TrafficDirector.Kind.FAST_OVERTAKE, 1, viewport_height + 100.0)
-		director.update_vehicle(rear_vehicle, 1.0, 760.0)
-		assert(is_equal_approx(rear_vehicle.y, fast_staging_y), "Rear traffic must stage relative to the player line")
+		var warned := false
+		for step in range(180):
+			var before: float = rear_vehicle.y
+			director.update_vehicle(rear_vehicle, 1.0 / 60.0, 760.0)
+			assert(is_equal_approx(rear_vehicle.y - before, (760.0 - rear_vehicle.actual_world_speed) * director.GameConfig.ROAD_SCROLL_MULTIPLIER / 60.0), "Rear traffic must move through its actual world speed, never snap to a camera staging point")
+			if rear_vehicle.overtake_warning_remaining > 0.0:
+				warned = true
+				break
+		assert(warned and director._is_lane_change_visible(rear_vehicle), "Rear traffic must reach a genuinely visible warning in a bounded approach")
 		assert(rear_vehicle.overtake_warning_remaining >= 1.0, "Rear traffic must warn before overtaking")
 	quit()

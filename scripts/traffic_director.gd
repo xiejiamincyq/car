@@ -18,6 +18,11 @@ const BRAKING_REACTION_SECONDS := 0.25
 const NORMAL_SPEED_MIN := 180.0
 const NORMAL_SPEED_MAX := 220.0
 const NORMAL_SPEED_STEP := 20
+const NPC_ACCELERATION := 140.0
+const NPC_BRAKING := 420.0
+const FOLLOWING_BODY_MARGIN := 24.0
+const LANE_CHANGE_WAIT_LIMIT := 2.0
+const LANE_CHANGE_COOLDOWN := 0.75
 
 var lane_count: int = 3
 var minimum_spawn_distance: float = 620.0
@@ -49,6 +54,7 @@ var difficulty_event_interval_multiplier := 1.0
 var _spawn_exclusion_zones: Array[Vector2] = []
 var random_lane_change_probability := 0.0
 var random_lane_change_planned_count := 0
+var _core_snapshot_y := 0.0
 
 func _init(seed: int, lanes: int = 3, safe_distance: float = 620.0, lane_gap: float = 180.0) -> void:
 	lane_count = lanes
@@ -60,6 +66,22 @@ func _init(seed: int, lanes: int = 3, safe_distance: float = 620.0, lane_gap: fl
 	lane_events = LaneEventDirector.new(_event_seed(_initial_seed), lane_count, GameConfig.LANE_EVENTS_ENABLED)
 
 func tick(delta: float, player_speed: float, player_lane: int = 1) -> void:
+	var frame_start: Dictionary = {}
+	for vehicle in vehicles:
+		frame_start[vehicle.get_instance_id()] = {"generation":vehicle.motion_generation,"position":Vector2(vehicle.lane_position, vehicle.y)}
+		vehicle.last_lateral_distance = 0.0
+	var safe_delta := maxf(0.0, delta)
+	var substeps := maxi(1, ceili(safe_delta / (1.0 / 60.0)))
+	for substep in substeps:
+		_tick_step(safe_delta / substeps, player_speed, player_lane, frame_start)
+	for vehicle in vehicles:
+		var initial: Vector2 = frame_start[vehicle.get_instance_id()].position
+		vehicle.previous_lane_position = initial.x
+		vehicle.previous_y = initial.y
+		vehicle.lateral_velocity = (vehicle.lane_position - initial.x) * (GameConfig.ROAD_HALF_WIDTH * 2.0 / lane_count) / maxf(0.001, safe_delta)
+
+func _tick_step(delta: float, player_speed: float, player_lane: int, frame_start: Dictionary) -> void:
+	_core_snapshot_y = lane_events._core_y()
 	for vehicle in vehicles:
 		vehicle.previous_lane_position = vehicle.lane_position
 		vehicle.previous_y = vehicle.y
@@ -67,13 +89,22 @@ func tick(delta: float, player_speed: float, player_lane: int = 1) -> void:
 	_player_lane = player_lane
 	if lane_events.state == LaneEventDirector.State.WARNING and not _closure_can_continue():
 		lane_events.cancel_warning()
-	lane_events.tick(delta, difficulty_stage, player_lane, player_speed)
+	var lane_update := lane_events.tick(delta, difficulty_stage, player_lane, player_speed)
+	if lane_update.began_warning:
+		_core_snapshot_y = lane_events._core_y()
 	if lane_events.state == LaneEventDirector.State.WARNING and not _closure_can_continue():
 		lane_events.cancel_warning()
 	_spawn_cooldown -= delta
 	if _spawn_cooldown <= 0.0:
 		_spawn_next(player_speed, player_lane)
 		_spawn_cooldown = _spawn_interval_for_stage()
+	for vehicle in vehicles:
+		var identity := vehicle.get_instance_id()
+		if not frame_start.has(identity) or frame_start[identity].generation != vehicle.motion_generation:
+			frame_start[identity] = {"generation":vehicle.motion_generation,"position":Vector2(vehicle.lane_position, vehicle.y)}
+			vehicle.last_lateral_distance = 0.0
+	# Resolve competing intents in a stable order, never caller array order.
+	vehicles.sort_custom(func(a, b): return a.get_instance_id() < b.get_instance_id())
 	# Make every normal vehicle decide from the same start-of-frame snapshot.
 	# Advancing one vehicle before another decides would mix two time points and
 	# could admit an unsafe lane change between equal-speed vehicles.
@@ -83,19 +114,13 @@ func tick(delta: float, player_speed: float, player_lane: int = 1) -> void:
 	for vehicle in vehicles:
 		if vehicle.kind == Kind.FAST_OVERTAKE:
 			_update_fast_overtaker(vehicle, delta, player_speed)
+	_update_traffic_speeds(delta)
 	for vehicle in vehicles:
-		if vehicle.kind != Kind.FAST_OVERTAKE:
-			_advance_normal_vehicle(vehicle, delta, player_speed)
-	_resolve_fast_safety_after_normal_advance()
+		_advance_normal_vehicle(vehicle, delta, player_speed)
+		vehicle.has_entered_viewport = vehicle.has_entered_viewport or (vehicle.y + vehicle.half_length >= 0.0 and vehicle.y - vehicle.half_length <= _viewport_height)
 	for vehicle in vehicles:
-		vehicle.lateral_velocity = (vehicle.lane_position - vehicle.previous_lane_position) * (GameConfig.ROAD_HALF_WIDTH * 2.0 / lane_count) / maxf(0.001, delta)
-		if not is_zero_approx(vehicle.impact_speed_offset):
-			var previous_y := vehicle.y
-			vehicle.y -= vehicle.impact_speed_offset * GameConfig.ROAD_SCROLL_MULTIPLIER * delta
-			if has_full_lane_wall() or has_vehicle_overlap():
-				vehicle.y = previous_y
-				vehicle.impact_speed_offset = 0.0
-			vehicle.impact_speed_offset = move_toward(vehicle.impact_speed_offset, 0.0, 90.0 * delta)
+		vehicle.last_lateral_distance += absf(vehicle.lane_position - vehicle.previous_lane_position)
+		vehicle.impact_speed_offset = move_toward(vehicle.impact_speed_offset, 0.0, 90.0 * delta)
 	for vehicle in vehicles:
 		if vehicle.kind != Kind.FAST_OVERTAKE:
 			_recheck_lane_change_commitment_after_advance(vehicle)
@@ -104,9 +129,6 @@ func tick(delta: float, player_speed: float, player_lane: int = 1) -> void:
 	if lane_events.state == LaneEventDirector.State.WARNING and not _closure_can_continue():
 		lane_events.cancel_warning()
 	_recycle_offscreen_vehicles()
-	if delta > 0.0:
-		for vehicle in vehicles:
-			vehicle.actual_world_speed = player_speed - (vehicle.y-vehicle.previous_y) / (GameConfig.ROAD_SCROLL_MULTIPLIER * delta)
 
 func acquire_vehicle(kind: int, lane: int, y: float, assigned_cruise_speed: float = -1.0) -> TrafficVehicle:
 	var target_lane := _target_lane_for(kind, lane)
@@ -168,14 +190,18 @@ func configure_track(profile: Dictionary) -> void:
 
 func update_vehicle(vehicle: TrafficVehicle, delta: float, player_speed: float) -> void:
 	_player_speed = player_speed
+	_core_snapshot_y = lane_events._core_y()
 	if vehicle.kind == Kind.FAST_OVERTAKE:
 		_update_fast_overtaker(vehicle, delta, player_speed)
-		return
-	_update_normal_lane_behavior(vehicle, delta)
+	else:
+		_update_normal_lane_behavior(vehicle, delta)
+	vehicle.actual_world_speed = _following_speed(vehicle, delta)
 	_advance_normal_vehicle(vehicle, delta, player_speed)
+	vehicle.impact_speed_offset = move_toward(vehicle.impact_speed_offset, 0.0, 90.0 * maxf(0.0, delta))
 	_recheck_lane_change_commitment_after_advance(vehicle)
 
 func _update_normal_lane_behavior(vehicle: TrafficVehicle, delta: float) -> void:
+	_update_lane_change_lifecycle(vehicle, delta)
 	if vehicle.lane_change_enabled:
 		var lateral_delta := delta
 		if lane_events.is_lane_blocked(vehicle.target_lane) and not vehicle.change_started:
@@ -190,13 +216,17 @@ func _update_normal_lane_behavior(vehicle: TrafficVehicle, delta: float) -> void
 			var lane_change_is_visible := _is_lane_change_visible(vehicle)
 			if not vehicle.warning_started and lane_change_is_visible and _can_commit_lane_change_warning(vehicle):
 				vehicle.warning_started = true
+				vehicle.lane_change_reservation_active = true
 				vehicle.warning_remaining = lane_change_warning_duration()
+			if vehicle.warning_started and not vehicle.change_started and not lane_change_is_visible:
+				_cancel_planned_lane_change(vehicle)
+				return
 			if vehicle.warning_remaining > 0.0:
 				var warning_before_tick := vehicle.warning_remaining
 				vehicle.warning_remaining = maxf(0.0, vehicle.warning_remaining - delta)
 				lateral_delta = maxf(0.0, delta - warning_before_tick)
 			if vehicle.warning_started and is_zero_approx(vehicle.warning_remaining) and not vehicle.change_started:
-				if is_lane_change_safe(vehicle):
+				if _is_lane_change_visible(vehicle) and is_lane_change_safe(vehicle):
 					vehicle.change_started = true
 					lane_change_started_count += 1
 				else:
@@ -207,8 +237,96 @@ func _update_normal_lane_behavior(vehicle: TrafficVehicle, delta: float) -> void
 				_complete_normal_lane_change(vehicle)
 
 func _advance_normal_vehicle(vehicle: TrafficVehicle, delta: float, player_speed: float) -> void:
-	var relative_speed := player_speed - vehicle.cruise_speed
+	var relative_speed := player_speed - vehicle.actual_world_speed
 	vehicle.y += relative_speed * GameConfig.ROAD_SCROLL_MULTIPLIER * delta
+
+func _update_traffic_speeds(delta: float) -> void:
+	# Front-to-back resolution uses one position snapshot and the already
+	# resolved leader speed. Array insertion order cannot change a queue.
+	var ordered := vehicles.duplicate()
+	ordered.sort_custom(func(a, b): return a.y < b.y if not is_equal_approx(a.y, b.y) else a.get_instance_id() < b.get_instance_id())
+	for vehicle in ordered:
+		vehicle.actual_world_speed = _following_speed(vehicle, delta)
+
+func _following_speed(vehicle: TrafficVehicle, delta: float) -> float:
+	var target := _following_target_speed(vehicle)
+	var rate := NPC_BRAKING if target < vehicle.actual_world_speed else NPC_ACCELERATION
+	return move_toward(vehicle.actual_world_speed, target, maxf(0.0, delta) * rate)
+
+func _following_target_speed(vehicle: TrafficVehicle) -> float:
+	# The transient impact changes the target once. It is not added again to
+	# motion already represented by actual_world_speed on the following frame.
+	var target := maxf(0.0, vehicle.cruise_speed + vehicle.impact_speed_offset)
+	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / lane_count
+	for other in vehicles:
+		if other == vehicle or other.y >= vehicle.y:
+			continue
+		var shared_reservation := false
+		for reserved in TrafficSafetyPolicy.reserved_lanes(vehicle):
+			shared_reservation = shared_reservation or TrafficSafetyPolicy.reserved_lanes(other).has(reserved)
+		if not shared_reservation and absf(vehicle.lane_position - other.lane_position) * lane_width >= vehicle.half_width + other.half_width + TrafficSafetyPolicy.BODY_MARGIN:
+			continue
+		var free_gap := vehicle.y - other.y - vehicle.half_length - other.half_length - maxf(minimum_lane_gap, FOLLOWING_BODY_MARGIN)
+		target = minf(target, _safe_following_speed(free_gap, other.actual_world_speed))
+	if lane_events.state != LaneEventDirector.State.IDLE:
+		# Query the world core even before its marker enters the rendering window.
+		# Its screen motion is player scrolling; its absolute road speed is zero.
+		var core_y := _core_snapshot_y
+		for closed_lane in lane_events.closed_lanes():
+			var core_half_width := lane_width * GameConfig.LANE_EVENT_CORE_HALF_LANE_RATIO
+			if core_y < vehicle.y and absf(vehicle.lane_position - closed_lane) * lane_width < vehicle.half_width + core_half_width:
+				var free_gap := vehicle.y - core_y - maxf(62.0, vehicle.half_length + 20.0) - FOLLOWING_BODY_MARGIN
+				target = minf(target, _safe_following_speed(free_gap, 0.0))
+	if vehicle.kind == Kind.FAST_OVERTAKE:
+		var player_y := TrackGeometry.player_y(_viewport_height)
+		var needs_warning := not vehicle.arrival_warning_started or vehicle.overtake_warning_remaining > 0.0
+		var needs_escape := not _can_release_fast_overtaker(vehicle)
+		if vehicle.y > player_y and (needs_warning or needs_escape):
+			# The moving player is an actual safety constraint, not a camera lock.
+			# Limit closing speed through braking; never assign y to a staging point.
+			var free_gap := vehicle.y - player_y - collision_distance_for(vehicle)
+			target = minf(target, maxf(0.0, _player_speed) + _safe_following_speed(free_gap, 0.0))
+	target = minf(target, _wall_following_target(vehicle))
+	return target
+
+func _wall_following_target(vehicle: TrafficVehicle) -> float:
+	var target := INF
+	for other in vehicles:
+		if other == vehicle or other.y >= vehicle.y:
+			continue
+		var occupied := TrafficSafetyPolicy.reserved_lanes(vehicle)
+		for lane in TrafficSafetyPolicy.reserved_lanes(other):
+			if not occupied.has(lane):
+				occupied.append(lane)
+		if occupied.size() >= lane_count:
+			var free_gap := vehicle.y - other.y - TrafficSafetyPolicy.WALL_LONGITUDINAL_CLEARANCE - 0.5
+			target = minf(target, _safe_following_speed(free_gap, other.actual_world_speed))
+	for first_index in vehicles.size():
+		var first := vehicles[first_index]
+		if first == vehicle or first.y >= vehicle.y:
+			continue
+		for second_index in range(first_index + 1, vehicles.size()):
+			var second := vehicles[second_index]
+			if second == vehicle or second.y >= vehicle.y:
+				continue
+			var horizon := BRAKING_REACTION_SECONDS + vehicle.actual_world_speed / NPC_BRAKING
+			var future_pair_gap := absf(first.y - second.y - (first.actual_world_speed - second.actual_world_speed) * GameConfig.ROAD_SCROLL_MULTIPLIER * horizon)
+			if minf(absf(first.y - second.y), future_pair_gap) >= TrafficSafetyPolicy.WALL_LONGITUDINAL_CLEARANCE:
+				continue
+			var occupied := TrafficSafetyPolicy.reserved_lanes(vehicle)
+			for other in [first, second]:
+				for lane in TrafficSafetyPolicy.reserved_lanes(other):
+					if not occupied.has(lane):
+						occupied.append(lane)
+			if occupied.size() < lane_count:
+				continue
+			var free_gap := vehicle.y - maxf(first.y, second.y) - TrafficSafetyPolicy.WALL_LONGITUDINAL_CLEARANCE - 0.5
+			target = minf(target, _safe_following_speed(free_gap, minf(first.actual_world_speed, second.actual_world_speed)))
+	return target
+
+func _safe_following_speed(free_gap: float, leader_speed: float) -> float:
+	var reaction_speed := NPC_BRAKING * BRAKING_REACTION_SECONDS
+	return maxf(0.0, sqrt(reaction_speed * reaction_speed + maxf(0.0, leader_speed) * maxf(0.0, leader_speed) + 2.0 * NPC_BRAKING * maxf(0.0, free_gap) / GameConfig.ROAD_SCROLL_MULTIPLIER) - reaction_speed)
 
 func _lane_change_preserves_player_options(vehicle: TrafficVehicle) -> bool:
 	var player_y := TrackGeometry.player_y(_viewport_height)
@@ -224,7 +342,7 @@ func _can_commit_lane_change_warning(vehicle: TrafficVehicle) -> bool:
 		and not _lane_change_creates_wall(vehicle)
 
 func _lane_change_starts_while_visible(vehicle: TrafficVehicle) -> bool:
-	var relative_speed := (_player_speed - vehicle.cruise_speed) * GameConfig.ROAD_SCROLL_MULTIPLIER
+	var relative_speed := (_player_speed - vehicle.actual_world_speed) * GameConfig.ROAD_SCROLL_MULTIPLIER
 	var start_y := vehicle.y + relative_speed * lane_change_warning_duration()
 	return start_y >= LANE_CHANGE_WARNING_ENTRY_Y and start_y <= _viewport_height - vehicle.half_length
 
@@ -240,7 +358,7 @@ func _lane_change_transition_is_safe(vehicle: TrafficVehicle) -> bool:
 		[vehicle.lane, vehicle.target_lane]
 	):
 		return true
-	var relative_speed := (_player_speed - vehicle.cruise_speed) * GameConfig.ROAD_SCROLL_MULTIPLIER
+	var relative_speed := (_player_speed - vehicle.actual_world_speed) * GameConfig.ROAD_SCROLL_MULTIPLIER
 	if relative_speed <= 0.0:
 		return true
 	return _lane_change_completion_y(vehicle) <= player_y - collision_distance_for(vehicle)
@@ -267,7 +385,7 @@ func _lane_change_warning_preserves_immediate_player_options(vehicle: TrafficVeh
 	)
 
 func _lane_change_completion_y(vehicle: TrafficVehicle) -> float:
-	var relative_speed := (_player_speed - vehicle.cruise_speed) * GameConfig.ROAD_SCROLL_MULTIPLIER
+	var relative_speed := (_player_speed - vehicle.actual_world_speed) * GameConfig.ROAD_SCROLL_MULTIPLIER
 	return vehicle.y + relative_speed * _lane_change_remaining_seconds(vehicle)
 
 func _lane_change_remaining_seconds(vehicle: TrafficVehicle) -> float:
@@ -276,12 +394,17 @@ func _lane_change_remaining_seconds(vehicle: TrafficVehicle) -> float:
 	return warning_time + lateral_time
 
 func _cancel_planned_lane_change(vehicle: TrafficVehicle) -> void:
+	# Started changes finish continuously; callers may only release a waiting
+	# reservation. No cancellation is allowed to move a vehicle sideways.
+	if vehicle.change_started:
+		return
 	vehicle.target_lane = vehicle.lane
-	vehicle.lane_position = float(vehicle.lane)
 	vehicle.lane_change_enabled = false
 	vehicle.warning_started = false
 	vehicle.warning_remaining = 0.0
 	vehicle.change_started = false
+	vehicle.lane_change_reservation_active = false
+	vehicle.lane_change_cooldown = LANE_CHANGE_COOLDOWN
 
 func _complete_normal_lane_change(vehicle: TrafficVehicle) -> void:
 	vehicle.lane = vehicle.target_lane
@@ -290,35 +413,35 @@ func _complete_normal_lane_change(vehicle: TrafficVehicle) -> void:
 	vehicle.warning_started = false
 	vehicle.warning_remaining = 0.0
 	vehicle.change_started = false
+	vehicle.lane_change_reservation_active = false
+	vehicle.lane_change_cooldown = LANE_CHANGE_COOLDOWN
+
+func _update_lane_change_lifecycle(vehicle: TrafficVehicle, delta: float) -> void:
+	vehicle.lane_change_cooldown = maxf(0.0, vehicle.lane_change_cooldown - delta)
+	if vehicle.warning_started and not vehicle.lane_change_reservation_active:
+		vehicle.lane_change_reservation_active = true
+		vehicle.lane_change_wait_seconds = 0.0
+	if vehicle.lane_change_reservation_active and not vehicle.change_started:
+		vehicle.lane_change_wait_seconds += maxf(0.0, delta)
+		if vehicle.lane_change_wait_seconds >= LANE_CHANGE_WAIT_LIMIT - 0.0000001:
+			_cancel_planned_lane_change(vehicle)
 
 func _update_fast_overtaker(vehicle: TrafficVehicle, delta: float, player_speed: float) -> void:
-	var relative_speed: float = (player_speed - vehicle.cruise_speed) * GameConfig.ROAD_SCROLL_MULTIPLIER
-	var staging_y: float = TrackGeometry.fast_overtake_staging_y(_viewport_height)
-	if vehicle.y > staging_y:
-		vehicle.y = _constrain_fast_overtaker_y(vehicle, maxf(staging_y, vehicle.y + relative_speed * delta))
-		if vehicle.y <= staging_y:
-			vehicle.overtake_warning_remaining = 1.0
-		return
-	if vehicle.overtake_warning_remaining > 0.0:
-		if not vehicle.lane_change_enabled:
-			_try_plan_fast_lane_change(vehicle)
-		if vehicle.lane_change_enabled:
-			_advance_fast_lane_change(vehicle, delta)
+	_update_lane_change_lifecycle(vehicle, delta)
+	var staging_y: float = minf(TrackGeometry.fast_overtake_staging_y(_viewport_height), _viewport_height - vehicle.half_length)
+	if not vehicle.arrival_warning_started and vehicle.y <= staging_y:
+		vehicle.arrival_warning_started = true
+		vehicle.overtake_warning_remaining = 1.0
+	elif vehicle.arrival_warning_started and vehicle.overtake_warning_remaining > 0.0 and _is_lane_change_visible(vehicle):
 		vehicle.overtake_warning_remaining = maxf(0.0, vehicle.overtake_warning_remaining - delta)
-		if is_zero_approx(vehicle.overtake_warning_remaining) and not _can_release_fast_overtaker(vehicle):
-			vehicle.overtake_warning_remaining = 0.25
-		return
 	if vehicle.lane_change_enabled:
 		_advance_fast_lane_change(vehicle, delta)
-		if vehicle.lane_change_enabled:
-			vehicle.y = _constrain_fast_overtaker_y(vehicle, vehicle.y)
-			return
-	if _try_plan_fast_lane_change(vehicle):
-		return
-	var proposed_y: float = vehicle.y + relative_speed * delta
-	vehicle.y = _constrain_fast_overtaker_y(vehicle, proposed_y)
+	elif _is_lane_change_visible(vehicle):
+		_try_plan_fast_lane_change(vehicle)
 
 func _try_plan_fast_lane_change(overtaker: TrafficVehicle) -> bool:
+	if overtaker.lane_change_cooldown > 0.0:
+		return false
 	if _nearest_fast_route_blocker(overtaker, FAST_ROUTE_LOOKAHEAD) == null:
 		return false
 	var route_lane: int = _best_fast_route_lane(overtaker)
@@ -390,6 +513,9 @@ func _begin_fast_lane_change(overtaker: TrafficVehicle, target_lane: int) -> voi
 	overtaker.warning_started = true
 	overtaker.warning_remaining = FAST_ROUTE_WARNING_SECONDS
 	overtaker.change_started = false
+	if not overtaker.lane_change_reservation_active:
+		overtaker.lane_change_reservation_active = true
+		overtaker.lane_change_wait_seconds = 0.0
 
 func _fast_lane_change_overlaps_guidance(overtaker: TrafficVehicle, target_lane: int) -> bool:
 	return _overlaps_exclusion_at(target_lane, overtaker.y, overtaker.half_length) \
@@ -397,31 +523,30 @@ func _fast_lane_change_overlaps_guidance(overtaker: TrafficVehicle, target_lane:
 
 func _fast_lane_change_creates_wall(overtaker: TrafficVehicle, target_lane: int) -> bool:
 	var reserved: Array[int] = [overtaker.lane, target_lane]
-	return TrafficSafetyPolicy.would_create_full_lane_wall(vehicles, overtaker, lane_count, overtaker.y, reserved) \
-		or TrafficSafetyPolicy.would_create_full_lane_wall(vehicles, overtaker, lane_count, _fast_lane_change_completion_y(overtaker, target_lane), reserved)
+	var duration := FAST_ROUTE_WARNING_SECONDS + absf(target_lane - overtaker.lane_position) / FAST_LANE_CHANGE_SPEED
+	return TrafficSafetyPolicy.would_form_full_lane_wall_during(vehicles, overtaker, lane_count, reserved, duration, GameConfig.ROAD_SCROLL_MULTIPLIER)
 
 func _fast_lane_change_completion_y(overtaker: TrafficVehicle, target_lane: int) -> float:
 	var lateral_time := absf(float(target_lane) - overtaker.lane_position) / FAST_LANE_CHANGE_SPEED
-	var relative_speed := (_player_speed - overtaker.cruise_speed) * GameConfig.ROAD_SCROLL_MULTIPLIER
+	var relative_speed := (_player_speed - overtaker.actual_world_speed) * GameConfig.ROAD_SCROLL_MULTIPLIER
 	return overtaker.y + relative_speed * (FAST_ROUTE_WARNING_SECONDS + lateral_time)
 
 func _advance_fast_lane_change(overtaker: TrafficVehicle, delta: float) -> void:
 	if lane_events.is_lane_blocked(overtaker.target_lane) and not overtaker.change_started:
 		_cancel_fast_lane_change(overtaker)
 		return
-	if not _fast_route_preserves_player_options(overtaker, overtaker.target_lane):
-		var crossed_lane_center: bool = absf(overtaker.lane_position - float(overtaker.lane)) >= 0.5
-		if overtaker.change_started and crossed_lane_center:
-			_complete_fast_lane_change(overtaker)
-		else:
-			_cancel_fast_lane_change(overtaker)
+	if not overtaker.change_started and not _fast_route_preserves_player_options(overtaker, overtaker.target_lane):
+		_cancel_fast_lane_change(overtaker)
 		return
 	if overtaker.warning_remaining > 0.0:
-		overtaker.warning_remaining = maxf(0.0, overtaker.warning_remaining - delta)
+		if _is_lane_change_visible(overtaker):
+			overtaker.warning_remaining = maxf(0.0, overtaker.warning_remaining - delta)
+		else:
+			overtaker.warning_remaining = FAST_ROUTE_WARNING_SECONDS
 		return
 	if not overtaker.change_started:
-		if not is_lane_change_safe(overtaker):
-			overtaker.warning_remaining = 0.20
+		if not _is_lane_change_visible(overtaker) or not is_lane_change_safe(overtaker):
+			_cancel_fast_lane_change(overtaker)
 			return
 		overtaker.change_started = true
 		lane_change_started_count += 1
@@ -430,20 +555,10 @@ func _advance_fast_lane_change(overtaker: TrafficVehicle, delta: float) -> void:
 		_complete_fast_lane_change(overtaker)
 
 func _complete_fast_lane_change(overtaker: TrafficVehicle) -> void:
-	overtaker.lane = overtaker.target_lane
-	overtaker.lane_position = float(overtaker.lane)
-	overtaker.lane_change_enabled = false
-	overtaker.warning_started = false
-	overtaker.warning_remaining = 0.0
-	overtaker.change_started = false
+	_complete_normal_lane_change(overtaker)
 
 func _cancel_fast_lane_change(overtaker: TrafficVehicle) -> void:
-	overtaker.target_lane = overtaker.lane
-	overtaker.lane_position = float(overtaker.lane)
-	overtaker.lane_change_enabled = false
-	overtaker.warning_started = false
-	overtaker.warning_remaining = 0.0
-	overtaker.change_started = false
+	_cancel_planned_lane_change(overtaker)
 
 func _constrain_fast_overtaker_y(overtaker: TrafficVehicle, proposed_y: float) -> float:
 	var constrained_y := _body_safe_fast_y(overtaker, proposed_y)
@@ -645,6 +760,10 @@ func _spawn_next(player_speed: float, player_lane: int) -> void:
 	var lane := _fast_spawn_lane(player_lane) if kind == Kind.FAST_OVERTAKE else _random.randi_range(0, lane_count - 1)
 	var y := TrackGeometry.fast_overtake_spawn_y(_viewport_height) if kind == Kind.FAST_OVERTAKE else -minimum_spawn_distance
 	var candidate := acquire_vehicle(kind, lane, y, _world_speed_for_spawn(kind, lane, y))
+	# A newly arriving fast car may begin below its desired speed when the
+	# player/queue already occupies its braking horizon. Later changes are finite.
+	if kind == Kind.FAST_OVERTAKE:
+		candidate.actual_world_speed = _following_target_speed(candidate)
 	_plan_random_lane_change(candidate)
 	if not _can_spawn_candidate(candidate, player_speed, player_lane):
 		_pool.append(candidate)
@@ -664,13 +783,18 @@ func _world_speed_for_spawn(kind: int, lane: int = -1, y: float = 0.0) -> float:
 	var normal_speed := float(_random.randi_range(roundi(NORMAL_SPEED_MIN / NORMAL_SPEED_STEP), roundi(NORMAL_SPEED_MAX / NORMAL_SPEED_STEP)) * NORMAL_SPEED_STEP)
 	if kind == Kind.TRUCK or not is_lane_valid(lane):
 		return normal_speed * TrafficVehicle.TRUCK_CRUISE_SPEED_MULTIPLIER if kind == Kind.TRUCK else normal_speed
+	var ahead_limit := NORMAL_SPEED_MAX
+	var behind_floor := NORMAL_SPEED_MIN
 	for vehicle in vehicles:
 		if vehicle.kind == Kind.FAST_OVERTAKE or abs(vehicle.lane - lane) > 1:
 			continue
 		if vehicle.y >= y:
-			normal_speed = maxf(normal_speed, vehicle.cruise_speed)
+			behind_floor = maxf(behind_floor, vehicle.cruise_speed)
 		else:
-			normal_speed = minf(normal_speed, vehicle.cruise_speed)
+			ahead_limit = minf(ahead_limit, vehicle.cruise_speed)
+	# Aggregate independently of Array order. In a conflicting queue, the
+	# front constraint wins; actual-speed admission still protects the rear.
+	normal_speed = minf(maxf(normal_speed, behind_floor), ahead_limit)
 	return clampf(normal_speed, NORMAL_SPEED_MIN, NORMAL_SPEED_MAX)
 
 func _can_spawn_vehicle(kind: int, lane: int, y: float, player_speed: float, player_lane: int) -> bool:
@@ -687,6 +811,8 @@ func _can_spawn_candidate(candidate: TrafficVehicle, player_speed: float, player
 	if _overlaps_spawn_exclusion(candidate):
 		return false
 	if TrafficSafetyPolicy.would_create_full_lane_wall(vehicles, candidate, lane_count, candidate.y, [candidate.lane]):
+		return false
+	if TrafficSafetyPolicy.would_form_full_lane_wall_during(vehicles, candidate, lane_count, [candidate.lane], BRAKING_REACTION_SECONDS + candidate.actual_world_speed / NPC_BRAKING, GameConfig.ROAD_SCROLL_MULTIPLIER):
 		return false
 	for vehicle in vehicles:
 		var shares_longitudinal_corridor: bool = vehicle.lane == candidate.lane
@@ -729,16 +855,9 @@ func _lane_change_creates_wall(vehicle: TrafficVehicle) -> bool:
 	)
 
 func _wall_policy_vehicles(candidate: TrafficVehicle) -> Array:
-	var relevant := _safety_relevant_vehicles()
-	if candidate.kind == Kind.FAST_OVERTAKE:
-		return relevant
-	var controlled: Array = []
-	for other in relevant:
-		# Fast overtakers brake or re-route in their own update phase. Letting them
-		# veto ordinary traffic here makes harder stages paradoxically quieter.
-		if other.kind != Kind.FAST_OVERTAKE:
-			controlled.append(other)
-	return controlled
+	# An offscreen fast car can enter the reservation's future window. It may
+	# not be excluded just because it is outside today's rendering rectangle.
+	return vehicles
 
 func _has_escape_lane(candidate: TrafficVehicle, player_lane: int, player_speed: float) -> bool:
 	var dynamic_reaction_distance := maxf(minimum_lane_gap, player_speed)
@@ -830,7 +949,11 @@ static func fast_warning_y(vehicle_y: float) -> float:
 func _recycle_offscreen_vehicles() -> void:
 	var active: Array[TrafficVehicle] = []
 	for vehicle in vehicles:
-		var is_offscreen := vehicle.y > TrackGeometry.normal_recycle_y(_viewport_height) or vehicle.y < -minimum_spawn_distance * 2.0 if vehicle.kind != Kind.FAST_OVERTAKE else vehicle.y < TrackGeometry.FAST_RECYCLE_Y
+		var top_bound := -minimum_spawn_distance * 2.0 if vehicle.kind != Kind.FAST_OVERTAKE else TrackGeometry.FAST_RECYCLE_Y
+		var bottom_bound := TrackGeometry.normal_recycle_y(_viewport_height)
+		if vehicle.kind == Kind.FAST_OVERTAKE and not vehicle.has_entered_viewport:
+			bottom_bound = TrackGeometry.fast_overtake_spawn_y(_viewport_height) + TrackGeometry.NORMAL_RECYCLE_OFFSET
+		var is_offscreen := vehicle.y > bottom_bound or vehicle.y < top_bound
 		if is_offscreen:
 			_pool.append(vehicle)
 		else:
@@ -877,28 +1000,20 @@ func vehicles_have_minimum_gap(first: TrafficVehicle, second: TrafficVehicle, ce
 
 func vehicles_keep_or_open_gap(first: TrafficVehicle, second: TrafficVehicle) -> bool:
 	if is_equal_approx(first.y, second.y):
-		return is_equal_approx(first.cruise_speed, second.cruise_speed)
+		return is_equal_approx(first.actual_world_speed, second.actual_world_speed)
 	var ahead := first if first.y < second.y else second
 	var behind := second if ahead == first else first
-	return ahead.cruise_speed >= behind.cruise_speed
+	return ahead.actual_world_speed >= behind.actual_world_speed
 
 func vehicles_keep_safe_gap_until_recycle(first: TrafficVehicle, second: TrafficVehicle, player_speed: float) -> bool:
-	if vehicles_keep_or_open_gap(first, second):
-		return true
 	var ahead := first if first.y < second.y else second
 	var behind := second if ahead == first else first
-	var safe_margin := absf(first.y - second.y) - minimum_lane_gap - first.half_length - second.half_length
-	var closing_screen_speed := (behind.cruise_speed - ahead.cruise_speed) * GameConfig.ROAD_SCROLL_MULTIPLIER
-	if safe_margin < 0.0 or closing_screen_speed <= 0.0:
-		return false
-	var time_to_close := safe_margin / closing_screen_speed
-	var ahead_screen_speed := (player_speed - ahead.cruise_speed) * GameConfig.ROAD_SCROLL_MULTIPLIER
-	var time_to_recycle := INF
-	if ahead_screen_speed > 0.0:
-		time_to_recycle = maxf(0.0, TrackGeometry.normal_recycle_y(_viewport_height) - ahead.y) / ahead_screen_speed
-	elif ahead_screen_speed < 0.0:
-		time_to_recycle = maxf(0.0, ahead.y + minimum_spawn_distance * 2.0) / -ahead_screen_speed
-	return time_to_close >= time_to_recycle
+	var closing_speed := maxf(0.0, behind.actual_world_speed - ahead.actual_world_speed)
+	var braking_distance := maxf(0.0, behind.actual_world_speed * behind.actual_world_speed - ahead.actual_world_speed * ahead.actual_world_speed) / (2.0 * NPC_BRAKING)
+	var required := minimum_lane_gap + (braking_distance + closing_speed * BRAKING_REACTION_SECONDS) * GameConfig.ROAD_SCROLL_MULTIPLIER
+	# Retained method name for existing callers, but there is no player-speed
+	# recycle exemption: admission must leave an actually brakeable body gap.
+	return absf(first.y - second.y) - first.half_length - second.half_length >= required
 
 func collision_distance_for(vehicle: TrafficVehicle) -> float:
 	return GameConfig.COLLISION_LONGITUDINAL_DISTANCE + vehicle.half_length - TrafficVehicle.NORMAL_HALF_LENGTH
@@ -911,6 +1026,16 @@ func _closure_can_continue() -> bool:
 	if reachable_player_lanes(_player_lane, player_y, GameConfig.COLLISION_LONGITUDINAL_DISTANCE).is_empty():
 		return false
 	var reserved_lanes := lane_events.closed_lanes()
+	if is_zero_approx(lane_events._travel_distance):
+		var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / lane_count
+		for vehicle in vehicles:
+			for closed_lane in reserved_lanes:
+				if absf(vehicle.lane_position - closed_lane) * lane_width >= vehicle.half_width + lane_width * GameConfig.LANE_EVENT_CORE_HALF_LANE_RATIO:
+					continue
+				var net_gap := vehicle.y - lane_events._core_y() - maxf(62.0, vehicle.half_length + 20.0) - FOLLOWING_BODY_MARGIN
+				var stopping_distance := (vehicle.actual_world_speed * vehicle.actual_world_speed / (2.0 * NPC_BRAKING) + vehicle.actual_world_speed * BRAKING_REACTION_SECONDS) * GameConfig.ROAD_SCROLL_MULTIPLIER
+				if net_gap >= -maxf(62.0, vehicle.half_length + 20.0) * 2.0 and net_gap < stopping_distance:
+					return false
 	for vehicle in vehicles:
 		if vehicle.change_started and reserved_lanes.has(vehicle.target_lane):
 			return false

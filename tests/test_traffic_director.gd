@@ -150,25 +150,35 @@ func _init() -> void:
 	director.update_vehicle(offscreen_random_changer, offscreen_random_changer.warning_remaining + 0.01, offscreen_random_changer.cruise_speed)
 	assert(offscreen_random_changer.change_started and not is_equal_approx(offscreen_random_changer.lane_position, original_random_lane_position), "A random lane change may start inside the visible area only after its turn-signal warning completes")
 
-	var overtaker = director.acquire_vehicle(TrafficDirector.Kind.FAST_OVERTAKE, 0, 820.0)
-	director.update_vehicle(overtaker, 1.0, 760.0)
+	var arrival_director := TrafficDirector.new(746)
+	var overtaker = arrival_director.acquire_vehicle(TrafficDirector.Kind.FAST_OVERTAKE, 0, 820.0)
+	for step in range(180):
+		arrival_director.update_vehicle(overtaker, 1.0 / 60.0, 760.0)
+		if overtaker.overtake_warning_remaining > 0.0:
+			break
 	assert(overtaker.overtake_warning_remaining >= 1.0, "Fast overtaker must warn for at least one visible second before collision risk")
+	assert(director._is_lane_change_visible(overtaker), "The arrival warning must start with the actual vehicle visible, not at a frozen partial-offscreen staging point")
 	assert(director.is_fast_spawn_fair(760.0, 1), "Fast overtaker must use the player-speed reaction-distance fairness check")
 	assert(TrafficDirector.fast_warning_y(700.0) >= 0.0 and TrafficDirector.fast_warning_y(700.0) <= 720.0, "Fast warning must be visible in the viewport")
 
 	director.reset()
-	var route_blocker = director.acquire_vehicle(TrafficDirector.Kind.STEADY_SLOW, 1, 390.0)
-	var route_overtaker = director.acquire_vehicle(TrafficDirector.Kind.FAST_OVERTAKE, 1, 700.0)
+	var route_blocker = director.acquire_vehicle(TrafficDirector.Kind.STEADY_SLOW, 1, 350.0)
+	var route_overtaker = director.acquire_vehicle(TrafficDirector.Kind.FAST_OVERTAKE, 1, 660.0)
+	# This is an already-braked queue state, not an impossible 920-speed car
+	# materialized 310px behind a 200-speed leader with no stopping distance.
+	route_overtaker.actual_world_speed = 200.0
 	route_blocker.spawn_was_fair = true
 	route_overtaker.spawn_was_fair = true
 	director.vehicles.assign([route_blocker, route_overtaker])
-	director.update_vehicle(route_overtaker, 0.1, 760.0)
+	director._spawn_cooldown = 1000.0
+	director.lane_events.enabled = false
+	director.tick(1.0 / 60.0, 200.0, 2)
 	assert(route_overtaker.lane_change_enabled, "Fast overtaker must plan a lane change when slower NPC traffic blocks its route")
 	assert(abs(route_overtaker.target_lane - route_overtaker.lane) == 1, "Fast overtaker must select an adjacent overtaking lane")
 	assert(route_overtaker.warning_remaining > 0.0, "Fast overtaker must signal before following its planned route")
 	var starting_route_lane: int = route_overtaker.lane
-	for _step in range(50):
-		director.update_vehicle(route_overtaker, 0.1, 760.0)
+	for _step in range(480):
+		director.tick(1.0 / 60.0, 200.0, 2)
 		if route_overtaker.y < route_blocker.y:
 			break
 	assert(route_overtaker.lane != starting_route_lane, "Fast overtaker must complete its planned lane change before passing the blocker")

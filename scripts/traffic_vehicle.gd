@@ -35,11 +35,19 @@ var previous_lane_position := 0.0
 var lateral_velocity := 0.0
 var previous_y := 0.0
 var actual_world_speed := 0.0
+var lane_change_wait_seconds := 0.0
+var lane_change_reservation_active := false
+var lane_change_cooldown := 0.0
+var arrival_warning_started := false
+var last_lateral_distance := 0.0
+var motion_generation := 0
+var has_entered_viewport := false
 
 func _init(vehicle_kind: int, initial_lane: int, initial_y: float, change_target: int = -1, variant: int = 0, assigned_cruise_speed: float = -1.0) -> void:
 	configure(vehicle_kind, initial_lane, initial_y, change_target, variant, assigned_cruise_speed)
 
 func configure(vehicle_kind: int, initial_lane: int, initial_y: float, change_target: int = -1, variant: int = 0, assigned_cruise_speed: float = -1.0) -> void:
+	motion_generation += 1
 	kind = vehicle_kind
 	lane = initial_lane
 	target_lane = change_target
@@ -63,6 +71,12 @@ func configure(vehicle_kind: int, initial_lane: int, initial_y: float, change_ta
 	visual_variant = maxi(0, variant)
 	cruise_speed = assigned_cruise_speed if assigned_cruise_speed > 0.0 else _cruise_speed_for_kind(kind)
 	actual_world_speed = cruise_speed
+	lane_change_wait_seconds = 0.0
+	lane_change_reservation_active = false
+	lane_change_cooldown = 0.0
+	arrival_warning_started = false
+	last_lateral_distance = 0.0
+	has_entered_viewport = false
 	lane_change_enabled = kind == SIGNAL_CHANGE_KIND
 
 static func _cruise_speed_for_kind(vehicle_kind: int) -> float:

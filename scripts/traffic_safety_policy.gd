@@ -58,7 +58,7 @@ static func would_form_full_lane_wall_during(
 		entries.append({
 			"lane": lane,
 			"y": float(candidate.y),
-			"velocity": -float(candidate.cruise_speed) * scroll_multiplier,
+			"velocity": -float(candidate.actual_world_speed) * scroll_multiplier,
 		})
 	for other in vehicles:
 		if other == candidate:
@@ -67,7 +67,7 @@ static func would_form_full_lane_wall_during(
 			entries.append({
 				"lane": lane,
 				"y": float(other.y),
-				"velocity": -float(other.cruise_speed) * scroll_multiplier,
+				"velocity": -float(other.actual_world_speed) * scroll_multiplier,
 			})
 	var critical_times: Array[float] = [0.0, maxf(0.0, duration)]
 	for first_index in range(entries.size()):
