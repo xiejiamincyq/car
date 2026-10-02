@@ -8,6 +8,9 @@ const RunRating = preload("res://scripts/run_rating.gd")
 const CURRENT_VERSION := 6
 
 var save_path: String
+var last_load_status: StringName = &"missing"
+var last_save_error: Error = OK
+var _load_block_error: Error = OK
 
 func _init(path: String = "user://save.cfg") -> void:
 	save_path = path
@@ -41,16 +44,54 @@ static func default_data() -> Dictionary:
 	}
 
 func load_data() -> Dictionary:
-	var config := ConfigFile.new()
-	if config.load(save_path) != OK:
+	_load_block_error = OK
+	var primary := _read_candidate(save_path)
+	if primary.status == &"valid":
+		last_load_status = &"primary"
+		return primary.data
+	if primary.status == &"io_error":
+		last_load_status = &"io_error"
+		_load_block_error = primary.error
 		return default_data()
+	var backup := _read_candidate(save_path + ".bak")
+	if backup.status == &"valid":
+		last_load_status = &"backup"
+		return backup.data
+	last_load_status = &"io_error" if backup.status == &"io_error" else (&"missing" if primary.status == &"missing" and backup.status == &"missing" else &"invalid")
+	if last_load_status != &"missing":
+		_load_block_error = backup.error if backup.status == &"io_error" else ERR_INVALID_DATA
+	return default_data()
+
+func _read_candidate(path: String) -> Dictionary:
+	var config := ConfigFile.new()
+	var error := _load_config(path, config)
+	if error != OK:
+		var status: StringName = &"missing" if error == ERR_FILE_NOT_FOUND else (&"invalid" if error == ERR_PARSE_ERROR else &"io_error")
+		return {"status": status, "data": {}, "error": error}
+	var data := _data_from_config(config)
+	return {"status": &"invalid" if data.is_empty() else &"valid", "data": data, "error": ERR_INVALID_DATA if data.is_empty() else OK}
+
+func _load_config(path: String, config: ConfigFile) -> Error:
+	# Opening explicitly keeps absence distinct from permission/read failures.
+	# ConfigFile.load() can report the same generic open error for both.
+	var file := FileAccess.open(path, FileAccess.READ)
+	if file == null:
+		return FileAccess.get_open_error()
+	var content := file.get_as_text()
+	var read_error := file.get_error()
+	file.close()
+	if read_error != OK and read_error != ERR_FILE_EOF:
+		return read_error
+	return config.parse(content)
+
+static func _data_from_config(config: ConfigFile) -> Dictionary:
 	var version = _value_or_null(config, "meta", "version")
 	if typeof(version) != TYPE_INT:
-		return default_data()
+		return {}
 	if version == 0:
 		return _migrate_version_zero(config)
 	if version < 1 or version > CURRENT_VERSION:
-		return default_data()
+		return {}
 	var legacy_audio_volume = _value_or_null(config, "settings", "audio_volume")
 	var candidate := {
 		"version": CURRENT_VERSION,
@@ -82,12 +123,31 @@ func load_data() -> Dictionary:
 			"track_results": _value_or_null(config, "tour", "track_results"),
 		},
 	}
-	var validated := _validated_data(candidate)
-	return default_data() if validated.is_empty() else validated
+	return _validated_data(candidate)
 
 func save_data(data: Dictionary) -> bool:
+	last_save_error = OK
+	# Fallback defaults are playable, not permission to replace an old career.
+	# Only an explicit successful reload can clear a failed-load write guard.
+	if _load_block_error != OK:
+		last_save_error = _load_block_error
+		return false
 	var validated := _validated_data(data)
 	if validated.is_empty():
+		last_save_error = ERR_INVALID_DATA
+		return false
+	var primary := _read_candidate(save_path)
+	var backup_path := save_path + ".bak"
+	var backup := _read_candidate(backup_path)
+	# An unreadable file may still contain the only good save. Do not replace it
+	# with in-memory defaults or reinterpret an access error as data corruption.
+	if primary.status == &"io_error" or backup.status == &"io_error":
+		last_save_error = primary.error if primary.status == &"io_error" else backup.error
+		return false
+	# Check the disk even on a fresh instance: no valid candidate means damaged
+	# evidence must remain intact. Only two missing files are a fresh profile.
+	if primary.status != &"valid" and backup.status != &"valid" and (primary.status == &"invalid" or backup.status == &"invalid"):
+		last_save_error = ERR_INVALID_DATA
 		return false
 	var config := ConfigFile.new()
 	config.set_value("meta", "version", CURRENT_VERSION)
@@ -101,27 +161,26 @@ func save_data(data: Dictionary) -> bool:
 		config.set_value("tour", key, validated.tour[key])
 
 	var temporary_path := save_path + ".tmp"
-	var backup_path := save_path + ".bak"
-	if config.save(temporary_path) != OK:
+	last_save_error = config.save(temporary_path)
+	if last_save_error != OK:
 		return false
 	var target_absolute := ProjectSettings.globalize_path(save_path)
 	var backup_absolute := ProjectSettings.globalize_path(backup_path)
-	if FileAccess.file_exists(save_path):
-		if FileAccess.file_exists(backup_path):
-			DirAccess.remove_absolute(backup_absolute)
-		if DirAccess.copy_absolute(target_absolute, backup_absolute) != OK:
+	# Only a validated primary may replace a backup. After recovery, leave the
+	# existing good backup untouched until a new primary has been published.
+	if primary.status == &"valid":
+		last_save_error = DirAccess.copy_absolute(target_absolute, backup_absolute)
+		if last_save_error != OK:
 			DirAccess.remove_absolute(ProjectSettings.globalize_path(temporary_path))
 			return false
 
 	var promote_error := _promote_temp_file(temporary_path, save_path)
 	if promote_error != OK:
-		if FileAccess.file_exists(backup_path) and not FileAccess.file_exists(save_path):
+		last_save_error = promote_error
+		if _read_candidate(backup_path).status == &"valid" and not FileAccess.file_exists(save_path):
 			DirAccess.copy_absolute(backup_absolute, target_absolute)
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(temporary_path))
-		DirAccess.remove_absolute(backup_absolute)
 		return false
-	if FileAccess.file_exists(backup_path):
-		DirAccess.remove_absolute(backup_absolute)
 	return true
 
 func _promote_temp_file(temporary_path: String, target_path: String) -> Error:
@@ -196,7 +255,7 @@ static func _valid_tour(tour: Dictionary) -> bool:
 static func _migrate_version_zero(config: ConfigFile) -> Dictionary:
 	var best_score = config.get_value("progress", "best_score", 0)
 	if typeof(best_score) != TYPE_INT or best_score < 0:
-		return default_data()
+		return {}
 	var migrated := default_data()
 	if best_score > 0:
 		migrated.top_scores.append({"score": best_score, "difficulty": 1, "distance": 0.0, "date": "legacy"})

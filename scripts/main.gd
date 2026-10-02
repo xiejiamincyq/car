@@ -138,6 +138,8 @@ var submenu_return := "title"
 var save_store: SaveStore
 var save_data: Dictionary
 var persistence_enabled := false
+var persistence_notice: Label
+var persistence_notice_key := ""
 var result_persisted := false
 var is_new_record := false
 var last_run_rating: Dictionary = {}
@@ -212,6 +214,8 @@ func _ready() -> void:
 	result_best_scores = $CanvasLayer/ResultScreen/Center/Card/Content/BestScores
 	new_record_label = $CanvasLayer/ResultScreen/Center/Card/Content/NewRecord
 	feedback_banner = $CanvasLayer/FeedbackBanner
+	persistence_notice = preload("res://scripts/ui/persistence_notice.gd").new()
+	$CanvasLayer.add_child(persistence_notice)
 	roadside_renderer = RoadsideRenderer.new()
 	roadside_renderer.name = "RoadsideRenderer"
 	roadside_renderer.source_main = self
@@ -938,8 +942,7 @@ func _back_to_tour_from_garage() -> void:
 	_open_tour_map()
 
 func _save_tour_selection() -> void:
-	if persistence_enabled:
-		save_store.save_data(save_data)
+	_write_save_data()
 
 func _show_settings() -> void:
 	submenu_return = "title"
@@ -1100,6 +1103,11 @@ func _configure_persistence(store: SaveStore, enabled: bool) -> void:
 	save_store = store
 	persistence_enabled = enabled
 	save_data = save_store.load_data() if enabled else SaveStore.default_data()
+	persistence_notice_key = ""
+	if enabled:
+		match save_store.last_load_status:
+			&"backup": persistence_notice_key = "persistence.recovered"
+			&"invalid", &"io_error": persistence_notice_key = "persistence.load_blocked"
 	_apply_saved_preferences()
 	_update_scoreboards()
 	_update_hud()
@@ -1137,9 +1145,24 @@ func _save_preferences() -> void:
 	save_data.settings.high_contrast = high_contrast_enabled
 	save_data.settings.reduced_flashing = reduced_flashing_enabled
 	save_data.settings.screen_shake = screen_shake_enabled
-	if persistence_enabled:
-		save_store.save_data(save_data)
+	_write_save_data()
 	_update_settings_labels()
+
+func _write_save_data() -> bool:
+	if not persistence_enabled:
+		return false
+	var saved := save_store.save_data(save_data)
+	persistence_notice_key = "" if saved else "persistence.save_failed"
+	_update_persistence_notice()
+	_update_settings_labels()
+	return saved
+
+func _update_persistence_notice() -> void:
+	if persistence_notice == null:
+		return
+	persistence_notice.set_wide_menu(tour_map_screen.visible or vehicle_select_screen.visible)
+	persistence_notice.visible = persistence_enabled and not persistence_notice_key.is_empty()
+	persistence_notice.text = _text(persistence_notice_key) if persistence_notice.visible else ""
 
 func _text(key: String, values: Array = []) -> String:
 	return GameText.get_text(key, language, values)
@@ -1178,12 +1201,14 @@ func _apply_localized_texts() -> void:
 	$CanvasLayer/ConfirmationScreen/Center/Card/Content/CancelButton.text = _text("confirm.no")
 	if confirmation_screen.visible and not destructive_action.is_empty():
 		$CanvasLayer/ConfirmationScreen/Center/Card/Content/Prompt.text = _text("confirm.%s" % destructive_action)
+	_update_persistence_notice()
 	_update_settings_labels()
 
 func _update_settings_labels() -> void:
 	if settings_audio_panel == null:
 		return
-	settings_audio_panel.synchronize(audio_director.master_volume, audio_director.music_volume, audio_director.effects_volume, language, persistence_enabled)
+	var save_failed := persistence_notice_key in ["persistence.save_failed", "persistence.load_blocked"]
+	settings_audio_panel.synchronize(audio_director.master_volume, audio_director.music_volume, audio_director.effects_volume, language, persistence_enabled, save_failed)
 	settings_mute_button.text = _text("settings.mute", [_text("common.on" if audio_director.muted else "common.off")])
 	settings_fullscreen_button.text = _text("settings.display", [_text("common.fullscreen" if fullscreen_enabled else "common.windowed")])
 	settings_language_button.text = _text("settings.language", [_text("settings.language.%s" % language_preference)])
@@ -1231,6 +1256,7 @@ func _player_lane() -> int:
 	return clampi(int(floor((drive.lateral_position + GameConfig.ROAD_HALF_WIDTH) / lane_width)), 0, GameConfig.ROAD_LANE_COUNT - 1)
 
 func _update_hud() -> void:
+	_update_persistence_notice()
 	speed_label.text = "%03d" % roundi(drive.speed * GameConfig.HUD_SPEED_SCALE)
 	position_label.text = _text("hud.distance.bar", [roundi(run.distance), roundi(run.progression.finish_distance)])
 	score_label.text = _text("hud.score.compact", ["%06d" % run.score])
@@ -1323,8 +1349,7 @@ func _persist_result_once() -> void:
 	save_data = outcome.data
 	is_new_record = outcome.new_record
 	last_run_rating = outcome.rating
-	if persistence_enabled:
-		save_store.save_data(save_data)
+	_write_save_data()
 	_update_scoreboards()
 
 func _tour_medal_for_result() -> int:

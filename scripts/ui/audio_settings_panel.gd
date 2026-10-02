@@ -57,7 +57,7 @@ func _ready() -> void:
 		control.focus_previous = control.get_path_to(previous)
 		control.focus_next = control.get_path_to(next)
 
-func synchronize(master: float, music: float, effects: float, language: String, persistent: bool = true) -> void:
+func synchronize(master: float, music: float, effects: float, language: String, persistent: bool = true, persistence_failed: bool = false) -> void:
 	var values := [master, music, effects]
 	for index in CHANNELS.size():
 		var channel: StringName = CHANNELS[index]
@@ -66,7 +66,10 @@ func synchronize(master: float, music: float, effects: float, language: String, 
 		get_node("%s/Value" % channel).text = "%d%%" % roundi(values[index] * 100.0)
 		# Accessible name also conveys the control's channel when its label is not focused.
 		sliders[index].tooltip_text = get_node("%s/Name" % channel).text
-	get_node("Hint").text = GameText.get_text("settings.audio.hint" if persistent else "settings.audio.session_hint", language)
+	var hint_key := "settings.audio.hint" if persistent else "settings.audio.session_hint"
+	if persistent and persistence_failed:
+		hint_key = "settings.audio.failed_hint"
+	get_node("Hint").text = GameText.get_text(hint_key, language)
 
 func focus_first_channel() -> void:
 	sliders[0].grab_focus()

@@ -3,9 +3,11 @@ extends SceneTree
 const SaveStore = preload("res://scripts/save_store.gd")
 const FailingSaveStore = preload("res://tests/failing_save_store.gd")
 
-var test_path := "user://test_neon_coast_save.cfg"
+var test_folder := "res://tmp/save-store-%d-%d" % [OS.get_process_id(), Time.get_ticks_usec()]
+var test_path := test_folder + "/synthetic-save.cfg"
 
 func _init() -> void:
+	assert(DirAccess.make_dir_recursive_absolute(test_folder) == OK, "An isolated save fixture directory must be created")
 	_cleanup()
 
 	var store := SaveStore.new(test_path)
@@ -123,6 +125,9 @@ func _init() -> void:
 	damaged_v5.save(test_path)
 	assert(store.load_data() == SaveStore.default_data(), "Invalid v5 tour fields must fail closed to safe defaults")
 
+	assert(not store.save_data(expected), "Loading invalid evidence must block implicit replacement")
+	_cleanup()
+	assert(store.load_data() == SaveStore.default_data() and store.last_load_status == &"missing", "Explicitly reloading a fresh fixture clears the invalid-load guard")
 	assert(store.save_data(expected), "The pre-failure save must exist")
 	var failing_store := FailingSaveStore.new(test_path)
 	var replacement := expected.duplicate(true)
@@ -131,6 +136,7 @@ func _init() -> void:
 	assert(store.load_data().career.runs == 7, "A failed promotion must preserve the prior readable save")
 
 	_cleanup()
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(test_folder))
 	print("TEST_COMPLETE test_save_store.gd")
 	quit()
 
