@@ -79,3 +79,9 @@ GitHub已备份至`codex/product-ready-20261002`分支，当前已确认远端�
 独立交通审查发现并交实现代理：碰撞offset被纳入actual后次帧再次添加（真实红复现200→300→391.5），以及高玩家速度/250ms步长下施工核心帧后位置与NPC帧前位置混用。两项正补反例与修复，不以首批跟车绿掩盖。15例首次修后真实有低曝光/重叠，记录失败后继续修调度与预测，不放宽已冻结阈值。
 
 历史通知：此前“Codex主导、网页监督”通知显示Unknown error，原模型重试后仍未收到新回复，不能声称网页确认。用户随后取消网页端使用，此通知不再重试，后续只做本地授权执行与复核。
+
+## R4.3：运行资源白名单准备
+
+导出配置由全资源改为127项显式运行依赖，保留EXE/PCK分离，排除测试、临时证据、源素材及旧资源。新增只读逻辑资源审计与负控测试，详见[运行清单](release-runtime-manifest.md)。这是静态准备，不是实际PCK/模板、许可材料或最终包的验证。
+
+旧配置9项红、依赖闭包及缓存拒绝补测红后修复转绿。父审读4个实现/测试/文档文件，将`test_export_resource_manifest.gd`纳入runner强制完成标记后运行`./scripts/tests/run_tests.ps1 -TestFilter test_export_resource_manifest.gd -TestTimeoutSeconds 40`：退出0、127 logical resources、0失败、TEST_COMPLETE、ALL 1 TESTS PASSED。未导出、打包或发布，版本与应用身份不变。
