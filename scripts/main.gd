@@ -378,7 +378,10 @@ func _process(delta: float) -> void:
 	_update_repair_pickups(delta)
 	_update_coins(delta)
 	collision.advance(delta)
-	_check_collisions()
+	var previous_player_center: Variant = null
+	if delta > 0.0:
+		previous_player_center = Vector2(get_viewport_rect().size.x * 0.5 + lateral_before_step, TrackGeometry.player_y(get_viewport_rect().size.y))
+	_check_collisions(previous_player_center)
 	if run.phase == RunState.Phase.RUNNING:
 		_award_pass_events()
 	screen_shake = screen_shake.move_toward(Vector2.ZERO, 140.0 * delta)
@@ -654,7 +657,7 @@ func _update_coins(delta: float) -> void:
 		feedback.spawn_coin(coin_center, run.combo.multiplier)
 		audio_director.play_coin_pickup(run.combo.multiplier)
 
-func _check_collisions() -> void:
+func _check_collisions(previous_player_center: Variant = null) -> void:
 	if run.phase != RunState.Phase.RUNNING:
 		return
 	var viewport_size := get_viewport_rect().size
@@ -664,13 +667,23 @@ func _check_collisions() -> void:
 	var player_center := Vector2(center_x + drive.lateral_position, TrackGeometry.player_y(viewport_size.y))
 	for vehicle in traffic.vehicles:
 		var traffic_center := Vector2(road_left + lane_width * (vehicle.lane_position + 0.5), vehicle.y)
-		if absf(traffic_center.x - player_center.x) < traffic.collision_lateral_distance_for(vehicle) and absf(traffic_center.y - player_center.y) < traffic.collision_distance_for(vehicle):
+		var extents := Vector2(traffic.collision_lateral_distance_for(vehicle), traffic.collision_distance_for(vehicle))
+		var offset := traffic_center - player_center
+		var touching := absf(offset.x) < extents.x and absf(offset.y) < extents.y
+		var normal := ImpactModel.contact_normal(offset, extents)
+		if previous_player_center is Vector2:
+			# Frame-end chord approximation; large frames with piecewise NPC lane
+			# movement are not a complete substep-path CCD guarantee.
+			var previous_traffic_center := Vector2(road_left + lane_width * (vehicle.previous_lane_position + 0.5), vehicle.previous_y)
+			var entry := ImpactModel.swept_rect_entry(previous_traffic_center - previous_player_center, offset, extents)
+			if entry.hit:
+				touching = true
+				normal = entry.normal
+		if touching:
 			var key := vehicle.get_instance_id()
 			if impact_contacts.has(key):
 				continue
 			impact_contacts[key] = vehicle
-			var extents := Vector2(traffic.collision_lateral_distance_for(vehicle), traffic.collision_distance_for(vehicle))
-			var normal := ImpactModel.contact_normal(traffic_center-player_center, extents)
 			var mass := 2.5 if vehicle.kind == TrafficDirector.Kind.TRUCK else (1.3 if vehicle.visual_variant % 2 == 1 else 1.0)
 			var other_velocity := Vector2(vehicle.lateral_velocity / GameConfig.ROAD_SCROLL_MULTIPLIER, -vehicle.actual_world_speed) * GameConfig.HUD_SPEED_SCALE
 			var impact_speed := drive.speed

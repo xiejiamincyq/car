@@ -34,3 +34,32 @@ static func contact_normal(offset: Vector2, extents: Vector2) -> Vector2:
 	if absf(offset.x) / maxf(1.0, extents.x) > absf(offset.y) / maxf(1.0, extents.y):
 		return Vector2(1.0 if offset.x >= 0.0 else -1.0, 0.0)
 	return Vector2(0.0, 1.0 if offset.y > 0.0 else -1.0)
+
+# Relative centre offsets (other minus player), in screen units. Detect only a
+# new entry into the OPEN rectangle; existing overlap remains endpoint policy.
+# The normal points player -> other at entry, not at a possibly separated end.
+static func swept_rect_entry(start: Vector2, end: Vector2, extents: Vector2) -> Dictionary:
+	var miss := {"hit":false, "fraction":0.0, "normal":Vector2.ZERO}
+	if extents.x <= 0.0 or extents.y <= 0.0:
+		return miss
+	if absf(start.x) < extents.x and absf(start.y) < extents.y:
+		return miss
+	var enter := -INF
+	var leave := INF
+	var normal := Vector2.ZERO
+	for axis in range(2):
+		var movement: float = end[axis] - start[axis]
+		if movement == 0.0:
+			if absf(start[axis]) >= extents[axis]: return miss
+			continue
+		var first: float = (-extents[axis] - start[axis]) / movement
+		var last: float = (extents[axis] - start[axis]) / movement
+		var near := minf(first, last)
+		if near > enter:
+			enter = near
+			normal = Vector2.ZERO
+			normal[axis] = 1.0 if movement < 0.0 else -1.0
+		leave = minf(leave, maxf(first, last))
+	var fraction := maxf(0.0, enter)
+	if fraction >= minf(1.0, leave): return miss
+	return {"hit":true, "fraction":fraction, "normal":normal}
