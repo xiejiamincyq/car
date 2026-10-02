@@ -8,9 +8,11 @@ func _init() -> void:
 func _run() -> void:
 	var main = MainScene.instantiate()
 	root.add_child(main)
-	assert(InputMap.has_action("overdrive_tap"), "The main scene must register a dedicated W-only overdrive tap action")
-	var overdrive_events := InputMap.action_get_events("overdrive_tap")
-	assert(overdrive_events.size() == 1 and overdrive_events[0] is InputEventKey and overdrive_events[0].keycode == KEY_W, "The Up arrow must continue accelerating without counting toward the W-only double tap")
+	var forward_keys: Array[int] = []
+	for event in InputMap.action_get_events("accelerate"):
+		if event is InputEventKey:
+			forward_keys.append(event.keycode)
+	assert(KEY_W in forward_keys and KEY_UP in forward_keys, "Both forward bindings must use the shared accelerate action")
 	main.drive.speed = 0.0
 	main.road_scroll = 50.0
 	main.collision.invulnerability_remaining = 0.5

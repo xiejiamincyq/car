@@ -62,6 +62,8 @@ var lateral_velocity := 0.0
 var lateral_impulse := 0.0
 var last_impact_normal := Vector2.UP
 var overdrive: OverdriveController
+var forward_keys_down: Dictionary = {}
+var forward_tap_blocked := false
 var road_scroll := 0.0
 var screen_shake := Vector2.ZERO
 var audio_director: AudioDirector
@@ -223,7 +225,37 @@ func _ready() -> void:
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_APPLICATION_FOCUS_OUT:
+		if overdrive != null:
+			_cancel_forward_taps()
 		_pause_for_focus_loss()
+	elif what == NOTIFICATION_APPLICATION_FOCUS_IN and not Input.is_action_pressed("accelerate"):
+		# Focus loss can discard key-up events; a released logical action re-arms input.
+		forward_keys_down.clear()
+		forward_tap_blocked = false
+
+func _input(event: InputEvent) -> void:
+	if overdrive == null or not event is InputEventKey or event.echo:
+		return
+	var key_id: int = event.physical_keycode if event.physical_keycode != 0 else event.keycode
+	if not event.pressed:
+		if not forward_keys_down.has(key_id) and not event.is_action_released("accelerate"):
+			return
+		forward_keys_down.erase(key_id)
+		if forward_keys_down.is_empty() and not Input.is_action_pressed("accelerate"):
+			forward_tap_blocked = false
+		return
+	if not event.is_action_pressed("accelerate"):
+		return
+	var was_released := forward_keys_down.is_empty()
+	forward_keys_down[key_id] = true
+	if run.phase != RunState.Phase.RUNNING:
+		_cancel_forward_taps()
+	elif was_released and not forward_tap_blocked:
+		overdrive.observe_accelerate_press(run.fuel, run.max_fuel)
+
+func _cancel_forward_taps() -> void:
+	overdrive.cancel_tap_sequence()
+	forward_tap_blocked = not forward_keys_down.is_empty() or Input.is_action_pressed("accelerate")
 
 func _exit_tree() -> void:
 	if audio_director != null:
@@ -233,7 +265,7 @@ func _pause_for_focus_loss() -> void:
 	if run == null or (run.phase != RunState.Phase.RUNNING and run.phase != RunState.Phase.COUNTDOWN):
 		return
 	run.pause_for_focus_loss()
-	overdrive.cancel_tap_sequence()
+	_cancel_forward_taps()
 	audio_director.pause_for_gameplay()
 	_update_hud()
 	$CanvasLayer/PauseScreen/Center/Card/Content/ResumeButton.grab_focus()
@@ -272,6 +304,7 @@ func _process(delta: float) -> void:
 		queue_redraw()
 		return
 	if run.phase != RunState.Phase.RUNNING:
+		_cancel_forward_taps()
 		acceleration_visual_strength = 0.0
 		brake_visual_strength = 0.0
 		steering_visual_strength = move_toward(steering_visual_strength, 0.0, delta * 7.0)
@@ -287,8 +320,6 @@ func _process(delta: float) -> void:
 	var accelerate_input := Input.get_action_strength("accelerate")
 	var brake_input := Input.get_action_strength("brake")
 	var steering_input := Input.get_axis("steer_left", "steer_right")
-	if Input.is_action_just_pressed("overdrive_tap"):
-		overdrive.observe_accelerate_press(run.fuel, run.max_fuel)
 	var overdrive_fuel_cost := overdrive.tick(delta, run.fuel)
 	run.consume_fuel(overdrive_fuel_cost)
 	var speed_before_step := drive.speed
@@ -813,6 +844,7 @@ func _reset_run(run_seed_override: int = -1) -> void:
 	lateral_impulse = 0.0
 	last_impact_normal = Vector2.UP
 	overdrive.reset()
+	_cancel_forward_taps()
 	road_scroll = 0.0
 	traffic.reset(current_run_seed)
 	collision = CollisionResponder.new(float(current_vehicle.collision_speed_penalty) * GameConfig.COLLISION_SPEED_PENALTY_MULTIPLIER, GameConfig.COLLISION_INVULNERABILITY_SECONDS)
@@ -945,7 +977,7 @@ func _pause_run() -> void:
 	if run.phase != RunState.Phase.RUNNING:
 		return
 	run.toggle_pause()
-	overdrive.cancel_tap_sequence()
+	_cancel_forward_taps()
 	audio_director.pause_for_gameplay()
 	_update_hud()
 	$CanvasLayer/PauseScreen/Center/Card/Content/ResumeButton.grab_focus()
@@ -1359,7 +1391,6 @@ func _overlay_text() -> String:
 
 func _ensure_input_actions() -> void:
 	_register_action("accelerate", [KEY_UP, KEY_W])
-	_register_action("overdrive_tap", [KEY_W], true)
 	_register_action("brake", [KEY_DOWN, KEY_S])
 	_register_action("steer_left", [KEY_LEFT, KEY_A])
 	_register_action("steer_right", [KEY_RIGHT, KEY_D])

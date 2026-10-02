@@ -86,7 +86,7 @@ const TEXT_ROWS := [
 	["common.fullscreen", "全屏", "FULLSCREEN"],
 	["common.windowed", "窗口", "WINDOWED"],
 	["controls.heading", "键盘操作", "KEYBOARD CONTROLS"],
-	["controls.body", "W / ↑  加速      双击 W  超载\nS / ↓  减速      A/D 或 ←/→  转向\nSpace  暂停      M  静音    F11  全屏\n菜单使用方向键，Enter 确认，Esc 返回", "W / ↑  ACCELERATE      DOUBLE-TAP W  OVERDRIVE\nS / ↓  BRAKE      A/D OR ←/→  STEER\nSPACE  PAUSE      M  MUTE      F11  FULLSCREEN\nARROW KEYS navigate, ENTER confirms, ESC goes back"],
+	["controls.body", "W / ↑  加速      双击前进键  超载\nS / ↓  减速      A/D 或 ←/→  转向\nSpace  暂停      M  静音    F11  全屏\n菜单使用方向键，Enter 确认，Esc 返回", "W / ↑  ACCELERATE      DOUBLE-TAP FORWARD  OVERDRIVE\nS / ↓  BRAKE      A/D OR ←/→  STEER\nSPACE  PAUSE      M  MUTE      F11  FULLSCREEN\nARROW KEYS navigate, ENTER confirms, ESC goes back"],
 	["pause.heading", "比赛暂停", "RACE PAUSED"],
 	["pause.resume", "继续比赛", "RESUME RACE"],
 	["pause.restart", "重新开始", "RESTART"],
