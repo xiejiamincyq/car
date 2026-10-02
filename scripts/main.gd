@@ -158,7 +158,7 @@ func _ready() -> void:
 	current_run_seed = run_seed_sequence.next_seed()
 	drive = DriveController.new(GameConfig.START_SPEED, GameConfig.MAX_SPEED, GameConfig.ACCELERATION, GameConfig.BRAKING, GameConfig.STEERING_SPEED, GameConfig.ROAD_HALF_WIDTH, 30.0)
 	traffic = TrafficDirector.new(current_run_seed, GameConfig.ROAD_LANE_COUNT, GameConfig.MIN_SPAWN_DISTANCE, GameConfig.MIN_TRAFFIC_GAP)
-	fuel_spawn_director = FuelSpawnDirector.new(_fuel_seed_for_run(current_run_seed), GameConfig.ROAD_LANE_COUNT, GameConfig.FUEL_PICKUP_INTERVAL)
+	fuel_spawn_director = FuelSpawnDirector.new(_fuel_seed_for_run(current_run_seed), GameConfig.ROAD_LANE_COUNT, DifficultyProfile.for_index(difficulty_index).fuel_spawn_interval)
 	coin_director = CoinGameplayDirector.new(_coin_seed_for_run(current_run_seed), GameConfig.ROAD_LANE_COUNT)
 	collision = CollisionResponder.new(GameConfig.COLLISION_SPEED_PENALTY * GameConfig.COLLISION_SPEED_PENALTY_MULTIPLIER, GameConfig.COLLISION_INVULNERABILITY_SECONDS)
 	run = RunState.new(GameConfig.MAX_FUEL, GameConfig.FUEL_DRAIN_PER_SECOND, GameConfig.FUEL_GRACE_SECONDS)
@@ -341,6 +341,9 @@ func _process(delta: float) -> void:
 	collision_visual_remaining = maxf(0.0, collision_visual_remaining - delta)
 	cone_hit_cooldown = maxf(0.0, cone_hit_cooldown - delta)
 	_update_knocked_cones(delta)
+	# The road moves before construction can alter speed. Supplies must use this
+	# same unwrapped world-pixel advance for both movement and spacing clocks.
+	var frame_forward_advance := maxf(0.0, drive.speed) * GameConfig.ROAD_SCROLL_MULTIPLIER * maxf(0.0, delta)
 	road_scroll = advance_road_scroll(road_scroll, drive.speed, delta, ROAD_MARK_REPEAT_DISTANCE)
 	var phase_before_tick := run.phase
 	run.tick(delta, drive.speed, drive.max_speed, forward_acceleration)
@@ -374,8 +377,8 @@ func _process(delta: float) -> void:
 	var effective_max_speed := (drive.max_speed + overdrive.speed_limit_bonus()) * integrity.max_speed_multiplier()
 	audio_director.update_overdrive(overdrive.is_active(), overdrive.intensity())
 	audio_director.update_driving(delta, drive.speed / maxf(1.0, effective_max_speed), accelerate_input > 0.0 and Input.is_action_just_pressed("accelerate"), traffic.vehicles)
-	_update_fuel_pickups(delta)
-	_update_repair_pickups(delta)
+	_update_fuel_pickups(delta, frame_forward_advance)
+	_update_repair_pickups(delta, frame_forward_advance)
 	_update_coins(delta)
 	collision.advance(delta)
 	var previous_player_center: Variant = null
@@ -569,7 +572,7 @@ func _event_plate_color() -> Color:
 		_:
 			return Color("42e8df")
 
-func _update_fuel_pickups(delta: float) -> void:
+func _update_fuel_pickups(delta: float, frame_forward_advance: float = -1.0) -> void:
 	var blocked_lanes := traffic.blocked_lanes_near(FuelSpawnDirector.PICKUP_SPAWN_Y, GameConfig.FUEL_SPAWN_SAFETY_DISTANCE)
 	for zone in repair_supplies.exclusion_zones():
 		if absf(zone.y-FuelSpawnDirector.PICKUP_SPAWN_Y) < GameConfig.FUEL_SPAWN_SAFETY_DISTANCE and not blocked_lanes.has(int(zone.x)):
@@ -577,15 +580,14 @@ func _update_fuel_pickups(delta: float) -> void:
 	for coin_lane in coin_director.blocked_lanes_near(FuelSpawnDirector.PICKUP_SPAWN_Y, GameConfig.FUEL_SPAWN_SAFETY_DISTANCE):
 		if not blocked_lanes.has(coin_lane):
 			blocked_lanes.append(coin_lane)
-	var spawned_pickup := fuel_spawn_director.tick(delta, blocked_lanes, _player_lane())
-	if spawned_pickup != null:
-		fuel_pickups.append(spawned_pickup)
+	var forward_advance := frame_forward_advance if frame_forward_advance >= 0.0 else maxf(0.0, drive.speed) * GameConfig.ROAD_SCROLL_MULTIPLIER * maxf(0.0, delta)
+	var spawned_pickup := fuel_spawn_director.tick(delta, blocked_lanes, _player_lane(), fuel_pickups.size(), forward_advance)
 	var viewport_size := get_viewport_rect().size
 	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / GameConfig.ROAD_LANE_COUNT
 	var player_center := Vector2(viewport_size.x * 0.5 + drive.lateral_position, TrackGeometry.player_y(viewport_size.y))
 	var active: Array[FuelPickup] = []
 	for pickup in fuel_pickups:
-		pickup.y += drive.speed * GameConfig.ROAD_SCROLL_MULTIPLIER * delta
+		pickup.y += forward_advance
 		var pickup_x := viewport_size.x * 0.5 - GameConfig.ROAD_HALF_WIDTH + lane_width * (pickup.lane + 0.5)
 		if absf(pickup_x - player_center.x) < 48.0 and absf(pickup.y - player_center.y) < 62.0:
 			run.add_fuel(GameConfig.FUEL_PICKUP_AMOUNT)
@@ -595,6 +597,10 @@ func _update_fuel_pickups(delta: float) -> void:
 		if pickup.y < viewport_size.y + 60.0:
 			active.append(pickup)
 	fuel_pickups = active
+	# Spawn success is at the end of this tick. Only older pickups experienced
+	# this frame's advance; retroactively moving the newborn breaks spacing.
+	if spawned_pickup != null:
+		fuel_pickups.append(spawned_pickup)
 
 func _fuel_spawn_exclusion_zones() -> Array[Vector2]:
 	var zones: Array[Vector2] = []
@@ -603,7 +609,7 @@ func _fuel_spawn_exclusion_zones() -> Array[Vector2]:
 	zones.append_array(repair_supplies.exclusion_zones())
 	return zones
 
-func _update_repair_pickups(delta: float) -> void:
+func _update_repair_pickups(delta: float, frame_forward_advance: float = -1.0) -> void:
 	var spawn_y := FuelSpawnDirector.PICKUP_SPAWN_Y
 	var blocked := traffic.blocked_lanes_near(spawn_y, GameConfig.FUEL_SPAWN_SAFETY_DISTANCE)
 	for lane in coin_director.blocked_lanes_near(spawn_y, GameConfig.FUEL_SPAWN_SAFETY_DISTANCE):
@@ -614,7 +620,7 @@ func _update_repair_pickups(delta: float) -> void:
 	var viewport_size := get_viewport_rect().size
 	var lane_width := GameConfig.ROAD_HALF_WIDTH*2.0/GameConfig.ROAD_LANE_COUNT
 	var center := Vector2(viewport_size.x*0.5+drive.lateral_position, TrackGeometry.player_y(viewport_size.y))
-	var collected: int = repair_supplies.tick(delta, drive.speed, blocked, _player_lane(), center, viewport_size.x*0.5-GameConfig.ROAD_HALF_WIDTH, lane_width, viewport_size.y)
+	var collected: int = repair_supplies.tick(delta, drive.speed, blocked, _player_lane(), center, viewport_size.x*0.5-GameConfig.ROAD_HALF_WIDTH, lane_width, viewport_size.y, frame_forward_advance)
 	var restored := integrity.repair(collected*repair_supplies.REPAIR_AMOUNT)
 	if restored > 0.0:
 		feedback.spawn_pickup(center)
@@ -1147,6 +1153,8 @@ func _apply_difficulty_profile() -> void:
 	var profile := DifficultyProfile.for_index(difficulty_index)
 	run.configure_difficulty(profile)
 	traffic.configure_difficulty(profile)
+	fuel_spawn_director.configure_schedule(profile.fuel_spawn_interval, profile.supply_active_limit, profile.supply_minimum_road_advance)
+	repair_supplies.configure_schedule(profile.repair_spawn_interval, profile.supply_active_limit, profile.supply_minimum_road_advance)
 
 func _save_preferences() -> void:
 	if save_data.is_empty():

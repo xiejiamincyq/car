@@ -28,11 +28,11 @@ func _run() -> void:
 	main.repair_supplies.spawner.spawn_remaining = 0
 	var spawn_y: float = main.FuelSpawnDirector.PICKUP_SPAWN_Y
 	for lane in range(3): main.fuel_pickups.append(main.FuelPickup.new(lane, spawn_y))
-	main._update_repair_pickups(0.0)
+	main._update_repair_pickups(0.01)
 	assert(main.repair_supplies.pickups.is_empty(), "Repair spawn must defer when fuel occupies all lanes")
 	main.fuel_pickups.clear()
 	main.repair_supplies.spawner.spawn_remaining = 0
-	main._update_repair_pickups(0.0)
+	main._update_repair_pickups(0.01)
 	assert(main.repair_supplies.pickups.size() == 1)
 	var pickup = main.repair_supplies.pickups[0]
 	assert(main._world_spawn_exclusion_zones().has(Vector2(pickup.lane, pickup.y)), "NPC spawn must reserve repairs")

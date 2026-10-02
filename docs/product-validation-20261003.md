@@ -117,3 +117,15 @@ GitHub已备份至`codex/product-ready-20261002`分支，当前已确认远端�
 `e9db4874b884a2efba7f8f977f5c50bbf6bd7f3b`上运行完整117项，期间生产/测试/配置未变；唯一已跟踪未提交改动为原有无关ADR。`tmp/product-full-regression-20261003-final.log`退出0，117个RUN、36个TEST_COMPLETE、`ALL 117 TESTS PASSED`；脚本/断言/解析/超时/缺完成标记均0。日志SHA-256为`B4F3DDACC1B7C38E6CCF773BA71EC1DB1A1B7174B8364A38334AC6626E536388`。
 
 仍有21条ObjectDB退出泄漏警告、13条resources-in-use退出提示，未屏蔽或当成零警告；不把旧测试退出时序判断外推为正式运行长期无泄漏。该结果关闭R1当前技术小片全回归，支持进入R3补给；不代替R2的1080有界组合、覆盖不足工况、R5实际图形长期运行/独立包或R6真人体验。当前GitHub已包含e9db487；原始tmp日志仅在本地，未上传。
+
+## R3.1：难度补给与真实道路进度
+
+Profile统一设置燃油6/7/8秒、维修10/12/14秒，恢复仍24/20，每类活跃最多2个。仅正时间且真实前进时推进计时/重试；最多一个待发，受阻按0.5秒有效前进重试，不积负时间债；成功后完整间隔和至少136道路像素才有下一件。相同配置幂等、真实切换保留道具/RNG并重置未来调度，同种子重开恢复一致序列。机会、生成和受阻尝试各自记录。
+
+旧行为红`tmp/product-supply-schedule-red.log`有17项有效失败，独立Main红`tmp/product-supply-integration-old-red-20261003.log`有6项有效失败，均正常到达完成标记，不以解析错误作红。修后36格（3难度×2种补给×60/120秒×30/60/120Hz）机会/计数/完整间隔及同种子序列通过：无阻塞120秒燃油20/17/15件，维修12/10/8件。燃油计数是空路调度夹具，维修含真实包装器移动/回收，均不是自然一局可拾量。
+
+父审及独立Main复核另闭合两处时序反例：施工碰撞阶段降速不能改写本帧已经走过的道路，燃油/维修现在共用施工前非取模道路快照（0.1/0.5秒受控样本22.5975/104.9375px，明确非自然碰撞样本）；新道具改为帧末出现，不倒算移动出生前的一整帧。原先两次成功之间账面136px但实物只隔1px，修后实物间距136px。红日志`tmp/product-supply-snapshot-old-red-20261003.log`、`tmp/product-supply-birth-spacing-red.log`、`tmp/product-supply-variable-spacing-main-red-20261003.log`全部保留。
+
+最终`tmp/product-supply-schedule-final-green.log`及`tmp/product-supply-integration-final-v2-20261003.log`退出0、有TEST_COMPLETE/ALL 1；独立Main无警告，验证停车/暂停/倒计时、额度/进度受阻、幂等、重开、奖励封顶/失败不复活与实际间距。旧fuel/repair专项也通过，repair仍有5个ObjectDB退出警告。父复核8项邻接测试各自到达ALL 1（difficulty、reset、fuel consumption、dynamic fairness、coin fairness、export manifest、forward input、player sweep）；外层shell在全部测试结束后因错误放置重定向符退出1，工具输出完整保存在`tmp/product-supply-adjacent-tool-output.txt`，不能写成外层退出0或原始重定向日志成功。
+
+保守取舍：使用本帧移除前活跃数与已有阻挡信息，刚释放容量时可多延后至下一次0.5秒重试，不能超额或补发洪峰；不为追数量绕开安全检查。金币仍使用原有独立速度口径，未顺带扩大物理重构。R3.2自然拾取/联合预算、新全量、R2完整矩阵及图形验收仍待完成，不能沿用117项旧提交结果宣称新增代码全量已过。

@@ -3,6 +3,10 @@ extends RefCounted
 
 const PROFILES := [
 	{
+		"fuel_spawn_interval": 6.0,
+		"repair_spawn_interval": 10.0,
+		"supply_active_limit": 2,
+		"supply_minimum_road_advance": 136.0,
 		"fuel_drain_multiplier": 0.80,
 		"integrity_damage_multiplier": 0.2,
 		"traffic_interval_multiplier": 1.15,
@@ -12,6 +16,10 @@ const PROFILES := [
 		"double_lane_closure_probability": 0.0,
 	},
 	{
+		"fuel_spawn_interval": 7.0,
+		"repair_spawn_interval": 12.0,
+		"supply_active_limit": 2,
+		"supply_minimum_road_advance": 136.0,
 		"fuel_drain_multiplier": 1.2,
 		"integrity_damage_multiplier": 0.5,
 		"traffic_interval_multiplier": 1.0,
@@ -21,6 +29,10 @@ const PROFILES := [
 		"double_lane_closure_probability": 0.0,
 	},
 	{
+		"fuel_spawn_interval": 8.0,
+		"repair_spawn_interval": 14.0,
+		"supply_active_limit": 2,
+		"supply_minimum_road_advance": 136.0,
 		"fuel_drain_multiplier": 2.0,
 		"integrity_damage_multiplier": 1.0,
 		"traffic_interval_multiplier": 0.85,

@@ -23,22 +23,22 @@ func _init() -> void:
 	var sequence_a: Array[int] = []
 	var sequence_b: Array[int] = []
 	for _spawn_index in range(6):
-		sequence_a.append(reproducible_a.tick(GameConfig.FUEL_PICKUP_INTERVAL, [], 1).lane)
-		sequence_b.append(reproducible_b.tick(GameConfig.FUEL_PICKUP_INTERVAL, [], 1).lane)
+		sequence_a.append(reproducible_a.tick(GameConfig.FUEL_PICKUP_INTERVAL, [], 1, 0, 200.0 * GameConfig.ROAD_SCROLL_MULTIPLIER * GameConfig.FUEL_PICKUP_INTERVAL).lane)
+		sequence_b.append(reproducible_b.tick(GameConfig.FUEL_PICKUP_INTERVAL, [], 1, 0, 200.0 * GameConfig.ROAD_SCROLL_MULTIPLIER * GameConfig.FUEL_PICKUP_INTERVAL).lane)
 	assert(sequence_a == sequence_b, "A fixed run seed must reproduce the fuel sequence")
 
 	var varied := FuelSpawnDirector.new(78, 3, GameConfig.FUEL_PICKUP_INTERVAL)
 	var varied_sequence: Array[int] = []
 	for _spawn_index in range(6):
-		varied_sequence.append(varied.tick(GameConfig.FUEL_PICKUP_INTERVAL, [], 1).lane)
+		varied_sequence.append(varied.tick(GameConfig.FUEL_PICKUP_INTERVAL, [], 1, 0, 200.0 * GameConfig.ROAD_SCROLL_MULTIPLIER * GameConfig.FUEL_PICKUP_INTERVAL).lane)
 	assert(varied_sequence != sequence_a, "Different run seeds must vary the fuel sequence")
 
 	var safe_spawn := FuelSpawnDirector.new(10, 3, GameConfig.FUEL_PICKUP_INTERVAL)
-	var only_center_safe = safe_spawn.tick(GameConfig.FUEL_PICKUP_INTERVAL, [0, 2], 1)
+	var only_center_safe = safe_spawn.tick(GameConfig.FUEL_PICKUP_INTERVAL, [0, 2], 1, 0, 200.0 * GameConfig.ROAD_SCROLL_MULTIPLIER * GameConfig.FUEL_PICKUP_INTERVAL)
 	assert(only_center_safe != null and only_center_safe.lane == 1, "Fuel must use the only safe reachable lane")
-	var delayed = safe_spawn.tick(GameConfig.FUEL_PICKUP_INTERVAL, [0, 1, 2], 1)
+	var delayed = safe_spawn.tick(GameConfig.FUEL_PICKUP_INTERVAL, [0, 1, 2], 1, 0, 200.0 * GameConfig.ROAD_SCROLL_MULTIPLIER * GameConfig.FUEL_PICKUP_INTERVAL)
 	assert(delayed == null, "Fuel must delay instead of spawning into a blocked route")
-	var adjacent_after_delay = safe_spawn.tick(0.5, [0, 2], 0)
+	var adjacent_after_delay = safe_spawn.tick(0.5, [0, 2], 0, 0, 200.0 * GameConfig.ROAD_SCROLL_MULTIPLIER * 0.5)
 	assert(adjacent_after_delay != null and adjacent_after_delay.lane == 1, "A delayed pickup must choose an adjacent reachable lane when it becomes safe")
 
 	var traffic := TrafficDirector.new(22)
