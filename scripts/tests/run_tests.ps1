@@ -34,7 +34,8 @@ $completionRequired = @(
     "test_persistence_restart.gd", "test_forward_overdrive_input.gd",
     "test_save_recovery.gd", "test_save_feedback.gd", "test_tail_transform.gd",
     "test_main_persistence_mode.gd", "test_product_copy.gd",
-    "test_export_resource_manifest.gd"
+    "test_export_resource_manifest.gd", "test_menu_flow.gd", "test_release_regression.gd",
+    "test_impact_sweep.gd", "test_traffic_all_speed_safety.gd"
 )
 $tests = @(Get-ChildItem (Join-Path $projectRoot "tests") -File -Filter $TestFilter | Sort-Object Name)
 if ($tests.Count -eq 0) {
@@ -43,6 +44,13 @@ if ($tests.Count -eq 0) {
 
 foreach ($test in $tests) {
     Write-Host "RUN $($test.Name)"
+    # This unchanged 180 x 300s simulation now includes 60 traffic substeps per
+    # simulated second. Keep its cases/assertions; budget the extra CPU work.
+    # Explicit caller timeouts still override this single large-test default.
+    $effectiveTimeoutSeconds = $TestTimeoutSeconds
+    if ($test.Name -eq "test_release_regression.gd" -and -not $PSBoundParameters.ContainsKey("TestTimeoutSeconds")) {
+        $effectiveTimeoutSeconds = 600
+    }
     $logToken = [Guid]::NewGuid().ToString("N")
     $stdoutPath = Join-Path ([IO.Path]::GetTempPath()) "neon-coast-$logToken.stdout.log"
     $stderrPath = Join-Path ([IO.Path]::GetTempPath()) "neon-coast-$logToken.stderr.log"
@@ -53,7 +61,7 @@ foreach ($test in $tests) {
     # --quit-after counts engine frames and may exit 0 before an async test's
     # assertions execute. Only the test may signal success; the wall-clock
     # watchdog terminates our own child process and records timeout as failure.
-    $deadline = [DateTime]::UtcNow.AddSeconds($TestTimeoutSeconds)
+    $deadline = [DateTime]::UtcNow.AddSeconds($effectiveTimeoutSeconds)
     $timedOut = $false
     while (-not $process.WaitForExit(250)) {
         if ([DateTime]::UtcNow -ge $deadline) {
@@ -73,10 +81,11 @@ foreach ($test in $tests) {
     }
 
     $hasScriptFailure = $combinedOutput -match "SCRIPT ERROR:|Assertion failed:|Parse Error:|Failed to load script|ERROR: Node not found"
-    $missingCompletion = $completionRequired -contains $test.Name -and
+    $requiresCompletion = $completionRequired -contains $test.Name -or $test.Name -like "test_product_*.gd"
+    $missingCompletion = $requiresCompletion -and
         $combinedOutput -notmatch ("(?m)^TEST_COMPLETE " + [regex]::Escape($test.Name) + "\s*$")
     if ($timedOut) {
-        Write-Host "TIMEOUT $($test.Name) after $TestTimeoutSeconds seconds (failed, not passed)"
+        Write-Host "TIMEOUT $($test.Name) after $effectiveTimeoutSeconds seconds (failed, not passed)"
     }
     if ($missingCompletion) {
         Write-Host "INCOMPLETE $($test.Name): expected terminal marker was not reached"

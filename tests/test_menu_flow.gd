@@ -15,8 +15,9 @@ func _run() -> void:
 	assert(title_screen.visible and start_button.has_focus(), "The game must open on a keyboard-focused title screen")
 	var title_card: Control = main.get_node("CanvasLayer/TitleScreen/Center/Card")
 	assert(title_screen.get_global_rect().encloses(title_card.get_global_rect()), "The full title card must fit inside the 720p viewport")
-	assert(main.get_node("CanvasLayer/TitleScreen/Center/Card/Content/Goal").text.contains("燃油"), "The title must explain the run objective")
-	assert(main.get_node("CanvasLayer/TitleScreen/Center/Card/Content/Goal").text.contains("检查点") and main.get_node("CanvasLayer/TitleScreen/Center/Card/Content/Goal").text.contains("3200"), "The title must explain checkpoint rewards and the concrete win condition")
+	var objective: String = main.get_node("CanvasLayer/TitleScreen/Center/Card/Content/Goal").text
+	assert(objective.contains("燃油耗尽"), "The title must explain the fuel failure condition")
+	assert(objective.contains("所选赛道终点") and objective.contains("完整度低于20%"), "The concise title objective must cover the selected track finish and integrity failure, not a fixed 3200m course")
 
 	main._show_settings()
 	assert(main.get_node("CanvasLayer/SettingsScreen").visible and not title_screen.visible, "Settings must be reachable from title")
@@ -46,4 +47,5 @@ func _run() -> void:
 	main.queue_free()
 	await process_frame
 	await process_frame
+	print("TEST_COMPLETE test_menu_flow.gd")
 	quit()

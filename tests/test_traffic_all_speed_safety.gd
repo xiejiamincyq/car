@@ -22,6 +22,7 @@ func _init() -> void:
 				traffic.tick(STEP_SECONDS, actual_speed, player_lane)
 				assert(not traffic.has_full_lane_wall(), "Seed %d speed %.0f must never form a three-lane NPC wall at step %d: %s" % [seed, player_speed, step, _traffic_signature(traffic.vehicles)])
 				assert(not traffic.has_vehicle_overlap(), "Seed %d speed %.0f must never allow NPC body clipping at step %d: %s" % [seed, player_speed, step, _traffic_signature(traffic.vehicles)])
+	print("TEST_COMPLETE test_traffic_all_speed_safety.gd")
 	quit()
 
 func _traffic_signature(vehicles: Array) -> String:

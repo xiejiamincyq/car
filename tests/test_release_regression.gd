@@ -12,6 +12,7 @@ func _init() -> void:
 		_assert_steady_run_clear_and_second_run(seed)
 	_assert_difficulty_stages_and_vehicle_kinds()
 	_assert_five_minute_multi_seed_stress()
+	print("TEST_COMPLETE test_release_regression.gd")
 	quit()
 
 func _assert_steady_run_clear_and_second_run(seed: int) -> void:
@@ -73,6 +74,7 @@ func _assert_five_minute_multi_seed_stress() -> void:
 					assert(traffic.vehicles.size() <= traffic.max_active_vehicles, "Seed %d lane %d speed %.0f must keep active traffic bounded" % [seed, player_lane, player_speed])
 					assert(traffic.allocated_vehicle_count <= traffic.max_active_vehicles, "Seed %d lane %d speed %.0f must reuse the traffic pool" % [seed, player_lane, player_speed])
 				assert(previous_spawn_count > 8, "Seed %d lane %d speed %.0f must create more than eight actual vehicles in five minutes" % [seed, player_lane, player_speed])
+		print("RELEASE_STRESS_PROGRESS seeds=%d/%d cases=%d simulated_seconds_per_case=%d" % [seed, RANDOM_SEED_COUNT, seed * 3 * PLAYER_SPEEDS.size(), STRESS_DURATION_SECONDS])
 
 func _spawn_count(traffic: TrafficDirector) -> int:
 	return traffic.spawn_sequence().split("|", false).size()

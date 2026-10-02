@@ -7,14 +7,20 @@ const SaveStore = preload("res://scripts/save_store.gd")
 const Recorder = preload("res://tests/playtest_session_recorder.gd")
 
 var failures: Array[String] = []
-var folder := "res://tmp/playtest-isolation-%d" % Time.get_ticks_usec()
+var folder := "res://tmp/playtest-isolation-synthetic-%d-%d" % [OS.get_process_id(), Time.get_ticks_usec()]
 
 func _init() -> void:
 	call_deferred("_run")
 
 func _run() -> void:
+	if DirAccess.dir_exists_absolute(folder):
+		_check(false, "Synthetic fixture directory must be new; never overwrite earlier fixtures")
+		print("TEST_COMPLETE test_playtest_isolation.gd")
+		quit(1)
+		return
 	_check(DirAccess.make_dir_recursive_absolute(folder) == OK, "Create isolated fixture directory")
 	var path := folder + "/synthetic-career.cfg"
+	print("PLAYTEST_ISOLATION_SYNTHETIC_PATH " + ProjectSettings.globalize_path(path))
 	var store := SaveStore.new(path)
 	var fixture := SaveStore.default_data()
 	fixture.career.runs = 9
@@ -31,6 +37,11 @@ func _run() -> void:
 	_check(store.save_data(fixture), "Restore synthetic baseline")
 	main._configure_persistence(store, true)
 	var before := FileAccess.get_sha256(path)
+	var backup_path := path + ".bak"
+	var backup_existed := FileAccess.file_exists(backup_path)
+	var backup_before := FileAccess.get_sha256(backup_path) if backup_existed else ""
+	_check(not before.is_empty() and backup_existed and not backup_before.is_empty(), "Positive control: synthetic primary and valid-save backup exist before disabling persistence")
+	_check(not FileAccess.file_exists(path + ".tmp"), "Synthetic baseline has no temporary staging file")
 	var config := Config.parse(PackedStringArray(["neon_coast", "pulse_gt", "standard", "611"]))
 	Launcher.configure_main(main, config)
 	_check(not main.persistence_enabled, "Launcher must disable even an enabled injected store")
@@ -92,14 +103,16 @@ func _run() -> void:
 	_check(rows.size() == 3, "Clear, failure and abandoned retry must each yield one record")
 	if rows.size() == 3:
 		_check(rows[0].outcome == "clear" and rows[1].outcome == "failed" and rows[2].outcome == "aborted", "Terminal outcomes must survive replay, title and exit")
-	_check(FileAccess.get_sha256(path) == before and store.load_data() == fixture, "Settings, results, replay and exit must leave formal fixture byte-for-byte unchanged")
-	_check(not FileAccess.file_exists(path + ".tmp") and not FileAccess.file_exists(path + ".bak"), "No save staging files should remain")
 	for outcome in ["clear", "failed"]:
 		for action in ["replay", "title"]:
 			await _same_frame_terminal(config, outcome, action)
 	await _initialization_and_consecutive_restarts(config)
 	await _failed_log_does_not_stop_driving(config)
-	for filename in ["synthetic-career.cfg", "results.jsonl", "not-a-directory"]:
+	_check(FileAccess.file_exists(path) and FileAccess.get_sha256(path) == before and store.load_data() == fixture, "Settings, results, replay and exit must leave synthetic primary byte-for-byte unchanged")
+	_check(FileAccess.file_exists(backup_path) == backup_existed and (not backup_existed or FileAccess.get_sha256(backup_path) == backup_before), "Disabled persistence must preserve synthetic backup existence and exact bytes")
+	_check(not FileAccess.file_exists(path + ".tmp"), "Disabled persistence must not leave a new synthetic staging file")
+	# Only this newly created PID/tick fixture is owned by the test. Never sweep tmp.
+	for filename in ["synthetic-career.cfg", "synthetic-career.cfg.bak", "results.jsonl", "not-a-directory"]:
 		var target: String = folder + "/" + filename
 		if FileAccess.file_exists(target):
 			DirAccess.remove_absolute(ProjectSettings.globalize_path(target))
