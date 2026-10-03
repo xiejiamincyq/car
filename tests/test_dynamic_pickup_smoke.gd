@@ -9,7 +9,12 @@ const Launcher = preload("res://tests/PlaytestLauncher.gd")
 const Config = preload("res://scripts/game_config.gd")
 const Run = preload("res://scripts/run_state.gd")
 const CoinPickup = preload("res://scripts/coin_pickup.gd")
+const AudioTeardown = preload("res://tests/support/audio_teardown.gd")
+const LedgerMath = preload("res://scripts/tests/ProductMainAudit.gd")
 const DT := 1.0 / 60.0
+const SOURCE_FILES := ["res://scripts/main.gd", "res://scripts/difficulty_profile.gd", "res://scripts/fuel_spawn_director.gd", "res://scripts/repair_supply_director.gd",
+	"res://scripts/traffic_director.gd", "res://scripts/traffic_vehicle.gd", "res://scripts/traffic_safety_policy.gd", "res://scripts/run_state.gd",
+	"res://scripts/vehicle_integrity.gd", "res://scripts/overdrive_controller.gd", "res://scripts/game_config.gd", "res://scripts/coin_gameplay_director.gd"]
 const SESSIONS := [
 	["neon_coast", "pulse_gt", 611], ["freight_harbor", "driftwing", 2026],
 	["storm_ridge", "flashpoint", 9001], ["sunrise_express", "comet_rs", 611],
@@ -18,15 +23,31 @@ const SESSIONS := [
 	["storm_ridge", "comet_rs", 9001], ["sunrise_express", "aurora_x", 611],
 ]
 var failures: Array[String] = []
+var failure_keys: Dictionary = {}
+var context := "fixture"
+var frame_index := -1
 
 # Transparent input spies: all gameplay still executes the original methods.
 # Expectations never infer damage or fuel cost from the resulting hull/fuel.
 class RunInputProbe extends "res://scripts/run_state.gd":
 	var tick_inputs: Dictionary = {}
+	var events: Array[Dictionary] = []
+
+	func consume_fuel(amount: float) -> void:
+		events.append({"kind": "consume", "amount": amount, "phase": phase})
+		super.consume_fuel(amount)
+
+	func add_fuel(amount: float) -> void:
+		events.append({"kind": "add", "amount": amount, "maximum": max_fuel, "phase": phase})
+		super.add_fuel(amount)
 
 	func tick(delta: float, speed: float, maximum_speed: float, forward_acceleration: float = 0.0) -> void:
-		tick_inputs = {"delta": delta, "speed": speed, "maximum_speed": maximum_speed, "acceleration": forward_acceleration}
+		tick_inputs = {"kind": "tick", "delta": delta, "speed": speed, "maximum_speed": maximum_speed, "acceleration": forward_acceleration,
+			"drain": fuel_drain_per_second, "distance": distance, "phase": phase, "maximum": max_fuel}
+		var entry := events.size()
+		events.append(tick_inputs)
 		super.tick(delta, speed, maximum_speed, forward_acceleration)
+		events[entry]["checkpoints"] = last_checkpoints_crossed
 
 class HullInputProbe extends "res://scripts/vehicle_integrity.gd":
 	var events: Array[Dictionary] = []
@@ -36,131 +57,257 @@ class HullInputProbe extends "res://scripts/vehicle_integrity.gd":
 		return super.apply_damage(amount)
 
 	func repair(amount: float) -> float:
-		events.append({"kind": "repair", "amount": amount})
+		events.append({"kind": "repair", "amount": amount, "maximum": 100.0})
 		return super.repair(amount)
+
+# Keep exact accepted objects, including a birth that is removed in its first
+# real update. All randomness, admission and gameplay are still super methods.
+class FuelBirthProbe extends "res://scripts/fuel_spawn_director.gd":
+	var accepted: Array = []
+	func tick(delta: float, blocked_lanes: Array, player_lane: int, active_count: int, forward_advance: float):
+		var pickup = super.tick(delta, blocked_lanes, player_lane, active_count, forward_advance)
+		if pickup != null: accepted.append(pickup)
+		return pickup
+
+class CoinBirthProbe extends "res://scripts/coin_gameplay_director.gd":
+	# Current tick moves/recycles old coins, appends the new route, then returns
+	# before Main's collect_near call. Capture that boundary, not end-of-Main.
+	var accepted: Array = []
+	func tick(delta: float, player_speed: float, player_lane: int, viewport_height: float, npc_zones: Array, fuel_zones: Array,
+		construction_zones: Array, blocked_lanes: Array[int], entry_lane_range: Vector2 = Vector2(-INF, INF), maximum_lane_slope: float = INF) -> bool:
+		var old := coins.duplicate()
+		var result := super.tick(delta, player_speed, player_lane, viewport_height, npc_zones, fuel_zones, construction_zones, blocked_lanes, entry_lane_range, maximum_lane_slope)
+		for coin in coins:
+			if not old.has(coin): accepted.append(coin)
+		return result
+
+class MainPipelineProbe extends "res://scripts/main.gd":
+	var pickup_stages: Dictionary = {}
+	func _record_stage(kind: String) -> void:
+		pickup_stages[kind] = {"x": drive.lateral_position, "player_y": TrackGeometry.player_y(get_viewport_rect().size.y),
+			"height": get_viewport_rect().size.y}
+	func _update_fuel_pickups(delta: float, frame_forward_advance: float = -1.0) -> void:
+		_record_stage("fuel")
+		super._update_fuel_pickups(delta, frame_forward_advance)
+	func _update_repair_pickups(delta: float, frame_forward_advance: float = -1.0) -> void:
+		_record_stage("repair")
+		super._update_repair_pickups(delta, frame_forward_advance)
+	func _update_coins(delta: float) -> void:
+		_record_stage("coins")
+		super._update_coins(delta)
 
 func _init() -> void:
 	call_deferred("_run")
 
 func _run() -> void:
 	root.size = Vector2i(1280, 720)
+	var metadata := _source_metadata()
+	print("DYNAMIC_PICKUP_CONFIG ", JSON.stringify({"source": metadata, "planned": 30, "step": DT, "budget_seconds": 60,
+		"initial_hull_fixture": 60, "world": "natural Main generation; no resource/world injection",
+		"exit_policy": "1=oracle violation, 2=coverage insufficient with clean oracles, 0=all 30 covered and clean"}))
 	var totals := {"fuel": 0, "repair": 0, "coins": 0, "traffic_frames": 0, "construction_frames": 0, "oracle_frames": 0, "collision_frames": 0, "damage_events": 0}
-	for index in range(SESSIONS.size()):
-		var stats := _sample(index)
-		print("DYNAMIC_PICKUP_SAMPLE ", JSON.stringify(stats))
-		for key in totals:
-			totals[key] += int(stats[key])
-		_check(stats.fuel > 0 and stats.repair > 0 and stats.coins > 0,
-			"sample %d must contact naturally spawned fuel, repairs, and coins" % (index + 1))
-		_check(stats.traffic_frames > 0 and stats.construction_frames > 0,
-			"sample %d must include live traffic and scheduled construction" % (index + 1))
-	print("DYNAMIC_PICKUP_TOTAL samples=10 ", JSON.stringify(totals), " failures=", failures.size())
-	for failure in failures: push_error(failure)
+	var coverage_failures: Array[Dictionary] = []
+	var oracle_failed_cases := 0
+	for difficulty in range(3):
+		for index in range(SESSIONS.size()):
+			var stats: Dictionary = await _sample(index, difficulty)
+			print("DYNAMIC_PICKUP_SAMPLE ", JSON.stringify(stats))
+			for key in totals: totals[key] += int(stats[key])
+			if stats.oracle_failures > 0: oracle_failed_cases += 1
+			if not stats.coverage_missing.is_empty():
+				coverage_failures.append({"case_id": stats.case_id, "missing": stats.coverage_missing, "stop_reason": stats.stop_reason})
+	context = "metadata"
+	_check(_source_metadata() == metadata, "HEAD and production hashes must be unchanged throughout all samples")
+	print("DYNAMIC_PICKUP_TOTAL ", JSON.stringify({"planned": 30, "started": 30, "completed": 30,
+		"coverage_complete_cases": 30 - coverage_failures.size(), "coverage_incomplete_cases": coverage_failures.size(),
+		"oracle_failed_cases": oracle_failed_cases, "oracle_failures": failures.size(), "totals": totals}))
+	print("DYNAMIC_PICKUP_COVERAGE_FAILURES ", JSON.stringify(coverage_failures))
+	for failure in failures: push_error("DYNAMIC_PICKUP_ORACLE " + failure)
 	print("TEST_COMPLETE test_dynamic_pickup_smoke.gd")
-	quit(0 if failures.is_empty() else 1)
+	quit(1 if not failures.is_empty() else (2 if not coverage_failures.is_empty() else 0))
 
-func _sample(index: int) -> Dictionary:
+func _sample(index: int, difficulty: int) -> Dictionary:
 	var config: Array = SESSIONS[index]
+	context = "d%d/s%d/%s/%s/seed%d" % [difficulty, index + 1, config[0], config[1], config[2]]
+	var failures_before := failures.size()
 	var main = MainScene.instantiate()
-	root.add_child(main)
+	main.set_script(_pipeline_script())
+	root.add_child(main) # Never current_scene: _ready's formal-save gate stays off.
 	main.set_process(false)
+	_check(not main.persistence_enabled and current_scene != main, "Main ready must never access formal persistence")
 	main.run = RunInputProbe.new(main.run.max_fuel, main.run.base_fuel_drain_per_second, main.run.fuel_grace_seconds)
 	main.integrity = HullInputProbe.new()
-	Launcher.configure_main(main, {"track_id": config[0], "vehicle_id": config[1], "difficulty_index": 1, "run_seed": config[2]})
-	_check(not main.persistence_enabled, "Smoke must not write career/settings")
-	main.run.begin_countdown(0.0)
-	main.run.phase = Run.Phase.RUNNING
-	main.integrity.current = 60.0
-	var stats := {"sample": index + 1, "track": config[0], "vehicle": config[1], "seed": config[2], "fuel": 0, "repair": 0, "coins": 0,
-		"traffic_frames": 0, "construction_frames": 0, "oracle_frames": 0, "collision_frames": 0, "damage_events": 0}
+	main.fuel_spawn_director = FuelBirthProbe.new(config[2], Config.ROAD_LANE_COUNT, main.fuel_spawn_director.spawn_interval)
+	main.repair_supplies.spawner = FuelBirthProbe.new(config[2], Config.ROAD_LANE_COUNT, main.repair_supplies.spawner.spawn_interval)
+	main.coin_director = CoinBirthProbe.new(config[2], Config.ROAD_LANE_COUNT)
+	Launcher.configure_main(main, {"track_id": config[0], "vehicle_id": config[1], "difficulty_index": difficulty, "run_seed": config[2]})
+	for countdown_step in range(181):
+		if main.run.phase != Run.Phase.COUNTDOWN: break
+		main._process(DT)
+	_check(main.run.phase == Run.Phase.RUNNING, "Real countdown reaches driving before sampling")
+	main.integrity.current = 60.0 # Explicit adverse fixture, not a healthy-run budget.
+	var stats := {"case_id": context, "sample": difficulty * SESSIONS.size() + index + 1, "session": index + 1, "difficulty_index": difficulty,
+		"track": config[0], "vehicle": config[1], "seed": config[2], "initial_hull_fixture": 60.0, "fuel": 0, "repair": 0, "coins": 0,
+		"traffic_frames": 0, "construction_frames": 0, "oracle_frames": 0, "collision_frames": 0, "damage_events": 0,
+		"fuel_requested": 0.0, "fuel_effective": 0.0, "fuel_cap_waste": 0.0, "repair_requested": 0.0, "repair_effective": 0.0, "repair_cap_waste": 0.0,
+		"terminal_frame_checked": false, "pipeline_frames": {"fuel": 0, "repair": 0, "coins": 0},
+		"objects": {"fuel": _empty_counts(), "repair": _empty_counts(), "coins": _empty_counts()},
+		"seen": {"fuel": {}, "repair": {}, "coins": {}}}
 	for frame in range(60 * 60):
 		if main.run.phase != Run.Phase.RUNNING: break
+		frame_index = frame
 		_apply_directed_input(main, stats)
-		var fuels: Array = main.fuel_pickups.duplicate()
-		var repairs: Array = main.repair_supplies.pickups.duplicate()
-		var coins: Array = main.coin_director.coins.duplicate()
-		var fuel_before: float = main.run.fuel
-		var hull_before: float = main.integrity.current
-		var coins_before: int = main.run.coins
-		var distance_before: float = main.run.distance
-		var collisions_before: int = main.run.collisions
+		var previous := {"fuel": main.fuel_pickups.duplicate(), "repair": main.repair_supplies.pickups.duplicate(), "coins": main.coin_director.coins.duplicate()}
+		var before := {"phase": main.run.phase, "fuel": main.run.fuel, "hull": main.integrity.current, "coins": main.run.coins, "collisions": main.run.collisions}
+		main.run.events.clear()
 		main.integrity.events.clear()
-		main.run.tick_inputs.clear()
+		main.pickup_stages.clear()
+		main.fuel_spawn_director.accepted.clear()
+		main.repair_supplies.spawner.accepted.clear()
+		main.coin_director.accepted.clear()
 		main._process(DT)
-		if main.run.phase != Run.Phase.RUNNING: break
-		_check(not main.traffic.has_vehicle_overlap(), "sample %d frame %d NPC body overlap" % [index + 1, frame])
-		_check(not main.traffic.has_full_lane_wall(), "sample %d frame %d three-lane wall" % [index + 1, frame])
+		_check(_frame_needs_audit(before.phase, main.run.phase), "Every started driving frame including terminal must reach its oracle")
+		var births := {"fuel": main.fuel_spawn_director.accepted, "repair": main.repair_supplies.spawner.accepted, "coins": main.coin_director.accepted}
+		var remaining := {"fuel": main.fuel_pickups, "repair": main.repair_supplies.pickups, "coins": main.coin_director.coins}
+		var contacts := {}
+		for kind in ["fuel", "repair", "coins"]:
+			contacts[kind] = _observe_pickups(previous[kind], births[kind], remaining[kind], kind, main.pickup_stages.get(kind, {}), stats)
+			stats[kind] += contacts[kind]
+			if main.pickup_stages.has(kind): stats.pipeline_frames[kind] += 1
+		_check(stats.objects.fuel.spawned == main.fuel_spawn_director.spawned, "Fuel admission counter equals exact observed successful births")
+		_check(stats.objects.repair.spawned == main.repair_supplies.spawner.spawned, "Repair admission counter equals exact observed successful births")
+		_check(main.run.coins - before.coins == contacts.coins, "Coin reward equals actual strict processed contact count")
+		_validate_resources(main, before, contacts, stats)
+		if main.traffic.has_vehicle_overlap() and not failure_keys.has(context + ": NPC bodies do not overlap"):
+			print("DYNAMIC_PICKUP_OVERLAP ", JSON.stringify({"case_id": context, "frame": frame, "player_speed": main.drive.speed,
+				"player_x": main.drive.lateral_position, "construction_state": main.traffic.lane_events.state,
+				"core_y": main.traffic.lane_events._core_y(), "vehicles": _traffic_snapshot(main.traffic)}))
+		_check(not main.traffic.has_vehicle_overlap(), "NPC bodies do not overlap")
+		_check(not main.traffic.has_full_lane_wall(), "No three-lane wall")
 		if not main.traffic.vehicles.is_empty(): stats.traffic_frames += 1
 		if main.traffic.lane_events.state != 0: stats.construction_frames += 1
-		var fuel_contacts := _contact_count(main, fuels, main.fuel_pickups, false)
-		var repair_contacts := _contact_count(main, repairs, main.repair_supplies.pickups, false)
-		var coin_contacts := _contact_count(main, coins, main.coin_director.coins, true)
-		stats.fuel += fuel_contacts
-		stats.repair += repair_contacts
-		stats.coins += coin_contacts
-		_check(main.run.coins - coins_before == coin_contacts, "Coin reward must equal actual contact count")
-		if main.run.collisions != collisions_before:
-			stats.collision_frames += 1
+		if main.run.collisions != before.collisions: stats.collision_frames += 1
 		stats.oracle_frames += 1
-		# Read tick entry parameters, before NPC/construction impulses change speed.
-		var inputs: Dictionary = main.run.tick_inputs
-		_check(not inputs.is_empty(), "Each checked frame must execute the real RunState tick")
-		var speed_ratio := clampf(float(inputs.speed) / maxf(1.0, inputs.maximum_speed), 0.0, 1.0)
-		var load := Config.FUEL_ROLLING_RESISTANCE_LOAD * clampf(speed_ratio / Config.FUEL_ROLLING_RESISTANCE_FULL_SPEED_RATIO, 0.0, 1.0)
-		load += Config.FUEL_AERODYNAMIC_RESISTANCE_LOAD * speed_ratio * speed_ratio
-		load += Config.FUEL_ACCELERATION_LOAD * minf(maxf(0.0, inputs.acceleration) / Config.ACCELERATION, 1.25)
-		var expected_fuel := maxf(0.0, fuel_before - main.run.fuel_drain_per_second * load * inputs.delta)
-		var checkpoint_count := 0
-		var distance_after: float = distance_before + maxf(0.0, inputs.speed) * inputs.delta * 0.1
-		for checkpoint in main.run.progression.checkpoint_distances:
-			if checkpoint > distance_before and checkpoint <= distance_after: checkpoint_count += 1
-		_check(main.run.last_checkpoints_crossed == checkpoint_count, "Checkpoint fuel credit must match crossed track thresholds")
-		expected_fuel = minf(main.run.max_fuel, expected_fuel + checkpoint_count * Config.CHECKPOINT_FUEL_REWARD)
-		expected_fuel = minf(main.run.max_fuel, expected_fuel + fuel_contacts * Config.FUEL_PICKUP_AMOUNT)
-		_check(absf(main.run.fuel - expected_fuel) < 0.001, "Fuel must change only by drain, checkpoint, and geometric pickup")
-		# Order matters: construction hits precede repairs; NPC impacts follow them.
-		# Validate deduction application, not the independent physical damage model.
-		var expected_hull := hull_before
-		var repair_requested := 0.0
-		var damage_events := 0
-		for event in main.integrity.events:
-			if event.kind == "damage":
-				expected_hull = maxf(0.0, expected_hull - maxf(0.0, event.amount))
-				damage_events += 1
-			else:
-				repair_requested += event.amount
-				if expected_hull >= 20.0: expected_hull = minf(100.0, expected_hull + maxf(0.0, event.amount))
-		_check(repair_requested == repair_contacts * 20.0, "Repair ledger entries must match geometric pickups, not reported hull changes")
-		_check(damage_events == main.run.collisions - collisions_before, "Every counted collision must have exactly one damage ledger entry")
-		_check(absf(main.integrity.current - expected_hull) < 0.001, "Hull must equal the ordered damage/repair ledger with cap and failure boundary")
-		stats.damage_events += damage_events
+		if main.run.phase != Run.Phase.RUNNING:
+			stats.terminal_frame_checked = true
+			break
 	stats.seconds = main.run.elapsed_seconds
-	stats.phase = main.run.phase
+	stats.distance = main.run.distance
+	stats.difficulty_stage = main.run.difficulty_stage
+	stats.phase = Run.Phase.keys()[main.run.phase]
+	stats.stop_reason = "simulation_budget" if main.run.phase == Run.Phase.RUNNING else ("clear" if main.run.phase == Run.Phase.RUN_CLEAR else String(main.run.failure_reason))
 	stats.collisions = main.run.collisions
 	stats.hull = main.integrity.current
 	stats.fuel_left = main.run.fuel
-	stats.spawned_routes = main.coin_director.spawned_route_count
 	stats.scheduled_events = main.traffic.lane_events.events_started_count
+	stats.construction_history = main.traffic.lane_events.event_history()
+	stats.supply_schedule = {"fuel": _schedule_counts(main.fuel_spawn_director), "repair": _schedule_counts(main.repair_supplies.spawner)}
+	stats.coverage_missing = []
+	for key in ["fuel", "repair", "coins", "traffic_frames", "construction_frames"]:
+		if stats[key] <= 0: stats.coverage_missing.append(key)
 	_release_input()
+	var playbacks: Array[WeakRef] = AudioTeardown.capture(main)
+	main.audio_director.shutdown()
 	main.free()
+	await process_frame
+	_check(await AudioTeardown.wait_for_release(self, playbacks), "Audio playback ownership retires before next sample")
+	stats.oracle_failures = failures.size() - failures_before
+	stats.erase("seen")
 	return stats
 
-func _contact_count(main, previous: Array, remaining: Array, coin: bool) -> int:
-	var total := 0
-	var player_y: float = main.TrackGeometry.player_y(main.get_viewport_rect().size.y)
-	var lane_width := Config.ROAD_HALF_WIDTH * 2.0 / Config.ROAD_LANE_COUNT
-	for pickup in previous:
-		var lane_position: float = pickup.lane_position if coin else float(pickup.lane)
-		var lateral_distance := absf((lane_position - 1.0) * lane_width - main.drive.lateral_position)
-		var contact := lateral_distance < (52.0 if coin else 48.0) and absf(pickup.y - player_y) < (58.0 if coin else 62.0)
-		var removed := not remaining.has(pickup)
-		if contact:
-			_check(removed, "Contacting a naturally spawned pickup must collect it")
-			total += 1
-		elif removed:
-			var recycle_y: float = main.get_viewport_rect().size.y + (Config.COIN_RECYCLE_MARGIN if coin else 60.0)
-			_check(pickup.y >= recycle_y, "A pickup must not disappear without contact or offscreen recycling")
-	return total
+func _pipeline_script() -> Script:
+	return MainPipelineProbe
+
+func _validate_resources(main, before: Dictionary, contacts: Dictionary, stats: Dictionary) -> void:
+	var expected_fuel: float = before.fuel
+	var requested_fuel := 0.0
+	var ticks := 0
+	for event in main.run.events:
+		if event.kind == "tick":
+			ticks += 1
+			_check(event.phase == Run.Phase.RUNNING, "Resource tick input phase is RUNNING")
+			var result := _fuel_tick_result(expected_fuel, event, main.run.progression.checkpoint_distances)
+			_check(result.checkpoints == event.checkpoints, "Checkpoint credits match independent distance thresholds")
+			_check(absf(result.distance - main.run.distance) < 0.001, "Terminal-frame distance is accounted")
+			expected_fuel = result.fuel
+		elif event.phase == Run.Phase.RUNNING:
+			var next := LedgerMath.ledger_value(expected_fuel, event)
+			if event.kind == "add":
+				requested_fuel += event.amount
+				stats.fuel_requested += event.amount
+				stats.fuel_effective += next - expected_fuel
+				stats.fuel_cap_waste += event.amount - (next - expected_fuel)
+			expected_fuel = next
+	_check(ticks == 1, "Every driving frame including terminal has exactly one resource tick")
+	_check(absf(requested_fuel - contacts.fuel * Config.FUEL_PICKUP_AMOUNT) < 0.001, "Fuel credit calls match processed geometric contacts")
+	_check(absf(main.run.fuel - expected_fuel) < 0.001, "Fuel equals ordered consume/drain/checkpoint/pickup ledger")
+	var expected_hull: float = before.hull
+	var requested_repair := 0.0
+	var damage_count := 0
+	for event in main.integrity.events:
+		var next := LedgerMath.ledger_value(expected_hull, event)
+		if event.kind == "damage":
+			damage_count += 1
+		else:
+			requested_repair += event.amount
+			stats.repair_requested += event.amount
+			stats.repair_effective += next - expected_hull
+			stats.repair_cap_waste += event.amount - (next - expected_hull)
+		expected_hull = next
+	_check(absf(requested_repair - contacts.repair * 20.0) < 0.001, "Repair credit calls match processed geometric contacts")
+	_check(damage_count == main.run.collisions - before.collisions, "Each counted collision has exactly one damage entry")
+	_check(absf(main.integrity.current - expected_hull) < 0.001, "Hull equals ordered damage/repair ledger without revival")
+	stats.damage_events += damage_count
+
+func _observe_pickups(previous: Array, births: Array, remaining: Array, kind: String, stage: Dictionary, stats: Dictionary) -> int:
+	var ledger: Dictionary = stats.objects[kind]
+	var seen: Dictionary = stats.seen[kind]
+	for pickup in births:
+		_check(not previous.has(pickup) and not seen.has(pickup.get_instance_id()), kind + " birth is unique and not an existing object")
+		if kind == "coins": _check(pickup.y <= Config.COIN_ROUTE_SPAWN_Y, "Coin births stay offscreen before Main collection at the fixed 60Hz audit step")
+		seen[pickup.get_instance_id()] = true
+	ledger.spawned += births.size()
+	var candidates := previous + births
+	for pickup in remaining: _check(candidates.has(pickup), kind + " live object has an observed natural birth")
+	var contacts := 0
+	for pickup in candidates:
+		var outcome := _pickup_outcome(pickup, remaining, kind, stage)
+		match outcome:
+			"collected":
+				contacts += 1
+				ledger.collected += 1
+			"recycled": ledger.recycled += 1
+			"live": pass
+			_: _check(false, kind + " " + outcome)
+	ledger.live = remaining.size()
+	_check(ledger.spawned == ledger.collected + ledger.recycled + ledger.live, kind + " spawned equals collected + recycled + live")
+	return contacts
+
+static func _empty_counts() -> Dictionary:
+	return {"spawned": 0, "collected": 0, "recycled": 0, "live": 0}
+
+static func _traffic_snapshot(traffic) -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	for vehicle in traffic.vehicles:
+		result.append({"kind": vehicle.kind, "lane": vehicle.lane, "target_lane": vehicle.target_lane,
+			"x": vehicle.lane_position, "y": vehicle.y, "previous_x": vehicle.previous_lane_position,
+			"previous_y": vehicle.previous_y, "speed": vehicle.actual_world_speed, "cruise": vehicle.cruise_speed,
+			"half_width": vehicle.half_width, "half_length": vehicle.half_length, "warning": vehicle.warning_started,
+			"changing": vehicle.change_started, "warning_remaining": vehicle.warning_remaining,
+			"identity": vehicle.get_instance_id(), "generation": vehicle.motion_generation})
+	return result
+
+static func _schedule_counts(spawner) -> Dictionary:
+	return {"opportunities": spawner.opportunities, "spawned": spawner.spawned, "blocked_attempts": spawner.blocked_attempts, "pending": spawner.pending}
+
+func _source_metadata() -> Dictionary:
+	var output: Array = []
+	var code := OS.execute("git", ["-C", ProjectSettings.globalize_path("res://"), "rev-parse", "HEAD"], output)
+	_check(code == 0 and output.size() == 1, "Read-only HEAD metadata is available")
+	var hashes := {}
+	for path in SOURCE_FILES: hashes[path] = FileAccess.get_sha256(path)
+	return {"head": String(output[0]).strip_edges() if not output.is_empty() else "unknown", "production_sha256": hashes,
+		"audit_sha256": FileAccess.get_sha256("res://tests/test_dynamic_pickup_smoke.gd")}
 
 func _apply_directed_input(main, stats: Dictionary) -> void:
 	# A bounded target-chasing probe: prioritize the first repair/fuel, then the
@@ -183,28 +330,33 @@ func _apply_directed_input(main, stats: Dictionary) -> void:
 		target_x = (lane_position - 1.0) * 260.0
 	var best_score := INF
 	var safe_target := target_x
-	for candidate in [target_x, -260.0, 0.0, 260.0]:
-		var candidate_lane := 1.0 + float(candidate) / 260.0
-		if main.traffic.lane_events.closed_lanes().has(roundi(candidate_lane)): continue
-		var blocked := false
-		for npc in main.traffic.vehicles:
-			var future_y: float = npc.y + (main.drive.speed - npc.cruise_speed) * Config.ROAD_SCROLL_MULTIPLIER * 1.3
-			if minf(npc.y, future_y) > player_y + 105.0 or maxf(npc.y, future_y) < player_y - 105.0: continue
-			if absf(candidate_lane - npc.lane_position) < 0.48 or (npc.lane_change_enabled and absf(candidate_lane - npc.target_lane) < 0.48):
-				blocked = true
-				break
-		if blocked: continue
+	var authority: float = main.drive.steering_speed * main.drive.speed_steering_multiplier() * main.integrity.steering_multiplier()
+	var obstacles: Array = []
+	for npc in main.traffic.vehicles:
+		obstacles.append({"x": (npc.lane_position - 1.0) * 260.0, "y": npc.y, "speed": npc.actual_world_speed,
+			"vx": npc.lateral_velocity, "target_x": (float(npc.target_lane) - 1.0) * 260.0 if npc.lane_change_enabled else (npc.lane_position - 1.0) * 260.0})
+	for core in main.traffic.lane_events.core_markers(720.0):
+		obstacles.append({"x": (core.x - 1.5) * 260.0, "y": core.y, "speed": 0.0, "vx": 0.0,
+			"target_x": (core.x - 1.5) * 260.0, "half_x": 260.0 * Config.LANE_EVENT_CORE_HALF_LANE_RATIO + 35.0, "half_y": 75.0})
+	# Give the natural scheduler a longer observation window before cruising;
+	# this changes only real accelerator input, never forces an event or extends
+	# the unchanged 60-second/terminal budget. Missing coverage still exits 2.
+	var speed_ratio := 0.60 if stats.construction_frames == 0 else 0.70
+	var planned_acceleration: float = main.drive.acceleration if main.drive.speed < main.drive.max_speed * speed_ratio else -main.drive.rolling_resistance
+	# These are achievable steering targets, including gaps/shoulders. The pilot
+	# reads the current world only; it never changes lane positions or the seed.
+	for candidate in [target_x, main.drive.lateral_position, -330.0, -260.0, -130.0, 0.0, 130.0, 260.0, 330.0]:
+		if not pilot_route_safe(main.drive.lateral_position, player_y, main.drive.speed, authority, float(candidate), obstacles, planned_acceleration): continue
 		var score := absf(float(candidate) - target_x) + absf(float(candidate) - main.drive.lateral_position) * 0.1
 		if score < best_score:
 			best_score = score
 			safe_target = candidate
 	target_x = safe_target
-	var authority: float = main.drive.steering_speed * main.drive.speed_steering_multiplier() * main.integrity.steering_multiplier()
 	var steering := clampf((target_x - main.drive.lateral_position) / maxf(1.0, authority * DT), -1.0, 1.0)
 	_release_input()
 	if is_inf(best_score):
 		Input.action_press("brake", 1.0)
-	elif main.drive.speed < main.drive.max_speed * 0.70:
+	elif main.drive.speed < main.drive.max_speed * speed_ratio:
 		Input.action_press("accelerate", 1.0)
 	if steering > 0.0: Input.action_press("steer_right", steering)
 	elif steering < 0.0: Input.action_press("steer_left", -steering)
@@ -213,5 +365,83 @@ func _release_input() -> void:
 	for action in ["accelerate", "brake", "steer_left", "steer_right"]:
 		Input.action_release(action)
 
+static func _frame_needs_audit(phase_before: int, _phase_after: int) -> bool:
+	# Starting in RUNNING means the last real frame also belongs to the ledger.
+	return phase_before == Run.Phase.RUNNING
+
+static func _npc_future_y(npc, player_speed: float) -> float:
+	return npc.y + (player_speed - npc.actual_world_speed) * Config.ROAD_SCROLL_MULTIPLIER * 1.3
+
+static func pilot_route_safe(x: float, player_y: float, player_speed: float, authority: float, target_x: float, obstacles: Array, acceleration: float = 0.0) -> bool:
+	# Bounded constant-input prediction, a controller heuristic rather than a
+	# fairness oracle. Swept relative segments cover the approach to the target.
+	for obstacle in obstacles:
+		var half_x: float = obstacle.get("half_x", 70.0)
+		var half_y: float = obstacle.get("half_y", 105.0)
+		var end_y: float = obstacle.y + (player_speed * 1.3 + 0.5 * acceleration * 1.3 * 1.3 - obstacle.speed * 1.3) * Config.ROAD_SCROLL_MULTIPLIER
+		var curve_margin := absf(acceleration) * 1.3 * 1.3 * Config.ROAD_SCROLL_MULTIPLIER
+		if minf(obstacle.y, end_y) - curve_margin > player_y + half_y or maxf(obstacle.y, end_y) + curve_margin < player_y - half_y: continue
+		var previous := Vector2(x - obstacle.x, player_y - obstacle.y)
+		for step in range(1, 27):
+			var seconds := step * 0.05
+			var predicted_x := move_toward(x, target_x, authority * seconds)
+			var obstacle_x: float = obstacle.x + obstacle.vx * seconds
+			if absf(obstacle.vx) > 0.01:
+				obstacle_x = clampf(obstacle_x, minf(obstacle.x, obstacle.target_x), maxf(obstacle.x, obstacle.target_x))
+			var moving_seconds := minf(seconds, player_speed / -acceleration) if acceleration < 0.0 else seconds
+			var road_motion := maxf(0.0, player_speed * moving_seconds + 0.5 * acceleration * moving_seconds * moving_seconds)
+			var predicted_y: float = obstacle.y + (road_motion - obstacle.speed * seconds) * Config.ROAD_SCROLL_MULTIPLIER
+			var relative := Vector2(predicted_x - obstacle_x, player_y - predicted_y)
+			if _pilot_segment_hits(previous, relative, half_x, half_y): return false
+			previous = relative
+	return true
+
+static func _pilot_segment_hits(first: Vector2, last: Vector2, half_x: float, half_y: float) -> bool:
+	var entry := 0.0
+	var leave := 1.0
+	for axis in range(2):
+		var start: float = first[axis]
+		var motion: float = last[axis] - start
+		var extent: float = half_x if axis == 0 else half_y
+		if absf(motion) < 0.000001:
+			if absf(start) >= extent: return false
+		else:
+			var lower := (-extent - start) / motion
+			var upper := (extent - start) / motion
+			entry = maxf(entry, minf(lower, upper))
+			leave = minf(leave, maxf(lower, upper))
+			if entry >= leave: return false
+	return entry < leave
+
+static func _fuel_tick_result(fuel: float, event: Dictionary, checkpoints: Array) -> Dictionary:
+	var ratio := clampf(event.speed / maxf(1.0, event.maximum_speed), 0.0, 1.0)
+	var load := Config.FUEL_ROLLING_RESISTANCE_LOAD * clampf(ratio / Config.FUEL_ROLLING_RESISTANCE_FULL_SPEED_RATIO, 0.0, 1.0)
+	load += Config.FUEL_AERODYNAMIC_RESISTANCE_LOAD * ratio * ratio
+	load += Config.FUEL_ACCELERATION_LOAD * minf(maxf(0.0, event.acceleration) / Config.ACCELERATION, 1.25)
+	var result := maxf(0.0, fuel - event.drain * load * event.delta)
+	var distance: float = event.distance + maxf(0.0, event.speed) * event.delta * 0.1
+	var crossed := 0
+	for checkpoint in checkpoints:
+		if checkpoint > event.distance and checkpoint <= distance: crossed += 1
+	return {"fuel": minf(event.maximum, result + crossed * Config.CHECKPOINT_FUEL_REWARD), "distance": distance, "checkpoints": crossed}
+
+static func _pickup_outcome(pickup, remaining: Array, kind: String, stage: Dictionary) -> String:
+	# An early resource/construction terminal can skip these stages altogether.
+	# A geometric overlap in a stage that never ran is not a credited contact.
+	if stage.is_empty(): return "live" if remaining.has(pickup) else "removed_without_stage"
+	var lane_width := Config.ROAD_HALF_WIDTH * 2.0 / Config.ROAD_LANE_COUNT
+	var lane: float = pickup.lane_position if kind == "coins" else float(pickup.lane)
+	var contact := absf((lane - 1.0) * lane_width - stage.x) < (52.0 if kind == "coins" else 48.0)
+	contact = contact and absf(pickup.y - stage.player_y) < (58.0 if kind == "coins" else 62.0)
+	if remaining.has(pickup): return "uncollected_contact" if contact else "live"
+	if contact:
+		if kind == "coins" and not pickup.collected: return "coin_contact_without_collect"
+		return "collected"
+	if pickup.y >= stage.height + (Config.COIN_RECYCLE_MARGIN if kind == "coins" else 60.0): return "recycled"
+	return "unexplained_removal"
+
 func _check(condition: bool, message: String) -> void:
-	if not condition and not failures.has(message): failures.append(message)
+	var key := context + ": " + message
+	if not condition and not failure_keys.has(key):
+		failure_keys[key] = true
+		failures.append(key + " (first frame %d)" % frame_index)
