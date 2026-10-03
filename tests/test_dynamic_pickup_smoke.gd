@@ -128,7 +128,11 @@ func _run() -> void:
 
 func _sample(index: int, difficulty: int) -> Dictionary:
 	var config: Array = SESSIONS[index]
-	context = "d%d/s%d/%s/%s/seed%d" % [difficulty, index + 1, config[0], config[1], config[2]]
+	var label := "d%d/s%d/%s/%s/seed%d" % [difficulty, index + 1, config[0], config[1], config[2]]
+	return await _sample_configuration(config, index, difficulty, 60.0, 60.0, label)
+
+func _sample_configuration(config: Array, index: int, difficulty: int, initial_hull: float, budget_seconds: float, label: String) -> Dictionary:
+	context = label
 	var failures_before := failures.size()
 	var main = MainScene.instantiate()
 	main.set_script(_pipeline_script())
@@ -145,15 +149,15 @@ func _sample(index: int, difficulty: int) -> Dictionary:
 		if main.run.phase != Run.Phase.COUNTDOWN: break
 		main._process(DT)
 	_check(main.run.phase == Run.Phase.RUNNING, "Real countdown reaches driving before sampling")
-	main.integrity.current = 60.0 # Explicit adverse fixture, not a healthy-run budget.
+	main.integrity.current = initial_hull # Explicit fixture, never a hidden repair/injection.
 	var stats := {"case_id": context, "sample": difficulty * SESSIONS.size() + index + 1, "session": index + 1, "difficulty_index": difficulty,
-		"track": config[0], "vehicle": config[1], "seed": config[2], "initial_hull_fixture": 60.0, "fuel": 0, "repair": 0, "coins": 0,
+		"track": config[0], "vehicle": config[1], "seed": config[2], "initial_hull_fixture": initial_hull, "fuel": 0, "repair": 0, "coins": 0,
 		"traffic_frames": 0, "construction_frames": 0, "oracle_frames": 0, "collision_frames": 0, "damage_events": 0,
 		"fuel_requested": 0.0, "fuel_effective": 0.0, "fuel_cap_waste": 0.0, "repair_requested": 0.0, "repair_effective": 0.0, "repair_cap_waste": 0.0,
 		"terminal_frame_checked": false, "pipeline_frames": {"fuel": 0, "repair": 0, "coins": 0},
 		"objects": {"fuel": _empty_counts(), "repair": _empty_counts(), "coins": _empty_counts()},
 		"seen": {"fuel": {}, "repair": {}, "coins": {}}}
-	for frame in range(60 * 60):
+	for frame in range(roundi(budget_seconds / DT)):
 		if main.run.phase != Run.Phase.RUNNING: break
 		frame_index = frame
 		_apply_directed_input(main, stats)
