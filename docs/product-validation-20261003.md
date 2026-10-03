@@ -355,3 +355,13 @@ Main现把已有施工前非取模道路快照传给金币，局部换算为现�
 先补行为红例32检查2失败，`tmp/product-core-atomic-rollback-behavior-red-20261004.log` SHA-256 `E42E24484F011A9F63B99FEB9B7C37E46716428BCFB68658CCFC541771AF53E2`；无效回滚快照补测34检查1失败，`tmp/product-core-atomic-validity-red-20261004.log` SHA-256 `AE6F8EC6393183F4D99D256CFD018AE99260A528FDDF9C784DDFB61E9C5556EB`。首次测试读取缺失计数后int(null)产生运行错误，保留`tmp/product-core-atomic-rollback-red-20261004.log`，只终止已核验的两个测试Godot进程，不把该脚本错误算行为红例。修正后核心自检34检查0失败、四项观察器准确终态/退出0，`tmp/product-core-atomic-observers-green-20261004.log` SHA-256 `0583CA2E065D487D1AB63FE69674C3E6F430621E8F52A74CA7F362B723792E8B`；五例自然模型重测5/5、独立问题0、source_stable=true、11.819505墙钟秒，`tmp/product-matrix-atomic-pilot-20261004.log` SHA-256 `F4BB900B8E51A4E9D8C172131B9E6508A51286299850B1DF41C7CA729C7714EB`。
 
 自审确认这一窄例外只识别同一步、先前不存在、原始合法几何完全未变、NPC运动前的警告取消，不删真实障碍接触，不改变生产或随机序列。1080分母、持续可达路线、Main联合资源、真人和包验收仍未关闭；保留固定135历史结果，不将四专项拼接成修正后全量。用户再次明确取消网页端，后续完全由Codex根据本地证据判断，不读写/等待网页端，不使用Computer Use，不发布。
+
+### 正式1080交通样本入口
+
+新增`ProductTrafficMatrix.gd`继承原`ProductTrafficBaseline.gd`，原三条输入曲线不重写。枚举1080个唯一case_id（72个关卡/车型/难度配置各15条），实际应用车型最高速度/加减速/转向及赛道转向倍率，traffic配置使用真实关卡/难度。严格支持空参数全批、--pilot五例、--case精确一例、--shard 0..17各60例；非法参数不退回全批。每例实际7200步/120秒，固定中心车道、控制器燃油100以隔离交通；明确不属于Main资源终态/人类驾驶/连续可达性证据。四类独立原始几何/运动/生命周期断言、生成机会/拒绝/回收、预警物理完成/取消/截断/尾部未结束、密度/空路和原子取消分别报告；旧生产整数车道拥堵指标仅为proxy。R2整体仍待连续可达门、全配置预约竞争及旧15例质量门复核。
+
+每批保留21个源文件SHA、HEAD、引擎及末尾source_stable；新唯一tmp目录留存summary.json，写失败/缺配置/独立问题/源漂移退出非0，不覆盖旧证据。原型枚举/实际配置/真实运行先后取得14检查8失败和21检查5失败，保留`tmp/product-matrix-selection-red-20261004.log`、`tmp/product-matrix-runtime-red-20261004.log`；中间lambda解析错误单列，不算有效行为红例。正式29自检通过，含1080唯一性、18分片精确分母、Comet实际加速度而非Pulse默认值、未知/缺失/错标签/浮点seed拒绝、无效预算；日志`tmp/product-matrix-formal-types-red-20261004.log`虽然沿用red文件名，实际为29检查0失败/原生0，SHA-256 `4ED4C71D8CB4D0BEE6D8BB5242AA5D34233DC43302AD845422BD16DA89AFAFC9`。
+
+正式入口五例36000真实步、独立问题0、原子取消2、source_stable=true、11.64704墙钟秒/原生0，`tmp/product-matrix-formal-pilot-20261004.log` SHA-256 `27E19E46AE3AA623BAFEA7709665B4E0B4B3CFCA9B0B5CD34C80E412BF5D12C0`。25项相邻正式交通测试退出0、25准确终态、ERROR/WARNING 0，`tmp/product-matrix-adjacent-20261004.log` SHA-256 `4F8C24ED2C58BE69DDB67EFB9D6113E3F3F5366EBE0FD8B5D6FEFE8EF2214382`；原Main墙反例保持63.7167秒完赛/4油/0碰撞/实际同代次再超车1，14生产及两个驾驶器哈希不变。当前正式136项；未把历史135与新专项拼成136全量通过。
+
+五轴自审：只新增测试入口/自检，无运行时资源或依赖，CLI输入严格、输出路径限唯一tmp子目录，不读写正式存档，不将旧密度基线套到其他车型。下一步固定提交运行136全量与18×60模型样本；按五例实际预算，最多三模型并行、每分片900秒墙钟看门狗，缺准确终态/超时均失败，保留完整分母及失败原始快照；运行期间所有被加载的源文件和HEAD冻结。
