@@ -8,6 +8,7 @@ const HARD_SEEDS := [611, 2026, 9001]
 const SCENARIOS := ["brake_repass", "skip_first_fuel", "hull30", "overdrive_brake"]
 var active_scenario := ""
 var passed_during_brake: Dictionary = {}
+var traffic_before: Array[Dictionary] = []
 
 static func build_cases() -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
@@ -45,6 +46,8 @@ static func select_cases(arguments: PackedStringArray) -> Array[Dictionary]:
 	if arguments.is_empty(): return cases
 	if arguments == PackedStringArray(["--pilot"]):
 		return cases.filter(func(sample): return sample.track_id == "neon_coast" and sample.vehicle_id == "pulse_gt" and sample.run_seed == 611)
+	if arguments.size() == 2 and arguments[0] == "--case":
+		return cases.filter(func(sample): return sample.case_id == arguments[1])
 	if arguments.size() != 2 or arguments[0] != "--shard" or not arguments[1].is_valid_int(): return []
 	var shard := arguments[1].to_int()
 	if shard < 0 or shard >= 12: return []
@@ -59,7 +62,7 @@ func _run() -> void:
 	var pilot := arguments.has("--pilot")
 	var cases := select_cases(arguments)
 	if cases.is_empty():
-		push_error("HARD_SUPPLY_INVALID_ARGS expected no args, --pilot, or --shard 0..11")
+		push_error("HARD_SUPPLY_INVALID_ARGS expected no args, --pilot, --case exact-id, or --shard 0..11")
 		quit(2)
 		return
 	var metadata := _source_metadata()
@@ -138,6 +141,7 @@ func _apply_directed_input(main, stats: Dictionary) -> void:
 	stats.pre_collisions = main.run.collisions
 	stats.pre_active = main.overdrive.is_active()
 	stats.pre_traffic = _npc_positions(main)
+	traffic_before = _traffic_snapshot(main.traffic)
 	if main.integrity.current <= 30.0: stats.input_observed.critical_frames += 1
 	_apply_adverse_input(main, stats)
 
@@ -149,6 +153,11 @@ func _npc_positions(main) -> Dictionary:
 
 func _validate_resources(main, before: Dictionary, contacts: Dictionary, stats: Dictionary) -> void:
 	super._validate_resources(main,before,contacts,stats)
+	if main.traffic.has_full_lane_wall() and not failure_keys.has(context + ": No three-lane wall"):
+		print("HARD_SUPPLY_FIRST_WALL ", JSON.stringify({"case_id":context,"frame":frame_index,"player_speed":main.drive.speed,
+			"player_x":main.drive.lateral_position,"input":stats.last_input,"core_state":main.traffic.lane_events.state,
+			"core_y":main.traffic.lane_events._core_y(),"core_lanes":main.traffic.lane_events.closed_lanes(),
+			"traffic_before":traffic_before,"traffic_after":_traffic_snapshot(main.traffic)}))
 	var input: Dictionary = stats.last_input
 	if input.brake and main.drive.speed < stats.pre_speed and main.run.collisions == stats.pre_collisions:
 		stats.input_observed.brake_deceleration_frames += 1

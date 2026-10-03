@@ -43,6 +43,10 @@ func _init() -> void:
 	observed.overdrive_ended = false
 	_check(Audit.missing_input_goals("overdrive_brake",observed).has("actual_post_overdrive_braking"), "braking during active boost cannot prove braking after it ended")
 	_check(Audit.select_cases(PackedStringArray(["--pilot"])).size() == 4, "pilot is only four declared representative rows")
+	var exact_case := "sunrise_express/tidebreaker/brake_repass/seed2026"
+	var diagnostic := Audit.select_cases(PackedStringArray(["--case",exact_case]))
+	_check(diagnostic.size() == 1 and diagnostic[0].case_id == exact_case, "diagnosis selects one exact declared case without changing its seed or input")
+	_check(Audit.select_cases(PackedStringArray(["--case","unknown/car/scenario/seed0"])).is_empty(), "unknown diagnostic case cannot fall back to a different fixture")
 	var shard_ids := {}
 	for shard in range(12):
 		var selected := Audit.select_cases(PackedStringArray(["--shard",str(shard)]))
