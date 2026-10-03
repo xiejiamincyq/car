@@ -73,7 +73,8 @@ func _run() -> void:
 		var sample: Dictionary = cases[index]
 		active_scenario = sample.scenario
 		passed_during_brake.clear()
-		_release_input()
+		# Main's ready registers driving actions. The inherited sample releases
+		# them at teardown; do not release nonexistent actions before first ready.
 		_physical_forward(false)
 		var start := Time.get_ticks_usec()
 		var row: Dictionary = await _sample_configuration([sample.track_id,sample.vehicle_id,sample.run_seed], index, 2, sample.initial_hull_fixture, 120.0, sample.case_id)
