@@ -390,7 +390,13 @@ static func pilot_route_safe(x: float, player_y: float, player_speed: float, aut
 			var seconds := step * 0.05
 			var predicted_x := move_toward(x, target_x, authority * seconds)
 			var obstacle_x: float = obstacle.x + obstacle.vx * seconds
-			if absf(obstacle.vx) > 0.01:
+			# Optional test-driver intent: warning time precedes lateral movement.
+			# Legacy callers without these fields retain the measured-vx path.
+			var intent_speed: float = obstacle.get("intent_lateral_speed",0.0)
+			if intent_speed > 0.0:
+				var lateral_seconds := maxf(0.0,seconds-float(obstacle.get("warning_delay",0.0)))
+				obstacle_x = move_toward(float(obstacle.x),float(obstacle.target_x),intent_speed*lateral_seconds)
+			elif absf(obstacle.vx) > 0.01:
 				obstacle_x = clampf(obstacle_x, minf(obstacle.x, obstacle.target_x), maxf(obstacle.x, obstacle.target_x))
 			var moving_seconds := minf(seconds, player_speed / -acceleration) if acceleration < 0.0 else seconds
 			var road_motion := maxf(0.0, player_speed * moving_seconds + 0.5 * acceleration * moving_seconds * moving_seconds)

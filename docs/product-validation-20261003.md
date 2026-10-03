@@ -251,3 +251,15 @@ Main现把已有施工前非取模道路快照传给金币，局部换算为现�
 各片源元数据完全相同，结束后复核HEAD、14项生产文件、自然观察器及Hard驾驶器哈希均一致。所有12份stderr为空，SHA-256均为`E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855`。stdout与每片末尾指向的详细summary保留于`tmp/hard-matrix-20261004-033629-shardN.*.log`；不复跑或替换旧批记录。矩阵结束后才将纯几何原型搬入`tests/support/traffic_audit_geometry.gd`和`tests/test_product_traffic_oracle.gd`；正式专项53项/准确完成标记/ALL 1通过，不改变生产。真实子步观察器正式接入及全套更新仍待下一片，独立可达通道和1080证据尚缺。
 
 纯检查器已提交`8f9094c`，正式53项日志`tmp/product-independent-oracle-formal-20261004.log` SHA-256 `0F9AC80F421CEC07D1D93289C556E3CFEDDE083B06D6C07022E6BD0E82C49636`。随后将观察器及15项自检搬入`tests/support/observed_traffic.gd`、`tests/test_product_traffic_observer.gd`，专项退出0/完整标记/ALL 1，日志`tmp/product-independent-observer-formal-20261004.log` SHA-256 `CD9D0AAB49263E681A5F4731AC21DF2A7DCD494D5655F2D0BCEAA57501532C27`。18项`test_product_traffic_*.gd`相邻回归全部通过，含真实Main原墙反例自然完赛与同车再超车；没有修改生产、Hard驾驶器或旧15例基线。自审确认检查器独立于生产判断、生命周期缺证不静默算通过、原始快照不持有可变NPC引用、记录缓冲有界；无新增依赖/存档I/O。这里只接入NPC/NPC与生命周期基础，NPC/核心、有限速度/预警/预约检查和可达路径仍待扩展；127项全量尚未重跑，不冒称当前全套已通过。
+
+### 覆盖缺口的局部根因：测试驾驶器忽略变道预警
+
+临时诊断入口复跑Flash重损、Neon Comet超载和Sunrise Comet重损，均重现旧终态/覆盖不足、原生退出2、引擎错误0。碰撞前记录显示驾驶器保持横向位置、直到NPC开始移动后才避让，之后进入刹车且不转向。预测器只用当前横向速度，因此亮灯而尚未移动的NPC被当作始终不横移。补救探针还证明碰撞前第一次紧急刹车时，原启发式在候选位置中已找不到预测安全路线；不是未经验证地把所有失败归咎于游戏交通。
+
+测试层修正：Hard为已警告且启用变道的NPC提供可选`intent_lateral_speed`和`warning_delay`；共用驾驶预测器在剩余预警结束后，以该车型NPC已存在的2.4/3.4车道/秒向目标做有界移动。没有这些字段的原30例调用仍沿用实测vx路径。提前预测只用于选择真实驾驶输入，不用于计入变道/维修等实际覆盖，不改变生产NPC/玩家/损伤/补给规则。
+
+`test_product_pilot_warning.gd`验证静止vx但已公告左变道的保持原位路径不安全；有效行为红保留在`tmp/product-hard-warning-pilot-behavior-red-20261004.log` SHA-256 `850185B0B42D9E80AD51A476561A56618609B14310AC84DCFE1EF8D426E931FA`。最初“滑行向另一侧必安全”的正控未经证实，实际扫掠显示仍有短暂接触，故不算有效红；修正为同时有限刹车并侧移的正控，另明确滑行侧移仍不安全、长预警须等待、无可选字段保持旧调用行为。最终5项专项通过，日志`tmp/product-hard-warning-pilot-refined-green-20261004.log` SHA-256 `F8CE988C3F6C0E97729A666BB8ECCD97A52EE06189063D9F8E49A8D6B8F30610`。
+
+7个旧缺口在原关/车/种子/初始资源下逐例重新运行：6例目标触达、1例仍不足，全部账本与现有参考交通断言错误0、无引擎错误。Flash重损46.3833秒正常燃油失败但有效维修40、碰撞2；Freight/Storm Comet重损分别60.0333/58.5833秒完赛、有效维修40/60、碰撞0。Neon/Freight/Storm Comet超载分别44.6333/48.45/46.05秒完赛、碰撞0，实际超载结束后制动发生。Sunrise Comet重损仍47.9秒燃油失败、维修0，保留覆盖不足；不能把6个定向重跑替换原288批或宣布新整批通过。下一片单独诊断该例补给选择/可达性，不降低困难倍率。
+
+原三难度30例自然烟测再次退出0、30/30目标覆盖、107,790帧、86燃油/63维修/3028金币、账本0错误和退出ERROR/WARNING为0，日志`tmp/product-hard-warning-legacy-smoke-20261004.log` SHA-256 `B7ACCE7C9DC90274E94961E371FE2CADC8E5D47E91A9287AAF8A66C7C329CB16`；不宣称与历史日志全部字节或每个计数相同。Hard选择/分片/目标自检和4例小批亦通过，后者摘要`tmp/product-hard-supply-43820-683288/summary.json`，墙钟10.959951秒。代码审查确认可选字段只扩展测试控制启发式，保留覆盖定义及自然终态，运行资源不注入；游戏源码未改。最新全量128及新完整288仍待固定候选复验，R2/R3继续未关闭。

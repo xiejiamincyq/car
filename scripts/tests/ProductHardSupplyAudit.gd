@@ -236,8 +236,12 @@ func _apply_adverse_input(main, stats: Dictionary) -> void:
 	var acceleration: float = -main.drive.braking if planned_brake else (main.drive.acceleration + (Config.OVERDRIVE_ACCELERATION_BONUS if main.overdrive.is_active() else 0.0) if planned_forward else -main.drive.rolling_resistance)
 	var obstacles: Array = []
 	for npc in main.traffic.vehicles:
+		var warned_intent: bool = npc.lane_change_enabled and npc.warning_started
+		var intent_rate: float = main.traffic.FAST_LANE_CHANGE_SPEED if npc.kind == main.traffic.Kind.FAST_OVERTAKE else main.traffic.NORMAL_LANE_CHANGE_SPEED
 		obstacles.append({"x":(npc.lane_position-1.0)*260.0,"y":npc.y,"speed":npc.actual_world_speed,"vx":npc.lateral_velocity,
-			"target_x":(float(npc.target_lane)-1.0)*260.0 if npc.lane_change_enabled else (npc.lane_position-1.0)*260.0})
+			"target_x":(float(npc.target_lane)-1.0)*260.0 if npc.lane_change_enabled else (npc.lane_position-1.0)*260.0,
+			"intent_lateral_speed":intent_rate*260.0 if warned_intent else 0.0,
+			"warning_delay":maxf(0.0,npc.warning_remaining) if warned_intent and not npc.change_started else 0.0})
 	for core in main.traffic.lane_events.core_markers(720.0):
 		obstacles.append({"x":(core.x-1.5)*260.0,"y":core.y,"speed":0.0,"vx":0.0,"target_x":(core.x-1.5)*260.0,
 			"half_x":260.0*Config.LANE_EVENT_CORE_HALF_LANE_RATIO+35.0,"half_y":75.0})
