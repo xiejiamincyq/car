@@ -341,7 +341,7 @@ func _process(delta: float) -> void:
 	collision_visual_remaining = maxf(0.0, collision_visual_remaining - delta)
 	cone_hit_cooldown = maxf(0.0, cone_hit_cooldown - delta)
 	_update_knocked_cones(delta)
-	# The road moves before construction can alter speed. Supplies must use this
+	# The road moves before construction can alter speed. Ground pickups use this
 	# same unwrapped world-pixel advance for both movement and spacing clocks.
 	var frame_forward_advance := maxf(0.0, drive.speed) * GameConfig.ROAD_SCROLL_MULTIPLIER * maxf(0.0, delta)
 	road_scroll = advance_road_scroll(road_scroll, drive.speed, delta, ROAD_MARK_REPEAT_DISTANCE)
@@ -379,7 +379,7 @@ func _process(delta: float) -> void:
 	audio_director.update_driving(delta, drive.speed / maxf(1.0, effective_max_speed), accelerate_input > 0.0 and Input.is_action_just_pressed("accelerate"), traffic.vehicles)
 	_update_fuel_pickups(delta, frame_forward_advance)
 	_update_repair_pickups(delta, frame_forward_advance)
-	_update_coins(delta)
+	_update_coins(delta, frame_forward_advance)
 	collision.advance(delta)
 	var previous_player_center: Variant = null
 	if delta > 0.0:
@@ -632,16 +632,21 @@ func _world_spawn_exclusion_zones() -> Array[Vector2]:
 	zones.append_array(CoinRouteDirector.traffic_spawn_exclusion_zones(coin_director.coins, GameConfig.ROAD_LANE_COUNT))
 	return zones
 
-func _update_coins(delta: float) -> void:
+func _update_coins(delta: float, frame_forward_advance: float = -1.0) -> void:
 	var viewport_size := get_viewport_rect().size
 	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / GameConfig.ROAD_LANE_COUNT
 	var road_left := viewport_size.x * 0.5 - GameConfig.ROAD_HALF_WIDTH
 	var player_center := Vector2(viewport_size.x * 0.5 + drive.lateral_position, TrackGeometry.player_y(viewport_size.y))
 	var player_lane_position := float(GameConfig.ROAD_LANE_COUNT - 1) * 0.5 + drive.lateral_position / lane_width
 	var core_markers: Array = traffic.lane_events.core_markers(viewport_size.y)
+	# Adapt the completed ground travel to the director's existing speed API.
+	# Route reachability below still uses current post-impact driving ability.
+	var motion_speed := drive.speed
+	if frame_forward_advance >= 0.0:
+		motion_speed = frame_forward_advance / (GameConfig.ROAD_SCROLL_MULTIPLIER * delta) if delta > 0.0 else 0.0
 	coin_director.tick(
 		delta,
-		drive.speed,
+		motion_speed,
 		_player_lane(),
 		viewport_size.y,
 		CoinRouteDirector.npc_exclusion_zones(traffic.vehicles),

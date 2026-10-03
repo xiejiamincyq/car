@@ -92,9 +92,9 @@ class MainPipelineProbe extends "res://scripts/main.gd":
 	func _update_repair_pickups(delta: float, frame_forward_advance: float = -1.0) -> void:
 		_record_stage("repair")
 		super._update_repair_pickups(delta, frame_forward_advance)
-	func _update_coins(delta: float) -> void:
+	func _update_coins(delta: float, frame_forward_advance: float = -1.0) -> void:
 		_record_stage("coins")
-		super._update_coins(delta)
+		super._update_coins(delta, frame_forward_advance)
 
 func _init() -> void:
 	call_deferred("_run")
