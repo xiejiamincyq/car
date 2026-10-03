@@ -1039,6 +1039,11 @@ func _closure_can_continue() -> bool:
 			for closed_lane in reserved_lanes:
 				if absf(vehicle.lane_position - closed_lane) * lane_width >= vehicle.half_width + lane_width * GameConfig.LANE_EVENT_CORE_HALF_LANE_RATIO:
 					continue
+				# A scheduled core may be behind a car's center yet still cover
+				# its body. Reject birth contact before the forward braking test;
+				# 34px is half the existing 68px solid barrier, not its shadow.
+				if absf(vehicle.y - lane_events._core_y()) < vehicle.half_length + 34.0:
+					return false
 				var net_gap := vehicle.y - lane_events._core_y() - maxf(62.0, vehicle.half_length + 20.0) - FOLLOWING_BODY_MARGIN
 				var stopping_distance := (vehicle.actual_world_speed * vehicle.actual_world_speed / (2.0 * NPC_BRAKING) + vehicle.actual_world_speed * BRAKING_REACTION_SECONDS) * GameConfig.ROAD_SCROLL_MULTIPLIER
 				if net_gap >= -maxf(62.0, vehicle.half_length + 20.0) * 2.0 and net_gap < stopping_distance:
