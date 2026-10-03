@@ -38,8 +38,14 @@ static func missing_input_goals(scenario: String, observed: Dictionary) -> Array
 		_: missing.append("unknown_scenario")
 	return missing
 
-static func suitable_repass_target(y: float, world_speed: float, collided: bool, player_y: float, maximum_speed: float) -> bool:
-	return y > player_y - 180.0 and y < player_y and world_speed < maximum_speed * 0.6 and not collided
+static func suitable_repass_target(y: float, world_speed: float, collided: bool, player_y: float, player_speed: float, braking: float, recycle_y: float) -> bool:
+	if collided or y < 0.0 or y >= player_y or world_speed <= 0.0 or player_speed <= world_speed or braking <= 0.0: return false
+	# Under full braking, relative forward travel peaks when player speed
+	# reaches this NPC's speed. Need a real behind->ahead crossing without
+	# first retiring the NPC, using the chosen car's actual braking ability.
+	var closing_speed := player_speed - world_speed
+	var peak_y := y + closing_speed * closing_speed / (2.0 * braking) * Config.ROAD_SCROLL_MULTIPLIER
+	return peak_y >= player_y + 30.0 and peak_y <= recycle_y - 80.0
 
 static func select_cases(arguments: PackedStringArray) -> Array[Dictionary]:
 	var cases := build_cases()
@@ -218,7 +224,7 @@ func _apply_adverse_input(main, stats: Dictionary) -> void:
 		stats.input_observed.avoid_input_frames += 1
 	if active_scenario == "brake_repass" and stats.input_observed.same_vehicle_repasses == 0 and seconds >= stats.brake_retry_after and stats.brake_attempts < 3:
 		for npc in main.traffic.vehicles:
-			if suitable_repass_target(npc.y,npc.actual_world_speed,npc.collided_with_player,player_y,main.drive.max_speed):
+			if suitable_repass_target(npc.y,npc.actual_world_speed,npc.collided_with_player,player_y,main.drive.speed,main.drive.braking,main.TrackGeometry.normal_recycle_y(720.0)):
 				stats.brake_until = seconds + minf(3.5, main.drive.speed / main.drive.braking + 1.5)
 				stats.brake_retry_after = seconds + 12.0
 				stats.brake_attempts += 1
