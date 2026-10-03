@@ -5,6 +5,7 @@ const CoreOracle = preload("res://tests/support/traffic_core_audit.gd")
 var core_steps := 0
 var core_birth_count := 0
 var core_retirement_count := 0
+var aborted_core_birth_count := 0
 var core_issues: Array[String] = []
 var core_issue_counts: Dictionary = {}
 var first_core_issue: Dictionary = {}
@@ -40,9 +41,20 @@ func _tick_step(delta: float, player_speed: float, player_lane: int, frame_start
 	# Only previously existing NPCs can meet that core advance; unborn NPCs
 	# must not be projected backwards into this phase.
 	var early_start: Dictionary = {}
+	var physical_early_retired: Dictionary = {}
 	for key in _early_retired:
+		# Scheduling is an atomic proposal before NPC movement. A newborn
+		# unchanged core cancelled at this boundary was never published;
+		# keep its raw lifecycle/count, not a fictitious physical contact.
+		if (not core_before.has(key) and events.births.has(key)
+			and events.retirement_reasons.get(key,"") == "cancelled_warning"
+			and events.births[key] == _early_retired[key]
+			and CoreOracle.Geometry._valid_body(events.births[key])):
+			aborted_core_birth_count += 1
+			continue
 		if core_start.has(key): early_start[key] = core_start[key]
-	issues.append_array(CoreOracle.audit_cross_step(npc_before,npc_before,early_start,_early_retired))
+		physical_early_retired[key] = _early_retired[key]
+	issues.append_array(CoreOracle.audit_cross_step(npc_before,npc_before,early_start,physical_early_retired))
 	var live_start: Dictionary = {}
 	var live_final: Dictionary = {}
 	for key in _motion_cores:

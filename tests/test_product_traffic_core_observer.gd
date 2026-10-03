@@ -37,6 +37,18 @@ class MissingFinalEvents extends RecordedEvents:
 	func _retire(_bodies: Dictionary, _reason: String) -> void:
 		pass
 
+class InvalidBirthEvents extends RecordedEvents:
+	func raw_cores() -> Dictionary:
+		var bodies := super.raw_cores()
+		for body in bodies.values(): body.half_x = -1.0
+		return bodies
+
+class MovedRollbackEvents extends RecordedEvents:
+	func _retire(bodies: Dictionary, reason: String) -> void:
+		var final := bodies.duplicate(true)
+		for body in final.values(): body.y += 1.0
+		super._retire(final,reason)
+
 func _init() -> void:
 	var observed := Recorder.new(611)
 	var plain := Traffic.new(611)
@@ -92,6 +104,30 @@ func _init() -> void:
 	missing.cancel_at = 1
 	missing.tick(1.0/60.0,0.0,2)
 	_check(missing.core_issue_counts.get("core_unobserved_lifetime",0) == 1,"unexplained core disappearance fails rather than passing")
+	# A scheduled proposal is born and rolled back synchronously before the
+	# first NPC update. It was never published as a live world obstacle.
+	var aborted := _scheduled_birth(1)
+	aborted.tick(1.0/60.0,0.0,0)
+	_check(aborted.core_birth_count == 1 and aborted.core_retirement_count == 1,"retains rejected scheduled proposal evidence")
+	_check(aborted.core_issues.is_empty(),"atomic pre-motion birth rollback is not a physical contact")
+	_check(aborted.get("aborted_core_birth_count") == 1,"reports atomic rollback separately rather than hiding birth and retirement")
+	var published := _scheduled_birth(2)
+	published.tick(1.0/60.0,0.0,0)
+	_check(published.core_issue_counts.get("core_initial_overlap",0) == 1,"a newborn core that reaches NPC motion still detects initial contact")
+	var existing_overlap := _fixture(1)
+	existing_overlap.vehicles[0].y = -30.0
+	existing_overlap.tick(1.0/60.0,0.0,2)
+	_check(existing_overlap.core_issue_counts.get("core_initial_overlap",0) == 1,"preexisting core contact is not waived by early cancellation")
+	var invalid_birth := _scheduled_birth(1)
+	invalid_birth.lane_events = InvalidBirthEvents.new(2026)
+	invalid_birth.lane_events._cooldown_remaining = 0.0
+	invalid_birth.tick(1.0/60.0,0.0,0)
+	_check(invalid_birth.core_issue_counts.get("core_invalid_snapshot",0) == 1,"invalid rolled-back geometry remains a failure")
+	var moved_birth := _scheduled_birth(1)
+	moved_birth.lane_events = MovedRollbackEvents.new(2026)
+	moved_birth.lane_events._cooldown_remaining = 0.0
+	moved_birth.tick(1.0/60.0,0.0,0)
+	_check(moved_birth.core_issue_counts.get("core_sweep_overlap",0) == 1,"a birth with actual travel before cancellation is not an atomic rollback")
 	for failure in failures: push_error("CORE_OBSERVER_SELF_CHECK "+failure)
 	print("CORE_OBSERVER_SELF_CHECK checks=%d failures=%d" % [checks,failures.size()])
 	print("TEST_COMPLETE test_product_traffic_core_observer.gd")
@@ -101,6 +137,19 @@ func _fixture(cancel_at: int, with_npc: bool = true) -> Controlled:
 	var traffic := Controlled.new(2026)
 	_setup(traffic,with_npc)
 	traffic.cancel_at = cancel_at
+	return traffic
+
+func _scheduled_birth(cancel_at: int) -> Controlled:
+	var traffic := Controlled.new(2026)
+	traffic.set_difficulty_stage(3)
+	traffic.lane_events.configure_double_lane_probability(0.0)
+	traffic.lane_events._cooldown_remaining = 0.0
+	traffic._spawn_cooldown = 1000.0
+	traffic.cancel_at = cancel_at
+	traffic.end_y = -584.58
+	var vehicle = traffic.acquire_vehicle(Traffic.Kind.STEADY_SLOW,2,-584.58,200.0)
+	vehicle.lane_change_enabled = false
+	traffic.vehicles.append(vehicle)
 	return traffic
 
 func _setup(traffic, with_npc: bool) -> void:
