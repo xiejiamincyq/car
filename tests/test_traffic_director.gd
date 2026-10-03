@@ -158,7 +158,11 @@ func _init() -> void:
 			break
 	assert(overtaker.overtake_warning_remaining >= 1.0, "Fast overtaker must warn for at least one visible second before collision risk")
 	assert(director._is_lane_change_visible(overtaker), "The arrival warning must start with the actual vehicle visible, not at a frozen partial-offscreen staging point")
-	assert(director.is_fast_spawn_fair(760.0, 1), "Fast overtaker must use the player-speed reaction-distance fairness check")
+	var empty_fast_spawn := TrafficDirector.new(747)
+	assert(empty_fast_spawn.is_fast_spawn_fair(760.0, 1), "Fast spawn must remain available on an empty road with a player escape lane")
+	# director still contains the previous 200-speed changer in lane 1. An
+	# unbraked 920-speed candidate at the rear no longer gets a kind exemption.
+	assert(not director.is_fast_spawn_fair(760.0, 1), "Fast spawn must be rejected when the occupied lane has insufficient braking distance")
 	assert(TrafficDirector.fast_warning_y(700.0) >= 0.0 and TrafficDirector.fast_warning_y(700.0) <= 720.0, "Fast warning must be visible in the viewport")
 
 	director.reset()
@@ -248,4 +252,5 @@ func _init() -> void:
 
 	director.reset()
 	assert(director.vehicles.is_empty(), "Restart must clear actual active traffic")
+	print("TEST_COMPLETE test_traffic_director.gd")
 	quit()

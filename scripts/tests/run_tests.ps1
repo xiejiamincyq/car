@@ -35,7 +35,7 @@ $completionRequired = @(
     "test_save_recovery.gd", "test_save_feedback.gd", "test_tail_transform.gd",
     "test_main_persistence_mode.gd", "test_product_copy.gd",
     "test_export_resource_manifest.gd", "test_menu_flow.gd", "test_release_regression.gd",
-    "test_impact_sweep.gd", "test_traffic_all_speed_safety.gd"
+    "test_impact_sweep.gd", "test_traffic_all_speed_safety.gd", "test_traffic_director.gd"
 )
 $tests = @(Get-ChildItem (Join-Path $projectRoot "tests") -File -Filter $TestFilter | Sort-Object Name)
 if ($tests.Count -eq 0) {

@@ -820,7 +820,10 @@ func _can_spawn_candidate(candidate: TrafficVehicle, player_speed: float, player
 		if shares_longitudinal_corridor:
 			if not vehicles_have_minimum_gap(vehicle, candidate):
 				return false
-			if candidate.kind != Kind.FAST_OVERTAKE and vehicle.kind != Kind.FAST_OVERTAKE and not vehicles_keep_safe_gap_until_recycle(vehicle, candidate, player_speed):
+			# A slow offscreen birth can appear in front of an existing fast car.
+			# Body spacing alone is insufficient for finite braking; use actual
+			# speeds for every kind, including already-braked fast candidates.
+			if not vehicles_keep_safe_gap_until_recycle(vehicle, candidate, player_speed):
 				return false
 		elif reserves_adjacent_wall_space:
 			if not vehicles_have_minimum_gap(vehicle, candidate) or not vehicles_keep_safe_gap_until_recycle(vehicle, candidate, player_speed):
