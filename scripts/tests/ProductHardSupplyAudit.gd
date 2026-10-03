@@ -50,7 +50,7 @@ static func suitable_repass_target(y: float, world_speed: float, collided: bool,
 static func supply_needs_braking(x: float, speed: float, authority: float, target_x: float, pickup_y: float, player_y: float) -> bool:
 	# Only visible, not-yet-missed supplies affect actual input. This optimistic
 	# travel-time heuristic is not a traffic fairness or reachability assertion.
-	if speed <= 0.0 or authority <= 0.0 or pickup_y < 0.0 or pickup_y > player_y + 30.0: return false
+	if speed <= 0.0 or authority <= 0.0 or pickup_y < 0.0 or pickup_y >= player_y + 62.0: return false
 	var lateral_distance := maxf(0.0,absf(target_x-x)-48.0)
 	if lateral_distance <= 0.0: return false
 	var available := maxf(0.0,player_y+62.0-pickup_y)/(speed*Config.ROAD_SCROLL_MULTIPLIER)
@@ -224,7 +224,10 @@ func _apply_adverse_input(main, stats: Dictionary) -> void:
 	var nearest_y := -INF
 	for pickup in pickups:
 		if pickup.get_instance_id() == stats.skip_target_id: continue
-		if pickup.y < 0.0 or pickup.y > player_y + 30.0 or pickup.y < nearest_y: continue
+		# Supply collection uses a strict 62px longitudinal contact window.
+		# Keep the legacy coin pursuit cutoff unchanged.
+		var missed: bool = pickup.y > player_y + 30.0 if pickup is CoinPickup else pickup.y >= player_y + 62.0
+		if pickup.y < 0.0 or missed or pickup.y < nearest_y: continue
 		nearest_y = pickup.y
 		target_x = (pickup.lane_position - 1.0) * 260.0 if pickup is CoinPickup else (float(pickup.lane) - 1.0) * 260.0
 	var goal_skip: bool = active_scenario == "skip_first_fuel" and stats.skip_target_id != 0 and stats.input_observed.skip_outcome == "live"
