@@ -310,8 +310,12 @@ func _wall_following_target(vehicle: TrafficVehicle) -> float:
 			if second == vehicle or second.y >= vehicle.y:
 				continue
 			var horizon := BRAKING_REACTION_SECONDS + vehicle.actual_world_speed / NPC_BRAKING
-			var future_pair_gap := absf(first.y - second.y - (first.actual_world_speed - second.actual_world_speed) * GameConfig.ROAD_SCROLL_MULTIPLIER * horizon)
-			if minf(absf(first.y - second.y), future_pair_gap) >= TrafficSafetyPolicy.WALL_LONGITUDINAL_CLEARANCE:
+			var pair_delta := first.y - second.y
+			var future_pair_delta := pair_delta - (first.actual_world_speed - second.actual_world_speed) * GameConfig.ROAD_SCROLL_MULTIPLIER * horizon
+			# Equal longitudinal position may occur between two separated
+			# endpoints. Sign crossing makes that interior minimum exactly zero.
+			var minimum_pair_gap := 0.0 if pair_delta * future_pair_delta <= 0.0 else minf(absf(pair_delta), absf(future_pair_delta))
+			if minimum_pair_gap >= TrafficSafetyPolicy.WALL_LONGITUDINAL_CLEARANCE:
 				continue
 			var occupied := TrafficSafetyPolicy.reserved_lanes(vehicle)
 			for other in [first, second]:
