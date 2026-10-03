@@ -51,15 +51,18 @@ static func _frame_from_raw(raw: Dictionary, delta: float, speed: float) -> Dict
 				and raw.early_retired.has(key) and not raw.motion_cores.has(key)
 				and raw.retirement_reasons.get(key,"") == "cancelled_warning"
 				and before == raw.early_retired[key] and before == after): continue
-			# NPC y moves once per actual substep. Extra lateral radius covers
-			# even a bent path within the independently audited 3.4 lane/s cap.
+			# NPC y moves once per actual substep. A bounded lateral path from
+			# a to b can visit p only if |p-a|+|b-p| <= total_budget.
+			# Thus all bends lie within midpoint(a,b) +/- total_budget/2.
 			# Birth/retirement occupy the full interval conservatively, not later
 			# than reality. This can miss a route but cannot create a fake gap.
-			var extra_x := 3.4*260.0*delta if family == "npc" else 0.0
+			var lateral_budget := 3.4*260.0*delta+0.00000001
+			if family == "npc" and absf(after.x-before.x) > lateral_budget: return frame
+			var extra_x := lateral_budget*0.5 if family == "npc" else absf(after.x-before.x)*0.5
 			var center_x: float = (before.x+after.x)*0.5
 			var center_y: float = (before.y+after.y)*0.5
 			frame.bodies.append({"x0":center_x,"x1":center_x,"y0":center_y,"y1":center_y,
-				"half_x":before.half_x+absf(after.x-before.x)*0.5+extra_x,
+				"half_x":before.half_x+extra_x,
 				"half_y":before.half_y+absf(after.y-before.y)*0.5,"family":family,"identity":key})
 	frame.status = "valid"
 	return frame
