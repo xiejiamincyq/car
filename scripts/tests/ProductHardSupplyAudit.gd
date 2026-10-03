@@ -47,6 +47,15 @@ static func suitable_repass_target(y: float, world_speed: float, collided: bool,
 	var peak_y := y + closing_speed * closing_speed / (2.0 * braking) * Config.ROAD_SCROLL_MULTIPLIER
 	return peak_y >= player_y + 30.0 and peak_y <= recycle_y - 80.0
 
+static func supply_needs_braking(x: float, speed: float, authority: float, target_x: float, pickup_y: float, player_y: float) -> bool:
+	# Only visible, not-yet-missed supplies affect actual input. This optimistic
+	# travel-time heuristic is not a traffic fairness or reachability assertion.
+	if speed <= 0.0 or authority <= 0.0 or pickup_y < 0.0 or pickup_y > player_y + 30.0: return false
+	var lateral_distance := maxf(0.0,absf(target_x-x)-48.0)
+	if lateral_distance <= 0.0: return false
+	var available := maxf(0.0,player_y+62.0-pickup_y)/(speed*Config.ROAD_SCROLL_MULTIPLIER)
+	return available < lateral_distance/authority + 0.25
+
 static func select_cases(arguments: PackedStringArray) -> Array[Dictionary]:
 	var cases := build_cases()
 	if arguments.is_empty(): return cases
@@ -230,7 +239,9 @@ func _apply_adverse_input(main, stats: Dictionary) -> void:
 				stats.brake_attempts += 1
 				stats.input_events.append({"event":"planned_brake_to_let_npc_pass","seconds":seconds,"npc_generation":"%d/%d" % [npc.get_instance_id(),npc.motion_generation]})
 				break
-	var planned_brake: bool = seconds < stats.brake_until or (active_scenario == "overdrive_brake" and frame_index >= 840 and frame_index < 945)
+	var supply_goal: bool = main.integrity.current < 70.0 or main.run.fuel < 60.0
+	var supply_brake: bool = not goal_skip and supply_goal and nearest_y != -INF and supply_needs_braking(main.drive.lateral_position,main.drive.speed,authority,target_x,nearest_y,player_y)
+	var planned_brake: bool = supply_brake or seconds < stats.brake_until or (active_scenario == "overdrive_brake" and frame_index >= 840 and frame_index < 945)
 	var target_speed: float = (main.drive.max_speed + main.overdrive.speed_limit_bonus()) * main.integrity.max_speed_multiplier() * (0.65 if main.run.fuel < 25.0 else 0.85)
 	var planned_forward: bool = not planned_brake and main.drive.speed < target_speed
 	var acceleration: float = -main.drive.braking if planned_brake else (main.drive.acceleration + (Config.OVERDRIVE_ACCELERATION_BONUS if main.overdrive.is_active() else 0.0) if planned_forward else -main.drive.rolling_resistance)
@@ -270,7 +281,7 @@ func _apply_adverse_input(main, stats: Dictionary) -> void:
 	elif planned_forward: Input.action_press("accelerate")
 	if steering > 0.0: Input.action_press("steer_right",steering)
 	elif steering < 0.0: Input.action_press("steer_left",-steering)
-	stats.last_input = {"planned_forward":planned_forward,"planned_brake":planned_brake,"safety_override":override_brake,
+	stats.last_input = {"planned_forward":planned_forward,"planned_brake":planned_brake,"supply_brake":supply_brake,"safety_override":override_brake,
 		"accelerate":Input.is_action_pressed("accelerate"),"brake":Input.is_action_pressed("brake"),"steering":steering}
 	stats.input_counts["brake" if stats.last_input.brake else ("accelerate" if stats.last_input.accelerate else "coast")] += 1
 	if override_brake: stats.input_counts.safety_override += 1
