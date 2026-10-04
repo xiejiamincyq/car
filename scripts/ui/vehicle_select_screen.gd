@@ -42,8 +42,6 @@ func _ready() -> void:
 	back_button.pressed.connect(_request_back)
 	confirm_button.pressed.connect(confirm_selection)
 	$Center/Card/Content.move_child(confirm_button, back_button.get_index())
-	for index in range(3, 6):
-		vehicle_buttons[index].focus_neighbor_bottom = vehicle_buttons[index].get_path_to(confirm_button)
 
 func setup(progress: Dictionary, active_language: String) -> void:
 	language = active_language
@@ -103,6 +101,7 @@ func _refresh() -> void:
 	performance_chart.present(selected, language)
 	confirm_button.disabled = not selected.unlocked
 	confirm_button.text = _text("garage.confirm") if selected.unlocked else _text("garage.locked_short")
+	_update_focus_route(selected.unlocked)
 	preview.texture = load(String(selected.texture_path)) as Texture2D
 	preview.pivot_offset = preview.size * 0.5
 	preview.rotation = PlayerVehicleProfile.texture_rotation(selected)
@@ -111,6 +110,23 @@ func _refresh() -> void:
 	details.text = "%s  ·  %s  ·  %s" % [_text(String(selected.name_key)), _text(String(selected.role_key)), availability]
 	hint.text = _text("garage.hint")
 	back_button.text = _text("settings.back")
+
+func _update_focus_route(unlocked: bool) -> void:
+	# Tab is the action shortcut; arrows remain the vehicle browsing controls.
+	# Never traverse another card (which changes selection via focus_entered).
+	var selected_button := vehicle_buttons[controller.selected_index]
+	var action_button := confirm_button if unlocked else back_button
+	for button in vehicle_buttons:
+		button.focus_next = button.get_path_to(action_button)
+		button.focus_previous = button.get_path_to(back_button)
+	for index in range(3, 6):
+		vehicle_buttons[index].focus_neighbor_bottom = vehicle_buttons[index].get_path_to(action_button)
+	confirm_button.focus_previous = confirm_button.get_path_to(selected_button)
+	confirm_button.focus_next = confirm_button.get_path_to(back_button)
+	confirm_button.focus_neighbor_top = confirm_button.get_path_to(selected_button)
+	back_button.focus_previous = back_button.get_path_to(confirm_button if unlocked else selected_button)
+	back_button.focus_next = back_button.get_path_to(selected_button)
+	back_button.focus_neighbor_top = back_button.focus_previous
 
 func _text(key: String, values: Array = []) -> String:
 	return GameText.get_text(key, language, values)
