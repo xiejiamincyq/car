@@ -71,3 +71,11 @@ schema 核对采用实际本机引擎 `4.7.stable.official.5b4e0cb0f` 对应的 
 4. 使用同一真实包验证动态加载四关背景/六车/路面/BGM、中文字体和首启→保存→关闭→重启，以及计划性能/稳定性与真人验收。未签名需披露，不承诺无 Windows 提示，不自动公开发布。
 
 证据：`tmp/r4-export-manifest-red.log` 为旧预设 9 个配置失败点；扩展闭包红证据为 `tmp/r4-export-manifest-closure-red-v2.log`；原始缓存拒绝补测为 `tmp/r4-export-manifest-cache-guard-red.log`（1 失败）；最终绿证据为 `tmp/r4-export-manifest-final-green.log`。独立审核入口的 20 秒墙钟核验见 `tmp/r4-export-audit-cli.stdout.log`（127 项、0 失败、COMPLETE，退出 0，stderr 空），元数据专项见 `tmp/r4-export-metadata-regression-green.log`。尚未验证真实导出/PCK条目、模板当前状态、实际包字体/BGM、许可文本完整性或运行包性能。
+
+### 2026-10-04模板许可更新
+
+上述“模板当前状态/许可文本未验证”为旧片快照。当前已对实际安装的Windows x64 release模板运行独立四文件许可PCK，原生0、完整末尾标记、stderr为空；模板SHA、版本、release/template/editor特征与许可名称/版权字段均已实际核对。两份逐字节许可声明已整理至[发布许可目录](release-licenses/README.md)，供R5放入EXE/PCK外侧；不改变运行资源白名单，不替游戏选择许可证。原始API结果与旧编辑器记录相同，具体命令、哈希、失败尝试和范围见该目录说明。
+
+这不是游戏RC导出或独立游戏流程验收。最终包所用模板/许可材料仍需实际核对；游戏素材授权、身份元数据、实际PCK/字体/BGM、图形性能和真人门仍未关闭。此许可取证时自然驾驶矩阵尚在运行，仅新增未加载文档和独立临时许可工程；现原1080已准确终态并完成固定配置补证。菜单修复02b1b90的143全量已准确失败终态，242源码/测试/配置及HEAD无变化，仅difficulty_profiles超时；同代码与原120秒限制隔离复验通过。新增路线归档回归使下一次全量为144项，尚未以隔离结果替代完整门；许可文档尚未随游戏打包。
+
+后续终态更新：bd5acf2完整144项测试native0、246加载源/配置与HEAD稳定，原记录脚本四条零值误判经独立只读复核通过，原日志/外层exit1保留。见[联合技术门结论](product-gate-review-20261004.md)；源码依赖名单没有扩张。此后可以继续R4/R5准备，但尚未实际导出、没有取得包内/PCK/性能或真人验收。

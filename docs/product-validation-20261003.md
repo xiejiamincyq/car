@@ -491,3 +491,162 @@ tmp工具改为保留首接触前120步之外的已验证真实输入/坐标前�
 五轴自审：单一开发工具/正式测试切片，约320行；复用已有源配置、实际物理及独立几何，不重写交通政策；全部循环、状态上限和轮数有界；25加载文件/HEAD前后取证，无新依赖、远端数据或正式存档访问；输入/分片/空回放/非法前缀明确拒绝。资源导出相邻专项127逻辑资源通过，实际包仍未查。当前正式142项，原141不能替代新142全量。独立调度器仅在tmp，解析0错误，保留失败原生退出及全部rows/分母，不因未通过便跳过该片或改分母。全矩阵预算依据此pilot设置18片×60、并行2、每片5400墙钟秒（最大样本约23秒×60基础约23分钟，余量覆盖并发、其他配置与四轮搜索），只结束精确匹配的自有超时进程；原始证据待全部终态后统一哈希。旧原型失败记录不删除，不提前宣称1080通过。
 
 另对实际Main有NPC接触的Storm/Comet/9001组合，以工具原超载/制动轨迹和恒定30%完整度运行原会话41387：4轮均完整7200实际回放、独立问题0，但4轮内未取得无保守接触路线，准确终态原生1/源稳定/44.476948秒；这是unverified_replay，不能计通过、断言出生无解或悄悄增轮数。日志`tmp/natural-path-hull30-contact-case-20261004.log` SHA-256 `77E591C2061F82859EB46E349B1474D5D58C93B5CC412E00B2251FD86CB63D16`，完整证据`tmp/product-natural-path-43784-252965`。独立初步诊断四轮首接触帧2078/2080/4286/6023，均NPC；实际NPC路线/出生与前轮预测不同。保留前缀修正后后期仍会受未来玩家车道反馈改变，需更广覆盖后按证据评估规划能力，而不是改生产规则让工具过关。它与原Main重损pilot纵向/补给驾驶输入不同，不能冒充对原碰撞的同轨迹复验。
+
+本片已提交并备份`1178eea17227913dc408b5be3d00b6d2ee409f33`，远端同HEAD。固定142全量原会话15133已启动，日志`tmp/product-natural-path-full-20261004.log`；正式自然路线完整批`20261004-natural-path-3107587e`原会话61484已启动，18片各60例/并行2/每片5400秒看门狗。原片日志`tmp/product-20261004-natural-path-3107587e-shardN.stdout.log`及stderr；最终清单预期`tmp/product-20261004-natural-path-3107587e-ledger.json`。两批均未准确终态，不能计通过；不重启替代批，后续读取原15133/61484句柄及原日志。保持加载源码/测试/支持/配置及HEAD冻结，本文新增启动说明未被两批加载，不提交改变HEAD。额外重损未通过结果原生1保留；R2/R3整门、实际图形性能/实际包与真人验收均未关闭。
+
+### 固定142终态与R4菜单输入/视觉补证（2026-10-04）
+
+上段“两批未终态”是启动时快照，现更新：原15133固定142全量已准确原生0，142 RUN/62 TEST_COMPLETE/ALL142，解析、断言、超时及未完成0。日志`tmp/product-natural-path-full-20261004.log` SHA-256 `B13337BFA4EA1250171B51AD39EF3B5A4E5ACEE31EDC596A6B23E7D18867BA8B`；11条resources-in-use退出ERROR、27条WARNING仍保留，不称零警告。原61484路线矩阵尚在运行，原0/1片各60行/准确原生0/源稳定/未验证0，共120终态witness；其他片及整批不提前计通过。仍冻结HEAD1178eea和所有加载文件，不重启矩阵。
+
+新增未被矩阵加载的`tmp/r4-menu-capture-20261004.gd`实际OpenGL/兼容渲染、Dummy音频、无窗口抢焦点：标题/选关/选车/设置/操作说明/暂停/确认/成功/失败九种状态×中英文×720p/1080p，共36张PNG，尺寸、输出哈希及12个菜单源码/配置哈希前后核对一致，原生0/stderr为空。证据`tmp/r4-menu-capture-34944-920834/summary.json` SHA-256 `29389517EBE0FB09FC5CEE7D228587024E202BA6A9F62CD646181532FE692FF0`，stdout SHA-256 `C9EF01D7FA6E17A1CBC4D2E6C47F32FC655FBE2222C716625FCE6EA738DFD762`。四张保持16:9的contact-v2拼图逐组视觉检查，并单独检查英文720p操作说明/失败与中文1080p选车原图，未见截断、底部按钮缺失或文本溢出。最初contact拼图尺寸错误，保留但不作证据；最终使用contact-v2。结算为合成状态，不是实际完赛成绩；截图不证明输入、声音、FPS或独立EXE。
+
+审查发现原menu_flow等用pressed.emit/直接confirm，不能充当完整真实输入验收，故新增`tmp/r4-menu-input-20261004.gd`，不改生产代码。初版失败日志全部保留：0a65c205无完成标记且原生退出码缺失，证据不完整；ad6f3658与48e9ae40原生1，但原因已核实为测试事件未同步Input状态、坐标包含屏幕位置、错把恢复倒计时当RUNNING、错把返回标题按钮当返回选关、导航实际选中锁定车辆，不称生产红例。针对真实键盘用Input.parse_input_event并刷新事件；鼠标按实际Control中心/Viewport局部坐标发下按/释放，不直接调用按钮/菜单处理器。依据[Godot Input官方说明](https://docs.godotengine.org/en/stable/classes/class_input.html#class-input-method-parse-input-event)，这些事件送入游戏、不会移动系统鼠标或切换Windows窗口；未用Computer Use或网页监督。wrapper持有原Process Handle，要求完整footer、原生退出码及无脚本错误，120秒自有进程看门狗，缺码不再误作0。
+
+最终native79bc9f03原生0/281检查/失败0/source_stable=true/stderr为空；覆盖中英文、720p/1080p，标题难度/设置/帮助、锁定赛道拦截、选车只查看/独立确认、Space暂停、R确认/Escape取消、恢复安全倒计时、确认返回标题、两层返回，以及成功/失败结算返回选关/标题。输入检查未调用生产导航函数或pressed.emit；仅倒计时3秒推进与结算fixture直接设置。复用现有AudioTeardown弱引用退休检查，早版67027298原生0但5个ObjectDB退出告警保留，最终版未隐藏告警而通过实际播放实例释放。最终stdout`tmp/r4-menu-input-native-79bc9f03.stdout.log` SHA-256 `C30C46F6102C5E8CD16A48782D30E23EA174FC09AE72349CC99445983A399C9E`，stderr SHA-256 `E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855`。当前是源场景真实输入流，不是操作系统真人/导出EXE验收；tmp工具待固定矩阵准确结束后审查正式化。
+
+可用性待改进：从首车向下会选中锁定的第4车，确认随之禁用；当前Shift+Tab经返回再到确认可保留首车并启动，真实事件已验证。不是无键盘通路，但不够直观。记录为后续候选修复，须先最小有效红例、再修导航/重跑影响检查，不能在当前固定矩阵中途修改Main或选车源码。
+
+### 实际release模板许可取证与声明归档（2026-10-04）
+
+本片分类为progress：补齐旧编辑器证据不能证明模板的R4缺口，未修改生产行为/HEAD。实际安装Windows x64 release模板109160448字节/SHA `C42EB5D17F683EB8BCD52C19A9F36EBF811B1788623878D5276A7D9FFC09F95C`，PE签名0x4550/machine0x8664/版本4.7。官方模板禁止--path与CWD裸工程加载，失败日志保留；改用同字节复制模板及不含游戏/存档的独立四文件PCK。第一版缺全局类缓存，许可读取原生0但stderr ERROR，审核准确不通过；第二版补齐合法空类缓存，实际release特征/template=true/editor=false，原生0/末尾标记/stderr空，19许可、102组件记录、106版权组、未解析许可0。无CU、网页调用或游戏导出。
+
+有效证据`tmp/r4-template-license-20261004/v2/`：stdout SHA `D0BB08A71353554F5998BFA4296B4BAF864B74156525CAAEB1210794B0AE8764`、validation SHA `E2CC0775D2901674D1C3A418622A5EC76885C8736E19EB9EA2EB2260F9864E8D`，API JSON与旧编辑器逐字节一致。必要引擎全文/第三方版权及19引用许可已以apply_patch整理至`docs/release-licenses/GODOT_LICENSE.txt`（1149字节/SHA B0435E3B3E4E55238F05F4B306F30524A1B2E20147810D436EAA554FA6855C80）、`GODOT_COPYRIGHT.txt`（93347字节/SHA 92B24143F6083111537353995AC84F0F89077B444D513C942C1D9106DF272C7C），与模板原输出一致；目录gitattributes固定LF。范围、完整重放命令和失败尝试见该目录README。仅为R4准备材料，未来EXE/PCK外侧必须实际放入/核验；游戏权属、正式元数据、实际游戏包及性能/真人门不因此通过。61484原句柄仍live，整矩阵未终态，继续原批，不改加载源码或HEAD。
+
+### 自然路线原第2片未验证样本诊断（2026-10-04）
+
+原61484准确读取第2片终态：60行完整/源稳定/native1/超时false/920.1127556秒，58witness/2unverified，stderr为空。整批继续执行，失败分母保留；不重新运行替代批，不改生产规则或四轮限制。stdout SHA `55AB52B3B346D031538A8F9835809CA625FEED60217BFD7B1C35E1A5BB18842E`。原25个取证文件当前SHA仍一致、HEAD仍1178eea。
+
+- `neon_coast/pulse_gt/difficulty2/overdrive_brake/seed9001`，原`tmp/product-natural-path-37604-256896/2.json` SHA `FAD74D297C776AB843DAAB2EE2D5F6956B01075DFB3C50D6480FDDB06DCC66E9`：四次7200实际回放/独立交通问题0，但每轮仍有NPC保守接触。复用`InspectFeedbackAttempts.gd`只读诊断native0/完整标记：首接触852/4017/4017/4117帧，实际NPC位置/存在集合与前轮预测不同，符合玩家路线反馈改变交通。不能据此称出生无解或四轮内完整通行已证。
+- `storm_ridge/flashpoint/difficulty1/overdrive_brake/seed2026`，原`36.json` SHA `61354E48042C9915D6F97E51D00CFEDD25494C604B239EAE2FDC8DE8BEBCB8C9`：实际预测7200步/独立交通问题0，5820窗口初始x=-326.4255，search sample_exhausted，尚无完整候选/实际回放。新增只读`tmp/inspect-natural-unverified-20261004.gd`native0/完整标记，120帧各帧1像素静止扫描均有安全点；假定x0=0或260可找到并独立validate同一窗口路线，x0=-260仍未验证。说明当前固定预测存在其他局部入口，支持先检查前序滚动路线过早承诺/缺回溯，而不是直接改NPC出生。假定入口没有实际前缀和交通反馈证据，不作整局witness或所有种子保证。
+
+后续优先定位工具的有界路线选择/反馈失配，保留独立验证及真实转向能力。若发现真实交通反例，再按原冻结阈值修生产并复核；不能通过放宽车体、瞬移、删除可见车、补注资源或增加轮数掩盖这两例。R2/R3整门依然未关闭。
+
+### 路线偏好原型的验证与回归拒收（2026-10-04）
+
+本片仍是progress，只修改未被正式矩阵加载的tmp原型/检查器及文档，不修改生产规则、正式测试、HEAD或四轮预算。`NaturalCenterRecovery-20261004.gd`先取得空路非零起点不能物理回中的有效红（原生1/2失败），随后独立物理验证绿。额外±1e-9残余位置负控发现近零时满转向振荡，有效红原生1/2失败；EPS与实际比例转向修正后±1e-9/±1e-6绿，未瞬移坐标。当前原型SHA `FE0C1E95F771A39CB114B9B64FB680AB4B35E399ECF462A862ECFF25918B6DC3`，完整自检日志`tmp/natural-center-Selfcheck-e038248f.stdout.log` SHA `7F271CB3571B5A52E0163F1154937A9CEA7ED07BEE5B35F5F16F338FA90E83D5`。
+
+中央偏好原型在不变游戏源码上实际取得原两条健康未验证样本的7200步无保守接触witness：Storm/Flashpoint/标准/2026两轮，当前EPS版证据`tmp/product-natural-path-11452-262783`；Neon/Pulse/困难/9001初版一轮（旧SHA `12BC8776FD37CA832B6242FF2D0FE97164B85F14DF8E462E698659D516E4470F`），EPS版随后两轮，原23128准确原生0/源稳定/独立问题0/36.872102秒，证据`tmp/product-natural-path-12552-263388`及`tmp/natural-Center-Case-b0e20683.stdout.log` SHA `84F9E4F0E9A9E22EC6C829CFF2EE69D823B376FFD86841A00301949CCFEBE842`。这些是实际合法输入可通行的构造性样本，说明原unverified不能直接解释成游戏无解；不覆盖Main燃油/碰撞终态、不替换原1080失败分母。
+
+**始终优先中央方案拒绝晋升正式工具**：EPS版五例原47463准确原生1/4witness/1unverified，Neon/Pulse/标准/持续加速/611由旧两轮通过退化为四轮未验证。证据`tmp/product-natural-path-5252-247816`；日志SHA `029CC1E4C16F7453021EF3AC3F412D560E0804B3BE62EC52A6CA7AED84B1BBE8`。30%恒定重损Storm/Comet/困难/9001原36979仍四轮未验证，所有实际回放完整/独立问题0，日志SHA `827B8D66DA610C85003E5907B5FDAD19200E98B8AC4640195EB7D5CE86E34106`；不通过增加轮数或忽略接触消除失败。
+
+另建`NaturalAdaptiveRecovery-20261004.gd`（初版SHA `3249C582BA96B9D5BDEEF1F8C139F43546282734B825D45667B70C8FAB3A22BF`）：先原搜索，只有有限搜索miss或两次实际反馈失配时尝试中央偏好，先通过原完整前缀/物理/接触检查，再考虑备用。两侧空路默认保持原路线的有效红原生1/2失败，接入后原生0；完整自检通过。原99694五例准确原生0/5witness/源稳定/各7200步，原轮数2/2/1/2/2不变；逐例最终controls与xs数组与原正式五例完全相同，比较原生0/完整标记。比较证据`tmp/adaptive-five-compatibility-20261004.log` SHA `6AACD87E7696ACBF843F6185229A9167B7A5599126F5F74B27C90B2285417B6D`，新五例日志SHA `76D5B54D73A7DBD727100940AE327F802DF078F37309BC22C8C148A3759DA3F5`。仅证明五个固定样本兼容，不冒称1080等价。
+
+该自适应初版仍不能晋升：Neon/Pulse/困难/9001原60659准确原生1/四轮未验证，日志SHA `83FBF6CF8820E293167A86E2C7DAFFC62737FCDBA18ABACA0E6E3C8C1F1F3DF8`；第三轮确实选了备用候选，不是备用入口未执行。后续第四轮退回原后缀偏好，正在用实际第三轮记录检查策略衔接，需先有效红再修。原第5片新增Storm/Comet/困难/611超载制动未验证：第39行四轮完整/独立问题0，首NPC保守接触3134/3445/4976/5696帧，实际交通反馈与先前预测不同；第31行误读的是另一条已通过样本，已更正目标，不作失败诊断依据。原39.json SHA `D4C316B628D01C14750C8881FE4E0910831A0654E99EE1F9D6819B8C2499038A`；自适应初版复查原88552准确原生1/四轮未验证，证据`tmp/product-natural-path-57928-257471`及日志SHA `E9C46A8E9F223DD6EA18DD876D02D0172A2F41B99EDBAD8FA64772D96FEC9F36`。
+
+原61484第0–6片已各60行准确终态，共420/1080完成、417witness/3unverified；第2/5片native1保留，第6片native0/源稳定。其余仍live，不能计整批通过，不重启/换分母/提交改变HEAD。当前源码与HEAD冻结；未进行游戏导出、网页监督或Computer Use。
+
+备用衔接已取得有效红→绿：`tmp/TestAdaptiveContinuation-20261004.gd`读取真实第三次回放（首接触852），先经过原两次完整前缀校验建立备用状态，要求后续仍采用中央偏好并保留实际安全前缀；原38190原生1/1行为失败，修正后原89646原生0/失败0。tmp自适应增加案例内备用状态，正常新案例重置；仍先由原校验拒绝伪造/invalid记录。兼容检查增加新案例状态不串局/invalid不消耗修正预算，原生0；完整自检原生0/stderr空。修正版SHA `2D82A301872835348B9F106579408E5A1691F4992789DD9B5E9B222B014128D4`。
+
+原50055对困难Pulse/9001准确原生0/第四轮7200实际witness/源稳定/独立问题0/74.74535秒；证据`tmp/product-natural-path-45612-262007`、summary SHA `3A8C1C21A442686C821E6DDA3FDDE35DE175BBA4575CA364BB5C3E89D9294478`、stdout SHA `A95E2415E3526D3B5FCE890AADD21E987543A63448F2EB8307BAEB86B3523865`。这修的是离线工具偏好衔接，不是游戏交通规则，原正式失败记录不被抹去。新Storm/Comet/困难/611原36219仍准确原生1/四轮完整但未验证，52.432657秒，证据`tmp/product-natural-path-14920-289947`；未延长预算。修正版五例原48043尚live，尚不能沿用初版五例结论或晋升正式源码。代码审查先列为待完善：由forecast miss先进入备用时，第二次修正仍可能重新选回原forecast而非继续安全前缀，需最小负控与修正；正式化时应避免保留两份近似滚动规划循环。
+
+原48043现准确终态原生0/五例完整witness/源稳定/独立问题0/每例最终7200步，轮数仍2/2/1/2/2。修正版五例stdout SHA `05BC5FBF7A572DF92221D43F801A8FE57112924C85F8AA8A03D8FF6E36ED8C7B`、summary SHA `C2D4882A316BFEB578BF0A53FD6664B029DAF1964B063CAE35F5DF437573686E`；再次逐例比较最终controls/xs与原正式五例完全相同，比较原生0/完整标记，源路径/修正版SHA及原输出见`tmp/adaptive-v2-five-compatibility-20261004.json`。新Storm/Comet/611仍未验证（stdout SHA `500BF0E2E2D86C617B3D36EE743F290B23AD73F776BF8E9D45DBADF3CCAE2425`），审查待完善项仍在，所以不晋升/不关闭整门。当前本片所有原型执行句柄均准确终态，只保留原61484继续：第0–7片480/1080完整、477witness/3unverified，第7片native0/1060.2006195秒/源稳定；其余未计通过。再次核对原25加载文件SHA无差异、HEAD1178eea不变，用户ADR一行删除原样保留；git diff --check无错误。
+
+### 备用状态负控、补充回放复验与release隔离预检（2026-10-04）
+
+本轮分类progress。新增`tmp/TestAdaptiveSingleSelection-20261004.gd`构造完全物理合法的240帧记录、180帧接触与60帧实际安全前缀，复现备用已启用时第二次修正仍重选原forecast：原生1/2有效行为失败。tmp自适应仅在尚未启用备用时允许第二次切换，一行修正后原生0；新案例重置/invalid拒绝兼容检查及完整自检均原生0。新SHA `2F86A6AE07873EE2228B6C4C2B398E33A69F3AB29B7E1C27688B13F7D5D2345F`。正式工具/测试/游戏源码不变，旧五例证据属于上版，未冒称新版本五例重跑。
+
+原2832首次单独用中央EPS原型运行Storm/Comet/困难/611：第三轮完整7200步实际witness，源稳定/独立问题0/native0/36.020562秒，证据`tmp/product-natural-path-58156-279524`；stdout SHA `F5872BCE9F9A9D0AE81FCFFB869186CF7DC887C6FC93E21DDE85D689BA7533AE`。连同先前Flashpoint/2026与Pulse/9001，原前三条未验证现在均有合法构造性回放，但不改原批失败状态。
+
+新增未加载的`tmp/ValidateNaturalWitnesses-20261004.gd`读取完整原件、重建canonical车型/轨迹、要求共同25文件SHA与HEAD一致（仅排除各自tmp入口，保存原历史原型哈希）、再逐帧核对actual xs/controls/连续clear，未再模拟游戏或拼接不同回放。初版解析类型错误及JSON整数字段变float导致Dictionary不等的三条拒绝全部保留，不称生产红例；诊断确认后改为精确逐字段比较数值，不把小数/布尔/字符串/非有限seed强转成合法整数，缺失/额外/错赛道等负控通过。原已失败Pulse artifact仍被原生1拒绝；三条补充原件最终原生0/21600保存步再验证，`tmp/natural-artifact-final-positive-20261004.log` SHA `0E3B1D64FD7E422FF80D1C2585F425EB63A6D558379A0ABC71E66ED480048359`。这只增强补充记录可信度，不称新模拟、同一工具完整通过或Main资源整局证明。
+
+R4发布前预检只使用独立四文件合成PCK（不含Main、SaveStore或游戏素材），应用名称与游戏相同Neon Coast Rush，实际复制同字节官方4.7 x64 release模板。本机模板禁用path overrides：三次packed/external `--script`尝试均未进入探针、准确20秒自有进程超时/native-1，原73719 wrapper原生1，失败ledger SHA `5187DD51F2D26222C89E03572FECEA8564A2071CF80E85DA4BBA1F2376085B93`。实际模板--help不列--script；[Godot4.7官方源码](https://github.com/godotengine/godot/blob/4.7-stable/main/main.cpp#L4013-L4024)也在未启用OVERRIDE_PATH_ENABLED时清空script/game_path。不能沿用编辑器--script启动方式冒称release自动流程验收。
+
+改用合成包自身配置的Node主场景，不修改模板编译选项、不添加测试代码到游戏。新PCK SHA `A6B2CD371D6DF5BD069FAAF653815425E3D8EF3084F35F2C1A398C41B0D9BA2E`，准确wrapper原生0，`tmp/r4-template-isolation-20261004/run-556b624c/ledger.json` SHA `6815C8B17E4B0748F37A6A2420CDD935DB814095715ECC77901D47BA655F7270`。三次实际release子进程：init原生0、独立restart原生0、错误expected路径负控原生1（符合预期），均无超时/stderr空/完整footer。OS/user://均在自有run目录appdata/godot/app_userdata/neon coast rush；只在通过精确隔离守卫后读写合成marker，错误路径下不访问marker，前后哈希一致。通过ProcessStartInfo只设置子进程APPDATA，父环境原样。只证明同模板/应用身份的隔离与重启原语；不是游戏实际包、游戏存档流程、图形、声音或性能验收，也不能从源码自动操控结果推断release。R5后续须使用实际游戏入口与同一RC包验证，不添加开发入口或改变包来取巧；无Computer Use或网页监督（仅查官方源码）。
+
+原61484已第0–9片各60行准确终态，共600/1080完成、592witness/8unverified。第8片新3条、第9片新2条均是四轮完整回放但未验证，独立问题0/源稳定/准确native1，未超时；原失败与分母继续保留，其他片live。第8片Freight/Aurora/困难/2026、Storm/Pulse/简单/9001、Sunrise/Pulse/简单/9001待诊断；第9片详见原summary。下一步优先按实际反馈区分路线选择不足与真实交通反例，不能用前三条补证提前关闭R2。生产/正式支持文件及HEAD继续冻结，不提交、不导出游戏成品、不通知阶段完成。
+
+`tmp/r4-source-audit-20261004.ps1`实际核对66项现用媒体全部存在、SHA与原来源清单相同（0缺失/0变化），输出`tmp/r4-source-audit-20261004.json` SHA-256 `5525945E8A3290D957C9F87D7828562BBB1E9FE1E120C384C25A59D22ADD3394`。只证明当前字节与记录一致，不证明第三方版权授权或导出模板许可与旧编辑器相同。旧许可资料保留；R4许可/实际包、R5性能及EXE、R6真人门仍待真实证据，不提前导出成品。
+
+### 新增七条路线补证与最新反馈前缀策略（2026-10-04）
+
+本片为progress：补充实际模拟、独立保存轨迹复验和有效红→绿，不是仅重述状态。上一取消网页端的短答只确认执行权限，没有关闭任何技术门。本轮没有网页监督、Computer Use、生产代码改动、提交或游戏导出。
+
+原61484已第0–11片准确终态，共720/1080完成、709原工具witness/11unverified；第10片native1/57 witness/3未验证/1137.7727257秒，第11片native0/60 witness/982.7828208秒，均源稳定。第12/13片实际子进程仍live，余下片不提前计通过。原失败状态和1080分母不改写；补充路线单列。
+
+保持原四轮预算、原纵向输入、100%恒定完整度和7200最终实际步。此前新增五条使用Adaptive v3（SHA `2F86A6AE07873EE2228B6C4C2B398E33A69F3AB29B7E1C27688B13F7D5D2345F`）与Center v2（SHA `FE0C1E95F771A39CB114B9B64FB680AB4B35E399ECF462A862ECFF25918B6DC3`）分别取得：
+
+| 原未验证配置 | 新实际结果 | 完整证据目录 |
+| --- | --- | --- |
+| Freight/Aurora/困难/overdrive_brake/2026 | Adaptive原生0/第三轮witness | `tmp/product-natural-path-9288-299812` |
+| Storm/Pulse/简单/overdrive_brake/9001 | Adaptive原生0/第四轮witness | `tmp/product-natural-path-41660-280033` |
+| Sunrise/Pulse/简单/overdrive_brake/9001 | Adaptive原生0/第三轮witness | `tmp/product-natural-path-34796-263171` |
+| Neon/Pulse/简单/accelerate/616 | Adaptive四轮未验证；Center原生0/第四轮witness | `tmp/product-natural-path-55568-262088`（失败）/`tmp/product-natural-path-16928-265488`（witness） |
+| Neon/Comet/困难/accelerate/9001 | Adaptive与Center均原生1/四轮未验证 | `tmp/product-natural-path-15472-262019`/`tmp/product-natural-path-4300-273638` |
+
+前三条保存的21600实际步和Center简单Pulse的7200实际步分别已独立重建canonical配置/校验全部controls、xs、连续clear、共同25源SHA与HEAD，原生0；不是新增游戏模拟，不能把保存轨迹校验算成第二次实际回放。原五条诊断保存为`tmp/natural-five-feedback-diagnostics-20261004.json` SHA `F36959B1D05B4071EABE17F334E411C57F92CAB8899A0744CEB7B40C7BE00CFD`。困难Comet两原型诊断保存为`tmp/comet-case-feedback-diagnostics-20261004.json` SHA `C260058E1229E5136DD50092F884B21280E8864E97407573F9BD09A64E9ABE1F`；首接触全部NPC，实际玩家车道会影响预警取消/快车路线/出生准入，所以前轮forecast不等于下一轮真实交通。不据此断言交通无解，也不降低密度或放宽几何。
+
+第10片新增三条原件分别为第8/24/28行，SHA `0F04C2F7A326DB1A6DE8C0CCAE9C6F27B1A216E873B582014AB0BCE5CFF8F420`、`17582BF820846E2FEC7451EBBAC338DACA97B3D7D7AD6716998856D0191071EF`、`823CD60985AECD0ED0FC8A1A392C7DA2A4DDB3E0715D6B0BE1C73C0780B1D7AA`。原件均四轮未验证/独立问题0，不能把它们写成已通过。相同冻结游戏的Adaptive v3补证原29052/75513/24270准确原生0，Neon/Comet/标准/brake_repass/2026第四轮、Freight/Comet/困难/brake_repass/9001第四轮、Freight/Aurora/标准/brake_repass/2026第三轮witness；目录分别`tmp/product-natural-path-26280-282700`、`tmp/product-natural-path-18292-266514`、`tmp/product-natural-path-54000-257383`，墙钟38.287679/55.065304/46.081825秒，源稳定/独立问题0。三条独立复验原生0/21600保存步，日志`tmp/natural-shard10-supplement-verified-20261004.log` SHA `1E7EF1733C92C551F6E21277F6DFF3825809F96156F3E94480C909AC69586201`。
+
+连同此前三条，当前11条原未验证中的10条各有补充构造性witness；其原件/工具历史SHA/共同HEAD/行状态索引`tmp/natural-supplement-inventory-20261004.json` SHA `E34EF82BEB4686322D3F1985AA4654B0B4C061D12231897077CC6ACA3E7AD609`。这不是原矩阵结果的替换，不证明同一工具1080全部通过或所有种子安全。剩余困难Neon/Comet/9001及还未终态的完整覆盖继续阻止关闭R2/R3。
+
+单独比较“第二次实际反馈后，中央偏好只规划最新实际后缀，不重新选择旧forecast”的小原型`tmp/NaturalFeedbackCenterRecovery-20261004.gd`。有效240帧/180接触/首步合法转向 fixture先原生1/2行为失败（丢弃已验证60步前缀、未锚定最新接触），日志SHA `21F46D18211F406E559FF724D7A1282EB15ABF4304C6E5F4A24DEECE1C6AA79F`；11行派生修正后原生0/失败0，日志SHA `098BD5F5C92636DB9B14CB0D820B26248ADE4638104FE0A0610051A673030771`。仍先运行原完整输入/物理/接触校验，invalid回滚偏好且不耗有效修正预算；新案例按父类重置。原基础及中央自检原生0。
+
+该策略当前SHA `000F528F15DDBC6AAF74CB26D91D685E4704D4876846C2049F34A12581EAF9A7`。原4353困难Comet仍准确原生1/四轮未验证/33.88443秒，完整记录`tmp/product-natural-path-54316-252267`，日志SHA `C2112B1FA57796D6762449311EEF409C0A78CB8DD496060A4B2864828F06FB10`；首NPC接触3755/3765/5964/6216，最新反馈虽推进后半段，仍未取得完整路线。原81485五例准确原生0/5 witness/源稳定/最终36000步/轮数2/2/1/2/2，目录`tmp/product-natural-path-33172-264573`，日志SHA `E398822D9E2563FB499950AE49968CCF6EB0FEDC8CFBB61C6521843A2ABF293D`。不能据此晋升工具或称困难例已修复；该派生工具probe目前仅记录当前tmp入口（父Adaptive源码本轮未变且另行哈希核对），正式化前须补全部加载原型的取证而非冒称完整工具依赖已自动覆盖。
+
+本轮再次核对25共同加载文件SHA无差异、HEAD仍1178eea；用户ADR的0新增/1删除保留，git diff --check无错误。剩余动作：等待原61484全部准确终态、汇总失败全分母；对困难样本保存真实NPC反馈决策时点并据此选择有界改进，禁止无依据不断叠加偏好/增加轮数；矩阵结束后再接入合格工具与菜单修正，并继续R4/R5真实包门。成品尚未验收，未发送阶段完成邮件。
+
+### NPC实际预警准入因果诊断与意图观察补证（2026-10-04）
+
+本轮为progress。原61484第12/13片准确终态，共840/1080、828原witness/12unverified；第12片native1/1未验证/1161.3578716秒，第13片native0/1137.3358323秒，源稳定/无超时。第14/15片仍实际运行，未完成片不计通过；继续冻结HEAD1178eea及正式25加载文件。
+
+新增只观察、不改变决策的`tmp/InspectNaturalDecisionFeedback-20261004.gd`，复放困难Neon/Comet/9001的原forecast及前两条失败输入，各前4000步。忽略跨进程局部ObjectID与列表顺序，但逐字段核对全部NPC/核心/锥桶几何、数量、status和实际玩家坐标：三段共12000步，几何/位置差异0、源稳定/原生0。该比较器先有解析类型错误（日志保留，不算有效红），随后变化几何/少车/invalid状态三项有效红原生1→绿原生0，red SHA `BD0C2E6000D2F27203CCAF7B1D0AEB350B17436C0071B450A3B14E9184E7C7DF`、green SHA `5E6B6C4C4EF5772D6D35BD178A321B8527C0DE00459E71A3612F8DB3F3748A95`。本诊断不是新完整路线证明。
+
+因果记录`tmp/natural-decision-warning-focused-20261004.log` SHA `78E16E3F7EB6A98852C59AE7F3A8B1495C24C7CE96500A531C2F4838EF049083`，入口SHA `997367CA48EC912061974AAE63541CAB6375571667EC242E72B2349BE2B68B22`。第3716帧左车道NPC→中央车道：forecast与第二条输入的玩家在中央，预警获准；第一条输入玩家靠左，transition_safe=false，未获准亮灯，NPC留在左道，并非先亮灯后取消。第一条首接触3755、第二条3765；诊断期间没有取消事件，不把“可能取消”当成此例已证实原因。实际玩家车道改变预警准入，使“等NPC未来让开原道再穿过去”的forecast选择不可靠；尚无NPC瞬移/删除/三车墙或生产缺陷证据。
+
+新tmp `NaturalIntentRecovery-20261004.gd`仅在测试规划中，把已宣布NPC变道的原道与目标道作更保守占用；独立真实几何与最终回放判据不变。同一步前后意图均观察，结束/取消当步不凭空释放；规划复制body，不修改实际frame。伪造目标/非有限值/字符串/布尔/非车道坐标/越界/孤儿意图拒绝，合法路肩仍可用。原接触fixture八项有效红→绿（原生1→0），red SHA `21168633D10157A903679D63F871D170EBC57AD35CE86158BE92FE1FA2CBCAC7`、green SHA `25A41245A8D9604ED301359D76E958EEA0D213FFCF7ACBA941FBF67BA732EAEE`；原基础自检通过。生产代码未改，未增加预算轮数。
+
+初版把未获准、未开灯计划也一并预留，已识别过度保守。初版SHA `D00EEF0BD28EC085BCC8D71B62FCD2A2BDD195A0CF7CCD34A519B5F94856E504`：五例实际pilot原64751/native0/五条完整witness/轮数1/1/1/2/2，目录`tmp/product-natural-path-29688-253184`，stdout SHA `ADE602DA8AA16938FB3016509CD6D8858836A4F2D796A4BFAFF1D33B0D8EB7E8`；五条保存轨迹独立再验证原生0/36000步，日志SHA `315E4CBF0DD9224053108199BD22F8A2EE2EED37AC93D0B3961BF46390831E6F`。初版困难Neon在6540窗口forecast搜索未验证/未产生实际candidate/原81104 native1，证据`tmp/product-natural-path-32512-254610`；不计四轮实际回放或witness。
+
+独立失败窗口检查显示右侧连续NPC意图与即将到达的右侧施工锥桶同时约束候选。尝试复用现有有界中央备用并补父原型SHA取证，**并未**解决该旧forecast；`TestIntentForecastFallback`的期望未满足，原70522准确原生1，文件名为green的输出实际也是失败，red/该失败文件SHA均 `BC7E56E223ECFE6161D3C420DA1C22C7D144E9BCA79379252F1D9432E9F31DE1`。这是保守预测下未找到候选，不是所有实际路线无解；不隐去失败、不晋升该原型。后续必须围绕真正意图观察和候选自己的实际回放，而非强行满足未获准意图永久占道的假设。
+
+依据已有`traffic_safety_policy.gd:7–11`（仅enabled且warning_started才预留目标道），补“未开灯意图不能冒充预约”的最小有效红原生1/1项（SHA `4B4978D2E75355237AB3B74FFC6327D8E86DF5A0ED8C7F0F4278D7E72FCF96AD`），收窄观察条件后原生0；未松动真实碰撞/独立几何。新SHA `9954F74FDE7287941CA476ED4A8071805D69BA61CB0F90BB95BFE8A6B8121F12`，已同时自动取证当前入口与父Adaptive SHA，全部正式25源仍相同。旧五例属于初版，不冒称最新五例重跑。
+
+第12片新增Storm/Comet/困难/accelerate/616原第39行四轮未验证，原件SHA `72BFB6798A800569550B17C6EC558D23120AAF8F8259A968F0BA2168AAC6E613`。原Adaptive v3复放原96047/native1/四轮未验证/41.288751秒，目录`tmp/product-natural-path-5508-251713`、stdout SHA `BC2FC76938F5831569C4397C3467120887B2F3583441F8D51DFC172E360FF2B2`。新意图观察版原21962/native0/**首轮**7200实际witness/11.642933秒/源稳定/独立问题0，目录`tmp/product-natural-path-39268-266326`、stdout SHA `A0441AAA12228E00E3D14817EFA7E8908EBA44BD727E7F828DE4E7136E2CC7B6`。独立复验原生0/7200保存步，日志SHA `A5F9F0D9D619B5FE33DF0C5C00BA1D716F03A4C798F7C8F79FB4D895C399669B`、完整原件SHA `EC165F9065316B2CF1352012E6EA8C068936AEADAB315E559B150E74B9C6EFA7`。
+
+最新Neon/Comet/困难/9001原1476仍native1/6540窗口未验证/22.187693秒/无实际candidate，目录`tmp/product-natural-path-20040-254334`、stdout SHA `19DAB180FF721F0FE3C87923A278B61F1E1C8675FE8552932A8D2B8B1CBF2FD7`；不算已修复。当前12条原未验证中的11条已有同游戏补充witness，追加索引`tmp/natural-supplement-inventory-20261004-v2.json` SHA `3C94BD4BC0C453C20F3F8D456E42513094C4D5D611311397707CE15FA5558DCE`，原v1与全部失败记录保留。全部临时补充执行已准确终态，仅原61484继续；25正式源SHA无差异/HEAD不变/用户ADR0增1删仍保留。R2/R3/R5未关闭，不提交或导出、不发阶段邮件、无网页监督/Computer Use。
+
+本片末原61484第14片亦准确终态native0/60 witness/1033.5564662秒/无超时/源稳定，目录`tmp/product-natural-path-37600-295137`。累计更新为900/1080准确终态、888原witness/12unverified，第15/16片及整批继续运行，剩余180不计通过。下一步优先区分Neon后段实际施工/NPC可达与意图占用假设的保守缺口；意图仅为候选偏好，若做有界回退仍须完整真实回放通过，不能降低原几何或把forecast候选冒充witness。
+
+## 2026-10-04：原1080批终态、自然路线补证及选车导航
+
+本节替代上面的运行中快照。原61484准确终态native1：18片全部完整、无超时，1080唯一配置、共同25源及HEAD `1178eea17227913dc408b5be3d00b6d2ee409f33` 稳定；1067原实际witness、12 unverified_replay、1 unverified，7片native1/11片native0。终态后原执行器保存全部1080原件和18 summary哈希。最终原账本`tmp/product-20261004-natural-path-3107587e-ledger.json` SHA `DA8102700F841FF1097BFF08E40AA77A6FA4B55C1C869259DF4F621A8A056BA6`，`passed=false`保持不变。新增第15片Storm/Comet/困难/accelerate/618四轮未验证，意图保守版本另试亦准确native1/4140窗口未验证（目录`tmp/product-natural-path-33908-284781`）。这不是游戏无解证据。
+
+新临时`NaturalIntentFallbackRecovery-20261004.gd`只在意图规划有限搜索失败后，保留全部已提交输入/坐标前缀，针对后缀用原物理车身几何再规划一次；意图占用是偏好而非额外碰撞实体，不能删除真实实体或放宽连续接触边界。仍最多四轮、每候选独立执行完整7200实际步再验收，不靠增加轮数取得绿灯。录制forecast候选测试有效native1→0，日志SHA分别`F8FFBA83B46E1BDF22FCB702855C41E98F4AD1E26DBDF6E1CFBDE4A27C433C4B`/`94F7145C25A22F17C072D4EF059A8EEB8DF9AA72E0F7BF5F65088E96AE97216C`；此前类型推断parse失败原日志保留，不算行为红例。
+
+临时初版SHA `5B2BF129B72D6975B416F4A561952D84C2C73BED8BA9181874CC930EE1BD130E`：Neon/Comet/困难/accelerate/9001与Storm/Comet/困难/accelerate/618均第二轮完整实际witness/native0/源稳定/四类独立问题0。目录分别`tmp/product-natural-path-37416-267336`及`tmp/product-natural-path-58236-266334`；原件SHA `956A966EE45BBA2223D6EE130A40C45510D08F33BB963A4046BB5573F2AA10A6`/`36D9ADB57B1A5D7A41431FB23F5E8B39AED2F5660A285D1C8DAB385DA11A36FB`，独立读取器各native0/7200保存步。兼容五例native0/全部7200实际witness、基本与中央自检native0，五例日志`tmp/natural-IntentFallback-Pilot-b61da12c.stdout.log` SHA `784A6A641A8D1B0106FFC7E5E99C83399CBCFA93D257E401D2EE91692E7B617A`。
+
+独立补证索引v3共13条，SHA `F271553EBE62D9ABAFFC1BD98EB8BE9ED236C0F0B6305B71D6C798CBDCB1D4F9`。原1067加补13的固定配置集合为1080、无遗漏/重复，**自然模型固定样本构造性路线覆盖已补齐**；不是同一寻路器全批全绿，更不是全种子或人类反应通关保证。最终复核`tmp/natural-final-ledger-verified-20261004-v2.json` SHA `2E483F1C41E11AFA9A7D9EFD98B81B960CA30AF15F4D225D93EDFBEA3CC15D5C`：36日志+18 summary+13原失败件共67文件重新哈希及共同25源无差异。早期一次复核脚本字段写错、source_count输出为数组，单列`...verified-20261004.json`不作为哈希复核证据；该v2纠正字段及精确计数，未覆盖旧件。
+
+自身审查补负控：首段物理整道封堵、后段非法INF速度，早停寻路不能掩盖后段非法记录。有效native1/1失败→全记录物理校验后native0，红/绿SHA `0ECDB3768E59595F41E2118C8F7E2E2C9114295E42B7A75052CE4F11BFF13CE6`/`1EF8716CCFF696D0D3B041B2DDFCD31881D7FDFA50BB0E979F13767573BDBE2E`。修后临时源SHA `3EDE34EEA451DBBD65DFB29A9AC7CECF3B4F436F4DCC636780139CA3C4AEA092`，上述两例重新实际执行仍各第二轮witness/native0/源稳定；独立复核14400保存步native0，日志SHA `985D49AB981D3878BB979B47A84BB57145CC007A18B15DDE8EA8DB03A2C1088D`。原件分别`tmp/product-natural-path-21420-272008/0.json` SHA `17D762E5643DC3B2B848B82291485D3C17AFCFDAF833B7965C537F6F76F6A3B0`及`tmp/product-natural-path-31076-272495/0.json` SHA `4CF2003B85056C2F1D2F7AA61C065DB7EACE3E0055C2E3BEECBB1FC15A04854D`。v3仍指向当时初版，不改历史；临时策略复现/正式归档待做，R2整体待联合复核。
+
+原长批终态后才修改正式菜单：`vehicle_select_screen.gd`为每张车卡显式配置Tab/反向Tab及底行方向焦点，Tab直达当前合法确认，锁定车改到返回；返回与确认的逆向路由锚定已查看车辆。保持方向键浏览六车、按车卡仅查看、独立确认才开局，不改美术/数值/交通/存档。
+
+`test_vehicle_keyboard_focus.gd`真实引擎键事件双语言/双分辨率，初版152检查native1→native0，红/绿SHA `DEEEA916A933C7414C87E1471EDA58CEE77890C23375E272FE5F1DDF1AE00012`/`7A738775D282053760CC62FF07BB89D8A6D2BE5EF086F700C91CC3EF5C52E7CB`。扩展到方向键及新解锁状态后176检查/0失败，注册正式完成标记；七项车型相关回归全部native0，日志SHA `5FAC9033CFC86794EB7E05E748854C9D8057226E109CE460A144B5875CAA90DE`，旧7图像加载WARNING、20 ObjectDB及2 resources-in-use ERROR单列保留，不称零告警。原281项实际GPU菜单键鼠路线重跑native0/源稳定/stderr空，日志`tmp/r4-menu-input-native-fc24ca29.stdout.log` SHA `3535A9BD4DB6ACB4D7078EB31B89ED120F0B86F114979DB466DDA3AF34EE1704`。未变菜单绘制，不虚构新截图或Windows实体键盘操作；不是独立EXE验证。
+
+本片没有网页监督/Computer Use，也未打包/公开发布/发阶段邮件。自然路线子门和菜单修复不替代R2/R3最终联合关闭、R4剩余清单、R5实际RC性能/稳定性及R6真人验收。
+
+选车修复三文件已独立提交`02b1b902de9e47aac6e2d9fb1e2941a89bb064da`，未暂存用户ADR或其他未跟踪材料。Git提交已写入后自动历史repack仍在运行，保留原执行句柄，不重试提交或终止维护。该提交固定143项全量已启动（原18940），`tmp/product-ui-focus-full-20261004-source.json`记录242源码/测试/场景/配置/工具SHA；直到准确终态保持上述文件与HEAD不变，进行中文文档归档可继续。当前不宣称新143项全量通过，旧142/1178结果只作前一基线。新终态写入`tmp/product-ui-focus-full-20261004-terminal.json`及原`...full-20261004.log`后再据实更新。
+
+该全量已出现`test_difficulty_profiles.gd`120秒真实超时，保留失败、不启动重叠复跑；143全量本次不能记通过。只读确认提交原50671的Git进程55740→46108→自动maintenance47788→repack36304→pack-objects55020，pack累计CPU约4972秒/工作集约6.75GB，确有并发资源争用，但尚不能断言是超时唯一原因。身份与父链重新核验后，仅把本次拥有的55020优先级由Normal调到BelowNormal，写`tmp/git-maintenance-scheduling-20261004.json`；不改Git配置/源文件、不中止维护、不增加测试超时。其他工作区的VerifyBossArt进程未操作。原18940继续剩余测试并保存准确终态；结束及维护清空后先隔离复验该项，再决定是否需要代码修复或同提交全量复验。菜单176/281和七项相邻通过不被拿来代替本次全量。
+
+### 143终态、超时隔离复验与路线工具归档（2026-10-04）
+
+本轮progress，由Codex本地判断，无网页监督。原18940与50671均准确终态：143全量执行143项、native1，仅difficulty_profiles超时；242加载源码/测试/配置和HEAD02b1b90均无变化。原完整日志SHA `8465EE771815E9F160F47A06BFCE33BA0AB272B7504E67B3C46B595A3C82789A`，terminal JSON SHA `EADF1BCD85183206ED651A49310E36192147F42A2D187103AC1DC05C4BDF1F2D`。原失败不改成通过。
+
+严格核验本次Git维护父链全部自然退出后，未改代码、种子和120秒上限，原89476隔离执行difficulty_profiles：native0、83.9635404秒、完整ALL 1标记。日志SHA `26C886BD7FE2BD6ADF8DCDE505FF8554A70840C68904C4541DEEF58C815B7BAF`。支持资源争用判断，不证明唯一原因；不增加超时、不跳过慢项，也不将分批结果拼成原143全绿。
+
+已验证的Adaptive/Intent/Fallback三工具归档至`scripts/tests/`，仅替换引用路径，逐文件归一化等价检查全true，SHA见`tmp/natural-recovery-archive-equivalence-20261004.json`。新增`test_product_natural_recovery.gd`及[复现说明](natural-path-audit.md)，原自然自检与新负控联合2项native0；没有修改游戏交通/资源规则。五轴本地自审：完整物理记录及非法前缀先拒绝；原/目标道只是规划偏好；前缀保持、四轮实际反馈及一次后缀预算不扩张；依赖只在测试层，发布白名单/排除规则不变；无新依赖、外部服务或秘密数据。这是本地自审，不冒称独立模型或真人审查。
+
+归档版在同HEAD02b1b90实际执行五例pilot和最后两困难例，全部原生0/7200步witness/source_stable；轮数1/1/1/2/1以及2/2。原件目录分别`tmp/product-natural-path-43300-883776`、`tmp/product-natural-path-52316-295913`、`tmp/product-natural-path-54376-575072`。独立读取当前原件重新校验50400实际保存步，7/7合法，完整标记/native0/stderr空；逐项比较最终7200方向输入及7201实际位置与原型相同，7/7、native0/stderr空。读者明确增加三归档工具SHA匹配，不弱化HEAD或共同游戏源码校验。不能据此声称归档策略新跑1080全绿；旧1067+13固定模型覆盖仍按原版本分别归属。
+
+下一步精确提交五个工具/测试/说明文件，再进行无本次Git维护争用的完整144项回归。旧退出资源/图像消息照录，完整新门尚未通过；R2/R3综合复核、R4剩余、R5实际RC/性能及R6真人门不由这七例替代。用户ADR及无关材料不暂存，不删除历史原件，不导出游戏或公开发布。
+
+归档验证日志SHA：快速2项`E43A57EA7DE6E8965D7614FE9CD802A23EDE7373F50F3716FE6D218B07B65F51`；独立50400步复查`46CEC4FAB6E7AFCE94910DFB90D458727D4B56CF1EA6DC11DBBFC5A0C79749C2`；7例输入/位置兼容比较`EC6729161793CFC6A928629371C42352178E7A3551D376DAF6285F07489A0498`。五个文件精确提交`bd5acf24b882e856b8062034aba9d5383625199a`，原45871准确native0；该次自动Git维护也已自然结束，未中止/更改全局配置。随后原94934启动完整144项，开始维护进程0、246源码/测试/场景/配置SHA及HEAD固定，记录`tmp/product-archive-full-20261004-source.json`。运行中不提交或修改加载文件；中文证据可追加。完整日志`tmp/product-archive-full-20261004.log`和最终terminal JSON为该原批终态依据，尚未称全绿。
+
+### 144准确终态及R2/R3技术门综合结论
+
+原94934现准确终态：测试native0、ALL 144、144唯一RUN、64 TEST_COMPLETE，651.8181334秒，246加载源/源码集合/HEAD稳定。原外层工具exit1，因为记录脚本对INCOMPLETE/TIMEOUT不锚定，误匹配DYNAMIC_PICKUP_TOTAL的coverage_incomplete_cases=0及三条子进程timeout=false；保留原四条problem_lines和terminal原件，不冒称原外层native0。原日志SHA `4E9D1454263503D3490E6DD4BBB359DA3CE40DC8CA2F8B7BF0AB29467815DFD7`、原terminal SHA `A1B17611CE1CB573E64B9F9C37165F35E359DADF8F871C8FFF5E16837400993C`。
+
+只读复核原批：逐项解析四条已知零值记录，严格核对30/30动态目标、资源账本0、原日志SHA、144文件集合、所有注册/成品专项完成标记、246源与前后HEAD，匹配实际runner的脚本/断言/加载错误及锚定超时/缺标记失败；无真实失败。复核脚本首个PowerShell布尔字面量错误尚未生成JSON即失败，修正后准确native0；不算游戏测试红例。独立复核`tmp/product-archive-full-20261004-reconciled.json` SHA `11D1ED0AD0E0FA73599F964B31C5A6BE804B3EF9EA0795FCED2154555C428988`，原失败/原记录未覆盖，未重跑测试。11条退出resources-in-use ERROR/30条WARNING保留，无其他ERROR；不扩大既有退出时序豁免，也不声称正式游戏零告警。
+
+重读并核对原交通/质量/Main终态账本及SHA：1080交通7776000步独立问题0、15质量冻结密度/空路门通过、288真实Main覆盖与资源/交通账本0；连同1067+13固定自然路线构造性覆盖和归档负控，形成[R2/R3综合复核](product-gate-review-20261004.md)。关闭其有界技术门，旧模型/原调度失败及不同HEAD归属不变；真人、实际RC字体/资源/流程/性能/30分钟与20重开仍未验，最终成品未完成。下一步推进R4剩余及R5，而非再次无变化重跑1080。
