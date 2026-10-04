@@ -51,14 +51,14 @@ godot --path .
 
 1. 在 Godot 的 **Editor > Manage Export Templates** 安装与编辑器同版本的 Windows 导出模板。
 2. 打开 **Project > Export**，选择仓库内的 `Windows Desktop` 预设。
-3. 导出至默认路径 `exports/0.4.0-dev/package/NeonCoastRush.exe`，或改为任意未纳入版本控制的目录。
+3. 候选预设为 `0.4.0-rc.1`；正式验收构建应使用新的唯一目录，不覆盖旧包。默认导出路径为 `exports/0.4.0-rc.1/package/NeonCoastRush.exe`。
 4. 在新目录中运行 `NeonCoastRush.exe`，至少完成「启动 → 开始 → Space 暂停/继续 → 结算 → R 重开 → 返回标题并退出」冒烟流程。
 
 `exports/` 已被 Git 忽略，构建产物不会提交。
 
 ## 当前开发状态
 
-当前开发版本：`0.4.0-dev`。正在执行用户批准的[本机成品计划](tasks/plan-product-ready.md)，包括输入/特效、交通行为、难度补给、存档和本地候选包；最新[验证记录](docs/product-validation-20261003.md)如实区分专项、全回归与未覆盖内容。2026-10-03用户已取消网页端使用，由Codex依据本地证据自主判断，见[执行协议](tasks/pro-supervision.md)。
+当前候选版本：`0.4.0-rc.1`，尚未最终成品验收。正在执行用户批准的[本机成品计划](tasks/plan-product-ready.md)，包括输入/特效、交通行为、难度补给、存档和本地候选包；最新[验证记录](docs/product-validation-20261003.md)如实区分专项、全回归与未覆盖内容。2026-10-03用户已取消网页端使用，由Codex依据本地证据自主判断，见[执行协议](tasks/pro-supervision.md)。玩家包说明单独维护在[玩家指南](docs/player/README.md)，开发测试和原始素材不进入玩家包。
 
 四节点巡回、六车、四关及原创BGM曾完成旧M1–M4技术验证：9e7cd09的95项与18张实际渲染仅是历史基线，见[旧验证记录](docs/continuous-validation-20261002.md)，不代表新增需求或当前版本通过。[十局真人试玩](docs/balance/manual-sessions.md)和剩余体验仍待实际确认。本地候选包已获授权，但当前尚未实际导出；公开发行须另行授权。
 

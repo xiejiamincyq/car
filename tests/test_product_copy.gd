@@ -22,7 +22,7 @@ func _init() -> void:
 	var main := MainScene.instantiate()
 	_check(not main.get_node("CanvasLayer/TitleScreen/Center/Card/Content/Version").visible, "development version label is hidden without removing internal metadata")
 	main.free()
-	_check(ProjectSettings.get_setting("application/config/version") == "0.4.0-dev", "internal project version is unchanged")
+	_check(ProjectSettings.get_setting("application/config/name") == "Neon Coast Rush", "copy polish preserves the application and save identity; version is checked by the metadata gate")
 	var chart_source := FileAccess.get_file_as_string("res://scripts/ui/vehicle_performance_chart.gd")
 	_check(not chart_source.contains("六车归一化") and not chart_source.contains("NORMALIZED ACROSS SIX CARS"), "radar exposes vehicle stats without implementation commentary")
 	_check(Text.catalog_keys_match(), "localized key sets stay complete")
