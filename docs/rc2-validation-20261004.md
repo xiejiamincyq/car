@@ -74,3 +74,15 @@ EXE元数据实际为产品`Neon Coast Rush`、版本`0.4.0-rc.2`、文件版本
 修正仅临时检查器的具体夹具期待，不改游戏或通用ERROR过滤。随后直接只读复核已有两次真实运行，而非为了绿色标记重开游戏：重新核对terminal/trace SHA、精确1/2条诊断、actual difficulty、PID/title/release/closed、包/正式档边界及合成输入哈希。新增无关ERROR和错误难度负控均被拒绝。`legacy-entry-31475d34/reviewed-parser-line.json`通过，SHA `8A042C22D64BAA8AC3AFF95653E22ECE0C060CC8B423AD36A6B53D6D1A5AF5E9`。两份原false账本不改写；不能把前三例和两例复核拼称“一次五例全绿”。
 
 本子项只证明正常release启动读档/优先级/备份/default难度及不写盘，**不关闭存档写回、完整开局→结算→重启读档或R5/R6整门**。尚无新真人回报；当前已确认的人工窗口是RC1，不自动关闭或更换。下一步需用户结束旧试玩后交接同一RC2的实际键盘驾驶与被动采样，当前工具不能通过正常release入口自动输入；不以测试主场景/编辑器或合成驾驶代替。
+
+## 用户授权后的RC2真人入口（覆盖上一节旧RC1窗口状态）
+
+用户明确要求“开始RC2试玩”。启动前已查询旧PID24164不存在；同一不可变RC2于2026-10-04T10:32:39.1785550Z以正常入口启动，PID49744、1920×1080、独立空APPDATA、`NEON_COAST_PERF_CAPTURE=1`，没有复制正式进度或合成成绩。命令只含verbose、指定游戏日志、windowed、resolution；无脚本覆盖、输入自动化、定时退出或游戏看门狗。正式save.cfg哈希与原备份/临时档存在性在交接后不变。
+
+本地原始证据均在成功构建根`exports/0.4.0-rc.2/2a4d839-5c48bdf4/manual-74853869/`：`handoff.json`和`live-verification.json`记录入口、EXE/PCK哈希、PID/创建时间、隔离边界；正常Main生成`appdata/Godot/app_userdata/Neon Coast Rush/performance/capture-49744-1441987.jsonl`，实际release/schema1，阶段、局号/重置号、赛道、难度、施工、超载、分辨率、焦点与节点/对象可逐样本核验。当前JSONL仍持续追加，不把活动文件哈希写作最终摘要。
+
+`handoff.json`中的`parent_capture_restored=false`原样保留：临时PowerShell启动壳用null恢复原本不存在的变量，.NET调用将其转为空字符串。独立最小验证证实用`[NullString]::Value`才恢复真正不存在；启动壳已结束，后续壳检查变量不存在，没有持久/global环境修改。子游戏按授权继承1且正常采样；空字符串本来也不触发采样。不伪称该诊断字段通过，也不为更改账本而重启真人游戏。
+
+2026-10-04T10:34:37.5629622Z启动唯一针对PID49744的PresentMon原观察会话，工具PID35144、1800秒、terminate_on_proc_exit、no_track_input；原会话78230及`observation-9f551d02/start.json`绑定同一EXE/PCK身份。同时采集进程私有内存/工作集；观察器仅能结束自有PresentMon，绝不结束游戏。后续以原会话/原进程终态判定，不因观察超时或暂时无输出重启。
+
+10:36:02 UTC的交接核验与后续只读查询确认游戏/观察器身份活跃；目前读取的样本均为title、0局/0重置，没有真人终态反馈。此节只关闭“已交接RC2且取证渠道活跃”的入口事实，**不关闭驾驶、复杂场景性能、30分钟/20重开、完整存档或R6体验门**。PresentMon相对时钟和游戏elapsed时间须校核后才能做阶段帧关联；全帧P95不自动等于四关复杂驾驶达标。下一步保留原游戏与原采集会话，等待真实驾驶/终态和人类反馈，再据原始数据验收。
