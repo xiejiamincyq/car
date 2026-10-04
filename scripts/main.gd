@@ -33,6 +33,7 @@ const PavementSurface = preload("res://scripts/pavement_surface.gd")
 const CoinGameplayDirector = preload("res://scripts/coin_gameplay_director.gd")
 const CoinRouteDirector = preload("res://scripts/coin_route_director.gd")
 const CoinRenderer = preload("res://scripts/coin_renderer.gd")
+const RuntimePerformanceCapture = preload("res://scripts/runtime_performance_capture.gd")
 const TRAFFIC_SEDAN_TEXTURE: Texture2D = preload("res://assets/vehicles/traffic_sedan.png")
 const TRAFFIC_VAN_TEXTURE: Texture2D = preload("res://assets/vehicles/traffic_van.png")
 const TRAFFIC_HATCHBACK_TEXTURE: Texture2D = preload("res://assets/vehicles/traffic_hatchback.png")
@@ -149,6 +150,9 @@ var new_record_label: Label
 var feedback: GameFeedback
 var feedback_banner: Label
 var roadside_renderer: RoadsideRenderer
+var runtime_capture: RuntimePerformanceCapture
+var capture_run_number := 0
+var capture_reset_number := 0
 
 func _ready() -> void:
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
@@ -225,7 +229,33 @@ func _ready() -> void:
 	_configure_persistence(SaveStore.new(), get_tree().current_scene == self)
 	preload("res://scripts/ui/menu_presentation.gd").apply($CanvasLayer)
 	start_button.grab_focus()
+	if get_tree().current_scene == self and OS.get_environment("NEON_COAST_PERF_CAPTURE") == "1":
+		runtime_capture = RuntimePerformanceCapture.new()
+		if not runtime_capture.start(true):
+			runtime_capture = null
 	queue_redraw()
+
+func _capture_runtime_performance() -> void:
+	if runtime_capture == null or not runtime_capture.active:
+		return
+	var window := get_window()
+	runtime_capture.poll({
+		"phase": RunState.Phase.keys()[run.phase].to_lower(),
+		"run_number": capture_run_number,
+		"reset_number": capture_reset_number, "screen": _capture_screen_name(),
+		"track": String(current_track.id), "vehicle": String(current_vehicle.id),
+		"difficulty": difficulty_index, "speed": drive.speed, "distance": run.distance,
+		"construction": LaneEventDirector.State.keys()[traffic.lane_events.state].to_lower(),
+		"overdrive": overdrive.is_active(),
+		"window_width": window.size.x, "window_height": window.size.y,
+		"focused": window.has_focus(),
+	})
+
+func _capture_screen_name() -> String:
+	for item in [[confirmation_screen, "confirmation"], [settings_screen, "settings"], [controls_screen, "controls"], [pause_screen, "pause"], [result_screen, "result"], [vehicle_select_screen, "garage"], [tour_map_screen, "tour_map"], [countdown_screen, "countdown"], [title_screen, "title"]]:
+		if item[0].visible:
+			return item[1]
+	return "race"
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_APPLICATION_FOCUS_OUT:
@@ -262,6 +292,8 @@ func _cancel_forward_taps() -> void:
 	forward_tap_blocked = not forward_keys_down.is_empty() or Input.is_action_pressed("accelerate")
 
 func _exit_tree() -> void:
+	if runtime_capture != null:
+		runtime_capture.close()
 	if audio_director != null:
 		audio_director.shutdown()
 
@@ -275,6 +307,7 @@ func _pause_for_focus_loss() -> void:
 	$CanvasLayer/PauseScreen/Center/Card/Content/ResumeButton.grab_focus()
 
 func _process(delta: float) -> void:
+	_capture_runtime_performance()
 	if Input.is_action_just_pressed("ui_cancel") and confirmation_screen.visible:
 		_cancel_confirmation()
 		return
@@ -864,6 +897,8 @@ func _is_player_flashing() -> bool:
 	return not reduced_flashing_enabled and collision.invulnerability_remaining > 0.0 and int(collision.invulnerability_remaining * 14.0) % 2 == 0
 
 func _reset_run(run_seed_override: int = -1) -> void:
+	if runtime_capture != null and runtime_capture.active:
+		capture_reset_number += 1
 	run_resetting.emit()
 	current_run_seed = run_seed_override if run_seed_override >= 0 else run_seed_sequence.next_seed()
 	drive.reset()
@@ -900,11 +935,15 @@ func _reset_run(run_seed_override: int = -1) -> void:
 	last_run_rating = {}
 
 func _restart_run() -> void:
+	if runtime_capture != null and runtime_capture.active:
+		capture_run_number += 1
 	_reset_run()
 	run.begin_countdown()
 	audio_director.begin_music_countdown(StringName(current_track.get("music_id", &"")))
 
 func _start_new_run() -> void:
+	if runtime_capture != null and runtime_capture.active:
+		capture_run_number += 1
 	_apply_selected_vehicle()
 	_apply_selected_track()
 	_reset_run()

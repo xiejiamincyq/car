@@ -1,7 +1,7 @@
 extends RefCounted
 ## Opt-in local evidence, not gameplay state or a frame-time benchmark.
 
-const CONTEXT_KEYS := ["phase", "run_number", "track", "vehicle", "difficulty", "speed", "distance", "construction", "overdrive", "window_width", "window_height", "focused"]
+const CONTEXT_KEYS := ["phase", "screen", "run_number", "reset_number", "track", "vehicle", "difficulty", "speed", "distance", "construction", "overdrive", "window_width", "window_height", "focused"]
 const INTERVAL_USEC := 1000000
 
 var active := false
@@ -50,7 +50,7 @@ func poll(context: Dictionary, now_usec: int = -1) -> void:
 	var now := Time.get_ticks_usec() if now_usec < 0 else now_usec
 	if now < started_usec or now < _last_sample_usec:
 		return
-	var state := [context.get("phase"), context.get("run_number"), context.get("track")]
+	var state := [context.get("phase"), context.get("screen"), context.get("run_number"), context.get("reset_number"), context.get("track")]
 	if now < _next_sample_usec and state == _last_state:
 		return
 	var row := {"event": "sample"}

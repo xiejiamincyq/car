@@ -1,4 +1,4 @@
-# Neon Coast Rush — 0.4.0-rc.1
+# Neon Coast Rush — 0.4.0-rc.2
 
 Windows x64本机验收候选版，不是已验收的最终发行版。四条赛道、六种车型、三种难度；支持中文和英文。
 
