@@ -60,6 +60,6 @@ godot --path .
 
 当前候选版本：`0.4.0-rc.1`，尚未最终成品验收。正在执行用户批准的[本机成品计划](tasks/plan-product-ready.md)，包括输入/特效、交通行为、难度补给、存档和本地候选包；最新[验证记录](docs/product-validation-20261003.md)如实区分专项、全回归与未覆盖内容。2026-10-03用户已取消网页端使用，由Codex依据本地证据自主判断，见[执行协议](tasks/pro-supervision.md)。玩家包说明单独维护在[玩家指南](docs/player/README.md)，开发测试和原始素材不进入玩家包。
 
-四节点巡回、六车、四关及原创BGM曾完成旧M1–M4技术验证：9e7cd09的95项与18张实际渲染仅是历史基线，见[旧验证记录](docs/continuous-validation-20261002.md)，不代表新增需求或当前版本通过。[十局真人试玩](docs/balance/manual-sessions.md)和剩余体验仍待实际确认。本地候选包已获授权，但当前尚未实际导出；公开发行须另行授权。
+四节点巡回、六车、四关及原创BGM曾完成旧M1–M4技术验证：9e7cd09的95项与18张实际渲染仅是历史基线，见[旧验证记录](docs/continuous-validation-20261002.md)，不代表新增需求或当前版本通过。[十局真人试玩](docs/balance/manual-sessions.md)和剩余体验仍待实际确认。93164d7的144项完整回归及实际EXE/PCK/ZIP、隔离图形首启/设置保存/重启子检查已有证据，见[RC验证记录](docs/rc-validation-20261004.md)；四关性能、长期稳定性和真人门未完成，公开发行须另行授权。
 
 已验收正式版本保存在 Git 标签 `v0.3.0`，稳定回滚基线仍保留 `v0.2.0`。0.4.0 范围见 [技术规格](docs/spec-0.4.0.md) 和 [实施计划](tasks/plan.md)，0.3.0 发布与回滚记录见 [发布检查清单](docs/release-checklist.md)，玩家可见改动见 [CHANGELOG](CHANGELOG.md)。
