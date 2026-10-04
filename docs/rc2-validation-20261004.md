@@ -86,3 +86,17 @@ EXE元数据实际为产品`Neon Coast Rush`、版本`0.4.0-rc.2`、文件版本
 2026-10-04T10:34:37.5629622Z启动唯一针对PID49744的PresentMon原观察会话，工具PID35144、1800秒、terminate_on_proc_exit、no_track_input；原会话78230及`observation-9f551d02/start.json`绑定同一EXE/PCK身份。同时采集进程私有内存/工作集；观察器仅能结束自有PresentMon，绝不结束游戏。后续以原会话/原进程终态判定，不因观察超时或暂时无输出重启。
 
 10:36:02 UTC的交接核验与后续只读查询确认游戏/观察器身份活跃；目前读取的样本均为title、0局/0重置，没有真人终态反馈。此节只关闭“已交接RC2且取证渠道活跃”的入口事实，**不关闭驾驶、复杂场景性能、30分钟/20重开、完整存档或R6体验门**。PresentMon相对时钟和游戏elapsed时间须校核后才能做阶段帧关联；全帧P95不自动等于四关复杂驾驶达标。下一步保留原游戏与原采集会话，等待真实驾驶/终态和人类反馈，再据原始数据验收。
+
+## 原RC2被动采集终态：标题场景，不关闭驾驶门
+
+原会话78230已准确返回原生0：`capture_native_exit=0`、`watchdog_timeout=false`、1800.3619387秒、1769个内存样本；PresentMon/PID35144已退出，游戏/PID49744及创建时间不变，继续交由用户操作。没有重启或结束真人游戏，不再把原采集器称为运行中。
+
+同一`observation-9f551d02/frames.csv`全部377964行都属于该游戏PID；逐行统计不排除Dropped/慢帧/零值：`msBetweenPresents`均值4.762045508ms、nearest-rank P95 5.3782ms、最大28.5416ms；342035行Dropped（90.4941%）、1行超过20ms、1行零间隔。另以不排序的全行复算核验数量及P95排名359066（小于该值359060行，小于等于359072行）。异常行保留，不能把此结果写成“零丢帧/零慢帧/全帧有效”。
+
+私有内存首末307081216→286986240字节，范围286953472–307081216；工作集首末211423232→85745664字节，范围85745664–211738624。这些是标题运行的进程观测，不证明全堆无泄漏、比赛长期稳定或20次重开趋势。
+
+2026-10-04T11:06:31Z完成有界复制`runtime-snapshot.jsonl`，2031行/2030个sample均为release同一PID/session；全部title、1920×1080、0局/0重置，9个sample focused=true；节点181–181、对象1988–2034、资源74–74。快照记录覆盖开机至复制时的标题样本，不作跨时钟精确帧关联；原游戏JSONL仍在写入，没有伪造closed或取其最终哈希。当前游戏日志的脚本/解析/断言/ERROR匹配为0，仅限已读取日志。
+
+[PresentMon 2.6官方控制台说明](https://github.com/GameTechDev/PresentMon/blob/v2.6.0/README-ConsoleApplication.md)区分Present调用间隔与Display指标；Dropped不能隐藏，良好的Present P95也不自动证明屏幕显示流畅。[官方README](https://github.com/GameTechDev/PresentMon/blob/v2.6.0/README.md#analyzing-opengl-and-vulkan-applications)另说明Runtime=Other的仪表局限。大量样本失焦是本次记录事实，但未记录窗口遮挡/最小化状态，不能认定高Dropped的具体原因，也不以其替代前台驾驶测量。此次仅补齐30分钟真实标题场景被动记录，**四关复杂驾驶/完整终态/20次重开和真人门继续开放**，不据此改游戏性能参数。
+
+终态证据SHA256：CSV `BB133018DEFCF6CB5751B5CFF6CED49557E93FE25EF5DE6D50937DCEEB426F4C`；memory `C7870C4337FAE9572C2147FF3C6C3625D6E0A43CAA21AEACD734028ED381ACA4`；terminal `8C5A2344B3D0A83E4822B4D6FE26A3C78D194E6F1C70071F508ECB16DD8B39AE`；有界runtime快照 `E00788B1E56CE17940456B55A2D68509958C0B9C9158674CE923608FFCB8301F`；统计`summary.json` `FDB184CE01805BE4C54BCA8112D43B9BFF3B7B6899BCC9EDDD68DD7A70C3FE60`。stdout记录started/stopped、stderr为空；原始记录保留。下一步需要实际用户开局及反馈，不能用新增标题等待/无头重复测试制造驾驶验收进展。
