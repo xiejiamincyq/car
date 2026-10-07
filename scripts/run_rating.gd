@@ -1,6 +1,25 @@
 class_name RunRating
 extends RefCounted
 
+const VehicleCatalog = preload("res://scripts/catalog/vehicle_catalog.gd")
+
+static func reference_time(finish_distance: float) -> float:
+	var slowest := INF
+	for vehicle in VehicleCatalog.all():
+		slowest = minf(slowest, float(vehicle.max_speed))
+	# RunState advances metres at 0.1 times the internal speed, not HUD km/h.
+	return maxf(0.0, finish_distance) / (slowest * 0.1)
+
+static func targets_for_run(track: Dictionary, result: Dictionary) -> Dictionary:
+	var targets: Dictionary = track.get("rating_targets", {}).duplicate(true)
+	targets["time"] = reference_time(float(track.get("finish_distance", 0.0)))
+	if result.has("generated_coins"):
+		var count = result.generated_coins
+		if not count is int or count < 0:
+			return {}
+		targets["coins"] = ceili(float(count) * 0.9)
+	return targets
+
 # Pure scoring; completion rewards remain the responsibility of progression.
 static func evaluate(result: Dictionary, targets: Dictionary) -> Dictionary:
 	if not result.get("cleared") is bool or not valid_targets(targets):
@@ -22,7 +41,7 @@ static func evaluate(result: Dictionary, targets: Dictionary) -> Dictionary:
 		"time": roundi(40.0 * pace * progress),
 		"overtakes": roundi(20.0 * clampf(float(result.get("overtakes", 0)) / float(targets.overtakes), 0.0, 1.0)),
 		"collisions": roundi((20 - 4 * mini(5, int(result.get("collisions", 0)))) * progress),
-		"coins": roundi(20.0 * clampf(float(result.get("coins", 0)) / float(targets.coins), 0.0, 1.0)),
+		"coins": roundi(20.0 * clampf(float(result.get("coins", 0)) / float(targets.coins), 0.0, 1.0)) if targets.coins > 0 else 0,
 	}
 	var total := int(parts.time + parts.overtakes + parts.collisions + parts.coins)
 	if not cleared:
@@ -30,8 +49,8 @@ static func evaluate(result: Dictionary, targets: Dictionary) -> Dictionary:
 		if total > cap:
 			parts = _cap_parts(parts, total, cap)
 			total = cap
-		return {"total": total, "grade": grade_for(total), "parts": parts, "cleared": false, "progress": progress, "cap": cap}
-	return {"total": total, "grade": grade_for(total), "parts": parts}
+		return {"total": total, "grade": grade_for(total), "parts": parts, "cleared": false, "progress": progress, "cap": cap, "targets": targets.duplicate()}
+	return {"total": total, "grade": grade_for(total), "parts": parts, "targets": targets.duplicate()}
 
 static func _cap_parts(parts: Dictionary, total: int, cap: int) -> Dictionary:
 	var scaled := {}
@@ -61,7 +80,7 @@ static func grade_for(total: int) -> String:
 	return "D"
 
 static func valid_targets(targets: Dictionary) -> bool:
-	return _positive_number(targets.get("time")) and _positive_number(targets.get("overtakes")) and _positive_number(targets.get("coins"))
+	return _positive_number(targets.get("time")) and _positive_number(targets.get("overtakes")) and _nonnegative_number(targets.get("coins"))
 
 static func _positive_number(value: Variant) -> bool:
 	return (value is int or value is float) and is_finite(float(value)) and float(value) > 0.0

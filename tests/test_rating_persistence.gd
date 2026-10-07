@@ -10,6 +10,7 @@ func _init() -> void:
 	var data := SaveStore.default_data()
 	assert(data.version == 6 and data.ratings.is_empty(), "v6 introduces empty per-track ratings")
 	var run := {"score": 7000, "difficulty": 1, "distance": 3200.0, "survival": 60.0, "overtakes": 12, "coins": 60, "collisions": 0, "near_misses": 2, "stage": 4, "track_id": &"neon_coast", "cleared": true, "medal": 2}
+	run.survival = Tracks.get_by_id(&"neon_coast").rating_targets.time
 	var outcome := Progression.record_run(data, run, "2026-09-08")
 	assert(outcome.rating.total == 100 and outcome.new_rating_record)
 	assert(data.ratings.is_empty(), "Recording a run must not mutate its input")

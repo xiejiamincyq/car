@@ -74,9 +74,9 @@ class CoinBirthProbe extends "res://scripts/coin_gameplay_director.gd":
 	# before Main's collect_near call. Capture that boundary, not end-of-Main.
 	var accepted: Array = []
 	func tick(delta: float, player_speed: float, player_lane: int, viewport_height: float, npc_zones: Array, fuel_zones: Array,
-		construction_zones: Array, blocked_lanes: Array[int], entry_lane_range: Vector2 = Vector2(-INF, INF), maximum_lane_slope: float = INF) -> bool:
+		construction_zones: Array, blocked_lanes: Array[int], entry_lane_range: Vector2 = Vector2(-INF, INF), maximum_lane_slope: float = INF, remaining_race_distance: float = INF) -> bool:
 		var old := coins.duplicate()
-		var result := super.tick(delta, player_speed, player_lane, viewport_height, npc_zones, fuel_zones, construction_zones, blocked_lanes, entry_lane_range, maximum_lane_slope)
+		var result := super.tick(delta, player_speed, player_lane, viewport_height, npc_zones, fuel_zones, construction_zones, blocked_lanes, entry_lane_range, maximum_lane_slope, remaining_race_distance)
 		for coin in coins:
 			if not old.has(coin): accepted.append(coin)
 		return result

@@ -2,6 +2,7 @@ extends SceneTree
 
 const MainScene = preload("res://scenes/main.tscn")
 const SaveStore = preload("res://scripts/save_store.gd")
+const AudioTeardown = preload("res://tests/support/audio_teardown.gd")
 
 func _init() -> void:
 	call_deferred("_run")
@@ -14,9 +15,10 @@ func _run() -> void:
 	main.save_data = SaveStore.default_data()
 	main._reset_run(611)
 	main.run.phase = main.RunState.Phase.RUN_CLEAR
-	main.run.elapsed_seconds = 60.0
+	main.run.elapsed_seconds = main.TrackCatalog.get_by_id(&"neon_coast").rating_targets.time
 	main.run.overtakes = 12
-	main.run.coins = 30
+	main.run.coins = 27
+	main.coin_director.generated_coin_count = 60
 	main.run.collisions = 2
 	main._persist_result_once()
 	assert(main.last_run_rating.total == 82, "Settlement must use the actual coin and collision counters")
@@ -32,5 +34,8 @@ func _run() -> void:
 	main._persist_result_once()
 	assert(not main.last_run_rating.is_empty() and main.last_run_rating.total <= 49)
 	assert(main.save_data.ratings.neon_coast.total == 82)
+	var refs := AudioTeardown.capture(main)
+	main.audio_director.shutdown()
 	main.free()
+	assert(await AudioTeardown.wait_for_release(self, refs))
 	quit()

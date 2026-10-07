@@ -12,10 +12,10 @@ class CoinInputs extends "res://scripts/coin_gameplay_director.gd":
 	var entry := Vector2.ZERO
 	var slope := 0.0
 	func tick(delta: float, player_speed: float, player_lane: int, viewport_height: float, npc_zones: Array, fuel_zones: Array,
-		construction_zones: Array, blocked_lanes: Array[int], entry_lane_range: Vector2 = Vector2(-INF, INF), maximum_lane_slope: float = INF) -> bool:
+		construction_zones: Array, blocked_lanes: Array[int], entry_lane_range: Vector2 = Vector2(-INF, INF), maximum_lane_slope: float = INF, remaining_race_distance: float = INF) -> bool:
 		entry = entry_lane_range
 		slope = maximum_lane_slope
-		return super.tick(delta, player_speed, player_lane, viewport_height, npc_zones, fuel_zones, construction_zones, blocked_lanes, entry_lane_range, maximum_lane_slope)
+		return super.tick(delta, player_speed, player_lane, viewport_height, npc_zones, fuel_zones, construction_zones, blocked_lanes, entry_lane_range, maximum_lane_slope, remaining_race_distance)
 
 func _init() -> void:
 	call_deferred("_run")

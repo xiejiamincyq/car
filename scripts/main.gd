@@ -691,7 +691,8 @@ func _update_coins(delta: float, frame_forward_advance: float = -1.0) -> void:
 			drive.steering_speed*0.85*integrity.steering_multiplier(), viewport_size.y),
 		CoinGameplayDirector.followable_lane_slope(
 			maxf(drive.speed, (drive.max_speed+GameConfig.OVERDRIVE_SPEED_BONUS)*integrity.max_speed_multiplier()),
-			drive.steering_speed*0.85*integrity.steering_multiplier())
+			drive.steering_speed*0.85*integrity.steering_multiplier()),
+		maxf(0.0, run.progression.finish_distance - run.distance)
 	)
 	for coin in coin_director.collect_near(player_lane_position, player_center.y, lane_width):
 		var coin_center := Vector2(road_left + lane_width * (coin.lane_position + 0.5), coin.y)
@@ -1406,6 +1407,7 @@ func _persist_result_once() -> void:
 		"distance": run.distance,
 		"survival": run.elapsed_seconds,
 		"coins": run.coins,
+		"generated_coins": coin_director.generated_coin_count,
 		"collisions": run.collisions,
 		"overtakes": run.overtakes,
 		"near_misses": run.near_misses,
@@ -1455,7 +1457,7 @@ func _update_result_labels() -> void:
 	var reason := _text("result.reason.clear" if cleared else ("result.reason.integrity" if run.failure_reason == &"integrity" else "result.reason.fuel"))
 	result_summary.text = _text("rating.summary", [reason, "%06d" % run.score, "%05d" % roundi(run.distance), run.overtakes, run.near_misses, run.difficulty_stage + 1])
 	var track := TrackCatalog.get_by_id(StringName(save_data.tour.selected_track_id))
-	$CanvasLayer/ResultScreen/Center/Card/Content/RatingCard.populate(last_run_rating, save_data.ratings.get(save_data.tour.selected_track_id, {}), {"time": run.elapsed_seconds, "overtakes": run.overtakes, "collisions": run.collisions, "coins": run.coins}, track.rating_targets, language, high_contrast_enabled)
+	$CanvasLayer/ResultScreen/Center/Card/Content/RatingCard.populate(last_run_rating, save_data.ratings.get(save_data.tour.selected_track_id, {}), {"time": run.elapsed_seconds, "overtakes": run.overtakes, "collisions": run.collisions, "coins": run.coins}, last_run_rating.get("targets", track.rating_targets), language, high_contrast_enabled)
 
 func _phase_text() -> String:
 	match run.phase:

@@ -10,6 +10,7 @@ var coins: Array[CoinPickup] = []
 var route_director: CoinRouteDirector
 var spawn_distance_remaining := 0.0
 var spawned_route_count := 0
+var generated_coin_count := 0
 
 func _init(run_seed: int, lanes: int = GameConfig.ROAD_LANE_COUNT) -> void:
 	route_director = CoinRouteDirector.new(run_seed, lanes)
@@ -19,6 +20,7 @@ func reset(run_seed: int) -> void:
 	route_director.reset(run_seed)
 	spawn_distance_remaining = 0.0
 	spawned_route_count = 0
+	generated_coin_count = 0
 
 func tick(
 	delta: float,
@@ -30,7 +32,8 @@ func tick(
 	construction_zones: Array,
 	blocked_lanes: Array[int],
 	entry_lane_range: Vector2 = Vector2(-INF, INF),
-	maximum_lane_slope: float = INF
+	maximum_lane_slope: float = INF,
+	remaining_race_distance: float = INF
 ) -> bool:
 	var safe_delta := maxf(0.0, delta)
 	var safe_speed := maxf(0.0, player_speed)
@@ -51,10 +54,18 @@ func tick(
 		entry_lane_range,
 		maximum_lane_slope
 	)
+	# Do not create/count coins which can only reach the player after finish.
+	var eligible: Array[CoinPickup] = []
+	for coin in route:
+		var metres_until_pickup := maxf(0.0, TrackGeometry.player_y(viewport_height) - coin.y) * 0.1 / GameConfig.ROAD_SCROLL_MULTIPLIER
+		if metres_until_pickup <= remaining_race_distance:
+			eligible.append(coin)
+	route = eligible
 	if route.is_empty():
 		spawn_distance_remaining = GameConfig.COIN_ROUTE_RETRY_DISTANCE
 		return false
 	coins.append_array(route)
+	generated_coin_count += route.size()
 	spawn_distance_remaining = GameConfig.COIN_ROUTE_INTERVAL_DISTANCE
 	spawned_route_count += 1
 	return true

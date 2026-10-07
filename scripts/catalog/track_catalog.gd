@@ -1,6 +1,8 @@
 class_name TrackCatalog
 extends RefCounted
 
+const RunRating = preload("res://scripts/run_rating.gd")
+
 const NEON_COAST_LEFT_SEQUENCE := [
 	"res://assets/environment_sequences/neon_coast/left_00.png",
 	"res://assets/environment_sequences/neon_coast/left_01.png",
@@ -130,10 +132,13 @@ const TRACKS := [
 ]
 
 static func all() -> Array:
-	return TRACKS.duplicate(true)
+	var tracks := TRACKS.duplicate(true)
+	for track in tracks:
+		track.rating_targets.time = RunRating.reference_time(track.finish_distance)
+	return tracks
 
 static func get_by_id(track_id: StringName) -> Dictionary:
-	for track in TRACKS:
+	for track in all():
 		if track.id == track_id:
 			return track.duplicate(true)
 	return {}

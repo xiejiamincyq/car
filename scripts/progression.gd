@@ -45,7 +45,7 @@ static func record_run(current_data: Dictionary, result: Dictionary, date: Strin
 		var track := TrackCatalog.get_by_id(result.track_id)
 		var rating_input := result.duplicate(true)
 		rating_input["finish_distance"] = track.get("finish_distance", 0.0)
-		rating = RunRating.evaluate(rating_input, track.get("rating_targets", {}))
+		rating = RunRating.evaluate(rating_input, RunRating.targets_for_run(track, rating_input))
 		if not rating.is_empty() and result.get("cleared", false) == true:
 			var best: Dictionary = data.ratings.get(result.track_id, {})
 			if best.is_empty() or int(rating.total) > int(best.total):
