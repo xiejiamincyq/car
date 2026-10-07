@@ -2,6 +2,8 @@
 
 范围：落实plan-product-ready.md的性能采样入口，补实际release的阶段和节点/对象趋势证据；不是新增玩法或自动驾驶。R5/R6原门槛不变，当前RC1不覆盖、不关闭、不注入输入。网页已取消。
 
+2026-10-07外部工具补片：新增`scripts/tests/observe_rc2_driving.ps1`，在同一活进程原生trace检测到前台1080p且速度非零的RUNNING后才启动PresentMon，避免标题等待先耗尽采样窗口。33项专项及实际RC2标题负例通过，慢启动反例先红后绿；新版正向现场触发/性能全链路仍待驾驶，不扩大为R5通过。用法与失败原证据见[驾驶触发采集](../docs/rc2-driving-capture.md)。
+
 ## 决策与边界
 
 现有PresentMon能采实际呈现间隔和进程内存，不能提供应用内对象数或比赛状态。采用单个RefCounted采样器，通过固定开关`NEON_COAST_PERF_CAPTURE=1`显式启用；默认不创建文件、不轮询监测、不新增节点。仅写本地user://performance/唯一会话JSONL，路径不能由环境变量/玩家输入指定，不联网、不读取键盘、不使用随机源、不改v6存档或音画/玩法规则。
