@@ -43,7 +43,7 @@ godot --path .
 # 指定引擎：./scripts/tests/run_tests.ps1 -GodotExecutable 'C:\Path\To\Godot_v4.7-stable_win64_console.exe'
 ```
 
-运行器默认使用每项120秒墙钟看门狗；完整发布压力矩阵因包含约324万交通子步，默认单独使用600秒。超时均计失败，不使用会提前返回成功的“60帧后自动退出”。关键异步/存档及成品专项必须到达末尾完成标记。显式`-TestTimeoutSeconds`可覆盖上限；不会终止其他游戏进程。
+运行器默认使用每项120秒墙钟看门狗；480组动态公平性扫描单独使用300秒，完整发布压力矩阵因包含约324万交通子步单独使用600秒。超时均计失败，不使用会提前返回成功的“60帧后自动退出”。关键异步/存档及成品专项必须到达末尾完成标记。显式`-TestTimeoutSeconds`可覆盖上限；不会终止其他游戏进程。
 
 `tests/test_release_regression.gd` 额外覆盖 20 个真实燃油结算与第二局重开流程、四个难度阶段及其实际车种，以及 20 个种子 × 3 个玩家车道 × 3 个速度组合下 300 秒的出生公平性、回收和对象池压力模拟。
 
@@ -51,14 +51,14 @@ godot --path .
 
 1. 在 Godot 的 **Editor > Manage Export Templates** 安装与编辑器同版本的 Windows 导出模板。
 2. 打开 **Project > Export**，选择仓库内的 `Windows Desktop` 预设。
-3. 候选预设为 `0.4.0-rc.2`；正式验收构建应使用新的唯一目录，不覆盖旧包。默认导出路径为 `exports/0.4.0-rc.2/package/NeonCoastRush.exe`。
+3. 候选预设为 `0.4.0-rc.3`；正式验收构建应使用新的唯一目录，不覆盖旧包。默认导出路径为 `exports/0.4.0-rc.3/package/NeonCoastRush.exe`。
 4. 在新目录中运行 `NeonCoastRush.exe`，至少完成「启动 → 开始 → Space 暂停/继续 → 结算 → R 重开 → 返回标题并退出」冒烟流程。
 
 `exports/` 已被 Git 忽略，构建产物不会提交。
 
 ## 当前开发状态
 
-当前候选源码版本：`0.4.0-rc.2`，待重新构建，尚未最终成品验收。正在执行用户批准的[本机成品计划](tasks/plan-product-ready.md)，包括输入/特效、交通行为、难度补给、存档和本地候选包；最新[验证记录](docs/product-validation-20261003.md)如实区分专项、全回归与未覆盖内容。2026-10-03用户已取消网页端使用，由Codex依据本地证据自主判断，见[执行协议](tasks/pro-supervision.md)。玩家包说明单独维护在[玩家指南](docs/player/README.md)，开发测试和原始素材不进入玩家包。
+当前候选源码版本：`0.4.0-rc.3`，待构建和人工验证，尚未最终成品验收。当前执行用户试玩反馈形成的[RC3修复计划](tasks/plan-rc3-feedback.md)，包括超车路线、施工保留、动态金币目标、巡航时间和难度梯度；原RC2包保留。2026-10-03用户已取消网页端使用，由Codex依据本地证据自主判断，见[执行协议](tasks/pro-supervision.md)。玩家包说明单独维护在[玩家指南](docs/player/README.md)，开发测试和原始素材不进入玩家包。
 
 四节点巡回、六车、四关及原创BGM曾完成旧M1–M4技术验证：9e7cd09的95项与18张实际渲染仅是历史基线，见[旧验证记录](docs/continuous-validation-20261002.md)，不代表新增需求或当前版本通过。[十局真人试玩](docs/balance/manual-sessions.md)和剩余体验仍待实际确认。93164d7的144项完整回归及实际EXE/PCK/ZIP、隔离图形首启/设置保存/重启子检查已有证据，见[RC验证记录](docs/rc-validation-20261004.md)；四关性能、长期稳定性和真人门未完成，公开发行须另行授权。
 

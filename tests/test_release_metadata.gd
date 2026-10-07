@@ -1,6 +1,6 @@
 extends SceneTree
 
-const RELEASE_VERSION := "0.4.0-rc.2"
+const RELEASE_VERSION := "0.4.0-rc.3"
 
 func _init() -> void:
 	var project := ConfigFile.new()
@@ -12,10 +12,10 @@ func _init() -> void:
 	var export_presets := ConfigFile.new()
 	assert(export_presets.load("res://export_presets.cfg") == OK, "Release validation must read Windows export metadata")
 	assert(export_presets.get_value("preset.0.options", "application/product_version", "") == RELEASE_VERSION, "Windows product version must match the project version")
-	assert(export_presets.get_value("preset.0.options", "application/file_version", "") == "0.4.0.2", "Windows file version must identify candidate 2 numerically")
-	assert(export_presets.get_value("preset.0.options", "application/file_description", "") == "Neon Coast Rush release candidate 2", "Windows metadata must identify a candidate, not claim final release")
+	assert(export_presets.get_value("preset.0.options", "application/file_version", "") == "0.4.0.3", "Windows file version must identify candidate 3 numerically")
+	assert(export_presets.get_value("preset.0.options", "application/file_description", "") == "Neon Coast Rush release candidate 3", "Windows metadata must identify a candidate, not claim final release")
 	assert(export_presets.get_value("preset.0.options", "application/product_name", "") == "Neon Coast Rush", "Windows product identity remains unchanged")
-	assert(export_presets.get_value("preset.0", "export_path", "") == "exports/0.4.0-rc.2/package/NeonCoastRush.exe", "The default candidate export path must be versioned")
+	assert(export_presets.get_value("preset.0", "export_path", "") == "exports/0.4.0-rc.3/package/NeonCoastRush.exe", "The default candidate export path must be versioned")
 	assert(export_presets.get_value("preset.0.options", "debug/export_console_wrapper", -1) == 0, "The player package must not add a developer console launcher")
 	var excluded_resources := str(export_presets.get_value("preset.0", "exclude_filter", ""))
 	assert("tests/*" in excluded_resources, "Release exports must not ship the automated test scripts")
@@ -26,7 +26,7 @@ func _init() -> void:
 	assert(RELEASE_VERSION in readme, "README must name the exact candidate version")
 	assert("v0.2.0" in readme, "README must retain the stable rollback tag")
 	var main_scene := FileAccess.get_file_as_string("res://scenes/main.tscn")
-	assert('text = "v0.4.0-rc.2"' in main_scene, "Internal scene metadata must match the candidate version")
+	assert('text = "v0.4.0-rc.3"' in main_scene, "Internal scene metadata must match the candidate version")
 	var checklist := FileAccess.get_file_as_string("res://docs/release-checklist.md")
 	assert("v0.2.0" in checklist, "Release checklist must retain the stable rollback tag")
 	assert(checklist.begins_with("# 0.3.0 本机发布"), "The frozen release checklist must remain an accurate 0.3.0 record during development")

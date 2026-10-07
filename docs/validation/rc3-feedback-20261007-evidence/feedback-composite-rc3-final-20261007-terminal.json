@@ -1,0 +1,18 @@
+{
+  "original_log_sha256": "31C8E70A0F38274801580CE4434DC9C50A8B4EA11757650C1ACE7073D6BF6688",
+  "independent_traffic_cases": 1080,
+  "original_full_passed": false,
+  "mode": "151 passing full-suite tests plus 3 accounted targeted reruns; not a single green full command",
+  "scope": "Production source unchanged; old 3s fixtures measured at 4.83s and bounded at 6s without reducing warning/motion assertions; dynamic scan needs 300s watchdog.",
+  "dynamic_rerun_seconds": 152.531021,
+  "total_tests": 154,
+  "original_full_native_exit": 1,
+  "human_accepted": false,
+  "test_only_changes": [
+    "C:\\Users\\21604\\Documents\\car\\tests\\test_track_geometry.gd",
+    "C:\\Users\\21604\\Documents\\car\\tests\\test_traffic_director.gd",
+    "C:\\Users\\21604\\Documents\\car\\scripts\\tests\\run_tests.ps1"
+  ],
+  "passed": true,
+  "source_stable": true
+}
