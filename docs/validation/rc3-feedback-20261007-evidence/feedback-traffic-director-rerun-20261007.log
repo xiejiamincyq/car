@@ -1,0 +1,5 @@
+RUN test_traffic_director.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+TEST_COMPLETE test_traffic_director.gd
+ALL 1 TESTS PASSED
