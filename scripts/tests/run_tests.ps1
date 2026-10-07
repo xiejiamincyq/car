@@ -38,6 +38,7 @@ $completionRequired = @(
     "test_impact_sweep.gd", "test_traffic_all_speed_safety.gd", "test_traffic_director.gd"
     "test_vehicle_keyboard_focus.gd", "test_release_metadata.gd", "test_runtime_performance_capture.gd",
     "test_runtime_performance_main.gd"
+	"test_supply_preserves_construction.gd"
 )
 $tests = @(Get-ChildItem (Join-Path $projectRoot "tests") -File -Filter $TestFilter | Sort-Object Name)
 if ($tests.Count -eq 0) {
@@ -52,6 +53,10 @@ foreach ($test in $tests) {
     $effectiveTimeoutSeconds = $TestTimeoutSeconds
     if ($test.Name -eq "test_release_regression.gd" -and -not $PSBoundParameters.ContainsKey("TestTimeoutSeconds")) {
         $effectiveTimeoutSeconds = 600
+    }
+    if ($test.Name -eq "test_dynamic_fairness.gd" -and -not $PSBoundParameters.ContainsKey("TestTimeoutSeconds")) {
+        # The unchanged 480-case scan takes about 153s with physical substeps.
+        $effectiveTimeoutSeconds = 300
     }
     $logToken = [Guid]::NewGuid().ToString("N")
     $stdoutPath = Join-Path ([IO.Path]::GetTempPath()) "neon-coast-$logToken.stdout.log"

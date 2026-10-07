@@ -2,6 +2,7 @@ extends SceneTree
 const Recorder = preload("res://tests/support/observed_change_traffic.gd")
 const Traffic = preload("res://scripts/traffic_director.gd")
 const DT := 1.0/60.0
+const Difficulty = preload("res://scripts/difficulty_profile.gd")
 var failures: Array[String] = []
 var checks := 0
 
@@ -47,6 +48,17 @@ func _init() -> void:
 		plain.tick(DT,200.0,2)
 	_check(normal.warnings_observed == 1 and normal.starts_observed == 1 and normal.completions_observed == 1,"real normal warning starts and physically completes once")
 	_check(normal.change_issues.is_empty(),"full visible normal warning is legal")
+	for difficulty_index in range(3):
+		var configured := Recorder.new(611)
+		configured.configure_difficulty(Difficulty.for_index(difficulty_index))
+		_normal(configured,100.0)
+		for step in 100: configured.tick(DT,200.0,2)
+		_check(configured.change_issues.is_empty() and configured.completions_observed == 1,"configured difficulty observes its full warning independently %d" % difficulty_index)
+		var configured_early := EarlyWarning.new(611)
+		configured_early.configure_difficulty(Difficulty.for_index(difficulty_index))
+		_normal(configured_early,100.0)
+		for step in 10: configured_early.tick(DT,200.0,2)
+		_check(configured_early.change_issue_counts.get("incomplete_visible_warning",0) > 0,"difficulty cannot hide deliberately early production warning %d" % difficulty_index)
 	_check(_motion(normal) == _motion(plain),"lifecycle observation preserves actual production trajectory")
 	var fast := Recorder.new(2026)
 	_fast(fast)

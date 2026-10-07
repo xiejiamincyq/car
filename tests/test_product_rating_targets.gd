@@ -21,8 +21,12 @@ func _init() -> void:
 		okay = _check(targets.coins == 216, "240 spawned coins require 216 for full points") and okay
 		var result := {"cleared": true, "survival": targets.time, "coins": 100, "overtakes": targets.overtakes, "collisions": 0}
 		okay = _check(Rating.evaluate(result, targets).parts.coins < 20, "100 coins must no longer saturate a 240-coin scene") and okay
+		result.coins = 215
+		okay = _check(Rating.evaluate(result, targets).parts.coins < 20, "Rounding must not award full coin points below the 90 percent threshold") and okay
 		result.coins = 216
 		okay = _check(Rating.evaluate(result, targets).total == 100, "90 percent and cruise time must attain full marks") and okay
+		result.survival = targets.time * 1.001
+		okay = _check(Rating.evaluate(result, targets).parts.time < 40, "Rounding must not award full time points after cruise baseline") and okay
 	var none: Dictionary = rating.targets_for_run(Tracks.all()[0], {"generated_coins": 0})
 	okay = _check(none.coins == 0, "An empty scene must not invent collectable coins") and okay
 	var zero: Dictionary = Rating.evaluate({"cleared": true, "survival": none.time, "coins": 0, "overtakes": none.overtakes, "collisions": 0}, none)

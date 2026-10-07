@@ -11,6 +11,11 @@ class Controlled extends Recorder:
 	var closure_calls := 0
 	var end_y := 70.0
 	var force_birth := false
+	func _may_cancel_unpublished_closure() -> bool:
+		# Deliberate lifetime fault injection, like the teleport hook below:
+		# audit all retirement phases even though visible cancellation is now
+		# prohibited by production. The Main preservation test covers that rule.
+		return lane_events.state == Events.State.WARNING
 	func _closure_can_continue() -> bool:
 		closure_calls += 1
 		return closure_calls != cancel_at

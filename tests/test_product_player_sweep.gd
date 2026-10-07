@@ -8,6 +8,7 @@ const Audit = preload("res://scripts/tests/ProductMainAudit.gd")
 const Config = preload("res://scripts/game_config.gd")
 const AudioTeardown = preload("res://tests/support/audio_teardown.gd")
 const DT := 1.0 / 60.0
+const REPRO_SEED := 9001
 var failures: Array[String] = []
 
 func _init() -> void:
@@ -18,7 +19,7 @@ func _run() -> void:
 	var main = MainScene.instantiate()
 	root.add_child(main)
 	main.set_process(false)
-	Launcher.configure_main(main, {"track_id":"neon_coast", "vehicle_id":"pulse_gt", "difficulty_index":1, "run_seed":9001})
+	Launcher.configure_main(main, {"track_id":"neon_coast", "vehicle_id":"pulse_gt", "difficulty_index":1, "run_seed":REPRO_SEED})
 	_check(not main.persistence_enabled, "isolated reproduction never opens formal save")
 	for countdown_frame in range(181):
 		if main.run.phase != main.RunState.Phase.COUNTDOWN: break
@@ -48,10 +49,10 @@ func _run() -> void:
 			if Audit._inside(start, extents) or Audit._inside(end, extents): continue
 			if not Audit.swept_contact(start, end, extents): continue
 			found = true
-			print("PLAYER_SWEEP_REPRO ", JSON.stringify({"seed":9001, "frame":frame, "dt":DT, "seconds":main.run.elapsed_seconds, "player_speed_before":speed_before, "player_x_before":player_x_before, "player_x_after":main.drive.lateral_position, "player_y":player_y, "npc_actual_speed":npc.actual_world_speed, "npc_lateral_velocity":npc.lateral_velocity, "npc_kind":npc.kind, "start":[start.x,start.y], "end":[end.x,end.y], "gameplay_extents":[extents.x,extents.y], "impact_cooldown_before":cooldown_before, "collisions_before":collisions_before, "collisions_after":main.run.collisions, "npc_contact":npc.collided_with_player}))
+			print("PLAYER_SWEEP_REPRO ", JSON.stringify({"seed":REPRO_SEED, "frame":frame, "dt":DT, "seconds":main.run.elapsed_seconds, "player_speed_before":speed_before, "player_x_before":player_x_before, "player_x_after":main.drive.lateral_position, "player_y":player_y, "npc_actual_speed":npc.actual_world_speed, "npc_lateral_velocity":npc.lateral_velocity, "npc_kind":npc.kind, "start":[start.x,start.y], "end":[end.x,end.y], "gameplay_extents":[extents.x,extents.y], "impact_cooldown_before":cooldown_before, "collisions_before":collisions_before, "collisions_after":main.run.collisions, "npc_contact":npc.collided_with_player}))
 			_check(cooldown_before <= 0.0, "missed corner entry is not suppressed by impact cooldown")
 			_check(main.run.collisions > collisions_before and npc.collided_with_player, "real Main must register the closing swept corner contact despite clear endpoints")
-	_check(found, "natural seed9001 includes the targeted swept corner crossing")
+	_check(found, "natural seed%d includes the targeted swept corner crossing" % REPRO_SEED)
 	_key(false)
 	var refs: Array[WeakRef] = AudioTeardown.capture(main)
 	main.audio_director.shutdown()

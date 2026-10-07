@@ -9,8 +9,8 @@ var failures := 0
 func _init() -> void:
 	for index in range(3):
 		var profile := Difficulty.for_index(index)
-		_check(profile.get("fuel_spawn_interval", -1) == [6.0,7.0,8.0][index], "difficulty has absolute fuel interval %d" % index)
-		_check(profile.get("repair_spawn_interval", -1) == [10.0,12.0,14.0][index], "difficulty has absolute repair interval %d" % index)
+		_check(profile.get("fuel_spawn_interval", -1) == [4.5,7.0,10.0][index], "difficulty has absolute fuel interval %d" % index)
+		_check(profile.get("repair_spawn_interval", -1) == [8.0,12.0,18.0][index], "difficulty has absolute repair interval %d" % index)
 		_check(profile.get("supply_active_limit", -1) == 2, "each supply type has cap two")
 		_check(profile.get("supply_minimum_road_advance", -1) == 136.0, "supply spacing uses road pixels, not display distance")
 	_check(Config.FUEL_PICKUP_AMOUNT == 24.0 and Repair.REPAIR_AMOUNT == 20.0, "existing resource rewards stay unchanged")

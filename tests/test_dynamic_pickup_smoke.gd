@@ -314,16 +314,22 @@ func _source_metadata() -> Dictionary:
 		"audit_sha256": FileAccess.get_sha256("res://tests/test_dynamic_pickup_smoke.gd")}
 
 func _apply_directed_input(main, stats: Dictionary) -> void:
-	# A bounded target-chasing probe: prioritize the first repair/fuel, then the
+	# A bounded target-chasing probe: prioritize fuel before repair, then the
 	# nearest visible coin; a short-horizon hazard veto may override that target.
 	# No search, future seed knowledge, or synthetic world placement is used.
 	var target_x: float = main.drive.lateral_position
 	var player_y: float = main.TrackGeometry.player_y(main.get_viewport_rect().size.y)
 	var candidates: Array = []
-	if stats.repair == 0 and not main.repair_supplies.pickups.is_empty():
-		candidates = main.repair_supplies.pickups
-	elif (stats.fuel == 0 or main.run.fuel < 40.0) and not main.fuel_pickups.is_empty():
+	var targeting_supply := false
+	if (stats.fuel == 0 or main.run.fuel < 25.0) and not main.fuel_pickups.is_empty():
 		candidates = main.fuel_pickups
+		targeting_supply = true
+	elif stats.repair == 0 and not main.repair_supplies.pickups.is_empty():
+		candidates = main.repair_supplies.pickups
+		targeting_supply = true
+	elif main.run.fuel < 40.0 and not main.fuel_pickups.is_empty():
+		candidates = main.fuel_pickups
+		targeting_supply = true
 	else:
 		candidates = main.coin_director.coins
 	var nearest_y := -INF
@@ -335,6 +341,13 @@ func _apply_directed_input(main, stats: Dictionary) -> void:
 	var best_score := INF
 	var safe_target := target_x
 	var authority: float = main.drive.steering_speed * main.drive.speed_steering_multiplier() * main.integrity.steering_multiplier()
+	# Real braking gives lateral travel time for the rarer hard-mode supplies.
+	# Only the currently visible object is used; no injected resources or time.
+	var supply_brake := false
+	if targeting_supply and nearest_y >= 0.0 and main.drive.speed > 0.0 and authority > 0.0:
+		var lateral_time := maxf(0.0,absf(target_x-main.drive.lateral_position)-48.0) / authority
+		var available_time: float = maxf(0.0,player_y+62.0-nearest_y) / (main.drive.speed*Config.ROAD_SCROLL_MULTIPLIER)
+		supply_brake = lateral_time > 0.0 and available_time < lateral_time + 0.25
 	var obstacles: Array = []
 	for npc in main.traffic.vehicles:
 		obstacles.append({"x": (npc.lane_position - 1.0) * 260.0, "y": npc.y, "speed": npc.actual_world_speed,
@@ -346,7 +359,17 @@ func _apply_directed_input(main, stats: Dictionary) -> void:
 	# this changes only real accelerator input, never forces an event or extends
 	# the unchanged 60-second/terminal budget. Missing coverage still exits 2.
 	var speed_ratio := 0.60 if stats.construction_frames == 0 else 0.70
-	var planned_acceleration: float = main.drive.acceleration if main.drive.speed < main.drive.max_speed * speed_ratio else -main.drive.rolling_resistance
+	if stats.difficulty_index == 2:
+		# Rarer hard-mode supplies need a longer real-input reaction window.
+		speed_ratio = 0.45 if stats.construction_frames == 0 else 0.55
+	var planned_acceleration: float = -main.drive.braking if supply_brake else (main.drive.acceleration if main.drive.speed < main.drive.max_speed * speed_ratio else -main.drive.rolling_resistance)
+	# In hard mode a rarer visible supply can sit behind a moving NPC. Slow the real
+	# approach while that NPC clears instead of coasting beside the pickup until
+	# its contact window has passed. The same hazard prediction still vetoes
+	# steering; braking does not grant an unsafe route or a synthetic contact.
+	if stats.difficulty_index == 2 and targeting_supply and nearest_y >= 0.0 and not pilot_route_safe(main.drive.lateral_position, player_y, main.drive.speed, authority, target_x, obstacles, planned_acceleration):
+		supply_brake = true
+		planned_acceleration = -main.drive.braking
 	# These are achievable steering targets, including gaps/shoulders. The pilot
 	# reads the current world only; it never changes lane positions or the seed.
 	for candidate in [target_x, main.drive.lateral_position, -330.0, -260.0, -130.0, 0.0, 130.0, 260.0, 330.0]:
@@ -358,7 +381,7 @@ func _apply_directed_input(main, stats: Dictionary) -> void:
 	target_x = safe_target
 	var steering := clampf((target_x - main.drive.lateral_position) / maxf(1.0, authority * DT), -1.0, 1.0)
 	_release_input()
-	if is_inf(best_score):
+	if is_inf(best_score) or supply_brake:
 		Input.action_press("brake", 1.0)
 	elif main.drive.speed < main.drive.max_speed * speed_ratio:
 		Input.action_press("accelerate", 1.0)

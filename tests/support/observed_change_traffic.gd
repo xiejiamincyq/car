@@ -13,6 +13,12 @@ var _change_delta := 0.0
 var _episodes: Dictionary = {}
 var _in_change_step := false
 var _behavior_after: Dictionary = {}
+var _expected_warning_multiplier := 1.0
+
+func configure_difficulty(profile: Dictionary) -> void:
+	# Independent contract data, not the production duration helper or countdown.
+	_expected_warning_multiplier = clampf(float(profile.get("lane_warning_multiplier",1.0)),0.85,1.5)
+	super.configure_difficulty(profile)
 
 func _tick_step(delta: float, speed: float, lane: int, frame_start: Dictionary) -> void:
 	_change_delta = delta
@@ -120,7 +126,7 @@ func _register_warning(body: Dictionary, clock: float) -> void:
 	episode.active = true
 	episode.created = clock
 	episode.visible_seconds = 0.0
-	episode.required = 0.60 if body.kind == 2 else [0.66,0.62,0.60,0.59][difficulty_stage]
+	episode.required = 0.60 if body.kind == 2 else [0.66,0.62,0.60,0.59][difficulty_stage] * _expected_warning_multiplier
 	episode.target = body.target
 	episode.has_moved = false
 	warnings_observed += 1

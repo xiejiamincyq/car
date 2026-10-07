@@ -152,7 +152,8 @@ func _init() -> void:
 
 	var arrival_director := TrafficDirector.new(746)
 	var overtaker = arrival_director.acquire_vehicle(TrafficDirector.Kind.FAST_OVERTAKE, 0, 820.0)
-	for step in range(180):
+	# Match the bounded, finite-braking arrival tested at both viewport heights.
+	for step in range(360):
 		arrival_director.update_vehicle(overtaker, 1.0 / 60.0, 760.0)
 		if overtaker.overtake_warning_remaining > 0.0:
 			break

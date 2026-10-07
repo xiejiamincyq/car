@@ -137,7 +137,7 @@ func _apply_directed_input(main, stats: Dictionary) -> void:
 		_check(absf(main.drive.steering_speed - car.steering_speed * track.steering_multiplier) < 0.001,
 			"actual chosen car and track steering applied")
 		_check(main.run.progression.finish_distance == track.finish_distance, "actual selected finish applied")
-		_check(main.run.fuel_drain_per_second == main.run.base_fuel_drain_per_second * 2.0 and main.fuel_spawn_director.spawn_interval == 8.0 and main.repair_supplies.spawner.spawn_interval == 14.0,
+		_check(main.run.fuel_drain_per_second == main.run.base_fuel_drain_per_second * 2.0 and main.fuel_spawn_director.spawn_interval == 10.0 and main.repair_supplies.spawner.spawn_interval == 18.0,
 			"actual hard fuel multiplier and supply intervals applied")
 		stats.runtime_config = {"maximum_speed_internal":main.drive.max_speed,"acceleration":main.drive.acceleration,"braking":main.drive.braking,
 			"steering":main.drive.steering_speed,"finish_distance":main.run.progression.finish_distance,"fuel_drain":main.run.fuel_drain_per_second,

@@ -6,8 +6,8 @@ const Config = preload("res://scripts/game_config.gd")
 const Catalog = preload("res://scripts/catalog/vehicle_catalog.gd")
 const PlayerProfile = preload("res://scripts/player_vehicle_profile.gd")
 const AudioTeardown = preload("res://tests/support/audio_teardown.gd")
-const FUEL_INTERVALS := [6.0, 7.0, 8.0]
-const REPAIR_INTERVALS := [10.0, 12.0, 14.0]
+const FUEL_INTERVALS := [4.5, 7.0, 10.0]
+const REPAIR_INTERVALS := [8.0, 12.0, 18.0]
 var failures: Array[String] = []
 class ConstructionStopMain extends MainScript:
 	func _check_construction_collisions() -> void:
@@ -108,10 +108,10 @@ func _changed_difficulty_and_restart(main) -> void:
 	main.difficulty_index = 2
 	main._apply_difficulty_profile()
 	_check(main.fuel_pickups.has(fuel) and main.repair_supplies.pickups.has(repair), "difficulty change preserves existing pickup identities")
-	_check(main.fuel_spawn_director.spawn_remaining == 8.0 and main.repair_supplies.spawner.spawn_remaining == 14.0, "difficulty change starts fresh future hard intervals")
+	_check(main.fuel_spawn_director.spawn_remaining == 10.0 and main.repair_supplies.spawner.spawn_remaining == 18.0, "difficulty change starts fresh future hard intervals")
 	main._reset_run(9001)
 	_check(main.fuel_pickups.is_empty() and main.repair_supplies.pickups.is_empty(), "restart clears both pickup sets")
-	_check(main.fuel_spawn_director.spawn_remaining == 8.0 and main.repair_supplies.spawner.spawn_remaining == 14.0, "restart applies the selected difficulty schedule")
+	_check(main.fuel_spawn_director.spawn_remaining == 10.0 and main.repair_supplies.spawner.spawn_remaining == 18.0, "restart applies the selected difficulty schedule")
 
 func _capacity_spacing_and_no_debt(main) -> void:
 	for kind in ["fuel", "repair"]:

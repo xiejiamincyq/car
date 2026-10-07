@@ -37,11 +37,16 @@ static func evaluate(result: Dictionary, targets: Dictionary) -> Dictionary:
 		if not result.get(key, 0) is int or int(result.get(key, 0)) < 0:
 			return {}
 	var pace := clampf(2.0 - float(elapsed) / (float(targets.time) * progress), 0.0, 1.0) if progress > 0.0 else 0.0
+	var time_points := roundi(40.0 * pace * progress)
+	if cleared and float(elapsed) > float(targets.time): time_points = mini(39,time_points)
+	var coin_points := roundi(20.0 * clampf(float(result.get("coins", 0)) / float(targets.coins), 0.0, 1.0)) if targets.coins > 0 else 0
+	# Integer presentation must not move the actual full-score threshold.
+	if int(result.get("coins", 0)) < float(targets.coins): coin_points = mini(19,coin_points)
 	var parts := {
-		"time": roundi(40.0 * pace * progress),
+		"time": time_points,
 		"overtakes": roundi(20.0 * clampf(float(result.get("overtakes", 0)) / float(targets.overtakes), 0.0, 1.0)),
 		"collisions": roundi((20 - 4 * mini(5, int(result.get("collisions", 0)))) * progress),
-		"coins": roundi(20.0 * clampf(float(result.get("coins", 0)) / float(targets.coins), 0.0, 1.0)) if targets.coins > 0 else 0,
+		"coins": coin_points,
 	}
 	var total := int(parts.time + parts.overtakes + parts.collisions + parts.coins)
 	if not cleared:

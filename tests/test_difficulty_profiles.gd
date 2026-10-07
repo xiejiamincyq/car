@@ -41,6 +41,9 @@ func _run() -> void:
 		assert(is_equal_approx(main.run.fuel_drain_per_second, GameConfig.FUEL_DRAIN_PER_SECOND * profile.fuel_drain_multiplier), "The selected title difficulty must reach RunState")
 		assert(is_equal_approx(main.traffic.spawn_interval_multiplier, profile.traffic_interval_multiplier), "The selected title difficulty must reach traffic spawning")
 		assert(is_equal_approx(main.traffic.random_lane_change_probability, profile.random_lane_change_probability), "The selected title difficulty must reach random lane-change behavior")
+		assert(main.traffic.target_active_vehicles == profile.traffic_active_target, "Reset must preserve difficulty traffic capacity")
+		assert(main.traffic.lane_events.event_limit == profile.construction_event_limit, "Reset must apply the selected construction budget")
+		assert(is_equal_approx(main.traffic.lane_change_warning_duration(), 0.66 * profile.lane_warning_multiplier), "Difficulty warning duration must reach actual traffic")
 		assert(is_equal_approx(main.traffic.lane_events.double_lane_probability, profile.double_lane_closure_probability), "The selected title difficulty must reach construction-event scheduling")
 		main._process(3.0)
 		if difficulty % 2 == 0:
