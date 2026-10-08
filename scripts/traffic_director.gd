@@ -111,6 +111,7 @@ func _tick_step(delta: float, player_speed: float, player_lane: int, frame_start
 			vehicle.last_lateral_distance = 0.0
 	# Resolve competing intents in a stable order, never caller array order.
 	vehicles.sort_custom(func(a, b): return a.get_instance_id() < b.get_instance_id())
+	fast_priority.coordinate_stagger(self)
 	# Make every normal vehicle decide from the same start-of-frame snapshot.
 	# Advancing one vehicle before another decides would mix two time points and
 	# could admit an unsafe lane change between equal-speed vehicles.
@@ -273,6 +274,7 @@ func _following_target_speed(vehicle: TrafficVehicle) -> float:
 	# The transient impact changes the target once. It is not added again to
 	# motion already represented by actual_world_speed on the following frame.
 	var target := maxf(0.0, vehicle.cruise_speed + vehicle.impact_speed_offset)
+	target = minf(target, fast_priority.cooperative_target_speed(self, vehicle))
 	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / lane_count
 	for other in vehicles:
 		if other == vehicle or other.y >= vehicle.y:

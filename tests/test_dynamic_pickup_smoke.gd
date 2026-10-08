@@ -12,6 +12,7 @@ const CoinPickup = preload("res://scripts/coin_pickup.gd")
 const AudioTeardown = preload("res://tests/support/audio_teardown.gd")
 const LedgerMath = preload("res://scripts/tests/ProductMainAudit.gd")
 const DT := 1.0 / 60.0
+const BUDGET_SECONDS := 90.0
 const SOURCE_FILES := ["res://scripts/main.gd", "res://scripts/difficulty_profile.gd", "res://scripts/fuel_spawn_director.gd", "res://scripts/repair_supply_director.gd",
 	"res://scripts/traffic_director.gd", "res://scripts/fast_priority_traffic.gd", "res://scripts/lane_event_director.gd", "res://scripts/traffic_vehicle.gd", "res://scripts/traffic_safety_policy.gd", "res://scripts/run_state.gd",
 	"res://scripts/vehicle_integrity.gd", "res://scripts/overdrive_controller.gd", "res://scripts/game_config.gd", "res://scripts/coin_gameplay_director.gd"]
@@ -102,7 +103,7 @@ func _init() -> void:
 func _run() -> void:
 	root.size = Vector2i(1280, 720)
 	var metadata := _source_metadata()
-	print("DYNAMIC_PICKUP_CONFIG ", JSON.stringify({"source": metadata, "planned": 30, "step": DT, "budget_seconds": 60,
+	print("DYNAMIC_PICKUP_CONFIG ", JSON.stringify({"source": metadata, "planned": 30, "step": DT, "budget_seconds": BUDGET_SECONDS,
 		"initial_hull_fixture": 60, "world": "natural Main generation; no resource/world injection",
 		"exit_policy": "1=oracle violation, 2=coverage insufficient with clean oracles, 0=all 30 covered and clean"}))
 	var totals := {"fuel": 0, "repair": 0, "coins": 0, "traffic_frames": 0, "construction_frames": 0, "oracle_frames": 0, "collision_frames": 0, "damage_events": 0}
@@ -129,7 +130,10 @@ func _run() -> void:
 func _sample(index: int, difficulty: int) -> Dictionary:
 	var config: Array = SESSIONS[index]
 	var label := "d%d/s%d/%s/%s/seed%d" % [difficulty, index + 1, config[0], config[1], config[2]]
-	return await _sample_configuration(config, index, difficulty, 60.0, 60.0, label)
+	# Priority legitimately defers new construction. Keep every original session,
+	# pickup/oracle/coverage requirement and real resource termination; give the
+	# natural schedule time to produce deferred events (60s missed 4 sessions).
+	return await _sample_configuration(config, index, difficulty, 60.0, BUDGET_SECONDS, label)
 
 func _sample_configuration(config: Array, index: int, difficulty: int, initial_hull: float, budget_seconds: float, label: String) -> Dictionary:
 	context = label
@@ -157,6 +161,7 @@ func _sample_configuration(config: Array, index: int, difficulty: int, initial_h
 		"terminal_frame_checked": false, "pipeline_frames": {"fuel": 0, "repair": 0, "coins": 0},
 		"objects": {"fuel": _empty_counts(), "repair": _empty_counts(), "coins": _empty_counts()},
 		"seen": {"fuel": {}, "repair": {}, "coins": {}}}
+	var traffic_history: Array[Dictionary] = []
 	for frame in range(roundi(budget_seconds / DT)):
 		if main.run.phase != Run.Phase.RUNNING: break
 		frame_index = frame
@@ -182,11 +187,15 @@ func _sample_configuration(config: Array, index: int, difficulty: int, initial_h
 		_check(stats.objects.repair.spawned == main.repair_supplies.spawner.spawned, "Repair admission counter equals exact observed successful births")
 		_check(main.run.coins - before.coins == contacts.coins, "Coin reward equals actual strict processed contact count")
 		_validate_resources(main, before, contacts, stats)
+		traffic_history.append({"frame":frame,"core_y":main.traffic.lane_events._core_y(),"event":main.traffic.lane_events.state,"cars":_traffic_snapshot(main.traffic)})
+		if traffic_history.size() > 30: traffic_history.pop_front()
 		if main.traffic.has_vehicle_overlap() and not failure_keys.has(context + ": NPC bodies do not overlap"):
 			print("DYNAMIC_PICKUP_OVERLAP ", JSON.stringify({"case_id": context, "frame": frame, "player_speed": main.drive.speed,
 				"player_x": main.drive.lateral_position, "construction_state": main.traffic.lane_events.state,
 				"core_y": main.traffic.lane_events._core_y(), "vehicles": _traffic_snapshot(main.traffic)}))
 		_check(not main.traffic.has_vehicle_overlap(), "NPC bodies do not overlap")
+		if main.traffic.has_full_lane_wall() and not failure_keys.has(context + ": No three-lane wall"):
+			print("DYNAMIC_PICKUP_WALL ", JSON.stringify({"case_id": context,"frame":frame,"player_speed":main.drive.speed,"player_x":main.drive.lateral_position,"history":traffic_history,"vehicles":_traffic_snapshot(main.traffic)}))
 		_check(not main.traffic.has_full_lane_wall(), "No three-lane wall")
 		if not main.traffic.vehicles.is_empty(): stats.traffic_frames += 1
 		if main.traffic.lane_events.state != 0: stats.construction_frames += 1

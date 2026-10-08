@@ -1,11 +1,20 @@
 extends SceneTree
 const Traffic = preload("res://scripts/traffic_director.gd")
 const Geometry = preload("res://scripts/track_geometry.gd")
+const Events = preload("res://scripts/lane_event_director.gd")
 var failures: Array[String] = []
 class NormalBirths extends Traffic:
 	func _kind_for_next_spawn() -> int: return Kind.STEADY_SLOW
 
 func _init() -> void:
+	var deferred_event := Events.new(42,3,true)
+	deferred_event._cooldown_remaining = 2.0
+	deferred_event.scheduling_paused = true
+	deferred_event.tick(10.0,1,1,200.0)
+	_check(deferred_event.state == Events.State.IDLE,"new construction remains deferred throughout priority")
+	_check(deferred_event._cooldown_remaining <= 0.0,"priority defers the birth, not elapsed construction cadence")
+	deferred_event.scheduling_paused = false
+	_check(deferred_event.tick(1.0/60.0,1,1,200.0).began_warning,"due construction resumes after priority without losing its cadence")
 	var host = NormalBirths.new(42)
 	host._player_speed = 200.0
 	host._player_lane = 2

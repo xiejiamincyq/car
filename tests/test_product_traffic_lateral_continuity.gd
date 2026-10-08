@@ -9,7 +9,10 @@ func _init() -> void:
 	traffic._spawn_cooldown = 1000.0
 	traffic.lane_events.enabled = false
 	var fast = traffic.acquire_vehicle(Traffic.Kind.FAST_OVERTAKE, 0, 600.0, 920.0)
-	var leader = traffic.acquire_vehicle(Traffic.Kind.STEADY_SLOW, 0, 200.0, 200.0)
+	fast.actual_world_speed = 200.0
+	# Keep the leader outside the visible yield boundary so this test measures
+	# the red car's real half-complete turn, not the new leader-yield behavior.
+	var leader = traffic.acquire_vehicle(Traffic.Kind.STEADY_SLOW, 0, 20.0, 200.0)
 	traffic.vehicles.assign([fast, leader])
 	var moving_exposure := false
 	for step in range(180):

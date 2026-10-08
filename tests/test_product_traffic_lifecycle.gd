@@ -35,7 +35,9 @@ func _completion(delta: float) -> bool:
 	var traffic := Traffic.new(2026)
 	traffic._spawn_cooldown = 1000.0
 	traffic.lane_events.enabled = false
-	var leader = traffic.acquire_vehicle(Traffic.Kind.STEADY_SLOW, 1, 350.0, 200.0)
+	# An unseen leader cannot turn to yield; preserve the red-turn lifecycle
+	# exposure without competing with the new visible ordinary-car yield.
+	var leader = traffic.acquire_vehicle(Traffic.Kind.STEADY_SLOW, 1, 20.0, 200.0)
 	var vehicle = traffic.acquire_vehicle(Traffic.Kind.FAST_OVERTAKE, 1, 660.0, 920.0)
 	vehicle.actual_world_speed = 200.0
 	traffic.vehicles.assign([leader, vehicle])

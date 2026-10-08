@@ -40,11 +40,13 @@ func tick(delta: float, stage: int, player_lane: int, player_speed: float = 0.0)
 	var safe_delta := maxf(0.0, delta)
 	match state:
 		State.IDLE:
-			if scheduling_paused:
-				return event
 			if events_started_count >= event_limit:
 				return event
 			_cooldown_remaining -= safe_delta
+			# Priority defers a due birth, not game time. Do not starve construction
+			# by restarting its wait after every red-car encounter.
+			if scheduling_paused:
+				return event
 			if _cooldown_remaining <= 0.0:
 				event.began_warning = _begin_scheduled_warning(stage, player_lane)
 		State.WARNING:

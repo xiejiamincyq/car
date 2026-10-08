@@ -9,7 +9,10 @@ func _init() -> void:
 	traffic._spawn_cooldown = 1000.0
 	traffic.lane_events.enabled = false
 	var fast = traffic.acquire_vehicle(Traffic.Kind.FAST_OVERTAKE, 0, 600.0, 920.0)
-	var leader = traffic.acquire_vehicle(Traffic.Kind.STEADY_SLOW, 0, 250.0, 200.0)
+	fast.actual_world_speed = 200.0
+	# Below the visible-turn boundary, the leader cannot actively yield yet.
+	# This still exposes a genuine red-car route warning under RC4 priority.
+	var leader = traffic.acquire_vehicle(Traffic.Kind.STEADY_SLOW, 0, 20.0, 200.0)
 	var target_leader = traffic.acquire_vehicle(Traffic.Kind.STEADY_SLOW, 1, -300.0, 200.0)
 	traffic.vehicles.assign([fast, leader, target_leader])
 	traffic.tick(STEP, 200.0, 1)
