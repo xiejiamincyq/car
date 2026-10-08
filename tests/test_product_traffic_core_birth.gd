@@ -60,6 +60,17 @@ func _init() -> void:
 			_check(traffic.lane_events.state == Events.State.IDLE,"one occupied core cancels both lanes of a scheduled double closure")
 			_check(traffic.aborted_core_birth_count == 2,"both double-closure bodies retain their atomic rollback record")
 			_check(traffic.core_issue_counts.is_empty(),"double closure cannot enter movement with overlapping NPC")
+	# A just-born core is stationary for this substep while NPCs already move.
+	# Clear initial bodies must not cross it before admission can roll back.
+	for kind in 4:
+		var half_length := 74.0 if kind == 3 else 42.0
+		for delta in [1.0/30.0,1.0/60.0,1.0/120.0,0.1,0.25]:
+			for speed in [584.65,1000.0]:
+				var traffic = _fixture(kind,-half_length-34.0-3.25)
+				traffic.tick(delta,speed,0)
+				_check(traffic.lane_events.state == Events.State.IDLE,"first-step swept core admission kind%d dt%.6f speed%.2f" % [kind,delta,speed])
+				_check(traffic.core_issue_counts.is_empty(),"birth-frame contact cannot reach actual NPC movement")
+				_check(traffic.aborted_core_birth_count == 1,"future birth contact is rejected atomically before movement")
 	for failure in failures: push_error("CORE_BIRTH_SELF_CHECK "+failure)
 	print("CORE_BIRTH_SELF_CHECK checks=%d failures=%d" % [checks,failures.size()])
 	print("TEST_COMPLETE test_product_traffic_core_birth.gd")

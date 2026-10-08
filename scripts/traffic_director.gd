@@ -58,6 +58,7 @@ var lane_warning_multiplier := 1.0
 var early_fast_overtakers := false
 var random_lane_change_planned_count := 0
 var _core_snapshot_y := 0.0
+var _closure_birth_step_seconds := 0.0
 var fast_priority := FastPriorityTraffic.new()
 
 func _init(seed: int, lanes: int = 3, safe_distance: float = 620.0, lane_gap: float = 180.0) -> void:
@@ -86,6 +87,7 @@ func tick(delta: float, player_speed: float, player_lane: int = 1) -> void:
 
 func _tick_step(delta: float, player_speed: float, player_lane: int, frame_start: Dictionary) -> void:
 	_core_snapshot_y = lane_events._core_y()
+	_closure_birth_step_seconds = 0.0
 	for vehicle in vehicles:
 		vehicle.previous_lane_position = vehicle.lane_position
 		vehicle.previous_y = vehicle.y
@@ -98,8 +100,10 @@ func _tick_step(delta: float, player_speed: float, player_lane: int, frame_start
 	var lane_update := lane_events.tick(delta, difficulty_stage, player_lane, player_speed)
 	if lane_update.began_warning:
 		_core_snapshot_y = lane_events._core_y()
+		_closure_birth_step_seconds = delta
 	if _may_cancel_unpublished_closure() and not _closure_can_continue():
 		lane_events.cancel_warning()
+	_closure_birth_step_seconds = 0.0
 	_spawn_cooldown -= delta
 	if _spawn_cooldown <= 0.0:
 		_spawn_next(player_speed, player_lane)
@@ -154,6 +158,7 @@ func acquire_vehicle(kind: int, lane: int, y: float, assigned_cruise_speed: floa
 
 func reset(run_seed: int = -1) -> void:
 	fast_priority.reset()
+	_closure_birth_step_seconds = 0.0
 	for vehicle in vehicles:
 		_pool.append(vehicle)
 	vehicles.clear()
@@ -1180,12 +1185,21 @@ func _closure_can_continue() -> bool:
 		var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / lane_count
 		for vehicle in vehicles:
 			for closed_lane in reserved_lanes:
-				if absf(vehicle.lane_position - closed_lane) * lane_width >= vehicle.half_width + lane_width * GameConfig.LANE_EVENT_CORE_HALF_LANE_RATIO:
+				var turn_rate := FAST_LANE_CHANGE_SPEED if vehicle.kind == Kind.FAST_OVERTAKE else NORMAL_LANE_CHANGE_SPEED
+				var lateral_margin := turn_rate * _closure_birth_step_seconds * lane_width if vehicle.change_started else 0.0
+				if absf(vehicle.lane_position - closed_lane) * lane_width >= vehicle.half_width + lane_width * GameConfig.LANE_EVENT_CORE_HALF_LANE_RATIO + lateral_margin:
 					continue
 				# A scheduled core may be behind a car's center yet still cover
 				# its body. Reject birth contact before the forward braking test;
 				# 34px is half the existing 68px solid barrier, not its shadow.
-				if absf(vehicle.y - lane_events._core_y()) < vehicle.half_length + 34.0:
+				# New cores do not scroll until the next substep. Bound this NPC's
+				# first finite acceleration/braking step before accepting the birth.
+				var lowest_speed := maxf(0.0,vehicle.actual_world_speed - NPC_BRAKING * _closure_birth_step_seconds)
+				var highest_speed := vehicle.actual_world_speed + NPC_ACCELERATION * _closure_birth_step_seconds
+				var y_min := minf(vehicle.y,vehicle.y + (_player_speed-highest_speed) * GameConfig.ROAD_SCROLL_MULTIPLIER * _closure_birth_step_seconds)
+				var y_max := maxf(vehicle.y,vehicle.y + (_player_speed-lowest_speed) * GameConfig.ROAD_SCROLL_MULTIPLIER * _closure_birth_step_seconds)
+				var extent := vehicle.half_length + 34.0
+				if y_min < lane_events._core_y() + extent and y_max > lane_events._core_y() - extent:
 					return false
 				var net_gap := vehicle.y - lane_events._core_y() - maxf(62.0, vehicle.half_length + 20.0) - FOLLOWING_BODY_MARGIN
 				var stopping_distance := (vehicle.actual_world_speed * vehicle.actual_world_speed / (2.0 * NPC_BRAKING) + vehicle.actual_world_speed * BRAKING_REACTION_SECONDS) * GameConfig.ROAD_SCROLL_MULTIPLIER
