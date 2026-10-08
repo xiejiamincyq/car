@@ -886,14 +886,48 @@ func _spawn_next(player_speed: float, player_lane: int) -> void:
 	if fast_priority.active() and fast_priority.reserved_lanes().has(candidate.target_lane):
 		_cancel_planned_lane_change(candidate)
 	if not _can_spawn_candidate(candidate, player_speed, player_lane):
-		_pool.append(candidate)
-		return
+		if not _try_alternate_spawn_lane(candidate, player_speed, player_lane):
+			_pool.append(candidate)
+			return
 	candidate.spawn_was_fair = true
 	vehicles.append(candidate)
 	fast_priority.refresh(vehicles)
 	if candidate.kind == Kind.STEADY_SLOW and candidate.lane_change_enabled:
 		random_lane_change_planned_count += 1
 	_spawn_history.append("%d:%d:%d" % [kind, candidate.lane, roundi(candidate.cruise_speed)])
+
+func _try_alternate_spawn_lane(candidate: TrafficVehicle, player_speed: float, player_lane: int) -> bool:
+	# Retry only unpublished births displaced by priority, and large trucks.
+	# Reuse the drawn cruise and turn direction, never reroll to pass admission.
+	if candidate.kind == Kind.FAST_OVERTAKE or (candidate.kind != Kind.TRUCK and not fast_priority.active()):
+		return false
+	var original_lane := candidate.lane
+	var original_target := candidate.target_lane
+	var original_enabled := candidate.lane_change_enabled
+	var original_cooldown := candidate.lane_change_cooldown
+	var direction := signi(original_target - original_lane)
+	for offset in range(1, lane_count):
+		candidate.lane = (original_lane + offset) % lane_count
+		candidate.target_lane = candidate.lane
+		candidate.lane_change_enabled = original_enabled
+		candidate.lane_change_cooldown = original_cooldown
+		if original_enabled:
+			candidate.target_lane = candidate.lane + direction
+			if not is_lane_valid(candidate.target_lane):
+				candidate.target_lane = candidate.lane - direction
+			if fast_priority.active() and fast_priority.reserved_lanes().has(candidate.target_lane):
+				_cancel_planned_lane_change(candidate)
+		candidate.lane_position = float(candidate.lane)
+		candidate.previous_lane_position = candidate.lane_position
+		if _can_spawn_candidate(candidate, player_speed, player_lane):
+			return true
+	candidate.lane = original_lane
+	candidate.target_lane = original_target
+	candidate.lane_position = float(original_lane)
+	candidate.previous_lane_position = candidate.lane_position
+	candidate.lane_change_enabled = original_enabled
+	candidate.lane_change_cooldown = original_cooldown
+	return false
 
 func _fast_spawn_lane(player_lane: int) -> int:
 	return lane_count - 1 if player_lane < lane_count / 2 else 0
