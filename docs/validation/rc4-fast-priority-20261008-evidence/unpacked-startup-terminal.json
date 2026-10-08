@@ -1,0 +1,18 @@
+{
+  "native_exit": 0,
+  "problems": [],
+  "working_directory": "C:\\Users\\21604\\Documents\\car\\exports\\0.4.0-rc.4\\66a0d38-10e55b27\\unpacked-check-2afde3f2\\package",
+  "formal_save_unchanged": true,
+  "payloads_unchanged": true,
+  "scope": "Actual six-file ZIP extracted to new directory; standalone shipped EXE clean headless startup/60-frame exit using empty isolated APPDATA. Not normal keyboard flow, graphics/audio, gameplay performance or human acceptance.",
+  "executable": "C:\\Users\\21604\\Documents\\car\\exports\\0.4.0-rc.4\\66a0d38-10e55b27\\unpacked-check-2afde3f2\\package\\NeonCoastRush.exe",
+  "timeout": false,
+  "file_count": 6,
+  "archive_sha256": "8512024A2D696AAE62F515EEA53D820325AA5F32D49C1CAFD8106558F7494C0F",
+  "source_head": "66a0d384e12997b176517eaf4d9d8a1c6b310607",
+  "process_log_sha256": "A89796985B34F3C8AE1213B7DFA57C076CC113F9EAC328B77724F0EF01A22F65",
+  "pid": 27396,
+  "passed": true,
+  "appdata": "C:\\Users\\21604\\Documents\\car\\exports\\0.4.0-rc.4\\66a0d38-10e55b27\\unpacked-check-2afde3f2\\appdata",
+  "empty_initial_appdata": true
+}
