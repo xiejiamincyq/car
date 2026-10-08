@@ -178,15 +178,15 @@ func _init() -> void:
 	director._spawn_cooldown = 1000.0
 	director.lane_events.enabled = false
 	director.tick(1.0 / 60.0, 200.0, 2)
-	assert(route_overtaker.lane_change_enabled, "Fast overtaker must plan a lane change when slower NPC traffic blocks its route")
-	assert(abs(route_overtaker.target_lane - route_overtaker.lane) == 1, "Fast overtaker must select an adjacent overtaking lane")
-	assert(route_overtaker.warning_remaining > 0.0, "Fast overtaker must signal before following its planned route")
+	assert(route_blocker.lane_change_enabled, "The normal leader must yield when the fast priority corridor has a safe adjacent route")
+	assert(abs(route_blocker.target_lane - route_blocker.lane) == 1, "Yielding must select an adjacent lane")
+	assert(route_blocker.warning_remaining > 0.0, "The yielding leader must signal before clearing the corridor")
 	var starting_route_lane: int = route_overtaker.lane
 	for _step in range(480):
 		director.tick(1.0 / 60.0, 200.0, 2)
 		if route_overtaker.y < route_blocker.y:
 			break
-	assert(route_overtaker.lane != starting_route_lane, "Fast overtaker must complete its planned lane change before passing the blocker")
+	assert(route_blocker.lane != starting_route_lane, "The leader must continuously clear the fast priority lane before being passed")
 	assert(route_overtaker.y < route_blocker.y, "Fast overtaker must continue past the NPC after changing to a clear lane")
 
 	director.reset()

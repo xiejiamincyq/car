@@ -6,6 +6,7 @@ const TrackGeometry = preload("res://scripts/track_geometry.gd")
 const GameConfig = preload("res://scripts/game_config.gd")
 const LaneEventDirector = preload("res://scripts/lane_event_director.gd")
 const TrafficSafetyPolicy = preload("res://scripts/traffic_safety_policy.gd")
+const FastPriorityTraffic = preload("res://scripts/fast_priority_traffic.gd")
 
 enum Kind { STEADY_SLOW, SIGNAL_CHANGE, FAST_OVERTAKE, TRUCK }
 
@@ -57,6 +58,7 @@ var lane_warning_multiplier := 1.0
 var early_fast_overtakers := false
 var random_lane_change_planned_count := 0
 var _core_snapshot_y := 0.0
+var fast_priority := FastPriorityTraffic.new()
 
 func _init(seed: int, lanes: int = 3, safe_distance: float = 620.0, lane_gap: float = 180.0) -> void:
 	lane_count = lanes
@@ -89,6 +91,8 @@ func _tick_step(delta: float, player_speed: float, player_lane: int, frame_start
 		vehicle.previous_y = vehicle.y
 	_player_speed = player_speed
 	_player_lane = player_lane
+	fast_priority.refresh(vehicles)
+	lane_events.scheduling_paused = fast_priority.active()
 	if _may_cancel_unpublished_closure() and not _closure_can_continue():
 		lane_events.cancel_warning()
 	var lane_update := lane_events.tick(delta, difficulty_stage, player_lane, player_speed)
@@ -131,6 +135,7 @@ func _tick_step(delta: float, player_speed: float, player_lane: int, frame_start
 	if _may_cancel_unpublished_closure() and not _closure_can_continue():
 		lane_events.cancel_warning()
 	_recycle_offscreen_vehicles()
+	fast_priority.refresh(vehicles)
 
 func acquire_vehicle(kind: int, lane: int, y: float, assigned_cruise_speed: float = -1.0) -> TrafficVehicle:
 	var target_lane := _target_lane_for(kind, lane)
@@ -147,6 +152,7 @@ func acquire_vehicle(kind: int, lane: int, y: float, assigned_cruise_speed: floa
 	return vehicle
 
 func reset(run_seed: int = -1) -> void:
+	fast_priority.reset()
 	for vehicle in vehicles:
 		_pool.append(vehicle)
 	vehicles.clear()
@@ -176,6 +182,9 @@ func set_spawn_exclusion_zones(zones: Array[Vector2]) -> void:
 
 func set_guidance_reserved_lanes(lanes: Array[int]) -> void:
 	lane_events.set_guidance_reserved_lanes(lanes)
+
+func fast_priority_lanes() -> Array[int]:
+	return fast_priority.reserved_lanes()
 
 func configure_difficulty(profile: Dictionary) -> void:
 	spawn_interval_multiplier = maxf(0.1, float(profile.traffic_interval_multiplier))
@@ -207,6 +216,7 @@ func update_vehicle(vehicle: TrafficVehicle, delta: float, player_speed: float) 
 	_recheck_lane_change_commitment_after_advance(vehicle)
 
 func _update_normal_lane_behavior(vehicle: TrafficVehicle, delta: float) -> void:
+	fast_priority.prepare_normal(self, vehicle)
 	_update_lane_change_lifecycle(vehicle, delta)
 	if vehicle.lane_change_enabled:
 		var lateral_delta := delta
@@ -492,7 +502,8 @@ func _update_fast_overtaker(vehicle: TrafficVehicle, delta: float, player_speed:
 func _try_plan_fast_lane_change(overtaker: TrafficVehicle) -> bool:
 	if overtaker.lane_change_cooldown > 0.0:
 		return false
-	if _nearest_fast_route_blocker(overtaker, _fast_planning_distance(overtaker)) == null:
+	var blocker := _nearest_fast_route_blocker(overtaker, _fast_planning_distance(overtaker))
+	if blocker == null or fast_priority.waiting_for_yield(self, overtaker, blocker):
 		return false
 	var route_lane: int = _best_fast_route_lane(overtaker)
 	if route_lane < 0:
@@ -524,6 +535,7 @@ func _nearest_fast_route_blocker(overtaker: TrafficVehicle, lookahead: float) ->
 func _best_fast_route_lane(overtaker: TrafficVehicle) -> int:
 	var best_lane: int = -1
 	var best_clearance: float = -1.0
+	var best_delay := INF
 	for candidate_lane_value in [overtaker.lane - 1, overtaker.lane + 1]:
 		var candidate_lane: int = candidate_lane_value
 		if not is_lane_valid(candidate_lane) or lane_events.is_lane_blocked(candidate_lane):
@@ -535,11 +547,13 @@ func _best_fast_route_lane(overtaker: TrafficVehicle) -> int:
 		if not _fast_route_preserves_player_options(overtaker, candidate_lane):
 			continue
 		var clearance: float = _fast_forward_clearance(overtaker, candidate_lane)
+		var passage_delay: float = fast_priority.passage_delay(self,overtaker,candidate_lane)
 		var avoids_player: bool = candidate_lane != _player_lane
 		var best_avoids_player: bool = best_lane >= 0 and best_lane != _player_lane
-		if clearance > best_clearance or (is_equal_approx(clearance, best_clearance) and avoids_player and not best_avoids_player):
+		if passage_delay < best_delay or (is_equal_approx(passage_delay,best_delay) and (clearance > best_clearance or (is_equal_approx(clearance, best_clearance) and avoids_player and not best_avoids_player))):
 			best_lane = candidate_lane
 			best_clearance = clearance
+			best_delay = passage_delay
 	return best_lane
 
 func _fast_merge_lane_is_clear(overtaker: TrafficVehicle, candidate_lane: int) -> bool:
@@ -816,10 +830,21 @@ func _top_lane_has_minimum_gap(lane: int) -> bool:
 	return true
 
 func _spawn_next(player_speed: float, player_lane: int) -> void:
+	fast_priority.refresh(vehicles)
+	if fast_priority.needs_clearance_window(self):
+		return
 	if vehicles.size() >= target_active_vehicles:
 		return
 	var kind := _kind_for_next_spawn()
+	if kind == Kind.FAST_OVERTAKE and fast_priority.active():
+		return
 	var lane := _fast_spawn_lane(player_lane) if kind == Kind.FAST_OVERTAKE else _random.randi_range(0, lane_count - 1)
+	if kind != Kind.FAST_OVERTAKE and fast_priority.active():
+		for offset in lane_count:
+			var available_lane := (lane + offset) % lane_count
+			if not fast_priority.reserved_lanes().has(available_lane) and not lane_events.is_lane_blocked(available_lane):
+				lane = available_lane
+				break
 	var y := TrackGeometry.fast_overtake_spawn_y(_viewport_height) if kind == Kind.FAST_OVERTAKE else -minimum_spawn_distance
 	var candidate := acquire_vehicle(kind, lane, y, _world_speed_for_spawn(kind, lane, y))
 	# A newly arriving fast car may begin below its desired speed when the
@@ -851,11 +876,14 @@ func _spawn_next(player_speed: float, player_lane: int) -> void:
 		candidate.previous_lane_position = candidate.lane_position
 		candidate.actual_world_speed = _following_target_speed(candidate)
 	_plan_random_lane_change(candidate)
+	if fast_priority.active() and fast_priority.reserved_lanes().has(candidate.target_lane):
+		_cancel_planned_lane_change(candidate)
 	if not _can_spawn_candidate(candidate, player_speed, player_lane):
 		_pool.append(candidate)
 		return
 	candidate.spawn_was_fair = true
 	vehicles.append(candidate)
+	fast_priority.refresh(vehicles)
 	if candidate.kind == Kind.STEADY_SLOW and candidate.lane_change_enabled:
 		random_lane_change_planned_count += 1
 	_spawn_history.append("%d:%d:%d" % [kind, candidate.lane, roundi(candidate.cruise_speed)])
@@ -890,6 +918,8 @@ func _can_spawn_vehicle(kind: int, lane: int, y: float, player_speed: float, pla
 	return _can_spawn_candidate(candidate, player_speed, player_lane)
 
 func _can_spawn_candidate(candidate: TrafficVehicle, player_speed: float, player_lane: int) -> bool:
+	if fast_priority.active() and (candidate.kind == Kind.FAST_OVERTAKE or fast_priority.reserved_lanes().has(candidate.lane)):
+		return false
 	if lane_events.is_lane_blocked(candidate.lane):
 		return false
 	if candidate.lane_change_enabled and lane_events.is_lane_blocked(candidate.target_lane):

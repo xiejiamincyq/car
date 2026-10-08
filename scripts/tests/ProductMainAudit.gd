@@ -10,7 +10,7 @@ const Run = preload("res://scripts/run_state.gd")
 const STEP := 1.0 / 60.0
 const SEEDS := [611, 2026, 9001, 616, 618]
 const TRAJECTORIES := ["accelerate", "brake_repass", "overdrive_brake"]
-const SOURCE_FILES := ["res://scripts/main.gd", "res://scripts/impact_model.gd", "res://scripts/traffic_director.gd", "res://scripts/traffic_vehicle.gd", "res://scripts/traffic_safety_policy.gd", "res://scripts/lane_event_director.gd"]
+const SOURCE_FILES := ["res://scripts/main.gd", "res://scripts/impact_model.gd", "res://scripts/traffic_director.gd", "res://scripts/fast_priority_traffic.gd", "res://scripts/traffic_vehicle.gd", "res://scripts/traffic_safety_policy.gd", "res://scripts/lane_event_director.gd"]
 var failures: Array[String] = []
 var forward_down := false
 

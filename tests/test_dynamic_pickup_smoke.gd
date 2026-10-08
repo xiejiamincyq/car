@@ -13,7 +13,7 @@ const AudioTeardown = preload("res://tests/support/audio_teardown.gd")
 const LedgerMath = preload("res://scripts/tests/ProductMainAudit.gd")
 const DT := 1.0 / 60.0
 const SOURCE_FILES := ["res://scripts/main.gd", "res://scripts/difficulty_profile.gd", "res://scripts/fuel_spawn_director.gd", "res://scripts/repair_supply_director.gd",
-	"res://scripts/traffic_director.gd", "res://scripts/traffic_vehicle.gd", "res://scripts/traffic_safety_policy.gd", "res://scripts/run_state.gd",
+	"res://scripts/traffic_director.gd", "res://scripts/fast_priority_traffic.gd", "res://scripts/lane_event_director.gd", "res://scripts/traffic_vehicle.gd", "res://scripts/traffic_safety_policy.gd", "res://scripts/run_state.gd",
 	"res://scripts/vehicle_integrity.gd", "res://scripts/overdrive_controller.gd", "res://scripts/game_config.gd", "res://scripts/coin_gameplay_director.gd"]
 const SESSIONS := [
 	["neon_coast", "pulse_gt", 611], ["freight_harbor", "driftwing", 2026],

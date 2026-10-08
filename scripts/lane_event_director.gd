@@ -10,6 +10,7 @@ var state_remaining := 0.0
 var lane := -1
 var _closed_lanes: Array[int] = []
 var enabled := true
+var scheduling_paused := false
 var lane_count := 3
 var _random := RandomNumberGenerator.new()
 var _initial_seed: int
@@ -39,6 +40,8 @@ func tick(delta: float, stage: int, player_lane: int, player_speed: float = 0.0)
 	var safe_delta := maxf(0.0, delta)
 	match state:
 		State.IDLE:
+			if scheduling_paused:
+				return event
 			if events_started_count >= event_limit:
 				return event
 			_cooldown_remaining -= safe_delta
@@ -209,6 +212,7 @@ func set_viewport_height(viewport_height: float) -> void:
 	_viewport_height = maxf(1.0, viewport_height)
 
 func reset(seed: int = -1) -> void:
+	scheduling_paused = false
 	if seed >= 0:
 		_initial_seed = seed
 	_random.seed = _initial_seed

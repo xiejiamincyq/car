@@ -607,6 +607,8 @@ func _event_plate_color() -> Color:
 
 func _update_fuel_pickups(delta: float, frame_forward_advance: float = -1.0) -> void:
 	var blocked_lanes := traffic.blocked_lanes_near(FuelSpawnDirector.PICKUP_SPAWN_Y, GameConfig.FUEL_SPAWN_SAFETY_DISTANCE)
+	for lane in traffic.fast_priority_lanes():
+		if not blocked_lanes.has(lane): blocked_lanes.append(lane)
 	for zone in repair_supplies.exclusion_zones():
 		if absf(zone.y-FuelSpawnDirector.PICKUP_SPAWN_Y) < GameConfig.FUEL_SPAWN_SAFETY_DISTANCE and not blocked_lanes.has(int(zone.x)):
 			blocked_lanes.append(int(zone.x))
@@ -645,6 +647,8 @@ func _fuel_spawn_exclusion_zones() -> Array[Vector2]:
 func _update_repair_pickups(delta: float, frame_forward_advance: float = -1.0) -> void:
 	var spawn_y := FuelSpawnDirector.PICKUP_SPAWN_Y
 	var blocked := traffic.blocked_lanes_near(spawn_y, GameConfig.FUEL_SPAWN_SAFETY_DISTANCE)
+	for lane in traffic.fast_priority_lanes():
+		if not blocked.has(lane): blocked.append(lane)
 	for lane in coin_director.blocked_lanes_near(spawn_y, GameConfig.FUEL_SPAWN_SAFETY_DISTANCE):
 		if not blocked.has(lane): blocked.append(lane)
 	for zone in _fuel_spawn_exclusion_zones():
@@ -672,6 +676,9 @@ func _update_coins(delta: float, frame_forward_advance: float = -1.0) -> void:
 	var player_center := Vector2(viewport_size.x * 0.5 + drive.lateral_position, TrackGeometry.player_y(viewport_size.y))
 	var player_lane_position := float(GameConfig.ROAD_LANE_COUNT - 1) * 0.5 + drive.lateral_position / lane_width
 	var core_markers: Array = traffic.lane_events.core_markers(viewport_size.y)
+	var generation_blocked := traffic.lane_events.closed_lanes()
+	for lane in traffic.fast_priority_lanes():
+		if not generation_blocked.has(lane): generation_blocked.append(lane)
 	# Adapt the completed ground travel to the director's existing speed API.
 	# Route reachability below still uses current post-impact driving ability.
 	var motion_speed := drive.speed
@@ -685,7 +692,7 @@ func _update_coins(delta: float, frame_forward_advance: float = -1.0) -> void:
 		CoinRouteDirector.npc_exclusion_zones(traffic.vehicles),
 		CoinRouteDirector.fuel_exclusion_zones(fuel_pickups+repair_supplies.pickups),
 		CoinRouteDirector.construction_exclusion_zones(core_markers),
-		traffic.lane_events.closed_lanes(),
+		generation_blocked,
 		CoinGameplayDirector.reachable_entry_lanes(player_lane_position,
 			maxf(drive.speed, (drive.max_speed+GameConfig.OVERDRIVE_SPEED_BONUS)*integrity.max_speed_multiplier()),
 			drive.steering_speed*0.85*integrity.steering_multiplier(), viewport_size.y),

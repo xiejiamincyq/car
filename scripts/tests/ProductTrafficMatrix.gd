@@ -3,6 +3,7 @@ const Cars = preload("res://scripts/catalog/vehicle_catalog.gd")
 const Recorder = preload("res://tests/support/observed_change_traffic.gd")
 const SHARDS := 18
 const SOURCE_FILES := [
+	"res://scripts/fast_priority_traffic.gd",
 	"res://scripts/traffic_director.gd","res://scripts/traffic_vehicle.gd","res://scripts/traffic_safety_policy.gd",
 	"res://scripts/lane_event_director.gd","res://scripts/track_geometry.gd","res://scripts/game_config.gd",
 	"res://scripts/drive_controller.gd","res://scripts/overdrive_controller.gd","res://scripts/difficulty_profile.gd",
