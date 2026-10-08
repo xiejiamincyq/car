@@ -1,0 +1,40 @@
+{
+  "entries": [
+    {
+      "bytes": 1622,
+      "sha256": "C1C56C76DBF1FF800406E2C1FFD78D79267CC8ACCBEE20086760C3B3ACF8AEA9",
+      "name": "ASSET_NOTICES.md"
+    },
+    {
+      "bytes": 93347,
+      "sha256": "92B24143F6083111537353995AC84F0F89077B444D513C942C1D9106DF272C7C",
+      "name": "GODOT_COPYRIGHT.txt"
+    },
+    {
+      "bytes": 1149,
+      "sha256": "B0435E3B3E4E55238F05F4B306F30524A1B2E20147810D436EAA554FA6855C80",
+      "name": "GODOT_LICENSE.txt"
+    },
+    {
+      "bytes": 109019648,
+      "sha256": "053DCE777559CF604E88D80C2D3FED8747819B710D8526E3D3F6B76354F1188E",
+      "name": "NeonCoastRush.exe"
+    },
+    {
+      "bytes": 26256132,
+      "sha256": "51E9704593D506586485A510CC11C4915EA0861B4415D592CE8599FF91DEA76D",
+      "name": "NeonCoastRush.pck"
+    },
+    {
+      "bytes": 2803,
+      "sha256": "34BA8D7C4E302EB768961FB210D6AD65C26D0E83BF09F93833844E3533923C28",
+      "name": "README.md"
+    }
+  ],
+  "passed": true,
+  "built_head": "66a0d384e12997b176517eaf4d9d8a1c6b310607",
+  "zip_bytes": 64408614,
+  "scope": "Actual six-file ZIP decompressed payloads match immutable RC4. No new gameplay, independent extracted-directory flow, human acceptance or public release proof.",
+  "zip": "C:\\Users\\21604\\Documents\\car\\exports\\0.4.0-rc.4\\66a0d38-10e55b27\\NeonCoastRush-0.4.0-rc.4-66a0d38.zip",
+  "zip_sha256": "8512024A2D696AAE62F515EEA53D820325AA5F32D49C1CAFD8106558F7494C0F"
+}
