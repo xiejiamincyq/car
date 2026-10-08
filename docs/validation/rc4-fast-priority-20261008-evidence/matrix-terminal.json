@@ -1,0 +1,353 @@
+{
+  "completed": 1080.0,
+  "planned": 1080,
+  "scope": "Independent 1080-case finite traffic geometry, motion and visible-warning model audit; not continuous player reachability, Main resources or human acceptance.",
+  "evidence": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5",
+  "failed_cases": 0.0,
+  "shards": 18,
+  "results": [
+    {
+      "stdout_sha256": "B797E419EA350213A52151D4E8C5A175C8D5F00FF3CEAC9C665E92BF593B8BCD",
+      "timeout": false,
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-2.err.log",
+      "shard": 2,
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-2.out.log",
+      "passed": true,
+      "native_exit": 0,
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-8612-279635/summary.json",
+        "wall_seconds": 85.680148
+      }
+    },
+    {
+      "stdout_sha256": "2965F973BF37AD0FE8ECF8DE48E6709BC1197988B6CEFAA0A2183BC34150B354",
+      "timeout": false,
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-0.err.log",
+      "shard": 0,
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-0.out.log",
+      "passed": true,
+      "native_exit": 0,
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-33292-288769/summary.json",
+        "wall_seconds": 86.218992
+      }
+    },
+    {
+      "stdout_sha256": "C2E5C929858050A391836A6E502CDB41D445C509A087CE2B13B6A750419F7DD1",
+      "timeout": false,
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-3.err.log",
+      "shard": 3,
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-3.out.log",
+      "passed": true,
+      "native_exit": 0,
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-46240-276017/summary.json",
+        "wall_seconds": 88.467693
+      }
+    },
+    {
+      "stdout_sha256": "76999881E52FA3DBBD30A310CDE1E125F233918BD13B487D00A7155ADB378253",
+      "timeout": false,
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-1.err.log",
+      "shard": 1,
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-1.out.log",
+      "passed": true,
+      "native_exit": 0,
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-31788-284026/summary.json",
+        "wall_seconds": 90.251163
+      }
+    },
+    {
+      "stdout_sha256": "E97883C7B056CF890E603E56EC119D9149FAD782D754579CDB6D700304A1A477",
+      "timeout": false,
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-4.err.log",
+      "shard": 4,
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-4.out.log",
+      "passed": true,
+      "native_exit": 0,
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-26308-268512/summary.json",
+        "wall_seconds": 91.149622
+      }
+    },
+    {
+      "stdout_sha256": "526631FF950E8DCD6606DDA3B9CBE7D425A58AE27E123CB3B4CBA9FC3FBE6D28",
+      "timeout": false,
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-5.err.log",
+      "shard": 5,
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-5.out.log",
+      "passed": true,
+      "native_exit": 0,
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-5364-260440/summary.json",
+        "wall_seconds": 90.505996
+      }
+    },
+    {
+      "stdout_sha256": "1E9C40CC0A508DD7AB9D73B6EDBBE65D29BFF64BAF4352BEA70BE27D8919AA31",
+      "timeout": false,
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-6.err.log",
+      "shard": 6,
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-6.out.log",
+      "passed": true,
+      "native_exit": 0,
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-44480-259175/summary.json",
+        "wall_seconds": 93.009768
+      }
+    },
+    {
+      "stdout_sha256": "180F18F1136775160C13CEE2505ED352C7751AE6446918244C3A9B09F99D74D4",
+      "timeout": false,
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-7.err.log",
+      "shard": 7,
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-7.out.log",
+      "passed": true,
+      "native_exit": 0,
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-27704-267868/summary.json",
+        "wall_seconds": 96.269902
+      }
+    },
+    {
+      "stdout_sha256": "27AE6FF3E711AA098ED108C65A0B5687575F8099828C34DC7A771356D9E0F477",
+      "timeout": false,
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-9.err.log",
+      "shard": 9,
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-9.out.log",
+      "passed": true,
+      "native_exit": 0,
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-42984-260538/summary.json",
+        "wall_seconds": 90.667755
+      }
+    },
+    {
+      "stdout_sha256": "88FF995D6C65FD206F7B81F6F2B29DA7E2154694A303A7E07699FAE23D0D2BF0",
+      "timeout": false,
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-10.err.log",
+      "shard": 10,
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-10.out.log",
+      "passed": true,
+      "native_exit": 0,
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-9608-263408/summary.json",
+        "wall_seconds": 94.214196
+      }
+    },
+    {
+      "stdout_sha256": "92B0150B1F78D5F5FF1BBB9D055D9876F85BD0FE40E9F7DA89DEAB9576A68F54",
+      "timeout": false,
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-8.err.log",
+      "shard": 8,
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-8.out.log",
+      "passed": true,
+      "native_exit": 0,
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-49164-262897/summary.json",
+        "wall_seconds": 99.921402
+      }
+    },
+    {
+      "stdout_sha256": "7B6E5001B3A8638F75B53279C7A2DCA84227363F97F7489797B3BB2946811518",
+      "timeout": false,
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-11.err.log",
+      "shard": 11,
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-11.out.log",
+      "passed": true,
+      "native_exit": 0,
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-42888-259938/summary.json",
+        "wall_seconds": 91.151102
+      }
+    },
+    {
+      "stdout_sha256": "5B32E8EDB92B49E0AE81A531B3FFC6925A17104C0FB0F99183475C5F94ED9955",
+      "timeout": false,
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-12.err.log",
+      "shard": 12,
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-12.out.log",
+      "passed": true,
+      "native_exit": 0,
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-37732-262694/summary.json",
+        "wall_seconds": 89.430815
+      }
+    },
+    {
+      "stdout_sha256": "416FF75DCF88F16ACA1E0013047FBA883D336EE34207FFFEC4F7CB4EB5904303",
+      "timeout": false,
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-14.err.log",
+      "shard": 14,
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-14.out.log",
+      "passed": true,
+      "native_exit": 0,
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-45320-259565/summary.json",
+        "wall_seconds": 91.334998
+      }
+    },
+    {
+      "stdout_sha256": "D3048EB573C731E66A05A69CDE678EDEE8C20166FCAA5054B0E1DA3F22D4CB79",
+      "timeout": false,
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-13.err.log",
+      "shard": 13,
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-13.out.log",
+      "passed": true,
+      "native_exit": 0,
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-41928-259053/summary.json",
+        "wall_seconds": 94.30433
+      }
+    },
+    {
+      "stdout_sha256": "6BEBFBF37D6EEBA6C6994CF3A229C4DEA8D12A36A53A132A3C6D68813053E810",
+      "timeout": false,
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-15.err.log",
+      "shard": 15,
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-15.out.log",
+      "passed": true,
+      "native_exit": 0,
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-44600-260441/summary.json",
+        "wall_seconds": 95.568734
+      }
+    },
+    {
+      "stdout_sha256": "052295865AE30BE372F18E29272B32CFD478BE1918EBFB1AF323979E863F65C2",
+      "timeout": false,
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-16.err.log",
+      "shard": 16,
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-16.out.log",
+      "passed": true,
+      "native_exit": 0,
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-46384-257506/summary.json",
+        "wall_seconds": 96.661499
+      }
+    },
+    {
+      "stdout_sha256": "24FD651CBFDAE0FAB7E163C8C63856795E1E78156DC71B8210F7525D4E6602ED",
+      "timeout": false,
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-17.err.log",
+      "shard": 17,
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\priority-final-v2-matrix-bb9a40b5\\shard-17.out.log",
+      "passed": true,
+      "native_exit": 0,
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-49836-256397/summary.json",
+        "wall_seconds": 94.791408
+      }
+    }
+  ],
+  "passed": true
+}

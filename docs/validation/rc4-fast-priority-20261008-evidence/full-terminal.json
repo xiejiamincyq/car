@@ -1,0 +1,10 @@
+{
+  "head": "66a0d384e12997b176517eaf4d9d8a1c6b310607",
+  "passed": true,
+  "source_stable": true,
+  "changed": [],
+  "log_sha256": "F35739097D2D1CCB130CFCCB5B6AD232D3460A09DBD511A2C1D2CE3375A012E7",
+  "wall_seconds": 545.2897673,
+  "scope": "Current source complete native regression; not human acceptance.",
+  "test_count": 161
+}
