@@ -43,7 +43,7 @@ const PROFILES := [
 		"supply_minimum_road_advance": 136.0,
 		"fuel_drain_multiplier": 2.0,
 		"integrity_damage_multiplier": 1.0,
-		"traffic_interval_multiplier": 0.55,
+		"traffic_interval_multiplier": 0.50,
 		"event_interval_multiplier": 0.60,
 		"traffic_active_target": 7,
 		"lane_warning_multiplier": 0.85,
