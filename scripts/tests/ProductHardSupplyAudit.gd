@@ -47,6 +47,14 @@ static func suitable_repass_target(y: float, world_speed: float, collided: bool,
 	var peak_y := y + closing_speed * closing_speed / (2.0 * braking) * Config.ROAD_SCROLL_MULTIPLIER
 	return peak_y >= player_y + 30.0 and peak_y <= recycle_y - 80.0
 
+static func supply_priority(fuel: float, hull: float) -> String:
+	# This is test-driver input policy, never a gameplay resource change. Do not
+	# miss every fuel can while repeatedly chasing noncritical hull repair.
+	if fuel < 25.0 and hull > 30.0: return "fuel"
+	if hull < 70.0: return "repair"
+	if fuel < 60.0: return "fuel"
+	return "coins"
+
 static func supply_needs_braking(x: float, speed: float, authority: float, target_x: float, pickup_y: float, player_y: float) -> bool:
 	# Only visible, not-yet-missed supplies affect actual input. This optimistic
 	# travel-time heuristic is not a traffic fairness or reachability assertion.
@@ -219,8 +227,9 @@ func _apply_adverse_input(main, stats: Dictionary) -> void:
 	var authority: float = main.drive.steering_speed * main.drive.speed_steering_multiplier() * main.integrity.steering_multiplier()
 	var target_x: float = main.drive.lateral_position
 	var pickups: Array = main.coin_director.coins
-	if main.integrity.current < 70.0: pickups = main.repair_supplies.pickups
-	elif main.run.fuel < 60.0: pickups = main.fuel_pickups
+	var supply_kind := supply_priority(main.run.fuel,main.integrity.current)
+	if supply_kind == "repair": pickups = main.repair_supplies.pickups
+	elif supply_kind == "fuel": pickups = main.fuel_pickups
 	var nearest_y := -INF
 	for pickup in pickups:
 		if pickup.get_instance_id() == stats.skip_target_id: continue

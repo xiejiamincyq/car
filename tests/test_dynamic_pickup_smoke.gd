@@ -28,6 +28,8 @@ const COVERAGE_SUPPLEMENTS := [
 	{"config":["neon_coast","pulse_gt",9001],"index":0,"difficulty":1},
 	{"config":["sunrise_express","driftwing",9001],"index":7,"difficulty":2},
 	{"config":["storm_ridge","flashpoint",611],"index":2,"difficulty":0},
+	{"config":["storm_ridge","flashpoint",611],"index":2,"difficulty":1},
+	{"config":["storm_ridge","comet_rs",611],"index":8,"difficulty":1},
 ]
 var failure_keys: Dictionary = {}
 var context := "fixture"

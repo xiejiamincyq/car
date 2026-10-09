@@ -6,7 +6,9 @@ func _init() -> void:
 	var traffic := Traffic.new(611)
 	traffic.lane_events.enabled = false
 	traffic._spawn_cooldown = 1000.0
-	var fast = traffic.acquire_vehicle(Traffic.Kind.FAST_OVERTAKE, 0, 600.0)
+	# Explicit legacy finite-braking fixture; production constant-speed entry
+	# is exercised separately at configured 450 by fast_constant_entry.
+	var fast = traffic.acquire_vehicle(Traffic.Kind.FAST_OVERTAKE, 0, 600.0, 400.0 / 0.42)
 	var leader = traffic.acquire_vehicle(Traffic.Kind.STEADY_SLOW, 0, -700.0, 200.0)
 	var distant = traffic.acquire_vehicle(Traffic.Kind.STEADY_SLOW, 1, -1200.0, 200.0)
 	traffic.vehicles.assign([fast, leader, distant])

@@ -3,6 +3,11 @@ const Hard = preload("res://scripts/tests/ProductHardSupplyAudit.gd")
 var failures: Array[String] = []
 
 func _init() -> void:
+	_check(Hard.supply_priority(10.0,62.0)=="fuel","critical fuel wins over moderate repair need")
+	_check(Hard.supply_priority(10.0,25.0)=="repair","critical hull still needs immediate repair")
+	_check(Hard.supply_priority(50.0,62.0)=="repair","noncritical fuel preserves repair pursuit")
+	_check(Hard.supply_priority(50.0,80.0)=="fuel","healthy hull pursues needed fuel")
+	_check(Hard.supply_priority(90.0,100.0)=="coins","healthy resources keep coin pursuit")
 	# Natural Sunrise/Comet/30-hull/2026 approach: 334px lateral travel,
 	# damaged steering 296px/s, road-fixed repair already at y238.
 	_check(Hard.supply_needs_braking(-74.1,571.1,296.4,260.0,238.4,592.0),"visible repair needs more lateral travel time")
