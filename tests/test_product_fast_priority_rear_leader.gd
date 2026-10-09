@@ -28,9 +28,9 @@ class ObservedTraffic extends Traffic:
 				continue
 			var old: Dictionary = before[key]
 			var current: Dictionary = after[key]
-			var rate: float = 420.0 if current.speed < old.speed else 140.0
+			var rate: float = 420.0 if current.speed < old.speed else (360.0 if current.kind == Kind.FAST_OVERTAKE else 140.0)
 			if absf(current.speed - old.speed) > rate * delta + 0.00001:
-				_record("140/420 finite acceleration/braking")
+				_record("kind-specific finite acceleration/braking")
 			var expected_y: float = old.y + (player_speed - current.speed) * Config.ROAD_SCROLL_MULTIPLIER * delta
 			if absf(current.y - expected_y) > 0.00001:
 				_record("continuous longitudinal movement without teleport")
@@ -148,6 +148,7 @@ func _run_pass(traffic: ObservedTraffic, red, original_npcs: Array, assigned_spe
 	for npc in original_npcs:
 		original_generations.append(npc.motion_generation)
 	var red_generation: int = red.motion_generation
+	var assigned_red_speed: float = red.cruise_speed
 	var passed_all_at := -1.0
 	var retired_at := -1.0
 	var retired_forward := false
@@ -171,7 +172,7 @@ func _run_pass(traffic: ObservedTraffic, red, original_npcs: Array, assigned_spe
 				cruises_unchanged = cruises_unchanged and is_equal_approx(npc.cruise_speed, float(assigned_speeds[index]))
 			npc_states.append({"lane":npc.lane,"target":npc.target_lane,"y":npc.y,"speed":npc.actual_world_speed,"warning":npc.warning_started,"moving":npc.change_started,"live":npc_live})
 		if red_live:
-			cruises_unchanged = cruises_unchanged and is_equal_approx(red.cruise_speed, 920.0)
+			cruises_unchanged = cruises_unchanged and is_equal_approx(red.cruise_speed, assigned_red_speed)
 		if passed_all_at < 0.0 and ahead_of_every_npc:
 			passed_all_at = elapsed
 		if passed_all_at < 0.0 and not all_original_npcs_live:

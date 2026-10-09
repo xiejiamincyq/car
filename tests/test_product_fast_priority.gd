@@ -28,7 +28,7 @@ class ObservedTraffic extends Traffic:
 			if not before.has(key):
 				continue
 			var old: Dictionary = before[key]
-			var rate: float = NPC_BRAKING if actor.actual_world_speed < old.speed else NPC_ACCELERATION
+			var rate: float = 420.0 if actor.actual_world_speed < old.speed else (360.0 if actor.kind == Kind.FAST_OVERTAKE else 140.0)
 			if absf(actor.actual_world_speed - old.speed) > rate * delta + 0.00001:
 				_record("finite acceleration/braking")
 			var expected_y: float = old.y + (player_speed - actor.actual_world_speed) * Config.ROAD_SCROLL_MULTIPLIER * delta

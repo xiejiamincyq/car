@@ -2,6 +2,7 @@ extends RefCounted
 
 # Frozen acceptance limits, independent of production following/merge policy.
 const ACCELERATION := 140.0
+const FAST_ACCELERATION := 360.0
 const BRAKING := 420.0
 const FRAME_TOLERANCE := 0.0001
 const NUMERIC_TOLERANCE := 0.00000001
@@ -28,7 +29,8 @@ static func audit_step(before: Dictionary, after: Dictionary, delta: float, play
 		if a.kind != b.kind: issues.append("motion_kind_changed:%s" % key)
 		if a.cruise_speed != b.cruise_speed: issues.append("cruise_changed:%s" % key)
 		var change: float = b.speed-a.speed
-		if change > ACCELERATION*delta+NUMERIC_TOLERANCE: issues.append("world_acceleration:%s" % key)
+		var acceleration := FAST_ACCELERATION if a.kind == 2 else ACCELERATION
+		if change > acceleration*delta+NUMERIC_TOLERANCE: issues.append("world_acceleration:%s" % key)
 		if -change > BRAKING*delta+NUMERIC_TOLERANCE: issues.append("world_braking:%s" % key)
 		if absf(b.lane_position-a.lane_position) > _lateral_rate(a.kind)*delta+NUMERIC_TOLERANCE:
 			issues.append("lateral_rate:%s" % key)

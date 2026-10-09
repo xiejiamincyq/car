@@ -15,6 +15,11 @@ func _init() -> void:
 		_check(_has(_audit(before,after),"world_acceleration" if boundary > 0.0 else "world_braking"),"strictly excessive world speed change is rejected")
 	for kind in [0,1,2,3]:
 		before = _body(200.0,0.0,0.0,kind)
+		var acceleration := 360.0 if kind == 2 else 140.0
+		after = _end(before,DT,300.0,acceleration*DT)
+		_check(_audit(before,after).is_empty(),"exact kind-specific acceleration accepted for kind %d" % kind)
+		after = _end(before,DT,300.0,(acceleration+0.001)*DT)
+		_check(_has(_audit(before,after),"world_acceleration"),"excessive kind-specific acceleration rejected for kind %d" % kind)
 		var rate := 3.4 if kind == 2 else 2.4
 		for direction in [-1.0,1.0]:
 			after = _end(before,DT,300.0)

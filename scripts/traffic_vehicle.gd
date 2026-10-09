@@ -9,6 +9,7 @@ const FAST_OVERTAKE_KIND := 2
 const TRUCK_KIND := 3
 const SIGNAL_CHANGE_KIND := 1
 const NORMAL_CRUISE_SPEED := 200.0
+const GameConfig = preload("res://scripts/game_config.gd")
 const TRUCK_CRUISE_SPEED_MULTIPLIER := 0.80
 
 var kind: int
@@ -81,6 +82,6 @@ func configure(vehicle_kind: int, initial_lane: int, initial_y: float, change_ta
 
 static func _cruise_speed_for_kind(vehicle_kind: int) -> float:
 	match vehicle_kind:
-		FAST_OVERTAKE_KIND: return 920.0
+		FAST_OVERTAKE_KIND: return GameConfig.FAST_OVERTAKE_SPEED
 		TRUCK_KIND: return NORMAL_CRUISE_SPEED * TRUCK_CRUISE_SPEED_MULTIPLIER
 		_: return NORMAL_CRUISE_SPEED

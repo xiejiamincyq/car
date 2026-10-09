@@ -20,6 +20,7 @@ const NORMAL_SPEED_MIN := 180.0
 const NORMAL_SPEED_MAX := 220.0
 const NORMAL_SPEED_STEP := 20
 const NPC_ACCELERATION := 140.0
+const FAST_ACCELERATION := 360.0
 const NPC_BRAKING := 420.0
 const FOLLOWING_BODY_MARGIN := 24.0
 const LANE_CHANGE_WAIT_LIMIT := 2.0
@@ -272,8 +273,11 @@ func _update_traffic_speeds(delta: float) -> void:
 
 func _following_speed(vehicle: TrafficVehicle, delta: float) -> float:
 	var target := _following_target_speed(vehicle)
-	var rate := NPC_BRAKING if target < vehicle.actual_world_speed else NPC_ACCELERATION
+	var rate := NPC_BRAKING if target < vehicle.actual_world_speed else acceleration_for(vehicle)
 	return move_toward(vehicle.actual_world_speed, target, maxf(0.0, delta) * rate)
+
+func acceleration_for(vehicle: TrafficVehicle) -> float:
+	return FAST_ACCELERATION if vehicle.kind == Kind.FAST_OVERTAKE else NPC_ACCELERATION
 
 func _following_target_speed(vehicle: TrafficVehicle) -> float:
 	# The transient impact changes the target once. It is not added again to
@@ -1229,7 +1233,7 @@ func _closure_can_continue() -> bool:
 				# New cores do not scroll until the next substep. Bound this NPC's
 				# first finite acceleration/braking step before accepting the birth.
 				var lowest_speed := maxf(0.0,vehicle.actual_world_speed - NPC_BRAKING * _closure_birth_step_seconds)
-				var highest_speed := vehicle.actual_world_speed + NPC_ACCELERATION * _closure_birth_step_seconds
+				var highest_speed := vehicle.actual_world_speed + acceleration_for(vehicle) * _closure_birth_step_seconds
 				var y_min := minf(vehicle.y,vehicle.y + (_player_speed-highest_speed) * GameConfig.ROAD_SCROLL_MULTIPLIER * _closure_birth_step_seconds)
 				var y_max := maxf(vehicle.y,vehicle.y + (_player_speed-lowest_speed) * GameConfig.ROAD_SCROLL_MULTIPLIER * _closure_birth_step_seconds)
 				var extent := vehicle.half_length + 34.0

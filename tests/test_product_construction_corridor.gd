@@ -16,7 +16,7 @@ class ObservedTraffic extends Traffic:
 			var previous: Dictionary = before.get(vehicle.get_instance_id(), {})
 			if previous.is_empty() or previous.generation != vehicle.motion_generation:
 				continue
-			var rate: float = NPC_BRAKING if vehicle.actual_world_speed < previous.speed else NPC_ACCELERATION
+			var rate: float = 420.0 if vehicle.actual_world_speed < previous.speed else (360.0 if vehicle.kind == Kind.FAST_OVERTAKE else 140.0)
 			if absf(vehicle.actual_world_speed - previous.speed) > rate * delta + 0.00001:
 				physical_failures.append("Corridor policy cannot assign instantaneous speed")
 			if absf(vehicle.y - previous.y - (player_speed - vehicle.actual_world_speed) * Config.ROAD_SCROLL_MULTIPLIER * delta) > 0.00001:

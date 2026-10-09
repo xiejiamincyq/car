@@ -28,9 +28,9 @@ class ObservedTraffic extends Traffic:
 				continue
 			var old: Dictionary = before[key]
 			var current: Dictionary = after[key]
-			var rate: float = 420.0 if current.speed < old.speed else 140.0
+			var rate: float = 420.0 if current.speed < old.speed else (360.0 if current.kind == Kind.FAST_OVERTAKE else 140.0)
 			if absf(current.speed - old.speed) > rate * delta + 0.00001:
-				_record("140/420 finite acceleration/braking")
+				_record("kind-specific finite acceleration/braking")
 			var expected_y: float = old.y + (player_speed - current.speed) * Config.ROAD_SCROLL_MULTIPLIER * delta
 			if absf(current.y - expected_y) > 0.00001:
 				_record("continuous longitudinal movement without teleport")

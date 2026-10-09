@@ -19,7 +19,7 @@ class ObservedTraffic extends Traffic:
 			for previous in before:
 				if current.id != previous.id or current.generation != previous.generation:
 					continue
-				var rate: float = NPC_BRAKING if current.speed < previous.speed else NPC_ACCELERATION
+				var rate: float = 420.0 if current.speed < previous.speed else (360.0 if current.kind == Kind.FAST_OVERTAKE else 140.0)
 				if absf(current.speed - previous.speed) > rate * delta + 0.00001:
 					physical_failures.append("nonphysical acceleration at substep %d" % substep_count)
 				var expected_y: float = previous.y + (player_speed - current.speed) * Config.ROAD_SCROLL_MULTIPLIER * delta
