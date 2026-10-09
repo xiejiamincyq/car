@@ -35,7 +35,7 @@ func _init() -> void:
 	if not setup.is_empty():
 		_check(setup.drive.max_speed == 859.0 and setup.drive.acceleration == 224.0 and setup.drive.braking == 378.0,"chosen Comet world motion parameters are applied")
 		_check(absf(setup.drive.steering_speed-477.36) < 0.00000001 and setup.drive.player_half_width == 30.0,"track and vehicle steering plus real player width applied")
-		_check(setup.traffic.track_pattern == &"express_fast" and setup.traffic.spawn_interval_multiplier == 0.55 and setup.traffic.random_lane_change_probability == 0.48,"track and actual RC3 hard traffic rules applied")
+		_check(setup.traffic.track_pattern == &"express_fast" and setup.traffic.spawn_interval_multiplier == 0.50 and setup.traffic.random_lane_change_probability == 0.48,"track and current hard traffic rules applied")
 		var row := sample_case(definition,0.25)
 		_check(row.get("frames",0) == 15 and row.get("internal_steps",0) == 15,"sample actually runs fifteen observed production substeps")
 		_check(absf(float(row.get("final_speed",0.0))-336.0) < 0.00001,"actual acceleration differs from baseline Pulse rather than label only")
