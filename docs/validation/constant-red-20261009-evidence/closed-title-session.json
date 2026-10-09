@@ -1,0 +1,28 @@
+{
+  "sha256": "94840A9FA3E0CCB4AC85C9A64D0EDCA6FD938F8368EDEC301962091114337610",
+  "sample_count": 1701,
+  "reset_numbers": [
+    0
+  ],
+  "package_unchanged": true,
+  "process_missing": true,
+  "native_exit_observed": false,
+  "observed_utc": "2026-10-09T09:47:24.3692894Z",
+  "elapsed_seconds": 1701.974991,
+  "pid": 58320,
+  "formal_files_unchanged": true,
+  "capture_closed": true,
+  "source": "C:\\Users\\21604\\Documents\\car\\exports\\0.4.0-rc.4\\1e96aa2-757d454a\\manual-db06992e\\appdata\\Godot\\app_userdata\\Neon Coast Rush\\performance\\capture-58320-1734146.jsonl",
+  "bytes": 796754,
+  "run_numbers": [
+    0
+  ],
+  "native_exit": null,
+  "phases": [
+    "title"
+  ],
+  "isolated_progress_unchanged": true,
+  "built_head": "1e96aa2d59fbc8bf82ccb36252a339f04268c964",
+  "row_count": 1703,
+  "scope": "Terminal title-only runtime trace. Teardown marker observed, native exit code unknown; not normal menu exit proof, gameplay, driving FPS, 30-minute driving stability, restart or human acceptance."
+}
