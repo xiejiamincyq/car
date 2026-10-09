@@ -11,9 +11,18 @@ class ObservedTraffic extends Traffic:
 	var turn_warning_seconds: Dictionary = {}
 	var checked_turns: Dictionary = {}
 	var arrival_warning_seconds: Dictionary = {}
+	var entry_exposure := 0.0
+	var entry_lane := -1
 	var substep_count := 0
 	func _tick_step(delta: float, player_speed: float, player_lane: int, frame_start: Dictionary) -> void:
 		var before := _snapshot()
+		var notice := fast_entry_warning()
+		if notice.active:
+			entry_exposure = entry_exposure + delta if entry_lane == notice.lane else delta
+			entry_lane = notice.lane
+		else:
+			entry_exposure = 0.0
+			entry_lane = -1
 		for actor in vehicles:
 			var key := _key(actor)
 			if _is_lane_change_visible(actor):
@@ -23,6 +32,9 @@ class ObservedTraffic extends Traffic:
 					arrival_warning_seconds[key] = float(arrival_warning_seconds.get(key, 0.0)) + delta
 		super._tick_step(delta, player_speed, player_lane, frame_start)
 		var after := _snapshot()
+		for actor in vehicles:
+			if not before.has(_key(actor)) and actor.kind == Kind.FAST_OVERTAKE and actor.lane == entry_lane:
+				arrival_warning_seconds[_key(actor)] = entry_exposure
 		for key in after:
 			if not before.has(key):
 				continue
@@ -131,9 +143,11 @@ func _test_fair_stage_two_center_birth() -> void:
 	traffic._schedule_cursor = 2
 	traffic._spawn_next(200.0, 1)
 	var red = null
-	for actor in traffic.vehicles:
-		if actor.kind == Traffic.Kind.FAST_OVERTAKE:
-			red = actor
+	for step in 300:
+		traffic.tick(STEP,200.0,1)
+		for actor in traffic.vehicles:
+			if actor.kind == Traffic.Kind.FAST_OVERTAKE: red = actor
+		if red != null: break
 	_check(red != null, "production stage2 scheduler births a red car against the legal parallel pair")
 	if red == null:
 		return

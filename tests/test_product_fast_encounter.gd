@@ -13,8 +13,11 @@ func _init() -> void:
 	traffic.vehicles.append(traffic.acquire_vehicle(Traffic.Kind.STEADY_SLOW, 0, 400.0, 200.0))
 	traffic._spawn_next(760.0, 1)
 	var fast = null
-	for vehicle in traffic.vehicles:
-		if vehicle.kind == Traffic.Kind.FAST_OVERTAKE: fast = vehicle
+	for step in 180:
+		traffic.tick(1.0/60.0,760.0,1)
+		for vehicle in traffic.vehicles:
+			if vehicle.kind == Traffic.Kind.FAST_OVERTAKE: fast = vehicle
+		if fast != null: break
 	_check(fast != null and fast.lane == 2, "Fast birth must select the clear side instead of joining the occupied preferred lane")
 	traffic = FastOnly.new(611)
 	traffic.lane_events.enabled = false

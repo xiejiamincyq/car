@@ -43,6 +43,7 @@ var arrival_warning_started := false
 var last_lateral_distance := 0.0
 var motion_generation := 0
 var has_entered_viewport := false
+var constant_speed_pass := false
 
 func _init(vehicle_kind: int, initial_lane: int, initial_y: float, change_target: int = -1, variant: int = 0, assigned_cruise_speed: float = -1.0) -> void:
 	configure(vehicle_kind, initial_lane, initial_y, change_target, variant, assigned_cruise_speed)
@@ -78,6 +79,7 @@ func configure(vehicle_kind: int, initial_lane: int, initial_y: float, change_ta
 	arrival_warning_started = false
 	last_lateral_distance = 0.0
 	has_entered_viewport = false
+	constant_speed_pass = false
 	lane_change_enabled = kind == SIGNAL_CHANGE_KIND
 
 static func _cruise_speed_for_kind(vehicle_kind: int) -> float:

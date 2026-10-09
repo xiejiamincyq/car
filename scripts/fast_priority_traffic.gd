@@ -159,6 +159,11 @@ func prepare_normal(host, vehicle: Vehicle) -> void:
 	if _owner == null or vehicle.change_started:
 		return
 	var corridor := reserved_lanes()
+	if _owner.constant_speed_pass or host.fast_entry_warning().active:
+		# No new cross-lane reservations after the lane announcement. Existing
+		# completed/started turns must have cleared before a constant pass is born.
+		if vehicle.lane_change_enabled: host._cancel_planned_lane_change(vehicle)
+		return
 	if vehicle.lane_change_enabled and corridor.has(vehicle.target_lane) and vehicle.target_lane != vehicle.lane:
 		host._cancel_planned_lane_change(vehicle)
 	if not corridor.has(vehicle.lane) or vehicle.y >= _owner.y or _owner.y - vehicle.y > host._fast_planning_distance(_owner) * 2.0:
