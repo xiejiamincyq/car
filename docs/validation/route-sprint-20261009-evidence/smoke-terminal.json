@@ -1,0 +1,11 @@
+{
+  "timeout": false,
+  "formal_save_unchanged": true,
+  "passed": true,
+  "package_unchanged": true,
+  "scope": "Actual exported EXE headless startup/clean 60-frame exit only. Not an async test, graphics/audio playtest, driving performance or human acceptance.",
+  "problems": [],
+  "log_sha256": "A89796985B34F3C8AE1213B7DFA57C076CC113F9EAC328B77724F0EF01A22F65",
+  "native_exit": 0,
+  "appdata": "C:\\Users\\21604\\Documents\\car\\exports\\0.4.0-rc.4\\077bcfd-0c014594\\smoke-aa075046\\appdata"
+}
