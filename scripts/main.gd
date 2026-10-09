@@ -541,6 +541,21 @@ func _draw_construction_cone(center: Vector2, rotation: float) -> void:
 
 func _draw_traffic(road_left: float) -> void:
 	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / GameConfig.ROAD_LANE_COUNT
+	var entry := traffic.fast_entry_warning()
+	if entry.active:
+		var height := get_viewport_rect().size.y
+		var left: float = road_left + entry.lane * lane_width
+		var center := Vector2(left + lane_width * 0.5, height - 65.0)
+		var accent := Color.WHITE if high_contrast_enabled else Color("ff5264")
+		var alpha := 0.17 if reduced_flashing_enabled else 0.17 + 0.035 * sin(visual_animation_time * 8.0)
+		draw_rect(Rect2(left + 5,0,lane_width - 10,height),Color(accent,alpha))
+		draw_line(Vector2(left+5,0),Vector2(left+5,height),accent,3,true)
+		draw_line(Vector2(left+lane_width-5,0),Vector2(left+lane_width-5,height),accent,3,true)
+		for offset in [0.0,45.0]:
+			var tip := center - Vector2(0,offset)
+			draw_polyline(PackedVector2Array([tip+Vector2(-28,18),tip-Vector2(0,14),tip+Vector2(28,18)]),Color("081018"),12,true)
+			draw_polyline(PackedVector2Array([tip+Vector2(-28,18),tip-Vector2(0,14),tip+Vector2(28,18)]),accent,7,true)
+		draw_string(ThemeDB.fallback_font,Vector2(left+12,height-18),"高速来车 · 400" if language == "zh" else "INCOMING · 400",HORIZONTAL_ALIGNMENT_CENTER,lane_width-24,20,accent)
 	for vehicle in traffic.vehicles:
 		var car_center := Vector2(road_left + lane_width * (vehicle.lane_position + 0.5), vehicle.y)
 		var body_color := _traffic_color(vehicle.kind)
