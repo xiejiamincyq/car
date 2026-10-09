@@ -1,0 +1,2666 @@
+{
+  "entries": [
+    {
+      "path": ".godot/exported/133200997/export-19246414aa9fb561ced4b8dce477acec-default_bus_layout.res",
+      "offset": 25252640,
+      "bytes": 725,
+      "md5": "159AE118151B665CD12DE1B5152BF9C4",
+      "md5_match": true,
+      "sha256": "273CE6E5802F2090A27204180B50C05C5984669506EDF3254BF5B983ABC7A13C"
+    },
+    {
+      "path": ".godot/exported/133200997/export-3ad5c15c4f3250da0cc7c1af1770d85f-main.scn",
+      "offset": 25253376,
+      "bytes": 12525,
+      "md5": "A5B77B17D0CCC7A0F5D44BD5D3B75793",
+      "md5_match": true,
+      "sha256": "036554A8C4D65C90B4C50774622CB0339F7880B8FBC0D732871C801B19D9F52D"
+    },
+    {
+      "path": ".godot/exported/133200997/export-739e2d396c49755d609e132897a47ec3-vehicle_select.scn",
+      "offset": 25517344,
+      "bytes": 3037,
+      "md5": "682CD565B1652D7FA45D7274CAFC02FE",
+      "md5_match": true,
+      "sha256": "E44EFF62E46DBC66BDA6C9A8CCD87A5B473E226143524E7F4C85DE174CEC641C"
+    },
+    {
+      "path": ".godot/exported/133200997/export-d661b067d9a638d6b3e2f2b952eed596-tour_map.scn",
+      "offset": 25503568,
+      "bytes": 2453,
+      "md5": "CD64C3D11AD248DFBF6F4B9C7C30ABE8",
+      "md5_match": true,
+      "sha256": "25A2970E442DB890836A7EC19D78C9A4CF9B3A00C329B39047E3D985CF23F87C"
+    },
+    {
+      "path": ".godot/global_script_class_cache.cfg",
+      "offset": 26251104,
+      "bytes": 8556,
+      "md5": "579E1F160B2AEA35773D9C50C1B2C8A3",
+      "md5_match": true,
+      "sha256": "340284919316F037E4A9F20E999E1772B957A983D994728F1161738BA4526639"
+    },
+    {
+      "path": ".godot/imported/event_plate.png-0fb626be90dd66d756135f3e9aa524af.ctex",
+      "offset": 21014512,
+      "bytes": 50654,
+      "md5": "E4D8ACA0CDB4C370210D0F80A24B5B4B",
+      "md5_match": true,
+      "sha256": "1B2BFF7CD7B63A353B99CCEEC49EB1EEDFBE32570BB1B10904CEAD6762CA9DD7"
+    },
+    {
+      "path": ".godot/imported/finish_burst.png-49d70b4d2b907a89f180f0bd02db3589.ctex",
+      "offset": 112,
+      "bytes": 111394,
+      "md5": "0318C5DC12E939A6BA5EA7EA690E7EED",
+      "md5_match": true,
+      "sha256": "04895C515B88DF54DBD6AB5B2B2339EC2EA1AA6899BBA1D2CB0BA6DF977F0F9E"
+    },
+    {
+      "path": ".godot/imported/freight_harbor.ogg-2c94f68572eee8f50563c1c86dd4dbb8.oggvorbisstr",
+      "offset": 13781984,
+      "bytes": 865235,
+      "md5": "0171BD5E6BA0778344F8300A75BD5762",
+      "md5_match": true,
+      "sha256": "A1240D6117B10D02E0077339C85121CA4BEE9BADA5148E37DCF219368AE28182"
+    },
+    {
+      "path": ".godot/imported/freight_harbor.png-f4ba15350d19ff418a58ed6e36232137.ctex",
+      "offset": 18888784,
+      "bytes": 555726,
+      "md5": "FFA76A3EC2B96C11322207CCB7DE1E2C",
+      "md5_match": true,
+      "sha256": "BF1752718B72966EF42949BE8BD11A03824E34B194E8D3934A52B04216793262"
+    },
+    {
+      "path": ".godot/imported/fuel_pickup.png-506af5349f570e8fedcecca0d5373773.ctex",
+      "offset": 21008784,
+      "bytes": 5518,
+      "md5": "617C8998EFA8AB0EBD49A6EF4A599E92",
+      "md5_match": true,
+      "sha256": "D2854A80E4D719D5445889B72AE87C0CE0F33C529242AA0CB89957936CA023DA"
+    },
+    {
+      "path": ".godot/imported/hud_frame.png-45678590d6970cc2f82e42ea90e4ada2.ctex",
+      "offset": 21065376,
+      "bytes": 77282,
+      "md5": "8CB9E2950A12CE5FC08F69710B96239A",
+      "md5_match": true,
+      "sha256": "612944C687FA6F28ABC71C36DE4B127C4A324AD13773BD4C3FB9F90C6335CAA5"
+    },
+    {
+      "path": ".godot/imported/left_00.png-0f06a01a19f47ae22cbaedabf14c822e.ctex",
+      "offset": 10583104,
+      "bytes": 345390,
+      "md5": "E10F70158350B57B29D7AB4EEB728044",
+      "md5_match": true,
+      "sha256": "72DE893B8C2B8A1DE2C0F96CE49BC770870E3B5C0B07D517CC8E389AAA27EE70"
+    },
+    {
+      "path": ".godot/imported/left_00.png-2100e6f7f2e28c7e7ecbdd01748733db.ctex",
+      "offset": 111728,
+      "bytes": 345408,
+      "md5": "B5C4AC4B973870F4B7ABA908DC51F2D9",
+      "md5_match": true,
+      "sha256": "783137DF3C570E4A2935ACBA0F7E842E0CCE15EC3EC98F54F9AEEF3050F7824F"
+    },
+    {
+      "path": ".godot/imported/left_00.png-b5410ce182f93676abd278b75e247e27.ctex",
+      "offset": 3522480,
+      "bytes": 406540,
+      "md5": "77AA8BD53CCF9F02624E9535F4BE90DC",
+      "md5_match": true,
+      "sha256": "A6E85791B331DC1DFB3707D01F47B2980BBAFE7B42E43CB972244B11B9DD865C"
+    },
+    {
+      "path": ".godot/imported/left_00.png-fd1897691b71a1683a7c78be23542e66.ctex",
+      "offset": 7150288,
+      "bytes": 372066,
+      "md5": "2BA68E9593377F7361A012623F637A68",
+      "md5_match": true,
+      "sha256": "629C37BCA9FE5E64A3A830B712B6EE97F8C20A452B2797AA49328084418DD66A"
+    },
+    {
+      "path": ".godot/imported/left_01.png-259e186842df1e6b1748796d48bac028.ctex",
+      "offset": 3929232,
+      "bytes": 377224,
+      "md5": "5CE301F9A7DD97A98FCDC71A38C0468A",
+      "md5_match": true,
+      "sha256": "8B75131A21C5B8C6F8D45ACD7928BFC4728DA85D80EE2235E28920B399067C55"
+    },
+    {
+      "path": ".godot/imported/left_01.png-49c3c3e2ab5d5b433d96c2dd7086b15a.ctex",
+      "offset": 7522576,
+      "bytes": 361830,
+      "md5": "E4F077A0846741F32A6FF8DF70B44760",
+      "md5_match": true,
+      "sha256": "6F8906E1998981A3D6A332F3133011D1ACE3F344C79599747A425365D50B506D"
+    },
+    {
+      "path": ".godot/imported/left_01.png-dda61ad9a32452394cd1fef50ec86034.ctex",
+      "offset": 457344,
+      "bytes": 335564,
+      "md5": "274B4FB30070663230A8CD30FEAD7EF7",
+      "md5_match": true,
+      "sha256": "32828CBBB7CCF8747EBA06CDD2C699C5316A09C96B64D06FBF642B06DDAA3F06"
+    },
+    {
+      "path": ".godot/imported/left_01.png-e8314517c91b7aa7518546d44da8d6b4.ctex",
+      "offset": 10928704,
+      "bytes": 330724,
+      "md5": "93713220F57C055D5459FDF4E86B3573",
+      "md5_match": true,
+      "sha256": "328211991F1A49FBAF63BC075B2A0FA99FFB56F7F7C1BD82EAB51CC0B1B7B0D5"
+    },
+    {
+      "path": ".godot/imported/left_02.png-268e27245880adc5edd1c55f83552c1d.ctex",
+      "offset": 11259648,
+      "bytes": 321822,
+      "md5": "D7457D36AF83203D7892A2545477CF3A",
+      "md5_match": true,
+      "sha256": "1D89359A291B3FA66EE4CFC6E40B2CABEC769E7526A36AE88FA16A842548C72C"
+    },
+    {
+      "path": ".godot/imported/left_02.png-b056a08254c36527380f40f50a4f6d3d.ctex",
+      "offset": 793120,
+      "bytes": 327720,
+      "md5": "F76890B6B7721802DD1DA3F7E493A707",
+      "md5_match": true,
+      "sha256": "1E16F4ED8A30B08C18B7821745638FAF135B205654E88BB13722387FAE963165"
+    },
+    {
+      "path": ".godot/imported/left_02.png-b25c60e937ece0f4b8cb4c02cb3a9cd5.ctex",
+      "offset": 7884624,
+      "bytes": 340500,
+      "md5": "0582292D7332BB8849E870942F711BDB",
+      "md5_match": true,
+      "sha256": "6C02680087EEBC4E4511D16B658B1510FFC4EDA2444D4EDD95949109F9DC7FD2"
+    },
+    {
+      "path": ".godot/imported/left_02.png-c44df570ff904aa5d25865f79a1c8072.ctex",
+      "offset": 4306672,
+      "bytes": 354072,
+      "md5": "7CE9DCAEDA859E886936FBB75FAA78D2",
+      "md5_match": true,
+      "sha256": "31C957735BD6AB6CE926516D3EA8EDC090995C7E08928BBA60C53B130B2D546E"
+    },
+    {
+      "path": ".godot/imported/left_03.png-45c1dd1de679431cabba5ee883652a14.ctex",
+      "offset": 1121056,
+      "bytes": 334064,
+      "md5": "EA12C34F0F0AFE2FA6D2C0EEDE1F546F",
+      "md5_match": true,
+      "sha256": "C7DBB3E23719225D15779892AD8958A1863086FB7A8A02F5E149156C17D61620"
+    },
+    {
+      "path": ".godot/imported/left_03.png-4643cc25a7dc0ce0617aacc62181cbca.ctex",
+      "offset": 11581680,
+      "bytes": 295906,
+      "md5": "B38D5BBC89F58FAA8067FC8B06670D1A",
+      "md5_match": true,
+      "sha256": "670E6D81EF078F412742BED8316CC8761039F49357F3A48CC6F4B52920552EE4"
+    },
+    {
+      "path": ".godot/imported/left_03.png-51e0417d4130c0d9f3c89f8944c69f54.ctex",
+      "offset": 4660960,
+      "bytes": 334676,
+      "md5": "DF88057200534AD65B6A6C5310A7EB6E",
+      "md5_match": true,
+      "sha256": "AEBA03B00EA75421B374BC35021004576A6935466295767342F423044B9A126F"
+    },
+    {
+      "path": ".godot/imported/left_03.png-5cc54dc9a81c294cdbcf54270706b3b3.ctex",
+      "offset": 8225344,
+      "bytes": 331914,
+      "md5": "F8A4E56481CBBCE985B8A7E3CCFA68AF",
+      "md5_match": true,
+      "sha256": "6A35921FF3B8A53D08E06D43AC01B28CFAB50BFD3F7979EA59DDA3077E3ADB0C"
+    },
+    {
+      "path": ".godot/imported/left_04.png-16c30acdeeb8339e0b3405c902dae9eb.ctex",
+      "offset": 8557472,
+      "bytes": 330224,
+      "md5": "90E7B5FF2B3BEE3B75512AD82A05236B",
+      "md5_match": true,
+      "sha256": "9E0DE5B340133DB525EFA6355BE5471AEC715323D3B0C62228F6781F9B9726F0"
+    },
+    {
+      "path": ".godot/imported/left_04.png-3819c7124d9a3a442b9ba8fdf91b45a2.ctex",
+      "offset": 4995856,
+      "bytes": 340456,
+      "md5": "B1636071D7FF045A1D7DB4858BCF234D",
+      "md5_match": true,
+      "sha256": "7CA6D06ECE6F8EF1FDCB285BE7172FBD8AAFDE84A8C117A3D6DACB221AE02041"
+    },
+    {
+      "path": ".godot/imported/left_04.png-56d656be79d1bc65f8f1ca57c497ef6b.ctex",
+      "offset": 1455328,
+      "bytes": 330902,
+      "md5": "D328F6813F04C0159C4548FE6FFC9343",
+      "md5_match": true,
+      "sha256": "EF8FFA0C85EFBD23EE9552F0BB17D937DAF29D51B038FBA4127E5889843DEF4C"
+    },
+    {
+      "path": ".godot/imported/left_04.png-95c79ba161563f3f8716ef1c2ada1949.ctex",
+      "offset": 11877808,
+      "bytes": 290378,
+      "md5": "C18D642D384DAA933A4C708495EF7564",
+      "md5_match": true,
+      "sha256": "9751B99E61C4B0ABCD4A177A2D6F7A11FF3EE42E4719466B258D6BBABB434069"
+    },
+    {
+      "path": ".godot/imported/neon-coast-menu.png-b18f683016e3f388e171cf49a5a687ef.ctex",
+      "offset": 17282736,
+      "bytes": 1605840,
+      "md5": "2DE7E3BDA94E018C1DF36B454FCB9A76",
+      "md5_match": true,
+      "sha256": "B6804FD023ECFBAD2F359F44F3132DC35B5F0CCA497A2E35F8757CBFF8F7B89C"
+    },
+    {
+      "path": ".godot/imported/neon_coast.ogg-7042d2aaa29ad3462fd9b0d27ccf312b.oggvorbisstr",
+      "offset": 14647424,
+      "bytes": 863404,
+      "md5": "5C61DE676B4B09F09B0E6A0319821B28",
+      "md5_match": true,
+      "sha256": "AA33E95E8DECAD42A71E4A2D40B02E09A4EED695F5B85A1EB2B803214EB5FD5C"
+    },
+    {
+      "path": ".godot/imported/neon_coast.png-14b3730111fc750e3313ba48edfde38d.ctex",
+      "offset": 19444720,
+      "bytes": 387772,
+      "md5": "351BD41F0EF3CD3DEF7A986A3FC0151F",
+      "md5_match": true,
+      "sha256": "58DE5532235507CBB3A5FCC343FD2F93ED825694774F0DA44B5FB023A0832024"
+    },
+    {
+      "path": ".godot/imported/player_aurora_x_c.png-9ecc2933f1fa6012c38a8f09dd4bb9dd.ctex",
+      "offset": 21203088,
+      "bytes": 686264,
+      "md5": "4D915A3DE3B48B42BCCC6FF60068269E",
+      "md5_match": true,
+      "sha256": "4D4BB455999AA056485F0BE288FF397F10866E67541630DA1C8F8C394C411937"
+    },
+    {
+      "path": ".godot/imported/player_comet_rs_c.png-fb535049f001c3188fdc2d7ceac02d8d.ctex",
+      "offset": 21889568,
+      "bytes": 664676,
+      "md5": "6A961BC4D9C420E9A1CC108E3753AEEA",
+      "md5_match": true,
+      "sha256": "71CA47CDB12763ADFFA6A66A6534B4637BF251AB1647D8CF1F73CBBB47C1CDEF"
+    },
+    {
+      "path": ".godot/imported/player_driftwing_c.png-24ded14ae8f4c49486a81c1a51d56912.ctex",
+      "offset": 22554464,
+      "bytes": 618618,
+      "md5": "CFAB62982198F2A5B1DE364F6B628A2E",
+      "md5_match": true,
+      "sha256": "F5A021BCE979004FA17F4EC3E91ADADB85A4F609D273578ACDFD8924ADAF5963"
+    },
+    {
+      "path": ".godot/imported/player_flashpoint_c.png-a60a0a9b623bdfd531b8d279fe95e8e4.ctex",
+      "offset": 23173296,
+      "bytes": 680114,
+      "md5": "30C43EFEE6FC83E1D8FD72E928B342AE",
+      "md5_match": true,
+      "sha256": "D1853C0DC96EC145C86DD2CDC1FAA9527A4D3B8F9C0DBCFC7C8F52EFB0BD6E61"
+    },
+    {
+      "path": ".godot/imported/player_pulse_gt_c.png-14e5d210c62770cde0a0fbc29ef92284.ctex",
+      "offset": 23853632,
+      "bytes": 696520,
+      "md5": "E11E8F811C249A26373B82EBA0A19569",
+      "md5_match": true,
+      "sha256": "3C642E30F5185460797876063F9003BF4BD154F8702514513D903AC3BAC0DC9F"
+    },
+    {
+      "path": ".godot/imported/player_tidebreaker_c.png-bf1413c844080c70c264121038fc9145.ctex",
+      "offset": 24550368,
+      "bytes": 647712,
+      "md5": "7CC7C0D4A9D89957142EC72EE154CC77",
+      "md5_match": true,
+      "sha256": "B05D1C0A55F34DD4E2A001939AE189037A7F090DC858ABFE7E7CB187EF553813"
+    },
+    {
+      "path": ".godot/imported/result_emblem.png-021be94472081483eb886cc3eef4fe7d.ctex",
+      "offset": 21142880,
+      "bytes": 34626,
+      "md5": "D695CD897F2E97BB3FEFDD0D0C2C2903",
+      "md5_match": true,
+      "sha256": "94760C4CA73E66285A41F365528E581B83B66D22145149BDFE1D5B27720B5875"
+    },
+    {
+      "path": ".godot/imported/right_00.png-2c71c86ddbdfac397671b42fc530a988.ctex",
+      "offset": 8887904,
+      "bytes": 361132,
+      "md5": "3BFF9F00E793DD453CFE37871197546C",
+      "md5_match": true,
+      "sha256": "FE3B399C167D743072682A0378DCCAEBEA37F5D3F65EB7CF49513D4350C61996"
+    },
+    {
+      "path": ".godot/imported/right_00.png-ab194193a8df513f67179214f726bdad.ctex",
+      "offset": 1786448,
+      "bytes": 349322,
+      "md5": "89B9CB98EA873982D302F25088310443",
+      "md5_match": true,
+      "sha256": "FCAF79A72DAA9C0BD464D25D2A71E12031D7BC0D25D8D23634AC1D079DDB5046"
+    },
+    {
+      "path": ".godot/imported/right_00.png-baaf697ab47f05b971714892ea52444c.ctex",
+      "offset": 5336528,
+      "bytes": 405148,
+      "md5": "D54BA1A9769E91AF0A5D9D94E950C6B9",
+      "md5_match": true,
+      "sha256": "7AFCD0E92B0A3AA020A01670D631CDEE3AF5659B7700F32B542686372DCD7DF5"
+    },
+    {
+      "path": ".godot/imported/right_00.png-c8a9177c62a4dcd514d9751ca6ae94d4.ctex",
+      "offset": 12168400,
+      "bytes": 343060,
+      "md5": "E3CFF4500692A3C5D5F3CB378493A251",
+      "md5_match": true,
+      "sha256": "F7896FD37CAF9B47419D35D7238E7EDF80FA375F5D4EFEEB8A0F184A33933429"
+    },
+    {
+      "path": ".godot/imported/right_01.png-1051a27e8c6bf2da224aebd264d259ca.ctex",
+      "offset": 9249248,
+      "bytes": 349196,
+      "md5": "EBC77D42287369988DC6E99211002154",
+      "md5_match": true,
+      "sha256": "2DD83B09855535A158CE09EB627191568BAD1F555D19891932CFDD156406AA3F"
+    },
+    {
+      "path": ".godot/imported/right_01.png-182b2569500ab872e180d43de687ddbf.ctex",
+      "offset": 12511680,
+      "bytes": 335930,
+      "md5": "4CA865D9F5397DF6739AE8BC71E6958F",
+      "md5_match": true,
+      "sha256": "90C887131B7109340CEB7E89B7BE51ABAE36FFF147F2142F2226A8945928E343"
+    },
+    {
+      "path": ".godot/imported/right_01.png-754c9fe262a07209ea901e3e51ae49de.ctex",
+      "offset": 2135984,
+      "bytes": 342202,
+      "md5": "37BEBA9DD1BD589700CFF386F31A5875",
+      "md5_match": true,
+      "sha256": "0B592C2EA45737FE2C12CDCC9DDD565853CAFFA59D9A6E7BDD0B4F334CDDBD5A"
+    },
+    {
+      "path": ".godot/imported/right_01.png-79b7c7f05efa6af9b8cd133c891951f3.ctex",
+      "offset": 5741888,
+      "bytes": 373184,
+      "md5": "D87F9966EDC92A45F32E3A80456BD48A",
+      "md5_match": true,
+      "sha256": "9FD568DF449D15D37295E2661EC5F2BF10906CA928F1D5E1F529BA28BEADC3EE"
+    },
+    {
+      "path": ".godot/imported/right_02.png-308e9cc82c1fb4abb51df22e708f0ba9.ctex",
+      "offset": 6115280,
+      "bytes": 354732,
+      "md5": "A8DF3AE2A2771FE7E07E7855B4B3BC00",
+      "md5_match": true,
+      "sha256": "E8D5EC2F9D9BA8BA60EF21852E2BB30A4CBFD88962E5B511789991E25C185521"
+    },
+    {
+      "path": ".godot/imported/right_02.png-5a7e4c9bae195f0de9ea8413a2ebf73e.ctex",
+      "offset": 12847824,
+      "bytes": 330204,
+      "md5": "7F3F7B64490EBDDC93ACF7C8C03BB67B",
+      "md5_match": true,
+      "sha256": "C0E7ECF0A7B0389065A2AD29E2E7E95E667528CE15AA6FCAF611156A5D792C96"
+    },
+    {
+      "path": ".godot/imported/right_02.png-b47bb93f39b9a4b1e39aab71095a6beb.ctex",
+      "offset": 9598656,
+      "bytes": 326806,
+      "md5": "D0F4B46AF5A17F4E8DC8F45E63A5A97D",
+      "md5_match": true,
+      "sha256": "4E049A5CB6E98A9C6EAB5E74964EE08AFFC1E85055048E4567724DF6FE0F1532"
+    },
+    {
+      "path": ".godot/imported/right_02.png-bacc5b56c26ce02dcecc6926955ef59e.ctex",
+      "offset": 2478400,
+      "bytes": 339014,
+      "md5": "C9803A13F73DD928AFE82D716EEF1260",
+      "md5_match": true,
+      "sha256": "D62AF85E5F7790CF353663E759BADA5ED7E31CCBD1882F21C3C134E102184334"
+    },
+    {
+      "path": ".godot/imported/right_03.png-84d44f8d8e6036428abce333a9e5bfe0.ctex",
+      "offset": 9925680,
+      "bytes": 318796,
+      "md5": "6283F47F847F84871DD5920FAA90F49E",
+      "md5_match": true,
+      "sha256": "5B98C52B2796B417C0FD725BBEB071E07AC715FEB7DEDAC0232C82EF7348955A"
+    },
+    {
+      "path": ".godot/imported/right_03.png-8cd5b54d86f8f17bc9c73f5747b64f02.ctex",
+      "offset": 2817632,
+      "bytes": 344210,
+      "md5": "FBC652310331B7D78F95BE6A2F888998",
+      "md5_match": true,
+      "sha256": "C1A253CAA9BC5972BEF2246BF3BAF68CDB2B0E923FB09F6A347E89A84CD38F6F"
+    },
+    {
+      "path": ".godot/imported/right_03.png-b90d3dcb1e409990f698f4d640529bc6.ctex",
+      "offset": 13178240,
+      "bytes": 298064,
+      "md5": "4E27CBBEEFA88B0C022DB6EF76C3A22D",
+      "md5_match": true,
+      "sha256": "9FDE2AD485E2B786503A37ABD70836EBF798FC2FEAED825AB189E90AEA694055"
+    },
+    {
+      "path": ".godot/imported/right_03.png-e93a685c99ea3d31dd8d17c35ff7e18e.ctex",
+      "offset": 6470224,
+      "bytes": 336622,
+      "md5": "449243CBCC51B7E3391994426C3B5298",
+      "md5_match": true,
+      "sha256": "FCF124FD38C5FDF68A19A2DB30B4B57957634A0F31207C22421AFC8B9ECBD3A6"
+    },
+    {
+      "path": ".godot/imported/right_04.png-87bb2d2920771df97f3c9a70b15ea794.ctex",
+      "offset": 6807056,
+      "bytes": 343012,
+      "md5": "BF57E3D81535A3F25AD8AFE0D7AAC329",
+      "md5_match": true,
+      "sha256": "BEF7E4C690C4F5257D9D88BF81D50B69C525B8C979C1C9A4CFA3232D6CED9868"
+    },
+    {
+      "path": ".godot/imported/right_04.png-af58493e0eb4ec540e9844f6c596f305.ctex",
+      "offset": 10244688,
+      "bytes": 338194,
+      "md5": "37BE7DC2A372806A74B166EFE2E637FD",
+      "md5_match": true,
+      "sha256": "A5D32C3426FC8032FECB8EEE35380252834D313CBC29044BAEB3AC59BC43DE98"
+    },
+    {
+      "path": ".godot/imported/right_04.png-bace15033b89f2524214c3c7d65eb559.ctex",
+      "offset": 13476512,
+      "bytes": 305254,
+      "md5": "B10783236F54E6E8F1EB6D29F55F7221",
+      "md5_match": true,
+      "sha256": "8E57CA89FA3EA7D5E1012A3999C09F1533590E0D137095C3A51B64A69E96518F"
+    },
+    {
+      "path": ".godot/imported/right_04.png-fd72c04342eaa891d6c73ba2a03f17d5.ctex",
+      "offset": 3162064,
+      "bytes": 360194,
+      "md5": "1874D2226AAC75A9776DEE5A64E0A1ED",
+      "md5_match": true,
+      "sha256": "80D4A66B27A656F86A941D7E84D8E9F0AAE520E30825587E2D7CD2E178906FA5"
+    },
+    {
+      "path": ".godot/imported/road_barrier.png-36186cffde34577a19da1d371b536467.ctex",
+      "offset": 21177728,
+      "bytes": 25148,
+      "md5": "A149F9206C4E32FB610B04E75D047058",
+      "md5_match": true,
+      "sha256": "D87621C6477097DDA5AA162855BB66DD51DF248A40152CDAED55094A53B7BBC7"
+    },
+    {
+      "path": ".godot/imported/storm_ridge.ogg-63d93ae97085e72c24e9baccb9c71191.oggvorbisstr",
+      "offset": 15511024,
+      "bytes": 968059,
+      "md5": "03F9BDA3F1DA9D5D523840E2FA0870C6",
+      "md5_match": true,
+      "sha256": "905D7A767830360137358576D3305B626C702CA0B09F6CD79B72F754ADAAF722"
+    },
+    {
+      "path": ".godot/imported/storm_ridge.png-a5ab189560ebf71c45d084beafe509d6.ctex",
+      "offset": 19832704,
+      "bytes": 600800,
+      "md5": "0086D0ADE7BE429F7EDC5FAB310A3DDD",
+      "md5_match": true,
+      "sha256": "09D3D2280F566AD6F1A6D65287AE1099CEDFFE67C9E6B313A060757E6AD4A240"
+    },
+    {
+      "path": ".godot/imported/sunrise_express.ogg-581d98b80f4032da6b9ad4580b710f3a.oggvorbisstr",
+      "offset": 16479280,
+      "bytes": 803263,
+      "md5": "EC8AC9E98D3B205E7E4B193B716D6496",
+      "md5_match": true,
+      "sha256": "311BEC41E18FEBDC3A824C43E490AC11E50D20E043C75B19B2A04DFB5CAAB5CC"
+    },
+    {
+      "path": ".godot/imported/sunrise_express.png-738e9a5e87855fc0a37650cde6bca517.ctex",
+      "offset": 20433712,
+      "bytes": 574850,
+      "md5": "E941B9DC8419917C1AC609E3634A0662",
+      "md5_match": true,
+      "sha256": "D02033C780B8A6B0EE6D218F2735263FA98FAEE017925413B306195C249BB953"
+    },
+    {
+      "path": ".godot/imported/traffic_hatchback.png-bc07c1316eb98ab9cf16e06f2623b06a.ctex",
+      "offset": 25198288,
+      "bytes": 10912,
+      "md5": "5B747BBDBB30642AE1E983F9444CFDFA",
+      "md5_match": true,
+      "sha256": "0F4AC2178E51B585AA17A7F4B6463F1FE20D463238E75FCFBA8F349214D558BD"
+    },
+    {
+      "path": ".godot/imported/traffic_sedan.png-a60e836cb52a8a9babd8609da8113c51.ctex",
+      "offset": 25209408,
+      "bytes": 10516,
+      "md5": "586600DCDBACBF90A3D2604C7C938E3D",
+      "md5_match": true,
+      "sha256": "D3C1C4BD706D61532EDBF8B08A7D63E110C5B08B8ED5851D03B05B68684425DB"
+    },
+    {
+      "path": ".godot/imported/traffic_sports.png-26b78d428e1341f786ca10d18f490034.ctex",
+      "offset": 25220144,
+      "bytes": 12686,
+      "md5": "DFB48820F9BB54F3A724690DA24AB98D",
+      "md5_match": true,
+      "sha256": "8A4A669AA5EF39948C31D3DC377DE2E4AF287C2D0AC4CE84CFBE1DF2D1404AC9"
+    },
+    {
+      "path": ".godot/imported/traffic_truck.png-29dde806aaded700c32ac6ccf43ef820.ctex",
+      "offset": 25233040,
+      "bytes": 10886,
+      "md5": "A81D2F2E6127288932852D36BDD41367",
+      "md5_match": true,
+      "sha256": "0DDFCB8F5C839CEDCCCACE9AC717CFD8ECA74031C43C454E0BD592385560BBE5"
+    },
+    {
+      "path": ".godot/imported/traffic_van.png-5a30f653e74d37949593114d3b146b6b.ctex",
+      "offset": 25244144,
+      "bytes": 8282,
+      "md5": "34CF1BEC80B833E9311C6B6B56A5365A",
+      "md5_match": true,
+      "sha256": "16EDF1054D72EC9F2FCE069A511914C16C3E19209A8ACFB60D4FF36AA5C2CA2E"
+    },
+    {
+      "path": ".godot/uid_cache.bin",
+      "offset": 26259664,
+      "bytes": 7016,
+      "md5": "870A445E1E3CAAE978DAC22BC9B41713",
+      "md5_match": true,
+      "sha256": "962599E4883C14CFB5393135B0EC0FC31F87020D2E063A9E9B9C10FBCEB57F30"
+    },
+    {
+      "path": "assets/effects/finish_burst.png.import",
+      "offset": 111520,
+      "bytes": 201,
+      "md5": "AB78DC9E75195B855E92824079163A3A",
+      "md5_match": true,
+      "sha256": "2355A88584859F39E8B879342A9CF6AC362272931D5CFE1EA7F921F906DEC5EC"
+    },
+    {
+      "path": "assets/environment_sequences/freight_harbor/left_00.png.import",
+      "offset": 457136,
+      "bytes": 196,
+      "md5": "29462640A2786B704F0BF1921525EAE4",
+      "md5_match": true,
+      "sha256": "1340CCEF34F17CFD3C46D19CC6E891655B2BFE9A2BFE0F7C891753D9A45E9AA3"
+    },
+    {
+      "path": "assets/environment_sequences/freight_harbor/left_01.png.import",
+      "offset": 792912,
+      "bytes": 196,
+      "md5": "6FA877616D13631F0D28F1C329E936A1",
+      "md5_match": true,
+      "sha256": "CDAA9201EF979840167B7DEC9C331EAF4191D982EB420D07548CF5E946FC974F"
+    },
+    {
+      "path": "assets/environment_sequences/freight_harbor/left_02.png.import",
+      "offset": 1120848,
+      "bytes": 196,
+      "md5": "0C01BFF5AD6EABCA9C5751C62897BBBA",
+      "md5_match": true,
+      "sha256": "AE803FEDCAD417573B8CCA9F2F4CE7F9C9988600026AD55DD7C9411BD1C2E21E"
+    },
+    {
+      "path": "assets/environment_sequences/freight_harbor/left_03.png.import",
+      "offset": 1455120,
+      "bytes": 196,
+      "md5": "7751B4821726E087D0A53F08A2321FE7",
+      "md5_match": true,
+      "sha256": "23167A6366C74A2813D588794EE70F0D4092FEB5D5D1136AFA61CCAA99AD5631"
+    },
+    {
+      "path": "assets/environment_sequences/freight_harbor/left_04.png.import",
+      "offset": 1786240,
+      "bytes": 196,
+      "md5": "05897707E6F40F2FD2C949D025B7B14D",
+      "md5_match": true,
+      "sha256": "F5BBC1BE957D37E30E1884A548AD0253221DDA32ADB466581BA59980147E4687"
+    },
+    {
+      "path": "assets/environment_sequences/freight_harbor/right_00.png.import",
+      "offset": 2135776,
+      "bytes": 197,
+      "md5": "C3043716A6E4B872DEBE7AAD532308F9",
+      "md5_match": true,
+      "sha256": "4069D14D4388ADCDC255DA52C35D42F94E27EA301F004E3EB652A5BF682B298A"
+    },
+    {
+      "path": "assets/environment_sequences/freight_harbor/right_01.png.import",
+      "offset": 2478192,
+      "bytes": 197,
+      "md5": "BE35B63BF5D766963C1742A7A9089FAA",
+      "md5_match": true,
+      "sha256": "A69D74B72669B3696E324663C27025EFC9661E906F2E1FA8673E39DB3A4F1707"
+    },
+    {
+      "path": "assets/environment_sequences/freight_harbor/right_02.png.import",
+      "offset": 2817424,
+      "bytes": 197,
+      "md5": "433B58E0F9A7CCD760C901DDA34BF93D",
+      "md5_match": true,
+      "sha256": "5A634AA0BB6CCD8D39F93216314CD3ED000017C7F6DA94521BAC28728A0EB64C"
+    },
+    {
+      "path": "assets/environment_sequences/freight_harbor/right_03.png.import",
+      "offset": 3161856,
+      "bytes": 197,
+      "md5": "8D278A869BB77F968E221EBBEFB8DAE0",
+      "md5_match": true,
+      "sha256": "A73CBC481A4B3D6BA56F9DBC5EA7F5555DC08004AC09CCA96C41B5C3CDFE6D4F"
+    },
+    {
+      "path": "assets/environment_sequences/freight_harbor/right_04.png.import",
+      "offset": 3522272,
+      "bytes": 197,
+      "md5": "5B84502EDD5F6181F80E3F8469A6EA4F",
+      "md5_match": true,
+      "sha256": "C62E6ACFCD203DC970AE07230F53954503250DC1B1E08357A0207D281F445606"
+    },
+    {
+      "path": "assets/environment_sequences/neon_coast/left_00.png.import",
+      "offset": 3929024,
+      "bytes": 195,
+      "md5": "145C3FCA6137C2A119D7D29DA5EAB0B5",
+      "md5_match": true,
+      "sha256": "CD9B70F20E16958FDE0FF93B7BB32AC933C5785782753A603E755CC562EAE052"
+    },
+    {
+      "path": "assets/environment_sequences/neon_coast/left_01.png.import",
+      "offset": 4306464,
+      "bytes": 196,
+      "md5": "F34ED9860D90152F5D854152E2CC34C2",
+      "md5_match": true,
+      "sha256": "B9D7603D4681D7E09A26932F81A0DF21FDAC7B5F0ABE481373050265773A5B7D"
+    },
+    {
+      "path": "assets/environment_sequences/neon_coast/left_02.png.import",
+      "offset": 4660752,
+      "bytes": 196,
+      "md5": "010E6444933E27FD7DE976F85D233E39",
+      "md5_match": true,
+      "sha256": "9E2C90A9502E8632F22A748E994D881BE28FDA2E653CD166C81D5630C768F661"
+    },
+    {
+      "path": "assets/environment_sequences/neon_coast/left_03.png.import",
+      "offset": 4995648,
+      "bytes": 195,
+      "md5": "69B0A4C5FA50E41A3452BEB3FD5CD12D",
+      "md5_match": true,
+      "sha256": "63DAFC971B575B590D0851D62BCA752E4BE2DE132FC97F9A06CE7BF078C083CA"
+    },
+    {
+      "path": "assets/environment_sequences/neon_coast/left_04.png.import",
+      "offset": 5336320,
+      "bytes": 196,
+      "md5": "8A9EFF5D91F9FE6FA734D1F3FC4B7484",
+      "md5_match": true,
+      "sha256": "BDBAB8D5E42A029D4B0B396BEEF52F1973B74A5A0DF30093FB4843B9C106D326"
+    },
+    {
+      "path": "assets/environment_sequences/neon_coast/right_00.png.import",
+      "offset": 5741680,
+      "bytes": 197,
+      "md5": "98C06C02B00C0AC89C2DC8E0D554FB21",
+      "md5_match": true,
+      "sha256": "4D09AEF7DFC0CCE8E11B034C008FAF7ACD529B9E6A50DD21C37E8F7B53884265"
+    },
+    {
+      "path": "assets/environment_sequences/neon_coast/right_01.png.import",
+      "offset": 6115072,
+      "bytes": 196,
+      "md5": "CCA3CD3567F235D692D028D77C0A7BBB",
+      "md5_match": true,
+      "sha256": "89954DB3E48DAD7BC172ED18A7BE852CEE7C380C1092C29D5CE3B48E6BA0BA8F"
+    },
+    {
+      "path": "assets/environment_sequences/neon_coast/right_02.png.import",
+      "offset": 6470016,
+      "bytes": 196,
+      "md5": "FA182AEAE65B62DC1B80E6C7B6462074",
+      "md5_match": true,
+      "sha256": "CC9EE147A1CC8C0D88960BB51E4743C131B37144E8581B6E2B88858C0DAF07AD"
+    },
+    {
+      "path": "assets/environment_sequences/neon_coast/right_03.png.import",
+      "offset": 6806848,
+      "bytes": 196,
+      "md5": "B3EE2C22DEAC3D83A0C1BDB75923C06F",
+      "md5_match": true,
+      "sha256": "3F818B9FA62A0B961E3DC7C60FF109254375D198989E6036D1743E009DA1BD01"
+    },
+    {
+      "path": "assets/environment_sequences/neon_coast/right_04.png.import",
+      "offset": 7150080,
+      "bytes": 196,
+      "md5": "0315192AB2BCCAC63138012FF1743B82",
+      "md5_match": true,
+      "sha256": "37EF221D2D921D6573CF7692574E8D5577705A8BDDBBB0DBB876A53E06799412"
+    },
+    {
+      "path": "assets/environment_sequences/storm_ridge/left_00.png.import",
+      "offset": 7522368,
+      "bytes": 196,
+      "md5": "E0BEFE62974C52687AB12A9BB9F4B087",
+      "md5_match": true,
+      "sha256": "0213894A8CBF8E3147A3EF9E2219C73678C68B273837092E0107B1F9A99D5D75"
+    },
+    {
+      "path": "assets/environment_sequences/storm_ridge/left_01.png.import",
+      "offset": 7884416,
+      "bytes": 196,
+      "md5": "0DC00A1896696DD4C482DB8B6D370B34",
+      "md5_match": true,
+      "sha256": "F6DC00B012B19D1014AEF8EC67D57478EB82A66F7BF759FB44816BED7156CAB9"
+    },
+    {
+      "path": "assets/environment_sequences/storm_ridge/left_02.png.import",
+      "offset": 8225136,
+      "bytes": 196,
+      "md5": "455993FE4E33B18E95A470EE9AAB8D15",
+      "md5_match": true,
+      "sha256": "452D0C9567C84F04DFE0A22472B818ACF4D197A98B1D76A5BB5F093ACF7C0AF9"
+    },
+    {
+      "path": "assets/environment_sequences/storm_ridge/left_03.png.import",
+      "offset": 8557264,
+      "bytes": 196,
+      "md5": "2AC6A1B2B48F8098D0C6D7A9340A322E",
+      "md5_match": true,
+      "sha256": "025A3C1CD405F3F22E161E8E12505AE1FFB097691DDACB83928B5DD7149A3628"
+    },
+    {
+      "path": "assets/environment_sequences/storm_ridge/left_04.png.import",
+      "offset": 8887696,
+      "bytes": 196,
+      "md5": "640F6B7A7FC95DCDB1797E0B08E628B4",
+      "md5_match": true,
+      "sha256": "10D0488421C89AB17CFA7ABA6D7AE50A71A04C34FDD0223D98F8930DA3ABFC83"
+    },
+    {
+      "path": "assets/environment_sequences/storm_ridge/right_00.png.import",
+      "offset": 9249040,
+      "bytes": 197,
+      "md5": "C2596C97566756FAA9F5011370A0D327",
+      "md5_match": true,
+      "sha256": "BAA3D01DB4249BF0CD7447B832CB90CED93CC5DC788D6FCBEE70A1C0287B3192"
+    },
+    {
+      "path": "assets/environment_sequences/storm_ridge/right_01.png.import",
+      "offset": 9598448,
+      "bytes": 197,
+      "md5": "91E3C30CFB6D8B2022AA0A7EF4749009",
+      "md5_match": true,
+      "sha256": "8E94BCD3A2AA3460F6E53E092855433C369D46CB788D8CD9DA75B9FC1C259F2C"
+    },
+    {
+      "path": "assets/environment_sequences/storm_ridge/right_02.png.import",
+      "offset": 9925472,
+      "bytes": 197,
+      "md5": "17BD73F55E41FDFFB9666DE2D82A0193",
+      "md5_match": true,
+      "sha256": "D3AB90FB8C84216D60910D48526A1834F64E27A7314909512F6EF9E3BBD9F8F3"
+    },
+    {
+      "path": "assets/environment_sequences/storm_ridge/right_03.png.import",
+      "offset": 10244480,
+      "bytes": 197,
+      "md5": "D74D453B844FCE78B3A2968102FE2151",
+      "md5_match": true,
+      "sha256": "182EB33026C6558A52B50D9B4CA35EE9CA20B07BA0C056D78ECF9CC6B9FEE57E"
+    },
+    {
+      "path": "assets/environment_sequences/storm_ridge/right_04.png.import",
+      "offset": 10582896,
+      "bytes": 196,
+      "md5": "38334532B6506266F3E94BF911632FC6",
+      "md5_match": true,
+      "sha256": "103F36BA9DADE10A6C602CFE2EB27E71CAB5128BEB7380709E1E800A474F98EA"
+    },
+    {
+      "path": "assets/environment_sequences/sunrise_express/left_00.png.import",
+      "offset": 10928496,
+      "bytes": 196,
+      "md5": "5F7E2B20A777D155366326AF6F95E8AB",
+      "md5_match": true,
+      "sha256": "8518937463DD6B76AD79EA97C72C31BA6312CE9C724F8EBF7991A973D44E9F9B"
+    },
+    {
+      "path": "assets/environment_sequences/sunrise_express/left_01.png.import",
+      "offset": 11259440,
+      "bytes": 195,
+      "md5": "6F3828F8180FB630A4E5EB5AA41CC4B3",
+      "md5_match": true,
+      "sha256": "52D9F0AE59569B52E481CAE6C365CA3533EF883E51C674357AABA4412372698C"
+    },
+    {
+      "path": "assets/environment_sequences/sunrise_express/left_02.png.import",
+      "offset": 11581472,
+      "bytes": 195,
+      "md5": "9BE0AD19A2646702CF50370C5FD33DEB",
+      "md5_match": true,
+      "sha256": "97DF57C31B79FABB7109C1512CE9CDD5F80D4B0B18CDE7CA82DF71BEA28F0A73"
+    },
+    {
+      "path": "assets/environment_sequences/sunrise_express/left_03.png.import",
+      "offset": 11877600,
+      "bytes": 195,
+      "md5": "FAD3EB4677A32D0CAC591DE14B73C7A7",
+      "md5_match": true,
+      "sha256": "C46C4ACBEB5BFBAF82BA6982E749131AC84480D6F8D50A47145FC12C3A2E4B1D"
+    },
+    {
+      "path": "assets/environment_sequences/sunrise_express/left_04.png.import",
+      "offset": 12168192,
+      "bytes": 196,
+      "md5": "31D6821D1163C8116E1C806F615B2955",
+      "md5_match": true,
+      "sha256": "DD1F897C9789020B14F8B68FB765054E47610FEE3E86A2D6FD96DFC2831F9163"
+    },
+    {
+      "path": "assets/environment_sequences/sunrise_express/right_00.png.import",
+      "offset": 12511472,
+      "bytes": 196,
+      "md5": "84562A207A2046E556F92F6E97A5AAED",
+      "md5_match": true,
+      "sha256": "398E0BEFC0190959D8FF8E64C9A8358888DBB5CC4D3A315FF3EE0D273F6527ED"
+    },
+    {
+      "path": "assets/environment_sequences/sunrise_express/right_01.png.import",
+      "offset": 12847616,
+      "bytes": 196,
+      "md5": "4E028F29C0F0D49BE0918E2B83794ACB",
+      "md5_match": true,
+      "sha256": "400F2D43ADA7FE5A3750E3BBAF0F024DBE7EB58497015DFBDA685C8D8A58BE24"
+    },
+    {
+      "path": "assets/environment_sequences/sunrise_express/right_02.png.import",
+      "offset": 13178032,
+      "bytes": 197,
+      "md5": "BC09BCB8F552254B222C1A27BEF20ED1",
+      "md5_match": true,
+      "sha256": "B95CF732194E06D852AA2C0A820AF8C77EEA9121BF0042E3F46E13EBD90E4634"
+    },
+    {
+      "path": "assets/environment_sequences/sunrise_express/right_03.png.import",
+      "offset": 13476304,
+      "bytes": 196,
+      "md5": "4A4F17BFD78EB8BDBB3DC7D8F2DD7B0E",
+      "md5_match": true,
+      "sha256": "BF9A5B5474C256D64947A679EECBEACFA0349457EAD9C473A9B0281A07A2D22A"
+    },
+    {
+      "path": "assets/environment_sequences/sunrise_express/right_04.png.import",
+      "offset": 13781776,
+      "bytes": 197,
+      "md5": "491DAFC69A9A0F29B2EC622E5B09181C",
+      "md5_match": true,
+      "sha256": "031B61BAABD991A37D50ED1916DA1B8D36F67C3928428D7B8CE23ABFC59CE513"
+    },
+    {
+      "path": "assets/music/freight_harbor.ogg.import",
+      "offset": 14647232,
+      "bytes": 182,
+      "md5": "CAEC50ED6B73B0DDDA6D0A3076B9C1B0",
+      "md5_match": true,
+      "sha256": "B92800BD00AAED75CBFA5EFE2B8C5D58AD51642615C2C393FFED7510FE4A9B99"
+    },
+    {
+      "path": "assets/music/neon_coast.ogg.import",
+      "offset": 15510832,
+      "bytes": 178,
+      "md5": "2F42ABFD8D0328AAD5ED9BC3BF1789AE",
+      "md5_match": true,
+      "sha256": "BFE486D3C4666ED17CA04851D138E9D0D626C226032AF7C8C23B17EED2C66E92"
+    },
+    {
+      "path": "assets/music/storm_ridge.ogg.import",
+      "offset": 16479088,
+      "bytes": 179,
+      "md5": "DCE7824B8FBD29FE9FA67491C98C8FC7",
+      "md5_match": true,
+      "sha256": "975C7732CC2BC12EDA1CA103972D492C87155B7267C917494E640F8694FCB8A6"
+    },
+    {
+      "path": "assets/music/sunrise_express.ogg.import",
+      "offset": 17282544,
+      "bytes": 182,
+      "md5": "4A4834B8BC29C035E0EC31A48EF6AA7C",
+      "md5_match": true,
+      "sha256": "86FDC01E1776B89D2DF8BB8BA00FCF8EC31B942A95628138BCF78DBBA9531905"
+    },
+    {
+      "path": "assets/neon-coast-menu.png.import",
+      "offset": 18888576,
+      "bytes": 204,
+      "md5": "55A64F7F37EF434CD743728AB4A08FBC",
+      "md5_match": true,
+      "sha256": "6C5361FF88FFCB506217952908D5CAB2DAF7D2207A667E7C4CB3825D4D3AA0F6"
+    },
+    {
+      "path": "assets/pavement/freight_harbor.png.import",
+      "offset": 19444512,
+      "bytes": 203,
+      "md5": "96A8FB996317D4A64D2E70CDE719F3EA",
+      "md5_match": true,
+      "sha256": "C58C4EC2EFD8E32E9AD374BD3CAD72833C001B9ED428C579632E7D388A35E78B"
+    },
+    {
+      "path": "assets/pavement/neon_coast.png.import",
+      "offset": 19832496,
+      "bytes": 198,
+      "md5": "503BD2954E1B386B8187547040223FCC",
+      "md5_match": true,
+      "sha256": "4172DD1FBED3B43087F6A9A8859C9DAC7EC5F71EF882D05CE580B41AD2F87F44"
+    },
+    {
+      "path": "assets/pavement/storm_ridge.png.import",
+      "offset": 20433504,
+      "bytes": 200,
+      "md5": "698E6BEB18465D619E3A623D5C5C3295",
+      "md5_match": true,
+      "sha256": "9E5BB1146A3B20BFDE077B4F1C1204BE02297B4747579581ADBC4226CC52168F"
+    },
+    {
+      "path": "assets/pavement/sunrise_express.png.import",
+      "offset": 21008576,
+      "bytes": 204,
+      "md5": "2D83A2D293CB7B92A6F5D0563C0E5D59",
+      "md5_match": true,
+      "sha256": "D89F3A7EBF32CF319E751D41D37625B1E65532B22644E915DDED235A21705DD2"
+    },
+    {
+      "path": "assets/pickups/fuel_pickup.png.import",
+      "offset": 21014304,
+      "bytes": 199,
+      "md5": "DE2B9C6B24D00794DAC30730C69D2DDB",
+      "md5_match": true,
+      "sha256": "AE5F86731D85A0FFF65C4DD47203C7814A8A298770E5DA743A5164ADD9208F6E"
+    },
+    {
+      "path": "assets/ui/event_plate.png.import",
+      "offset": 21065168,
+      "bytes": 200,
+      "md5": "9A10B06830BD0FE76FC01608FBEDD2AA",
+      "md5_match": true,
+      "sha256": "D897714A57F2A348D6D6EE18787EDCFE261B6925D8CA6F3050D45FCD0F96EA91"
+    },
+    {
+      "path": "assets/ui/hud_frame.png.import",
+      "offset": 21142672,
+      "bytes": 198,
+      "md5": "336FEDCAE94886D63508C8A4981E38AD",
+      "md5_match": true,
+      "sha256": "5EBCB6C873C9BA7646634DBDE2E00D61C5F565403BD2BF7AC3DAE5ED361BF597"
+    },
+    {
+      "path": "assets/ui/result_emblem.png.import",
+      "offset": 21177520,
+      "bytes": 202,
+      "md5": "E08BE742E4A66CABD6940A6FDA675625",
+      "md5_match": true,
+      "sha256": "B050AF4ED7340EABB84F89E6C1C5996CEE4A015E00B44B6373243E408367C4B4"
+    },
+    {
+      "path": "assets/ui/road_barrier.png.import",
+      "offset": 21202880,
+      "bytes": 201,
+      "md5": "06210C4144F09B44389E75321EFEC248",
+      "md5_match": true,
+      "sha256": "71C1215FD81F2863FB9E8A985DC9E3478EC78889E82DE03E83B2FCFD8D0ED76E"
+    },
+    {
+      "path": "assets/vehicles/player_aurora_x_c.png.import",
+      "offset": 21889360,
+      "bytes": 206,
+      "md5": "6EB7C07BC19100BB7FB21102595BC0FF",
+      "md5_match": true,
+      "sha256": "DE4C7BE70132DE98F80B4FABEB3F1CA4BEB09263E61A887A01F4FC5E6D362456"
+    },
+    {
+      "path": "assets/vehicles/player_comet_rs_c.png.import",
+      "offset": 22554256,
+      "bytes": 206,
+      "md5": "74CBF1E1F486395B4A8E38CFE8683E97",
+      "md5_match": true,
+      "sha256": "951426925AA6021DDC32B394B449940033291064B0839DF77D98346F27D63826"
+    },
+    {
+      "path": "assets/vehicles/player_driftwing_c.png.import",
+      "offset": 23173088,
+      "bytes": 207,
+      "md5": "3BFA65A9DE8EFE1869C0F742A0A938E0",
+      "md5_match": true,
+      "sha256": "E0A5EF3DEC8D179B7453CC90CB3095E366A94E0179511B2D416DEABC0D45CC98"
+    },
+    {
+      "path": "assets/vehicles/player_flashpoint_c.png.import",
+      "offset": 23853424,
+      "bytes": 208,
+      "md5": "B974744758B01F929DC9E4AFE2A8A10A",
+      "md5_match": true,
+      "sha256": "A96696F28ED385654CC273E250967AE4CADF4A6EED9DC333D3822A126860806E"
+    },
+    {
+      "path": "assets/vehicles/player_pulse_gt_c.png.import",
+      "offset": 24550160,
+      "bytes": 205,
+      "md5": "0AB8DA33728EEAA96C7B8E9A294977B2",
+      "md5_match": true,
+      "sha256": "1C6688B85CAF3496A3BAAEB0D5CD40CFB5D77C428B3B0CDF99CE1EC7DD4C01CA"
+    },
+    {
+      "path": "assets/vehicles/player_tidebreaker_c.png.import",
+      "offset": 25198080,
+      "bytes": 207,
+      "md5": "2FACF18D174F613C01B56A3F5E3DA618",
+      "md5_match": true,
+      "sha256": "DDA35E754BDA30B545D514597B488A79347D715E1F49CC1B641D5DE4438E2E92"
+    },
+    {
+      "path": "assets/vehicles/traffic_hatchback.png.import",
+      "offset": 25209200,
+      "bytes": 206,
+      "md5": "3D0E8E125807521DA9D57B60FBF8DCFD",
+      "md5_match": true,
+      "sha256": "0374081FA119C1333A3279D81426D10C7052ACEA127910370E3134F84680B8E9"
+    },
+    {
+      "path": "assets/vehicles/traffic_sedan.png.import",
+      "offset": 25219936,
+      "bytes": 202,
+      "md5": "D9BADCF819210815AA4CAAFCE6D09F38",
+      "md5_match": true,
+      "sha256": "EE0DE9308859435B7E890298480ADAF62CB300A1593A0B6076CA4DA689B6EA23"
+    },
+    {
+      "path": "assets/vehicles/traffic_sports.png.import",
+      "offset": 25232832,
+      "bytes": 202,
+      "md5": "E43B62C3DBAE51C093A5BC6F590E3FAE",
+      "md5_match": true,
+      "sha256": "C7B1591E453A3BE9A4EA6AEBB3F4FB5EE2417245D156EB8F4FDAB3C26AB853BD"
+    },
+    {
+      "path": "assets/vehicles/traffic_truck.png.import",
+      "offset": 25243936,
+      "bytes": 202,
+      "md5": "833094A8AFCEF7DE9E45FBA1BEB67B1E",
+      "md5_match": true,
+      "sha256": "2D16AA18EE30A7A3FD9510A368EFF5397A3BF1CD0E003075774CF7D48F9D0652"
+    },
+    {
+      "path": "assets/vehicles/traffic_van.png.import",
+      "offset": 25252432,
+      "bytes": 199,
+      "md5": "E4C9AEF33DB054B1122367486621515C",
+      "md5_match": true,
+      "sha256": "F78C556BFC285590213CA4676B4A9458D503DDE57695DAF5620CFC50BFE098D8"
+    },
+    {
+      "path": "default_bus_layout.tres.remap",
+      "offset": 26247008,
+      "bytes": 111,
+      "md5": "CAA69EDBCD9C267D88B28EEF335D0F5E",
+      "md5_match": true,
+      "sha256": "9C6369B9F946A13F8E88B4976673B4FFC259DC23297A9A499B9511E5E8CC5A66"
+    },
+    {
+      "path": "project.binary",
+      "offset": 26266688,
+      "bytes": 646,
+      "md5": "5713B2A4FB32869B90AA8E5CC8E118D6",
+      "md5_match": true,
+      "sha256": "6A1789DD1017AFA1F4EFB2BBC991D5B0E2E1531BF2F20121F49B9E250401DCE5"
+    },
+    {
+      "path": "scenes/main.tscn.remap",
+      "offset": 26247120,
+      "bytes": 97,
+      "md5": "0AB3B58BE7F208F78C8C53387AEA9D73",
+      "md5_match": true,
+      "sha256": "E06953E0896A129B556FF2DC6EE7AB070F7032689D0D08CE8BBA6F62ED084668"
+    },
+    {
+      "path": "scenes/tour_map.tscn.remap",
+      "offset": 26247456,
+      "bytes": 101,
+      "md5": "F32AC06F40D732E1C3B7422B3F05145B",
+      "md5_match": true,
+      "sha256": "E7C496E0465B0FA5FEB5E3721A15E84F2317C20D6A86462E1518D750C9931136"
+    },
+    {
+      "path": "scenes/vehicle_select.tscn.remap",
+      "offset": 26247632,
+      "bytes": 107,
+      "md5": "6F7907D463A29F9F1E7C70796A8DDFF2",
+      "md5_match": true,
+      "sha256": "6740896E1E76910A2DB417DF6E9459D359F4490B433C8760D69240770FF3CC8D"
+    },
+    {
+      "path": "scripts/audio/audio_director.gd.remap",
+      "offset": 26247808,
+      "bytes": 55,
+      "md5": "FAC210A0C518C871E5E9415AA3D5481B",
+      "md5_match": true,
+      "sha256": "AA6E1498FEE103CFEB2E1BBEC629879A1A96BC2F82200175BB1FB526B375D617"
+    },
+    {
+      "path": "scripts/audio/audio_director.gdc",
+      "offset": 25537184,
+      "bytes": 24068,
+      "md5": "73C9CCFBE1DCF052A544E160F359C0C9",
+      "md5_match": true,
+      "sha256": "D73DD89427AD893A3F96D80DF53B65CF8CBA2603FE1613B1C4F37D33A039A401"
+    },
+    {
+      "path": "scripts/audio/music_catalog.gd.remap",
+      "offset": 26247872,
+      "bytes": 54,
+      "md5": "3F3A8A037DCEAE4E65E3401FFF4195BE",
+      "md5_match": true,
+      "sha256": "AFAE6410B9447EEA43D841A4C644DC6E144D2E3A2B312E908B25FEBFC1B6ECA1"
+    },
+    {
+      "path": "scripts/audio/music_catalog.gdc",
+      "offset": 25561264,
+      "bytes": 6768,
+      "md5": "37A66DAB58A7AA372143FD57D0789864",
+      "md5_match": true,
+      "sha256": "173517CE60997479813940D835E86994798E151FD7606DF314DCA67BAE154F7C"
+    },
+    {
+      "path": "scripts/audio/music_director.gd.remap",
+      "offset": 26247936,
+      "bytes": 55,
+      "md5": "EE9B3DA4F7536CD4ABF6602065166B85",
+      "md5_match": true,
+      "sha256": "C592D733BBEC23CD8DC74597A55D573907DA94857F25B65D3B5B3B2EBE2F84EB"
+    },
+    {
+      "path": "scripts/audio/music_director.gdc",
+      "offset": 25568032,
+      "bytes": 8908,
+      "md5": "239A9850542F5F34CF20AA0A7B4EC246",
+      "md5_match": true,
+      "sha256": "367F1F65F403724CB2E3D29999C7568837AF70E2D3259CB4E65335548C14611B"
+    },
+    {
+      "path": "scripts/catalog/tour_progress.gd.remap",
+      "offset": 26248000,
+      "bytes": 56,
+      "md5": "4BEF4261EFCBB267B2F6D023DE7289CF",
+      "md5_match": true,
+      "sha256": "4928724C5C3FBAB675FED129048CA522D97BB304F5592BFD6B77FAEC231C47D2"
+    },
+    {
+      "path": "scripts/catalog/tour_progress.gdc",
+      "offset": 25576944,
+      "bytes": 9692,
+      "md5": "DFDA425FCE2FC55DC455460E377A41A1",
+      "md5_match": true,
+      "sha256": "F0CA20B5BEEF8609B02271356698451D5E06AD7ECB64E0225B46E898CD1E8D3C"
+    },
+    {
+      "path": "scripts/catalog/track_catalog.gd.remap",
+      "offset": 26248064,
+      "bytes": 56,
+      "md5": "6FF9EBD02DE8808A3DF53B8EE1619FF4",
+      "md5_match": true,
+      "sha256": "051871B576B172EAF62230E5742E316BF438F17B95F50920D69BE415EB0B0A2B"
+    },
+    {
+      "path": "scripts/catalog/track_catalog.gdc",
+      "offset": 25586640,
+      "bytes": 17900,
+      "md5": "3092DFEF73432D239FE8F16B7033195C",
+      "md5_match": true,
+      "sha256": "5B67ED71E25DA56E4CBEAA66C21332E85681A574F3A2530CC950DB54463F753C"
+    },
+    {
+      "path": "scripts/catalog/vehicle_catalog.gd.remap",
+      "offset": 26248128,
+      "bytes": 58,
+      "md5": "D2DB7CF6BF132D78074B14467BE18DAF",
+      "md5_match": true,
+      "sha256": "EC55FC5E8DD5EF2EAA494A5FAF962A95F44576C1DAC563845B45EBC24C600E4F"
+    },
+    {
+      "path": "scripts/catalog/vehicle_catalog.gdc",
+      "offset": 25604544,
+      "bytes": 12404,
+      "md5": "5380CA97AE9AFBA9527BB456EF3CCAB0",
+      "md5_match": true,
+      "sha256": "0097E56D782C1739805B5EB8630BB546B5D3466FB47098352FD66F3392989169"
+    },
+    {
+      "path": "scripts/checkpoint_renderer.gd.remap",
+      "offset": 26250976,
+      "bytes": 54,
+      "md5": "F513C9153C3586568CE92C9313D93505",
+      "md5_match": true,
+      "sha256": "551C1E499F31EA2F3F8385728B865450A8CCE9BE3B3DBF0843191AE15E7B53D1"
+    },
+    {
+      "path": "scripts/checkpoint_renderer.gdc",
+      "offset": 26227072,
+      "bytes": 7648,
+      "md5": "A335E52EAE7C5CDEF41E8EA4ACAC3952",
+      "md5_match": true,
+      "sha256": "E3CFF3AE0F11AE72643096FE7E5DC278649E307FAB45918286B527F08EDFD1F9"
+    },
+    {
+      "path": "scripts/coin_gameplay_director.gd.remap",
+      "offset": 26248192,
+      "bytes": 57,
+      "md5": "DC35C2E763BF655DB578840F8AE59F7F",
+      "md5_match": true,
+      "sha256": "2F05F5F7BFB78BC84433EA8F2D4FA961180F6758D0CE48D35A24B44C5AB45A08"
+    },
+    {
+      "path": "scripts/coin_gameplay_director.gdc",
+      "offset": 25616960,
+      "bytes": 13968,
+      "md5": "C229151A5E41FE1E24B7CE6421CA716A",
+      "md5_match": true,
+      "sha256": "D6068BE902874B9DEE0AD2B641FEE75C16C91C34D564E011F58E4A1623EFA0C3"
+    },
+    {
+      "path": "scripts/coin_pickup.gd.remap",
+      "offset": 26248256,
+      "bytes": 46,
+      "md5": "D64206530698606AABB3376CF195E06E",
+      "md5_match": true,
+      "sha256": "878A6CF850A567FD94CF6D2874825E295341431C5DAFA8C874FD2326CD80DD1E"
+    },
+    {
+      "path": "scripts/coin_pickup.gdc",
+      "offset": 25630928,
+      "bytes": 2784,
+      "md5": "702B153D4E6A659FB2821B3504B2A2B5",
+      "md5_match": true,
+      "sha256": "655AFDBBBC6B98143A8DBE41BA172DD518E57B967AD6EA9C793C9417010657ED"
+    },
+    {
+      "path": "scripts/coin_renderer.gd.remap",
+      "offset": 26248304,
+      "bytes": 48,
+      "md5": "F6E20243CF5F39603CF8192116F4D830",
+      "md5_match": true,
+      "sha256": "0D6570CEB1546FB082E2016A086C6C83A4A907E84339020368D90D3738839737"
+    },
+    {
+      "path": "scripts/coin_renderer.gdc",
+      "offset": 25633712,
+      "bytes": 14216,
+      "md5": "73951C22F7B2A6047D3F813C378BD4B8",
+      "md5_match": true,
+      "sha256": "5E4A8166906A11B67E0C3F068491A86DBEA85AA0E01DC593A19C97300DA55DFC"
+    },
+    {
+      "path": "scripts/coin_route_director.gd.remap",
+      "offset": 26248352,
+      "bytes": 54,
+      "md5": "B72E1A2E8BBC9D4359A2D053A943417C",
+      "md5_match": true,
+      "sha256": "3E1E71064DF2F6D2EB0E572498C283CD67DCBEDA678A3F8CC0885199700818BA"
+    },
+    {
+      "path": "scripts/coin_route_director.gdc",
+      "offset": 25647936,
+      "bytes": 29476,
+      "md5": "503A839812F798449F7508BD152FF187",
+      "md5_match": true,
+      "sha256": "9F35112ABD5A5F6C167FE4531FFFA94E8960D3FECF5572DFB7D2E6930BC552A2"
+    },
+    {
+      "path": "scripts/collision_responder.gd.remap",
+      "offset": 26248416,
+      "bytes": 54,
+      "md5": "4B6A4EE58F9ACDD8C142C0B200D06C40",
+      "md5_match": true,
+      "sha256": "071DB647F61AAA49465E4DEB4A2A1305103425EEE1908999EA5127F3605F6199"
+    },
+    {
+      "path": "scripts/collision_responder.gdc",
+      "offset": 25677424,
+      "bytes": 1848,
+      "md5": "FBB0CB2BA49ADEF12C9B49C4CE044FF7",
+      "md5_match": true,
+      "sha256": "7DE37EB35D1BA2CCDF2A7B7C5BB44737C1F419318425AF85892943401DA27E49"
+    },
+    {
+      "path": "scripts/collision_sound.gd.remap",
+      "offset": 26248480,
+      "bytes": 50,
+      "md5": "B7A6F34857A8158511A8FEEAB3E03D77",
+      "md5_match": true,
+      "sha256": "7F393439874C79FFB97CA28C185E70F4C9CC1D99BFD05275D8DC5D4CB2563922"
+    },
+    {
+      "path": "scripts/collision_sound.gdc",
+      "offset": 25679280,
+      "bytes": 2396,
+      "md5": "161ACE212D8EB3963F53B39CC38752A1",
+      "md5_match": true,
+      "sha256": "6D2462F92900F3BA88FDDCC89AD0B5E2917922C8C15AE971252F7983F3C7772A"
+    },
+    {
+      "path": "scripts/combo_tracker.gd.remap",
+      "offset": 26248544,
+      "bytes": 48,
+      "md5": "73D7ABC21EC840997EAA6118A1A51F93",
+      "md5_match": true,
+      "sha256": "B950A725DC46DCAC714792E4A7F08FE29EE36076BC949A545B80EA192358A25E"
+    },
+    {
+      "path": "scripts/combo_tracker.gdc",
+      "offset": 25681680,
+      "bytes": 2864,
+      "md5": "4C41573D46361F8FB27A47BE55733A18",
+      "md5_match": true,
+      "sha256": "8AA3714102C7D911F8EEA7F527641225ABFA54E61490975811D0365510B146F1"
+    },
+    {
+      "path": "scripts/difficulty_profile.gd.remap",
+      "offset": 26248592,
+      "bytes": 53,
+      "md5": "FF0EF32076010583BBD3F1F9EB35C5D2",
+      "md5_match": true,
+      "sha256": "BC36DB3537C3ACF203E26B67FC4A93B831F7D4A9CD5472FD9D59FEE0E8BCC327"
+    },
+    {
+      "path": "scripts/difficulty_profile.gdc",
+      "offset": 25684544,
+      "bytes": 3948,
+      "md5": "F9F29802FE6561C3B08530E3904739A7",
+      "md5_match": true,
+      "sha256": "3EB3628127A5B321100BF5FC12C0E108B49E1D60FB705A2742078F08E260CCBB"
+    },
+    {
+      "path": "scripts/drive_controller.gd.remap",
+      "offset": 26248656,
+      "bytes": 51,
+      "md5": "97F86987F3C2611DBBF77A3CED61E947",
+      "md5_match": true,
+      "sha256": "E65A4AFE4B3C9574CDEE73EDBBFEAB18EF82178DA64F6F46F218654EAE2F0D2C"
+    },
+    {
+      "path": "scripts/drive_controller.gdc",
+      "offset": 25688496,
+      "bytes": 6876,
+      "md5": "E30BC7888A86B40A79A68E4719A83C30",
+      "md5_match": true,
+      "sha256": "802B9CAEDCAD30486D48870B7EB2570CBA7006AAF4FB11A0F988D91466E333F9"
+    },
+    {
+      "path": "scripts/environment_scroller.gd.remap",
+      "offset": 26248720,
+      "bytes": 55,
+      "md5": "0D1F723181505053B71B6578E1EBAD21",
+      "md5_match": true,
+      "sha256": "40F74944331A05DC2554C473FE0BD3CFE52689718CE99955195973F3890F1A53"
+    },
+    {
+      "path": "scripts/environment_scroller.gdc",
+      "offset": 25695376,
+      "bytes": 4212,
+      "md5": "99EDD3CC0F8387479E7CC22667D2A1CB",
+      "md5_match": true,
+      "sha256": "ABA5F2F8F869B9023612440BB8A50940C729A5B8073A07297C06BC3F06C57A71"
+    },
+    {
+      "path": "scripts/fast_priority_traffic.gd.remap",
+      "offset": 26248784,
+      "bytes": 56,
+      "md5": "C3B4053E248E3EBE0E989CFF99A71272",
+      "md5_match": true,
+      "sha256": "FACEB069C081A357A2904E51ABFECD3E1890345F975D042FA7B7FA61F5B04E3E"
+    },
+    {
+      "path": "scripts/fast_priority_traffic.gdc",
+      "offset": 25699600,
+      "bytes": 20440,
+      "md5": "CF8FB3DDA8DB7B5238EA45D78918CDE7",
+      "md5_match": true,
+      "sha256": "E4F3D362FE2EEF73273BEC035B3920A033F986C355432EFDA145E5FE15811407"
+    },
+    {
+      "path": "scripts/fuel_pickup.gd.remap",
+      "offset": 26248848,
+      "bytes": 46,
+      "md5": "D15ACEA595E02359F924112CF87E3435",
+      "md5_match": true,
+      "sha256": "C7A4477892D67D2D0BF8F232C155CDB99F96003627B22CCDA7F09340F4A4B442"
+    },
+    {
+      "path": "scripts/fuel_pickup.gdc",
+      "offset": 25720048,
+      "bytes": 652,
+      "md5": "C146AE41930D766CA34F9949D3A16191",
+      "md5_match": true,
+      "sha256": "89373609193F4CC854FDCB80CFAF1FC6BD31F740F706095C20ECF60E52D67471"
+    },
+    {
+      "path": "scripts/fuel_spawn_director.gd.remap",
+      "offset": 26248896,
+      "bytes": 54,
+      "md5": "08D800242CDF61D6BD6E0D9A926B5AC1",
+      "md5_match": true,
+      "sha256": "7DCA6D6FF9B11DBDA1308C7AC88955C990F9150CBF8AD08CA73134531205AC73"
+    },
+    {
+      "path": "scripts/fuel_spawn_director.gdc",
+      "offset": 25720704,
+      "bytes": 7780,
+      "md5": "46BEDF075D1127F194AD29D919A50131",
+      "md5_match": true,
+      "sha256": "C8C4F36C367C0BE6A573F4835ADEE3A56551EE59045F0280BD5CD287E227F42B"
+    },
+    {
+      "path": "scripts/game_config.gd.remap",
+      "offset": 26248960,
+      "bytes": 46,
+      "md5": "39A5FB56D0991283CEAF87C47729175A",
+      "md5_match": true,
+      "sha256": "368BFBEA9907DD0698D7CEA3D02119DC7C7899CAB9CCD15F70DB6969C461B14D"
+    },
+    {
+      "path": "scripts/game_config.gdc",
+      "offset": 25728496,
+      "bytes": 12640,
+      "md5": "349721550C03C68FF372328E56D729F2",
+      "md5_match": true,
+      "sha256": "E5BA0F14842095DC11724BF8C728F96FBD52169AAA7DBC55E4427091E834112F"
+    },
+    {
+      "path": "scripts/game_feedback.gd.remap",
+      "offset": 26249008,
+      "bytes": 48,
+      "md5": "3252F4066082C5B0705516CEC8DF5442",
+      "md5_match": true,
+      "sha256": "13D13FE4198CA6BF2BE98BDBF10CAD95638C1163C7E70B3AB31BCF6D363C0005"
+    },
+    {
+      "path": "scripts/game_feedback.gdc",
+      "offset": 25741136,
+      "bytes": 18232,
+      "md5": "C8FC70B6E3FF2065CF1C9A6F3E714D80",
+      "md5_match": true,
+      "sha256": "B168ABA7887A8F266A52EE5AC69460FFDDD00B57EFDB73E7E1F4CE4A34C736F0"
+    },
+    {
+      "path": "scripts/game_text.gd.remap",
+      "offset": 26249056,
+      "bytes": 44,
+      "md5": "2BBC39DDC24DDFA5B15396BDEF18A56F",
+      "md5_match": true,
+      "sha256": "9D53B9A18C7CDB734A6724B1870F0510A8DBA463EC3A7FD5D356A6346C84AC53"
+    },
+    {
+      "path": "scripts/game_text.gdc",
+      "offset": 25759376,
+      "bytes": 25604,
+      "md5": "80571728A17E1C9C9B76EADD2A987E31",
+      "md5_match": true,
+      "sha256": "62A1FF9058ACE1B17CA4BF8C8147171B406869459665C4146AA5F94AEC03162A"
+    },
+    {
+      "path": "scripts/impact_model.gd.remap",
+      "offset": 26249104,
+      "bytes": 47,
+      "md5": "FB3DA8761657BA0570B7C42912358E96",
+      "md5_match": true,
+      "sha256": "D8439CA9E073BE656337A133E97D087DDC4CA3628B2E87B2B7D14AE90753B1BF"
+    },
+    {
+      "path": "scripts/impact_model.gdc",
+      "offset": 25784992,
+      "bytes": 8684,
+      "md5": "94583D9DB957AF7858F7FECFD2167611",
+      "md5_match": true,
+      "sha256": "4BF965F7C59A9E6F0E5721DBB4320A96E2B5123CBDD7CE606EA19FBFE516A4D5"
+    },
+    {
+      "path": "scripts/lane_event_director.gd.remap",
+      "offset": 26249152,
+      "bytes": 54,
+      "md5": "FE34F3E7A0DAF04D178C37ED65FA0473",
+      "md5_match": true,
+      "sha256": "80C1D79835640A8FE0A794E6DEF8DEC88539E6AB8D747378B084660624473078"
+    },
+    {
+      "path": "scripts/lane_event_director.gdc",
+      "offset": 25793680,
+      "bytes": 29728,
+      "md5": "CF89731829A521AB093ECD989E1E46F6",
+      "md5_match": true,
+      "sha256": "1EFCC8144285778B74369572786B7A5569DCFB1CC6A46FA7B350F69B3FC1E84B"
+    },
+    {
+      "path": "scripts/main.gd.remap",
+      "offset": 26247232,
+      "bytes": 39,
+      "md5": "2B5C3955728B84207F9AD8272930FB6A",
+      "md5_match": true,
+      "sha256": "49FA76D6D4C786BC0FFA6E2674CE7FADCD33649ECE61EADBD4C2784A6D2E75C9"
+    },
+    {
+      "path": "scripts/main.gdc",
+      "offset": 25265904,
+      "bytes": 193432,
+      "md5": "3129AC46B16C9893988D24CA942167A4",
+      "md5_match": true,
+      "sha256": "82B20248FC75E80FAE50FC929198DEC67F314ACF3FC9BB0F89D49F66BBA2E440"
+    },
+    {
+      "path": "scripts/overdrive_controller.gd.remap",
+      "offset": 26249216,
+      "bytes": 55,
+      "md5": "4628282C61125A94CE4C714F9FFDB981",
+      "md5_match": true,
+      "sha256": "B42C5FF9D03B5F103BBEEB68FB87EF64F7231A4AC3C2092CE5C75E52F0C9129B"
+    },
+    {
+      "path": "scripts/overdrive_controller.gdc",
+      "offset": 25823408,
+      "bytes": 9324,
+      "md5": "671F2DE6DAAF268C52922BFBD459B757",
+      "md5_match": true,
+      "sha256": "2EE2F0A5322C93A6FBE84ADBD247E9550596C3C6FF5480A1D963F0AF1089C2EE"
+    },
+    {
+      "path": "scripts/pass_event_resolver.gd.remap",
+      "offset": 26249280,
+      "bytes": 54,
+      "md5": "35292E7F7516D51AD9E1E23DB25FE429",
+      "md5_match": true,
+      "sha256": "85C0FEDF027597BD820D5CD4983B2BDFEB5B0B9D164D93D4BC14AA189487B278"
+    },
+    {
+      "path": "scripts/pass_event_resolver.gdc",
+      "offset": 25832736,
+      "bytes": 3680,
+      "md5": "41F6724401D5DB63F40076CC99343F66",
+      "md5_match": true,
+      "sha256": "58224942E9AD82E237E95CE1BC79D53CB47A69DD0F8E1C1152B5F714AB6E3479"
+    },
+    {
+      "path": "scripts/pavement_surface.gd.remap",
+      "offset": 26249344,
+      "bytes": 51,
+      "md5": "0ED729D7E9C542487C634CBE12D74350",
+      "md5_match": true,
+      "sha256": "76A250EE074AC6A8C16360BAD3DBE3EA5865F23D290F62113F139E997A0E7E5A"
+    },
+    {
+      "path": "scripts/pavement_surface.gdc",
+      "offset": 25836416,
+      "bytes": 11476,
+      "md5": "7828D0BEF360901CF947475B9E9CA125",
+      "md5_match": true,
+      "sha256": "6A4B090180F84845F7780A7821DA4ACA83EA296984B547419FB58D77BE5F8920"
+    },
+    {
+      "path": "scripts/player_vehicle_profile.gd.remap",
+      "offset": 26249408,
+      "bytes": 57,
+      "md5": "CE6C46EE18D642D08AE02F2CDAE21D09",
+      "md5_match": true,
+      "sha256": "1EB52CBEA38E7C5DF31E0BBF300F34CB96CDF6BB77F72CE297B90D22AEEB2F3C"
+    },
+    {
+      "path": "scripts/player_vehicle_profile.gdc",
+      "offset": 25847904,
+      "bytes": 4472,
+      "md5": "D949C2F26BB7DBF899498E5F701E3A0F",
+      "md5_match": true,
+      "sha256": "86EBF5CC88D7D4301258D9A95308B24B3DA7B7BEB885D73F66F9CF013A49761B"
+    },
+    {
+      "path": "scripts/progression.gd.remap",
+      "offset": 26249472,
+      "bytes": 46,
+      "md5": "57C57A2365A59AEB311E2AB2D97E5BDA",
+      "md5_match": true,
+      "sha256": "DA1F4F94B0CACB081C971F83BFA17D80DC45257CA5514BE23171404E5785579E"
+    },
+    {
+      "path": "scripts/progression.gdc",
+      "offset": 25852384,
+      "bytes": 8728,
+      "md5": "3E6721585E91894FF53B23E4848A35D8",
+      "md5_match": true,
+      "sha256": "307FE5EF5485BB3687798CAC17146FD4AF2C45FBE31DDF040C07634BEC475AEF"
+    },
+    {
+      "path": "scripts/race_effect_renderer.gd.remap",
+      "offset": 26249520,
+      "bytes": 55,
+      "md5": "28F8FA2AF253D1AB3603B64A4E20BF91",
+      "md5_match": true,
+      "sha256": "C2A5894AA668806F3D32A2635645C9AA2FCE08755E87F37634A808CFDDC02FE6"
+    },
+    {
+      "path": "scripts/race_effect_renderer.gdc",
+      "offset": 25861120,
+      "bytes": 25948,
+      "md5": "6AEFB4B72ABFF1F891A34C61C649E9C9",
+      "md5_match": true,
+      "sha256": "1F97D4760166382BE273CDE6BDDBAD47C1C2D09466A9C0F0261CA0672FF1DC4E"
+    },
+    {
+      "path": "scripts/race_instrument_hud.gd.remap",
+      "offset": 26247344,
+      "bytes": 54,
+      "md5": "C221FD168EFE42E2D4E728BAB5FB6EC0",
+      "md5_match": true,
+      "sha256": "0233B279E2E63F4D6E13A4D324E733278F6E633EE7E71698F954D1BF9D2858E2"
+    },
+    {
+      "path": "scripts/race_instrument_hud.gdc",
+      "offset": 25472096,
+      "bytes": 20592,
+      "md5": "8152704B808D607D42DFE66F9DC829DA",
+      "md5_match": true,
+      "sha256": "98AE88D4E10A6BDAEF5CC821BE3E978F3AAE35CD3F959A143D0CBC0CBD7832FE"
+    },
+    {
+      "path": "scripts/race_progression.gd.remap",
+      "offset": 26249584,
+      "bytes": 51,
+      "md5": "8B135ABD13CFA3CDD93DE9F3D68C77F7",
+      "md5_match": true,
+      "sha256": "0D1C6CA34B488CAE1F1039DF1E931454FE57BFD0360C744C18B5A21C0D550DA8"
+    },
+    {
+      "path": "scripts/race_progression.gdc",
+      "offset": 25887072,
+      "bytes": 3132,
+      "md5": "721D970BA5B8D9DDE3059CAE6C6D87DF",
+      "md5_match": true,
+      "sha256": "B89B0EA9126C1F0BB90155CA8A917063605D25A2F075949E4E402E949FAB24D7"
+    },
+    {
+      "path": "scripts/rating_card.gd.remap",
+      "offset": 26247408,
+      "bytes": 46,
+      "md5": "FB226EA7CB0495EC58E7DB57B7687572",
+      "md5_match": true,
+      "sha256": "F26BC7EC6041B1853AB8E64FF096F102CFB0797DE141F3115FD0CD01032560AF"
+    },
+    {
+      "path": "scripts/rating_card.gdc",
+      "offset": 25492688,
+      "bytes": 10872,
+      "md5": "2A7EF6D674D0421045F46416EADFD364",
+      "md5_match": true,
+      "sha256": "6B2C8F3E71A29DBB30D193DEEE723AFD809AAEBF19499DB8937BB44D23D286CC"
+    },
+    {
+      "path": "scripts/repair_supply_director.gd.remap",
+      "offset": 26249648,
+      "bytes": 57,
+      "md5": "6B6136BF1582829DE6DA1EDFB30FA377",
+      "md5_match": true,
+      "sha256": "E176644D749B81202FF2C678E546D9D2E85CE08A4D63BA2C9C305F5AB351EDB5"
+    },
+    {
+      "path": "scripts/repair_supply_director.gdc",
+      "offset": 25890208,
+      "bytes": 5664,
+      "md5": "4502186321EAE6418B4CA57F5C5EA31B",
+      "md5_match": true,
+      "sha256": "0FD4995A669A427AD9DEF9D5A10983624E17E303A14704B01D22E1B0619304AE"
+    },
+    {
+      "path": "scripts/roadside_renderer.gd.remap",
+      "offset": 26249712,
+      "bytes": 52,
+      "md5": "4AD36AA949EB0AE808ACBA8932CA0404",
+      "md5_match": true,
+      "sha256": "D7610D5859A7C3B325D5D6CDEE9A7C0FBD18BFE0E44130F96E3F977318B20BA9"
+    },
+    {
+      "path": "scripts/roadside_renderer.gdc",
+      "offset": 25895872,
+      "bytes": 9092,
+      "md5": "B7B30B2125D24B8AF65CEB3F2AB64464",
+      "md5_match": true,
+      "sha256": "CE96AF8BA0AA8B41F702B484E0818AB558037399481BBE1BF19854BBF424480A"
+    },
+    {
+      "path": "scripts/run_rating.gd.remap",
+      "offset": 26249776,
+      "bytes": 45,
+      "md5": "2674FFAB26ED2FF3FCD88857C6AB6448",
+      "md5_match": true,
+      "sha256": "D972B0C2BE950BB2B67BD37A283C67845CB344E2518A0B8AA081D7C33E081506"
+    },
+    {
+      "path": "scripts/run_rating.gdc",
+      "offset": 25904976,
+      "bytes": 11628,
+      "md5": "78442759AF264230956DEB5945A9D5E7",
+      "md5_match": true,
+      "sha256": "3719B6947A3485912B28E6FD58896948AFBC18CD9304A8F9B75E5E8D18193164"
+    },
+    {
+      "path": "scripts/run_seed_sequence.gd.remap",
+      "offset": 26249824,
+      "bytes": 52,
+      "md5": "62243A673B2ABC210C0FBEF4B8E986E6",
+      "md5_match": true,
+      "sha256": "4A0D9ACCF367198F0E33DC6DD712B9988A88A678BA5117F7DE05AED9A63D1C26"
+    },
+    {
+      "path": "scripts/run_seed_sequence.gdc",
+      "offset": 25916608,
+      "bytes": 900,
+      "md5": "77D8A8F1C2B9E12E563EB0DC73D694AF",
+      "md5_match": true,
+      "sha256": "37FAC206B7E052DB0664178BCDE0A1D3FC46036A5CFA3FC1BBB1034F871DCA98"
+    },
+    {
+      "path": "scripts/run_state.gd.remap",
+      "offset": 26249888,
+      "bytes": 44,
+      "md5": "0BA0B54ED9299DABFCC99BD46182C124",
+      "md5_match": true,
+      "sha256": "A8D092BCC2EEDB7DA59638E5616D033F4C848579BA86C33723C927CB33F0E299"
+    },
+    {
+      "path": "scripts/run_state.gdc",
+      "offset": 25917520,
+      "bytes": 18920,
+      "md5": "F6C063F7CD31DB26AFD1E2C993E45FB5",
+      "md5_match": true,
+      "sha256": "DB0DDD66515BBCB48CF7DDF165A200C8280E2C935B2736FC98655E3D3D121BE6"
+    },
+    {
+      "path": "scripts/runtime_performance_capture.gd.remap",
+      "offset": 26249936,
+      "bytes": 62,
+      "md5": "5020B7584BD588F8A77B9DFD0F454C60",
+      "md5_match": true,
+      "sha256": "1D138EB5E74B487D3C8AB2DFF0E844C7EABE0722B53249188E169158D474B542"
+    },
+    {
+      "path": "scripts/runtime_performance_capture.gdc",
+      "offset": 25936448,
+      "bytes": 10640,
+      "md5": "5FDE13167B13D70AA645F8A19BDFF710",
+      "md5_match": true,
+      "sha256": "E8F184AC027CC7474278C782E9B549B655EAC3889BA1D1052A869C7F53FBAD99"
+    },
+    {
+      "path": "scripts/save_store.gd.remap",
+      "offset": 26250000,
+      "bytes": 45,
+      "md5": "3272172630438464533CC68518119D5F",
+      "md5_match": true,
+      "sha256": "206D18E92765973B0CD3B7631ED17B500152250D245B6C4E20A4643D083AB69B"
+    },
+    {
+      "path": "scripts/save_store.gdc",
+      "offset": 25947088,
+      "bytes": 29344,
+      "md5": "7BA2F2DE11C6224D2B5874A28BAF5DCB",
+      "md5_match": true,
+      "sha256": "8AE6CEE2533F9DAC4A5D42A9134F2E0891908A5C8AFD568A031C4092AF2CCF0C"
+    },
+    {
+      "path": "scripts/sound_effects.gd.remap",
+      "offset": 26250048,
+      "bytes": 48,
+      "md5": "0C851537D524CD2E5E4C35E3AEE366DF",
+      "md5_match": true,
+      "sha256": "2B406274BE7B11F1515706C484B10ACE5375FC9288BD988266D5728EEF872415"
+    },
+    {
+      "path": "scripts/sound_effects.gdc",
+      "offset": 25976432,
+      "bytes": 13776,
+      "md5": "A71341754A3896BCB0F7FA5878F52800",
+      "md5_match": true,
+      "sha256": "84904F573C12EDADDD4FB6004D2F41CBBBF1AFCE5D5A9A6CC1480C8C5FCC177B"
+    },
+    {
+      "path": "scripts/supply_renderer.gd.remap",
+      "offset": 26250096,
+      "bytes": 50,
+      "md5": "59543950693E29BDADD160B3F22AF605",
+      "md5_match": true,
+      "sha256": "E52648A9D6F17069831E756638C05E6452DFFE09E26E45C2DB916A080548BA54"
+    },
+    {
+      "path": "scripts/supply_renderer.gdc",
+      "offset": 25990208,
+      "bytes": 6448,
+      "md5": "573694B2D4AEB87B7907963CE2FBE3A6",
+      "md5_match": true,
+      "sha256": "AC7AF714CEE1FBFA3067448DF64667084502C3270FB428F212F3F16FBB859C17"
+    },
+    {
+      "path": "scripts/track_geometry.gd.remap",
+      "offset": 26250160,
+      "bytes": 49,
+      "md5": "A3C93DD9A85288B99A906F1C30B29E14",
+      "md5_match": true,
+      "sha256": "7E8EDE3BFF91D80EC2747DACAC19820493861ECE19F76400D683BA689BDCEC6D"
+    },
+    {
+      "path": "scripts/track_geometry.gdc",
+      "offset": 25996656,
+      "bytes": 2100,
+      "md5": "1854A5016EC5AC511C11AFC0455DBCB2",
+      "md5_match": true,
+      "sha256": "6D869D1AC8E4E8A8BCE76CAF853A83B5328762BDD09BAB5472F74BCA2DE4E4D7"
+    },
+    {
+      "path": "scripts/track_runtime_profile.gd.remap",
+      "offset": 26250224,
+      "bytes": 56,
+      "md5": "0513F6AA5FB146244693207EC3D95624",
+      "md5_match": true,
+      "sha256": "4B37C1C8BEC8F491857C9461E99D82578BFB73FDA6D6B9CC1E21ADD3AC22AA00"
+    },
+    {
+      "path": "scripts/track_runtime_profile.gdc",
+      "offset": 25998768,
+      "bytes": 3148,
+      "md5": "5B651F6FE7D9AC290FCD64B88DB90410",
+      "md5_match": true,
+      "sha256": "AE3E6099656BF7DCC200C128084CC0BA26A04374D8EF5993CA7E1E291F563FD0"
+    },
+    {
+      "path": "scripts/traffic_director.gd.remap",
+      "offset": 26250288,
+      "bytes": 51,
+      "md5": "A48FB88EAC633887F97B28C44A6E2093",
+      "md5_match": true,
+      "sha256": "3A8BB18809803B0586EA7181D8E1FC9548DA01B4BCBE2E0B67FAC2E44BF48C3E"
+    },
+    {
+      "path": "scripts/traffic_director.gdc",
+      "offset": 26001920,
+      "bytes": 134380,
+      "md5": "2F87CB455F9464676D6C588628B7C57D",
+      "md5_match": true,
+      "sha256": "032697F5CD13D29127CC7497F9B63B9152266A5F314915F953676E3749FF9D15"
+    },
+    {
+      "path": "scripts/traffic_safety_policy.gd.remap",
+      "offset": 26250352,
+      "bytes": 56,
+      "md5": "5DC3EFEEF7BD92495B17289CD2D54686",
+      "md5_match": true,
+      "sha256": "B926D8F6D664FB3FFD245B9D3F7DDAA94692FF59DB48BC89987428E9A33990CA"
+    },
+    {
+      "path": "scripts/traffic_safety_policy.gdc",
+      "offset": 26136304,
+      "bytes": 16620,
+      "md5": "AB680E927E9DA836C2A7EC4773F9F34A",
+      "md5_match": true,
+      "sha256": "7BFFB68FB6F17D71541F8150354FA5EFB137657FE014B3464B7A7825918E4C20"
+    },
+    {
+      "path": "scripts/traffic_vehicle.gd.remap",
+      "offset": 26250416,
+      "bytes": 50,
+      "md5": "079AA667A0B72588E5B76B577424F377",
+      "md5_match": true,
+      "sha256": "1C0BFBC4AD1E231FA8303F9C7D95DE2C82ADA3D4BEE01E5E49177DC539EED7F8"
+    },
+    {
+      "path": "scripts/traffic_vehicle.gdc",
+      "offset": 26152928,
+      "bytes": 8944,
+      "md5": "29F22FE3046DBD51B7802D9C5E2C362C",
+      "md5_match": true,
+      "sha256": "E16A50F6398D5758B6BE4AEDB6C9923E75168B20D6A5E2811D7D4A727620E48C"
+    },
+    {
+      "path": "scripts/ui/audio_settings_panel.gd.remap",
+      "offset": 26247280,
+      "bytes": 58,
+      "md5": "7F55416E258B736206FA304D2433310B",
+      "md5_match": true,
+      "sha256": "27A8355398F63031FE2ADBF7BA5F5AB7C8C63C34FFBB4C44AA9FA933FC4D3613"
+    },
+    {
+      "path": "scripts/ui/audio_settings_panel.gdc",
+      "offset": 25459344,
+      "bytes": 12740,
+      "md5": "EC55EE9F93FE1AEACFEA7BDE280923A8",
+      "md5_match": true,
+      "sha256": "33677796853E161F9249EC6C6822B5B07131BB4157198E17098A63B6925D5920"
+    },
+    {
+      "path": "scripts/ui/menu_presentation.gd.remap",
+      "offset": 26250480,
+      "bytes": 55,
+      "md5": "8229DC3CCE997EF332ECBE37A2FF82E9",
+      "md5_match": true,
+      "sha256": "0991AED9A1A6DB5D011EC1E35DEC9C194F6C0D2728E564A73FE62AE4F042A85C"
+    },
+    {
+      "path": "scripts/ui/menu_presentation.gdc",
+      "offset": 26161872,
+      "bytes": 13608,
+      "md5": "5C212A570E3F59C0DBF290129B62F6EB",
+      "md5_match": true,
+      "sha256": "816528EC8299CB4BD3CDF044E6C2B23C7A00DADC1FC7BC9C119D03AAAEA71868"
+    },
+    {
+      "path": "scripts/ui/persistence_notice.gd.remap",
+      "offset": 26250544,
+      "bytes": 56,
+      "md5": "CD24F6A5D56B1FEBDB242913BA9F1A8D",
+      "md5_match": true,
+      "sha256": "A71A392BB12B281F1D9E0270CA6960243B3B279ED606E5CF804FBF6BAB226894"
+    },
+    {
+      "path": "scripts/ui/persistence_notice.gdc",
+      "offset": 26175488,
+      "bytes": 5472,
+      "md5": "F7D194D803897884F802848355AAA8D9",
+      "md5_match": true,
+      "sha256": "6B1BC4F68BC37EAC0EF96397087353173A6690F53A3EDAE532289E956579C570"
+    },
+    {
+      "path": "scripts/ui/race_route_map.gd.remap",
+      "offset": 26251040,
+      "bytes": 52,
+      "md5": "F6F3B42F8FA03F1790E7B6DE4BE8BC1A",
+      "md5_match": true,
+      "sha256": "69917F7B69B6A64F0F8BF6E267E4DE1CD9C51A2D91B5988E9B28BF40B0D828C0"
+    },
+    {
+      "path": "scripts/ui/race_route_map.gdc",
+      "offset": 26234720,
+      "bytes": 12280,
+      "md5": "9C874E7642C35AEBD5366BE0263FEC0F",
+      "md5_match": true,
+      "sha256": "16DF88D4F1EFEA1FCEF8FF5233341492F96CD28CA030895302918D2153D37865"
+    },
+    {
+      "path": "scripts/ui/tour_map_controller.gd.remap",
+      "offset": 26250608,
+      "bytes": 57,
+      "md5": "04049E7A0B6E88A04D549012AF9C550E",
+      "md5_match": true,
+      "sha256": "E197AA9E98AECD38C91B0002B1B523A9D8A7354911E5966F4E4EFAEE483D2EB9"
+    },
+    {
+      "path": "scripts/ui/tour_map_controller.gdc",
+      "offset": 26180960,
+      "bytes": 4492,
+      "md5": "6FE4B270CCA66678C24097B7A70C356F",
+      "md5_match": true,
+      "sha256": "018AE0140F11AA0B1B9E2E8E5ECF51948DF08114D2A0B4F5CB17DBC0083D09AC"
+    },
+    {
+      "path": "scripts/ui/tour_map_screen.gd.remap",
+      "offset": 26247568,
+      "bytes": 53,
+      "md5": "A2053014EF13FA8C9A9C9B1D2B7E008E",
+      "md5_match": true,
+      "sha256": "4BFF015B952D1F00AB34C139C48D38B0A0D7E6B1A9ACAE0B11493FA06CBAABA3"
+    },
+    {
+      "path": "scripts/ui/tour_map_screen.gdc",
+      "offset": 25506032,
+      "bytes": 11312,
+      "md5": "7696E10A3F33A216983D02087B35D1FA",
+      "md5_match": true,
+      "sha256": "2B4D8F1FDA5B528FDD6DF3524FB1D6F2E995FECE606972718A0786FEC180F6FA"
+    },
+    {
+      "path": "scripts/ui/vehicle_performance_chart.gd.remap",
+      "offset": 26250672,
+      "bytes": 63,
+      "md5": "13119DCA89AE4DD45B422DAFAD46ECF1",
+      "md5_match": true,
+      "sha256": "B7A988C711F52F79A685F1D26CE365B74632F9FFD8D4287BCEAE898E767FCFEB"
+    },
+    {
+      "path": "scripts/ui/vehicle_performance_chart.gdc",
+      "offset": 26185456,
+      "bytes": 8496,
+      "md5": "20286F2C0DC0F405153FFB7DD0485A38",
+      "md5_match": true,
+      "sha256": "8BF901DD0CD143E0E590885DBD571CF9DEBD30DA7D9F2BA7C100AC695B2CB7C5"
+    },
+    {
+      "path": "scripts/ui/vehicle_select_controller.gd.remap",
+      "offset": 26250736,
+      "bytes": 63,
+      "md5": "A68F14BBD332EBD234F7ADA393B9D6B7",
+      "md5_match": true,
+      "sha256": "31CFC815428B2A579E29C8F71B260EBBF299383057B9E619351C5E8C3C8953AA"
+    },
+    {
+      "path": "scripts/ui/vehicle_select_controller.gdc",
+      "offset": 26193952,
+      "bytes": 4256,
+      "md5": "41AEAA1F98BF1E98C6E723D3F73BAA59",
+      "md5_match": true,
+      "sha256": "3D1FA7B12B0AA0F945D591911695C10495CC60E66EBC3E72E0A1756EB0339ECF"
+    },
+    {
+      "path": "scripts/ui/vehicle_select_screen.gd.remap",
+      "offset": 26247744,
+      "bytes": 59,
+      "md5": "BF4221844DED812CB34C025209C58491",
+      "md5_match": true,
+      "sha256": "E45638AFCBB41AB86F2C7BAB75E65CEFA54FEB111DEB99779A5B77442D56BE5B"
+    },
+    {
+      "path": "scripts/ui/vehicle_select_screen.gdc",
+      "offset": 25520384,
+      "bytes": 16788,
+      "md5": "60653588D4C0C1F2529AFCF318FCEFC5",
+      "md5_match": true,
+      "sha256": "28B96B1898893EA7B1848A774C600FDDBA5B548BE3C306579F17BFE841D3F345"
+    },
+    {
+      "path": "scripts/vehicle_integrity.gd.remap",
+      "offset": 26250800,
+      "bytes": 52,
+      "md5": "CC5D9259472BEBD8F9136E1C2A7D1476",
+      "md5_match": true,
+      "sha256": "087F865586D3F30FBD4E731228F1F36AB46F2964AF81489620F29723798C26AC"
+    },
+    {
+      "path": "scripts/vehicle_integrity.gdc",
+      "offset": 26198208,
+      "bytes": 6852,
+      "md5": "46CD4A7F8D1BF6A37ED21C0929A97EF6",
+      "md5_match": true,
+      "sha256": "091B94DF59BBF33FAB18BCDDAC391D467D5ED5901BFF3D72A085887859E501C7"
+    },
+    {
+      "path": "scripts/vehicle_visual_animation.gd.remap",
+      "offset": 26250864,
+      "bytes": 59,
+      "md5": "B680BF41ACDFCE2213F8E967F576FCB2",
+      "md5_match": true,
+      "sha256": "0FA1FF707636CD77A604DB77C4801133560DEE6EB01B20C27DB83C0031A428E9"
+    },
+    {
+      "path": "scripts/vehicle_visual_animation.gdc",
+      "offset": 26205072,
+      "bytes": 13688,
+      "md5": "9FAE1E852EE201E047CE16478810C2BC",
+      "md5_match": true,
+      "sha256": "CB758B9679B54889736A352D4D5B174D405EAE952E243BE01E530099EF740045"
+    },
+    {
+      "path": "scripts/visual_style.gd.remap",
+      "offset": 26250928,
+      "bytes": 47,
+      "md5": "377C544A99BD7A7A12AA2380820FC442",
+      "md5_match": true,
+      "sha256": "63FA50F9D64EB7AE5C17B79DC14898E58DB9EA7FC861CD0B1866833684246E0F"
+    },
+    {
+      "path": "scripts/visual_style.gdc",
+      "offset": 26218768,
+      "bytes": 8292,
+      "md5": "80AD98B54F24A4318A27864E1D04BF93",
+      "md5_match": true,
+      "sha256": "7CD168DFF619AC3D9D0F8C92BE4EB87681A65F4C9FCF45379EC7E3664F68EFBE"
+    }
+  ],
+  "pack_flags": 2,
+  "resolved": [
+    {
+      "logical": "res://assets/effects/finish_burst.png",
+      "physical": ".godot/imported/finish_burst.png-49d70b4d2b907a89f180f0bd02db3589.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/freight_harbor/left_00.png",
+      "physical": ".godot/imported/left_00.png-2100e6f7f2e28c7e7ecbdd01748733db.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/freight_harbor/left_01.png",
+      "physical": ".godot/imported/left_01.png-dda61ad9a32452394cd1fef50ec86034.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/freight_harbor/left_02.png",
+      "physical": ".godot/imported/left_02.png-b056a08254c36527380f40f50a4f6d3d.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/freight_harbor/left_03.png",
+      "physical": ".godot/imported/left_03.png-45c1dd1de679431cabba5ee883652a14.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/freight_harbor/left_04.png",
+      "physical": ".godot/imported/left_04.png-56d656be79d1bc65f8f1ca57c497ef6b.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/freight_harbor/right_00.png",
+      "physical": ".godot/imported/right_00.png-ab194193a8df513f67179214f726bdad.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/freight_harbor/right_01.png",
+      "physical": ".godot/imported/right_01.png-754c9fe262a07209ea901e3e51ae49de.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/freight_harbor/right_02.png",
+      "physical": ".godot/imported/right_02.png-bacc5b56c26ce02dcecc6926955ef59e.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/freight_harbor/right_03.png",
+      "physical": ".godot/imported/right_03.png-8cd5b54d86f8f17bc9c73f5747b64f02.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/freight_harbor/right_04.png",
+      "physical": ".godot/imported/right_04.png-fd72c04342eaa891d6c73ba2a03f17d5.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/neon_coast/left_00.png",
+      "physical": ".godot/imported/left_00.png-b5410ce182f93676abd278b75e247e27.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/neon_coast/left_01.png",
+      "physical": ".godot/imported/left_01.png-259e186842df1e6b1748796d48bac028.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/neon_coast/left_02.png",
+      "physical": ".godot/imported/left_02.png-c44df570ff904aa5d25865f79a1c8072.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/neon_coast/left_03.png",
+      "physical": ".godot/imported/left_03.png-51e0417d4130c0d9f3c89f8944c69f54.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/neon_coast/left_04.png",
+      "physical": ".godot/imported/left_04.png-3819c7124d9a3a442b9ba8fdf91b45a2.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/neon_coast/right_00.png",
+      "physical": ".godot/imported/right_00.png-baaf697ab47f05b971714892ea52444c.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/neon_coast/right_01.png",
+      "physical": ".godot/imported/right_01.png-79b7c7f05efa6af9b8cd133c891951f3.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/neon_coast/right_02.png",
+      "physical": ".godot/imported/right_02.png-308e9cc82c1fb4abb51df22e708f0ba9.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/neon_coast/right_03.png",
+      "physical": ".godot/imported/right_03.png-e93a685c99ea3d31dd8d17c35ff7e18e.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/neon_coast/right_04.png",
+      "physical": ".godot/imported/right_04.png-87bb2d2920771df97f3c9a70b15ea794.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/storm_ridge/left_00.png",
+      "physical": ".godot/imported/left_00.png-fd1897691b71a1683a7c78be23542e66.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/storm_ridge/left_01.png",
+      "physical": ".godot/imported/left_01.png-49c3c3e2ab5d5b433d96c2dd7086b15a.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/storm_ridge/left_02.png",
+      "physical": ".godot/imported/left_02.png-b25c60e937ece0f4b8cb4c02cb3a9cd5.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/storm_ridge/left_03.png",
+      "physical": ".godot/imported/left_03.png-5cc54dc9a81c294cdbcf54270706b3b3.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/storm_ridge/left_04.png",
+      "physical": ".godot/imported/left_04.png-16c30acdeeb8339e0b3405c902dae9eb.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/storm_ridge/right_00.png",
+      "physical": ".godot/imported/right_00.png-2c71c86ddbdfac397671b42fc530a988.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/storm_ridge/right_01.png",
+      "physical": ".godot/imported/right_01.png-1051a27e8c6bf2da224aebd264d259ca.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/storm_ridge/right_02.png",
+      "physical": ".godot/imported/right_02.png-b47bb93f39b9a4b1e39aab71095a6beb.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/storm_ridge/right_03.png",
+      "physical": ".godot/imported/right_03.png-84d44f8d8e6036428abce333a9e5bfe0.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/storm_ridge/right_04.png",
+      "physical": ".godot/imported/right_04.png-af58493e0eb4ec540e9844f6c596f305.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/sunrise_express/left_00.png",
+      "physical": ".godot/imported/left_00.png-0f06a01a19f47ae22cbaedabf14c822e.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/sunrise_express/left_01.png",
+      "physical": ".godot/imported/left_01.png-e8314517c91b7aa7518546d44da8d6b4.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/sunrise_express/left_02.png",
+      "physical": ".godot/imported/left_02.png-268e27245880adc5edd1c55f83552c1d.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/sunrise_express/left_03.png",
+      "physical": ".godot/imported/left_03.png-4643cc25a7dc0ce0617aacc62181cbca.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/sunrise_express/left_04.png",
+      "physical": ".godot/imported/left_04.png-95c79ba161563f3f8716ef1c2ada1949.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/sunrise_express/right_00.png",
+      "physical": ".godot/imported/right_00.png-c8a9177c62a4dcd514d9751ca6ae94d4.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/sunrise_express/right_01.png",
+      "physical": ".godot/imported/right_01.png-182b2569500ab872e180d43de687ddbf.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/sunrise_express/right_02.png",
+      "physical": ".godot/imported/right_02.png-5a7e4c9bae195f0de9ea8413a2ebf73e.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/sunrise_express/right_03.png",
+      "physical": ".godot/imported/right_03.png-b90d3dcb1e409990f698f4d640529bc6.ctex"
+    },
+    {
+      "logical": "res://assets/environment_sequences/sunrise_express/right_04.png",
+      "physical": ".godot/imported/right_04.png-bace15033b89f2524214c3c7d65eb559.ctex"
+    },
+    {
+      "logical": "res://assets/music/freight_harbor.ogg",
+      "physical": ".godot/imported/freight_harbor.ogg-2c94f68572eee8f50563c1c86dd4dbb8.oggvorbisstr"
+    },
+    {
+      "logical": "res://assets/music/neon_coast.ogg",
+      "physical": ".godot/imported/neon_coast.ogg-7042d2aaa29ad3462fd9b0d27ccf312b.oggvorbisstr"
+    },
+    {
+      "logical": "res://assets/music/storm_ridge.ogg",
+      "physical": ".godot/imported/storm_ridge.ogg-63d93ae97085e72c24e9baccb9c71191.oggvorbisstr"
+    },
+    {
+      "logical": "res://assets/music/sunrise_express.ogg",
+      "physical": ".godot/imported/sunrise_express.ogg-581d98b80f4032da6b9ad4580b710f3a.oggvorbisstr"
+    },
+    {
+      "logical": "res://assets/neon-coast-menu.png",
+      "physical": ".godot/imported/neon-coast-menu.png-b18f683016e3f388e171cf49a5a687ef.ctex"
+    },
+    {
+      "logical": "res://assets/pavement/freight_harbor.png",
+      "physical": ".godot/imported/freight_harbor.png-f4ba15350d19ff418a58ed6e36232137.ctex"
+    },
+    {
+      "logical": "res://assets/pavement/neon_coast.png",
+      "physical": ".godot/imported/neon_coast.png-14b3730111fc750e3313ba48edfde38d.ctex"
+    },
+    {
+      "logical": "res://assets/pavement/storm_ridge.png",
+      "physical": ".godot/imported/storm_ridge.png-a5ab189560ebf71c45d084beafe509d6.ctex"
+    },
+    {
+      "logical": "res://assets/pavement/sunrise_express.png",
+      "physical": ".godot/imported/sunrise_express.png-738e9a5e87855fc0a37650cde6bca517.ctex"
+    },
+    {
+      "logical": "res://assets/pickups/fuel_pickup.png",
+      "physical": ".godot/imported/fuel_pickup.png-506af5349f570e8fedcecca0d5373773.ctex"
+    },
+    {
+      "logical": "res://assets/ui/event_plate.png",
+      "physical": ".godot/imported/event_plate.png-0fb626be90dd66d756135f3e9aa524af.ctex"
+    },
+    {
+      "logical": "res://assets/ui/hud_frame.png",
+      "physical": ".godot/imported/hud_frame.png-45678590d6970cc2f82e42ea90e4ada2.ctex"
+    },
+    {
+      "logical": "res://assets/ui/result_emblem.png",
+      "physical": ".godot/imported/result_emblem.png-021be94472081483eb886cc3eef4fe7d.ctex"
+    },
+    {
+      "logical": "res://assets/ui/road_barrier.png",
+      "physical": ".godot/imported/road_barrier.png-36186cffde34577a19da1d371b536467.ctex"
+    },
+    {
+      "logical": "res://assets/vehicles/player_aurora_x_c.png",
+      "physical": ".godot/imported/player_aurora_x_c.png-9ecc2933f1fa6012c38a8f09dd4bb9dd.ctex"
+    },
+    {
+      "logical": "res://assets/vehicles/player_comet_rs_c.png",
+      "physical": ".godot/imported/player_comet_rs_c.png-fb535049f001c3188fdc2d7ceac02d8d.ctex"
+    },
+    {
+      "logical": "res://assets/vehicles/player_driftwing_c.png",
+      "physical": ".godot/imported/player_driftwing_c.png-24ded14ae8f4c49486a81c1a51d56912.ctex"
+    },
+    {
+      "logical": "res://assets/vehicles/player_flashpoint_c.png",
+      "physical": ".godot/imported/player_flashpoint_c.png-a60a0a9b623bdfd531b8d279fe95e8e4.ctex"
+    },
+    {
+      "logical": "res://assets/vehicles/player_pulse_gt_c.png",
+      "physical": ".godot/imported/player_pulse_gt_c.png-14e5d210c62770cde0a0fbc29ef92284.ctex"
+    },
+    {
+      "logical": "res://assets/vehicles/player_tidebreaker_c.png",
+      "physical": ".godot/imported/player_tidebreaker_c.png-bf1413c844080c70c264121038fc9145.ctex"
+    },
+    {
+      "logical": "res://assets/vehicles/traffic_hatchback.png",
+      "physical": ".godot/imported/traffic_hatchback.png-bc07c1316eb98ab9cf16e06f2623b06a.ctex"
+    },
+    {
+      "logical": "res://assets/vehicles/traffic_sedan.png",
+      "physical": ".godot/imported/traffic_sedan.png-a60e836cb52a8a9babd8609da8113c51.ctex"
+    },
+    {
+      "logical": "res://assets/vehicles/traffic_sports.png",
+      "physical": ".godot/imported/traffic_sports.png-26b78d428e1341f786ca10d18f490034.ctex"
+    },
+    {
+      "logical": "res://assets/vehicles/traffic_truck.png",
+      "physical": ".godot/imported/traffic_truck.png-29dde806aaded700c32ac6ccf43ef820.ctex"
+    },
+    {
+      "logical": "res://assets/vehicles/traffic_van.png",
+      "physical": ".godot/imported/traffic_van.png-5a30f653e74d37949593114d3b146b6b.ctex"
+    },
+    {
+      "logical": "res://default_bus_layout.tres",
+      "physical": ".godot/exported/133200997/export-19246414aa9fb561ced4b8dce477acec-default_bus_layout.res"
+    },
+    {
+      "logical": "res://scenes/main.tscn",
+      "physical": ".godot/exported/133200997/export-3ad5c15c4f3250da0cc7c1af1770d85f-main.scn"
+    },
+    {
+      "logical": "res://scenes/tour_map.tscn",
+      "physical": ".godot/exported/133200997/export-d661b067d9a638d6b3e2f2b952eed596-tour_map.scn"
+    },
+    {
+      "logical": "res://scenes/vehicle_select.tscn",
+      "physical": ".godot/exported/133200997/export-739e2d396c49755d609e132897a47ec3-vehicle_select.scn"
+    },
+    {
+      "logical": "res://scripts/audio/audio_director.gd",
+      "physical": "scripts/audio/audio_director.gdc"
+    },
+    {
+      "logical": "res://scripts/audio/music_catalog.gd",
+      "physical": "scripts/audio/music_catalog.gdc"
+    },
+    {
+      "logical": "res://scripts/audio/music_director.gd",
+      "physical": "scripts/audio/music_director.gdc"
+    },
+    {
+      "logical": "res://scripts/catalog/tour_progress.gd",
+      "physical": "scripts/catalog/tour_progress.gdc"
+    },
+    {
+      "logical": "res://scripts/catalog/track_catalog.gd",
+      "physical": "scripts/catalog/track_catalog.gdc"
+    },
+    {
+      "logical": "res://scripts/catalog/vehicle_catalog.gd",
+      "physical": "scripts/catalog/vehicle_catalog.gdc"
+    },
+    {
+      "logical": "res://scripts/coin_gameplay_director.gd",
+      "physical": "scripts/coin_gameplay_director.gdc"
+    },
+    {
+      "logical": "res://scripts/coin_pickup.gd",
+      "physical": "scripts/coin_pickup.gdc"
+    },
+    {
+      "logical": "res://scripts/coin_renderer.gd",
+      "physical": "scripts/coin_renderer.gdc"
+    },
+    {
+      "logical": "res://scripts/coin_route_director.gd",
+      "physical": "scripts/coin_route_director.gdc"
+    },
+    {
+      "logical": "res://scripts/collision_responder.gd",
+      "physical": "scripts/collision_responder.gdc"
+    },
+    {
+      "logical": "res://scripts/collision_sound.gd",
+      "physical": "scripts/collision_sound.gdc"
+    },
+    {
+      "logical": "res://scripts/combo_tracker.gd",
+      "physical": "scripts/combo_tracker.gdc"
+    },
+    {
+      "logical": "res://scripts/difficulty_profile.gd",
+      "physical": "scripts/difficulty_profile.gdc"
+    },
+    {
+      "logical": "res://scripts/drive_controller.gd",
+      "physical": "scripts/drive_controller.gdc"
+    },
+    {
+      "logical": "res://scripts/environment_scroller.gd",
+      "physical": "scripts/environment_scroller.gdc"
+    },
+    {
+      "logical": "res://scripts/fast_priority_traffic.gd",
+      "physical": "scripts/fast_priority_traffic.gdc"
+    },
+    {
+      "logical": "res://scripts/fuel_pickup.gd",
+      "physical": "scripts/fuel_pickup.gdc"
+    },
+    {
+      "logical": "res://scripts/fuel_spawn_director.gd",
+      "physical": "scripts/fuel_spawn_director.gdc"
+    },
+    {
+      "logical": "res://scripts/game_config.gd",
+      "physical": "scripts/game_config.gdc"
+    },
+    {
+      "logical": "res://scripts/game_feedback.gd",
+      "physical": "scripts/game_feedback.gdc"
+    },
+    {
+      "logical": "res://scripts/game_text.gd",
+      "physical": "scripts/game_text.gdc"
+    },
+    {
+      "logical": "res://scripts/impact_model.gd",
+      "physical": "scripts/impact_model.gdc"
+    },
+    {
+      "logical": "res://scripts/lane_event_director.gd",
+      "physical": "scripts/lane_event_director.gdc"
+    },
+    {
+      "logical": "res://scripts/main.gd",
+      "physical": "scripts/main.gdc"
+    },
+    {
+      "logical": "res://scripts/overdrive_controller.gd",
+      "physical": "scripts/overdrive_controller.gdc"
+    },
+    {
+      "logical": "res://scripts/pass_event_resolver.gd",
+      "physical": "scripts/pass_event_resolver.gdc"
+    },
+    {
+      "logical": "res://scripts/pavement_surface.gd",
+      "physical": "scripts/pavement_surface.gdc"
+    },
+    {
+      "logical": "res://scripts/player_vehicle_profile.gd",
+      "physical": "scripts/player_vehicle_profile.gdc"
+    },
+    {
+      "logical": "res://scripts/progression.gd",
+      "physical": "scripts/progression.gdc"
+    },
+    {
+      "logical": "res://scripts/race_effect_renderer.gd",
+      "physical": "scripts/race_effect_renderer.gdc"
+    },
+    {
+      "logical": "res://scripts/race_instrument_hud.gd",
+      "physical": "scripts/race_instrument_hud.gdc"
+    },
+    {
+      "logical": "res://scripts/race_progression.gd",
+      "physical": "scripts/race_progression.gdc"
+    },
+    {
+      "logical": "res://scripts/rating_card.gd",
+      "physical": "scripts/rating_card.gdc"
+    },
+    {
+      "logical": "res://scripts/repair_supply_director.gd",
+      "physical": "scripts/repair_supply_director.gdc"
+    },
+    {
+      "logical": "res://scripts/roadside_renderer.gd",
+      "physical": "scripts/roadside_renderer.gdc"
+    },
+    {
+      "logical": "res://scripts/run_rating.gd",
+      "physical": "scripts/run_rating.gdc"
+    },
+    {
+      "logical": "res://scripts/run_seed_sequence.gd",
+      "physical": "scripts/run_seed_sequence.gdc"
+    },
+    {
+      "logical": "res://scripts/run_state.gd",
+      "physical": "scripts/run_state.gdc"
+    },
+    {
+      "logical": "res://scripts/runtime_performance_capture.gd",
+      "physical": "scripts/runtime_performance_capture.gdc"
+    },
+    {
+      "logical": "res://scripts/save_store.gd",
+      "physical": "scripts/save_store.gdc"
+    },
+    {
+      "logical": "res://scripts/sound_effects.gd",
+      "physical": "scripts/sound_effects.gdc"
+    },
+    {
+      "logical": "res://scripts/supply_renderer.gd",
+      "physical": "scripts/supply_renderer.gdc"
+    },
+    {
+      "logical": "res://scripts/track_geometry.gd",
+      "physical": "scripts/track_geometry.gdc"
+    },
+    {
+      "logical": "res://scripts/track_runtime_profile.gd",
+      "physical": "scripts/track_runtime_profile.gdc"
+    },
+    {
+      "logical": "res://scripts/traffic_director.gd",
+      "physical": "scripts/traffic_director.gdc"
+    },
+    {
+      "logical": "res://scripts/traffic_safety_policy.gd",
+      "physical": "scripts/traffic_safety_policy.gdc"
+    },
+    {
+      "logical": "res://scripts/traffic_vehicle.gd",
+      "physical": "scripts/traffic_vehicle.gdc"
+    },
+    {
+      "logical": "res://scripts/ui/audio_settings_panel.gd",
+      "physical": "scripts/ui/audio_settings_panel.gdc"
+    },
+    {
+      "logical": "res://scripts/ui/menu_presentation.gd",
+      "physical": "scripts/ui/menu_presentation.gdc"
+    },
+    {
+      "logical": "res://scripts/ui/persistence_notice.gd",
+      "physical": "scripts/ui/persistence_notice.gdc"
+    },
+    {
+      "logical": "res://scripts/ui/tour_map_controller.gd",
+      "physical": "scripts/ui/tour_map_controller.gdc"
+    },
+    {
+      "logical": "res://scripts/ui/tour_map_screen.gd",
+      "physical": "scripts/ui/tour_map_screen.gdc"
+    },
+    {
+      "logical": "res://scripts/ui/vehicle_performance_chart.gd",
+      "physical": "scripts/ui/vehicle_performance_chart.gdc"
+    },
+    {
+      "logical": "res://scripts/ui/vehicle_select_controller.gd",
+      "physical": "scripts/ui/vehicle_select_controller.gdc"
+    },
+    {
+      "logical": "res://scripts/ui/vehicle_select_screen.gd",
+      "physical": "scripts/ui/vehicle_select_screen.gdc"
+    },
+    {
+      "logical": "res://scripts/vehicle_integrity.gd",
+      "physical": "scripts/vehicle_integrity.gdc"
+    },
+    {
+      "logical": "res://scripts/vehicle_visual_animation.gd",
+      "physical": "scripts/vehicle_visual_animation.gdc"
+    },
+    {
+      "logical": "res://scripts/visual_style.gd",
+      "physical": "scripts/visual_style.gdc"
+    },
+    {
+      "logical": "res://scripts/checkpoint_renderer.gd",
+      "physical": "scripts/checkpoint_renderer.gdc"
+    },
+    {
+      "logical": "res://scripts/ui/race_route_map.gd",
+      "physical": "scripts/ui/race_route_map.gdc"
+    }
+  ],
+  "format_version": 4,
+  "scope": "Read-only actual pack directory, all entry payload hashes and manifest remaps. Not engine resource decoding, normal EXE flow, graphics, audio playback or rights verification.",
+  "logical_count": 131,
+  "engine_version": [
+    4,
+    7,
+    0
+  ],
+  "problems": [],
+  "source": "https://github.com/godotengine/godot/blob/5b4e0cb0f/core/io/file_access_pack.cpp",
+  "pack_bytes": 26290732,
+  "pack": "C:\\Users\\21604\\Documents\\car\\exports\\0.4.0-rc.4\\1e96aa2-757d454a\\package\\NeonCoastRush.pck",
+  "passed": true,
+  "pack_sha256": "0A249D52304B0BF5819B0E562635CCB6B081B085BB570722C289159159D48D1F",
+  "physical_count": 265
+}
