@@ -1,0 +1,15 @@
+{
+  "package_unchanged": true,
+  "formal_files_unchanged": true,
+  "zip_sha256": "41EFD4A841D896C17DE7161F2300E82C14FB02395B0FBDD16C7CA27E1BD9CD14",
+  "root": "C:\\Users\\21604\\Documents\\car\\exports\\0.4.0-rc.4\\1e96aa2-757d454a\\unpacked-check-6d529340",
+  "native_exit": 0,
+  "timeout": false,
+  "build_head": "1e96aa2d59fbc8bf82ccb36252a339f04268c964",
+  "process_log_sha256": "A89796985B34F3C8AE1213B7DFA57C076CC113F9EAC328B77724F0EF01A22F65",
+  "passed": true,
+  "problems": [],
+  "scope": "Actual ZIP extracted six-file payload identity and independent empty-APPDATA EXE headless 60-frame clean exit only. Not normal graphical complete flow, audio, driving performance, stability or human acceptance.",
+  "appdata": "C:\\Users\\21604\\Documents\\car\\exports\\0.4.0-rc.4\\1e96aa2-757d454a\\unpacked-check-6d529340\\appdata",
+  "executable": "C:\\Users\\21604\\Documents\\car\\exports\\0.4.0-rc.4\\1e96aa2-757d454a\\unpacked-check-6d529340\\package\\NeonCoastRush.exe"
+}
