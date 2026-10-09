@@ -20,6 +20,11 @@ func _init() -> void:
 		var controls: String = Text.get_text("controls.body", locale)
 		_check(controls.contains("W / ↑") and controls.contains("S / ↓") and controls.to_lower().contains("esc"), "controls retain driving and exit instructions: " + locale)
 	var main := MainScene.instantiate()
+	_check(main.has_method("_fast_entry_warning_text"), "red pre-entry label reads the configured speed")
+	if main.has_method("_fast_entry_warning_text"):
+		for locale in ["zh","en"]:
+			main.language = locale
+			_check(main.call("_fast_entry_warning_text") == ("高速来车 · 450" if locale == "zh" else "INCOMING · 450"), "localized red pre-entry label displays 450: " + locale)
 	_check(not main.get_node("CanvasLayer/TitleScreen/Center/Card/Content/Version").visible, "development version label is hidden without removing internal metadata")
 	main.free()
 	_check(ProjectSettings.get_setting("application/config/name") == "Neon Coast Rush", "copy polish preserves the application and save identity; version is checked by the metadata gate")

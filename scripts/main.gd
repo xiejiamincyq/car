@@ -539,6 +539,10 @@ func _draw_construction_cone(center: Vector2, rotation: float) -> void:
 	draw_rect(Rect2(-16.0, 12.0, 32.0, 7.0), Color("20242d"), true)
 	draw_set_transform(screen_shake)
 
+func _fast_entry_warning_text() -> String:
+	var template := "高速来车 · %.0f" if language == "zh" else "INCOMING · %.0f"
+	return template % GameConfig.FAST_OVERTAKE_SPEED_KMH
+
 func _draw_traffic(road_left: float) -> void:
 	var lane_width := GameConfig.ROAD_HALF_WIDTH * 2.0 / GameConfig.ROAD_LANE_COUNT
 	var entry := traffic.fast_entry_warning()
@@ -555,7 +559,7 @@ func _draw_traffic(road_left: float) -> void:
 			var tip := center - Vector2(0,offset)
 			draw_polyline(PackedVector2Array([tip+Vector2(-28,18),tip-Vector2(0,14),tip+Vector2(28,18)]),Color("081018"),12,true)
 			draw_polyline(PackedVector2Array([tip+Vector2(-28,18),tip-Vector2(0,14),tip+Vector2(28,18)]),accent,7,true)
-		draw_string(ThemeDB.fallback_font,Vector2(left+12,height-18),"高速来车 · 400" if language == "zh" else "INCOMING · 400",HORIZONTAL_ALIGNMENT_CENTER,lane_width-24,20,accent)
+		draw_string(ThemeDB.fallback_font,Vector2(left+12,height-18),_fast_entry_warning_text(),HORIZONTAL_ALIGNMENT_CENTER,lane_width-24,20,accent)
 	for vehicle in traffic.vehicles:
 		var car_center := Vector2(road_left + lane_width * (vehicle.lane_position + 0.5), vehicle.y)
 		var body_color := _traffic_color(vehicle.kind)

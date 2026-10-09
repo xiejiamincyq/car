@@ -8,7 +8,7 @@ const Safety = preload("res://scripts/traffic_safety_policy.gd")
 const STEP := 1.0 / 60.0
 # Independent specification in the existing speed coordinate, not a copy of
 # the production FAST_OVERTAKE_SPEED constant that could mask a wrong value.
-const EXPECTED_WORLD_SPEED := 400.0 / 0.42
+const EXPECTED_WORLD_SPEED := 450.0 / 0.42
 const PRE_ENTRY_WARNING_SECONDS := 1.0
 var failures: Array[String] = []
 var assertions := 0
@@ -68,8 +68,8 @@ func _sample(height: float, initial_player_speed: float) -> void:
 		label + " warns the lane for one second before any red entity exists, not after visible arrival")
 	_check(warning_lane >= 0 and warning_lane < traffic.lane_count and warning_lane == red.lane,
 		label + " pre-entry warning identifies the actual birth lane")
-	_check(is_equal_approx(red.cruise_speed, EXPECTED_WORLD_SPEED), label + " assigned cruise is exactly displayed 400 km/h")
-	_check(is_equal_approx(red.actual_world_speed, EXPECTED_WORLD_SPEED), label + " first production tick already travels at 400 km/h")
+	_check(is_equal_approx(red.cruise_speed, EXPECTED_WORLD_SPEED), label + " assigned cruise is exactly displayed 450 km/h")
+	_check(is_equal_approx(red.actual_world_speed, EXPECTED_WORLD_SPEED), label + " first production tick already travels at 450 km/h")
 	var generation: int = red.motion_generation
 	var observed_frames := 0
 	var visible_frames := 0
@@ -81,7 +81,7 @@ func _sample(height: float, initial_player_speed: float) -> void:
 		if not traffic.vehicles.has(red) or red.motion_generation != generation:
 			break
 		# The same real red must not inherit the player's changing camera speed:
-		# sudden player braking, maximum normal cruise, and overdrive above 400.
+		# sudden player braking, maximum normal cruise, and overdrive above 450.
 		var player_speed := initial_player_speed
 		if frame >= 30 and frame < 60:
 			player_speed = 0.0
@@ -100,7 +100,7 @@ func _sample(height: float, initial_player_speed: float) -> void:
 		physically_safe = physically_safe and not traffic.has_vehicle_overlap() and not traffic.has_full_lane_wall()
 		if frame % 15 == 0:
 			history.append({"frame":frame,"player_speed":player_speed,"red_speed":red.actual_world_speed,"red_y":red.y,"expected_y":expected_y})
-	_check(observed_frames > 0 and speed_constant, label + " keeps 400 km/h throughout real ticks even when player brakes or overdrives")
+	_check(observed_frames > 0 and speed_constant, label + " keeps 450 km/h throughout real ticks even when player brakes or overdrives")
 	_check(projection_correct, label + " relative camera displacement equals (player - absolute red) * 1.15 * dt without catch-up or teleport")
 	_check(physically_safe, label + " empty-road run preserves NPC body and wall safety")
 	# This oracle does not claim full traffic safety or player collision coverage:

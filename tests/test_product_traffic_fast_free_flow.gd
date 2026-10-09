@@ -55,6 +55,6 @@ func _sample(delta: float, player_speed: float) -> bool:
 		if vehicle.y < Geometry.player_y(720.0) - vehicle.half_length:
 			passed_player = true
 			break
-	var okay: bool = admitted and no_jump and warning_seen and warning_seconds >= 1.0-0.00001 and warning_lane == vehicle.lane and visible_seconds > 0.0 and passed_player and is_equal_approx(vehicle.actual_world_speed * Config.HUD_SPEED_SCALE, 400.0)
+	var okay: bool = admitted and no_jump and warning_seen and warning_seconds >= 1.0-0.00001 and warning_lane == vehicle.lane and visible_seconds > 0.0 and passed_player and is_equal_approx(vehicle.actual_world_speed * Config.HUD_SPEED_SCALE, 450.0)
 	print("FAST_FREE_FLOW ", JSON.stringify({"dt":delta,"player_speed":player_speed,"admitted":admitted,"no_jump":no_jump,"warning_seconds":warning_seconds,"visible_seconds":visible_seconds,"passed_player":passed_player,"elapsed":elapsed,"actual":vehicle.actual_world_speed,"okay":okay}))
 	return okay

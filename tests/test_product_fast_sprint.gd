@@ -30,7 +30,7 @@ func _sample(height: float, speed: float) -> void:
 	var red = host.acquire_vehicle(Traffic.Kind.FAST_OVERTAKE, 0, height - 42.0)
 	red.actual_world_speed = speed
 	host.vehicles.append(red)
-	_check(is_equal_approx(red.cruise_speed * Config.HUD_SPEED_SCALE, 400.0), "red cruise is 400 km/h in displayed units")
+	_check(is_equal_approx(red.cruise_speed * Config.HUD_SPEED_SCALE, 450.0), "red cruise is 450 km/h in displayed units")
 	var elapsed := 0.0
 	var warned := 0.0
 	var passed := false
