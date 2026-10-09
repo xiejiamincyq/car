@@ -13,6 +13,7 @@ const FuelPickup = preload("res://scripts/fuel_pickup.gd")
 const VisualStyle = preload("res://scripts/visual_style.gd")
 const AudioDirector = preload("res://scripts/audio/audio_director.gd")
 const TrackGeometry = preload("res://scripts/track_geometry.gd")
+const CheckpointRenderer = preload("res://scripts/checkpoint_renderer.gd")
 const RunSeedSequence = preload("res://scripts/run_seed_sequence.gd")
 const FuelSpawnDirector = preload("res://scripts/fuel_spawn_director.gd")
 const SaveStore = preload("res://scripts/save_store.gd")
@@ -450,6 +451,7 @@ func _draw() -> void:
 		while dash_y < viewport_size.y:
 			draw_rect(Rect2(lane_x - 4.0, dash_y, 8.0, 52.0), lane_color)
 			dash_y += ROAD_MARK_REPEAT_DISTANCE
+	CheckpointRenderer.draw_markers(self,run.progression,run.distance,viewport_size.y,road_left,GameConfig.ROAD_HALF_WIDTH*2.0,language,high_contrast_enabled)
 	CoinRenderer.draw_coins(self, coin_director.coins, road_left, lane_width, car_center, visual_animation_time, high_contrast_enabled, reduced_flashing_enabled, screen_shake)
 	_draw_lane_event(road_left, viewport_size.y)
 	_draw_traffic(road_left)
@@ -1365,6 +1367,7 @@ func _update_hud() -> void:
 	run_status_label.text = _text("hud.status", [run.difficulty_stage + 1, run.combo.multiplier, combo_time, _phase_text()])
 	controls_hint_label.text = ""
 	race_hud.present(drive.speed, drive.max_speed + GameConfig.OVERDRIVE_SPEED_BONUS, run.fuel, integrity.current, language, run.coins)
+	race_hud.route_map.present(run.distance,run.progression.finish_distance,run.progression.checkpoint_distances,language)
 	var result_was_visible := result_screen.visible
 	race_hud.visible = run.phase == RunState.Phase.RUNNING or run.phase == RunState.Phase.PAUSED
 	countdown_screen.visible = run.phase == RunState.Phase.COUNTDOWN

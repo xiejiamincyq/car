@@ -4,6 +4,8 @@ const CYAN := Color("63e5f2")
 const MUTED := Color("739ba9")
 const GOLD := Color("ffda77")
 const BACKGROUND := Color(0.02, 0.055, 0.085, 0.70)
+const RouteMap = preload("res://scripts/ui/race_route_map.gd")
+var route_map: Control
 var speed_ratio := 0.0
 var fuel_ratio := 1.0
 var displayed_speed := 0.0
@@ -29,6 +31,9 @@ func _ready() -> void:
 	integrity_gauge.show_percentage = false
 	integrity_gauge.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(integrity_gauge)
+	route_map = RouteMap.new()
+	route_map.name = "RouteMap"
+	add_child(route_map)
 	for bar in [$Rows/FuelGauge, $Rows/ProgressGauge, $Rows/OverdriveGauge, integrity_gauge]:
 		bar.add_theme_stylebox_override("background", _box(Color("142633")))
 		bar.add_theme_stylebox_override("fill", _box(Color.WHITE if bar in [integrity_gauge, $Rows/FuelGauge] else CYAN))
@@ -57,6 +62,7 @@ func _place(node: Control, rect: Rect2, font_size: int = 16, alignment: int = HO
 func layout_instruments() -> void:
 	var w := size.x
 	var h := size.y
+	_place(route_map, Rect2(0,192,224,minf(400.0,maxf(150.0,h-468.0))))
 	_place($Rows/RunStatus, Rect2(12, 8, 370, 48), 16)
 	$Rows/RunStatus.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_place($Rows/Score, Rect2(w-222, 25, 208, 40), 32, HORIZONTAL_ALIGNMENT_RIGHT)
