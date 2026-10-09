@@ -1,0 +1,353 @@
+{
+  "results": [
+    {
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-0.out.log",
+      "timeout": false,
+      "stdout_sha256": "28C371915B6C4C79251527912F9C365EC1E3B157AB0042CCE8CFAD309EE4012F",
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "native_exit": 0,
+      "shard": 0,
+      "passed": true,
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-0.err.log",
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-77000-288034/summary.json",
+        "wall_seconds": 92.944699
+      }
+    },
+    {
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-3.out.log",
+      "timeout": false,
+      "stdout_sha256": "C21CF00D77BC794AADAC5B2FD8F76497E5C7E90A968C7F1E0C9D62B2A829CACF",
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "native_exit": 0,
+      "shard": 3,
+      "passed": true,
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-3.err.log",
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-104220-308234/summary.json",
+        "wall_seconds": 95.518241
+      }
+    },
+    {
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-2.out.log",
+      "timeout": false,
+      "stdout_sha256": "D4460E741C5F5218774DE5F0498050F0139805B3FC6F677295558FF2445E2D99",
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "native_exit": 0,
+      "shard": 2,
+      "passed": true,
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-2.err.log",
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-101432-300184/summary.json",
+        "wall_seconds": 98.127813
+      }
+    },
+    {
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-1.out.log",
+      "timeout": false,
+      "stdout_sha256": "F6ADB624D4470C45435EA8F1F7857C1CC6F3DC8470DD505DB7AA0DC3F14B1080",
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "native_exit": 0,
+      "shard": 1,
+      "passed": true,
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-1.err.log",
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-86832-306387/summary.json",
+        "wall_seconds": 101.520049
+      }
+    },
+    {
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-4.out.log",
+      "timeout": false,
+      "stdout_sha256": "3B88A2344B2581F0E9F6A726D71639D59F91C07905F6CBE37A23B2B5F665761B",
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "native_exit": 0,
+      "shard": 4,
+      "passed": true,
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-4.err.log",
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-63472-292025/summary.json",
+        "wall_seconds": 106.398308
+      }
+    },
+    {
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-5.out.log",
+      "timeout": false,
+      "stdout_sha256": "9B0C147D5EDBA0E38012C9C030583C135E285AF16370C67878A6FF741E4DBEF5",
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "native_exit": 0,
+      "shard": 5,
+      "passed": true,
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-5.err.log",
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-72244-285153/summary.json",
+        "wall_seconds": 104.634627
+      }
+    },
+    {
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-6.out.log",
+      "timeout": false,
+      "stdout_sha256": "8F280F8FD437164C47BFA85025D60BAA9699C662CA4EF1D4893E93929DF0B145",
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "native_exit": 0,
+      "shard": 6,
+      "passed": true,
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-6.err.log",
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-102388-286445/summary.json",
+        "wall_seconds": 103.703678
+      }
+    },
+    {
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-7.out.log",
+      "timeout": false,
+      "stdout_sha256": "1A67870CCD7DCF361F401410A7005987C70B85DE8190266A8037509506CDC536",
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "native_exit": 0,
+      "shard": 7,
+      "passed": true,
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-7.err.log",
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-104196-291144/summary.json",
+        "wall_seconds": 111.563936
+      }
+    },
+    {
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-9.out.log",
+      "timeout": false,
+      "stdout_sha256": "22FAA20B32DEBA8F254580FC003F4BD5608B9143E7A27AB85673A31BB493F957",
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "native_exit": 0,
+      "shard": 9,
+      "passed": true,
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-9.err.log",
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-97376-270096/summary.json",
+        "wall_seconds": 91.867705
+      }
+    },
+    {
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-10.out.log",
+      "timeout": false,
+      "stdout_sha256": "B9FDC69F78B02CF07D7D35D03EFCC78CFEDB0315CBCD49200C360868256B23F7",
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "native_exit": 0,
+      "shard": 10,
+      "passed": true,
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-10.err.log",
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-91384-291209/summary.json",
+        "wall_seconds": 99.196365
+      }
+    },
+    {
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-8.out.log",
+      "timeout": false,
+      "stdout_sha256": "8459D551E40ACBA3472DC3098B4D01A17A3C47B05A753A783ED45E9899DE37D9",
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "native_exit": 0,
+      "shard": 8,
+      "passed": true,
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-8.err.log",
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-89388-281693/summary.json",
+        "wall_seconds": 106.22682
+      }
+    },
+    {
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-11.out.log",
+      "timeout": false,
+      "stdout_sha256": "B18E3CE04BED5909FA67430EEFED2478D52A7233A5E852624096C2FFDB7CA379",
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "native_exit": 0,
+      "shard": 11,
+      "passed": true,
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-11.err.log",
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-83972-294691/summary.json",
+        "wall_seconds": 96.403807
+      }
+    },
+    {
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-12.out.log",
+      "timeout": false,
+      "stdout_sha256": "364049E8BCA377DBDD857C7CCCADF9B947962F548DBCEA84520BD432A78FAAF3",
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "native_exit": 0,
+      "shard": 12,
+      "passed": true,
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-12.err.log",
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-89932-289910/summary.json",
+        "wall_seconds": 93.477592
+      }
+    },
+    {
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-13.out.log",
+      "timeout": false,
+      "stdout_sha256": "22C6A05567846A653F27BF3001FAF42221ADA5637CE6BB1EA42903E565B026F4",
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "native_exit": 0,
+      "shard": 13,
+      "passed": true,
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-13.err.log",
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-85200-295061/summary.json",
+        "wall_seconds": 102.278812
+      }
+    },
+    {
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-14.out.log",
+      "timeout": false,
+      "stdout_sha256": "50655AE602C1A9C21C28F1E1A72AE773B35A6C6D67554A706F5B6E287B5B6A05",
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "native_exit": 0,
+      "shard": 14,
+      "passed": true,
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-14.err.log",
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-102844-291176/summary.json",
+        "wall_seconds": 101.278699
+      }
+    },
+    {
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-15.out.log",
+      "timeout": false,
+      "stdout_sha256": "23AB4DDFCFD9910E4AA586C0A36223571DFCB312E45B6B6402CA6E2797C844C0",
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "native_exit": 0,
+      "shard": 15,
+      "passed": true,
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-15.err.log",
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-103440-301596/summary.json",
+        "wall_seconds": 99.257955
+      }
+    },
+    {
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-16.out.log",
+      "timeout": false,
+      "stdout_sha256": "B4DFD4B48CBB8798B0022B261A651A5D555ACE3EE5B5C23EBCE44979F373C6C0",
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "native_exit": 0,
+      "shard": 16,
+      "passed": true,
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-16.err.log",
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-92568-291377/summary.json",
+        "wall_seconds": 111.075321
+      }
+    },
+    {
+      "stdout": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-17.out.log",
+      "timeout": false,
+      "stdout_sha256": "E012ADB2B57F5659FF954BEA911C11BD5DA299A09DD059074899D9868B359495",
+      "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "native_exit": 0,
+      "shard": 17,
+      "passed": true,
+      "stderr": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe\\shard-17.err.log",
+      "completion": {
+        "completed": 60,
+        "failed_cases": 0,
+        "planned": 60,
+        "reachable_status": "not_audited",
+        "source_stable": true,
+        "summary_path": "res://tmp/product-traffic-matrix-75212-279096/summary.json",
+        "wall_seconds": 108.569102
+      }
+    }
+  ],
+  "shards": 18,
+  "scope": "Independent 1080-case finite traffic geometry, motion and visible-warning model audit; not continuous player reachability, Main resources or human acceptance.",
+  "failed_cases": 0.0,
+  "planned": 1080,
+  "passed": true,
+  "evidence": "C:\\Users\\21604\\Documents\\car\\tmp\\red450-v2-matrix-9f35d6fe",
+  "completed": 1080.0
+}

@@ -1,0 +1,47 @@
+{
+  "engine": "C:/Users/21604/AppData/Local/Microsoft/WinGet/Packages/GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe/Godot_v4.7-stable_win64_console.exe",
+  "wall_seconds": 10.391616,
+  "scope": "Local RC4 export only; not human acceptance or public release.",
+  "source_stable": true,
+  "template_sha256": "C42EB5D17F683EB8BCD52C19A9F36EBF811B1788623878D5276A7D9FFC09F95C",
+  "timeout": false,
+  "head": "ec39af02bc7808527175494251337a324e705081",
+  "native_exit": 0,
+  "id": "ec39af0-17541495",
+  "passed": true,
+  "package": "C:\\Users\\21604\\Documents\\car\\exports\\0.4.0-rc.4\\ec39af0-17541495\\package",
+  "engine_sha256": "D8055FB8C7E7F5010D7439EC69BE051554055DAE55A265F8647BD7301C34161C",
+  "problems": [],
+  "files": [
+    {
+      "name": "ASSET_NOTICES.md",
+      "sha256": "C1C56C76DBF1FF800406E2C1FFD78D79267CC8ACCBEE20086760C3B3ACF8AEA9",
+      "bytes": 1622
+    },
+    {
+      "name": "GODOT_COPYRIGHT.txt",
+      "sha256": "92B24143F6083111537353995AC84F0F89077B444D513C942C1D9106DF272C7C",
+      "bytes": 93347
+    },
+    {
+      "name": "GODOT_LICENSE.txt",
+      "sha256": "B0435E3B3E4E55238F05F4B306F30524A1B2E20147810D436EAA554FA6855C80",
+      "bytes": 1149
+    },
+    {
+      "name": "NeonCoastRush.exe",
+      "sha256": "053DCE777559CF604E88D80C2D3FED8747819B710D8526E3D3F6B76354F1188E",
+      "bytes": 109019648
+    },
+    {
+      "name": "NeonCoastRush.pck",
+      "sha256": "AC6CAE8ABB38FB52BE7BBF192130B6BD106B8F08AD476FF6700E4C9A885D9875",
+      "bytes": 26291164
+    },
+    {
+      "name": "README.md",
+      "sha256": "B564C91550F06AE09E868BDDC513A82513909A502278273F04570A7F3739B895",
+      "bytes": 3210
+    }
+  ]
+}

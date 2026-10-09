@@ -1,0 +1,10 @@
+{
+  "scope": "Current source complete native regression; not human acceptance.",
+  "log_sha256": "649434013D20F77AF28B60723588B8C4DF6D0D13FD3AF61567555B49E9748BB6",
+  "head": "ba9091e862ecf067c29655c8924a955879f276a4",
+  "source_stable": true,
+  "wall_seconds": 768.7103997,
+  "test_count": 164,
+  "passed": false,
+  "changed": []
+}

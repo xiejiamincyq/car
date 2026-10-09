@@ -1,0 +1,20 @@
+[
+  {
+    "unchanged": true,
+    "sha256": "D91F4FC7E54E2ABFE9FC3131C0DAF5B5B14147D875EAE827958B2C58B8243288",
+    "name": "save.cfg",
+    "exists": true
+  },
+  {
+    "unchanged": true,
+    "sha256": null,
+    "name": "save.cfg.bak",
+    "exists": false
+  },
+  {
+    "unchanged": true,
+    "sha256": null,
+    "name": "save.cfg.tmp",
+    "exists": false
+  }
+]

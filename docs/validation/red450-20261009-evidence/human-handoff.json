@@ -1,0 +1,37 @@
+{
+  "formal_before": [
+    {
+      "sha256": "D91F4FC7E54E2ABFE9FC3131C0DAF5B5B14147D875EAE827958B2C58B8243288",
+      "exists": true,
+      "name": "save.cfg"
+    },
+    {
+      "sha256": null,
+      "exists": false,
+      "name": "save.cfg.bak"
+    },
+    {
+      "sha256": null,
+      "exists": false,
+      "name": "save.cfg.tmp"
+    }
+  ],
+  "pid": 85432,
+  "arguments": "--log-file \"C:\\Users\\21604\\Documents\\car\\exports\\0.4.0-rc.4\\ec39af0-17541495\\manual-d542f439\\game.log\" --windowed --resolution 1920x1080",
+  "started_utc": "2026-10-09T13:11:13.1737000Z",
+  "executable": "C:\\Users\\21604\\Documents\\car\\exports\\0.4.0-rc.4\\ec39af0-17541495\\package\\NeonCoastRush.exe",
+  "appdata": "C:\\Users\\21604\\Documents\\car\\exports\\0.4.0-rc.4\\ec39af0-17541495\\manual-d542f439\\appdata",
+  "input_files": [
+    {
+      "source": "C:\\Users\\21604\\Documents\\car\\exports\\0.4.0-rc.4\\1e96aa2-757d454a\\manual-a55b47d7\\appdata\\Godot\\app_userdata\\Neon Coast Rush\\save.cfg",
+      "sha256": "A986D58F7DEA35F268BC5F33F131F751679344350FB6DCDDD3E6C0A80CED4F2F",
+      "name": "save.cfg"
+    },
+    {
+      "source": "C:\\Users\\21604\\Documents\\car\\exports\\0.4.0-rc.4\\1e96aa2-757d454a\\manual-a55b47d7\\appdata\\Godot\\app_userdata\\Neon Coast Rush\\save.cfg.bak",
+      "sha256": "FC75ADC4347DA1AED608B060CB3A52C2FC277A2C4D1FCBA1D1749A0E81C2E898",
+      "name": "save.cfg.bak"
+    }
+  ],
+  "scope": "Normal human keyboard playtest; real previously earned progress copied, formal save not changed. Launch does not prove acceptance or driving performance."
+}

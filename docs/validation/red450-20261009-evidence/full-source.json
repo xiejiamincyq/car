@@ -1,0 +1,1070 @@
+[
+  {
+    "sha256": "F4554C5C092ABB2B4FE983234D2B16AA592E85843C1886D7E36FE5CB6BBFE39D",
+    "path": "C:\\Users\\21604\\Documents\\car\\export_presets.cfg"
+  },
+  {
+    "sha256": "FE426A3E12C916D4C1B194908848F71EED1485D79439EC9E7236217791BCA6E6",
+    "path": "C:\\Users\\21604\\Documents\\car\\project.godot"
+  },
+  {
+    "sha256": "E0E1A8CF200B1A0E11C0C0918E5A01440ACE8017D40FF821991D04AE81EBA651",
+    "path": "C:\\Users\\21604\\Documents\\car\\scenes\\main.tscn"
+  },
+  {
+    "sha256": "9640574A7E6466B32BC5F5C4065447708A1B68E98F4EDFC97EE4A9A38436C638",
+    "path": "C:\\Users\\21604\\Documents\\car\\scenes\\tour_map.tscn"
+  },
+  {
+    "sha256": "0D9BD752390B0391A528F06021B7C15FE0BA66809819DA18AFFEB919E1F863C4",
+    "path": "C:\\Users\\21604\\Documents\\car\\scenes\\vehicle_select.tscn"
+  },
+  {
+    "sha256": "D3D2A56C5D0CB6826A15D6CCD08F869450C2833F792C29AB9E8EB6794DC45BAB",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\audio\\audio_director.gd"
+  },
+  {
+    "sha256": "684CF72AFCE5B8B4D42BB94A45B2826E94036758D484F77D2E013451D2553601",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\audio\\music_catalog.gd"
+  },
+  {
+    "sha256": "39802D086A2A2226FE4F0AE6B2675662C0F6D254DAA42DEEA625EC72D8182189",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\audio\\music_director.gd"
+  },
+  {
+    "sha256": "671DB4DA64EE6EA63EF6A29C75879D96AF887BDB4312E82A39AD315FEA87B6E2",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\catalog\\tour_progress.gd"
+  },
+  {
+    "sha256": "D27AD51B9EEE0CD8851D53B7216747B2EB9F850ADDDC3CBE2A8F536E2E4F336C",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\catalog\\track_catalog.gd"
+  },
+  {
+    "sha256": "FB6EFFDB4C84E15D6000AD987A37E3556FFA4A790ACAA78968EBED932F7C91B1",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\catalog\\vehicle_catalog.gd"
+  },
+  {
+    "sha256": "ECD267115FB66FF7E946F85D2DB2D965883B613EB2FB81E5EAC67363238F938E",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\checkpoint_renderer.gd"
+  },
+  {
+    "sha256": "0FDB1302F90C71DFB363D6441F54074BC5F8A972DACEBA3283B517B161FB171A",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\coin_gameplay_director.gd"
+  },
+  {
+    "sha256": "E74CB8DA2467997068AE00B9F9D9D585D0FACBE9D32492593ADED44BDF6625FF",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\coin_pickup.gd"
+  },
+  {
+    "sha256": "FF81B4A3A6ED1EB6724D54628A7C075D9DFE36B38F20CFE04AE94A7DCCA4B511",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\coin_renderer.gd"
+  },
+  {
+    "sha256": "74995D91C1E25A23A1FBA7F0DE52D92A1B2A03F8BC8169BCBA3068AE18E14864",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\coin_route_director.gd"
+  },
+  {
+    "sha256": "8E7330057B9735D3676B2FA6FB27A766E340A4861872C2DE4C3812335C31D810",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\collision_responder.gd"
+  },
+  {
+    "sha256": "5346DE39CD2D3FFCB90F5AAE435902DEE18C8AE2B645B6A0B906132983E789A4",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\collision_sound.gd"
+  },
+  {
+    "sha256": "6E24745DB71532F69D8257F7DEAFC2589E86B84726816CD6D1973C57D6731A34",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\combo_tracker.gd"
+  },
+  {
+    "sha256": "DFC1EB18D90F6A5AE8D1189ED0C14566165370A86B9FF47D90A00473E44C86D5",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\difficulty_profile.gd"
+  },
+  {
+    "sha256": "AE955D99DC021AFF3BE460B8FE63E503844D66F9CFBCD2048FB61C22BA55C7DF",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\drive_controller.gd"
+  },
+  {
+    "sha256": "32159797DFAEA70D72AB07EA4B0D2EB011F1DB1794B50AAD2C05B0C9CE1C466C",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\environment_scroller.gd"
+  },
+  {
+    "sha256": "FE4E02B4CDDB543BAA9977EA054D0288782ECD36A40C24A7E387D2F772F39640",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\fast_priority_traffic.gd"
+  },
+  {
+    "sha256": "382F76591A2C2FBB493D8994E8E80CDFB109610063869197F3D119EECB45E026",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\fuel_pickup.gd"
+  },
+  {
+    "sha256": "CD3E60C86A83582F57D2D80C86036C925EAF5D1665005BE9BA1146725BC075F0",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\fuel_spawn_director.gd"
+  },
+  {
+    "sha256": "D68366D23F4713081231AC7EAEC7EDC1C47EDB09B8E70C71CF52CC2632C4D90C",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\game_config.gd"
+  },
+  {
+    "sha256": "0E6B23CC41B232DB2A3BC8BD33E7173601FD26DF6C58F20F97D07C4EDA91A03D",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\game_feedback.gd"
+  },
+  {
+    "sha256": "B5D6B0A41801FA47DB29763673B85A879BABD5F50C121B3299CFD1AC49083984",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\game_text.gd"
+  },
+  {
+    "sha256": "565148DEF4C12BC9FB579C84658CC6A84CAC73691BAA001E2BBC4A783B7D1008",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\impact_model.gd"
+  },
+  {
+    "sha256": "8D694B58D6C68C0EEBE36F76EF0E06F0FBE8B040607168B138B6AE2E9CCE7C16",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\lane_event_director.gd"
+  },
+  {
+    "sha256": "15DD648EAD2799DFB9D7898842466149F1BFED91299F878E9FC87662D4EA5BC2",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\main.gd"
+  },
+  {
+    "sha256": "F52D4B847587E198428CE6A006346C7B7481CF6EF867412F6E0597CB78E8EEE4",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\overdrive_controller.gd"
+  },
+  {
+    "sha256": "B81FCD2ECAEBE0DD552F5AF4309A7340645F66F235BB57C28D70A5C93871E0BD",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\pass_event_resolver.gd"
+  },
+  {
+    "sha256": "D2CA83A37A508587BCC2A6AC2D5615CB79C795EA941FE98EDE2E9B0F1FF3A888",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\pavement_surface.gd"
+  },
+  {
+    "sha256": "6EC92C8FC9C096FAE59AB62A256F7089346EBB9CB5DA00314332F273912D58B9",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\player_vehicle_profile.gd"
+  },
+  {
+    "sha256": "F9F01FFA296DD4C69390F84DF576FC35B5A4E090475285207675ED8C410880A4",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\progression.gd"
+  },
+  {
+    "sha256": "529D2DEA41B3E4E09B8551BD5728675B582C65A3C56871667D4D318A5172D6B9",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\race_effect_renderer.gd"
+  },
+  {
+    "sha256": "30B58187140C75C6F68C0309A3B1EE26DF2C609D91B6BEDE510CAFFEB1EEA752",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\race_instrument_hud.gd"
+  },
+  {
+    "sha256": "DF8954C61F8ADF5F051F521CE74C027473EB9409AEC0DB1601CE51480241322F",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\race_progression.gd"
+  },
+  {
+    "sha256": "A77395155088FAF11D52043A30ABD3416AD97B11079E14564D327E6873115BEE",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\rating_card.gd"
+  },
+  {
+    "sha256": "7D8A7569D0A66FEA6CB74F240319ED463115935DDFAB87B9F470A73BB25966A3",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\repair_supply_director.gd"
+  },
+  {
+    "sha256": "EE1C86025F9E11ABB824EE75205AD5F140EA5B2651BBD6A7F691BDA0B9275A76",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\roadside_renderer.gd"
+  },
+  {
+    "sha256": "0393B367D4D2CCFA37917F62E24BA0F517BD7E98875E5F38FF831A5F00A5F3A6",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\run_rating.gd"
+  },
+  {
+    "sha256": "53D7F7505687D25AABB6E696651417379668BD5A052C334D1800EF6D75FD4810",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\run_seed_sequence.gd"
+  },
+  {
+    "sha256": "D0D9FA29BB4654C4733FAEFE9E3659AF3E8FEE44295D65003881A46EAE44BB58",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\run_state.gd"
+  },
+  {
+    "sha256": "1F358E2C2DB4752BAFA541040ACAE879F6EB5AFB4F50A944A505E7E19AC34760",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\runtime_performance_capture.gd"
+  },
+  {
+    "sha256": "6E5F2EF3DEACF278C264D1E563A5CDCC1D35F1098840C28A0775AB97797A460B",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\save_store.gd"
+  },
+  {
+    "sha256": "302025A97E71999F73025584158CDA558825DE97E2398AAB3A2511CC8DD57936",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\sound_effects.gd"
+  },
+  {
+    "sha256": "6177A00A8A9CCEECD63CE343DEB5F8110C8777B093D3D0DD87750A0ABF60F259",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\supply_renderer.gd"
+  },
+  {
+    "sha256": "3ACD6C0EAEBFE62FC151AA52D1376E42565377BF33DF92A380BA92BF1214ADCB",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\tests\\BalanceAudit.gd"
+  },
+  {
+    "sha256": "D85B621B4C81521DAD3CFB5B61DC80EE38E0E8AFAC1561AF0626E1DB4A43CBAC",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\tests\\ExportResourceAudit.gd"
+  },
+  {
+    "sha256": "A4A9022F38B6243D71B64D05BFBFBE39B86C8483D1993D4F8E14C018E674BA9C",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\tests\\FastEntryVisualCapture.gd"
+  },
+  {
+    "sha256": "DB128C031F0FF35F4E0EC457503B811ACFF7A915A493C403941E37AD73331A11",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\tests\\MenuVisualCapture.gd"
+  },
+  {
+    "sha256": "2F86A6AE07873EE2228B6C4C2B398E33A69F3AB29B7E1C27688B13F7D5D2345F",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\tests\\NaturalAdaptiveRecoveryAudit.gd"
+  },
+  {
+    "sha256": "BDAF001AB11308AA7FB36E07EEDF8FF05291C6B1E3E79B76C0E19D44DE3A3F2F",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\tests\\NaturalFallbackRecoveryAudit.gd"
+  },
+  {
+    "sha256": "F79EB0F3F498BBBFFAF554D03CA0627F03B948631F005EB5D7AC55CE614956E7",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\tests\\NaturalIntentRecoveryAudit.gd"
+  },
+  {
+    "sha256": "BECC71AC6A99F48D23A8517F1FE3F99641FEC80B26F945263BBA7211ABEAA513",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\tests\\PavementPreview.gd"
+  },
+  {
+    "sha256": "3D9EC478CBF376D483C08FF3F74BA054C5A71BC35988B3EDFB2F4B2CD4469F66",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\tests\\PersistenceNoticeCapture.gd"
+  },
+  {
+    "sha256": "BEA96567ECEB669276C953FAF023C2CB4CAD70B61BF8CD930D9541DA8F330C47",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\tests\\ProductHardSupplyAudit.gd"
+  },
+  {
+    "sha256": "5611EE7B2BB6129497487B6685E93A1F76A7417C7A9AA0308F3F206498F98924",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\tests\\ProductMainAudit.gd"
+  },
+  {
+    "sha256": "7D966FAE17C4F3216E01B8C7C21D6B0A95701E681FB5734BD00369EB908D03EC",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\tests\\ProductMainPathAudit.gd"
+  },
+  {
+    "sha256": "31F0D7E2661918D0076BD9CBFBA603B37548E65D584DA5D5E9F0CC784266F837",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\tests\\ProductNaturalPathAudit.gd"
+  },
+  {
+    "sha256": "5526DAE2C925EBF82FB1612C5A595309F362530E3CC6F8EFD46668243B5EA995",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\tests\\ProductPickupRepro.gd"
+  },
+  {
+    "sha256": "88776C37E239B5932F84C2CB5BBC84F8D36E3B8EC1EE02BBA59619D9F8ED79EA",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\tests\\ProductTailCapture.gd"
+  },
+  {
+    "sha256": "6CCD02F0D7E63428B904D8BEF83BAA195E351B2F9BCD542A837B85212379588B",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\tests\\ProductTrafficBaseline.gd"
+  },
+  {
+    "sha256": "39E609072B499DAD3CF84898A9939A16497635DAD412B43F3576348D421C9EF9",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\tests\\ProductTrafficMatrix.gd"
+  },
+  {
+    "sha256": "9EC9BF631F84A0A60722C238F492E4E923A96BB6B16BDC3C2D4078DAFAF1452E",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\tests\\RatingLayoutPreview.gd"
+  },
+  {
+    "sha256": "1D93836ED4668D28B2A8ED62855CB451437D4D79DE918D0696B80547003EB9A9",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\tests\\RouteVisualCapture.gd"
+  },
+  {
+    "sha256": "21014CC68D7FC93FA37D2F0CB59C441D804408DC0B45B7181300EB5189ADD089",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\tests\\VisualCapture.gd"
+  },
+  {
+    "sha256": "9F7074B0B937DCE479B40DF0FC50B6A12A8E7C46E2080DAC7886D1D8EB80D015",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\track_geometry.gd"
+  },
+  {
+    "sha256": "E158D32FFCC318DA222838D41FEB6F97EB5E33A5499FE3680C8E69CD8BD58B18",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\track_runtime_profile.gd"
+  },
+  {
+    "sha256": "387D7BD13DE8823C094A6959ACA258AA61581A2650652F48FCC62839F4D04567",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\traffic_director.gd"
+  },
+  {
+    "sha256": "0843581684E927D990B92042E4AF133D3B2F1B080757E5A9D6F4F7352218482C",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\traffic_safety_policy.gd"
+  },
+  {
+    "sha256": "46CA0779ADBDD5729992689D1A4F33919BF6C354A2508A40E2EEA3FB65A7E383",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\traffic_vehicle.gd"
+  },
+  {
+    "sha256": "1918B519A77B94773FEFA8970FB170F08D78296E3D312121F024865DA9774C48",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\ui\\audio_settings_panel.gd"
+  },
+  {
+    "sha256": "9313F672A3623C471FDF08D88E8BC1CD894B480DDE135E975A6C308BE5AB7399",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\ui\\menu_presentation.gd"
+  },
+  {
+    "sha256": "4BDDBAD66E8FEB3ADFD528209DF84F8940ABC223B8997282D98E84EA9B3390E1",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\ui\\persistence_notice.gd"
+  },
+  {
+    "sha256": "97BBF9943275F5D134D72C901182C99A7EDFE1778D3F1B9A65D562517796F7E0",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\ui\\race_route_map.gd"
+  },
+  {
+    "sha256": "F2828E29450CFA0F9D43E48A562B39A3408098F3BE4BA74214F6D511547D1285",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\ui\\tour_map_controller.gd"
+  },
+  {
+    "sha256": "41E4ADA63A5EE35A1BD376AFA1EF33941072B70D17D0F3F8F82F87532BB1BF2B",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\ui\\tour_map_screen.gd"
+  },
+  {
+    "sha256": "85C481F7B2E7A2A6A76553C89D342C2847D3D490C6B42964CB715E31AAB6F415",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\ui\\vehicle_performance_chart.gd"
+  },
+  {
+    "sha256": "6EF663099C9EB92137E802C983DD69CD6B012C7A7A3619CC3FC4ED7FFC81CEA8",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\ui\\vehicle_select_controller.gd"
+  },
+  {
+    "sha256": "01CEA3ACCD6AEC8AEA6A85EA4AD31BC1F84689CADEFAAA6F08DD97F736653538",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\ui\\vehicle_select_screen.gd"
+  },
+  {
+    "sha256": "C498A1F7DEFE46BCEAB164EACD769D7D9DC287CB5ED595220E0E78513768FB5C",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\vehicle_integrity.gd"
+  },
+  {
+    "sha256": "64E51047E0A217E9A494DFDC8D5D21B176A479EC71E15ACAC0069D4583FC1B26",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\vehicle_visual_animation.gd"
+  },
+  {
+    "sha256": "B421C26AF6C7ED212E1CAA875C2AC8ABE4BF28CC321C97C91A384553324D6821",
+    "path": "C:\\Users\\21604\\Documents\\car\\scripts\\visual_style.gd"
+  },
+  {
+    "sha256": "B9D7549995DB890CED4720DC43853473B9F369E5C8A67F8CAEB910C7566E8824",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\failing_save_store.gd"
+  },
+  {
+    "sha256": "615CF8D0F6E5E755691EAB6B6012204827E707EF3D0D06ED3212A057D5726A8E",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\playtest_launch_config.gd"
+  },
+  {
+    "sha256": "36953D7829C6836B76DBDD68C99BB909955DFFCE71D96B6227C4A654074661D2",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\playtest_session_recorder.gd"
+  },
+  {
+    "sha256": "A6F50F76791E214CF01196284216FEFC2FF3C46BB78CDEB4DB63AE650B52257A",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\PlaytestLauncher.gd"
+  },
+  {
+    "sha256": "DB02658A85BDD19534014CB63E1BD61AF3BFA6D97D05B2C65EFC93213B92C679",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\runner_watchdog_probe.gd"
+  },
+  {
+    "sha256": "73228838CD38519FDDAD95AF060CC47FB2463F2D04DECF739169E6A0D4527C29",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\support\\audio_teardown.gd"
+  },
+  {
+    "sha256": "2A13BBDD15EFF85FD478C176FA3A7C6D80B94D65429E03BC452C2AD52E1F788C",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\support\\observed_change_traffic.gd"
+  },
+  {
+    "sha256": "B3215875B830362F531DCCFC6C0CD9103D93F5BE336CDF0C3E4076F84DCEF6ED",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\support\\observed_core_traffic.gd"
+  },
+  {
+    "sha256": "EF9034D4F4D7A5BC5D94DC900504462A2334EBB473775F742B85C21F3FA9003F",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\support\\observed_lane_events.gd"
+  },
+  {
+    "sha256": "FF11986F51DB132F2C93A15ADC232F16B650455209EA72B5AD9360BF90EE9EC5",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\support\\observed_motion_traffic.gd"
+  },
+  {
+    "sha256": "0954A96190B6D5FB9A3749B2C34CF18D2E8A23DD4FE2DE68E390C7C9F30A2402",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\support\\observed_player_path_traffic.gd"
+  },
+  {
+    "sha256": "B4E5DE248FB4EC3487B3132FCB5E9529830297E584B690F6EFDEB81091922527",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\support\\observed_traffic.gd"
+  },
+  {
+    "sha256": "2435CBF25E22E82424AFB28676E02C8256A20E2B287D7E4EDB627812EEA5E4AC",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\support\\persistence_restart_fixture.gd"
+  },
+  {
+    "sha256": "570F90F151BB82F23079FB430BC4C49D675AC1ABCBB9F31971FBA62EEEF9B5B5",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\support\\player_path_oracle.gd"
+  },
+  {
+    "sha256": "B9D9B5D122BD892FC17F6C71C1920CB16263F8AFADECD7F48BCB919EC72CED58",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\support\\traffic_audit_geometry.gd"
+  },
+  {
+    "sha256": "77EC2CEF4DBC180E5948153AEC9E92A6CBCD55F247CFF6C0E650E994B33079DD",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\support\\traffic_core_audit.gd"
+  },
+  {
+    "sha256": "828BDDBE85FA883A8B7D2942856DC5D519C4ED2BD99E385D0BD56EB857FA3260",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\support\\traffic_motion_audit.gd"
+  },
+  {
+    "sha256": "43B4865CD92CF6FB9AD386998E12F2512B524EBB083E8FB48213FD49155A3BF1",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_a3_ui_art.gd"
+  },
+  {
+    "sha256": "F5C1D1D9F008DCD5C978173F2AD7585507FCA2FB19D5B2AC00DFA9EAE5AAAC26",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_a4_effects.gd"
+  },
+  {
+    "sha256": "FE2637E6634FDFCCE69E6F6B3CDD8FB8CC06BC5C1FD41DDFFB03B719CAB978E0",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_accessibility_settings.gd"
+  },
+  {
+    "sha256": "C46675AB21DBA2CF11AA017BFC4217752722492F21E17DDFB3D5EA536FE96C45",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_audio_bus_layout.gd"
+  },
+  {
+    "sha256": "5E4BD9B29A7EF30FE455F691233941B4F37769DE6BA49F1E15D9CCD4DB6D0591",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_audio_cue_flow.gd"
+  },
+  {
+    "sha256": "AD1A15FC7594F494C2BB46C9EBFDB0DBAC92FCBFF47AC82B29CB7FAB15B8ACA5",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_audio_director.gd"
+  },
+  {
+    "sha256": "1E0C57FD1C3D24917F4C99D4F3239709136253668800BFDF82C5BE66061D0511",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_audio_settings_ui.gd"
+  },
+  {
+    "sha256": "1228466E8894DED7DAC34B76CBA0AB553A9EDF624822B861EB6C1332A9353751",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_audio_teardown.gd"
+  },
+  {
+    "sha256": "6242098E4D74679776840B19B505832BFE3B50AC1FC7407BF55B409D540BFF53",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_coin_dynamic_fairness.gd"
+  },
+  {
+    "sha256": "C788EF140F52CC745187D2C210F4A89D6EAA99084213766C8803DF0F1A6EED3A",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_coin_entry_reachability.gd"
+  },
+  {
+    "sha256": "D43DEDB2038C4985A46349C6754C335EBC688240EBCFB59166FFEA76B14CDD30",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_coin_feedback_polish.gd"
+  },
+  {
+    "sha256": "0F4FE31427C99B0BEDD7C73782A2A253D7C2BCFDA4F9A7AAF7A9AC8F23D3904C",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_coin_gameplay_director.gd"
+  },
+  {
+    "sha256": "EFC98CF45E5C22EB0CA98B0265BC3529C7C4EBB254605E0848EACEBB936F3380",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_coin_main_flow.gd"
+  },
+  {
+    "sha256": "ED010676D83F1E286334DDE4C2BA1C94E3158BCBE72F3D502B85CC1DB01BE348",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_coin_pickup.gd"
+  },
+  {
+    "sha256": "E4D7FF457F8343101D00FF238314C1DE30E302FAE3F9FFC59FCCFB16CE6D7A96",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_coin_renderer.gd"
+  },
+  {
+    "sha256": "88178A517F1CAA99242EF87124F1B95D81358FBC668EFA7F900B9CBA0ACB2FA5",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_coin_route_director.gd"
+  },
+  {
+    "sha256": "AB7798B73281BBD17345EA40D084703ADCAC9B790607750EEC538A1A08F929FA",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_collision_responder.gd"
+  },
+  {
+    "sha256": "D7E5338ECB875283DEC2C4B30CDCE2CB852844AEAB6EBA779228C2DA70221E6D",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_collision_sound.gd"
+  },
+  {
+    "sha256": "AC4B0D4B23F12EA1B2E7582CB2714EA23753D33C1A431C5ECF0FCF92B89B8F06",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_combo_tracker.gd"
+  },
+  {
+    "sha256": "2E3B7477A3D6DAC0E9D90E2AAA912881C2FC0F1128B223E71CDD67363BFBFBD9",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_content_catalog.gd"
+  },
+  {
+    "sha256": "88C17BDCFFC616D8593B8DE524E22DDBAEE74074E0E8F9FCFAC57B70AB7037BD",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_difficulty_profiles.gd"
+  },
+  {
+    "sha256": "77B2100B539890703670DB30297A9D608808DD2468D97FCB89BE189A25A2E694",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_drive_controller.gd"
+  },
+  {
+    "sha256": "6EDDF42E905AE6DD6A40D2784F0FCCD32DA8F4888331D21822FDEB82F133CC0B",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_dynamic_fairness.gd"
+  },
+  {
+    "sha256": "CCEB861B01ED348EA58E68803CAB97F40BCB081C38177266ED335E5BCE9AB110",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_dynamic_pickup_smoke.gd"
+  },
+  {
+    "sha256": "B5EC37ECB88D5A81C4BA310A432B09B10FC16ADC9D126EA570EB9F3C0127DB60",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_environment_art.gd"
+  },
+  {
+    "sha256": "D0DC9EAE943775FCFA7CFD83F4C8DA3B1AB0306CE62ED8F395F62BC7445F6B05",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_export_resource_manifest.gd"
+  },
+  {
+    "sha256": "E3E266E44B3823B03B5EB710AC5591B28CA480B4DA80BE2322DF7280018DAC2D",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_failed_rating.gd"
+  },
+  {
+    "sha256": "A0322FB0A459405A96038A4BE02D1C467A5587F0405BF11222FF71AD6BC100A7",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_focus_pause.gd"
+  },
+  {
+    "sha256": "C4481DDDE27AFBFA1050B86FA9C7896CA92DEE0F6B8E195AA3E759741D15E2C9",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_forward_overdrive_input.gd"
+  },
+  {
+    "sha256": "FFF51E085102DB1094B4A5B2D24A01585B268FB6CA8F92853D4915C6ED4C5080",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_fuel_consumption.gd"
+  },
+  {
+    "sha256": "BD3B0689EDAEE7112A7AEDCF3EDB1586FF67CCAF5F6E287274A12D2C94995908",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_fuel_spawn_director.gd"
+  },
+  {
+    "sha256": "A779B7A485B9AE5A09530D476CB0AA52E3A369E664F5AE18A44DC677569E8380",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_game_config.gd"
+  },
+  {
+    "sha256": "09499C1E2972C3B76519000B6E6F5B37442594B08CBC23FDAB5F95AAC44F8D18",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_game_feedback.gd"
+  },
+  {
+    "sha256": "EEE9DAA358BF06FF82DFAA5A67937C6DD8E7E61E4A46A39EBEF1F7D98CB4655E",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_game_text.gd"
+  },
+  {
+    "sha256": "D0812A9CE53D963E7C47408B28616A42966BD058A8AEE3E9D81990DD0026F811",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_gameplay_art_assets.gd"
+  },
+  {
+    "sha256": "16B7CF3ECF015A3B3C806E3AFB204EE8E7EA1F5515F1A1E2821B445F62C004F6",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_garage_confirmation.gd"
+  },
+  {
+    "sha256": "21787D399E101E8B2BE1814CB8F7C8B4F986D92319C4D22A638A17E22E288BCC",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_gentle_impact.gd"
+  },
+  {
+    "sha256": "1D38603C69E153EFF3D0AA50C741DD43E7A02876A715151AC7E048584151CCCC",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_hud_layout.gd"
+  },
+  {
+    "sha256": "8713A74F2D0F02734B744DB43C40484EFA7CC2208B252CBDF1FFE1DAC2BBADE3",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_impact_model.gd"
+  },
+  {
+    "sha256": "1428B4222626E6C8A0D60A33B806CD28592551B6A3F1CEB0E6CEDEFB8C48D79E",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_impact_sweep.gd"
+  },
+  {
+    "sha256": "1E3D5A36C1F6A3DCCC39228D8BE19CA30A7383774EE74EEC05EA9E9840E7EA01",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_impact_traffic_safety.gd"
+  },
+  {
+    "sha256": "D3F273CFCFE74C6EB7FB825832F01D683BA902BFD28AA6283141F794EC64F26E",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_lane_event_director.gd"
+  },
+  {
+    "sha256": "F91CA1961C4FA8F58DB80BD9D3797B01E6AD484B2A1D32DBFB4E10144B7B42C8",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_localized_ui.gd"
+  },
+  {
+    "sha256": "976F1F1467F1CA46338425F572E3BDC0F7A571FFC69813CEDD423DCD7BA58807",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_main_audio_controls.gd"
+  },
+  {
+    "sha256": "8DC145C291429E5CCABC75C41A90FBF9AC7DF4ED75F10B5AD16B0BD294908383",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_main_integrity.gd"
+  },
+  {
+    "sha256": "C12AF424B55AD177989E69D48059532A3C3FA8F66D43240A234F679BB154D831",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_main_persistence_mode.gd"
+  },
+  {
+    "sha256": "719E0C7D8678F0A3F6FF5940077BE404F1BE7F9F8699DAD6092E17A21CDDB6BD",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_main_rating.gd"
+  },
+  {
+    "sha256": "0223365FDC44F34FD9B5B4E303D064A54974F81E3C89EC4276B1D9A30BEED197",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_main_reset.gd"
+  },
+  {
+    "sha256": "79D2D47E22E930059865163F935C306896A436B8AB54BC465E94D8E298CB61E3",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_main_run_loop.gd"
+  },
+  {
+    "sha256": "D7D95ACBA1FFAC23CB676A074865E9C2ECDB83CEFD4DAF60DF5A8EFBD2192A3F",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_menu_flow.gd"
+  },
+  {
+    "sha256": "E4C2312309920D810E79AA6699808451F912B9F91EDAE904F705BDE163319495",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_menu_presentation.gd"
+  },
+  {
+    "sha256": "918A73A998ED878222B2D6F8A568AB09A9C8209F1D2662318DF42C4C7C59711E",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_music_assets.gd"
+  },
+  {
+    "sha256": "D61A14E23887AF5F72AE9A553FECFC5E7C173C15DC8480D3C0C31A962CD6FFA4",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_music_director.gd"
+  },
+  {
+    "sha256": "96BD4C0EEADF8CC6A4212D152D7F3F796DFB8C062D45DC136A1BDA58AFDB2829",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_music_recovery.gd"
+  },
+  {
+    "sha256": "8925BCB9102CD7153EF8E51DD4E484FE0E41CD71E0C0BBC5F66681AA6498F4F9",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_overdrive_controller.gd"
+  },
+  {
+    "sha256": "7B66EB21B815F4DACDD6092463597836590C253E49AD7CE3A57720C59986198F",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_pass_event_resolver.gd"
+  },
+  {
+    "sha256": "2B693850C722B1A715A5F9DAFFB2B8BE32083C3127E1B80314848DD8414E63B0",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_pause_result_flow.gd"
+  },
+  {
+    "sha256": "B743BC9AF8353BEE238F7739C430A766C1698559AD8CABD1CE2FF9BFC1FBA739",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_pavement_surface.gd"
+  },
+  {
+    "sha256": "324CF1829DDDDA1A8391DF110A010C8B7A23DB5317EADB622A6657B5B4D0AFE2",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_persistence_integration.gd"
+  },
+  {
+    "sha256": "23C8969E31D5967CE1087C5B10CDA5CDD9931175AA626680B062B640F2F63BD5",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_persistence_restart.gd"
+  },
+  {
+    "sha256": "E8E8AB6AEFAAB55BF861FF45B8663C9AE955D5A527409A939C32692B253047C1",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_playtest_isolation.gd"
+  },
+  {
+    "sha256": "202C2CB7BBF73D5AFBE67E27C3EAFC1B79B74514F9C1B30B7BD43457FBF21A07",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_playtest_launch_config.gd"
+  },
+  {
+    "sha256": "8FC048DDADE6C2EA4D540A1917FB1E3FCD4E59F71CBB992A4639F9CCFE3A529C",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_playtest_music_flow.gd"
+  },
+  {
+    "sha256": "F2E9D27D4AE40B05FB0DBF48A8EF4D15377FC500A62C4F188316A9B0008E6E83",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_playtest_recorder.gd"
+  },
+  {
+    "sha256": "446C0DF61D11B456BA95D0750FE411A5B1855B443AB56534E1F1305E63D01CB0",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_playtest_recording_flow.gd"
+  },
+  {
+    "sha256": "E9541E381DB6033B1580E5C116DBC5F3797C25BF82C277D9EB79931C3279EB50",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_coin_road_snapshot.gd"
+  },
+  {
+    "sha256": "61399FF5B91BBBA6C26DAF2C165525EAEE19EFCBB2F3D4A43E6FD9BAA2DA8345",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_construction_corridor.gd"
+  },
+  {
+    "sha256": "0F77821BA6DEB42C7CCA8EC7D520C122E8F541A6DEEF53704E14B81EE27352FC",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_copy.gd"
+  },
+  {
+    "sha256": "9DB095B71DA58EFE90089F306A6F5E51AFA3DD8BEB47757EB77CB4D486827CE1",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_difficulty_gradient.gd"
+  },
+  {
+    "sha256": "67FDCCFA8B811C2EE22AF8B156B4BF3C8B7391920FC72EE87279D53E0EE14C24",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_fast_arrival_corridor.gd"
+  },
+  {
+    "sha256": "23C1C944E6D76BB0DC2A46F9053968E45569439C9682B922269227DAA56E9730",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_fast_constant_entry.gd"
+  },
+  {
+    "sha256": "6DDD26AE55A9136D0605923C2CEEAF0DD30AF783C90E839361FD7523999468DB",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_fast_distant_leader.gd"
+  },
+  {
+    "sha256": "6CBC3074EA004478627288AF5EEEB1E899273ACF3950CA0225E21C7241E9EA54",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_fast_encounter.gd"
+  },
+  {
+    "sha256": "C7B22B506CB805BB0CA67F4A6CFA81C595E5299F9C236034F405D604A6E04880",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_fast_priority_dense.gd"
+  },
+  {
+    "sha256": "55951409F093CC5A8ABE4E5D4D2224A1969C5EA369BFA377799997D76FA364F9",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_fast_priority_lifecycle.gd"
+  },
+  {
+    "sha256": "767D7B22A72C97802A80B29F1EA123E322A00D0C2AA4D3CB1F626E1FC9C1B667",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_fast_priority_pickups.gd"
+  },
+  {
+    "sha256": "97E61716E4A46AD9776386AB0A64C8D62D4386E7931B9F9ED6F8CE684DFB0BA9",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_fast_priority_rear_leader.gd"
+  },
+  {
+    "sha256": "79A66D2B2A093A7AFACA69C024E1951D290C922BDAA38B5AB97FC9734547DDBA",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_fast_priority_spawn.gd"
+  },
+  {
+    "sha256": "296E8397FD2433418A0FFEF8C241B3898F6BE6B1F4F6E4E4E35B9F3CC3ACCA63",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_fast_priority_stagger.gd"
+  },
+  {
+    "sha256": "DA0D3E474DBAD5DE957BCF4C6E9F99B00DE5F4B7101CF15EA8246400A9878229",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_fast_priority.gd"
+  },
+  {
+    "sha256": "E7AF55B7C83C08C750B0F05DB5383510796C3CC72B05F94F7C774A61A3E5E024",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_fast_sprint.gd"
+  },
+  {
+    "sha256": "9158ED95368FE8BDD6B13768D418C37199773CE1541AC1335517FC78EAE27509",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_fast_wall_regression.gd"
+  },
+  {
+    "sha256": "AE942661C0493A695D5350DB2AEDF743BB7B037ED9EF1739207FB38C00BF26EA",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_hard_supply_audit.gd"
+  },
+  {
+    "sha256": "88351E2BF3AD9562BD4E667BB0B0FB1144CC12E615B41AE00964F8A2DF2E8117",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_main_audit.gd"
+  },
+  {
+    "sha256": "F89AD80EC9949942DDA38F5A096FB4F7E8F19A16AC7A44ED85D4AB175434B78F",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_main_path_joint.gd"
+  },
+  {
+    "sha256": "56FB2F4AA1D00BCAF33A272162AFEBFBF27116C025635951A9EB3615A4B479FD",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_natural_path.gd"
+  },
+  {
+    "sha256": "9BEF5256B982109CBE39B8869444F51726F68C726DE2595410EE975903DA0EEC",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_natural_recovery.gd"
+  },
+  {
+    "sha256": "0745C8AFCD0D4CA904724EA6BDABD0A09AC8DA7C0109539A3822236B857F6510",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_path_envelope_budget.gd"
+  },
+  {
+    "sha256": "7B9710715D77C0FE74F27085D0938EECADE5DA27250F7A307D61B5D3D9D28A18",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_pickup_audit.gd"
+  },
+  {
+    "sha256": "5B1026C14655772E4AAF17158EAE2C34801E13983928AB09B1E6B88D029B6094",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_pilot_supply_pace.gd"
+  },
+  {
+    "sha256": "86BC8E592F4B2E74B715B6327979FB16949F14D16F5D2BD9BC425A6BB9BCDF2C",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_pilot_warning.gd"
+  },
+  {
+    "sha256": "CDCB72D2D20997306EF878F8760EC53E26B54753E151D7EFDBCAC2A17738A357",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_player_path_oracle.gd"
+  },
+  {
+    "sha256": "1F00EFA7A6D992962A650CC8E713626DE5851E6A3A847191419D32E19500083A",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_player_path_trace.gd"
+  },
+  {
+    "sha256": "DAB82CCAB0DD6247FE285CCC3C0B10C1E845FE17FC02F38BC9B57B84E38DBE1B",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_player_sweep.gd"
+  },
+  {
+    "sha256": "AA32A431845FE50DD25D4A703F41638FE171D0D20EEC5D3743BDE3D90510A45A",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_rating_targets.gd"
+  },
+  {
+    "sha256": "EE585BF9F56550141F1C2E6A58358296DB2580A7B6A4B1F573CE8A77700FA151",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_route_display.gd"
+  },
+  {
+    "sha256": "1973B0EA0BC426D08A13653B1A75548878B4DA1526062FDB561AB58DEB1BF5E2",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_supply_integration.gd"
+  },
+  {
+    "sha256": "768335FC7B4D8B713A0E1FCDDA830ED1A3E6678724D2C666F9A6A1658B01394F",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_supply_schedule.gd"
+  },
+  {
+    "sha256": "D261D10FF84F940C1891D19DEC5672FE6B5F41C257ABA617FB3A878E012A969B",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_traffic_change_observer.gd"
+  },
+  {
+    "sha256": "36A40D70A3A542CAC70CE1D7645F6CF5A933082668DA7C35D72C112DD864C9C1",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_traffic_construction.gd"
+  },
+  {
+    "sha256": "9B41DEA47BECD9B11A43E2DA0288EEB16EEA1838125C6D6A5007A1D7E2617C93",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_traffic_core_birth.gd"
+  },
+  {
+    "sha256": "A3BFC7777C1E5B63F60758593A92FB118DB730792B489F0AC4C43746CA2E59CF",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_traffic_core_lifecycle.gd"
+  },
+  {
+    "sha256": "A8FA9F24E514ED35D4584FF2F217B682132B8EA52452739618E8D1B898F526D2",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_traffic_core_observer.gd"
+  },
+  {
+    "sha256": "7FEA64C578708396C9A297A75EA4EA72EF34AD1C8832E3594DD607B768385725",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_traffic_core_oracle.gd"
+  },
+  {
+    "sha256": "0CFF8A3511E5E1693ECB5AD1096E0357E07716B452B314BBBF5A3FEBE853D2DD",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_traffic_fast_free_flow.gd"
+  },
+  {
+    "sha256": "21FE19D682CEE71ED18C20DD3BFEA1F73F8F7ADF3ECFD45A13A820FACB42B01C",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_traffic_fast_spawn_gap.gd"
+  },
+  {
+    "sha256": "5A7B1D1B5F89BE66606009BC5DE7661AD5E276B701A4AF4A1E9B8E7B9995D7ED",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_traffic_fast_warning.gd"
+  },
+  {
+    "sha256": "10677C8BD09653826081145698704543CF2B548D5B0FA4178F53545EF6D5B846",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_traffic_following.gd"
+  },
+  {
+    "sha256": "65A403D0E124AEAE5F845A07FBBAB9A3A12B81B9F94B8DF91DDF7221B8E90281",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_traffic_frame_safety.gd"
+  },
+  {
+    "sha256": "45AF6E3156BF4C98ED41C8A48DBCB95F84DD9191CAAA5D9EE8BFB26AE94659A2",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_traffic_lateral_continuity.gd"
+  },
+  {
+    "sha256": "DC19B3BE252B7B7FF003DDA770675750A47BF0E4AE55EAF1823D6D445FFAA3B2",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_traffic_lifecycle.gd"
+  },
+  {
+    "sha256": "8896D1821BEEC5FBF4F6C96781466A46856ED40CD320712F38683536575AB69F",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_traffic_longitudinal.gd"
+  },
+  {
+    "sha256": "7DDCC1167841EA47C97F66D1DB9100E55EE2411AE3171994083AADE80E8189A4",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_traffic_matrix.gd"
+  },
+  {
+    "sha256": "F769612B6EB1994A064ADE8A474A78875CC9B441FBDE0ED12B8D5C71A46C272B",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_traffic_motion_observer.gd"
+  },
+  {
+    "sha256": "93E16BD72835B0465E21F8CCA7776FDFF68AEC555551C8D9C70ED068E8AF1024",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_traffic_motion_oracle.gd"
+  },
+  {
+    "sha256": "B70B2B27E3106138053947656739050AC0B526C398DA47913FBEC6EACBF615C9",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_traffic_observer.gd"
+  },
+  {
+    "sha256": "6172D7306F7375C7F7200920208A7ABEDAD6E8A40A682D79B16C4B6D111734B6",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_traffic_oracle.gd"
+  },
+  {
+    "sha256": "9DEA833A7C6DF0057AFB480FCDFBAABAF707ADA3C2F318E0BF30B713C958B2C9",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_traffic_profile.gd"
+  },
+  {
+    "sha256": "F81C7CCCA057C7BB80E76B8EE1907B0C44CA71170FD6399D17C079FCB2AF9329",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_traffic_reservations.gd"
+  },
+  {
+    "sha256": "F75B5A14AEBD7B39A9BFB996C757893B5BC4E3BCF06B8BB91459B0C6B64CB9CF",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_traffic_spawn_order.gd"
+  },
+  {
+    "sha256": "B1EE76CFE311CAE19CCFACF510DE2B7311AD751F784E221F8F8030B5D81D0BD8",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_traffic_spawn_regression.gd"
+  },
+  {
+    "sha256": "24CEF8364CA1A77DF30E4203114D61A6F5B3ACB9F3A9D040AB7CE5D49B861E83",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_traffic_visible_commit.gd"
+  },
+  {
+    "sha256": "91977F02F3AC8BF815E11191C9772A26320AA3C0B1B95A9AC87D973DC467CCD1",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_traffic_wall_crossing.gd"
+  },
+  {
+    "sha256": "4EB7D7921B3CB652C57E22C7865DF8C47FDBE878EE32C870E5B81471E3A20AFF",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_product_traffic_wall_main.gd"
+  },
+  {
+    "sha256": "0C967132DD87A8331EDE85AD00E510349C5714AF941361F774D445A93C560DC7",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_progression.gd"
+  },
+  {
+    "sha256": "A5F8B1DF91AEC8C2E9280BDABDEFBCCBE2F08D5E59CCBAEF7E00069A18990CA2",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_race_progression.gd"
+  },
+  {
+    "sha256": "02D1CFE3E5CE80EC16E8C52467D29CCEA347BF6D425700C697C16D4F5BF2F7A3",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_rating_persistence.gd"
+  },
+  {
+    "sha256": "1FB8B558C302604C36B08760313324FD08150915F0390D7D60BE8E7D3C7A1A27",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_rating_ui.gd"
+  },
+  {
+    "sha256": "16DFB691B9F8EC9748E8A8FE9B791D5F7C095D433533C78853A187591D0845FE",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_release_metadata.gd"
+  },
+  {
+    "sha256": "8A8C2B30E4A16C1D8E972AF760DE3C0010145F7E829D22C08652DD82DF60F1A1",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_release_regression.gd"
+  },
+  {
+    "sha256": "7C88115537689C87CCA9EB55496EA13272B73F30B654A5BBEA9A4C560B5862B8",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_repair_supplies.gd"
+  },
+  {
+    "sha256": "FE28DAFEB8723CBB116BED6994E3B492001892949A0670D7ADB85DEDD5DF4DC3",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_road_scroll.gd"
+  },
+  {
+    "sha256": "6104D614C563A22EEF90F054F5A159F4814D11710C6CD303CC6A847CAF8EBF83",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_run_rating.gd"
+  },
+  {
+    "sha256": "DAAD7602B43437C57070C87253815B0820A2AF5D044C4B40D6FC1005152902E9",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_run_seed.gd"
+  },
+  {
+    "sha256": "254ED1BFB2936D51F5686076764D5815392DF10C741504C2918799F7A78258D2",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_run_state.gd"
+  },
+  {
+    "sha256": "09DA7A35F24576A68E9900698B6728E23187C4DE05756886FB3F728E262FC62C",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_runtime_performance_capture.gd"
+  },
+  {
+    "sha256": "40BA5F62FE7F6D579056204594D9D77B2344A1043E175CA3C2B7579EC0027825",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_runtime_performance_main.gd"
+  },
+  {
+    "sha256": "C81FE7970241945C16968E546133A549DF155E6309D825A51D2F1F782047CA72",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_save_feedback.gd"
+  },
+  {
+    "sha256": "7B7311AE9D8F39E1258A7070ED0C419D26758E57C56B8FF1B1987CF068FBA809",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_save_recovery.gd"
+  },
+  {
+    "sha256": "DA783506A8A1A54B9B84119875D7D66114BBE9BE5DA4C97BFB80FA7EB747BCCD",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_save_store.gd"
+  },
+  {
+    "sha256": "3F1141DDC523440B0F7AD04A1B9128586001978057A4838BFAEE8E04B737D17C",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_sound_effects.gd"
+  },
+  {
+    "sha256": "D3765B6FBF2BE177BFAF3E508A21F4A3ED42A2B6B065EAFB5EF75483D4BA66CA",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_speed_steering.gd"
+  },
+  {
+    "sha256": "1C390E1762CF6EA16CF9C47FCDE6875C245F131C093E8BA58D7F7594B6CB3FDB",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_supply_preserves_construction.gd"
+  },
+  {
+    "sha256": "235BEA2C03179C26EC40D04423A48E6434BC6E0F9195EA4892D9868CEF8A9D0C",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_tail_transform.gd"
+  },
+  {
+    "sha256": "891938D5BC10D4504DE7CA7D297E96CC527E3BF169069D9DFAE982355D0FFCB9",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_tour_map.gd"
+  },
+  {
+    "sha256": "2426D76440503808B3E9586B2EB2DF562E276EB4D0DC641D4C0131F60020D7B6",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_tour_progress.gd"
+  },
+  {
+    "sha256": "C48EA39D04160C2E84AA72D3BDDADC536A8277DE848DF220D33D5B7FCAC2F253",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_tour_traffic_matrix.gd"
+  },
+  {
+    "sha256": "E3830EBA2946F6C34A5EA6CA4354BFE4BF3214569E6A8EF371F94219C333D2F2",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_track_geometry.gd"
+  },
+  {
+    "sha256": "5B91032BEB8BEB0A5D4FC6DB67770C2676461F15A9AAFEBFC3F25D3A4C70EAC7",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_track_profiles.gd"
+  },
+  {
+    "sha256": "4C44AC7619FD33252DE1CD9E1C5592C235B36DD2941DEECF3C9363CF207E0677",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_traffic_all_speed_safety.gd"
+  },
+  {
+    "sha256": "B5D2DC7CF0FB0B78E1D637BA8C22FDB04995866035678C5D72A56ECBEF58ED68",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_traffic_director.gd"
+  },
+  {
+    "sha256": "65D2830B0FB8C4F384340610C33CBD61A91D963DEEE4AB3C40BEEBDC2D7CF587",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_traffic_safety_policy.gd"
+  },
+  {
+    "sha256": "EDABB15A7C4634EE08C432ADB279166E84F5D838C7B42476AB21A9F2C5EE640C",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_traffic_world_speed.gd"
+  },
+  {
+    "sha256": "4236EE5D27845303A9D67CE02A241BD11E249BFA26E4540387C0EC93FFCBC15B",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_truck_traffic.gd"
+  },
+  {
+    "sha256": "04A53739949A1588CF9A9B362C9B53BF7479087E030E3BC9FFEDF52B2C79B880",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_ui_flow.gd"
+  },
+  {
+    "sha256": "AB53671E1706F54CDF9FD7BE4EB8B0BEE65F7758776910679B63837510934452",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_vehicle_balance_matrix.gd"
+  },
+  {
+    "sha256": "AB290B4E2BD105A984F3A37DCE71C3567A23D545E782573AA0008F396C87E9B6",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_vehicle_facing.gd"
+  },
+  {
+    "sha256": "9D4E764F40767632A44577F50C2395073BA2747DECACB7D5FB49857B49119901",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_vehicle_integrity.gd"
+  },
+  {
+    "sha256": "04AF2A191E39698B927BE908A4A428FFD2AD361CEAC8AFDAD6B1BDEA2E75974D",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_vehicle_keyboard_focus.gd"
+  },
+  {
+    "sha256": "629E08E7175B9A1606D6A6A923B9E0A645B86D5A4DD8BA546D4889C3EC8FB018",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_vehicle_profile_integration.gd"
+  },
+  {
+    "sha256": "3CE62F42ED5AF091EA1EF9CC84C6D60AA9D8D86316C1C8B3411FB600DC32DD7D",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_vehicle_select.gd"
+  },
+  {
+    "sha256": "F0800433133C962DDFDAAA306BBEE12BDAA8EDC5FAE3E8349E96CBA2C03ED945",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_vehicle_visual_animation.gd"
+  },
+  {
+    "sha256": "3E56A1A5D28D6C6AC6864FDE16205263B07277FAEA0A587E4219357069DEE08A",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_visual_style.gd"
+  },
+  {
+    "sha256": "724E4BCAB1698D5B4EBF73B47916E952705792C80E829F24841702498B9D6765",
+    "path": "C:\\Users\\21604\\Documents\\car\\tests\\test_window_behavior.gd"
+  }
+]
