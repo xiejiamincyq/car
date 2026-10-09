@@ -27,6 +27,7 @@ var failures: Array[String] = []
 const COVERAGE_SUPPLEMENTS := [
 	{"config":["neon_coast","pulse_gt",9001],"index":0,"difficulty":1},
 	{"config":["sunrise_express","driftwing",9001],"index":7,"difficulty":2},
+	{"config":["storm_ridge","flashpoint",611],"index":2,"difficulty":0},
 ]
 var failure_keys: Dictionary = {}
 var context := "fixture"
@@ -109,7 +110,7 @@ func _run() -> void:
 	var metadata := _source_metadata()
 	print("DYNAMIC_PICKUP_CONFIG ", JSON.stringify({"source": metadata, "planned": 30, "step": DT, "budget_seconds": BUDGET_SECONDS,
 		"initial_hull_fixture": 60, "world": "natural Main generation; no resource/world injection",
-		"supplement_planned": COVERAGE_SUPPLEMENTS.size(), "exit_policy": "1=any oracle violation, 2=any track/vehicle/difficulty family coverage missing, 0=all 32 clean and all 30 families covered"}))
+		"supplement_planned": COVERAGE_SUPPLEMENTS.size(), "exit_policy": "1=any oracle violation, 2=any track/vehicle/difficulty family coverage missing, 0=all original and supplemental samples clean and all 30 families covered"}))
 	var totals := {"fuel": 0, "repair": 0, "coins": 0, "traffic_frames": 0, "construction_frames": 0, "oracle_frames": 0, "collision_frames": 0, "damage_events": 0}
 	var coverage_failures: Array[Dictionary] = []
 	var family_missing: Dictionary = {}
