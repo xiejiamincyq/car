@@ -65,6 +65,8 @@ var _pending_fast: TrafficVehicle = null
 var _pending_fast_age := 0.0
 var _pending_fast_notice_started := false
 var _pending_fast_notice_remaining := 0.0
+var _tick_index := 0
+var _notice_tick_index := -1
 
 func _init(seed: int, lanes: int = 3, safe_distance: float = 620.0, lane_gap: float = 180.0) -> void:
 	lane_count = lanes
@@ -76,6 +78,7 @@ func _init(seed: int, lanes: int = 3, safe_distance: float = 620.0, lane_gap: fl
 	lane_events = LaneEventDirector.new(_event_seed(_initial_seed), lane_count, GameConfig.LANE_EVENTS_ENABLED)
 
 func tick(delta: float, player_speed: float, player_lane: int = 1) -> void:
+	_tick_index += 1
 	var frame_start: Dictionary = {}
 	for vehicle in vehicles:
 		frame_start[vehicle.get_instance_id()] = {"generation":vehicle.motion_generation,"position":Vector2(vehicle.lane_position, vehicle.y)}
@@ -111,7 +114,10 @@ func _tick_step(delta: float, player_speed: float, player_lane: int, frame_start
 	_closure_birth_step_seconds = 0.0
 	if _pending_fast != null:
 		_pending_fast_age += delta
-		_pending_fast_notice_remaining = maxf(0.0, _pending_fast_notice_remaining - delta)
+		# The notice cannot be rendered until this outer frame ends. Do not
+		# consume its first exposure inside the remaining physics substeps.
+		if _pending_fast_notice_started and _notice_tick_index < _tick_index:
+			_pending_fast_notice_remaining = maxf(0.0, _pending_fast_notice_remaining - delta)
 		_spawn_next(player_speed, player_lane)
 	else:
 		_spawn_cooldown -= delta
@@ -183,6 +189,8 @@ func reset(run_seed: int = -1) -> void:
 	_pending_fast_age = 0.0
 	_pending_fast_notice_started = false
 	_pending_fast_notice_remaining = 0.0
+	_tick_index = 0
+	_notice_tick_index = -1
 	_closure_birth_step_seconds = 0.0
 	for vehicle in vehicles:
 		_pool.append(vehicle)
@@ -873,8 +881,6 @@ func _spawn_next(player_speed: float, player_lane: int) -> void:
 		_finish_pending_fast(player_speed, player_lane)
 		return
 	fast_priority.refresh(vehicles)
-	for actor in vehicles:
-		if actor.constant_speed_pass: return
 	if fast_priority.needs_clearance_window(self):
 		return
 	if vehicles.size() >= target_active_vehicles:
@@ -963,6 +969,7 @@ func _finish_pending_fast(player_speed: float, player_lane: int) -> void:
 	if not _pending_fast_notice_started:
 		_pending_fast_notice_started = true
 		_pending_fast_notice_remaining = 1.0
+		_notice_tick_index = _tick_index
 		return
 	if _pending_fast_notice_remaining > 0.0: return
 	_pending_fast = null
@@ -983,10 +990,14 @@ func _fast_entry_is_clear(candidate: TrafficVehicle, player_speed: float, player
 	for actor in vehicles:
 		if TrafficSafetyPolicy.reserved_lanes(actor).has(candidate.lane): return false
 	if not _can_spawn_candidate(candidate, player_speed, player_lane): return false
+	return _constant_pass_has_clear_future(candidate, vehicles)
+
+func _constant_pass_has_clear_future(red: TrafficVehicle, actors: Array) -> bool:
 	var horizon := 0.0
-	for actor in vehicles:
-		horizon = maxf(horizon, maxf(0.0,candidate.y-actor.y+TrafficSafetyPolicy.WALL_LONGITUDINAL_CLEARANCE) / ((GameConfig.FAST_OVERTAKE_SPEED-NORMAL_SPEED_MAX)*GameConfig.ROAD_SCROLL_MULTIPLIER))
-	return not TrafficSafetyPolicy.would_form_full_lane_wall_during(vehicles,candidate,lane_count,[candidate.lane],horizon,GameConfig.ROAD_SCROLL_MULTIPLIER)
+	for actor in actors:
+		if actor == red: continue
+		horizon = maxf(horizon,maxf(0.0,red.y-actor.y+TrafficSafetyPolicy.WALL_LONGITUDINAL_CLEARANCE) / ((GameConfig.FAST_OVERTAKE_SPEED-NORMAL_SPEED_MAX)*GameConfig.ROAD_SCROLL_MULTIPLIER))
+	return not TrafficSafetyPolicy.would_form_full_lane_wall_during(actors,red,lane_count,[red.lane],horizon,GameConfig.ROAD_SCROLL_MULTIPLIER)
 
 func _try_alternate_spawn_lane(candidate: TrafficVehicle, player_speed: float, player_lane: int) -> bool:
 	# Retry only unpublished births displaced by priority, and large trucks.
@@ -1053,6 +1064,13 @@ func _can_spawn_vehicle(kind: int, lane: int, y: float, player_speed: float, pla
 func _can_spawn_candidate(candidate: TrafficVehicle, player_speed: float, player_lane: int) -> bool:
 	if candidate != _pending_fast and fast_priority.active() and (candidate.kind == Kind.FAST_OVERTAKE or fast_priority.reserved_lanes().has(candidate.lane)):
 		return false
+	# After the red car has cleared the player, restore unrelated traffic only
+	# when its entire upcoming encounter also preserves the fixed-speed pass.
+	for actor in vehicles:
+		if actor.constant_speed_pass:
+			var cohort := vehicles.duplicate()
+			cohort.append(candidate)
+			if not _constant_pass_has_clear_future(actor,cohort): return false
 	if lane_events.is_lane_blocked(candidate.lane):
 		return false
 	if candidate.lane_change_enabled and lane_events.is_lane_blocked(candidate.target_lane):

@@ -21,13 +21,22 @@ func _sample(delta: float, player_speed: float) -> bool:
 	traffic._spawn_cooldown = 0.0
 	traffic.tick(delta, player_speed, 2)
 	traffic._spawn_cooldown = 1000.0
+	var warning_seen := false
+	var warning_seconds := 0.0
+	var warning_lane := -1
+	for frame in ceili(3.0/delta):
+		var notice := traffic.fast_entry_warning()
+		if notice.active:
+			warning_seen = true
+			warning_seconds += delta
+			warning_lane = notice.lane
+		traffic.tick(delta, player_speed, 2)
+		if not traffic.vehicles.is_empty(): break
 	if traffic.vehicles.size() != 1:
-		print("FAIL: empty-road fast arrival must be admitted")
+		print("FAIL: empty-road fast arrival must be admitted after its visible pre-entry warning")
 		return false
 	var vehicle = traffic.vehicles[0]
 	var admitted: bool = vehicle.spawn_was_fair
-	var warning_seen := false
-	var warning_seconds := 0.0
 	var visible_seconds := 0.0
 	var passed_player := false
 	var elapsed := 0.0
@@ -35,22 +44,17 @@ func _sample(delta: float, player_speed: float) -> bool:
 	while elapsed < 15.0 and traffic.vehicles.has(vehicle):
 		var old_y: float = vehicle.y
 		var old_actual: float = vehicle.actual_world_speed
-		var warned: bool = vehicle.arrival_warning_started and vehicle.overtake_warning_remaining > 0.0
-		var visible: bool = traffic._is_lane_change_visible(vehicle)
 		traffic.tick(delta, player_speed, 2)
 		elapsed += delta
 		if absf(vehicle.actual_world_speed - old_actual) > Traffic.NPC_BRAKING * delta + 0.0001:
 			no_jump = false
 		if delta <= 1.0 / 60.0 and absf(vehicle.y - old_y - (player_speed - vehicle.actual_world_speed) * Config.ROAD_SCROLL_MULTIPLIER * delta) > 0.0001:
 			no_jump = false
-		warning_seen = warning_seen or vehicle.overtake_warning_remaining > 0.0
-		if warned and visible:
-			warning_seconds += delta
 		if traffic._is_lane_change_visible(vehicle):
 			visible_seconds += delta
 		if vehicle.y < Geometry.player_y(720.0) - vehicle.half_length:
 			passed_player = true
 			break
-	var okay: bool = admitted and no_jump and warning_seen and warning_seconds + delta >= 1.0 and visible_seconds > 0.0 and passed_player and is_equal_approx(vehicle.cruise_speed * Config.HUD_SPEED_SCALE, 400.0)
+	var okay: bool = admitted and no_jump and warning_seen and warning_seconds >= 1.0-0.00001 and warning_lane == vehicle.lane and visible_seconds > 0.0 and passed_player and is_equal_approx(vehicle.actual_world_speed * Config.HUD_SPEED_SCALE, 400.0)
 	print("FAST_FREE_FLOW ", JSON.stringify({"dt":delta,"player_speed":player_speed,"admitted":admitted,"no_jump":no_jump,"warning_seconds":warning_seconds,"visible_seconds":visible_seconds,"passed_player":passed_player,"elapsed":elapsed,"actual":vehicle.actual_world_speed,"okay":okay}))
 	return okay
