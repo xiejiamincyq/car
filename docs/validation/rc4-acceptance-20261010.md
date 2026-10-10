@@ -96,3 +96,34 @@
 本轮另在独立空档 `unpacked-check-59af6630/outcome-empty-5516f289` 正常标题→选关→选车确认→倒计时→比赛→Space暂停→确认返回标题→菜单退出，PID97092原生退出0，142个sample（标题51、倒计时3、比赛64、暂停24）及capture_closed；JSONL SHA256 `2CCC6F687743216ECB1CFBB3DABA12F7C014FE160F85E92B5A84C33A1AFC73FD`。未持续加速，车辆自然减速至零，未产生胜负结算。必要界面工具没有持续按住驾驶键的已记录API，未另造按键注入通道、篡改存档或调用游戏内部结算来伪造闭环。因此这一尝试没有补齐原计划空档失败/通关门，原数据保留，不计人工比赛；后续仍需要正常操作产生真实结算。
 
 本片没有游戏运行代码/资源/配置变化，也未重新导出，验证对象仍为第1节固定包。只提交本片已完成的事实记录和任务状态；原R5/R6完整门保持开放，不将启动子门扩大为整体验收。
+
+## 10. 最新人工接受：八局新增，标准数量门完成
+
+用户再次明确“通过，继续”，对应正常1080p入口 `manual-e2b19c3c` / PID105800，输入继承第8节17局真实进度。完整JSONL有834个sample及capture_closed，关闭elapsed=815.678667秒；run_number最高8、reset_number最高16。315个running样本全部focused=true；重复result行和reset计数均不扩充比赛数。
+
+| 本会话局号 | 难度 / 车型 | 赛道 | 比赛样本数 | 实际结算 / 距离（米） |
+| --- | --- | --- | ---: | --- |
+| 1 | 标准 / aurora_x | freight_harbor | 39 | run_clear / 3400.32960599553 |
+| 2 | 标准 / comet_rs | storm_ridge | 36 | run_clear / 3300.39837645522 |
+| 3 | 标准 / driftwing | sunrise_express | 45 | run_clear / 3600.12313396005 |
+| 4 | 标准 / driftwing | neon_coast | 40 | run_clear / 3200.42479693215 |
+| 5 | 标准 / comet_rs | freight_harbor | 35 | run_clear / 3400.39704706646 |
+| 6 | 标准 / flashpoint | storm_ridge | 40 | run_clear / 3300.09038901364 |
+| 7 | 标准 / tidebreaker | sunrise_express | 45 | game_over / 3335.91246904576 |
+| 8 | 标准 / aurora_x | neon_coast | 35 | run_clear / 3200.00939960228 |
+
+八局均有倒计时及结算后返回记录；没有pause样本、简单/困难局或failure_reason，不猜测失败原因及本次评分细项。结合本包前述三局，累计11局标准人工记录（9通关、2未完赛），四关均覆盖，关闭“至少十局标准”数量子门，不额外要求剩余七局，也不推断预设十种组合或所有平衡指标已通过。简单/困难体验仍待验。
+
+本次JSONL SHA256 `D0AC97C3C275EEE58367FD90AF1832884AE9449B83ECC58B38192C7E76756531`。外部观察器保留游戏原生退出0；178字节game.log仅引擎/GPU信息。真实career.runs由17增至25，主档SHA256 `F69F24B212C4958A8A5A78FEEBE4B6666DDBBF2886DAD2579B1FCEA7E4159DDA`，备份SHA256 `C7CDD1FCEF96AD59C21198702196F3914EA00D4BECD5A19A2D4A9459F72059FF`。后续入口改为继承此25局主档及对应备份；原真实副本不改、不提交。正式主档仍为第8节D91F4FC7…，bak/tmp不存在；原包身份不变。
+
+## 11. 现场采集已触发，但逐帧证据缺失
+
+`manual-e2b19c3c/observation-bbf3ba78` 的驾驶门ready=true，等待314.1586525秒后接受实际running/race、前台1920×1080、速度280样本。本次不是第8节“等待到期后才开局”：采集器确已启动，PID70984，自有ETW会话 `CarRC4Manual-530fb49118444bcca3df246298b1ccd1`。
+
+游戏关闭后采集器仍存活；核验PID、路径、命令行及唯一会话名后，只用官方 `--terminate_existing_session` 收尾此会话，不关闭其他PresentMon/FrameView服务或进程。收尾命令原生0，原观察器最终也原生0；terminal.json记capture_native_exit=0、game_native_exit=0、watchdog_timeout=false、elapsed_seconds=717.7007146、csv_exists=false。没有frames.csv，不能计算驾驶P95或宣称性能通过。官方会话参数契约见[PresentMon 2.6.0 控制台文档](https://github.com/GameTechDev/PresentMon/blob/v2.6.0/README-ConsoleApplication.md)。
+
+收尾后的实际memory.csv为33797字节、470行，SHA256 `4E98CEFB37C9B8DDD0B741846A987AABB676A10A9EAB7E3CCEF6F55C19840031`。时间12:43:51.2359940Z～12:51:49.9378422Z，约478.7秒；private bytes首353243136、末388190208，范围349523968～404901888。此前进程运行时文件元数据长度0不代表没有采样；以最终内容为准。多关资源加载期间首末差不能直接判泄漏或稳定无泄漏，717秒观察墙钟亦不等于717秒内存覆盖，整局815.7秒不足30分钟。
+
+两次独立同包1080p五秒标题诊断（`tmp/presentmon-live-00d755b9`、`tmp/presentmon-live-eeca2cae`）均游戏/采集器原生0，但无CSV；stderr分别报告44806与41620个ETW事件丢失。第二次仅增加官方 `--no_track_gpu`，保留显示跟踪，仍未恢复CSV。未提权、未修改系统/驱动/权限、未停其他会话。此对照证明当前渠道问题可重现，不证明原比赛缺帧的唯一根因或修复，也不计驾驶性能/人工局。原现场stderr为空，不能将诊断事件丢失追溯写成原现场已记录的事实。
+
+下一步保留原目标：诊断逐帧渠道；简单/困难体验；当前包空档与合成v5的真实结算/独立重启闭环；至少30分钟实际运行及同进程20次重开/返回趋势。货运港低频样本未覆盖施工，低频FPS和其他三关少量施工行不关闭四关复杂性能门。R5/R6整门保持开放，不重建已通过体验的固定包、不公开发布。
