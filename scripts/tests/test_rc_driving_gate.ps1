@@ -5,7 +5,8 @@ $root = Join-Path (Join-Path $PSScriptRoot '../../tmp') ('driving-gate-' + [guid
 [void](New-Item -ItemType Directory -Path $root)
 $trace = Join-Path $root 'synthetic.jsonl'
 $start = @{event='capture_started';schema=1;pid=1234;session='1234-test';debug_build=$false;elapsed_usec=0}
-$sample = @{event='sample';schema=1;pid=1234;session='1234-test';phase='running';screen='running';focused=$true;speed=280.0;run_number=1;window_width=1920;window_height=1080;elapsed_usec=9000000}
+# Main emits phase=running with screen=race; screen is a visible UI, not a phase name.
+$sample = @{event='sample';schema=1;pid=1234;session='1234-test';phase='running';screen='race';focused=$true;speed=280.0;run_number=1;window_width=1920;window_height=1080;elapsed_usec=9000000}
 $count = 0
 function Check-Gate($row, [bool]$expected, [string]$label, [double]$age=10) {
     @($start, $row) | ForEach-Object { ConvertTo-Json $_ -Compress } | Set-Content -LiteralPath $trace -Encoding utf8
@@ -22,7 +23,7 @@ foreach ($phase in @('title','countdown','paused','game_over','run_clear')) {
 foreach ($change in @(
     @{focused=$false}, @{focused='true'}, @{speed=0}, @{speed=-1},
     @{speed='NaN'}, @{run_number=0}, @{window_width=1280}, @{window_height=1440},
-    @{pid=999}, @{session='1234-old'}, @{schema=2}, @{screen='settings'},
+    @{pid=999}, @{session='1234-old'}, @{schema=2}, @{screen='settings'}, @{screen='running'},
     @{elapsed_usec=-1}, @{event='capture_closed'}
 )) {
     $row=$sample.Clone();foreach($key in $change.Keys){$row[$key]=$change[$key]}

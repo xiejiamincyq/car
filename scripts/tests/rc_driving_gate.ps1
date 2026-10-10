@@ -20,7 +20,7 @@ function Get-RcDrivingGate {
         $row.schema -ne 1 -or $row.pid -ne $GamePid -or $row.session -ne $header.session) {
         $rejected.reason='trace_identity_mismatch'; return $rejected
     }
-    if ($row.event -ne 'sample' -or $row.phase -ne 'running' -or $row.screen -ne 'running' -or
+    if ($row.event -ne 'sample' -or $row.phase -ne 'running' -or $row.screen -ne 'race' -or
         $row.focused -isnot [bool] -or -not $row.focused -or $row.run_number -lt 1 -or
         $row.window_width -ne 1920 -or $row.window_height -ne 1080) {
         $rejected.reason='not_focused_1080p_running'; return $rejected
