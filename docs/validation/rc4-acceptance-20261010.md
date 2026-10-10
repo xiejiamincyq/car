@@ -127,3 +127,15 @@
 两次独立同包1080p五秒标题诊断（`tmp/presentmon-live-00d755b9`、`tmp/presentmon-live-eeca2cae`）均游戏/采集器原生0，但无CSV；stderr分别报告44806与41620个ETW事件丢失。第二次仅增加官方 `--no_track_gpu`，保留显示跟踪，仍未恢复CSV。未提权、未修改系统/驱动/权限、未停其他会话。此对照证明当前渠道问题可重现，不证明原比赛缺帧的唯一根因或修复，也不计驾驶性能/人工局。原现场stderr为空，不能将诊断事件丢失追溯写成原现场已记录的事实。
 
 下一步保留原目标：诊断逐帧渠道；简单/困难体验；当前包空档与合成v5的真实结算/独立重启闭环；至少30分钟实际运行及同进程20次重开/返回趋势。货运港低频样本未覆盖施工，低频FPS和其他三关少量施工行不关闭四关复杂性能门。R5/R6整门保持开放，不重建已通过体验的固定包、不公开发布。
+
+## 12. 帧渠道续诊断：离线对照也缺图形内核事件
+
+不接管已交给玩家的 `manual-9b568789` / PID72184，不另开游戏、不输入、不改前台。核验目标路径、包哈希、进程创建时间及PresentMon签名/哈希后，八秒附加诊断 `tmp/presentmon-attach-cb67591b` 原生退出0，目标仍活着，无CSV，stderr报告75175个ETW事件丢失。自有会话运行中查询显示89个Buffers Written、0个Buffers Lost；这些计数不等于目标帧数，也不能把Events Lost与Buffers Lost混为一谈。session-query.log SHA256 `2A3055509EE2B8CDA62CA10CA2E660C9B2EA6613C2914BF55CAD1DEBEB171CC0`，stderr.log SHA256 `FFDC07F44ED0E1ABDD2E5011737E50398EEF9BDCD395517AE2C4D1064414711D`。
+
+为区分实时消费者与上游提供方，在独立自有会话 `CarRC4OfflineDiag-31682ddae9f24bdf94e20f32b8deb273` 用系统logman直录五秒图形ETL，再交同一PresentMon离线解析。只启用DxgKrnl/Dwm-Core/DXGI/D3D9/Win32k显示链路关键词，不启用键盘鼠标输入提供方；`-ets` 不保存或安排系统数据收集任务，输出限定新tmp目录、128MB上限，finally仅停止该自有会话。创建/停止/离线解析/tracerpt均原生0；正式档、运行包及其他会话不改。命令语义依据[Microsoft logman create trace](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/logman-create-trace)，ETW控制器/提供方/消费者及丢事件边界依据[Microsoft ETW说明](https://learn.microsoft.com/en-us/windows/win32/etw/about-event-tracing)。
+
+`tmp/etw-offline-0c06c0d8/graphics.etl` 为40566784字节，SHA256 `63FA344DCE540C870B66870D62B3A8C121729DE6BBF230713D59AED35768056B`。tracerpt摘要（SHA256 `78846300CD8BF59FB396C4906238E4F4591BBA9EA8471BF73DA281FFAE0112A9`）报告619个缓冲区、111931个事件、203520个事件丢失。实际导出的111931行包含EventTrace 2、Dwm-Core 85431、DXGI 342、Win32k 26156；没有DxgKrnl/D3D9事件。PID72184的2278行均为Win32k事件（上述总数的子集），不是帧间隔。会话查询虽列出已启用DxgKrnl，仍不证明该提供方数据实际送达。离线PresentMon也无CSV，不支持“只是实时消费者未及时解析”的单一假设；OpenGL帧识别所需图形内核事件缺失是已定位的证据缺口，提供方为何未送达的根因仍未知。
+
+当前执行令牌已是提升后的管理员，未申请提权或更改用户组，不能猜测“再提权即可修复”。未自动重启电脑/驱动、关闭其他采集进程、更新驱动或降低性能门槛。原ETL、转换CSV及摘要只保留本地tmp，不提交图形原始记录。此轮没有游戏源码变更，不重跑与文档无关的完整游戏测试，也不把这些诊断计入真人比赛、30分钟或四关性能通过。
+
+另对47个当前运行的唯一会话逐个只读查询，0查询失败，只有DiagLog、ETWSessionRecorder、EventLog-System、FrameViewService列出DxgKrnl；未观察到八会话容量已满，不能据“有其他采集进程”就断言冲突或自行停止它们。当前真人窗口与内存观察器继续原进程；无新试玩反馈，不重复发邮件或打开副本。
