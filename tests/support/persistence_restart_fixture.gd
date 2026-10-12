@@ -58,7 +58,7 @@ func _write_result_and_return(main, path: String) -> void:
 	_check(main.run.phase == main.RunState.Phase.RUN_CLEAR and main.result_screen.visible, "Normal settlement must be reached")
 	_check(main.save_data.career.runs == 10 and main.save_data.top_scores[0].score == 1500, "Settlement must update career and score once")
 	var settled_hash := FileAccess.get_sha256(path)
-	main.get_node("CanvasLayer/ResultScreen/Center/Card/Content/TitleButton").pressed.emit()
+	main.result_screen.find_child("TitleButton",true,false).pressed.emit()
 	_check(main.run.phase == main.RunState.Phase.TITLE and main.title_screen.visible, "Real result button must return to title")
 	_check(FileAccess.get_sha256(path) == settled_hash, "Returning to title must not rewrite or erase settlement")
 
@@ -72,7 +72,8 @@ func _read_restarted_main(main) -> void:
 	_check(main.audio_director.muted and main.difficulty_index == 2 and main.language_preference == "en", "Settings must load into a new Main")
 	_check(is_equal_approx(main.audio_director.master_volume, 0.4) and is_equal_approx(main.audio_director.music_volume, 0.3) and is_equal_approx(main.audio_director.effects_volume, 0.7), "All three audio settings must survive process restart")
 	_check(data.tour.track_results.neon_coast.cleared, "Tour clear must survive process restart")
-	_check(main.title_best_scores.text.contains("001500"), "Reopened title must actually render the persisted score")
+	main.title_screen.find_child("LeaderboardButton",true,false).pressed.emit()
+	_check(main.leaderboard_screen.find_child("ScoreGrid",true,false).is_visible_in_tree() and main.leaderboard_screen.find_child("ScoreGrid",true,false).get_child(5).text == "001500", "Reopened leaderboard must actually render the persisted score")
 
 func _check(condition: bool, message: String) -> void:
 	if not condition:

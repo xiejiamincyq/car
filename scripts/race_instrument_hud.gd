@@ -11,6 +11,7 @@ var fuel_ratio := 1.0
 var displayed_speed := 0.0
 var language := "zh"
 var integrity_gauge: ProgressBar
+var fuel_bar: ProgressBar
 var _panel_style: StyleBoxFlat
 var _initialized_speed := false
 var _coin_count := 0
@@ -31,12 +32,17 @@ func _ready() -> void:
 	integrity_gauge.show_percentage = false
 	integrity_gauge.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(integrity_gauge)
+	fuel_bar = ProgressBar.new()
+	fuel_bar.name = "FuelBar"
+	fuel_bar.show_percentage = false
+	fuel_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(fuel_bar)
 	route_map = RouteMap.new()
 	route_map.name = "RouteMap"
 	add_child(route_map)
-	for bar in [$Rows/FuelGauge, $Rows/ProgressGauge, $Rows/OverdriveGauge, integrity_gauge]:
+	for bar in [$Rows/FuelGauge, $Rows/ProgressGauge, $Rows/OverdriveGauge, integrity_gauge, fuel_bar]:
 		bar.add_theme_stylebox_override("background", _box(Color("142633")))
-		bar.add_theme_stylebox_override("fill", _box(Color.WHITE if bar in [integrity_gauge, $Rows/FuelGauge] else CYAN))
+		bar.add_theme_stylebox_override("fill", _box(Color.WHITE if bar in [integrity_gauge, $Rows/FuelGauge, fuel_bar] else CYAN))
 	$Rows/Fuel.add_theme_color_override("font_color", Color.WHITE)
 	resized.connect(layout_instruments)
 	layout_instruments()
@@ -62,8 +68,8 @@ func _place(node: Control, rect: Rect2, font_size: int = 16, alignment: int = HO
 func layout_instruments() -> void:
 	var w := size.x
 	var h := size.y
-	_place(route_map, Rect2(0,192,224,minf(400.0,maxf(150.0,h-468.0))))
-	_place($Rows/RunStatus, Rect2(12, 8, 370, 48), 16)
+	_place(route_map, Rect2(0,184,224,minf(400.0,maxf(150.0,h-468.0))))
+	_place($Rows/RunStatus, Rect2(12, 8, 198, 48), 16)
 	$Rows/RunStatus.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_place($Rows/Score, Rect2(w-222, 25, 208, 40), 32, HORIZONTAL_ALIGNMENT_RIGHT)
 	_place($CoinLabel, Rect2(w-222, 67, 208, 32), 22, HORIZONTAL_ALIGNMENT_RIGHT)
@@ -73,15 +79,18 @@ func layout_instruments() -> void:
 	_place($Rows/FuelGauge, Rect2(12, 160, 198, 12))
 	_place($Rows/OverdriveLabel, Rect2(12, 132, 198, 24), 14)
 	_place($Rows/OverdriveGauge, Rect2(12, 160, 198, 6))
-	_place($Rows/Position, Rect2(w*0.5-220, 9, 440, 24), 15, HORIZONTAL_ALIGNMENT_CENTER)
+	_place($Rows/Position, Rect2(w*0.5-196, 9, 392, 24), 16, HORIZONTAL_ALIGNMENT_CENTER)
 	$Rows/Position.visible = true
-	_place($Rows/ProgressGauge, Rect2(w*0.5-220, 42, 440, 8))
-	_place($Rows/Speed, Rect2(12, h-167, 198, 54), 44, HORIZONTAL_ALIGNMENT_CENTER)
+	_place($Rows/ProgressGauge, Rect2(w*0.5-196, 42, 392, 8))
+	_place($Rows/Speed, Rect2(12, h-164, 198, 54), 42, HORIZONTAL_ALIGNMENT_CENTER)
+	_place(fuel_bar, Rect2(12, h-20, 198, 10))
 	queue_redraw()
 
 func present(speed: float, maximum_speed: float, fuel: float, hull: float, value_language: String, coins: int = 0) -> void:
 	speed_ratio = clampf(speed/maxf(1.0, maximum_speed), 0.0, 1.0)
 	fuel_ratio = clampf(fuel/100.0, 0.0, 1.0)
+	fuel_bar.value = clampf(fuel, 0.0, 100.0)
+	fuel_bar.modulate = Color("ff7676") if fuel_ratio <= 0.15 else (GOLD if fuel_ratio <= 0.3 else Color("76edb6"))
 	language = value_language
 	if coins > _coin_count: _coin_pulse = 0.24
 	if coins < _coin_count: _coin_pulse = 0.0
@@ -112,20 +121,20 @@ func _dial(center: Vector2, radius: float, ratio: float, accent: Color, ticks: i
 	draw_circle(center, 3, accent)
 
 func _draw() -> void:
-	_panel(Rect2(0, 0, 386, 64))
+	_panel(Rect2(0, 0, 224, 64))
 	_panel(Rect2(0, 74, 224, 106))
 	_panel(Rect2(size.x-234, 0, 234, 110))
-	_panel(Rect2(size.x*0.5-234, 0, 468, 62))
-	_panel(Rect2(0, size.y-262, 224, 262))
-	_dial(Vector2(111, size.y-155), 78, displayed_speed, CYAN, 16)
+	_panel(Rect2(size.x*0.5-208, 0, 416, 62))
+	_panel(Rect2(0, size.y-226, 224, 226))
+	_dial(Vector2(111, size.y-150), 60, displayed_speed, CYAN, 16)
 	var fuel_color := Color("ff7676") if fuel_ratio <= 0.15 else (GOLD if fuel_ratio <= 0.3 else Color("76edb6"))
-	_dial(Vector2(52, size.y-47), 30, fuel_ratio, fuel_color, 8)
+	_dial(Vector2(52, size.y-54), 25, fuel_ratio, fuel_color, 8)
 	var font := ThemeDB.fallback_font
-	draw_string(font, Vector2(size.x-222, 18), "得分 / SCORE" if language == "zh" else "SCORE", HORIZONTAL_ALIGNMENT_RIGHT, 208, 13, MUTED)
+	draw_string(font, Vector2(size.x-222, 18), "得分" if language == "zh" else "SCORE", HORIZONTAL_ALIGNMENT_RIGHT, 208, 14, MUTED)
 	draw_string(font, Vector2(89, size.y-102), "km/h", HORIZONTAL_ALIGNMENT_LEFT, -1, 14, MUTED)
-	draw_string(font, Vector2(16, size.y-238), "速度 / SPEED" if language == "zh" else "SPEED", HORIZONTAL_ALIGNMENT_LEFT, -1, 14, MUTED)
-	draw_string(font, Vector2(100, size.y-46), "%d%%" % roundi(fuel_ratio*100), HORIZONTAL_ALIGNMENT_LEFT, -1, 23, fuel_color)
-	draw_string(font, Vector2(100, size.y-23), "燃油 / FUEL" if language == "zh" else "FUEL", HORIZONTAL_ALIGNMENT_LEFT, -1, 12, MUTED)
+	draw_string(font, Vector2(16, size.y-204), "速度" if language == "zh" else "SPEED", HORIZONTAL_ALIGNMENT_LEFT, -1, 14, MUTED)
+	draw_string(font, Vector2(100, size.y-56), "%d%%" % roundi(fuel_ratio*100), HORIZONTAL_ALIGNMENT_LEFT, -1, 23, fuel_color)
+	draw_string(font, Vector2(100, size.y-34), "燃油" if language == "zh" else "FUEL", HORIZONTAL_ALIGNMENT_LEFT, -1, 14, MUTED)
 	for threshold in [0.3, 0.7]:
 		var x: float = 12+198*threshold
 		draw_line(Vector2(x, 110), Vector2(x, 126), GOLD, 1)

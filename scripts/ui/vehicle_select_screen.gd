@@ -42,6 +42,60 @@ func _ready() -> void:
 	back_button.pressed.connect(_request_back)
 	confirm_button.pressed.connect(confirm_selection)
 	$Center/Card/Content.move_child(confirm_button, back_button.get_index())
+	_build_layout()
+
+func _build_layout() -> void:
+	var content: VBoxContainer = $Center/Card/Content
+	content.add_theme_constant_override("separation", 10)
+	hint.hide()
+	var row := HBoxContainer.new()
+	row.name = "VehicleGallery"
+	row.add_theme_constant_override("separation", 20)
+	row.custom_minimum_size.y = 230
+	content.add_child(row)
+	content.move_child(row, 1)
+	var portrait := PanelContainer.new()
+	portrait.custom_minimum_size = Vector2(240, 230)
+	row.add_child(portrait)
+	var stage := Control.new()
+	portrait.add_child(stage)
+	preview.reparent(stage)
+	preview.position = Vector2(71, 18)
+	preview.size = Vector2(98, 154)
+	var grid: GridContainer = content.get_node("Vehicles")
+	grid.reparent(row)
+	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	grid.size_flags_vertical = Control.SIZE_FILL
+	for index in vehicle_buttons.size():
+		var button := vehicle_buttons[index]
+		button.custom_minimum_size = Vector2(230, 105)
+		button.add_theme_font_size_override("font_size", 17)
+		var thumbnail := TextureRect.new()
+		thumbnail.name = "Thumbnail"
+		thumbnail.texture = load(VehicleCatalog.all()[index].texture_path)
+		thumbnail.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		thumbnail.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		thumbnail.position = Vector2(8, 20)
+		thumbnail.size = Vector2(40, 65)
+		thumbnail.pivot_offset = thumbnail.size * 0.5
+		thumbnail.rotation = PlayerVehicleProfile.texture_rotation(VehicleCatalog.all()[index])
+		thumbnail.scale = PlayerVehicleProfile.VISUAL_PROPORTION_SCALE
+		thumbnail.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		button.add_child(thumbnail)
+	details.custom_minimum_size.y = 30
+	details.add_theme_font_size_override("font_size", 21)
+	content.get_node("PreviewFrame").custom_minimum_size = Vector2(970, 170)
+	performance_chart.position = Vector2(150, 0)
+	performance_chart.scale = Vector2.ONE
+	var actions := HBoxContainer.new()
+	actions.name = "Actions"
+	actions.add_theme_constant_override("separation", 12)
+	content.add_child(actions)
+	back_button.reparent(actions)
+	back_button.custom_minimum_size = Vector2(240, 52)
+	confirm_button.reparent(actions)
+	confirm_button.custom_minimum_size.y = 52
+	confirm_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 
 func setup(progress: Dictionary, active_language: String) -> void:
 	language = active_language
@@ -94,7 +148,22 @@ func _refresh() -> void:
 		controller.selected_index = index
 		var state := controller.selected_state()
 		var lock_text := "" if state.unlocked else _text("garage.locked_short")
-		vehicle_buttons[index].text = "%s\n%s\n%s" % [_text(String(state.name_key)), _text(String(state.role_key)), lock_text]
+		var selection_text := ("已选" if language == "zh" else "SELECTED") if index == selected_index else ""
+		vehicle_buttons[index].text = "%s\n%s\n%s" % [_text(String(state.name_key)), _text(String(state.role_key)), lock_text if not lock_text.is_empty() else selection_text]
+		var style := StyleBoxFlat.new()
+		style.bg_color = Color("193746") if index == selected_index else Color("102638")
+		style.border_color = Color("edc77d") if index == selected_index else Color("34525e")
+		style.set_border_width_all(2 if index == selected_index else 1)
+		style.set_corner_radius_all(8)
+		style.content_margin_left = 48
+		style.content_margin_right = 6
+		style.content_margin_top = 8
+		style.content_margin_bottom = 8
+		for state_name in ["normal", "hover", "pressed"]:
+			vehicle_buttons[index].add_theme_stylebox_override(state_name, style)
+		# A locked selected card still explicitly says it is the inspected choice.
+		if not lock_text.is_empty() and not selection_text.is_empty():
+			vehicle_buttons[index].text += " · " + selection_text
 		vehicle_buttons[index].modulate = Color.WHITE if state.unlocked else Color(0.62, 0.68, 0.76)
 	controller.selected_index = selected_index
 	var selected := controller.selected_state()

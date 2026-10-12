@@ -1,6 +1,7 @@
-[gd_scene load_steps=16 format=3]
+[gd_scene load_steps=17 format=3]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
+[ext_resource type="Script" path="res://scripts/ui/title_logo.gd" id="13_logo"]
 [ext_resource type="Script" path="res://scripts/ui/audio_settings_panel.gd" id="12_audio_settings"]
 [ext_resource type="Script" path="res://scripts/race_instrument_hud.gd" id="11_hud"]
 [ext_resource type="Script" path="res://scripts/rating_card.gd" id="10_rating"]
@@ -276,7 +277,14 @@ theme_override_constants/margin_bottom = 30
 layout_mode = 2
 theme_override_constants/separation = 10
 
+[node name="Logo" type="Control" parent="CanvasLayer/TitleScreen/Center/Card/Content"]
+custom_minimum_size = Vector2(0, 148)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("13_logo")
+
 [node name="Title" type="Label" parent="CanvasLayer/TitleScreen/Center/Card/Content"]
+visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(0.286, 0.902, 0.878, 1)
 theme_override_font_sizes/font_size = 44
@@ -284,6 +292,7 @@ text = "NEON COAST RUSH"
 horizontal_alignment = 1
 
 [node name="Subtitle" type="Label" parent="CanvasLayer/TitleScreen/Center/Card/Content"]
+visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.79, 0.31, 1)
 theme_override_font_sizes/font_size = 19
@@ -291,16 +300,10 @@ text = ""
 horizontal_alignment = 1
 
 [node name="Goal" type="Label" parent="CanvasLayer/TitleScreen/Center/Card/Content"]
+visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(0.83, 0.94, 0.97, 1)
 theme_override_font_sizes/font_size = 16
-text = ""
-horizontal_alignment = 1
-
-[node name="BestScores" type="Label" parent="CanvasLayer/TitleScreen/Center/Card/Content"]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.86, 0.38, 1)
-theme_override_font_sizes/font_size = 15
 text = ""
 horizontal_alignment = 1
 
@@ -318,6 +321,14 @@ text = ""
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 text = ""
+
+[node name="LeaderboardButton" type="Button" parent="CanvasLayer/TitleScreen/Center/Card/Content"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+
+[node name="SaveButton" type="Button" parent="CanvasLayer/TitleScreen/Center/Card/Content"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
 
 [node name="SettingsButton" type="Button" parent="CanvasLayer/TitleScreen/Center/Card/Content"]
 custom_minimum_size = Vector2(0, 42)
@@ -340,6 +351,48 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.55, 0.72, 0.76, 1)
 text = "v0.4.0-rc.4"
 horizontal_alignment = 1
+
+[node name="LeaderboardScreen" type="Control" parent="CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Center" type="CenterContainer" parent="CanvasLayer/LeaderboardScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Card" type="PanelContainer" parent="CanvasLayer/LeaderboardScreen/Center"]
+custom_minimum_size = Vector2(520, 0)
+layout_mode = 2
+
+[node name="Content" type="VBoxContainer" parent="CanvasLayer/LeaderboardScreen/Center/Card"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Heading" type="Label" parent="CanvasLayer/LeaderboardScreen/Center/Card/Content"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+horizontal_alignment = 1
+
+[node name="BestScores" type="Label" parent="CanvasLayer/LeaderboardScreen/Center/Card/Content"]
+custom_minimum_size = Vector2(0, 160)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.86, 0.38, 1)
+theme_override_font_sizes/font_size = 18
+vertical_alignment = 1
+horizontal_alignment = 1
+
+[node name="BackButton" type="Button" parent="CanvasLayer/LeaderboardScreen/Center/Card/Content"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
 
 [node name="SettingsScreen" type="Control" parent="CanvasLayer"]
 visible = false
@@ -565,6 +618,10 @@ text = ""
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 text = ""
+
+[node name="SaveButton" type="Button" parent="CanvasLayer/PauseScreen/Center/Card/Content"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
 
 [node name="TitleButton" type="Button" parent="CanvasLayer/PauseScreen/Center/Card/Content"]
 custom_minimum_size = Vector2(0, 42)

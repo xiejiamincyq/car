@@ -13,12 +13,15 @@ func _run() -> void:
 	var first = MainScene.instantiate()
 	root.add_child(first)
 	first._configure_persistence(SaveStore.new(test_path), true)
-	assert(first.get_node("CanvasLayer/TitleScreen/Center/Card/Content/BestScores").text.contains("暂无成绩"), "A fresh profile must explain that no scores exist")
+	first.title_screen.find_child("LeaderboardButton",true,false).pressed.emit()
+	assert(first.title_best_scores.is_visible_in_tree() and first.title_best_scores.text.contains("暂无成绩"), "Opening a fresh leaderboard must explain that no scores exist")
+	first._close_submenu()
 
 	first.audio_director.master_volume = 0.4
 	first.audio_director.muted = true
 	first.difficulty_index = 2
-	first._save_preferences()
+	first.title_screen.find_child("SaveButton",true,false).pressed.emit()
+	assert(first.persistence_notice_key == "persistence.saved", "Manual save reports actual successful disk storage")
 	first._start_new_run()
 	first.run.tick(3.0, 0.0, first.GameConfig.MAX_SPEED)
 	first.run.score = 1500
@@ -41,8 +44,10 @@ func _run() -> void:
 	root.add_child(reopened)
 	reopened._configure_persistence(SaveStore.new(test_path), true)
 	assert(reopened.audio_director.muted and is_equal_approx(reopened.audio_director.master_volume, 0.4) and reopened.difficulty_index == 2, "Audio and difficulty settings must survive a process-equivalent reload")
-	var best_scores: Label = reopened.get_node("CanvasLayer/TitleScreen/Center/Card/Content/BestScores")
-	assert(best_scores.text.contains("001500") and best_scores.text.contains("困难"), "The title must show persisted score and difficulty")
+	reopened.title_screen.find_child("LeaderboardButton",true,false).pressed.emit()
+	var best_scores: Label = reopened.title_best_scores
+	var score_grid: GridContainer = reopened.leaderboard_screen.find_child("ScoreGrid",true,false)
+	assert(score_grid.is_visible_in_tree() and score_grid.get_child(5).text == "001500" and score_grid.get_child(6).text == "困难" and best_scores.text.contains("001500"), "The leaderboard action must render the persisted score and difficulty in aligned columns")
 	assert(reopened.save_data.career.total_distance == 845.0 and reopened.save_data.career.overtakes == 4, "Career totals must reload unchanged")
 	await _free_main(reopened)
 	_cleanup()

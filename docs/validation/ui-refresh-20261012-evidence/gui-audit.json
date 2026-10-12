@@ -1,0 +1,2418 @@
+{
+	"errors": [],
+	"rows": [
+		{
+			"actions": [
+				"开始比赛",
+				"难度：标准",
+				"排行榜",
+				"保存进度",
+				"设置",
+				"操作说明",
+				"退出游戏"
+			],
+			"focus": "/root/Main/CanvasLayer/TitleScreen/Center/Card/Content/StartButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/title-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"requested_pixels": [
+				1280,
+				720
+			],
+			"sha256": "677c190ed513083f244acc39e6bcc20028057ab5b11ef9e504c06dccfc4e4f04",
+			"small_label_candidates": [],
+			"state": "title",
+			"state_name": "title",
+			"window_size": "(1280, 720)"
+		},
+		{
+			"actions": [
+				"01  霓虹海岸\n",
+				"02  货运港湾\n未解锁",
+				"03  风暴山脊\n未解锁",
+				"04  日出快线\n未解锁",
+				"返回"
+			],
+			"focus": "/root/Main/CanvasLayer/TourMapScreen/Center/Card/Content/Route/Track0",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/tour-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"requested_pixels": [
+				1280,
+				720
+			],
+			"sha256": "2fb612073d5a1cced4bfbc79b354816df3fb163ba117833945c1cd802faba878",
+			"small_label_candidates": [],
+			"state": "tour",
+			"state_name": "tour_map",
+			"window_size": "(1280, 720)"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n已选",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n未解锁",
+				"破潮者\n稳健型\n未解锁",
+				"极光 X\n专家型\n未解锁",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/garage-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"requested_pixels": [
+				1280,
+				720
+			],
+			"sha256": "9b4efb32b76a5948af6ba94ecbe02df80d4f5b04ed9cc8abdbd681a0b4693889",
+			"small_label_candidates": [],
+			"state": "garage",
+			"state_name": "garage",
+			"window_size": "(1280, 720)"
+		},
+		{
+			"actions": [
+				"静音：关",
+				"显示模式：窗口",
+				"语言：中文",
+				"高对比配色：关",
+				"减少闪烁：关",
+				"屏幕震动：开",
+				"返回"
+			],
+			"focus": "/root/Main/CanvasLayer/SettingsScreen/Center/Card/Content/AudioLevels/Master/Slider",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/settings-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"requested_pixels": [
+				1280,
+				720
+			],
+			"sha256": "a9531dfbbb5072b291ea7b2a831afec087bddbfc3b790b1f73c24c12a8a5c633",
+			"small_label_candidates": [],
+			"state": "settings",
+			"state_name": "settings",
+			"window_size": "(1280, 720)"
+		},
+		{
+			"actions": [
+				"返回"
+			],
+			"focus": "/root/Main/CanvasLayer/ControlsScreen/Center/Card/Content/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/controls-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"requested_pixels": [
+				1280,
+				720
+			],
+			"sha256": "04e5a70ffa3651749f98bb92d2b9e3fe8f00cf68c21ab2e23a6b922d313ffee8",
+			"small_label_candidates": [],
+			"state": "controls",
+			"state_name": "controls",
+			"window_size": "(1280, 720)"
+		},
+		{
+			"actions": [
+				"返回"
+			],
+			"focus": "/root/Main/CanvasLayer/LeaderboardScreen/Center/Card/Content/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/board-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"requested_pixels": [
+				1280,
+				720
+			],
+			"sha256": "d5d37b140c820e6a99e6b305d0ccdb6fa0cfef6b77e10f1c85f8bf8e33e9d8d9",
+			"small_label_candidates": [],
+			"state": "board",
+			"state_name": "leaderboard",
+			"window_size": "(1280, 720)"
+		},
+		{
+			"actions": [
+				"返回"
+			],
+			"focus": "/root/Main/CanvasLayer/LeaderboardScreen/Center/Card/Content/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/empty_board-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"requested_pixels": [
+				1280,
+				720
+			],
+			"sha256": "fe25dd9a9a17e2012c28165aeb23fd5c6752e283777af16e17f4f7e1b0d41742",
+			"small_label_candidates": [],
+			"state": "empty_board",
+			"state_name": "leaderboard",
+			"window_size": "(1280, 720)"
+		},
+		{
+			"actions": [
+				"继续比赛",
+				"重新开始",
+				"设置",
+				"保存进度",
+				"返回标题"
+			],
+			"focus": "/root/Main/CanvasLayer/PauseScreen/Center/Card/Content/ResumeButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/pause-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"requested_pixels": [
+				1280,
+				720
+			],
+			"sha256": "fc38c34e0415923380336a57715cc1ce6e7268a58a777ef04053a9451b1b5ac7",
+			"small_label_candidates": [],
+			"state": "pause",
+			"state_name": "pause",
+			"window_size": "(1280, 720)"
+		},
+		{
+			"actions": [
+				"确定",
+				"取消，保留本局"
+			],
+			"focus": "/root/Main/CanvasLayer/ConfirmationScreen/Center/Card/Content/CancelButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/confirm-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"requested_pixels": [
+				1280,
+				720
+			],
+			"sha256": "159a6159a795ef05b6054958b3660ba90ec24266a26a2738a857a33858a95afa",
+			"small_label_candidates": [],
+			"state": "confirm",
+			"state_name": "confirmation",
+			"window_size": "(1280, 720)"
+		},
+		{
+			"actions": [
+				"返回标题",
+				"返回巡回地图"
+			],
+			"focus": "/root/Main/CanvasLayer/ResultScreen/Center/Card/Content/Actions/ReplayButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/clear-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"requested_pixels": [
+				1280,
+				720
+			],
+			"sha256": "c5036632bb23f75dbd80dcc5a44a9a9d7251f3fc5577535530bbab87fea76520",
+			"small_label_candidates": [],
+			"state": "clear",
+			"state_name": "result",
+			"window_size": "(1280, 720)"
+		},
+		{
+			"actions": [
+				"返回标题",
+				"返回巡回地图"
+			],
+			"focus": "/root/Main/CanvasLayer/ResultScreen/Center/Card/Content/Actions/ReplayButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/failed-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"requested_pixels": [
+				1280,
+				720
+			],
+			"sha256": "c437e36891523b9a7f0aed2c24ad8d399e745aba7c953b6c5ab1fe9de7008a23",
+			"small_label_candidates": [],
+			"state": "failed",
+			"state_name": "result",
+			"window_size": "(1280, 720)"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/hud-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"requested_pixels": [
+				1280,
+				720
+			],
+			"sha256": "81fef3a8699a17439fe7964c4820e782864f370d8a35f44623a317eda4282e8b",
+			"small_label_candidates": [],
+			"state": "hud",
+			"state_name": "race",
+			"window_size": "(1280, 720)"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/warning-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"requested_pixels": [
+				1280,
+				720
+			],
+			"sha256": "093002b31ac19aef4e3dd027c70c64d3dc85a5f3c3135248d21b547c634abc41",
+			"small_label_candidates": [],
+			"state": "warning",
+			"state_name": "race",
+			"window_size": "(1280, 720)"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/countdown-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"requested_pixels": [
+				1280,
+				720
+			],
+			"sha256": "cf29c7f785fe9a0bb3458a48f13f12679c69752383d4c8ed896e0e542268398b",
+			"small_label_candidates": [],
+			"state": "countdown",
+			"state_name": "countdown",
+			"window_size": "(1280, 720)"
+		},
+		{
+			"actions": [
+				"START RACE",
+				"DIFFICULTY: NORMAL",
+				"LEADERBOARD",
+				"SAVE PROGRESS",
+				"SETTINGS",
+				"CONTROLS",
+				"QUIT GAME"
+			],
+			"focus": "/root/Main/CanvasLayer/TitleScreen/Center/Card/Content/StartButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/title-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"requested_pixels": [
+				1280,
+				720
+			],
+			"sha256": "22a97ea3b733e9436995104d149cdf132b773b072abc5154b73b631818c1f01c",
+			"small_label_candidates": [],
+			"state": "title",
+			"state_name": "title",
+			"window_size": "(1280, 720)"
+		},
+		{
+			"actions": [
+				"01  NEON COAST\n",
+				"02  FREIGHT HARBOR\nLOCKED",
+				"03  STORM RIDGE\nLOCKED",
+				"04  SUNRISE EXPRESS\nLOCKED",
+				"BACK"
+			],
+			"focus": "/root/Main/CanvasLayer/TourMapScreen/Center/Card/Content/Route/Track0",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/tour-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"requested_pixels": [
+				1280,
+				720
+			],
+			"sha256": "1a8fc0e4af5abd1e36c8d7aded24328c05d3e77c109ae54fc6ff48871077eca4",
+			"small_label_candidates": [],
+			"state": "tour",
+			"state_name": "tour_map",
+			"window_size": "(1280, 720)"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\nSELECTED",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\nLOCKED",
+				"TIDEBREAKER\nSTABLE\nLOCKED",
+				"AURORA X\nEXPERT\nLOCKED",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/garage-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"requested_pixels": [
+				1280,
+				720
+			],
+			"sha256": "36a12f3afa602d749967deeceb36e0216f94fe43d7f4cce744e8e646fde7e7b7",
+			"small_label_candidates": [],
+			"state": "garage",
+			"state_name": "garage",
+			"window_size": "(1280, 720)"
+		},
+		{
+			"actions": [
+				"MUTE: OFF",
+				"DISPLAY: WINDOWED",
+				"LANGUAGE: ENGLISH",
+				"HIGH-CONTRAST COLORS: OFF",
+				"REDUCED FLASHING: OFF",
+				"SCREEN SHAKE: ON",
+				"BACK"
+			],
+			"focus": "/root/Main/CanvasLayer/SettingsScreen/Center/Card/Content/AudioLevels/Master/Slider",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/settings-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"requested_pixels": [
+				1280,
+				720
+			],
+			"sha256": "31cc8a5e996e6dd2c3ced0b3f169d7dce27d4f505fccadf086fed294980a7b5a",
+			"small_label_candidates": [],
+			"state": "settings",
+			"state_name": "settings",
+			"window_size": "(1280, 720)"
+		},
+		{
+			"actions": [
+				"BACK"
+			],
+			"focus": "/root/Main/CanvasLayer/ControlsScreen/Center/Card/Content/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/controls-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"requested_pixels": [
+				1280,
+				720
+			],
+			"sha256": "1f7a4c998c1aa8dd7104ea1de6f9efed83fba2096978166b954d655d453e6598",
+			"small_label_candidates": [],
+			"state": "controls",
+			"state_name": "controls",
+			"window_size": "(1280, 720)"
+		},
+		{
+			"actions": [
+				"BACK"
+			],
+			"focus": "/root/Main/CanvasLayer/LeaderboardScreen/Center/Card/Content/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/board-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"requested_pixels": [
+				1280,
+				720
+			],
+			"sha256": "af3995779740742fef2cc438c60d0afc59a616f4b689f1cad6227716179ff37a",
+			"small_label_candidates": [],
+			"state": "board",
+			"state_name": "leaderboard",
+			"window_size": "(1280, 720)"
+		},
+		{
+			"actions": [
+				"BACK"
+			],
+			"focus": "/root/Main/CanvasLayer/LeaderboardScreen/Center/Card/Content/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/empty_board-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"requested_pixels": [
+				1280,
+				720
+			],
+			"sha256": "419b707caa92a3c35653d024e121e4a9845929ef6e68ed96cc1e52d3c12f7575",
+			"small_label_candidates": [],
+			"state": "empty_board",
+			"state_name": "leaderboard",
+			"window_size": "(1280, 720)"
+		},
+		{
+			"actions": [
+				"RESUME RACE",
+				"RESTART",
+				"SETTINGS",
+				"SAVE PROGRESS",
+				"RETURN TO TITLE"
+			],
+			"focus": "/root/Main/CanvasLayer/PauseScreen/Center/Card/Content/ResumeButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/pause-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"requested_pixels": [
+				1280,
+				720
+			],
+			"sha256": "650facfcaeb3b0e12a76d7bd908accc5bc9623d553eb4fa655aeba0d4774ebf7",
+			"small_label_candidates": [],
+			"state": "pause",
+			"state_name": "pause",
+			"window_size": "(1280, 720)"
+		},
+		{
+			"actions": [
+				"CONFIRM",
+				"CANCEL, KEEP RACING"
+			],
+			"focus": "/root/Main/CanvasLayer/ConfirmationScreen/Center/Card/Content/CancelButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/confirm-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"requested_pixels": [
+				1280,
+				720
+			],
+			"sha256": "0875ccd0701bd18aeb1eaec563844222f27780a90b2a5068c308e14cc75a5aa0",
+			"small_label_candidates": [],
+			"state": "confirm",
+			"state_name": "confirmation",
+			"window_size": "(1280, 720)"
+		},
+		{
+			"actions": [
+				"RETURN TO TITLE",
+				"RETURN TO TOUR"
+			],
+			"focus": "/root/Main/CanvasLayer/ResultScreen/Center/Card/Content/Actions/ReplayButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/clear-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"requested_pixels": [
+				1280,
+				720
+			],
+			"sha256": "d872b59200b21b3c1704e7892905782c1df05b65a103d94743e0748af1f10a5d",
+			"small_label_candidates": [],
+			"state": "clear",
+			"state_name": "result",
+			"window_size": "(1280, 720)"
+		},
+		{
+			"actions": [
+				"RETURN TO TITLE",
+				"RETURN TO TOUR"
+			],
+			"focus": "/root/Main/CanvasLayer/ResultScreen/Center/Card/Content/Actions/ReplayButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/failed-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"requested_pixels": [
+				1280,
+				720
+			],
+			"sha256": "1d36379652265a83100e4908a1a715cffdc39bde332e27b7db754dde33c03daa",
+			"small_label_candidates": [],
+			"state": "failed",
+			"state_name": "result",
+			"window_size": "(1280, 720)"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/hud-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"requested_pixels": [
+				1280,
+				720
+			],
+			"sha256": "603e672cf9a8027e81e03352a8ce2cc89d49c1bacceaf35d13c6a3f74cc659df",
+			"small_label_candidates": [],
+			"state": "hud",
+			"state_name": "race",
+			"window_size": "(1280, 720)"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/warning-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"requested_pixels": [
+				1280,
+				720
+			],
+			"sha256": "6ffcaa4764086e7a543866ed3abd2b20bd94930d810ab74ece9da90055b536c1",
+			"small_label_candidates": [],
+			"state": "warning",
+			"state_name": "race",
+			"window_size": "(1280, 720)"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/countdown-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"requested_pixels": [
+				1280,
+				720
+			],
+			"sha256": "cf29c7f785fe9a0bb3458a48f13f12679c69752383d4c8ed896e0e542268398b",
+			"small_label_candidates": [],
+			"state": "countdown",
+			"state_name": "countdown",
+			"window_size": "(1280, 720)"
+		},
+		{
+			"actions": [
+				"开始比赛",
+				"难度：标准",
+				"排行榜",
+				"保存进度",
+				"设置",
+				"操作说明",
+				"退出游戏"
+			],
+			"focus": "/root/Main/CanvasLayer/TitleScreen/Center/Card/Content/StartButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/title-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"requested_pixels": [
+				1920,
+				1080
+			],
+			"sha256": "af9eb89e7eeff8cba9914c16ebb7aa8ade847a03053d683561e377717adeb351",
+			"small_label_candidates": [],
+			"state": "title",
+			"state_name": "title",
+			"window_size": "(1920, 1080)"
+		},
+		{
+			"actions": [
+				"01  霓虹海岸\n",
+				"02  货运港湾\n未解锁",
+				"03  风暴山脊\n未解锁",
+				"04  日出快线\n未解锁",
+				"返回"
+			],
+			"focus": "/root/Main/CanvasLayer/TourMapScreen/Center/Card/Content/Route/Track0",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/tour-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"requested_pixels": [
+				1920,
+				1080
+			],
+			"sha256": "a35b8bf12bc83bd62d898e55ff8490f2ffbb9d8ab960b6017fe20661c3fb2f04",
+			"small_label_candidates": [],
+			"state": "tour",
+			"state_name": "tour_map",
+			"window_size": "(1920, 1080)"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n已选",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n未解锁",
+				"破潮者\n稳健型\n未解锁",
+				"极光 X\n专家型\n未解锁",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/garage-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"requested_pixels": [
+				1920,
+				1080
+			],
+			"sha256": "78f5ef23d1e4a14c40e158c99899bfbbba9fb44332463cc4b215ce171a8d9ab9",
+			"small_label_candidates": [],
+			"state": "garage",
+			"state_name": "garage",
+			"window_size": "(1920, 1080)"
+		},
+		{
+			"actions": [
+				"静音：关",
+				"显示模式：窗口",
+				"语言：中文",
+				"高对比配色：关",
+				"减少闪烁：关",
+				"屏幕震动：开",
+				"返回"
+			],
+			"focus": "/root/Main/CanvasLayer/SettingsScreen/Center/Card/Content/AudioLevels/Master/Slider",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/settings-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"requested_pixels": [
+				1920,
+				1080
+			],
+			"sha256": "89d2f7c70caeb1e8463432e222119566cc32a6babe2a43d3232b00b2424e1cd1",
+			"small_label_candidates": [],
+			"state": "settings",
+			"state_name": "settings",
+			"window_size": "(1920, 1080)"
+		},
+		{
+			"actions": [
+				"返回"
+			],
+			"focus": "/root/Main/CanvasLayer/ControlsScreen/Center/Card/Content/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/controls-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"requested_pixels": [
+				1920,
+				1080
+			],
+			"sha256": "2d73cbc03ad729f2783ea611e0fbdd199bfb8700451e3ae1990f706eea870bdc",
+			"small_label_candidates": [],
+			"state": "controls",
+			"state_name": "controls",
+			"window_size": "(1920, 1080)"
+		},
+		{
+			"actions": [
+				"返回"
+			],
+			"focus": "/root/Main/CanvasLayer/LeaderboardScreen/Center/Card/Content/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/board-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"requested_pixels": [
+				1920,
+				1080
+			],
+			"sha256": "3c0fdf5cc271ea30d55455f553db9ba7d96d0abac164c4df61b1d345cce95033",
+			"small_label_candidates": [],
+			"state": "board",
+			"state_name": "leaderboard",
+			"window_size": "(1920, 1080)"
+		},
+		{
+			"actions": [
+				"返回"
+			],
+			"focus": "/root/Main/CanvasLayer/LeaderboardScreen/Center/Card/Content/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/empty_board-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"requested_pixels": [
+				1920,
+				1080
+			],
+			"sha256": "86f7e09f061af23c315494e2f1dfc3e50437b87d073500e59c188a1ccddea902",
+			"small_label_candidates": [],
+			"state": "empty_board",
+			"state_name": "leaderboard",
+			"window_size": "(1920, 1080)"
+		},
+		{
+			"actions": [
+				"继续比赛",
+				"重新开始",
+				"设置",
+				"保存进度",
+				"返回标题"
+			],
+			"focus": "/root/Main/CanvasLayer/PauseScreen/Center/Card/Content/ResumeButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/pause-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"requested_pixels": [
+				1920,
+				1080
+			],
+			"sha256": "9f2ce78f3066d8200cc32ce2988d8f41fe12a8faa514292dd1ba12579e0924d5",
+			"small_label_candidates": [],
+			"state": "pause",
+			"state_name": "pause",
+			"window_size": "(1920, 1080)"
+		},
+		{
+			"actions": [
+				"确定",
+				"取消，保留本局"
+			],
+			"focus": "/root/Main/CanvasLayer/ConfirmationScreen/Center/Card/Content/CancelButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/confirm-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"requested_pixels": [
+				1920,
+				1080
+			],
+			"sha256": "f67f93b2fd324fbfb7f467aa8b011b6ba47e9f00fc94a48417eb3b7e18f33cc5",
+			"small_label_candidates": [],
+			"state": "confirm",
+			"state_name": "confirmation",
+			"window_size": "(1920, 1080)"
+		},
+		{
+			"actions": [
+				"返回标题",
+				"返回巡回地图"
+			],
+			"focus": "/root/Main/CanvasLayer/ResultScreen/Center/Card/Content/Actions/ReplayButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/clear-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"requested_pixels": [
+				1920,
+				1080
+			],
+			"sha256": "57fccda99e20c9ead2d3fdaa86de9e7dda55172fd2aa25a1420c55310baf391e",
+			"small_label_candidates": [],
+			"state": "clear",
+			"state_name": "result",
+			"window_size": "(1920, 1080)"
+		},
+		{
+			"actions": [
+				"返回标题",
+				"返回巡回地图"
+			],
+			"focus": "/root/Main/CanvasLayer/ResultScreen/Center/Card/Content/Actions/ReplayButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/failed-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"requested_pixels": [
+				1920,
+				1080
+			],
+			"sha256": "84ed06a5fc36b6cf88b0a8681559c32ff93002fe8e04af004837e9e1afb896cd",
+			"small_label_candidates": [],
+			"state": "failed",
+			"state_name": "result",
+			"window_size": "(1920, 1080)"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/hud-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"requested_pixels": [
+				1920,
+				1080
+			],
+			"sha256": "0b401e5c61f8e5f6111b38a08601ec6a25b6e468828e874977bfb8b3008a5257",
+			"small_label_candidates": [],
+			"state": "hud",
+			"state_name": "race",
+			"window_size": "(1920, 1080)"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/warning-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"requested_pixels": [
+				1920,
+				1080
+			],
+			"sha256": "0a2bd91ce5fcae9164639b01ebfbb755b29055641fec4aa4693ad999f1c8012d",
+			"small_label_candidates": [],
+			"state": "warning",
+			"state_name": "race",
+			"window_size": "(1920, 1080)"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/countdown-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"requested_pixels": [
+				1920,
+				1080
+			],
+			"sha256": "b144725324497aaba1d77a8f3be90b0357fddadd49e1a8be5b1059c6b49f4d76",
+			"small_label_candidates": [],
+			"state": "countdown",
+			"state_name": "countdown",
+			"window_size": "(1920, 1080)"
+		},
+		{
+			"actions": [
+				"START RACE",
+				"DIFFICULTY: NORMAL",
+				"LEADERBOARD",
+				"SAVE PROGRESS",
+				"SETTINGS",
+				"CONTROLS",
+				"QUIT GAME"
+			],
+			"focus": "/root/Main/CanvasLayer/TitleScreen/Center/Card/Content/StartButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/title-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"requested_pixels": [
+				1920,
+				1080
+			],
+			"sha256": "1be1a6079b523500096a88081e51e460c26d7bd87c81e7d32ae6812da5eda886",
+			"small_label_candidates": [],
+			"state": "title",
+			"state_name": "title",
+			"window_size": "(1920, 1080)"
+		},
+		{
+			"actions": [
+				"01  NEON COAST\n",
+				"02  FREIGHT HARBOR\nLOCKED",
+				"03  STORM RIDGE\nLOCKED",
+				"04  SUNRISE EXPRESS\nLOCKED",
+				"BACK"
+			],
+			"focus": "/root/Main/CanvasLayer/TourMapScreen/Center/Card/Content/Route/Track0",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/tour-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"requested_pixels": [
+				1920,
+				1080
+			],
+			"sha256": "325b0a649a5a640ef1be5f9589ab45fa39842d144ee23dc458bb7d758908e8e8",
+			"small_label_candidates": [],
+			"state": "tour",
+			"state_name": "tour_map",
+			"window_size": "(1920, 1080)"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\nSELECTED",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\nLOCKED",
+				"TIDEBREAKER\nSTABLE\nLOCKED",
+				"AURORA X\nEXPERT\nLOCKED",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/garage-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"requested_pixels": [
+				1920,
+				1080
+			],
+			"sha256": "bbb3f0a9e3e0e23f45b235728aad0ecef536a69590af095caa8808204fb3f399",
+			"small_label_candidates": [],
+			"state": "garage",
+			"state_name": "garage",
+			"window_size": "(1920, 1080)"
+		},
+		{
+			"actions": [
+				"MUTE: OFF",
+				"DISPLAY: WINDOWED",
+				"LANGUAGE: ENGLISH",
+				"HIGH-CONTRAST COLORS: OFF",
+				"REDUCED FLASHING: OFF",
+				"SCREEN SHAKE: ON",
+				"BACK"
+			],
+			"focus": "/root/Main/CanvasLayer/SettingsScreen/Center/Card/Content/AudioLevels/Master/Slider",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/settings-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"requested_pixels": [
+				1920,
+				1080
+			],
+			"sha256": "7bf640a0f8b5c82890137c947a4797c2ce977e7291c2dd7ae6767e49af31d5b3",
+			"small_label_candidates": [],
+			"state": "settings",
+			"state_name": "settings",
+			"window_size": "(1920, 1080)"
+		},
+		{
+			"actions": [
+				"BACK"
+			],
+			"focus": "/root/Main/CanvasLayer/ControlsScreen/Center/Card/Content/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/controls-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"requested_pixels": [
+				1920,
+				1080
+			],
+			"sha256": "338f56f608bdd4867c2b6993a5de2e12c5f54c5e246a6b325a27f23943bad7cc",
+			"small_label_candidates": [],
+			"state": "controls",
+			"state_name": "controls",
+			"window_size": "(1920, 1080)"
+		},
+		{
+			"actions": [
+				"BACK"
+			],
+			"focus": "/root/Main/CanvasLayer/LeaderboardScreen/Center/Card/Content/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/board-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"requested_pixels": [
+				1920,
+				1080
+			],
+			"sha256": "11db7fe8467037f1e845a2058633cb05a3f99d64d9a653858322dcd737e435f5",
+			"small_label_candidates": [],
+			"state": "board",
+			"state_name": "leaderboard",
+			"window_size": "(1920, 1080)"
+		},
+		{
+			"actions": [
+				"BACK"
+			],
+			"focus": "/root/Main/CanvasLayer/LeaderboardScreen/Center/Card/Content/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/empty_board-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"requested_pixels": [
+				1920,
+				1080
+			],
+			"sha256": "a9ff97af90af012a94945c9a412437b846a28c46c24151fbdd5d953cd3c3a881",
+			"small_label_candidates": [],
+			"state": "empty_board",
+			"state_name": "leaderboard",
+			"window_size": "(1920, 1080)"
+		},
+		{
+			"actions": [
+				"RESUME RACE",
+				"RESTART",
+				"SETTINGS",
+				"SAVE PROGRESS",
+				"RETURN TO TITLE"
+			],
+			"focus": "/root/Main/CanvasLayer/PauseScreen/Center/Card/Content/ResumeButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/pause-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"requested_pixels": [
+				1920,
+				1080
+			],
+			"sha256": "7635a587ea917f3a1198fd083351cf96993a7c317ac1d36b3c27a529269323e6",
+			"small_label_candidates": [],
+			"state": "pause",
+			"state_name": "pause",
+			"window_size": "(1920, 1080)"
+		},
+		{
+			"actions": [
+				"CONFIRM",
+				"CANCEL, KEEP RACING"
+			],
+			"focus": "/root/Main/CanvasLayer/ConfirmationScreen/Center/Card/Content/CancelButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/confirm-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"requested_pixels": [
+				1920,
+				1080
+			],
+			"sha256": "c0b9cb0cb8b1d04aeb4660c9fc687c26ba8b47fb4fe4a9f8335f56a107b215ce",
+			"small_label_candidates": [],
+			"state": "confirm",
+			"state_name": "confirmation",
+			"window_size": "(1920, 1080)"
+		},
+		{
+			"actions": [
+				"RETURN TO TITLE",
+				"RETURN TO TOUR"
+			],
+			"focus": "/root/Main/CanvasLayer/ResultScreen/Center/Card/Content/Actions/ReplayButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/clear-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"requested_pixels": [
+				1920,
+				1080
+			],
+			"sha256": "32b8f789b1a67861867dd8a7d39411cb77de3ded30dbde7aa494e3bdc13eb3c9",
+			"small_label_candidates": [],
+			"state": "clear",
+			"state_name": "result",
+			"window_size": "(1920, 1080)"
+		},
+		{
+			"actions": [
+				"RETURN TO TITLE",
+				"RETURN TO TOUR"
+			],
+			"focus": "/root/Main/CanvasLayer/ResultScreen/Center/Card/Content/Actions/ReplayButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/failed-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"requested_pixels": [
+				1920,
+				1080
+			],
+			"sha256": "0a80060db3533a397c345acf15999250742609009285a31cdf8c1369f34d92a4",
+			"small_label_candidates": [],
+			"state": "failed",
+			"state_name": "result",
+			"window_size": "(1920, 1080)"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/hud-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"requested_pixels": [
+				1920,
+				1080
+			],
+			"sha256": "1b824ad75d0737db258de2b292b8ea5f68b361ec61101563c96920029108628c",
+			"small_label_candidates": [],
+			"state": "hud",
+			"state_name": "race",
+			"window_size": "(1920, 1080)"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/warning-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"requested_pixels": [
+				1920,
+				1080
+			],
+			"sha256": "f1510c9b211da6762cc83cc189d3492a6ae4b2d175903358b4c6e8d24d36155e",
+			"small_label_candidates": [],
+			"state": "warning",
+			"state_name": "race",
+			"window_size": "(1920, 1080)"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/countdown-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"requested_pixels": [
+				1920,
+				1080
+			],
+			"sha256": "b144725324497aaba1d77a8f3be90b0357fddadd49e1a8be5b1059c6b49f4d76",
+			"small_label_candidates": [],
+			"state": "countdown",
+			"state_name": "countdown",
+			"window_size": "(1920, 1080)"
+		},
+		{
+			"actions": [
+				"开始比赛",
+				"难度：标准",
+				"排行榜",
+				"保存进度",
+				"设置",
+				"操作说明",
+				"退出游戏"
+			],
+			"focus": "/root/Main/CanvasLayer/TitleScreen/Center/Card/Content/StartButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/title-zh-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"requested_pixels": [
+				1024,
+				768
+			],
+			"sha256": "456f09aa30642fb1bec3f17d7d9f72ec40fe22475f415110b21510b5ce5d86a8",
+			"small_label_candidates": [],
+			"state": "title",
+			"state_name": "title",
+			"window_size": "(1024, 768)"
+		},
+		{
+			"actions": [
+				"01  霓虹海岸\n",
+				"02  货运港湾\n未解锁",
+				"03  风暴山脊\n未解锁",
+				"04  日出快线\n未解锁",
+				"返回"
+			],
+			"focus": "/root/Main/CanvasLayer/TourMapScreen/Center/Card/Content/Route/Track0",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/tour-zh-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"requested_pixels": [
+				1024,
+				768
+			],
+			"sha256": "1f89d93647acf53aece093d2d41a569659defae24eb89b54e4d534c0bad66885",
+			"small_label_candidates": [],
+			"state": "tour",
+			"state_name": "tour_map",
+			"window_size": "(1024, 768)"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n已选",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n未解锁",
+				"破潮者\n稳健型\n未解锁",
+				"极光 X\n专家型\n未解锁",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/garage-zh-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"requested_pixels": [
+				1024,
+				768
+			],
+			"sha256": "dd20b25241e7506cb9cb3d77bcc026a3da3b74a11f207fa2d87a63fc17c5633a",
+			"small_label_candidates": [],
+			"state": "garage",
+			"state_name": "garage",
+			"window_size": "(1024, 768)"
+		},
+		{
+			"actions": [
+				"静音：关",
+				"显示模式：窗口",
+				"语言：中文",
+				"高对比配色：关",
+				"减少闪烁：关",
+				"屏幕震动：开",
+				"返回"
+			],
+			"focus": "/root/Main/CanvasLayer/SettingsScreen/Center/Card/Content/AudioLevels/Master/Slider",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/settings-zh-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"requested_pixels": [
+				1024,
+				768
+			],
+			"sha256": "650c53769b7b5d1085d78011edf3fb72e4c383d11d06f17c0d35c5ecb685759a",
+			"small_label_candidates": [],
+			"state": "settings",
+			"state_name": "settings",
+			"window_size": "(1024, 768)"
+		},
+		{
+			"actions": [
+				"返回"
+			],
+			"focus": "/root/Main/CanvasLayer/ControlsScreen/Center/Card/Content/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/controls-zh-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"requested_pixels": [
+				1024,
+				768
+			],
+			"sha256": "bf09c99551a3cb7cdb5da2b1a694075554a21c75cbc4d779b2f5affdd7aabbad",
+			"small_label_candidates": [],
+			"state": "controls",
+			"state_name": "controls",
+			"window_size": "(1024, 768)"
+		},
+		{
+			"actions": [
+				"返回"
+			],
+			"focus": "/root/Main/CanvasLayer/LeaderboardScreen/Center/Card/Content/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/board-zh-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"requested_pixels": [
+				1024,
+				768
+			],
+			"sha256": "64463999e5a0ecfb1b6cd35fa021ae1856f91fc7e02e51aa1eb8b48f09e6ac5a",
+			"small_label_candidates": [],
+			"state": "board",
+			"state_name": "leaderboard",
+			"window_size": "(1024, 768)"
+		},
+		{
+			"actions": [
+				"返回"
+			],
+			"focus": "/root/Main/CanvasLayer/LeaderboardScreen/Center/Card/Content/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/empty_board-zh-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"requested_pixels": [
+				1024,
+				768
+			],
+			"sha256": "a5c04b1e7f5fc461221bab4047c69b8f38f0d8161dc755ff9170801535ee5a05",
+			"small_label_candidates": [],
+			"state": "empty_board",
+			"state_name": "leaderboard",
+			"window_size": "(1024, 768)"
+		},
+		{
+			"actions": [
+				"继续比赛",
+				"重新开始",
+				"设置",
+				"保存进度",
+				"返回标题"
+			],
+			"focus": "/root/Main/CanvasLayer/PauseScreen/Center/Card/Content/ResumeButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/pause-zh-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"requested_pixels": [
+				1024,
+				768
+			],
+			"sha256": "9e73155a9b7428f15b354446cede6621242a1ab4c31bd969f26c95e8a9d29d29",
+			"small_label_candidates": [],
+			"state": "pause",
+			"state_name": "pause",
+			"window_size": "(1024, 768)"
+		},
+		{
+			"actions": [
+				"确定",
+				"取消，保留本局"
+			],
+			"focus": "/root/Main/CanvasLayer/ConfirmationScreen/Center/Card/Content/CancelButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/confirm-zh-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"requested_pixels": [
+				1024,
+				768
+			],
+			"sha256": "24b00f50b2e4459f0576cf319fe3119eaafbbeec1c251e59176559f695b95c04",
+			"small_label_candidates": [],
+			"state": "confirm",
+			"state_name": "confirmation",
+			"window_size": "(1024, 768)"
+		},
+		{
+			"actions": [
+				"返回标题",
+				"返回巡回地图"
+			],
+			"focus": "/root/Main/CanvasLayer/ResultScreen/Center/Card/Content/Actions/ReplayButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/clear-zh-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"requested_pixels": [
+				1024,
+				768
+			],
+			"sha256": "19daac38830f74cf4571618a7be07990854479e04dea570fb024a0fa0e0cc5d3",
+			"small_label_candidates": [],
+			"state": "clear",
+			"state_name": "result",
+			"window_size": "(1024, 768)"
+		},
+		{
+			"actions": [
+				"返回标题",
+				"返回巡回地图"
+			],
+			"focus": "/root/Main/CanvasLayer/ResultScreen/Center/Card/Content/Actions/ReplayButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/failed-zh-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"requested_pixels": [
+				1024,
+				768
+			],
+			"sha256": "d86508de00bad83566a37bc95b180fc49a5c597450932973089522e910ae6212",
+			"small_label_candidates": [],
+			"state": "failed",
+			"state_name": "result",
+			"window_size": "(1024, 768)"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/hud-zh-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"requested_pixels": [
+				1024,
+				768
+			],
+			"sha256": "c8868f5f4795ce71b76721037bf309045b11b36cc60eae31c380de7a9560968d",
+			"small_label_candidates": [],
+			"state": "hud",
+			"state_name": "race",
+			"window_size": "(1024, 768)"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/warning-zh-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"requested_pixels": [
+				1024,
+				768
+			],
+			"sha256": "c88ddf9ae8845f15a9523edc956d17b3d56225da159a3473dee1de7912060f58",
+			"small_label_candidates": [],
+			"state": "warning",
+			"state_name": "race",
+			"window_size": "(1024, 768)"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/countdown-zh-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"requested_pixels": [
+				1024,
+				768
+			],
+			"sha256": "ee79fb4d788ddfdd56f2f86b1e7eed3d97333df184d12cd60d62112e1223455a",
+			"small_label_candidates": [],
+			"state": "countdown",
+			"state_name": "countdown",
+			"window_size": "(1024, 768)"
+		},
+		{
+			"actions": [
+				"START RACE",
+				"DIFFICULTY: NORMAL",
+				"LEADERBOARD",
+				"SAVE PROGRESS",
+				"SETTINGS",
+				"CONTROLS",
+				"QUIT GAME"
+			],
+			"focus": "/root/Main/CanvasLayer/TitleScreen/Center/Card/Content/StartButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/title-en-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"requested_pixels": [
+				1024,
+				768
+			],
+			"sha256": "4846fc77e0eeec1411748c61bb839d0cca718d04df340e0049bd25c9cbf01393",
+			"small_label_candidates": [],
+			"state": "title",
+			"state_name": "title",
+			"window_size": "(1024, 768)"
+		},
+		{
+			"actions": [
+				"01  NEON COAST\n",
+				"02  FREIGHT HARBOR\nLOCKED",
+				"03  STORM RIDGE\nLOCKED",
+				"04  SUNRISE EXPRESS\nLOCKED",
+				"BACK"
+			],
+			"focus": "/root/Main/CanvasLayer/TourMapScreen/Center/Card/Content/Route/Track0",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/tour-en-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"requested_pixels": [
+				1024,
+				768
+			],
+			"sha256": "b0b9045f32745011c7030619cec8ba4892874582cdbd4410dfcb05b24a637bab",
+			"small_label_candidates": [],
+			"state": "tour",
+			"state_name": "tour_map",
+			"window_size": "(1024, 768)"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\nSELECTED",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\nLOCKED",
+				"TIDEBREAKER\nSTABLE\nLOCKED",
+				"AURORA X\nEXPERT\nLOCKED",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/garage-en-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"requested_pixels": [
+				1024,
+				768
+			],
+			"sha256": "b3b2250fe92db1a8b554f057c14fec17c86ae25ffaad03482fb6d64a9e82829c",
+			"small_label_candidates": [],
+			"state": "garage",
+			"state_name": "garage",
+			"window_size": "(1024, 768)"
+		},
+		{
+			"actions": [
+				"MUTE: OFF",
+				"DISPLAY: WINDOWED",
+				"LANGUAGE: ENGLISH",
+				"HIGH-CONTRAST COLORS: OFF",
+				"REDUCED FLASHING: OFF",
+				"SCREEN SHAKE: ON",
+				"BACK"
+			],
+			"focus": "/root/Main/CanvasLayer/SettingsScreen/Center/Card/Content/AudioLevels/Master/Slider",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/settings-en-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"requested_pixels": [
+				1024,
+				768
+			],
+			"sha256": "b8c5d2d3118170a0ed27cd9480c4b7f86a6ef64a1a76be29c85ce48e89d58ab6",
+			"small_label_candidates": [],
+			"state": "settings",
+			"state_name": "settings",
+			"window_size": "(1024, 768)"
+		},
+		{
+			"actions": [
+				"BACK"
+			],
+			"focus": "/root/Main/CanvasLayer/ControlsScreen/Center/Card/Content/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/controls-en-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"requested_pixels": [
+				1024,
+				768
+			],
+			"sha256": "de6bdd9ee767572447394357757516f023080ad0361bbba08546425e81df69df",
+			"small_label_candidates": [],
+			"state": "controls",
+			"state_name": "controls",
+			"window_size": "(1024, 768)"
+		},
+		{
+			"actions": [
+				"BACK"
+			],
+			"focus": "/root/Main/CanvasLayer/LeaderboardScreen/Center/Card/Content/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/board-en-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"requested_pixels": [
+				1024,
+				768
+			],
+			"sha256": "37bc4df09b41f02d7b7427c4cf07f719e093c2cbe45ac287ede05a9fd1170f52",
+			"small_label_candidates": [],
+			"state": "board",
+			"state_name": "leaderboard",
+			"window_size": "(1024, 768)"
+		},
+		{
+			"actions": [
+				"BACK"
+			],
+			"focus": "/root/Main/CanvasLayer/LeaderboardScreen/Center/Card/Content/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/empty_board-en-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"requested_pixels": [
+				1024,
+				768
+			],
+			"sha256": "218b873c6c291f1f1ac3d70e95bc2f286fdc22574366fd044dd3795356ca5f9a",
+			"small_label_candidates": [],
+			"state": "empty_board",
+			"state_name": "leaderboard",
+			"window_size": "(1024, 768)"
+		},
+		{
+			"actions": [
+				"RESUME RACE",
+				"RESTART",
+				"SETTINGS",
+				"SAVE PROGRESS",
+				"RETURN TO TITLE"
+			],
+			"focus": "/root/Main/CanvasLayer/PauseScreen/Center/Card/Content/ResumeButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/pause-en-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"requested_pixels": [
+				1024,
+				768
+			],
+			"sha256": "0c7e563a132b1a813e1beee0bef680ad1193ead17708f39d462e9bb75c8ccc96",
+			"small_label_candidates": [],
+			"state": "pause",
+			"state_name": "pause",
+			"window_size": "(1024, 768)"
+		},
+		{
+			"actions": [
+				"CONFIRM",
+				"CANCEL, KEEP RACING"
+			],
+			"focus": "/root/Main/CanvasLayer/ConfirmationScreen/Center/Card/Content/CancelButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/confirm-en-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"requested_pixels": [
+				1024,
+				768
+			],
+			"sha256": "441006e4c8d95e6de5eff0b079d4d7b24df695a39477272003433fd6ef093e8a",
+			"small_label_candidates": [],
+			"state": "confirm",
+			"state_name": "confirmation",
+			"window_size": "(1024, 768)"
+		},
+		{
+			"actions": [
+				"RETURN TO TITLE",
+				"RETURN TO TOUR"
+			],
+			"focus": "/root/Main/CanvasLayer/ResultScreen/Center/Card/Content/Actions/ReplayButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/clear-en-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"requested_pixels": [
+				1024,
+				768
+			],
+			"sha256": "2c2b70b3a05ae63cffe61f82fe0b4261db379f76b4b6cdb7c2794d42a1f418c7",
+			"small_label_candidates": [],
+			"state": "clear",
+			"state_name": "result",
+			"window_size": "(1024, 768)"
+		},
+		{
+			"actions": [
+				"RETURN TO TITLE",
+				"RETURN TO TOUR"
+			],
+			"focus": "/root/Main/CanvasLayer/ResultScreen/Center/Card/Content/Actions/ReplayButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/failed-en-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"requested_pixels": [
+				1024,
+				768
+			],
+			"sha256": "b5a35c3eab0f63617e036e9d69bd65ca16e69619a986e1a6f11c122f10316d63",
+			"small_label_candidates": [],
+			"state": "failed",
+			"state_name": "result",
+			"window_size": "(1024, 768)"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/hud-en-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"requested_pixels": [
+				1024,
+				768
+			],
+			"sha256": "b99b437b2c9af7a5adecc8293ebaaf5654c78ca9feaf0c01df1bfbb98bb146bb",
+			"small_label_candidates": [],
+			"state": "hud",
+			"state_name": "race",
+			"window_size": "(1024, 768)"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/warning-en-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"requested_pixels": [
+				1024,
+				768
+			],
+			"sha256": "2fcd07004a472ada98661247cead235c9f4941003baa65f33821b70857b54792",
+			"small_label_candidates": [],
+			"state": "warning",
+			"state_name": "race",
+			"window_size": "(1024, 768)"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/implemented-03/screens/countdown-en-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"requested_pixels": [
+				1024,
+				768
+			],
+			"sha256": "ee79fb4d788ddfdd56f2f86b1e7eed3d97333df184d12cd60d62112e1223455a",
+			"small_label_candidates": [],
+			"state": "countdown",
+			"state_name": "countdown",
+			"window_size": "(1024, 768)"
+		}
+	],
+	"scope": "Actual source GUI rendering; synthetic memory-only run/score fixtures. No human, EXE, sound, driving or performance acceptance."
+}

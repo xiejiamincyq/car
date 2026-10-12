@@ -53,12 +53,12 @@ func _run() -> void:
 	await _press(KEY_TAB)
 	assert(master.has_focus(), "Tab must wrap within visible settings controls")
 	main._close_submenu()
-	assert(main.start_button.has_focus())
+	assert(main.title_screen.find_child("SettingsButton", true, false).has_focus())
 	main.run.phase = main.RunState.Phase.PAUSED
 	main._show_pause_settings()
 	assert(master.has_focus())
 	main._close_submenu()
-	assert(main.get_node("CanvasLayer/PauseScreen/Center/Card/Content/ResumeButton").has_focus())
+	assert(main.pause_screen.find_child("SettingsButton", true, false).has_focus())
 	await _legacy_round_trip(main)
 	main.queue_free()
 	await process_frame

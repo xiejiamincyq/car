@@ -22,7 +22,7 @@ func _run() -> void:
 	main._show_settings()
 	assert(main.get_node("CanvasLayer/SettingsScreen").visible and not title_screen.visible, "Settings must be reachable from title")
 	main._close_submenu()
-	assert(title_screen.visible and start_button.has_focus(), "Cancel must return to the title focus target")
+	assert(title_screen.visible and title_screen.find_child("SettingsButton", true, false).has_focus(), "Cancel restores the settings entry focus")
 
 	main._show_controls()
 	assert(main.get_node("CanvasLayer/ControlsScreen").visible, "Keyboard controls must be available in-game")

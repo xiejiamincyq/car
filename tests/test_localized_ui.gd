@@ -10,7 +10,7 @@ func _run() -> void:
 	main.persistence_enabled = false
 	root.add_child(main)
 	await process_frame
-	var language_button: Button = main.get_node("CanvasLayer/SettingsScreen/Center/Card/Content/LanguageButton")
+	var language_button: Button = main.settings_screen.find_child("LanguageButton",true,false)
 	main._set_language_preference("en")
 	assert(main.save_data.settings.language == "en", "Changing language must update the persisted settings model")
 	assert(main.get_node("CanvasLayer/TitleScreen/Center/Card/Content/StartButton").text == "START RACE", "Title actions must refresh in English")

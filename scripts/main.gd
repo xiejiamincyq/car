@@ -137,15 +137,18 @@ var finish_burst: TextureRect
 var confirmation_screen: Control
 var destructive_action := ""
 var submenu_return := "title"
+var submenu_return_focus: Control
 var save_store: SaveStore
 var save_data: Dictionary
 var persistence_enabled := false
 var persistence_notice: Label
 var persistence_notice_key := ""
+var persistence_success_remaining := 0.0
 var result_persisted := false
 var is_new_record := false
 var last_run_rating: Dictionary = {}
 var title_best_scores: Label
+var leaderboard_screen: Control
 var result_best_scores: Label
 var new_record_label: Label
 var feedback: GameFeedback
@@ -193,6 +196,7 @@ func _ready() -> void:
 	menu_backdrop = $CanvasLayer/MenuBackdrop
 	overlay_shade = $CanvasLayer/OverlayShade
 	title_screen = $CanvasLayer/TitleScreen
+	leaderboard_screen = $CanvasLayer/LeaderboardScreen
 	tour_map_screen = $CanvasLayer/TourMapScreen
 	vehicle_select_screen = $CanvasLayer/VehicleSelectScreen
 	settings_screen = $CanvasLayer/SettingsScreen
@@ -215,7 +219,7 @@ func _ready() -> void:
 	result_emblem = $CanvasLayer/ResultScreen/Center/Card/Content/ResultEmblem
 	finish_burst = $CanvasLayer/ResultScreen/FinishBurst
 	confirmation_screen = $CanvasLayer/ConfirmationScreen
-	title_best_scores = $CanvasLayer/TitleScreen/Center/Card/Content/BestScores
+	title_best_scores = $CanvasLayer/LeaderboardScreen/Center/Card/Content/BestScores
 	result_best_scores = $CanvasLayer/ResultScreen/Center/Card/Content/BestScores
 	new_record_label = $CanvasLayer/ResultScreen/Center/Card/Content/NewRecord
 	feedback_banner = $CanvasLayer/FeedbackBanner
@@ -229,6 +233,8 @@ func _ready() -> void:
 	_bind_ui_actions()
 	_configure_persistence(SaveStore.new(), get_tree().current_scene == self)
 	preload("res://scripts/ui/menu_presentation.gd").apply($CanvasLayer)
+	_update_scoreboards()
+	_update_settings_labels()
 	start_button.grab_focus()
 	if get_tree().current_scene == self and OS.get_environment("NEON_COAST_PERF_CAPTURE") == "1":
 		runtime_capture = RuntimePerformanceCapture.new()
@@ -253,7 +259,7 @@ func _capture_runtime_performance() -> void:
 	})
 
 func _capture_screen_name() -> String:
-	for item in [[confirmation_screen, "confirmation"], [settings_screen, "settings"], [controls_screen, "controls"], [pause_screen, "pause"], [result_screen, "result"], [vehicle_select_screen, "garage"], [tour_map_screen, "tour_map"], [countdown_screen, "countdown"], [title_screen, "title"]]:
+	for item in [[confirmation_screen, "confirmation"], [settings_screen, "settings"], [controls_screen, "controls"], [leaderboard_screen, "leaderboard"], [pause_screen, "pause"], [result_screen, "result"], [vehicle_select_screen, "garage"], [tour_map_screen, "tour_map"], [countdown_screen, "countdown"], [title_screen, "title"]]:
 		if item[0].visible:
 			return item[1]
 	return "race"
@@ -308,17 +314,24 @@ func _pause_for_focus_loss() -> void:
 	$CanvasLayer/PauseScreen/Center/Card/Content/ResumeButton.grab_focus()
 
 func _process(delta: float) -> void:
+	if persistence_notice_key == "persistence.saved":
+		persistence_success_remaining = maxf(0.0, persistence_success_remaining-delta)
+		if persistence_success_remaining <= 0.0:
+			persistence_notice_key = ""
+			_update_persistence_notice()
 	_capture_runtime_performance()
 	if Input.is_action_just_pressed("ui_cancel") and confirmation_screen.visible:
 		_cancel_confirmation()
 		return
-	if Input.is_action_just_pressed("ui_cancel") and (settings_screen.visible or controls_screen.visible):
+	if Input.is_action_just_pressed("ui_cancel") and (settings_screen.visible or controls_screen.visible or leaderboard_screen.visible):
 		_close_submenu()
 		return
-	if Input.is_action_just_pressed("restart_run"):
+	# Only the top visible screen owns gameplay shortcuts; UI accept is separate.
+	var shortcuts_available := not (confirmation_screen.visible or settings_screen.visible or controls_screen.visible or leaderboard_screen.visible)
+	if shortcuts_available and Input.is_action_just_pressed("restart_run"):
 		if _handle_restart_shortcut():
 			return
-	if Input.is_action_just_pressed("pause_game"):
+	if shortcuts_available and Input.is_action_just_pressed("pause_game"):
 		if run.phase == RunState.Phase.RUNNING:
 			_pause_run()
 		elif run.phase == RunState.Phase.PAUSED:
@@ -1041,31 +1054,58 @@ func _save_tour_selection() -> void:
 
 func _show_settings() -> void:
 	submenu_return = "title"
+	submenu_return_focus = title_screen.find_child("SettingsButton", true, false)
 	title_screen.visible = false
 	controls_screen.visible = false
 	settings_screen.visible = true
 	_update_settings_labels()
 	settings_audio_panel.focus_first_channel()
 
+func _show_leaderboard() -> void:
+	if run.phase != RunState.Phase.TITLE or not title_screen.visible:
+		return
+	submenu_return = "title"
+	submenu_return_focus = title_screen.find_child("LeaderboardButton", true, false)
+	_update_scoreboards()
+	title_screen.hide()
+	leaderboard_screen.show()
+	$CanvasLayer/LeaderboardScreen/Center/Card/Content/BackButton.grab_focus()
+
+func _save_now() -> void:
+	if not persistence_enabled or run.phase not in [RunState.Phase.TITLE, RunState.Phase.PAUSED]:
+		return
+	if _save_preferences():
+		persistence_notice_key = "persistence.saved"
+		persistence_success_remaining = 2.5
+		_update_persistence_notice()
+
 func _show_controls() -> void:
 	submenu_return = "title"
+	submenu_return_focus = title_screen.find_child("ControlsButton", true, false)
 	title_screen.visible = false
 	settings_screen.visible = false
 	controls_screen.visible = true
 	$CanvasLayer/ControlsScreen/Center/Card/Content/BackButton.grab_focus()
 
 func _close_submenu() -> void:
+	leaderboard_screen.hide()
 	settings_screen.visible = false
 	controls_screen.visible = false
 	if submenu_return == "pause" and run.phase == RunState.Phase.PAUSED:
 		pause_screen.visible = true
-		$CanvasLayer/PauseScreen/Center/Card/Content/ResumeButton.grab_focus()
 	else:
 		title_screen.visible = true
+	if is_instance_valid(submenu_return_focus) and submenu_return_focus.is_visible_in_tree():
+		submenu_return_focus.grab_focus()
+	elif pause_screen.visible:
+		$CanvasLayer/PauseScreen/Center/Card/Content/ResumeButton.grab_focus()
+	else:
 		start_button.grab_focus()
+	submenu_return_focus = null
 
 func _show_pause_settings() -> void:
 	submenu_return = "pause"
+	submenu_return_focus = pause_screen.find_child("SettingsButton", true, false)
 	pause_screen.visible = false
 	settings_screen.visible = true
 	_update_settings_labels()
@@ -1081,7 +1121,7 @@ func _pause_run() -> void:
 	$CanvasLayer/PauseScreen/Center/Card/Content/ResumeButton.grab_focus()
 
 func _resume_run() -> void:
-	if run.phase != RunState.Phase.PAUSED:
+	if run.phase != RunState.Phase.PAUSED or settings_screen.visible or confirmation_screen.visible:
 		return
 	pause_screen.visible = false
 	audio_director.last_countdown_value = -1
@@ -1144,6 +1184,7 @@ func _replay_run() -> void:
 
 func _return_to_title() -> void:
 	_reset_run()
+	leaderboard_screen.hide()
 	settings_screen.visible = false
 	controls_screen.visible = false
 	pause_screen.visible = false
@@ -1229,9 +1270,9 @@ func _apply_difficulty_profile() -> void:
 	fuel_spawn_director.configure_schedule(profile.fuel_spawn_interval, profile.supply_active_limit, profile.supply_minimum_road_advance)
 	repair_supplies.configure_schedule(profile.repair_spawn_interval, profile.supply_active_limit, profile.supply_minimum_road_advance)
 
-func _save_preferences() -> void:
+func _save_preferences() -> bool:
 	if save_data.is_empty():
-		return
+		return false
 	save_data.settings.audio_volume = audio_director.master_volume
 	save_data.settings.music_volume = audio_director.music_volume
 	save_data.settings.effects_volume = audio_director.effects_volume
@@ -1242,8 +1283,9 @@ func _save_preferences() -> void:
 	save_data.settings.high_contrast = high_contrast_enabled
 	save_data.settings.reduced_flashing = reduced_flashing_enabled
 	save_data.settings.screen_shake = screen_shake_enabled
-	_write_save_data()
+	var saved := _write_save_data()
 	_update_settings_labels()
+	return saved
 
 func _write_save_data() -> bool:
 	if not persistence_enabled:
@@ -1273,14 +1315,23 @@ func _fuel_warning_text() -> String:
 		GameFeedback.FuelTier.CRITICAL: return _text("hud.fuel.critical")
 		_: return ""
 
+func _title_action(action_name: String) -> Button:
+	return title_screen.find_child(action_name, true, false) as Button
+
 func _apply_localized_texts() -> void:
 	$CanvasLayer/TitleScreen/Center/Card/Content/Subtitle.text = _text("title.subtitle")
 	$CanvasLayer/TitleScreen/Center/Card/Content/Goal.text = _text("title.objective")
 	start_button.text = _text("title.start")
 	difficulty_button.text = _text("title.difficulty", [_difficulty_name(difficulty_index)])
-	$CanvasLayer/TitleScreen/Center/Card/Content/SettingsButton.text = _text("title.settings")
-	$CanvasLayer/TitleScreen/Center/Card/Content/ControlsButton.text = _text("title.controls")
-	$CanvasLayer/TitleScreen/Center/Card/Content/QuitButton.text = _text("title.quit")
+	_title_action("SettingsButton").text = _text("title.settings")
+	_title_action("ControlsButton").text = _text("title.controls")
+	_title_action("QuitButton").text = _text("title.quit")
+	_title_action("LeaderboardButton").text = _text("title.leaderboard")
+	$CanvasLayer/LeaderboardScreen/Center/Card/Content/Heading.text = _text("title.leaderboard")
+	$CanvasLayer/LeaderboardScreen/Center/Card/Content/BackButton.text = _text("settings.back")
+	for button in [_title_action("SaveButton"), $CanvasLayer/PauseScreen/Center/Card/Content/SaveButton]:
+		button.text = _text("title.save")
+		button.disabled = not persistence_enabled
 	$CanvasLayer/SettingsScreen/Center/Card/Content/Heading.text = _text("settings.heading")
 	$CanvasLayer/SettingsScreen/Center/Card/Content/BackButton.text = _text("settings.back")
 	$CanvasLayer/ControlsScreen/Center/Card/Content/Heading.text = _text("controls.heading")
@@ -1292,8 +1343,8 @@ func _apply_localized_texts() -> void:
 	$CanvasLayer/PauseScreen/Center/Card/Content/SettingsButton.text = _text("pause.settings")
 	$CanvasLayer/PauseScreen/Center/Card/Content/TitleButton.text = _text("pause.title")
 	new_record_label.text = _text("result.new_record")
-	$CanvasLayer/ResultScreen/Center/Card/Content/ReplayButton.text = _text("result.replay")
-	$CanvasLayer/ResultScreen/Center/Card/Content/TitleButton.text = _text("result.title")
+	result_screen.find_child("ReplayButton",true,false).text = _text("result.replay")
+	result_screen.find_child("TitleButton",true,false).text = _text("result.title")
 	$CanvasLayer/ConfirmationScreen/Center/Card/Content/ConfirmButton.text = _text("confirm.yes")
 	$CanvasLayer/ConfirmationScreen/Center/Card/Content/CancelButton.text = _text("confirm.no")
 	if confirmation_screen.visible and not destructive_action.is_empty():
@@ -1304,6 +1355,10 @@ func _apply_localized_texts() -> void:
 func _update_settings_labels() -> void:
 	if settings_audio_panel == null:
 		return
+	var display_heading := settings_screen.find_child("DisplayActionsHeading", true, false)
+	if display_heading != null:
+		display_heading.text = "画面与语言" if language == "zh" else "DISPLAY & LANGUAGE"
+		settings_screen.find_child("AssistActionsHeading", true, false).text = "辅助与效果" if language == "zh" else "ACCESSIBILITY & EFFECTS"
 	var save_failed := persistence_notice_key in ["persistence.save_failed", "persistence.load_blocked"]
 	settings_audio_panel.synchronize(audio_director.master_volume, audio_director.music_volume, audio_director.effects_volume, language, persistence_enabled, save_failed)
 	settings_mute_button.text = _text("settings.mute", [_text("common.on" if audio_director.muted else "common.off")])
@@ -1324,9 +1379,13 @@ func _bind_ui_actions() -> void:
 	settings_audio_panel.volume_changed.connect(_set_audio_channel_volume)
 	start_button.pressed.connect(_open_tour_map)
 	difficulty_button.pressed.connect(_cycle_difficulty)
-	$CanvasLayer/TitleScreen/Center/Card/Content/SettingsButton.pressed.connect(_show_settings)
-	$CanvasLayer/TitleScreen/Center/Card/Content/ControlsButton.pressed.connect(_show_controls)
-	$CanvasLayer/TitleScreen/Center/Card/Content/QuitButton.pressed.connect(get_tree().quit)
+	_title_action("SettingsButton").pressed.connect(_show_settings)
+	_title_action("ControlsButton").pressed.connect(_show_controls)
+	_title_action("QuitButton").pressed.connect(get_tree().quit)
+	_title_action("LeaderboardButton").pressed.connect(_show_leaderboard)
+	$CanvasLayer/LeaderboardScreen/Center/Card/Content/BackButton.pressed.connect(_close_submenu)
+	_title_action("SaveButton").pressed.connect(_save_now)
+	$CanvasLayer/PauseScreen/Center/Card/Content/SaveButton.pressed.connect(_save_now)
 	settings_mute_button.pressed.connect(_toggle_audio_mute)
 	settings_fullscreen_button.pressed.connect(_toggle_fullscreen)
 	settings_language_button.pressed.connect(_cycle_language)
@@ -1339,8 +1398,8 @@ func _bind_ui_actions() -> void:
 	$CanvasLayer/PauseScreen/Center/Card/Content/RestartButton.pressed.connect(_request_restart)
 	$CanvasLayer/PauseScreen/Center/Card/Content/SettingsButton.pressed.connect(_show_pause_settings)
 	$CanvasLayer/PauseScreen/Center/Card/Content/TitleButton.pressed.connect(_request_title)
-	$CanvasLayer/ResultScreen/Center/Card/Content/ReplayButton.pressed.connect(_return_to_tour_map)
-	$CanvasLayer/ResultScreen/Center/Card/Content/TitleButton.pressed.connect(_return_to_title)
+	result_screen.find_child("ReplayButton",true,false).pressed.connect(_return_to_tour_map)
+	result_screen.find_child("TitleButton",true,false).pressed.connect(_return_to_title)
 	$CanvasLayer/ConfirmationScreen/Center/Card/Content/ConfirmButton.pressed.connect(_confirm_destructive_action)
 	$CanvasLayer/ConfirmationScreen/Center/Card/Content/CancelButton.pressed.connect(_cancel_confirmation)
 	tour_map_screen.track_confirmed.connect(_open_vehicle_select)
@@ -1383,7 +1442,9 @@ func _update_hud() -> void:
 			overdrive_gauge.modulate = Color(0.45, 0.95, 1.0, 0.58)
 	progress_gauge.value = clampf(run.distance / run.progression.finish_distance * 100.0, 0.0, 100.0)
 	var combo_time := "%.1fs" % run.combo.remaining_seconds if run.combo.event_count > 0 else _text("hud.ready")
-	run_status_label.text = _text("hud.status", [run.difficulty_stage + 1, run.combo.multiplier, combo_time, _phase_text()])
+	run_status_label.text = _text("hud.status.compact", [run.difficulty_stage + 1, _phase_text()])
+	if run.combo.event_count > 0:
+		run_status_label.text += "\nCOMBO ×%d  %s" % [run.combo.multiplier, combo_time]
 	controls_hint_label.text = ""
 	race_hud.present(drive.speed, drive.max_speed + GameConfig.OVERDRIVE_SPEED_BONUS, run.fuel, integrity.current, language, run.coins)
 	race_hud.route_map.present(run.distance,run.progression.finish_distance,run.progression.checkpoint_distances,language)
@@ -1416,9 +1477,9 @@ func _update_hud() -> void:
 		_persist_result_once()
 		_update_result_labels()
 		if not result_was_visible:
-			$CanvasLayer/ResultScreen/Center/Card/Content/ReplayButton.grab_focus()
+			result_screen.find_child("ReplayButton",true,false).grab_focus()
 	menu_backdrop.visible = run.phase == RunState.Phase.TITLE or result_screen.visible or tour_map_screen.visible or vehicle_select_screen.visible or (settings_screen.visible and submenu_return == "title") or controls_screen.visible
-	if run.phase == RunState.Phase.TITLE and not settings_screen.visible and not controls_screen.visible and not tour_map_screen.visible and not vehicle_select_screen.visible:
+	if run.phase == RunState.Phase.TITLE and not settings_screen.visible and not controls_screen.visible and not leaderboard_screen.visible and not tour_map_screen.visible and not vehicle_select_screen.visible:
 		title_screen.visible = true
 	elif run.phase != RunState.Phase.TITLE:
 		title_screen.visible = false
@@ -1469,6 +1530,29 @@ func _update_scoreboards() -> void:
 	var text := _format_top_scores(save_data.top_scores)
 	title_best_scores.text = text
 	result_best_scores.text = text
+	var grid := leaderboard_screen.find_child("ScoreGrid", true, false)
+	if grid == null: return
+	for child in grid.get_children():
+		grid.remove_child(child)
+		child.queue_free()
+	title_best_scores.visible = save_data.top_scores.is_empty()
+	grid.visible = not save_data.top_scores.is_empty()
+	var headers := ["排名", "得分", "难度", "距离"] if language == "zh" else ["RANK", "SCORE", "MODE", "DISTANCE"]
+	for header in headers:
+		var label := Label.new()
+		label.text = header
+		label.custom_minimum_size.x = 150
+		label.add_theme_font_size_override("font_size", 16)
+		label.add_theme_color_override("font_color", Color("66ddd4"))
+		grid.add_child(label)
+	for index in save_data.top_scores.size():
+		var record: Dictionary = save_data.top_scores[index]
+		for value in ["%02d" % (index+1), "%06d" % record.score, _difficulty_name(record.difficulty), "%d m" % roundi(record.distance)]:
+			var label := Label.new()
+			label.text = value
+			label.add_theme_font_size_override("font_size", 22)
+			label.add_theme_color_override("font_color", Color("edc77d") if index == 0 else Color("e8f1f1"))
+			grid.add_child(label)
 
 func _format_top_scores(scores: Array) -> String:
 	if scores.is_empty():

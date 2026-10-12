@@ -6,6 +6,7 @@ signal back_requested
 
 const GameText = preload("res://scripts/game_text.gd")
 const TourMapController = preload("res://scripts/ui/tour_map_controller.gd")
+const TrackCatalog = preload("res://scripts/catalog/track_catalog.gd")
 
 var controller: TourMapController
 var language := GameText.LANGUAGE_EN
@@ -24,6 +25,24 @@ func _ready() -> void:
 		track_buttons[index].pressed.connect(_confirm_index.bind(index))
 		track_buttons[index].focus_entered.connect(_select_index.bind(index))
 	back_button.pressed.connect(_request_back)
+	hint.hide()
+	for index in track_buttons.size():
+		var button := track_buttons[index]
+		button.custom_minimum_size.y = 215
+		button.clip_contents = true
+		var atlas := AtlasTexture.new()
+		atlas.atlas = load(TrackCatalog.all()[index].environment_left_sequence_paths[0])
+		var source_width := float(atlas.atlas.get_width())
+		atlas.region = Rect2(0, 0, source_width, source_width*92.0/214.0)
+		var thumbnail := TextureRect.new()
+		thumbnail.name = "Thumbnail"
+		thumbnail.texture = atlas
+		thumbnail.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		thumbnail.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		thumbnail.position = Vector2(10, 10)
+		thumbnail.size = Vector2(214, 92)
+		thumbnail.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		button.add_child(thumbnail)
 
 func setup(progress: Dictionary, active_language: String) -> void:
 	language = active_language
@@ -82,6 +101,17 @@ func _refresh() -> void:
 		var lock_text := "" if state.unlocked else _text("tour.locked_short")
 		track_buttons[index].text = "%02d  %s\n%s" % [index + 1, _text(String(state.name_key)), lock_text]
 		track_buttons[index].modulate = Color.WHITE if state.unlocked else Color(0.62, 0.68, 0.76)
+		var style := StyleBoxFlat.new()
+		style.bg_color = Color("122b3c")
+		style.border_color = Color("edc77d") if state.selected else Color("33515c")
+		style.set_border_width_all(2 if state.selected else 1)
+		style.set_corner_radius_all(8)
+		style.content_margin_left = 12
+		style.content_margin_right = 12
+		style.content_margin_top = 112
+		style.content_margin_bottom = 12
+		for state_name in ["normal", "hover", "pressed"]:
+			track_buttons[index].add_theme_stylebox_override(state_name, style)
 	var selected: Dictionary = states[controller.selected_index]
 	var result: Dictionary = selected.result
 	var status := _text("tour.available") if selected.unlocked else _text("tour.locked")

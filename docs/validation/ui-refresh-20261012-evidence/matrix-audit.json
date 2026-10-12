@@ -1,0 +1,2974 @@
+{
+	"errors": [],
+	"rows": [
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n已选",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n未解锁",
+				"破潮者\n稳健型\n未解锁",
+				"极光 X\n专家型\n未解锁",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-0-initial-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "34b089cb535ab11e27f096b2ed0c7fd79265e5b957013e306fcb93053288000b",
+			"small_label_candidates": [],
+			"state": "garage-0-initial",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n已选",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n未解锁",
+				"破潮者\n稳健型\n未解锁",
+				"极光 X\n专家型\n未解锁",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-1-initial-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "49482f0036bc52afa74d18bec6eb9c2007c1a560ec2fd0284a6be46243f13837",
+			"small_label_candidates": [],
+			"state": "garage-1-initial",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n已选",
+				"彗星 RS\n极速型\n未解锁",
+				"破潮者\n稳健型\n未解锁",
+				"极光 X\n专家型\n未解锁",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-2-initial-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "e39286ccdca42b2ebb372eb61c00ef7f0f4e3a54979ed1e1d9437575e645921a",
+			"small_label_candidates": [],
+			"state": "garage-2-initial",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n未解锁 · 已选",
+				"破潮者\n稳健型\n未解锁",
+				"极光 X\n专家型\n未解锁",
+				"返回",
+				"未解锁"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-3-initial-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "9da7afe5cf66cd34757d622e6cf1ce1e5f6eb351a2c490f32b8c6a4765d2ddd1",
+			"small_label_candidates": [],
+			"state": "garage-3-initial",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n未解锁",
+				"破潮者\n稳健型\n未解锁 · 已选",
+				"极光 X\n专家型\n未解锁",
+				"返回",
+				"未解锁"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-4-initial-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "d121f6041fa06dc9990372d5ebcea88e5dd4115348f1c8904be3e391d22dfec9",
+			"small_label_candidates": [],
+			"state": "garage-4-initial",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n未解锁",
+				"破潮者\n稳健型\n未解锁",
+				"极光 X\n专家型\n未解锁 · 已选",
+				"返回",
+				"未解锁"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-5-initial-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "502a05efb0aae767bed2c8a455d40333af393f11f8ec88eac8c01335e652f89e",
+			"small_label_candidates": [],
+			"state": "garage-5-initial",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n已选",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n",
+				"破潮者\n稳健型\n",
+				"极光 X\n专家型\n",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-0-unlocked-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "8f026f184f657831b3ea071cc929674a741337ff9a13f9bbc0fdf57c649a0047",
+			"small_label_candidates": [],
+			"state": "garage-0-unlocked",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n已选",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n",
+				"破潮者\n稳健型\n",
+				"极光 X\n专家型\n",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-1-unlocked-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "bb56ad1635fc6acad8625b7e0cfd8569e15df5bc806c1315e6dbd576ade82260",
+			"small_label_candidates": [],
+			"state": "garage-1-unlocked",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n已选",
+				"彗星 RS\n极速型\n",
+				"破潮者\n稳健型\n",
+				"极光 X\n专家型\n",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-2-unlocked-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "d6ae7a07a8b6f88c7ddf617ad91abb674246ab1b25dd7772af52928bdd424b3f",
+			"small_label_candidates": [],
+			"state": "garage-2-unlocked",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n已选",
+				"破潮者\n稳健型\n",
+				"极光 X\n专家型\n",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-3-unlocked-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "1e6bf1fa878d263f001d0b85a995787a6c3d984ea896417f6967a479c3287c12",
+			"small_label_candidates": [],
+			"state": "garage-3-unlocked",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n",
+				"破潮者\n稳健型\n已选",
+				"极光 X\n专家型\n",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-4-unlocked-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "c8eca4a9b2f527bc4b292293a4e455eb4c642626079b41d931b9d77158550f2d",
+			"small_label_candidates": [],
+			"state": "garage-4-unlocked",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n",
+				"破潮者\n稳健型\n",
+				"极光 X\n专家型\n已选",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-5-unlocked-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "9fda0d000e371aae8151bd3a71d282269e19fb1b901fa451e8312e5e3b47f213",
+			"small_label_candidates": [],
+			"state": "garage-5-unlocked",
+			"state_name": "garage"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-neon_coast-normal-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "70ce8fefbc8c0bc535d293add4e9801ebeb6b2b4ea6da32d1c7312c2bb1665ae",
+			"small_label_candidates": [],
+			"state": "hud-neon_coast-normal",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-neon_coast-low-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "0856f3bc03b1cec9fc0c8eb8a82b1672745b5f39d24f0c51a0710f0ccb1f06f6",
+			"small_label_candidates": [],
+			"state": "hud-neon_coast-low",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-neon_coast-active-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "32521823a30d86d478a0d0a5c41898730ed7cb73274a6e9d50f6d0a35dd6c0cf",
+			"small_label_candidates": [],
+			"state": "hud-neon_coast-active",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-neon_coast-cooldown-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "93fec36bdde1caf7f6c129faa0c8fe65e68b1a72a7de945df6971adcaddff9e6",
+			"small_label_candidates": [],
+			"state": "hud-neon_coast-cooldown",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-freight_harbor-normal-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "c4f374872ed43c12b5e67ff328d8fe5d431e639c03ece3f566aae6534fca2430",
+			"small_label_candidates": [],
+			"state": "hud-freight_harbor-normal",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-freight_harbor-low-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "fe30cd83ff5e7e2e66e5fa42937e4d3c9a4123b1d6724346b8237105085b467e",
+			"small_label_candidates": [],
+			"state": "hud-freight_harbor-low",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-freight_harbor-active-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "e7c2ea38fce94e504e2d835cf62eb2b18565a7bf254796d704402e59bb45a461",
+			"small_label_candidates": [],
+			"state": "hud-freight_harbor-active",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-freight_harbor-cooldown-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "0d822b4dc23276ceb490ca2dc9126e3563f4002d60587538ace217915ce1dede",
+			"small_label_candidates": [],
+			"state": "hud-freight_harbor-cooldown",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-storm_ridge-normal-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "d2cedeb2b34925ad73eaa317803227607f953f9db3a2df3ada98867bab1f9543",
+			"small_label_candidates": [],
+			"state": "hud-storm_ridge-normal",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-storm_ridge-low-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "6eae0c142bf54258eea113f7798060c5332bcc6f50dac4bbfa4b05e6fc272c60",
+			"small_label_candidates": [],
+			"state": "hud-storm_ridge-low",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-storm_ridge-active-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "dc855704e5e5a2af5f304b73db018388600f5337ddb2c06725c9c90fe5963e64",
+			"small_label_candidates": [],
+			"state": "hud-storm_ridge-active",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-storm_ridge-cooldown-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "c0909c7e344489a474b4b9c37369c27a9a21c7aed90dd460a9efa9cb8a251940",
+			"small_label_candidates": [],
+			"state": "hud-storm_ridge-cooldown",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-sunrise_express-normal-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "eac32090ee1812d14758f063c22561d6ef57e73677aedaf37ce7f506585770a6",
+			"small_label_candidates": [],
+			"state": "hud-sunrise_express-normal",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-sunrise_express-low-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "e69669b5fbc786a6b15af7fe41f5cd7f38faf5f07d534f7ec197b0efce3720c5",
+			"small_label_candidates": [],
+			"state": "hud-sunrise_express-low",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-sunrise_express-active-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "d0e80ead4acdfde40ac7f665f31e30d17eb41ba19de974374c11da24b6a85f8b",
+			"small_label_candidates": [],
+			"state": "hud-sunrise_express-active",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-sunrise_express-cooldown-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "e6cc3e4de1e48883b8c50b11a303b4bbb8a4dbc11b55f882ca006a7613f9f3f3",
+			"small_label_candidates": [],
+			"state": "hud-sunrise_express-cooldown",
+			"state_name": "race"
+		},
+		{
+			"actions": [
+				"返回"
+			],
+			"focus": "/root/Main/CanvasLayer/LeaderboardScreen/Center/Card/Content/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/board-empty-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "fe25dd9a9a17e2012c28165aeb23fd5c6752e283777af16e17f4f7e1b0d41742",
+			"small_label_candidates": [],
+			"state": "board-empty",
+			"state_name": "leaderboard"
+		},
+		{
+			"actions": [
+				"返回"
+			],
+			"focus": "/root/Main/CanvasLayer/LeaderboardScreen/Center/Card/Content/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/board-full-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "89c1318e902dec4c68ea2486aa2a6a5ceebf3426a1e7a9d16189aadf9202f45c",
+			"small_label_candidates": [],
+			"state": "board-full",
+			"state_name": "leaderboard"
+		},
+		{
+			"actions": [
+				"静音：关",
+				"显示模式：窗口",
+				"语言：中文",
+				"高对比配色：关",
+				"减少闪烁：关",
+				"屏幕震动：开",
+				"返回"
+			],
+			"focus": "/root/Main/CanvasLayer/SettingsScreen/Center/Card/Content/AudioLevels/Master/Slider",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/board-storage_failed-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "c5db9c9270865a0d46f794ece162af13764f088359b9410978efcafdafb05ca6",
+			"small_label_candidates": [
+				"/root/Main/CanvasLayer/SettingsScreen/Center/Card/Content/AudioLevels/Hint"
+			],
+			"state": "board-storage_failed",
+			"state_name": "settings"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\nSELECTED",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\nLOCKED",
+				"TIDEBREAKER\nSTABLE\nLOCKED",
+				"AURORA X\nEXPERT\nLOCKED",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-0-initial-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "de9d77a49912099b642d69b884c4a4b4681a8169b0a295f86f12ae08ab76453b",
+			"small_label_candidates": [],
+			"state": "garage-0-initial",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\nSELECTED",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\nLOCKED",
+				"TIDEBREAKER\nSTABLE\nLOCKED",
+				"AURORA X\nEXPERT\nLOCKED",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-1-initial-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "4c2df55c2c15d8bf7c14eec6f3261cba72eab1fb54b373d5379f921773a3d63f",
+			"small_label_candidates": [],
+			"state": "garage-1-initial",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\nSELECTED",
+				"COMET RS\nTOP SPEED\nLOCKED",
+				"TIDEBREAKER\nSTABLE\nLOCKED",
+				"AURORA X\nEXPERT\nLOCKED",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-2-initial-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "5b6dc34c5af9674ebe596f2c2c936afac44a9fc504bd97b97649c8db0cbd2d95",
+			"small_label_candidates": [],
+			"state": "garage-2-initial",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\nLOCKED · SELECTED",
+				"TIDEBREAKER\nSTABLE\nLOCKED",
+				"AURORA X\nEXPERT\nLOCKED",
+				"BACK",
+				"LOCKED"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-3-initial-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "e2da5fdf8fe235945cbafcf980421f2454ff6297a2cb6531549f1f5b841fd270",
+			"small_label_candidates": [],
+			"state": "garage-3-initial",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\nLOCKED",
+				"TIDEBREAKER\nSTABLE\nLOCKED · SELECTED",
+				"AURORA X\nEXPERT\nLOCKED",
+				"BACK",
+				"LOCKED"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-4-initial-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "054a33ff5451ed6c36fc9c337a3f56c4282c18b4ebed5ea2eec1e3c6c0e6c50e",
+			"small_label_candidates": [],
+			"state": "garage-4-initial",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\nLOCKED",
+				"TIDEBREAKER\nSTABLE\nLOCKED",
+				"AURORA X\nEXPERT\nLOCKED · SELECTED",
+				"BACK",
+				"LOCKED"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-5-initial-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "6cec19722bb076ddb95d957a860e734aac9decdb9bfda7657ba077770513b2a2",
+			"small_label_candidates": [],
+			"state": "garage-5-initial",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\nSELECTED",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\n",
+				"TIDEBREAKER\nSTABLE\n",
+				"AURORA X\nEXPERT\n",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-0-unlocked-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "5004a94c9f7f230e26f3ab491ef834b4a5a757fdba98e6cbc46fd818983a333e",
+			"small_label_candidates": [],
+			"state": "garage-0-unlocked",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\nSELECTED",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\n",
+				"TIDEBREAKER\nSTABLE\n",
+				"AURORA X\nEXPERT\n",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-1-unlocked-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "95ea013b5d30eea9d19299da181d2ac6d3e3757be0f72a0ef71c09dc2ca4036b",
+			"small_label_candidates": [],
+			"state": "garage-1-unlocked",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\nSELECTED",
+				"COMET RS\nTOP SPEED\n",
+				"TIDEBREAKER\nSTABLE\n",
+				"AURORA X\nEXPERT\n",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-2-unlocked-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "02bfd31d000d8fed9f9be088169d38f7c6657c1df6aeea62d4bf315bb744220a",
+			"small_label_candidates": [],
+			"state": "garage-2-unlocked",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\nSELECTED",
+				"TIDEBREAKER\nSTABLE\n",
+				"AURORA X\nEXPERT\n",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-3-unlocked-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "56f3e3fc3c6a501b25e44fd69c9c8fcd2361228f475561a6ee17abe6716ab412",
+			"small_label_candidates": [],
+			"state": "garage-3-unlocked",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\n",
+				"TIDEBREAKER\nSTABLE\nSELECTED",
+				"AURORA X\nEXPERT\n",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-4-unlocked-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "b0c5f4c9d6345023b00e8db21f0196b10298f5cb5a68e56e32234f93195185d5",
+			"small_label_candidates": [],
+			"state": "garage-4-unlocked",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\n",
+				"TIDEBREAKER\nSTABLE\n",
+				"AURORA X\nEXPERT\nSELECTED",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-5-unlocked-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "a3e81a954d03c78f8ac17dadf1355182e217e5d1cd0b176d5207d94625f0018b",
+			"small_label_candidates": [],
+			"state": "garage-5-unlocked",
+			"state_name": "garage"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-neon_coast-normal-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "98a6bd1c6a0b10177df56dae8b1216a51bdc99e78619e67751eb73c54d273609",
+			"small_label_candidates": [],
+			"state": "hud-neon_coast-normal",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-neon_coast-low-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "b85d4e662aff3f34fba6bcf4455c732087453ed75f229e9e0ec01e33ce1bd067",
+			"small_label_candidates": [],
+			"state": "hud-neon_coast-low",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-neon_coast-active-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "d269d7469b45e5de0b77094551a8e297693cc52dc0fae4a5f209dbd0753158d4",
+			"small_label_candidates": [],
+			"state": "hud-neon_coast-active",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-neon_coast-cooldown-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "46742995ad07cb1de56430e5f304d7197ec65140759b17b5b3373e53464663de",
+			"small_label_candidates": [],
+			"state": "hud-neon_coast-cooldown",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-freight_harbor-normal-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "4b1e2c6c518c444b996f0b7bc51534a9de52035c00580f2baa4d4ab81b0561fa",
+			"small_label_candidates": [],
+			"state": "hud-freight_harbor-normal",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-freight_harbor-low-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "9da6d2ab97c0d8d61ab3e9bc325d385afa5b53889991d28e7fe06cfebaf4e6a7",
+			"small_label_candidates": [],
+			"state": "hud-freight_harbor-low",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-freight_harbor-active-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "d5210ac0d77f5e3c66adb1b54b259b3a6f05a1e2ebf91260766a59268327b584",
+			"small_label_candidates": [],
+			"state": "hud-freight_harbor-active",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-freight_harbor-cooldown-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "274037cad6b12f9d6e4cc357d369afa389948abd7c7e8acd5c866cbac81dbd08",
+			"small_label_candidates": [],
+			"state": "hud-freight_harbor-cooldown",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-storm_ridge-normal-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "35c8647bda390e73df2474562cb8ea8f48737126db6c20245196d5c1918803c0",
+			"small_label_candidates": [],
+			"state": "hud-storm_ridge-normal",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-storm_ridge-low-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "b2e60e2fff75e29280f8835ca1606f70f8554cebbc7ecc55e26a7947478046ce",
+			"small_label_candidates": [],
+			"state": "hud-storm_ridge-low",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-storm_ridge-active-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "96aa5818dbab7dcea89337a03562f4c85a576b751a081d74c831044a0cfa5a54",
+			"small_label_candidates": [],
+			"state": "hud-storm_ridge-active",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-storm_ridge-cooldown-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "b4396b5ae90281755c86739d7eafff1cfb7b661b736c443ad6844908378b0113",
+			"small_label_candidates": [],
+			"state": "hud-storm_ridge-cooldown",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-sunrise_express-normal-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "76fd50981d0f298755db5dd2c9b062d635d4078a846b48fdbfe42bdeb7be53a1",
+			"small_label_candidates": [],
+			"state": "hud-sunrise_express-normal",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-sunrise_express-low-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "6a55754f0ea4de93536afde9a3efb2304c85c64ddab9311d670fa3c981a9c065",
+			"small_label_candidates": [],
+			"state": "hud-sunrise_express-low",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-sunrise_express-active-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "6767b4fa69327d836ef531c136bf0063630add699e31d6aa4f82818009abc316",
+			"small_label_candidates": [],
+			"state": "hud-sunrise_express-active",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-sunrise_express-cooldown-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "1009315ac124565321ff5e7a571ff622cbd215a4d989fc09e8c26e4aa43b5244",
+			"small_label_candidates": [],
+			"state": "hud-sunrise_express-cooldown",
+			"state_name": "race"
+		},
+		{
+			"actions": [
+				"BACK"
+			],
+			"focus": "/root/Main/CanvasLayer/LeaderboardScreen/Center/Card/Content/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/board-empty-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "419b707caa92a3c35653d024e121e4a9845929ef6e68ed96cc1e52d3c12f7575",
+			"small_label_candidates": [],
+			"state": "board-empty",
+			"state_name": "leaderboard"
+		},
+		{
+			"actions": [
+				"BACK"
+			],
+			"focus": "/root/Main/CanvasLayer/LeaderboardScreen/Center/Card/Content/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/board-full-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "e04e63ba4f1fda2dfdd3562c40122a60eba2b0aa66c056de11bd396cf2036c04",
+			"small_label_candidates": [],
+			"state": "board-full",
+			"state_name": "leaderboard"
+		},
+		{
+			"actions": [
+				"MUTE: OFF",
+				"DISPLAY: WINDOWED",
+				"LANGUAGE: ENGLISH",
+				"HIGH-CONTRAST COLORS: OFF",
+				"REDUCED FLASHING: OFF",
+				"SCREEN SHAKE: ON",
+				"BACK"
+			],
+			"focus": "/root/Main/CanvasLayer/SettingsScreen/Center/Card/Content/AudioLevels/Master/Slider",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/board-storage_failed-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "24e6b808d32fbfa0e68d36cee4c9b96096ea135092511083c6f229da5a73f11c",
+			"small_label_candidates": [
+				"/root/Main/CanvasLayer/SettingsScreen/Center/Card/Content/AudioLevels/Hint"
+			],
+			"state": "board-storage_failed",
+			"state_name": "settings"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n已选",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n未解锁",
+				"破潮者\n稳健型\n未解锁",
+				"极光 X\n专家型\n未解锁",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-0-initial-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "78407dd1bf527f99ce8055763a288183d9a8b309c82dc7685b932c32dd44879d",
+			"small_label_candidates": [],
+			"state": "garage-0-initial",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n已选",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n未解锁",
+				"破潮者\n稳健型\n未解锁",
+				"极光 X\n专家型\n未解锁",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-1-initial-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "3f779dffcbb6f3eeaf5972897de93db398239f5ff65368e416fa65854defd71e",
+			"small_label_candidates": [],
+			"state": "garage-1-initial",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n已选",
+				"彗星 RS\n极速型\n未解锁",
+				"破潮者\n稳健型\n未解锁",
+				"极光 X\n专家型\n未解锁",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-2-initial-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "dd1107cebf81aaf450f77c315d2661a062eabb54153d2d6c2827adab0111b62f",
+			"small_label_candidates": [],
+			"state": "garage-2-initial",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n未解锁 · 已选",
+				"破潮者\n稳健型\n未解锁",
+				"极光 X\n专家型\n未解锁",
+				"返回",
+				"未解锁"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-3-initial-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "6682fcfa94c9efb2b275290b021465917054b3dadb9a145b26f1e8cf191382c0",
+			"small_label_candidates": [],
+			"state": "garage-3-initial",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n未解锁",
+				"破潮者\n稳健型\n未解锁 · 已选",
+				"极光 X\n专家型\n未解锁",
+				"返回",
+				"未解锁"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-4-initial-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "46e03f97b75c2b5ebcad455e32532b6c60c5bc47f7271ae328681219c52385b7",
+			"small_label_candidates": [],
+			"state": "garage-4-initial",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n未解锁",
+				"破潮者\n稳健型\n未解锁",
+				"极光 X\n专家型\n未解锁 · 已选",
+				"返回",
+				"未解锁"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-5-initial-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "e22a684d0031fe919e16aaa4efd146fd178df4fa3113a9e5000e915ab9117da6",
+			"small_label_candidates": [],
+			"state": "garage-5-initial",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n已选",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n",
+				"破潮者\n稳健型\n",
+				"极光 X\n专家型\n",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-0-unlocked-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "0054b7ff0e03d4aca3d5ae399bd40608bf1481ece6181d424cf29fbceb1282d4",
+			"small_label_candidates": [],
+			"state": "garage-0-unlocked",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n已选",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n",
+				"破潮者\n稳健型\n",
+				"极光 X\n专家型\n",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-1-unlocked-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "35d1feccb10becef52fd7b6a03cfa2fad68226f3ae62f97b23abe56028e06ee2",
+			"small_label_candidates": [],
+			"state": "garage-1-unlocked",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n已选",
+				"彗星 RS\n极速型\n",
+				"破潮者\n稳健型\n",
+				"极光 X\n专家型\n",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-2-unlocked-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "049f9c2583e02ea45d5bc7a0c3b6f6c8418dc6b777c471b87a7fd4de59613d5e",
+			"small_label_candidates": [],
+			"state": "garage-2-unlocked",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n已选",
+				"破潮者\n稳健型\n",
+				"极光 X\n专家型\n",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-3-unlocked-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "7e6af5c7513e8e6c6165ffecd29a39c493819da48e92bb110afd9bdd14bf1fb8",
+			"small_label_candidates": [],
+			"state": "garage-3-unlocked",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n",
+				"破潮者\n稳健型\n已选",
+				"极光 X\n专家型\n",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-4-unlocked-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "74957576ebfb602781284062797324786e8298c3bb41e7ca4f1ba1a0bf2f7846",
+			"small_label_candidates": [],
+			"state": "garage-4-unlocked",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n",
+				"破潮者\n稳健型\n",
+				"极光 X\n专家型\n已选",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-5-unlocked-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "db3e61b5cb98d493757a22e08054007afe4c6500035a5d82ab1e6828334fab35",
+			"small_label_candidates": [],
+			"state": "garage-5-unlocked",
+			"state_name": "garage"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-neon_coast-normal-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "a3ef2030cee7a13c7f2f07960e53f75bed542ee1b9379a209cce2f037c1e8928",
+			"small_label_candidates": [],
+			"state": "hud-neon_coast-normal",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-neon_coast-low-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "e42aaf29f3ca5f7307db4ecc2419d0cd7c2f99680a9b439ca2430974dabdfd85",
+			"small_label_candidates": [],
+			"state": "hud-neon_coast-low",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-neon_coast-active-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "19c1d577c07e99827d10c0f2fd642124bdb80736dc72d5bead4a3c0ebf0f0c93",
+			"small_label_candidates": [],
+			"state": "hud-neon_coast-active",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-neon_coast-cooldown-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "411a83b45e6b13ef65495aae67ef593d3e22b7454c45a9f926d411660798be2b",
+			"small_label_candidates": [],
+			"state": "hud-neon_coast-cooldown",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-freight_harbor-normal-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "8303d0523efd208587a94fb73fa83ca3c6744e502ba25b5b07df24bf5eb91d64",
+			"small_label_candidates": [],
+			"state": "hud-freight_harbor-normal",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-freight_harbor-low-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "945626e412c541cb7884a67e14ed831c22603e6505960b67a0dde49fde8dd202",
+			"small_label_candidates": [],
+			"state": "hud-freight_harbor-low",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-freight_harbor-active-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "fd637fe9908f422b20c265d048c3d9bdc1c512839c5a37885c559811f6f56446",
+			"small_label_candidates": [],
+			"state": "hud-freight_harbor-active",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-freight_harbor-cooldown-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "43e85c530105b55ab517e020f2ffd0c2a1533132ea2ecb3f05452aae34c64269",
+			"small_label_candidates": [],
+			"state": "hud-freight_harbor-cooldown",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-storm_ridge-normal-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "9d76fea0bc44e63b1445c8dde8e13144d41de83b034cb81e75bc9cdd934e9a95",
+			"small_label_candidates": [],
+			"state": "hud-storm_ridge-normal",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-storm_ridge-low-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "7f439173a683b5808f7388046f2d4df2d634301b028ce7791aeb6681e9edb114",
+			"small_label_candidates": [],
+			"state": "hud-storm_ridge-low",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-storm_ridge-active-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "ea44f2c2b05f2f5e720c6541b3caa3b940250a2b012b18880c51542b0e32fd96",
+			"small_label_candidates": [],
+			"state": "hud-storm_ridge-active",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-storm_ridge-cooldown-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "e36ed73e5b1543968f1aecbda18c0b8b96ba67d49689f67c9db78d9e7fee2bb1",
+			"small_label_candidates": [],
+			"state": "hud-storm_ridge-cooldown",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-sunrise_express-normal-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "f3d37f12d4ef67e3713daed08f2e21dbe400125a2e6c2aae580145cbcb5b1e58",
+			"small_label_candidates": [],
+			"state": "hud-sunrise_express-normal",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-sunrise_express-low-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "e1c9cbd3f8864363ada6155d28eee644977f6c21d68137c5a953767aab4d2fb0",
+			"small_label_candidates": [],
+			"state": "hud-sunrise_express-low",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-sunrise_express-active-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "f1b4b27106ec87ea9b20942c5a10d89c4c21c814e040e91a8a3cf91fe80cb171",
+			"small_label_candidates": [],
+			"state": "hud-sunrise_express-active",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-sunrise_express-cooldown-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "ddcf80417ea821d665f732601f91f8b0910c1a977a9898784b12053637375978",
+			"small_label_candidates": [],
+			"state": "hud-sunrise_express-cooldown",
+			"state_name": "race"
+		},
+		{
+			"actions": [
+				"返回"
+			],
+			"focus": "/root/Main/CanvasLayer/LeaderboardScreen/Center/Card/Content/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/board-empty-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "86f7e09f061af23c315494e2f1dfc3e50437b87d073500e59c188a1ccddea902",
+			"small_label_candidates": [],
+			"state": "board-empty",
+			"state_name": "leaderboard"
+		},
+		{
+			"actions": [
+				"返回"
+			],
+			"focus": "/root/Main/CanvasLayer/LeaderboardScreen/Center/Card/Content/BackButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/board-full-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "ca4bbbcc7c61e5f2fe21105f97dd8c8ac5dbda503fb9b841921e9db13e69ae56",
+			"small_label_candidates": [],
+			"state": "board-full",
+			"state_name": "leaderboard"
+		},
+		{
+			"actions": [
+				"静音：关",
+				"显示模式：窗口",
+				"语言：中文",
+				"高对比配色：关",
+				"减少闪烁：关",
+				"屏幕震动：开",
+				"返回"
+			],
+			"focus": "/root/Main/CanvasLayer/SettingsScreen/Center/Card/Content/AudioLevels/Master/Slider",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/board-storage_failed-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "2efe40382b1c18bc24b375e0acdfe26cb7057a68ea231dadffc599775a6d7007",
+			"small_label_candidates": [
+				"/root/Main/CanvasLayer/SettingsScreen/Center/Card/Content/AudioLevels/Hint"
+			],
+			"state": "board-storage_failed",
+			"state_name": "settings"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\nSELECTED",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\nLOCKED",
+				"TIDEBREAKER\nSTABLE\nLOCKED",
+				"AURORA X\nEXPERT\nLOCKED",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-0-initial-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "29b83d627fcf951787790e2fa48eee3a830bd26a8c2b795bdad7db17cbdc0a5d",
+			"small_label_candidates": [],
+			"state": "garage-0-initial",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\nSELECTED",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\nLOCKED",
+				"TIDEBREAKER\nSTABLE\nLOCKED",
+				"AURORA X\nEXPERT\nLOCKED",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-1-initial-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "57932bd9d820228e8b7678f9d29e37bd9aab789547e1a0b2a3e633ea3b41cf34",
+			"small_label_candidates": [],
+			"state": "garage-1-initial",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\nSELECTED",
+				"COMET RS\nTOP SPEED\nLOCKED",
+				"TIDEBREAKER\nSTABLE\nLOCKED",
+				"AURORA X\nEXPERT\nLOCKED",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-2-initial-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "01772e228676d62d9c54cf06c43a9803665125de12c3d6cd54cefe82383849c7",
+			"small_label_candidates": [],
+			"state": "garage-2-initial",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\nLOCKED · SELECTED",
+				"TIDEBREAKER\nSTABLE\nLOCKED",
+				"AURORA X\nEXPERT\nLOCKED",
+				"BACK",
+				"LOCKED"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-3-initial-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "603248c60d0567764561897d6a330e3f19b7152da5017f36829eec1fb3f5d6f8",
+			"small_label_candidates": [],
+			"state": "garage-3-initial",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\nLOCKED",
+				"TIDEBREAKER\nSTABLE\nLOCKED · SELECTED",
+				"AURORA X\nEXPERT\nLOCKED",
+				"BACK",
+				"LOCKED"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-4-initial-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "06857c8732ad7b08c54bfb397833ee08d44b113a7ec9c8c84c906d0fc21a2c94",
+			"small_label_candidates": [],
+			"state": "garage-4-initial",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\nLOCKED",
+				"TIDEBREAKER\nSTABLE\nLOCKED",
+				"AURORA X\nEXPERT\nLOCKED · SELECTED",
+				"BACK",
+				"LOCKED"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-5-initial-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "b9cbe8097b33961e68f9683c0e153566e157b52846ae4a99adb25f3c47097cc4",
+			"small_label_candidates": [],
+			"state": "garage-5-initial",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\nSELECTED",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\n",
+				"TIDEBREAKER\nSTABLE\n",
+				"AURORA X\nEXPERT\n",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-0-unlocked-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "33ab2ec45f20214931c32f8e36a1baf9d831f3c8db398eb513e16f4e4a210c90",
+			"small_label_candidates": [],
+			"state": "garage-0-unlocked",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\nSELECTED",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\n",
+				"TIDEBREAKER\nSTABLE\n",
+				"AURORA X\nEXPERT\n",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-1-unlocked-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "0d8ebc743db2efc74f070a6e9aab5940cea0247b0ee9654f9d29330f5f41ef5e",
+			"small_label_candidates": [],
+			"state": "garage-1-unlocked",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\nSELECTED",
+				"COMET RS\nTOP SPEED\n",
+				"TIDEBREAKER\nSTABLE\n",
+				"AURORA X\nEXPERT\n",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-2-unlocked-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "3f2b6e3758ef0c9df4b9e87d05a0d5ca40014e1ac8a72f61b4f2498f917035b4",
+			"small_label_candidates": [],
+			"state": "garage-2-unlocked",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\nSELECTED",
+				"TIDEBREAKER\nSTABLE\n",
+				"AURORA X\nEXPERT\n",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-3-unlocked-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "f5c8cc843c698d0d4a3dfeada57d66bf4ecffd9b632b1b742b34dcb02c8ddbb2",
+			"small_label_candidates": [],
+			"state": "garage-3-unlocked",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\n",
+				"TIDEBREAKER\nSTABLE\nSELECTED",
+				"AURORA X\nEXPERT\n",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-4-unlocked-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "f7fc07d9e8039d323bc5ae31e232a7349b691ee199a4ff21c1667cb97dc6b3f3",
+			"small_label_candidates": [],
+			"state": "garage-4-unlocked",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\n",
+				"TIDEBREAKER\nSTABLE\n",
+				"AURORA X\nEXPERT\nSELECTED",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/Actions/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/garage-5-unlocked-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "945d0a496894bbed9ddaea18170d97f2df371d85b5197210cc83759296f75524",
+			"small_label_candidates": [],
+			"state": "garage-5-unlocked",
+			"state_name": "garage"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-neon_coast-normal-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "27f97ea0e9ce9da2e5606b307de11610fb0381a7808374458149d410109f8d60",
+			"small_label_candidates": [],
+			"state": "hud-neon_coast-normal",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-neon_coast-low-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "27ce06dd772a99ae61db61f4a65171cce5bd7e076361920259b245dd19fd1da6",
+			"small_label_candidates": [],
+			"state": "hud-neon_coast-low",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-neon_coast-active-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "98f7c71e038f101768d87be65cce618b71df0f6e11366bc1dea03187b6a355cd",
+			"small_label_candidates": [],
+			"state": "hud-neon_coast-active",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-neon_coast-cooldown-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "d4c10056fa3847ed9f92bdb292e248249897e013f4fa34d01c1ac3c9b80d53ac",
+			"small_label_candidates": [],
+			"state": "hud-neon_coast-cooldown",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-freight_harbor-normal-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "52ac8f04f49e5fc363dce1167708a47ce216b96a4e12b4e5a5179b916781208d",
+			"small_label_candidates": [],
+			"state": "hud-freight_harbor-normal",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-freight_harbor-low-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "00b5847e4fb615785767e32dbb0a04671bfc7a860532d5ac49a7f768bd6f3aa7",
+			"small_label_candidates": [],
+			"state": "hud-freight_harbor-low",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-freight_harbor-active-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "391c799abc7ec4b2eef3ce803c7e2a52e59cb79fc90480ad44408e5b29042e0c",
+			"small_label_candidates": [],
+			"state": "hud-freight_harbor-active",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-freight_harbor-cooldown-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "6dce56e34b55cfee716e161c3952834146d7a5251d60a44f3f2815957aeda2b8",
+			"small_label_candidates": [],
+			"state": "hud-freight_harbor-cooldown",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-storm_ridge-normal-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "e3e5a6247dee6e72f6218755255c110cb275487c277c983e62a4c8b18590eec7",
+			"small_label_candidates": [],
+			"state": "hud-storm_ridge-normal",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-storm_ridge-low-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "11fdd917eb5a049896c6c4501d329cd0f1061f99e602fc9af283ccd25cff4ee2",
+			"small_label_candidates": [],
+			"state": "hud-storm_ridge-low",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-storm_ridge-active-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "39e67bf3099c0ea00108b97a3d7cc554051eb514e2ea48ebeda42edd3b016c89",
+			"small_label_candidates": [],
+			"state": "hud-storm_ridge-active",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-storm_ridge-cooldown-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "c047af931991ceed500be0790048a2610c87d4a999c739ac1fc175d6b044c65f",
+			"small_label_candidates": [],
+			"state": "hud-storm_ridge-cooldown",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-sunrise_express-normal-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "00fd3c815688d62af14aacc6359e2666622b98a088ab38d75a44bb5f1d7393a8",
+			"small_label_candidates": [],
+			"state": "hud-sunrise_express-normal",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-sunrise_express-low-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "bdf29395133758755d7c083877ebd23ebd3e131b2235c0b29909b8de22905be4",
+			"small_label_candidates": [],
+			"state": "hud-sunrise_express-low",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-sunrise_express-active-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "d07abdbf4906da2b79ff96158ceb1ae6bcc63087a0fff1890f06beee830f22c1",
+			"small_label_candidates": [],
+			"state": "hud-sunrise_express-active",
+			"state_name": "race"
+		},
+		{
+			"actions": [],
+			"focus": "none",
+			"focus_visible": false,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/hud-sunrise_express-cooldown-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "45e002162fcb01652b277172b59896f3f4f30d68a03bc582b133d35eeeedbcb8",
+			"small_label_candidates": [],
+			"state": "hud-sunrise_express-cooldown",
+			"state_name": "race"
+		},
+		{
+			"actions": [
+				"BACK"
+			],
+			"focus": "/root/Main/CanvasLayer/LeaderboardScreen/Center/Card/Content/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/board-empty-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "a9ff97af90af012a94945c9a412437b846a28c46c24151fbdd5d953cd3c3a881",
+			"small_label_candidates": [],
+			"state": "board-empty",
+			"state_name": "leaderboard"
+		},
+		{
+			"actions": [
+				"BACK"
+			],
+			"focus": "/root/Main/CanvasLayer/LeaderboardScreen/Center/Card/Content/BackButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/board-full-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "6debfefafe2b54d708cef79fe55f8e350f75db64fb7b5b3c87222326fa63e69d",
+			"small_label_candidates": [],
+			"state": "board-full",
+			"state_name": "leaderboard"
+		},
+		{
+			"actions": [
+				"MUTE: OFF",
+				"DISPLAY: WINDOWED",
+				"LANGUAGE: ENGLISH",
+				"HIGH-CONTRAST COLORS: OFF",
+				"REDUCED FLASHING: OFF",
+				"SCREEN SHAKE: ON",
+				"BACK"
+			],
+			"focus": "/root/Main/CanvasLayer/SettingsScreen/Center/Card/Content/AudioLevels/Master/Slider",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/matrix-02/screens/board-storage_failed-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "1264df8b1671d973d434bbcf29d99a4b96e441a7e4913bbcc8a3e63744beb4bf",
+			"small_label_candidates": [
+				"/root/Main/CanvasLayer/SettingsScreen/Center/Card/Content/AudioLevels/Hint"
+			],
+			"state": "board-storage_failed",
+			"state_name": "settings"
+		}
+	],
+	"scope": "Actual GUI with isolated synthetic fixtures: every car initial/unlocked, four courses HUD extremes, empty/full board, storage warning"
+}

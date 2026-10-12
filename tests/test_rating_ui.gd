@@ -50,9 +50,9 @@ func _run() -> void:
 				assert(rating.cells[3].points.text.contains("/ 20"))
 				assert(main.result_screen.get_global_rect().encloses(content.get_parent().get_global_rect()), "Result card must fit the viewport")
 				for button_name in ["ReplayButton", "TitleButton"]:
-					var button: Button = content.get_node(button_name)
+					var button: Button = content.find_child(button_name,true,false)
 					assert(main.result_screen.get_global_rect().encloses(button.get_global_rect()))
-				assert(content.get_node("ReplayButton").has_focus(), "Keyboard focus must start on replay")
+				assert(content.find_child("ReplayButton",true,false).has_focus(), "Keyboard focus must start on replay")
 				if capture:
 					await RenderingServer.frame_post_draw
 					assert(root.get_texture().get_image().save_png(ProjectSettings.globalize_path("res://tmp/rating-%s-%s-%s.png" % [resolution.x, language, "clear" if cleared else "failed"])) == OK)

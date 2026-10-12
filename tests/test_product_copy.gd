@@ -26,6 +26,8 @@ func _init() -> void:
 			main.language = locale
 			_check(main.call("_fast_entry_warning_text") == ("高速来车 · 450" if locale == "zh" else "INCOMING · 450"), "localized red pre-entry label displays 450: " + locale)
 	_check(not main.get_node("CanvasLayer/TitleScreen/Center/Card/Content/Version").visible, "development version label is hidden without removing internal metadata")
+	for label in ["Subtitle", "Goal"]:
+		_check(not main.get_node("CanvasLayer/TitleScreen/Center/Card/Content/" + label).visible, "Title removes redundant explanation: " + label)
 	main.free()
 	_check(ProjectSettings.get_setting("application/config/name") == "Neon Coast Rush", "copy polish preserves the application and save identity; version is checked by the metadata gate")
 	var chart_source := FileAccess.get_file_as_string("res://scripts/ui/vehicle_performance_chart.gd")

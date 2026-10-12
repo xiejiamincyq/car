@@ -46,7 +46,7 @@ func _run() -> void:
 
 	main.run.phase = main.RunState.Phase.RUN_CLEAR
 	main._update_hud()
-	assert(main.result_screen.visible and result_emblem.visible, "The result emblem must decorate the result screen")
+	assert(main.result_screen.visible and not result_emblem.visible, "Refreshed results prioritize the rating, retaining but hiding the legacy emblem")
 	main.queue_free()
 	await process_frame
 	quit()

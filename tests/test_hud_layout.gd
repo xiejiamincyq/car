@@ -15,7 +15,7 @@ func _run() -> void:
 		main.run.award_pass(80, false)
 	main.run.tick(1.0, 0.0, main.GameConfig.MAX_SPEED)
 	main._update_hud()
-	assert(main.run_status_label.text.contains("COMBO x2 1.5s"), "The HUD must show the live multiplier and remaining combo window")
+	assert(main.run_status_label.text.contains("COMBO ×2  1.5s"), "The HUD must show the live multiplier and remaining combo window")
 	main.run.coins = 7
 	main._update_hud()
 	assert(main.coin_label.text.contains("07"), "The HUD must expose a compact zero-padded coin counter")
@@ -62,7 +62,7 @@ func _run() -> void:
 		await process_frame
 		var result_screen: Control = main.get_node("CanvasLayer/ResultScreen")
 		for button_name in ["ReplayButton", "TitleButton"]:
-			var button: Control = main.get_node("CanvasLayer/ResultScreen/Center/Card/Content/" + button_name)
+			var button: Control = result_screen.find_child(button_name,true,false)
 			assert(result_screen.get_global_rect().encloses(button.get_global_rect()), "%s must remain fully visible at %s" % [button_name, size])
 		main._replay_run()
 	root.content_scale_size = Vector2i(1280, 720)

@@ -43,11 +43,13 @@ func _ready() -> void:
 	hint.add_theme_font_size_override("font_size", 14)
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	add_child(hint)
+	refresh_focus_route()
+
+func refresh_focus_route() -> void:
 	var controls: Array[Control] = []
 	controls.append_array(sliders)
-	for sibling in get_parent().get_children():
-		if sibling is Button:
-			controls.append(sibling)
+	for action_name in ["MuteButton", "FullscreenButton", "LanguageButton", "HighContrastButton", "ReducedFlashingButton", "ScreenShakeButton", "BackButton"]:
+		controls.append(get_parent().find_child(action_name, true, false))
 	for index in controls.size():
 		var control := controls[index]
 		var previous := controls[posmod(index - 1, controls.size())]
@@ -70,6 +72,8 @@ func synchronize(master: float, music: float, effects: float, language: String, 
 	if persistent and persistence_failed:
 		hint_key = "settings.audio.failed_hint"
 	get_node("Hint").text = GameText.get_text(hint_key, language)
+	# Ordinary autosave help is redundant; never suppress a storage warning.
+	get_node("Hint").visible = persistence_failed or not persistent
 
 func focus_first_channel() -> void:
 	sliders[0].grab_focus()

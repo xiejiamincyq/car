@@ -47,7 +47,7 @@ func _draw() -> void:
 	var state := presentation()
 	draw_style_box(_style, Rect2(Vector2.ZERO,size))
 	draw_line(Vector2(0,1),Vector2(size.x,1),Color(CYAN,0.45),2,true)
-	_label("路线 / ROUTE" if _language == "zh" else "ROUTE",Vector2(16,24),14,CYAN)
+	_label("路线" if _language == "zh" else "ROUTE",Vector2(16,24),14,CYAN)
 	_label("%03d%%" % roundi(state.progress * 100.0),Vector2(size.x-70,24),18,Color.WHITE,66)
 	var start := _route_point(0.0)
 	var finish := _route_point(1.0)

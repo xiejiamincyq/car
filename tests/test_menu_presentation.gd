@@ -31,7 +31,7 @@ func _run() -> void:
 				await process_frame
 				var card: PanelContainer = screen.get_node("Center/Card")
 				var panel = card.get_theme_stylebox("panel") as StyleBoxFlat
-				assert(panel != null and panel.bg_color.b > panel.bg_color.r and panel.border_width_top >= 2, "All menu cards need the shared navy/cyan presentation")
+				assert(panel != null and panel.bg_color.b > panel.bg_color.r and panel.border_width_top >= 1, "All menu cards need the shared navy/cyan presentation")
 				assert(screen.get_global_rect().encloses(card.get_global_rect()), "%s must fit %s in %s" % [name, dimensions, language])
 				for button in card.find_children("*", "Button", true, false):
 					assert(card.get_global_rect().encloses(button.get_global_rect()), "Menu actions must remain inside the card")

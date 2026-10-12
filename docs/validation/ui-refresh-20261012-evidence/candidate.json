@@ -1,0 +1,100 @@
+{
+  "source_stable": true,
+  "runs": [
+    {
+      "stdout_sha256": "E83DF82A452B33C6390B7A947A91F43CC24FFF35F71BEE6C7EC1994BD09DA991",
+      "stderr_sha256": "684C04FA5C87994C6965147841FE924DE6E92C00C4D8723938E11C6E7A077BBA",
+      "label": "export",
+      "native_exit": 0,
+      "pid": 72416,
+      "seconds": 31.5875274,
+      "timed_out": false
+    },
+    {
+      "stdout_sha256": "BC6E61F6956D8E141DD585C622C27E9B76B3EC1473C5A79D1E050005A2726B4A",
+      "stderr_sha256": "7EB70257593DA06F682A3DDDA54A9D260D4FC514F645237F5CA74B08F8DA61A6",
+      "label": "audit",
+      "native_exit": 0,
+      "pid": 60608,
+      "seconds": 0.5986699,
+      "timed_out": false
+    },
+    {
+      "stdout_sha256": "E956C1BC2A99999D0F750E748F56E8680B87EDA55B218AB527482DDFDBFF937F",
+      "stderr_sha256": "7EB70257593DA06F682A3DDDA54A9D260D4FC514F645237F5CA74B08F8DA61A6",
+      "label": "decode",
+      "native_exit": 0,
+      "pid": 64912,
+      "seconds": 0.8357397,
+      "timed_out": false
+    },
+    {
+      "stdout_sha256": "19787016694931F6A7B39599B52EF6B9D6713680A9117430B398B8B29D38E5E9",
+      "stderr_sha256": "7EB70257593DA06F682A3DDDA54A9D260D4FC514F645237F5CA74B08F8DA61A6",
+      "label": "startup",
+      "native_exit": 0,
+      "pid": 71624,
+      "seconds": 1.2274663,
+      "timed_out": false
+    },
+    {
+      "stdout_sha256": "40CF4A2EE7BC0988667329CBEA6C30EF614B7E6665E0CD9C9AB300C28BDDBDD2",
+      "stderr_sha256": "7EB70257593DA06F682A3DDDA54A9D260D4FC514F645237F5CA74B08F8DA61A6",
+      "label": "gui",
+      "native_exit": 0,
+      "pid": 76760,
+      "seconds": 14.4923207,
+      "timed_out": false
+    }
+  ],
+  "scope": "Local UI candidate from exact frozen worktree, real PCK hashes/decoding and native EXE startup. Not public release, GUI driving or human acceptance.",
+  "validation": "C:/Users/21604/Documents/car/tmp/ui-global-20261012/full-05",
+  "passed": true,
+  "build": "C:\\Users\\21604\\Documents\\car\\exports\\ui-refresh-20261012\\candidate-f3fcd3a495d64fcfacde0d1a05ec341c",
+  "logical_resources": 132,
+  "package": "C:\\Users\\21604\\Documents\\car\\exports\\ui-refresh-20261012\\candidate-f3fcd3a495d64fcfacde0d1a05ec341c\\package",
+  "files": [
+    {
+      "sha256": "7B475F2E3ABF0C0CE82A9AA59C333083B41B643B3D24F2430448E3515898E2C7",
+      "bytes": 1612,
+      "name": "ASSET_NOTICES.md"
+    },
+    {
+      "sha256": "92B24143F6083111537353995AC84F0F89077B444D513C942C1D9106DF272C7C",
+      "bytes": 93347,
+      "name": "GODOT_COPYRIGHT.txt"
+    },
+    {
+      "sha256": "B0435E3B3E4E55238F05F4B306F30524A1B2E20147810D436EAA554FA6855C80",
+      "bytes": 1149,
+      "name": "GODOT_LICENSE.txt"
+    },
+    {
+      "sha256": "6E5A9BB963F57AA9B71C3941D29186FFFFFC59FE84394B527D98DBCA81438F51",
+      "bytes": 109019648,
+      "name": "NeonCoastRush.exe"
+    },
+    {
+      "sha256": "A0011345414778133E5E7ADBC32694E014EFD3ADE7A48C9000E8DF9582A80B76",
+      "bytes": 26352536,
+      "name": "NeonCoastRush.pck"
+    },
+    {
+      "sha256": "2F225B43092F4799431F3B65E0C630F1129E2462F58259840DE04415D17CF226",
+      "bytes": 3295,
+      "name": "README.md"
+    }
+  ],
+  "head": "0477c01ef38721b84b1cebbad0080d46a4f8f789",
+  "dirty_worktree": true,
+  "decoded": {
+    "failures": [],
+    "loaded": 132,
+    "main_nodes": 136,
+    "music": 4,
+    "scenes": 3,
+    "scope": "Actual PCK decoded in isolated matching editor engine; not normal release EXE gameplay, graphics or audible playback.",
+    "textures": 62
+  },
+  "player_save_unchanged": true
+}

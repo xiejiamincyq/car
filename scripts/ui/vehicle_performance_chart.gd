@@ -37,7 +37,7 @@ func _draw() -> void:
 		draw_line(center, center+directions[i]*58, Color("29465c"), 1, true)
 		polygon.append(center+directions[i]*58*values[i])
 		var p := center+directions[i]*76
-		draw_string(ThemeDB.fallback_font, p-Vector2(32,-5), labels[i], HORIZONTAL_ALIGNMENT_CENTER, 64, 12, Color("a8bdcc"))
+		draw_string(ThemeDB.fallback_font, p-Vector2(32,-5), labels[i], HORIZONTAL_ALIGNMENT_CENTER, 64, 14, Color("a8bdcc"))
 	draw_colored_polygon(polygon, Color(cyan, 0.20))
 	polygon.append(polygon[0])
 	draw_polyline(polygon, cyan, 2, true)
@@ -46,7 +46,8 @@ func _draw() -> void:
 		draw_string(ThemeDB.fallback_font, Vector2(205,y+10), labels[i], HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color("e5f1f7"))
 		draw_rect(Rect2(282,y,285,8), Color("20354b"))
 		draw_rect(Rect2(282,y,285*values[i],8), cyan)
-		var text := "%.0f" % actual[i]
+		var text := "%.0f%%" % (values[i]*100.0)
 		if i == 0: text = "%.0f km/h" % (actual[i]*Config.HUD_SPEED_SCALE)
 		if i == 4: text = "%.0f%%" % (clampf(260.0/actual[i],0.85,1.15)*100.0)
 		draw_string(ThemeDB.fallback_font, Vector2(585,y+10), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("ffd16b"))
+	draw_string(ThemeDB.fallback_font, Vector2(205, 168), "加速 / 制动 / 转向：相对能力 · 防护：不含质量因素" if language == "zh" else "Accel / brake / steer: relative · Protection excludes mass", HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("a8bdcc"))

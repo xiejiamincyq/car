@@ -38,7 +38,7 @@ func _run() -> void:
 	main.run.phase = RunState.Phase.GAME_OVER
 	assert(main._handle_restart_shortcut(), "The result screen must accept the R replay shortcut")
 	assert(main.run.phase == RunState.Phase.COUNTDOWN and not main.confirmation_screen.visible, "R on a result screen must begin a new countdown directly")
-	var fullscreen_button: Button = main.get_node("CanvasLayer/SettingsScreen/Center/Card/Content/FullscreenButton")
+	var fullscreen_button: Button = main.settings_screen.find_child("FullscreenButton",true,false)
 	assert(not main.fullscreen_enabled and fullscreen_button.text.contains("窗口"), "The safe default must be windowed and visible in settings")
 	main._toggle_fullscreen()
 	assert(main.fullscreen_enabled and fullscreen_button.text.contains("全屏") and main.save_data.settings.fullscreen, "Settings fullscreen must update UI and persisted state together")

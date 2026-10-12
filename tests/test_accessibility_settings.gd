@@ -9,9 +9,9 @@ func _run() -> void:
 	var main = MainScene.instantiate()
 	root.add_child(main)
 	await process_frame
-	assert(main.get_node("CanvasLayer/SettingsScreen/Center/Card/Content/HighContrastButton") is Button, "Settings must expose a high-contrast toggle")
-	assert(main.get_node("CanvasLayer/SettingsScreen/Center/Card/Content/ReducedFlashingButton") is Button, "Settings must expose a reduced-flashing toggle")
-	assert(main.get_node("CanvasLayer/SettingsScreen/Center/Card/Content/ScreenShakeButton") is Button, "Settings must expose a screen-shake toggle")
+	assert(main.settings_screen.find_child("HighContrastButton",true,false) is Button, "Settings must expose a high-contrast toggle")
+	assert(main.settings_screen.find_child("ReducedFlashingButton",true,false) is Button, "Settings must expose a reduced-flashing toggle")
+	assert(main.settings_screen.find_child("ScreenShakeButton",true,false) is Button, "Settings must expose a screen-shake toggle")
 	main._toggle_high_contrast()
 	assert(main.high_contrast_enabled and main.save_data.settings.high_contrast, "High contrast must apply immediately and update persisted settings")
 	main._toggle_reduced_flashing()
