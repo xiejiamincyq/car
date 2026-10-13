@@ -31,9 +31,9 @@ func _run() -> void:
 		await process_frame
 		assert(screen.get_global_rect().encloses(screen.get_node("Center/Card").get_global_rect()), "The garage card must fit inside the %s viewport" % size)
 	assert(screen.heading.text == "选择赛车" and screen.vehicle_buttons.size() == 6, "The garage must render six localized vehicle choices")
-	assert(screen.preview.texture != null and screen.preview.texture.resource_path.ends_with("player_driftwing_c.png"), "The garage must preview the approved C replacement")
+	assert(screen.preview.texture != null and screen.preview.texture.resource_path.ends_with("driftwing_northwest_v1.png"), "The large garage preview must use the separate concept-referenced exhibition image")
 	assert(is_zero_approx(screen.preview.rotation), "The new nose-up artwork must not be rotated in the garage")
-	assert(screen.preview.scale.is_equal_approx(Vector2(1.15, 1.0)), "Garage must match the approved in-race width without changing length")
+	assert(screen.preview.scale.is_equal_approx(Vector2.ONE), "Exhibition image must not inherit gameplay sprite width adjustment")
 	assert(screen.preview.pivot_offset.is_equal_approx(screen.preview.size * 0.5), "Width adjustment must stay centered")
 	root.content_scale_size = Vector2i(1280, 720)
 	screen.queue_free()

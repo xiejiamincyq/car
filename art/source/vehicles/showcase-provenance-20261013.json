@@ -1,0 +1,62 @@
+[
+  {
+    "vehicle": "pulse_gt",
+    "concept": "art/source/vehicles/pulse_gt_chroma.png",
+    "concept_sha256": "519764F3128C6A0EBFA828727C9FEF2D8E6DAD9CA9F7175DFCD302FAA8834C92",
+    "asset": "assets/vehicle_showcases/pulse_gt_northwest_v1.png",
+    "asset_sha256": "BE9721DF1C525FE5B72DC650003B21D22015D06D2D27B1A6F51560DE6065F394",
+    "native_output": "exec-79cd15fe-40f9-4e6a-9ff8-2d3a7bc13fb2.png",
+    "native_output_matches": true,
+    "extra_composition_reference": null
+  },
+  {
+    "vehicle": "driftwing",
+    "concept": "art/source/vehicles/driftwing_chroma.png",
+    "concept_sha256": "4BCF4D68363682ABAD49DDEDD93488028CCC72E901C73B0F7BBA97D31371D1E1",
+    "asset": "assets/vehicle_showcases/driftwing_northwest_v1.png",
+    "asset_sha256": "558F46D6AA37E6EA2E7919A0CC19ED8B1D5711AA7B688862755B57946A115993",
+    "native_output": "exec-d46a8647-5e41-42ad-a8cb-14b28d60a59b.png",
+    "native_output_matches": true,
+    "extra_composition_reference": "assets/vehicle_showcases/pulse_gt_northwest_v1.png"
+  },
+  {
+    "vehicle": "flashpoint",
+    "concept": "art/source/vehicles/flashpoint_chroma.png",
+    "concept_sha256": "CF42052850B52C240D257DB23B673D9BA21CCE103F10836D23B168CC80000C9C",
+    "asset": "assets/vehicle_showcases/flashpoint_northwest_v1.png",
+    "asset_sha256": "E977F12159B2A3F98F1E7BF589AE9C806868B94EB0027DA923A9DEDD24450DAE",
+    "native_output": "exec-935fe51e-3cf4-48c1-b895-be3e7cf26054.png",
+    "native_output_matches": true,
+    "extra_composition_reference": "assets/vehicle_showcases/pulse_gt_northwest_v1.png"
+  },
+  {
+    "vehicle": "comet_rs",
+    "concept": "art/source/vehicles/comet_rs_chroma.png",
+    "concept_sha256": "49069538D5444A317AC4BFC065EAEDF9CF918246F195E6FCB3F06E2E90C76276",
+    "asset": "assets/vehicle_showcases/comet_rs_northwest_v1.png",
+    "asset_sha256": "C6227AA9F8AA7B068D4A9BA502EC2A25DB3E2F0800688FA6E943A4B86200D71D",
+    "native_output": "exec-78ea9267-34e9-4611-b4bb-1793175eb0a6.png",
+    "native_output_matches": true,
+    "extra_composition_reference": "assets/vehicle_showcases/pulse_gt_northwest_v1.png"
+  },
+  {
+    "vehicle": "tidebreaker",
+    "concept": "art/source/vehicles/tidebreaker_chroma.png",
+    "concept_sha256": "63DE715ED7D79BB7DCB9F4CEB21ADFF7108611272E8EF602577CC1D15E5D281E",
+    "asset": "assets/vehicle_showcases/tidebreaker_northwest_v1.png",
+    "asset_sha256": "C596522AC9156AC6E70B303FAB5CE9620D8CADA8A2DEABB81381CF6CB88DFD59",
+    "native_output": "exec-a2b5fa84-a5f8-4e7b-b46a-4fd3f2a3a75b.png",
+    "native_output_matches": true,
+    "extra_composition_reference": "assets/vehicle_showcases/pulse_gt_northwest_v1.png"
+  },
+  {
+    "vehicle": "aurora_x",
+    "concept": "art/source/vehicles/aurora_x_chroma.png",
+    "concept_sha256": "1EDD808F0269482F1F0228E879229C00591FBDC8E153BA67E2E0CEC8EF210F8F",
+    "asset": "assets/vehicle_showcases/aurora_x_northwest_v1.png",
+    "asset_sha256": "CA6E2E659119FCA56B5B157C6D88223F63F8BA6B684203586CE7D70A4DA0FDC8",
+    "native_output": "exec-1e73f40a-c659-418e-89ec-c39ccacc589d.png",
+    "native_output_matches": true,
+    "extra_composition_reference": "assets/vehicle_showcases/pulse_gt_northwest_v1.png"
+  }
+]

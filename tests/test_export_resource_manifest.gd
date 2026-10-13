@@ -18,12 +18,12 @@ func _init() -> void:
 	for message in errors:
 		_check(false, message)
 	_check(manifest.has("res://scripts/main.gd") and manifest.has("res://scripts/ui/persistence_notice.gd") and manifest.has("res://scenes/vehicle_select.tscn"), "direct nested scene and script dependencies belong to the closure")
-	var counts := {"environment_sequences": 0, "vehicles": 0, "pavement": 0, "music": 0}
+	var counts := {"environment_sequences": 0, "vehicles": 0, "pavement": 0, "music": 0, "vehicle_showcases": 0}
 	for path in manifest:
 		for group in counts:
 			if path.begins_with("res://assets/" + group + "/"):
 				counts[group] += 1
-	_check(counts == {"environment_sequences": 40, "vehicles": 11, "pavement": 4, "music": 4}, "all 40 panels, 6 C players, 5 NPCs, 4 surfaces, and 4 scores must be selected")
+	_check(counts == {"environment_sequences": 40, "vehicles": 11, "pavement": 4, "music": 4, "vehicle_showcases": 6}, "all original gameplay media plus six separate showcase portraits must be selected")
 	for vehicle_id in ["pulse_gt", "driftwing", "flashpoint", "comet_rs", "tidebreaker", "aurora_x"]:
 		_check(manifest.has("res://assets/vehicles/player_%s_c.png" % vehicle_id), "current C player asset is mandatory: " + vehicle_id)
 	_check(Audit.forbidden("res://.godot/imported/development.png") and Audit.forbidden("user://save.cfg"), "raw development caches and private saves cannot be selected")

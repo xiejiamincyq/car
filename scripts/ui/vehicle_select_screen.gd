@@ -9,6 +9,7 @@ const VehicleCatalog = preload("res://scripts/catalog/vehicle_catalog.gd")
 const PlayerVehicleProfile = preload("res://scripts/player_vehicle_profile.gd")
 const VehicleSelectController = preload("res://scripts/ui/vehicle_select_controller.gd")
 const PerformanceChart = preload("res://scripts/ui/vehicle_performance_chart.gd")
+const Showcases = preload("res://scripts/catalog/vehicle_showcase_catalog.gd")
 
 var controller: VehicleSelectController
 var language := GameText.LANGUAGE_EN
@@ -60,8 +61,8 @@ func _build_layout() -> void:
 	var stage := Control.new()
 	portrait.add_child(stage)
 	preview.reparent(stage)
-	preview.position = Vector2(71, 18)
-	preview.size = Vector2(98, 154)
+	preview.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	preview.texture_filter=CanvasItem.TEXTURE_FILTER_LINEAR
 	var grid: GridContainer = content.get_node("Vehicles")
 	grid.reparent(row)
 	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -171,10 +172,10 @@ func _refresh() -> void:
 	confirm_button.disabled = not selected.unlocked
 	confirm_button.text = _text("garage.confirm") if selected.unlocked else _text("garage.locked_short")
 	_update_focus_route(selected.unlocked)
-	preview.texture = load(String(selected.texture_path)) as Texture2D
+	preview.texture = Showcases.texture_for(StringName(selected.id))
 	preview.pivot_offset = preview.size * 0.5
-	preview.rotation = PlayerVehicleProfile.texture_rotation(selected)
-	preview.scale = PlayerVehicleProfile.VISUAL_PROPORTION_SCALE
+	preview.rotation = 0.0
+	preview.scale = Vector2.ONE
 	var availability := _text("garage.available") if selected.unlocked else _text(String(selected.unlock_key))
 	details.text = "%s  ·  %s  ·  %s" % [_text(String(selected.name_key)), _text(String(selected.role_key)), availability]
 	hint.text = _text("garage.hint")
