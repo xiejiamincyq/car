@@ -1,0 +1,656 @@
+{
+  "frozen_mismatches": 0,
+  "frozen_file_count": 381,
+  "runtime_changed": false,
+  "release_metadata_native_exit": 0,
+  "base_head": "a38d3b45766d81d43378ce5b28e86f660d43972d",
+  "human_process_present": true,
+  "canonical_source_checks": [
+    {
+      "path": "assets/effects/finish_burst.png",
+      "blob": "20daea3b35e5e241ba8fea7470fb1472b46d7e56"
+    },
+    {
+      "path": "assets/environment_sequences/freight_harbor/left_00.png",
+      "blob": "39962c7aa1728ef8fe17f1675f3c6e212eab09cb"
+    },
+    {
+      "path": "assets/environment_sequences/freight_harbor/left_01.png",
+      "blob": "0bfe31d33bb3b6e1d976b985a7aa79c0afbd9526"
+    },
+    {
+      "path": "assets/environment_sequences/freight_harbor/left_02.png",
+      "blob": "8e1c7cd55e614e94c3aab1c29b733db7f2f01a2b"
+    },
+    {
+      "path": "assets/environment_sequences/freight_harbor/left_03.png",
+      "blob": "8640ce6c87a1420be815595888952d43d63b7901"
+    },
+    {
+      "path": "assets/environment_sequences/freight_harbor/left_04.png",
+      "blob": "ba449d8e832effcca7d00bc45aef3567a5acaf12"
+    },
+    {
+      "path": "assets/environment_sequences/freight_harbor/right_00.png",
+      "blob": "537f718421e865d880d26c3425b4d6ec8be18d8b"
+    },
+    {
+      "path": "assets/environment_sequences/freight_harbor/right_01.png",
+      "blob": "1c9e2baa173b55d27dd1ad3877c03dcd17571ccf"
+    },
+    {
+      "path": "assets/environment_sequences/freight_harbor/right_02.png",
+      "blob": "b6d57d2634c35dc9258ab8434629a5a069c9aefd"
+    },
+    {
+      "path": "assets/environment_sequences/freight_harbor/right_03.png",
+      "blob": "8849ded62e2590bae9d59f59a44e8508f33f291b"
+    },
+    {
+      "path": "assets/environment_sequences/freight_harbor/right_04.png",
+      "blob": "a5a9e0b9288feaad1e09ca50d34c2a66073ca3a8"
+    },
+    {
+      "path": "assets/environment_sequences/neon_coast/left_00.png",
+      "blob": "874960cb811ecb04f1c1a4a0e129d914a31b991d"
+    },
+    {
+      "path": "assets/environment_sequences/neon_coast/left_01.png",
+      "blob": "5ef23389072a45fc6be7fed45a2e3919bbcee4be"
+    },
+    {
+      "path": "assets/environment_sequences/neon_coast/left_02.png",
+      "blob": "19ccae9d692fe106b19c48bb103ab5b4fc4aa6f1"
+    },
+    {
+      "path": "assets/environment_sequences/neon_coast/left_03.png",
+      "blob": "2dfbe539d1127fe1acb911f516d2714fcea897c4"
+    },
+    {
+      "path": "assets/environment_sequences/neon_coast/left_04.png",
+      "blob": "7a12af7ecb0528efe611bd617b0052f842aa73ae"
+    },
+    {
+      "path": "assets/environment_sequences/neon_coast/right_00.png",
+      "blob": "2e90867794c1e35dc413ace3d2adbe98dd04f287"
+    },
+    {
+      "path": "assets/environment_sequences/neon_coast/right_01.png",
+      "blob": "e590761dc904418d06634643832f9636192bcccd"
+    },
+    {
+      "path": "assets/environment_sequences/neon_coast/right_02.png",
+      "blob": "2fec200dacee96932e0744d783e23b623ba147c1"
+    },
+    {
+      "path": "assets/environment_sequences/neon_coast/right_03.png",
+      "blob": "f2b8aeeaf39c73cae425a91744f197eedfbde2ef"
+    },
+    {
+      "path": "assets/environment_sequences/neon_coast/right_04.png",
+      "blob": "961c7048b6b1541c438b4e7688cb3ba04498cf33"
+    },
+    {
+      "path": "assets/environment_sequences/storm_ridge/left_00.png",
+      "blob": "3b2955634f2ce95cfcf9d6d03b87705ad80b3754"
+    },
+    {
+      "path": "assets/environment_sequences/storm_ridge/left_01.png",
+      "blob": "a6dffa72af94b00fe1a333dd6f53119cbe5015c8"
+    },
+    {
+      "path": "assets/environment_sequences/storm_ridge/left_02.png",
+      "blob": "0e36df3c69562582014dfcf452428328d9dd690a"
+    },
+    {
+      "path": "assets/environment_sequences/storm_ridge/left_03.png",
+      "blob": "ba8089296297bf0e4f394b6f1f4d2fc990dd338d"
+    },
+    {
+      "path": "assets/environment_sequences/storm_ridge/left_04.png",
+      "blob": "41f522de766a9fa0e8732b6b3acc3c0edea96fd1"
+    },
+    {
+      "path": "assets/environment_sequences/storm_ridge/right_00.png",
+      "blob": "1716a8277dd220264b6aa957dc69a9d8bf914daf"
+    },
+    {
+      "path": "assets/environment_sequences/storm_ridge/right_01.png",
+      "blob": "7cd928fb1439b3a5cde793cc1696b9f4b7e3db0a"
+    },
+    {
+      "path": "assets/environment_sequences/storm_ridge/right_02.png",
+      "blob": "ccb501e4d9f9b00fefd2ba563ec645212db22ca1"
+    },
+    {
+      "path": "assets/environment_sequences/storm_ridge/right_03.png",
+      "blob": "b0d403738bc4e0b89064f21cd6abf1026d29cfaf"
+    },
+    {
+      "path": "assets/environment_sequences/storm_ridge/right_04.png",
+      "blob": "b97c56b09b8d2be987c0e983f1b821e1630f1a89"
+    },
+    {
+      "path": "assets/environment_sequences/sunrise_express/left_00.png",
+      "blob": "6c0dff4a07c0f150fb3a445dd05c9b456e418b26"
+    },
+    {
+      "path": "assets/environment_sequences/sunrise_express/left_01.png",
+      "blob": "e6e5b58f1eeebdfb17561ae776bf46ecf2833873"
+    },
+    {
+      "path": "assets/environment_sequences/sunrise_express/left_02.png",
+      "blob": "10e6e480653e2d5933229b7a86d93b060c47e9c0"
+    },
+    {
+      "path": "assets/environment_sequences/sunrise_express/left_03.png",
+      "blob": "d1f44daec988e4f8282b0076d15b9a3705b91aad"
+    },
+    {
+      "path": "assets/environment_sequences/sunrise_express/left_04.png",
+      "blob": "62005851742da1c6f31238f410e66c6fe9327f08"
+    },
+    {
+      "path": "assets/environment_sequences/sunrise_express/right_00.png",
+      "blob": "905acee2f1a954ca029f81db163d6d0ce8821e4e"
+    },
+    {
+      "path": "assets/environment_sequences/sunrise_express/right_01.png",
+      "blob": "b528e632163b6206ac0a2a3c5a84ff4efbc782a5"
+    },
+    {
+      "path": "assets/environment_sequences/sunrise_express/right_02.png",
+      "blob": "0d3779abf7c7ee8a2f3ec98910d6d840dfcfb150"
+    },
+    {
+      "path": "assets/environment_sequences/sunrise_express/right_03.png",
+      "blob": "806ff322131403f17c1d665acbd4e34ff6a3fdf5"
+    },
+    {
+      "path": "assets/environment_sequences/sunrise_express/right_04.png",
+      "blob": "f9310b5602170c83493f0cf71ad9a77c5be39b51"
+    },
+    {
+      "path": "assets/music/freight_harbor.ogg",
+      "blob": "97fc9e4be5e0f11d4539678a1a1f59385c7bad2f"
+    },
+    {
+      "path": "assets/music/neon_coast.ogg",
+      "blob": "69a44ab7c474fd885262dd699e265909c14a9bb0"
+    },
+    {
+      "path": "assets/music/storm_ridge.ogg",
+      "blob": "bd9288706022ad9107d01254a5e3652c45f510f6"
+    },
+    {
+      "path": "assets/music/sunrise_express.ogg",
+      "blob": "437fe70278d6174c120717db609e4e16952bdc0d"
+    },
+    {
+      "path": "assets/neon-coast-menu.png",
+      "blob": "09ecbde7797f364f5b3f5a78e22773e63a4b30c0"
+    },
+    {
+      "path": "assets/pavement/freight_harbor.png",
+      "blob": "dcc0557d2c7880f11c8e66c127c84c07490cd9d8"
+    },
+    {
+      "path": "assets/pavement/neon_coast.png",
+      "blob": "7f224783bf63d770b10fb85812a6ae97971c2adf"
+    },
+    {
+      "path": "assets/pavement/storm_ridge.png",
+      "blob": "e92aa7c265acbfbab2e069c8ba7d116e0afcc21b"
+    },
+    {
+      "path": "assets/pavement/sunrise_express.png",
+      "blob": "59ce57da4c3379aeea536524856937e2a6ae56e1"
+    },
+    {
+      "path": "assets/pickups/fuel_pickup.png",
+      "blob": "accee2febf8bd90be66ff64fea0c1ae7c37ad450"
+    },
+    {
+      "path": "assets/ui/event_plate.png",
+      "blob": "a788e4e0d7ff0458dfb1f37479ddbc136e60a7b3"
+    },
+    {
+      "path": "assets/ui/hud_frame.png",
+      "blob": "1c345f980e6ed8cb32fe973e10226ac1d4f57874"
+    },
+    {
+      "path": "assets/ui/result_emblem.png",
+      "blob": "e8e59e700cd581466d8c18992160434a53399216"
+    },
+    {
+      "path": "assets/ui/road_barrier.png",
+      "blob": "1b2c53656102e750dfcfc1871105c32b484c103e"
+    },
+    {
+      "path": "assets/vehicles/player_aurora_x_c.png",
+      "blob": "6f92c6484f2a7ef8966f93a1c420300152a17018"
+    },
+    {
+      "path": "assets/vehicles/player_comet_rs_c.png",
+      "blob": "14cbdb090dd9bb3d4cae1a3369d58fa4aed994a7"
+    },
+    {
+      "path": "assets/vehicles/player_driftwing_c.png",
+      "blob": "f5b07068cec1aa73a5818e1701b5f7eaacd4bd14"
+    },
+    {
+      "path": "assets/vehicles/player_flashpoint_c.png",
+      "blob": "737bf16d61e94e3135a79cb9e3804ea7b4f8388d"
+    },
+    {
+      "path": "assets/vehicles/player_pulse_gt_c.png",
+      "blob": "fc6f10adfaf4c1400ae08d0feb0be55843e51f0c"
+    },
+    {
+      "path": "assets/vehicles/player_tidebreaker_c.png",
+      "blob": "fc0bba2ea1020364d8e11285c23810e83ea4167a"
+    },
+    {
+      "path": "assets/vehicles/traffic_hatchback.png",
+      "blob": "ebca61942c2801473b4ed75b60d20376b0d5540a"
+    },
+    {
+      "path": "assets/vehicles/traffic_sedan.png",
+      "blob": "6b7aca04eae6d59c1ddfa7b81760e1262788737f"
+    },
+    {
+      "path": "assets/vehicles/traffic_sports.png",
+      "blob": "7bc50939482ee0194e41defe8b9f943f3c552bd9"
+    },
+    {
+      "path": "assets/vehicles/traffic_truck.png",
+      "blob": "4389d302eaea1ac49d47362d522f9aa20cb466e7"
+    },
+    {
+      "path": "assets/vehicles/traffic_van.png",
+      "blob": "22415c3815c883e265ed8c7559c0abe2e3708a7c"
+    },
+    {
+      "path": "default_bus_layout.tres",
+      "blob": "37c0551fdad1ca7648a2c548f060292211070f1c"
+    },
+    {
+      "path": "scenes/main.tscn",
+      "blob": "65e245ec656e66aa47cf658aee7c7c49814c3c5b"
+    },
+    {
+      "path": "scenes/tour_map.tscn",
+      "blob": "861757aa7d8dc08eaf6a38c3e4ffa03723dee88d"
+    },
+    {
+      "path": "scenes/vehicle_select.tscn",
+      "blob": "1e15a3b6ccffe1d2fcfec2ac800166d68178abf4"
+    },
+    {
+      "path": "scripts/audio/audio_director.gd",
+      "blob": "589c9f4848541ecd66956c427dd7fb5a8d965dbe"
+    },
+    {
+      "path": "scripts/audio/music_catalog.gd",
+      "blob": "18fa28080875c4730f06cf5b7c1a25407720df18"
+    },
+    {
+      "path": "scripts/audio/music_director.gd",
+      "blob": "23996540e0b0fae12e7b48bc68dba2a36cda8c96"
+    },
+    {
+      "path": "scripts/catalog/tour_progress.gd",
+      "blob": "46902e0bce29403c6e4fa1f4569220a2ee4be30d"
+    },
+    {
+      "path": "scripts/catalog/track_catalog.gd",
+      "blob": "646a39a9d7df0eb3e0d0b35e8983aa2a46ec6774"
+    },
+    {
+      "path": "scripts/catalog/vehicle_catalog.gd",
+      "blob": "ebcd1315841b7f396d85cfc0074e40595b927f12"
+    },
+    {
+      "path": "scripts/coin_gameplay_director.gd",
+      "blob": "5abfe06aa04c1ed6002f155bdfb61387d951df5a"
+    },
+    {
+      "path": "scripts/coin_pickup.gd",
+      "blob": "243283b870ab17f920a50cba7db9f51f221d0b14"
+    },
+    {
+      "path": "scripts/coin_renderer.gd",
+      "blob": "df7b1c03d088f4f1b058b5222d432f177793bb96"
+    },
+    {
+      "path": "scripts/coin_route_director.gd",
+      "blob": "56092d4f30505baeb690caad8480e7d75b7fc873"
+    },
+    {
+      "path": "scripts/collision_responder.gd",
+      "blob": "e9cacf53904b3bcee9e4e7810bae438cb53a80c5"
+    },
+    {
+      "path": "scripts/collision_sound.gd",
+      "blob": "33ee261bd4206022a02c18b3586feb95eac8139d"
+    },
+    {
+      "path": "scripts/combo_tracker.gd",
+      "blob": "91e1eceeca8516650760d75b4a5fe83b503bbdeb"
+    },
+    {
+      "path": "scripts/difficulty_profile.gd",
+      "blob": "b2152516378b6c64c79451352117f6dab7a60eab"
+    },
+    {
+      "path": "scripts/drive_controller.gd",
+      "blob": "56b8b2785e7af0fecfd3e616803992b5b1fae378"
+    },
+    {
+      "path": "scripts/environment_scroller.gd",
+      "blob": "f589c253dc2bb49d21f177e940c26eba141aeab1"
+    },
+    {
+      "path": "scripts/fast_priority_traffic.gd",
+      "blob": "16cc65cb048923d4c52e0a0cd98b119f455375ab"
+    },
+    {
+      "path": "scripts/fuel_pickup.gd",
+      "blob": "103dba89a7bb0a1254515ef4f87813509f1cf75f"
+    },
+    {
+      "path": "scripts/fuel_spawn_director.gd",
+      "blob": "7997af70bccc0e998e63b9918d5a0d19b12adbc0"
+    },
+    {
+      "path": "scripts/game_config.gd",
+      "blob": "91201994854e8438559f0e40899f76c6a4521a30"
+    },
+    {
+      "path": "scripts/game_feedback.gd",
+      "blob": "5f71841a4be80fd23a53fdd1f943ab79acb3898b"
+    },
+    {
+      "path": "scripts/game_text.gd",
+      "blob": "26f097722b0c5881827c091b268e5ce07d38d496"
+    },
+    {
+      "path": "scripts/impact_model.gd",
+      "blob": "645ed40d897162e8879a10eacf096bd0fffc4e98"
+    },
+    {
+      "path": "scripts/lane_event_director.gd",
+      "blob": "d8fa19dd3c3cd79dd844b4c1f7fe470c9beeba21"
+    },
+    {
+      "path": "scripts/main.gd",
+      "blob": "913574ae56179d74617bb3d33eba9ab034f19f25"
+    },
+    {
+      "path": "scripts/overdrive_controller.gd",
+      "blob": "6fbdef4b8258ba1e80ef94b885a6358e5f11d7c2"
+    },
+    {
+      "path": "scripts/pass_event_resolver.gd",
+      "blob": "1d38a31f781a0e5b3e037f6bc9165c3f9d5ab95d"
+    },
+    {
+      "path": "scripts/pavement_surface.gd",
+      "blob": "bc8599c7838f82a8996da0ab6361ff9cbba870bd"
+    },
+    {
+      "path": "scripts/player_vehicle_profile.gd",
+      "blob": "e3bee2d1cf9a4282aebc202437e1a7f0ea263f06"
+    },
+    {
+      "path": "scripts/progression.gd",
+      "blob": "fc9239d3d917c7878071ca55844a8dc368a3b914"
+    },
+    {
+      "path": "scripts/race_effect_renderer.gd",
+      "blob": "d2aa6e7c748d0bf161d5f37e0e7bf90e3744c6ec"
+    },
+    {
+      "path": "scripts/race_instrument_hud.gd",
+      "blob": "2d2d5a589669304cbbafb23973fe363818fa2b1d"
+    },
+    {
+      "path": "scripts/race_progression.gd",
+      "blob": "b6fce494ee224fb89b7ff0b68422c919f82ebf76"
+    },
+    {
+      "path": "scripts/rating_card.gd",
+      "blob": "5cee58d43731e71c2c0afdd3f85acdbb87db327c"
+    },
+    {
+      "path": "scripts/repair_supply_director.gd",
+      "blob": "98ac5a6769bdefc87bd5e343ccb1ad774fb060f1"
+    },
+    {
+      "path": "scripts/roadside_renderer.gd",
+      "blob": "3c21f96a10f3ebdc4e300406950725a5a92d5139"
+    },
+    {
+      "path": "scripts/run_rating.gd",
+      "blob": "1dddcfa8e7cd2b1883e5fd36f7bc873a7724f3fb"
+    },
+    {
+      "path": "scripts/run_seed_sequence.gd",
+      "blob": "d05891c9d60e3729d4d32f14f45cd51c8878f98d"
+    },
+    {
+      "path": "scripts/run_state.gd",
+      "blob": "d6efa90852f52817f5bb78effe688cffcb53a558"
+    },
+    {
+      "path": "scripts/runtime_performance_capture.gd",
+      "blob": "4ce8d6c93ec3d6fd0654bf05b6aae623be035462"
+    },
+    {
+      "path": "scripts/save_store.gd",
+      "blob": "f0bf697186a775691ad3c0c917c72b299e097a5e"
+    },
+    {
+      "path": "scripts/sound_effects.gd",
+      "blob": "d2839208ba4a95047b5cd60cff62896a04b75353"
+    },
+    {
+      "path": "scripts/supply_renderer.gd",
+      "blob": "d6ee794a308e1b45f6d2dddf9abd233774377623"
+    },
+    {
+      "path": "scripts/track_geometry.gd",
+      "blob": "2a70472008437ea13430b2b0419083bffebd1c69"
+    },
+    {
+      "path": "scripts/track_runtime_profile.gd",
+      "blob": "65df041a4f71ba2abc4e4e979765f970d16e6bd2"
+    },
+    {
+      "path": "scripts/traffic_director.gd",
+      "blob": "db81e8ad1298c46ebb5e79490e1764418eb0d046"
+    },
+    {
+      "path": "scripts/traffic_safety_policy.gd",
+      "blob": "f51791366e2511adceac01f2d21751af8e64de7f"
+    },
+    {
+      "path": "scripts/traffic_vehicle.gd",
+      "blob": "1947ca3f0335d776e8f0a684aee5887dc0ea3cd1"
+    },
+    {
+      "path": "scripts/ui/audio_settings_panel.gd",
+      "blob": "10587cbe9cc62ac1101d17ee8fe7f31ab2caaac6"
+    },
+    {
+      "path": "scripts/ui/menu_presentation.gd",
+      "blob": "088eaa65e3104e672900faadc293ca5c44dc93a7"
+    },
+    {
+      "path": "scripts/ui/persistence_notice.gd",
+      "blob": "acb82cb1b18e068428e2d323277e81d30b2ff645"
+    },
+    {
+      "path": "scripts/ui/tour_map_controller.gd",
+      "blob": "ad1327c10e3ccbe28d0e06592f0c1ded49560cd8"
+    },
+    {
+      "path": "scripts/ui/tour_map_screen.gd",
+      "blob": "14a479dc8fa43e283e59c91d8083b0b8f892b0df"
+    },
+    {
+      "path": "scripts/ui/vehicle_performance_chart.gd",
+      "blob": "4a4074fa3627e34827347d97b465d3d8dd1ce0e1"
+    },
+    {
+      "path": "scripts/ui/vehicle_select_controller.gd",
+      "blob": "36da58d9d1a81f1d26b495a0b9f75379c1a1a584"
+    },
+    {
+      "path": "scripts/ui/vehicle_select_screen.gd",
+      "blob": "1fec9d1bdb5e9af8bd7feb106e96e2d6ac3378e5"
+    },
+    {
+      "path": "scripts/vehicle_integrity.gd",
+      "blob": "53d81a0e4f91710f93725a166c92d4db90e19a83"
+    },
+    {
+      "path": "scripts/vehicle_visual_animation.gd",
+      "blob": "631d402510d86642893514f3340bed6cc5a0fb01"
+    },
+    {
+      "path": "scripts/visual_style.gd",
+      "blob": "ac2644bbe57fcbe8cf86bb2a86b2a2ff608eeb1b"
+    },
+    {
+      "path": "scripts/checkpoint_renderer.gd",
+      "blob": "72713ca7ca635a8fb3e09a5ccbf3545d4a572c77"
+    },
+    {
+      "path": "scripts/ui/race_route_map.gd",
+      "blob": "656428928a3891ef363bd29d872cfdb867989d84"
+    },
+    {
+      "path": "scripts/ui/title_logo.gd",
+      "blob": "aae974543bf8d87cefa00e7a7be7b234c24b9eec"
+    },
+    {
+      "path": "scripts/catalog/vehicle_showcase_catalog.gd",
+      "blob": "2a0adf90a54634e9c9273c2203ad2a7d1d7e1cea"
+    },
+    {
+      "path": "assets/vehicle_showcases/pulse_gt_northwest_v1.png",
+      "blob": "b0d809a7d9d8229c712e6f642965ba5dd08145ee"
+    },
+    {
+      "path": "assets/vehicle_showcases/driftwing_northwest_v1.png",
+      "blob": "b215a9996e7410354e10512d34146b34227508dc"
+    },
+    {
+      "path": "assets/vehicle_showcases/flashpoint_northwest_v1.png",
+      "blob": "3eb5ccde66fbdff42ffb7e8585a5b294bfbdfdb0"
+    },
+    {
+      "path": "assets/vehicle_showcases/comet_rs_northwest_v1.png",
+      "blob": "23b9d641f66a22909ab2771122d594ae5776c4fb"
+    },
+    {
+      "path": "assets/vehicle_showcases/tidebreaker_northwest_v1.png",
+      "blob": "466c38af8aa3199c4479c2ae477d50302f166add"
+    },
+    {
+      "path": "assets/vehicle_showcases/aurora_x_northwest_v1.png",
+      "blob": "3d5b27e7050f1ac6e1e553a239fa7cd93b5922a9"
+    },
+    {
+      "path": "scripts/save_slots.gd",
+      "blob": "08c36eed4eb75fd27c290dcee6262f29c2d5e6a8"
+    },
+    {
+      "path": "scripts/ui/save_slots_screen.gd",
+      "blob": "611ef0918bf6eae3aeabf38d3e2653c101b20721"
+    },
+    {
+      "path": "project.godot",
+      "blob": "da4d8a348d44f6d5a0456b518bfef3e7bdfb8ffe"
+    },
+    {
+      "path": "export_presets.cfg",
+      "blob": "da6ec7ae9195fe87362829eabe0954b975d33948"
+    },
+    {
+      "path": "docs/player/README.md",
+      "blob": "48ab03c7b76ad6b9cd6109d5b82eed7355cd657c"
+    },
+    {
+      "path": "docs/player/ASSET_NOTICES.md",
+      "blob": "794a90e7ea1a16c98bd74191232937584f082261"
+    },
+    {
+      "path": "scripts/tests/ProductHardSupplyAudit.gd",
+      "blob": "005fdf80bcb124882327162561bda8b9505e7011"
+    },
+    {
+      "path": "tests/support/observed_change_traffic.gd",
+      "blob": "4dfb7980ef5baa5f6836aee17d69b20a6e44ee20"
+    },
+    {
+      "path": "tests/test_product_pilot_supply_pace.gd",
+      "blob": "60ea35f999662313314174feb420030c0f83f86c"
+    },
+    {
+      "path": "tests/test_product_traffic_change_observer.gd",
+      "blob": "c42c3c56f800582f39fd92e922fef38f96250d6f"
+    },
+    {
+      "path": "tests/test_product_traffic_matrix.gd",
+      "blob": "ca284e901674962fcfcf34b511bdc3d364931ba5"
+    },
+    {
+      "path": "tests/test_product_difficulty_pressure.gd",
+      "blob": "b67295310812096ac503b3f9aea67992b92e49cb"
+    },
+    {
+      "path": "tests/test_release_metadata.gd",
+      "blob": "01cbfb3994aa5a22f20de1208592bcc9c838143c"
+    }
+  ],
+  "runtime_resource_count": 141,
+  "zip_sha256": "026F2108054F2D4A2B6B6ED95CDC528309C388E897C24482BDB26FF012F0AFBC",
+  "date_utc": "2026-10-13T07:43:43.4885923Z",
+  "passed": true,
+  "branch": "codex/product-ready-20261002",
+  "package_files": [
+    {
+      "sha256": "236F26564CB506807D5ADAA0B399097CAC1B0A08783B13757B948231DBF90DC5",
+      "bytes": 1977,
+      "name": "ASSET_NOTICES.md"
+    },
+    {
+      "sha256": "92B24143F6083111537353995AC84F0F89077B444D513C942C1D9106DF272C7C",
+      "bytes": 93347,
+      "name": "GODOT_COPYRIGHT.txt"
+    },
+    {
+      "sha256": "B0435E3B3E4E55238F05F4B306F30524A1B2E20147810D436EAA554FA6855C80",
+      "bytes": 1149,
+      "name": "GODOT_LICENSE.txt"
+    },
+    {
+      "sha256": "6E5A9BB963F57AA9B71C3941D29186FFFFFC59FE84394B527D98DBCA81438F51",
+      "bytes": 109019648,
+      "name": "NeonCoastRush.exe"
+    },
+    {
+      "sha256": "24C03EB271B13DB16E1B2027CBD4B3D16716F160A389FB44E67B524A8B754646",
+      "bytes": 31418532,
+      "name": "NeonCoastRush.pck"
+    },
+    {
+      "sha256": "8E7E430095684E394730AECE5553F4E51885BC26DAA6C7CA852BD3AFA8F7364A",
+      "bytes": 3810,
+      "name": "README.md"
+    }
+  ],
+  "additional_file_count": 11
+}

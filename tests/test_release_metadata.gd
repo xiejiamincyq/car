@@ -1,21 +1,24 @@
 extends SceneTree
 
-const RELEASE_VERSION := "0.4.0-rc.4"
+const RELEASE_VERSION := "0.4.0-rc.5"
 
 func _init() -> void:
 	var project := ConfigFile.new()
 	assert(project.load("res://project.godot") == OK, "Release validation must read project metadata")
-	assert(project.get_value("application", "config/version", "") == RELEASE_VERSION, "The candidate must identify its exact prerelease version")
+	if project.get_value("application", "config/version", "") != RELEASE_VERSION:
+		push_error("The candidate must identify its exact prerelease version: " + RELEASE_VERSION)
+		quit(1)
+		return
 	assert(project.get_value("application", "config/name", "") == "Neon Coast Rush", "Candidate versions must preserve the application and save identity")
 	assert(project.get_value("application", "run/main_scene", "") == "res://scenes/main.tscn", "The candidate must retain the normal game entry, not a test harness")
 
 	var export_presets := ConfigFile.new()
 	assert(export_presets.load("res://export_presets.cfg") == OK, "Release validation must read Windows export metadata")
 	assert(export_presets.get_value("preset.0.options", "application/product_version", "") == RELEASE_VERSION, "Windows product version must match the project version")
-	assert(export_presets.get_value("preset.0.options", "application/file_version", "") == "0.4.0.4", "Windows file version must identify candidate 4 numerically")
-	assert(export_presets.get_value("preset.0.options", "application/file_description", "") == "Neon Coast Rush release candidate 4", "Windows metadata must identify a candidate, not claim final release")
+	assert(export_presets.get_value("preset.0.options", "application/file_version", "") == "0.4.0.5", "Windows file version must identify candidate 5 numerically")
+	assert(export_presets.get_value("preset.0.options", "application/file_description", "") == "Neon Coast Rush release candidate 5", "Windows metadata must identify a candidate, not claim final release")
 	assert(export_presets.get_value("preset.0.options", "application/product_name", "") == "Neon Coast Rush", "Windows product identity remains unchanged")
-	assert(export_presets.get_value("preset.0", "export_path", "") == "exports/0.4.0-rc.4/package/NeonCoastRush.exe", "The default candidate export path must be versioned")
+	assert(export_presets.get_value("preset.0", "export_path", "") == "exports/0.4.0-rc.5/package/NeonCoastRush.exe", "The default candidate export path must be versioned")
 	assert(export_presets.get_value("preset.0.options", "debug/export_console_wrapper", -1) == 0, "The player package must not add a developer console launcher")
 	var excluded_resources := str(export_presets.get_value("preset.0", "exclude_filter", ""))
 	assert("tests/*" in excluded_resources, "Release exports must not ship the automated test scripts")
@@ -26,7 +29,9 @@ func _init() -> void:
 	assert(RELEASE_VERSION in readme, "README must name the exact candidate version")
 	assert("v0.2.0" in readme, "README must retain the stable rollback tag")
 	var main_scene := FileAccess.get_file_as_string("res://scenes/main.tscn")
-	assert('text = "v0.4.0-rc.4"' in main_scene, "Internal scene metadata must match the candidate version")
+	assert('text = "v0.4.0-rc.5"' in main_scene, "Internal scene metadata must match the candidate version")
+	var player_readme := FileAccess.get_file_as_string("res://docs/player/README.md")
+	assert(player_readme.begins_with("# Neon Coast Rush — " + RELEASE_VERSION), "Packaged player instructions must identify the actual candidate")
 	var checklist := FileAccess.get_file_as_string("res://docs/release-checklist.md")
 	assert("v0.2.0" in checklist, "Release checklist must retain the stable rollback tag")
 	assert(checklist.begins_with("# 0.3.0 本机发布"), "The frozen release checklist must remain an accurate 0.3.0 record during development")

@@ -56,6 +56,9 @@ var difficulty_event_interval_multiplier := 1.0
 var _spawn_exclusion_zones: Array[Vector2] = []
 var random_lane_change_probability := 0.0
 var lane_warning_multiplier := 1.0
+var opening_weave_traffic := false
+var ordinary_births_between_fast := 0
+var _ordinary_births_since_fast := 0
 var early_fast_overtakers := false
 var random_lane_change_planned_count := 0
 var _core_snapshot_y := 0.0
@@ -208,6 +211,7 @@ func reset(run_seed: int = -1) -> void:
 	difficulty_stage = 0
 	lane_change_started_count = 0
 	random_lane_change_planned_count = 0
+	_ordinary_births_since_fast = 0
 
 func set_difficulty_stage(stage: int) -> void:
 	difficulty_stage = clampi(stage, 0, 3)
@@ -230,7 +234,9 @@ func configure_difficulty(profile: Dictionary) -> void:
 	difficulty_event_interval_multiplier = maxf(0.1, float(profile.event_interval_multiplier))
 	random_lane_change_probability = clampf(float(profile.get("random_lane_change_probability", 0.0)), 0.0, 1.0)
 	target_active_vehicles = clampi(int(profile.get("traffic_active_target", 6)), 1, max_active_vehicles - 1)
-	lane_warning_multiplier = clampf(float(profile.get("lane_warning_multiplier", 1.0)), 0.85, 1.5)
+	ordinary_births_between_fast = clampi(int(profile.get("ordinary_births_between_fast", 0)), 0, 8)
+	lane_warning_multiplier = clampf(float(profile.get("lane_warning_multiplier", 1.0)), 0.70, 1.5)
+	opening_weave_traffic = bool(profile.get("opening_weave_traffic", false))
 	early_fast_overtakers = bool(profile.get("early_fast_overtakers", false))
 	lane_events.event_limit = clampi(int(profile.get("construction_event_limit", lane_events.event_limit)), 2, 4)
 	lane_events.configure_double_lane_probability(float(profile.get("double_lane_closure_probability", 0.0)))
@@ -949,6 +955,7 @@ func _spawn_next(player_speed: float, player_lane: int) -> void:
 			return
 	candidate.spawn_was_fair = true
 	vehicles.append(candidate)
+	_ordinary_births_since_fast += 1
 	fast_priority.refresh(vehicles)
 	if candidate.kind == Kind.STEADY_SLOW and candidate.lane_change_enabled:
 		random_lane_change_planned_count += 1
@@ -983,6 +990,7 @@ func _finish_pending_fast(player_speed: float, player_lane: int) -> void:
 	fast_priority.refresh(vehicles)
 	_spawn_cooldown = _spawn_interval_for_stage()
 	_spawn_history.append("%d:%d:%d" % [candidate.kind,candidate.lane,roundi(candidate.cruise_speed)])
+	_ordinary_births_since_fast = 0
 
 func _fast_entry_is_clear(candidate: TrafficVehicle, player_speed: float, player_lane: int) -> bool:
 	# Static construction is never erased. Wait for its whole event to end.
@@ -1192,23 +1200,29 @@ func _random_adjacent_lane(lane: int) -> int:
 
 func maximum_kind_for_stage() -> int:
 	if difficulty_stage <= 0:
-		return Kind.STEADY_SLOW
+		return Kind.SIGNAL_CHANGE if opening_weave_traffic else Kind.STEADY_SLOW
 	if difficulty_stage == 1:
 		return Kind.FAST_OVERTAKE if early_fast_overtakers else Kind.SIGNAL_CHANGE
 	return Kind.TRUCK if difficulty_stage == 3 else Kind.FAST_OVERTAKE
 
 func lane_change_warning_duration() -> float:
-	return [0.66, 0.62, 0.60, 0.59][difficulty_stage] * lane_warning_multiplier
+	return maxf(0.45, [0.66, 0.62, 0.60, 0.59][difficulty_stage] * lane_warning_multiplier)
 
 func _kind_for_next_spawn() -> int:
 	var schedule := _kind_schedule()
 	var kind := schedule[_schedule_cursor % schedule.size()]
 	_schedule_cursor += 1
+	# Count accepted ordinary births, not retries. Frequent exclusive red
+	# reservations must not erase the hard difficulty's ordinary traffic.
+	if kind == Kind.FAST_OVERTAKE and _ordinary_births_since_fast < ordinary_births_between_fast:
+		return Kind.STEADY_SLOW
 	return kind
 
 func _kind_schedule() -> Array[int]:
 	match difficulty_stage:
 		0:
+			if opening_weave_traffic:
+				return [Kind.STEADY_SLOW, Kind.SIGNAL_CHANGE, Kind.STEADY_SLOW, Kind.SIGNAL_CHANGE]
 			return [Kind.STEADY_SLOW]
 		1:
 			if early_fast_overtakers:

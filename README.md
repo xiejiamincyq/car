@@ -58,7 +58,7 @@ godot --path .
 
 ## 当前开发状态
 
-当前候选源码版本：`0.4.0-rc.4`，待构建和人工验证，尚未最终成品验收。当前执行[红车优先通行修复](tasks/plan-fast-priority.md)：普通NPC主动让道，生成机制协调预留通道，按安全预计延迟择路。保留RC3已加入的施工保留、动态金币目标、巡航时间和难度梯度，旧RC2/RC3包不覆盖。2026-10-03用户已取消网页端使用，由Codex依据本地证据自主判断，见[执行协议](tasks/pro-supervision.md)。玩家包说明单独维护在[玩家指南](docs/player/README.md)，开发测试和原始素材不进入玩家包。
+当前配置标识为 `0.4.0-rc.5`，最新本机候选位于 `exports/showcase-slots-20261013/candidate-65ecea65801047b0a308e69db0e0f9c7/package`；旧候选保留。困难交通压力与流程已经用户确认，新六车展台视图和四独立存档位完成技术验证：174项冻结回归、141项实际包内资源、68张PCK界面截图、六文件ZIP独立解压启动通过，见[当前交付证据](docs/validation/showcase-save-slots-20261013.md)及[源码备份核验](docs/validation/rc5-source-parity-20261013.md)。六车视角和四存档操作的本轮人工体验仍待反馈；同包四关复杂驾驶性能、完整流程与最终R5/R6门仍开放，不能由短启动或旧候选结论替代。2026-10-03用户已取消网页端使用，由Codex依据本地证据自主判断，见[执行协议](tasks/pro-supervision.md)。玩家说明单独维护在[玩家指南](docs/player/README.md)，开发测试和原始素材不进入玩家包。
 
 四节点巡回、六车、四关及原创BGM曾完成旧M1–M4技术验证：9e7cd09的95项与18张实际渲染仅是历史基线，见[旧验证记录](docs/continuous-validation-20261002.md)，不代表新增需求或当前版本通过。[十局真人试玩](docs/balance/manual-sessions.md)和剩余体验仍待实际确认。93164d7的144项完整回归及实际EXE/PCK/ZIP、隔离图形首启/设置保存/重启子检查已有证据，见[RC验证记录](docs/rc-validation-20261004.md)；四关性能、长期稳定性和真人门未完成，公开发行须另行授权。
 

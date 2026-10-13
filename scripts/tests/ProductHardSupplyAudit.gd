@@ -55,12 +55,13 @@ static func supply_priority(fuel: float, hull: float) -> String:
 	if fuel < 60.0: return "fuel"
 	return "coins"
 
-static func supply_needs_braking(x: float, speed: float, authority: float, target_x: float, pickup_y: float, player_y: float) -> bool:
+static func supply_needs_braking(x: float, speed: float, authority: float, target_x: float, pickup_y: float, player_y: float, target_route_safe: bool = true) -> bool:
 	# Only visible, not-yet-missed supplies affect actual input. This optimistic
 	# travel-time heuristic is not a traffic fairness or reachability assertion.
 	if speed <= 0.0 or authority <= 0.0 or pickup_y < 0.0 or pickup_y >= player_y + 62.0: return false
 	var lateral_distance := maxf(0.0,absf(target_x-x)-48.0)
 	if lateral_distance <= 0.0: return false
+	if not target_route_safe: return true
 	var available := maxf(0.0,player_y+62.0-pickup_y)/(speed*Config.ROAD_SCROLL_MULTIPLIER)
 	return available < lateral_distance/authority + 0.25
 
@@ -271,6 +272,16 @@ func _apply_adverse_input(main, stats: Dictionary) -> void:
 	if goal_skip:
 		obstacles.append({"x":stats.skip_target_x,"y":stats.skip_target_y,"speed":0.0,"vx":0.0,"target_x":stats.skip_target_x,
 			"half_x":68.0,"half_y":62.0}) # Driver goal veto, not a new gameplay obstacle.
+	if active_scenario == "hull30" and supply_kind == "repair" and nearest_y != -INF:
+		# A damaged driver cannot assume the lateral route stays open. Slow
+		# before the pickup arrives, letting the occupying NPC move ahead;
+		# never erase traffic or inject repair to satisfy input coverage.
+		var target_route_safe := pilot_route_safe(main.drive.lateral_position,player_y,main.drive.speed,authority,target_x,obstacles,acceleration)
+		if supply_needs_braking(main.drive.lateral_position,main.drive.speed,authority,target_x,nearest_y,player_y,target_route_safe):
+			supply_brake = true
+			planned_brake = true
+			planned_forward = false
+			acceleration = -main.drive.braking
 	var best_score := INF
 	var safe_target: float = main.drive.lateral_position
 	for candidate in [target_x,main.drive.lateral_position,-330.0,-260.0,-130.0,0.0,130.0,260.0,330.0]:

@@ -54,6 +54,13 @@ func _init() -> void:
 		_normal(configured,100.0)
 		for step in 100: configured.tick(DT,200.0,2)
 		_check(configured.change_issues.is_empty() and configured.completions_observed == 1,"configured difficulty observes its full warning independently %d" % difficulty_index)
+		for stage in range(4):
+			var staged := Recorder.new(611)
+			staged.configure_difficulty(Difficulty.for_index(difficulty_index))
+			_normal(staged,100.0)
+			staged.set_difficulty_stage(stage)
+			for step in 120: staged.tick(DT,200.0,2)
+			_check(staged.change_issues.is_empty() and staged.completions_observed == 1,"all difficulty sectors preserve full independently timed warning %d/%d" % [difficulty_index,stage])
 		var configured_early := EarlyWarning.new(611)
 		configured_early.configure_difficulty(Difficulty.for_index(difficulty_index))
 		_normal(configured_early,100.0)
