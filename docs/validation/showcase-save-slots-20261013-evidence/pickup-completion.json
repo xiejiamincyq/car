@@ -1,0 +1,11 @@
+{
+  "runner_passed": true,
+  "terminal": true,
+  "samples": 35,
+  "oracle_failures": 0.0,
+  "unresolved_families": true,
+  "seconds": 122.0773836,
+  "outer_wrapper_native_exit": 1,
+  "outer_wrapper_issue": "LASTEXITCODE is null after a PowerShell script; timing wrapper erroneously threw after the test runner passed. No native-exit-0 claim for that wrapper.",
+  "log_sha256": "1BCC78DBF82A97C900A606B048A6F3BB411530947D601550A94056AA151D532B"
+}

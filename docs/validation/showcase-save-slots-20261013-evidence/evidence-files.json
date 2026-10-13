@@ -1,0 +1,147 @@
+[
+  {
+    "sha256": "84A647769B49BD8AB8C976478B7F3126CB2690BD275641A0B1848117673F2450",
+    "bytes": 368,
+    "name": "aborted-queue.json"
+  },
+  {
+    "sha256": "2268FC888F5DB8EDBADCE8408E7C9FAF15E904A474815115D3B8AA24B3E5A10C",
+    "bytes": 3604,
+    "name": "candidate.json"
+  },
+  {
+    "sha256": "7EB70257593DA06F682A3DDDA54A9D260D4FC514F645237F5CA74B08F8DA61A6",
+    "bytes": 2,
+    "name": "decode.stderr.log"
+  },
+  {
+    "sha256": "A0ED230C52159A6194515522BDCB43A827489393B4A785F90217976AD3FEF0A9",
+    "bytes": 309,
+    "name": "decode.stdout.log"
+  },
+  {
+    "sha256": "1485ED7AC630801BD3B9AC98E6C03BD0B4F44333726259C7902C5827480CB40B",
+    "bytes": 6510,
+    "name": "diagnostic-origins.json"
+  },
+  {
+    "sha256": "D82141C331A1751972C74F6FBEBE7BCA36F412D582B4D65A56A843B34A46F62A",
+    "bytes": 133,
+    "name": "diagnostics.json"
+  },
+  {
+    "sha256": "684C04FA5C87994C6965147841FE924DE6E92C00C4D8723938E11C6E7A077BBA",
+    "bytes": 208,
+    "name": "export.stderr.log"
+  },
+  {
+    "sha256": "FF436BF198B9B636F508F6B61C17172FC4897E2598F11034FF75F24E9BA9453D",
+    "bytes": 86323,
+    "name": "export.stdout.log"
+  },
+  {
+    "sha256": "139F30C7A6278D19A226C52BE14B7CF7BFDEA64FF04F8245BD5E913851E4E9BE",
+    "bytes": 360,
+    "name": "failed-first-receipt.json"
+  },
+  {
+    "sha256": "360AFC535FB6395147979D467533FD18E97B2B167549A209B7758152C3C055D0",
+    "bytes": 246,
+    "name": "failed-first.stderr.log"
+  },
+  {
+    "sha256": "5C16A8CFB8AF62C291B84F3385F29132432ED2E2F11EAA67480536CC71A180B9",
+    "bytes": 171652,
+    "name": "failed-first.stdout.log"
+  },
+  {
+    "sha256": "8DCCEB6B39D2D04347C20747A80EC66A0834FA347257C96320D32E3C2C2EF47B",
+    "bytes": 55518,
+    "name": "frozen-source-sha256.json"
+  },
+  {
+    "sha256": "1725BD592BAC8D65A3FFBE56809F9E99ECB6A6334F53B09791C879E49E36981D",
+    "bytes": 360,
+    "name": "full-receipt.json"
+  },
+  {
+    "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+    "bytes": 0,
+    "name": "full.stderr.log"
+  },
+  {
+    "sha256": "66C4A603262C27174E4A23365ABAFFF5B978A4A4EBD9CF36DA2FE769431E7217",
+    "bytes": 175557,
+    "name": "full.stdout.log"
+  },
+  {
+    "sha256": "C318A4DFDB909A5EF4A00AA84C5AC0368D5F919630B587BBE95B0D534F2C7E5C",
+    "bytes": 56764,
+    "name": "gui-audit.json"
+  },
+  {
+    "sha256": "F972E695728185F10B7EE979D2CE376DEDBA395D468188043B39C24ABFF5FF8F",
+    "bytes": 126,
+    "name": "gui-native.json"
+  },
+  {
+    "sha256": "7EB70257593DA06F682A3DDDA54A9D260D4FC514F645237F5CA74B08F8DA61A6",
+    "bytes": 2,
+    "name": "gui.stderr.log"
+  },
+  {
+    "sha256": "8BE377D866447EA8898E004E7B06D4D3C3068C4D7C82031FDA2F4BEC3C3833A8",
+    "bytes": 474,
+    "name": "gui.stdout.log"
+  },
+  {
+    "sha256": "1BB780D01786F27F1193E5922026D9FDF6A3DA8EB97E5F72806E3EB3BB66A92B",
+    "bytes": 2081,
+    "name": "original-vehicle-hashes.json"
+  },
+  {
+    "sha256": "A828542B1582468F2A8D36577388A5D65C2B8638D64EC37B345601A7CA060391",
+    "bytes": 648743,
+    "name": "overview.png"
+  },
+  {
+    "sha256": "20261A06865255D6529BAD9D2CC4F03D9A488A6D5DCEA0DA1A600F2B9B21E0A9",
+    "bytes": 105049,
+    "name": "pack-audit.json"
+  },
+  {
+    "sha256": "1BCC78DBF82A97C900A606B048A6F3BB411530947D601550A94056AA151D532B",
+    "bytes": 49321,
+    "name": "pickup-complete.log"
+  },
+  {
+    "sha256": "4B8B5A3F1A018B1245730B9CB8AC97897ACCEB68A5D8337F48955BAB2D246D0B",
+    "bytes": 457,
+    "name": "pickup-completion.json"
+  },
+  {
+    "sha256": "F828802EDE0E77FFA9996893F16A882AAC6C70BC2712D04A6D37EA2A90BD7739",
+    "bytes": 49,
+    "name": "pickup-timing-wrapper.json"
+  },
+  {
+    "sha256": "779670E3738EDA5F2A8F3F9BB3B9337AA985C977C3938E0FB0ABE89BDE1492CF",
+    "bytes": 257,
+    "name": "runner-sha256.json"
+  },
+  {
+    "sha256": "7EB70257593DA06F682A3DDDA54A9D260D4FC514F645237F5CA74B08F8DA61A6",
+    "bytes": 2,
+    "name": "startup.stderr.log"
+  },
+  {
+    "sha256": "19787016694931F6A7B39599B52EF6B9D6713680A9117430B398B8B29D38E5E9",
+    "bytes": 75,
+    "name": "startup.stdout.log"
+  },
+  {
+    "sha256": "A705D7B631E95C9DAFE54BD170F37EFEE386F9AE1F7A683C897DB8B62D10AEB1",
+    "bytes": 677,
+    "name": "zip-verification.json"
+  }
+]

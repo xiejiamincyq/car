@@ -1,0 +1,62 @@
+[
+  {
+    "path": "art/source/vehicles/pulse_gt_chroma.png",
+    "unchanged": true,
+    "sha256": "519764F3128C6A0EBFA828727C9FEF2D8E6DAD9CA9F7175DFCD302FAA8834C92"
+  },
+  {
+    "path": "assets/vehicles/player_pulse_gt_c.png",
+    "unchanged": true,
+    "sha256": "C1311CE558A020ED159E1815EB4B1DF371F1BE8049AF4F854973185BBF097A90"
+  },
+  {
+    "path": "art/source/vehicles/driftwing_chroma.png",
+    "unchanged": true,
+    "sha256": "4BCF4D68363682ABAD49DDEDD93488028CCC72E901C73B0F7BBA97D31371D1E1"
+  },
+  {
+    "path": "assets/vehicles/player_driftwing_c.png",
+    "unchanged": true,
+    "sha256": "0A6FF0C2B9D35D870D3B8961CEE71333627D92112D0BD4E8E95013D0B21F13E0"
+  },
+  {
+    "path": "art/source/vehicles/flashpoint_chroma.png",
+    "unchanged": true,
+    "sha256": "CF42052850B52C240D257DB23B673D9BA21CCE103F10836D23B168CC80000C9C"
+  },
+  {
+    "path": "assets/vehicles/player_flashpoint_c.png",
+    "unchanged": true,
+    "sha256": "72B7E1EEA168C00BB9418AC8A24C6CCD54784D3E33DBF150896964D8DE14607A"
+  },
+  {
+    "path": "art/source/vehicles/comet_rs_chroma.png",
+    "unchanged": true,
+    "sha256": "49069538D5444A317AC4BFC065EAEDF9CF918246F195E6FCB3F06E2E90C76276"
+  },
+  {
+    "path": "assets/vehicles/player_comet_rs_c.png",
+    "unchanged": true,
+    "sha256": "A03701E0CF3E4960E9329CF56CD6CBF82689CFBDB437B68143A3F1514E6AF006"
+  },
+  {
+    "path": "art/source/vehicles/tidebreaker_chroma.png",
+    "unchanged": true,
+    "sha256": "63DE715ED7D79BB7DCB9F4CEB21ADFF7108611272E8EF602577CC1D15E5D281E"
+  },
+  {
+    "path": "assets/vehicles/player_tidebreaker_c.png",
+    "unchanged": true,
+    "sha256": "A03AFF2C8FC252A24D160C62324B32864A08FD0BE1E286A4BDBE05457D6AA0DA"
+  },
+  {
+    "path": "art/source/vehicles/aurora_x_chroma.png",
+    "unchanged": true,
+    "sha256": "1EDD808F0269482F1F0228E879229C00591FBDC8E153BA67E2E0CEC8EF210F8F"
+  },
+  {
+    "path": "assets/vehicles/player_aurora_x_c.png",
+    "unchanged": true,
+    "sha256": "3034C432B00B6E199F1469F4AD970955122C15A07976284E3E2818F7C2C8447D"
+  }
+]

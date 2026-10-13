@@ -1,0 +1,1938 @@
+{
+	"errors": [],
+	"rows": [
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n已选",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n",
+				"破潮者\n稳健型\n",
+				"极光 X\n专家型\n",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-0-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "84e85bb6a7148386be7516820c203aefa07f5a2632fb766f19d02b542bbfcf03",
+			"small_label_candidates": [],
+			"state": "garage-0",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n已选",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n",
+				"破潮者\n稳健型\n",
+				"极光 X\n专家型\n",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-1-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "5da437428def0cfb30b0d571e190c4c3ebac886972fcecca2a75421f887e3688",
+			"small_label_candidates": [],
+			"state": "garage-1",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n已选",
+				"彗星 RS\n极速型\n",
+				"破潮者\n稳健型\n",
+				"极光 X\n专家型\n",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-2-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "e3f317a0907af485300b5328a76bb64ec94941ad6f7fe6995c13856d9fad3cd3",
+			"small_label_candidates": [],
+			"state": "garage-2",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n已选",
+				"破潮者\n稳健型\n",
+				"极光 X\n专家型\n",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-3-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "8b29aa624ae0ca43436b3bdf847cf94597d3d99800250eafc39ebab77576d7cb",
+			"small_label_candidates": [],
+			"state": "garage-3",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n",
+				"破潮者\n稳健型\n已选",
+				"极光 X\n专家型\n",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-4-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "8a7fb1a96cb290bfadf82333a013187247df055a99966349c4f9f206e1ba2392",
+			"small_label_candidates": [],
+			"state": "garage-4",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n",
+				"破潮者\n稳健型\n",
+				"极光 X\n专家型\n已选",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-5-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "ad5c06a380c88e0729e66839a573e9deb0693ed94489feac6af2577569c8c6cb",
+			"small_label_candidates": [],
+			"state": "garage-5",
+			"state_name": "garage"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@CenterContainer@738/@PanelContainer@739/@VBoxContainer@740/@GridContainer@742/@PanelContainer@743/@VBoxContainer@744/@HBoxContainer@747/@Button@748",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/slots-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "5d54ca834ec86be583c0bc6c402d568efad114ec26acd066ec8a171c1be59f55",
+			"small_label_candidates": [],
+			"state": "slots",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@Control@897/@CenterContainer@899/@PanelContainer@900/@VBoxContainer@901/@HBoxContainer@914/@Button@915",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/copy-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "a68eae712ede2cf09bae31f38f37a5ff4046ce83e07f370aecb4e02916942764",
+			"small_label_candidates": [],
+			"state": "copy",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@Control@1013/@CenterContainer@1015/@PanelContainer@1016/@VBoxContainer@1017/@HBoxContainer@1030/@Button@1031",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/delete-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "2a682d5a1657d5c270f33d40d87de3d03b5e31ad1102f91240a7fabf2068a4a9",
+			"small_label_candidates": [],
+			"state": "delete",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@CenterContainer@1086/@PanelContainer@1087/@VBoxContainer@1088/@GridContainer@1090/@PanelContainer@1091/@VBoxContainer@1092/@HBoxContainer@1095/@Button@1096",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/no-active-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "8edf88a6e929d4531da40dd4baff6eb41686b5d83db5aa24d0f7017955b5b738",
+			"small_label_candidates": [],
+			"state": "no-active",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [
+				"开始比赛",
+				"难度：标准",
+				"排行榜",
+				"存档管理",
+				"设置",
+				"操作说明",
+				"退出游戏"
+			],
+			"focus": "/root/Main/CanvasLayer/TitleScreen/Center/Card/Content/SecondaryActions/SaveButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/title-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "71e24835bb799650177be60f28b386df60f448d624456516969c619457a0c724",
+			"small_label_candidates": [],
+			"state": "title",
+			"state_name": "title"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@CenterContainer@1322/@PanelContainer@1323/@VBoxContainer@1324/@GridContainer@1326/@PanelContainer@1327/@VBoxContainer@1328/@HBoxContainer@1331/@Button@1332",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/backup-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "196961894dcac23760e5c397d6eaf4fcf333ae2e029abf24ef85b7e722950a02",
+			"small_label_candidates": [],
+			"state": "backup",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@CenterContainer@1446/@PanelContainer@1447/@VBoxContainer@1448/@GridContainer@1450/@PanelContainer@1460/@VBoxContainer@1461/@HBoxContainer@1464/@Button@1465",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/damaged-active-zh-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "902878ada02b8038fbcc8225aba4855e90eb390d23074816ada0ffa2dfa6d6bd",
+			"small_label_candidates": [],
+			"state": "damaged-active",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\nSELECTED",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\n",
+				"TIDEBREAKER\nSTABLE\n",
+				"AURORA X\nEXPERT\n",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-0-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "25b7bf5ff9c1b05c2b7dd07580eeb95a5bdd66220c163c47ecb278f7202b72a0",
+			"small_label_candidates": [],
+			"state": "garage-0",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\nSELECTED",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\n",
+				"TIDEBREAKER\nSTABLE\n",
+				"AURORA X\nEXPERT\n",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-1-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "9dad7afaab3e98a043715ce6f3c65ffe5e638f873e2efc4bf048cdd4f5c3ee34",
+			"small_label_candidates": [],
+			"state": "garage-1",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\nSELECTED",
+				"COMET RS\nTOP SPEED\n",
+				"TIDEBREAKER\nSTABLE\n",
+				"AURORA X\nEXPERT\n",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-2-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "0469aa7f938cd9a48b4cec5a5c57918eb048ffe8884ca296e7c55c238764d7c0",
+			"small_label_candidates": [],
+			"state": "garage-2",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\nSELECTED",
+				"TIDEBREAKER\nSTABLE\n",
+				"AURORA X\nEXPERT\n",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-3-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "c5982f490529801614acc59ce3fe35077602910fe3d984de384907a4c368ae50",
+			"small_label_candidates": [],
+			"state": "garage-3",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\n",
+				"TIDEBREAKER\nSTABLE\nSELECTED",
+				"AURORA X\nEXPERT\n",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-4-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "ed2e87981bb09de9fc3c43f595817c689cc68bb7d25e40a27d50c4cc2cb5812e",
+			"small_label_candidates": [],
+			"state": "garage-4",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\n",
+				"TIDEBREAKER\nSTABLE\n",
+				"AURORA X\nEXPERT\nSELECTED",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-5-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "ae6df8077dbb970a18abefa5701117b10f011157e1e39b6673e9527a15d850e3",
+			"small_label_candidates": [],
+			"state": "garage-5",
+			"state_name": "garage"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@CenterContainer@2262/@PanelContainer@2263/@VBoxContainer@2264/@GridContainer@2266/@PanelContainer@2267/@VBoxContainer@2268/@HBoxContainer@2271/@Button@2272",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/slots-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "3e596d310341c8a085f072b3655cc014635c60f2ee228c34169b983721322dbd",
+			"small_label_candidates": [],
+			"state": "slots",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@Control@2421/@CenterContainer@2423/@PanelContainer@2424/@VBoxContainer@2425/@HBoxContainer@2438/@Button@2439",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/copy-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "961cfa9b3192da84c1f9650bb0f74c4b00f6abd84f0e42712d6b21507ee526ec",
+			"small_label_candidates": [],
+			"state": "copy",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@Control@2537/@CenterContainer@2539/@PanelContainer@2540/@VBoxContainer@2541/@HBoxContainer@2554/@Button@2555",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/delete-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "2b4a18ab1c79388e2fcd85fc0052ec1a420e8715ee0383119d13b5a3124acae8",
+			"small_label_candidates": [],
+			"state": "delete",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@CenterContainer@2610/@PanelContainer@2611/@VBoxContainer@2612/@GridContainer@2614/@PanelContainer@2615/@VBoxContainer@2616/@HBoxContainer@2619/@Button@2620",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/no-active-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "8edf88a6e929d4531da40dd4baff6eb41686b5d83db5aa24d0f7017955b5b738",
+			"small_label_candidates": [],
+			"state": "no-active",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [
+				"START RACE",
+				"DIFFICULTY: NORMAL",
+				"LEADERBOARD",
+				"SAVE PROFILES",
+				"SETTINGS",
+				"CONTROLS",
+				"QUIT GAME"
+			],
+			"focus": "/root/Main/CanvasLayer/TitleScreen/Center/Card/Content/SecondaryActions/SaveButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/title-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "8ec7380b2277f82d68d9e8f154cc75968744b19d5d6abff404d925ff5aea9c39",
+			"small_label_candidates": [],
+			"state": "title",
+			"state_name": "title"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@CenterContainer@2846/@PanelContainer@2847/@VBoxContainer@2848/@GridContainer@2850/@PanelContainer@2851/@VBoxContainer@2852/@HBoxContainer@2855/@Button@2856",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/backup-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "f0992cb95557ccb9944fd58282faa17ac16336813693120565495a28e05baa6c",
+			"small_label_candidates": [],
+			"state": "backup",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@CenterContainer@2970/@PanelContainer@2971/@VBoxContainer@2972/@GridContainer@2974/@PanelContainer@2984/@VBoxContainer@2985/@HBoxContainer@2988/@Button@2989",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/damaged-active-en-720.png",
+			"pixels": [
+				1280,
+				720
+			],
+			"sha256": "902878ada02b8038fbcc8225aba4855e90eb390d23074816ada0ffa2dfa6d6bd",
+			"small_label_candidates": [],
+			"state": "damaged-active",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n已选",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n",
+				"破潮者\n稳健型\n",
+				"极光 X\n专家型\n",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-0-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "183eef17ea962c3a9679cd7354baac423a753d2ca4b28a9aa12cbf1ac26e9a52",
+			"small_label_candidates": [],
+			"state": "garage-0",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n已选",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n",
+				"破潮者\n稳健型\n",
+				"极光 X\n专家型\n",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-1-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "1e37be201ce5bfe9e7784d4a86e4153d70856773ce23ce64b266423c08f2756c",
+			"small_label_candidates": [],
+			"state": "garage-1",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n已选",
+				"彗星 RS\n极速型\n",
+				"破潮者\n稳健型\n",
+				"极光 X\n专家型\n",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-2-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "79b68980b4cb29cb565935c7e804ab2183781d0f8e9425dd4533719bebc8ef04",
+			"small_label_candidates": [],
+			"state": "garage-2",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n已选",
+				"破潮者\n稳健型\n",
+				"极光 X\n专家型\n",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-3-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "7be5f194e6ed369165a99a463bb26b66d1f1e3dd4364f2355f01b7bbc4558d07",
+			"small_label_candidates": [],
+			"state": "garage-3",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n",
+				"破潮者\n稳健型\n已选",
+				"极光 X\n专家型\n",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-4-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "46cb73a5afcfb30e3b46e32a3dccfcfa173aaefeae39c20b2312070e16ddc2f3",
+			"small_label_candidates": [],
+			"state": "garage-4",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n",
+				"破潮者\n稳健型\n",
+				"极光 X\n专家型\n已选",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-5-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "bea739a70b5645294afdf4dc24defeddd723d2e0c8b2dfaaf4796c4763c63b8b",
+			"small_label_candidates": [],
+			"state": "garage-5",
+			"state_name": "garage"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@CenterContainer@3786/@PanelContainer@3787/@VBoxContainer@3788/@GridContainer@3790/@PanelContainer@3791/@VBoxContainer@3792/@HBoxContainer@3795/@Button@3796",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/slots-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "a1ac49f1ccf2c9020446984006ce3b7be53ee9adfc4fa0d3b6b93dd7bdb09840",
+			"small_label_candidates": [],
+			"state": "slots",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@Control@3945/@CenterContainer@3947/@PanelContainer@3948/@VBoxContainer@3949/@HBoxContainer@3962/@Button@3963",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/copy-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "f8e50cd7759666b7e6c1862252752496add5bb22bd5529a5ec55a511159aaa53",
+			"small_label_candidates": [],
+			"state": "copy",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@Control@4061/@CenterContainer@4063/@PanelContainer@4064/@VBoxContainer@4065/@HBoxContainer@4078/@Button@4079",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/delete-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "9ee1e2382fda6bef92ce8a82ea68cd6df3e572670daca04af7a799bcf2a78c3a",
+			"small_label_candidates": [],
+			"state": "delete",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@CenterContainer@4134/@PanelContainer@4135/@VBoxContainer@4136/@GridContainer@4138/@PanelContainer@4139/@VBoxContainer@4140/@HBoxContainer@4143/@Button@4144",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/no-active-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "5e19daa18149c4e0235d4c1bd51c2b74b38670fd7220fa3750d00820d89b2556",
+			"small_label_candidates": [],
+			"state": "no-active",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [
+				"开始比赛",
+				"难度：标准",
+				"排行榜",
+				"存档管理",
+				"设置",
+				"操作说明",
+				"退出游戏"
+			],
+			"focus": "/root/Main/CanvasLayer/TitleScreen/Center/Card/Content/SecondaryActions/SaveButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/title-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "37855049416f5aaa37094184cade01ec874f526113dddfe982fc919e62728b61",
+			"small_label_candidates": [],
+			"state": "title",
+			"state_name": "title"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@CenterContainer@4370/@PanelContainer@4371/@VBoxContainer@4372/@GridContainer@4374/@PanelContainer@4375/@VBoxContainer@4376/@HBoxContainer@4379/@Button@4380",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/backup-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "5203929221e7188920ae3a3011d4957116d0eccbe507fa0f2e39a042865373a5",
+			"small_label_candidates": [],
+			"state": "backup",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@CenterContainer@4494/@PanelContainer@4495/@VBoxContainer@4496/@GridContainer@4498/@PanelContainer@4508/@VBoxContainer@4509/@HBoxContainer@4512/@Button@4513",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/damaged-active-zh-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "a6408f362d48b650be46f9bc6f65799291cd44984ed54409b8a8297e12cf130b",
+			"small_label_candidates": [],
+			"state": "damaged-active",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\nSELECTED",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\n",
+				"TIDEBREAKER\nSTABLE\n",
+				"AURORA X\nEXPERT\n",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-0-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "2107bc319cb7ae529e898ec035ee5844919acdd85f49bd81251cd186f9660ffd",
+			"small_label_candidates": [],
+			"state": "garage-0",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\nSELECTED",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\n",
+				"TIDEBREAKER\nSTABLE\n",
+				"AURORA X\nEXPERT\n",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-1-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "2954465835b2033bfc7fbcbe93e6dbbd99f8036b17b3fc295cb3c548d5d613fd",
+			"small_label_candidates": [],
+			"state": "garage-1",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\nSELECTED",
+				"COMET RS\nTOP SPEED\n",
+				"TIDEBREAKER\nSTABLE\n",
+				"AURORA X\nEXPERT\n",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-2-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "36c836fa18165ea14225cbbfda47f0f190705c9cae14e7211bc20737d7d709b7",
+			"small_label_candidates": [],
+			"state": "garage-2",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\nSELECTED",
+				"TIDEBREAKER\nSTABLE\n",
+				"AURORA X\nEXPERT\n",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-3-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "086bbaa7c32fbefc99df652e9fab90ca604ec7ee7a1217940cfe88533b36720a",
+			"small_label_candidates": [],
+			"state": "garage-3",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\n",
+				"TIDEBREAKER\nSTABLE\nSELECTED",
+				"AURORA X\nEXPERT\n",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-4-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "aa57b041c8dbf3522a45f640c5418201b88821af29a33f01aec682cc9ef1a238",
+			"small_label_candidates": [],
+			"state": "garage-4",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\n",
+				"TIDEBREAKER\nSTABLE\n",
+				"AURORA X\nEXPERT\nSELECTED",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-5-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "d2d68270a276e3f8b7b078866363b55e4a711796b52cfb293d3271b343b0368f",
+			"small_label_candidates": [],
+			"state": "garage-5",
+			"state_name": "garage"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@CenterContainer@5310/@PanelContainer@5311/@VBoxContainer@5312/@GridContainer@5314/@PanelContainer@5315/@VBoxContainer@5316/@HBoxContainer@5319/@Button@5320",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/slots-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "044ed6248070285556603c4e37710af4f783ffe177664d786c0cac4e0108c477",
+			"small_label_candidates": [],
+			"state": "slots",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@Control@5469/@CenterContainer@5471/@PanelContainer@5472/@VBoxContainer@5473/@HBoxContainer@5486/@Button@5487",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/copy-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "e04e9be1f2db773608e8f1815027ad2bf2f298c542e0babb1983181732d4f04a",
+			"small_label_candidates": [],
+			"state": "copy",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@Control@5585/@CenterContainer@5587/@PanelContainer@5588/@VBoxContainer@5589/@HBoxContainer@5602/@Button@5603",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/delete-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "c0323ea888e932891146ae386d11787a342b606e1f9f4642f284fae9c170d557",
+			"small_label_candidates": [],
+			"state": "delete",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@CenterContainer@5658/@PanelContainer@5659/@VBoxContainer@5660/@GridContainer@5662/@PanelContainer@5663/@VBoxContainer@5664/@HBoxContainer@5667/@Button@5668",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/no-active-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "5e19daa18149c4e0235d4c1bd51c2b74b38670fd7220fa3750d00820d89b2556",
+			"small_label_candidates": [],
+			"state": "no-active",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [
+				"START RACE",
+				"DIFFICULTY: NORMAL",
+				"LEADERBOARD",
+				"SAVE PROFILES",
+				"SETTINGS",
+				"CONTROLS",
+				"QUIT GAME"
+			],
+			"focus": "/root/Main/CanvasLayer/TitleScreen/Center/Card/Content/SecondaryActions/SaveButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/title-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "399b231e9c6ca5ff5cb516bc9f0a52999a277b5f6a0d02563a7e621a3fc21afa",
+			"small_label_candidates": [],
+			"state": "title",
+			"state_name": "title"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@CenterContainer@5894/@PanelContainer@5895/@VBoxContainer@5896/@GridContainer@5898/@PanelContainer@5899/@VBoxContainer@5900/@HBoxContainer@5903/@Button@5904",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/backup-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "6c792bf793d75565ad8b9e3ca9f4b93a37758b9f77f5639669b2758d94c42caf",
+			"small_label_candidates": [],
+			"state": "backup",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@CenterContainer@6018/@PanelContainer@6019/@VBoxContainer@6020/@GridContainer@6022/@PanelContainer@6032/@VBoxContainer@6033/@HBoxContainer@6036/@Button@6037",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/damaged-active-en-1080.png",
+			"pixels": [
+				1920,
+				1080
+			],
+			"sha256": "a6408f362d48b650be46f9bc6f65799291cd44984ed54409b8a8297e12cf130b",
+			"small_label_candidates": [],
+			"state": "damaged-active",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n已选",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n",
+				"破潮者\n稳健型\n",
+				"极光 X\n专家型\n",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-0-zh-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"sha256": "2f50a68dcb9970e284aa9ab82a4f8af8f07c75cb3ab1aa2b19a120f3e93ddc8e",
+			"small_label_candidates": [],
+			"state": "garage-0",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n已选",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n",
+				"破潮者\n稳健型\n",
+				"极光 X\n专家型\n",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-1-zh-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"sha256": "e20401e61aa30318f2742df202afdefb206dfeede8103498ab9987f28c731231",
+			"small_label_candidates": [],
+			"state": "garage-1",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n已选",
+				"彗星 RS\n极速型\n",
+				"破潮者\n稳健型\n",
+				"极光 X\n专家型\n",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-2-zh-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"sha256": "5020b74fe0d84e200cb227ac1faa2c795a9a1260ba77b35a3a05f9b4e565e798",
+			"small_label_candidates": [],
+			"state": "garage-2",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n已选",
+				"破潮者\n稳健型\n",
+				"极光 X\n专家型\n",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-3-zh-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"sha256": "9904c5a562dbb16a101b30f72f30f8b15a5b003b16dfec5bdf195a20b527aaa9",
+			"small_label_candidates": [],
+			"state": "garage-3",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n",
+				"破潮者\n稳健型\n已选",
+				"极光 X\n专家型\n",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-4-zh-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"sha256": "cce3bf3f5892b9ad6326ec283f8f974db8a0dec73edbeb92981d1ee7cb565c72",
+			"small_label_candidates": [],
+			"state": "garage-4",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"脉冲 GT\n均衡型\n",
+				"漂移之翼\n灵巧型\n",
+				"闪击点\n冲刺型\n",
+				"彗星 RS\n极速型\n",
+				"破潮者\n稳健型\n",
+				"极光 X\n专家型\n已选",
+				"返回",
+				"确认选择 · 开始比赛"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-5-zh-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"sha256": "08f987faf19af40468660f9aa223fe482cb8492d8c06beb7415f66f7e3e4859a",
+			"small_label_candidates": [],
+			"state": "garage-5",
+			"state_name": "garage"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@CenterContainer@6834/@PanelContainer@6835/@VBoxContainer@6836/@GridContainer@6838/@PanelContainer@6839/@VBoxContainer@6840/@HBoxContainer@6843/@Button@6844",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/slots-zh-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"sha256": "0370e695e379d45145be1c499c42a315f2aeca64d6d0b531705f9eb9804db27b",
+			"small_label_candidates": [],
+			"state": "slots",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@Control@6993/@CenterContainer@6995/@PanelContainer@6996/@VBoxContainer@6997/@HBoxContainer@7010/@Button@7011",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/copy-zh-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"sha256": "41664c6644ab5b447f70e6d9f27621a54c28492d7b9364d46749751924cd6589",
+			"small_label_candidates": [],
+			"state": "copy",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@Control@7109/@CenterContainer@7111/@PanelContainer@7112/@VBoxContainer@7113/@HBoxContainer@7126/@Button@7127",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/delete-zh-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"sha256": "ca3092133e2d597cb541ab9e40957b2a9521b8ed86bd5a304ab2c82b68b9fa21",
+			"small_label_candidates": [],
+			"state": "delete",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@CenterContainer@7182/@PanelContainer@7183/@VBoxContainer@7184/@GridContainer@7186/@PanelContainer@7187/@VBoxContainer@7188/@HBoxContainer@7191/@Button@7192",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/no-active-zh-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"sha256": "005d597efdf46b5b3d4e60feaa20f57ea5caad2f90d0df9ad4eea897f4209dfc",
+			"small_label_candidates": [],
+			"state": "no-active",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [
+				"开始比赛",
+				"难度：标准",
+				"排行榜",
+				"存档管理",
+				"设置",
+				"操作说明",
+				"退出游戏"
+			],
+			"focus": "/root/Main/CanvasLayer/TitleScreen/Center/Card/Content/SecondaryActions/SaveButton",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/title-zh-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"sha256": "ac830d112a35523efd04dae1672304d41814c2364dbbbd5c84ed77e3604a692d",
+			"small_label_candidates": [],
+			"state": "title",
+			"state_name": "title"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@CenterContainer@7418/@PanelContainer@7419/@VBoxContainer@7420/@GridContainer@7422/@PanelContainer@7423/@VBoxContainer@7424/@HBoxContainer@7427/@Button@7428",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/backup-zh-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"sha256": "4b0b5d747066e6f67fa60279561f97d9f703d63344e522a2789f490788996004",
+			"small_label_candidates": [],
+			"state": "backup",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@CenterContainer@7542/@PanelContainer@7543/@VBoxContainer@7544/@GridContainer@7546/@PanelContainer@7556/@VBoxContainer@7557/@HBoxContainer@7560/@Button@7561",
+			"focus_visible": true,
+			"locale": "zh",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/damaged-active-zh-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"sha256": "40d317839ba2b150a9e9b23b1ef6d7adb1b116db7841911d3fc66a43380538bb",
+			"small_label_candidates": [],
+			"state": "damaged-active",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\nSELECTED",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\n",
+				"TIDEBREAKER\nSTABLE\n",
+				"AURORA X\nEXPERT\n",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-0-en-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"sha256": "2f66b70cedebadabe511f1ba47c1f165460160afb4833ffa14d9afcfa5b6fc98",
+			"small_label_candidates": [],
+			"state": "garage-0",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\nSELECTED",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\n",
+				"TIDEBREAKER\nSTABLE\n",
+				"AURORA X\nEXPERT\n",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-1-en-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"sha256": "51f34173064736d5d5f65f4fab5f625e67686c75864c6a7f7ee33507f9bb5c3a",
+			"small_label_candidates": [],
+			"state": "garage-1",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\nSELECTED",
+				"COMET RS\nTOP SPEED\n",
+				"TIDEBREAKER\nSTABLE\n",
+				"AURORA X\nEXPERT\n",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-2-en-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"sha256": "8590b84c71403241980200bf1e95a96072854a922aa0276f373715cbdcbe354a",
+			"small_label_candidates": [],
+			"state": "garage-2",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\nSELECTED",
+				"TIDEBREAKER\nSTABLE\n",
+				"AURORA X\nEXPERT\n",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-3-en-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"sha256": "d8a88ab6a7b4da00dc1f82a63b77d048f9b0af3eaac8847d4262ebca91a079d3",
+			"small_label_candidates": [],
+			"state": "garage-3",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\n",
+				"TIDEBREAKER\nSTABLE\nSELECTED",
+				"AURORA X\nEXPERT\n",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-4-en-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"sha256": "20b0f0ffed43e6402c6911dc998aa9ad075aeb6567d0a5a91aaff78370908fb4",
+			"small_label_candidates": [],
+			"state": "garage-4",
+			"state_name": "garage"
+		},
+		{
+			"actions": [
+				"PULSE GT\nBALANCED\n",
+				"DRIFTWING\nAGILE\n",
+				"FLASHPOINT\nSPRINTER\n",
+				"COMET RS\nTOP SPEED\n",
+				"TIDEBREAKER\nSTABLE\n",
+				"AURORA X\nEXPERT\nSELECTED",
+				"BACK",
+				"CONFIRM CAR · START RACE"
+			],
+			"focus": "/root/Main/CanvasLayer/VehicleSelectScreen/Center/Card/Content/VehicleGallery/Vehicles/Vehicle0",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/garage-5-en-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"sha256": "26ba1b2858495ff35efa2eb441a467e2c023049c0613e257043131e04afb9c83",
+			"small_label_candidates": [],
+			"state": "garage-5",
+			"state_name": "garage"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@CenterContainer@8358/@PanelContainer@8359/@VBoxContainer@8360/@GridContainer@8362/@PanelContainer@8363/@VBoxContainer@8364/@HBoxContainer@8367/@Button@8368",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/slots-en-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"sha256": "bb070cf1a2223cbb3d56f92f534929af884d683710a668db00d9ef545df75dbb",
+			"small_label_candidates": [],
+			"state": "slots",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@Control@8517/@CenterContainer@8519/@PanelContainer@8520/@VBoxContainer@8521/@HBoxContainer@8534/@Button@8535",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/copy-en-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"sha256": "d71f87dcbd8b5fa181bcf68606c6b9fde08fc45e08dadfb891b463698c0c1f51",
+			"small_label_candidates": [],
+			"state": "copy",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@Control@8633/@CenterContainer@8635/@PanelContainer@8636/@VBoxContainer@8637/@HBoxContainer@8650/@Button@8651",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/delete-en-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"sha256": "47bb3c814dab978f0c721c12056564649435b54ea065fefd6f1190ae8a84d095",
+			"small_label_candidates": [],
+			"state": "delete",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@CenterContainer@8706/@PanelContainer@8707/@VBoxContainer@8708/@GridContainer@8710/@PanelContainer@8711/@VBoxContainer@8712/@HBoxContainer@8715/@Button@8716",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/no-active-en-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"sha256": "005d597efdf46b5b3d4e60feaa20f57ea5caad2f90d0df9ad4eea897f4209dfc",
+			"small_label_candidates": [],
+			"state": "no-active",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [
+				"START RACE",
+				"DIFFICULTY: NORMAL",
+				"LEADERBOARD",
+				"SAVE PROFILES",
+				"SETTINGS",
+				"CONTROLS",
+				"QUIT GAME"
+			],
+			"focus": "/root/Main/CanvasLayer/TitleScreen/Center/Card/Content/SecondaryActions/SaveButton",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/title-en-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"sha256": "7a8f82bdd29146e3a3092e95582e15083acfe4b2ff9c600518076a29cb56d00f",
+			"small_label_candidates": [],
+			"state": "title",
+			"state_name": "title"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@CenterContainer@8942/@PanelContainer@8943/@VBoxContainer@8944/@GridContainer@8946/@PanelContainer@8947/@VBoxContainer@8948/@HBoxContainer@8951/@Button@8952",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/backup-en-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"sha256": "48527ed7e1075335806b18e85c0c1c835810e19efd784a378e4d9b05e7f0021d",
+			"small_label_candidates": [],
+			"state": "backup",
+			"state_name": "save_slots"
+		},
+		{
+			"actions": [],
+			"focus": "/root/Main/CanvasLayer/SaveSlotsScreen/@CenterContainer@9066/@PanelContainer@9067/@VBoxContainer@9068/@GridContainer@9070/@PanelContainer@9080/@VBoxContainer@9081/@HBoxContainer@9084/@Button@9085",
+			"focus_visible": true,
+			"locale": "en",
+			"logical_size": [
+				1280.0,
+				720.0
+			],
+			"outside": [],
+			"path": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/visual-verified/screens/damaged-active-en-768.png",
+			"pixels": [
+				1024,
+				576
+			],
+			"sha256": "40d317839ba2b150a9e9b23b1ef6d7adb1b116db7841911d3fc66a43380538bb",
+			"small_label_candidates": [],
+			"state": "damaged-active",
+			"state_name": "save_slots"
+		}
+	],
+	"scope": "78 actual native GUI captures: 6 car portraits and 7 profile states in zh/en at 720/1080/4:3 request. Only isolated synthetic profiles; no real save, human or sound acceptance."
+}

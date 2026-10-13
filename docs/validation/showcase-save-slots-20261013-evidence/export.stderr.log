@@ -1,0 +1,3 @@
+WARNING: Detected another project.godot at res://tmp/product-baseline-62f37e1-20261003-c03a4a26. The folder will be ignored.
+   at: _should_skip_directory (editor/file_system/editor_file_system.cpp:3485)
+

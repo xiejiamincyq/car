@@ -39,6 +39,7 @@ $completionRequired = @(
     "test_vehicle_keyboard_focus.gd", "test_release_metadata.gd", "test_runtime_performance_capture.gd",
     "test_runtime_performance_main.gd"
 	"test_supply_preserves_construction.gd"
+	"test_save_slots.gd", "test_save_slots_failures.gd", "test_save_slots_ui.gd", "test_vehicle_showcases.gd"
 )
 $tests = @(Get-ChildItem (Join-Path $projectRoot "tests") -File -Filter $TestFilter | Sort-Object Name)
 if ($tests.Count -eq 0) {
@@ -57,6 +58,12 @@ foreach ($test in $tests) {
     if ($test.Name -eq "test_dynamic_fairness.gd" -and -not $PSBoundParameters.ContainsKey("TestTimeoutSeconds")) {
         # The unchanged 480-case scan takes about 153s with physical substeps.
         $effectiveTimeoutSeconds = 300
+    }
+    if ($test.Name -eq "test_dynamic_pickup_smoke.gd" -and -not $PSBoundParameters.ContainsKey("TestTimeoutSeconds")) {
+        # All 30 original + 5 supplemental natural Main cases remain mandatory.
+        # The 120s watchdog cut off after case 30 on this workstation. This is
+        # a harness CPU budget, not a change to simulated time or any oracle.
+        $effectiveTimeoutSeconds = 240
     }
     $logToken = [Guid]::NewGuid().ToString("N")
     $stdoutPath = Join-Path ([IO.Path]::GetTempPath()) "neon-coast-$logToken.stdout.log"

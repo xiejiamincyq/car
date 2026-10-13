@@ -1,0 +1,11 @@
+{
+  "completed": false,
+  "did_not_stop_user_game": true,
+  "source_snapshot": "full-current/source-sha256.json",
+  "runner_pid": 65232,
+  "reason": "Owned obsolete queue interrupted before its first expected timeout; keyboard-focus regression and harness CPU budget corrected before final freeze",
+  "stopped_owned_children": [
+    77464,
+    105308
+  ]
+}

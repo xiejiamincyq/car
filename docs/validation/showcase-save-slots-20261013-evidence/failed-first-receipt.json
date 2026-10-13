@@ -1,0 +1,12 @@
+{
+  "stderr_sha256": "360AFC535FB6395147979D467533FD18E97B2B167549A209B7758152C3C055D0",
+  "stdout_sha256": "5C16A8CFB8AF62C291B84F3385F29132432ED2E2F11EAA67480536CC71A180B9",
+  "pid": 96276,
+  "seconds": 800.931262,
+  "passed": false,
+  "player_save_changes": [],
+  "native_exit": 1,
+  "timed_out": false,
+  "tests": 174,
+  "source_changes": []
+}

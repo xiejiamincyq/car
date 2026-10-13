@@ -17,6 +17,8 @@ const CheckpointRenderer = preload("res://scripts/checkpoint_renderer.gd")
 const RunSeedSequence = preload("res://scripts/run_seed_sequence.gd")
 const FuelSpawnDirector = preload("res://scripts/fuel_spawn_director.gd")
 const SaveStore = preload("res://scripts/save_store.gd")
+const SaveSlots = preload("res://scripts/save_slots.gd")
+const SaveSlotsScreen = preload("res://scripts/ui/save_slots_screen.gd")
 const Progression = preload("res://scripts/progression.gd")
 const TrackCatalog = preload("res://scripts/catalog/track_catalog.gd")
 const TrackRuntimeProfile = preload("res://scripts/track_runtime_profile.gd")
@@ -139,6 +141,8 @@ var destructive_action := ""
 var submenu_return := "title"
 var submenu_return_focus: Control
 var save_store: SaveStore
+var save_slots: SaveSlots
+var save_slots_screen: SaveSlotsScreen
 var save_data: Dictionary
 var persistence_enabled := false
 var persistence_notice: Label
@@ -225,13 +229,18 @@ func _ready() -> void:
 	feedback_banner = $CanvasLayer/FeedbackBanner
 	persistence_notice = preload("res://scripts/ui/persistence_notice.gd").new()
 	$CanvasLayer.add_child(persistence_notice)
+	save_slots_screen=SaveSlotsScreen.new()
+	$CanvasLayer.add_child(save_slots_screen)
 	roadside_renderer = RoadsideRenderer.new()
 	roadside_renderer.name = "RoadsideRenderer"
 	roadside_renderer.source_main = self
 	add_child(roadside_renderer)
 	audio_director.bind_ui_cues(self)
 	_bind_ui_actions()
-	_configure_persistence(SaveStore.new(), get_tree().current_scene == self)
+	if get_tree().current_scene == self:
+		_configure_save_slots(SaveSlots.new())
+	else:
+		_configure_persistence(SaveStore.new(),false)
 	preload("res://scripts/ui/menu_presentation.gd").apply($CanvasLayer)
 	_update_scoreboards()
 	_update_settings_labels()
@@ -259,6 +268,7 @@ func _capture_runtime_performance() -> void:
 	})
 
 func _capture_screen_name() -> String:
+	if save_slots_screen.visible:return "save_slots"
 	for item in [[confirmation_screen, "confirmation"], [settings_screen, "settings"], [controls_screen, "controls"], [leaderboard_screen, "leaderboard"], [pause_screen, "pause"], [result_screen, "result"], [vehicle_select_screen, "garage"], [tour_map_screen, "tour_map"], [countdown_screen, "countdown"], [title_screen, "title"]]:
 		if item[0].visible:
 			return item[1]
@@ -320,6 +330,9 @@ func _process(delta: float) -> void:
 			persistence_notice_key = ""
 			_update_persistence_notice()
 	_capture_runtime_performance()
+	if save_slots_screen.visible and Input.is_action_just_pressed("ui_cancel"):
+		save_slots_screen.handle_back()
+		return
 	if Input.is_action_just_pressed("ui_cancel") and confirmation_screen.visible:
 		_cancel_confirmation()
 		return
@@ -327,7 +340,7 @@ func _process(delta: float) -> void:
 		_close_submenu()
 		return
 	# Only the top visible screen owns gameplay shortcuts; UI accept is separate.
-	var shortcuts_available := not (confirmation_screen.visible or settings_screen.visible or controls_screen.visible or leaderboard_screen.visible)
+	var shortcuts_available := not (save_slots_screen.visible or confirmation_screen.visible or settings_screen.visible or controls_screen.visible or leaderboard_screen.visible)
 	if shortcuts_available and Input.is_action_just_pressed("restart_run"):
 		if _handle_restart_shortcut():
 			return
@@ -1079,6 +1092,80 @@ func _save_now() -> void:
 		persistence_success_remaining = 2.5
 		_update_persistence_notice()
 
+func _configure_save_slots(manager: SaveSlots) -> void:
+	save_slots=manager
+	var initialized := manager.ready_to_write or manager.initialize()
+	if initialized and manager.active_slot>0:
+		_configure_persistence(manager.active_store(),true)
+		if save_store.last_load_status in [&"invalid",&"io_error"]:
+			# Preserve unreadable files, but allow switching away without saving defaults.
+			persistence_enabled=false
+			_apply_localized_texts()
+	else:
+		_configure_persistence(SaveStore.new(),false)
+		persistence_notice_key="slots.no_active" if initialized else "slots.blocked"
+		_update_persistence_notice()
+
+func _show_save_slots() -> void:
+	# Preserve the injected single-store seam used by older isolated tests.
+	if save_slots==null:
+		_save_now()
+		return
+	if run.phase!=RunState.Phase.TITLE or not title_screen.visible:return
+	title_screen.hide()
+	_refresh_save_slots()
+	save_slots_screen.open()
+
+func _refresh_save_slots(message := "") -> void:
+	var entries: Array=[]
+	for index in range(1,5):entries.append(save_slots.slot_info(index))
+	save_slots_screen.present(entries,save_slots.active_slot,language,save_slots.ready_to_write,message)
+
+func _close_save_slots() -> void:
+	if save_slots_screen.modal.visible:save_slots_screen.cancel_modal()
+	save_slots_screen.hide()
+	title_screen.show()
+	_title_action("SaveButton").grab_focus()
+
+func _slot_action_allowed() -> bool:
+	return save_slots!=null and save_slots_screen.visible and run.phase==RunState.Phase.TITLE
+
+func _slot_failed() -> void:
+	if not save_slots.ready_to_write:
+		persistence_enabled=false
+		persistence_notice_key="slots.blocked"
+		_apply_localized_texts()
+	_refresh_save_slots(_text("slots.failed",[save_slots.last_error]))
+
+func _load_profile(index: int) -> void:
+	if not _slot_action_allowed():return
+	if persistence_enabled and not _save_preferences():
+		_refresh_save_slots(_text("persistence.save_failed"))
+		return
+	if not save_slots.activate_slot(index):_slot_failed();return
+	_configure_save_slots(save_slots)
+	_refresh_save_slots(_text("slots.loaded",[index]))
+
+func _save_profile(index: int) -> void:
+	if not _slot_action_allowed() or index!=save_slots.active_slot:return
+	_save_now()
+	_refresh_save_slots(_text(persistence_notice_key))
+
+func _copy_profile(source: int,target: int) -> void:
+	if not _slot_action_allowed():return
+	if source==save_slots.active_slot and persistence_enabled and not _save_preferences():
+		_refresh_save_slots(_text("persistence.save_failed"));return
+	if not save_slots.copy_slot(source,target,true):_slot_failed();return
+	if target==save_slots.active_slot:_configure_save_slots(save_slots)
+	_refresh_save_slots(_text("slots.copied",[source,target]))
+
+func _delete_profile(index: int) -> void:
+	if not _slot_action_allowed():return
+	var was_active := index==save_slots.active_slot
+	if not save_slots.delete_slot(index,true):_slot_failed();return
+	if was_active:_configure_save_slots(save_slots)
+	_refresh_save_slots(_text("slots.deleted",[index]))
+
 func _show_controls() -> void:
 	submenu_return = "title"
 	submenu_return_focus = title_screen.find_child("ControlsButton", true, false)
@@ -1290,6 +1377,11 @@ func _save_preferences() -> bool:
 func _write_save_data() -> bool:
 	if not persistence_enabled:
 		return false
+	if save_slots!=null and not save_slots._can_mutate():
+		persistence_enabled=false
+		persistence_notice_key="slots.blocked"
+		_update_persistence_notice()
+		return false
 	var saved := save_store.save_data(save_data)
 	persistence_notice_key = "" if saved else "persistence.save_failed"
 	_update_persistence_notice()
@@ -1299,8 +1391,8 @@ func _write_save_data() -> bool:
 func _update_persistence_notice() -> void:
 	if persistence_notice == null:
 		return
-	persistence_notice.set_wide_menu(tour_map_screen.visible or vehicle_select_screen.visible)
-	persistence_notice.visible = persistence_enabled and not persistence_notice_key.is_empty()
+	persistence_notice.set_wide_menu(tour_map_screen.visible or vehicle_select_screen.visible or save_slots_screen.visible)
+	persistence_notice.visible = not save_slots_screen.visible and not persistence_notice_key.is_empty() and (persistence_enabled or save_slots!=null)
 	persistence_notice.text = _text(persistence_notice_key) if persistence_notice.visible else ""
 
 func _text(key: String, values: Array = []) -> String:
@@ -1332,6 +1424,9 @@ func _apply_localized_texts() -> void:
 	for button in [_title_action("SaveButton"), $CanvasLayer/PauseScreen/Center/Card/Content/SaveButton]:
 		button.text = _text("title.save")
 		button.disabled = not persistence_enabled
+	if save_slots!=null:
+		_title_action("SaveButton").text=_text("slots.heading")
+		_title_action("SaveButton").disabled=false
 	$CanvasLayer/SettingsScreen/Center/Card/Content/Heading.text = _text("settings.heading")
 	$CanvasLayer/SettingsScreen/Center/Card/Content/BackButton.text = _text("settings.back")
 	$CanvasLayer/ControlsScreen/Center/Card/Content/Heading.text = _text("controls.heading")
@@ -1384,7 +1479,12 @@ func _bind_ui_actions() -> void:
 	_title_action("QuitButton").pressed.connect(get_tree().quit)
 	_title_action("LeaderboardButton").pressed.connect(_show_leaderboard)
 	$CanvasLayer/LeaderboardScreen/Center/Card/Content/BackButton.pressed.connect(_close_submenu)
-	_title_action("SaveButton").pressed.connect(_save_now)
+	_title_action("SaveButton").pressed.connect(_show_save_slots)
+	save_slots_screen.back_requested.connect(_close_save_slots)
+	save_slots_screen.load_requested.connect(_load_profile)
+	save_slots_screen.save_requested.connect(_save_profile)
+	save_slots_screen.copy_requested.connect(_copy_profile)
+	save_slots_screen.delete_requested.connect(_delete_profile)
 	$CanvasLayer/PauseScreen/Center/Card/Content/SaveButton.pressed.connect(_save_now)
 	settings_mute_button.pressed.connect(_toggle_audio_mute)
 	settings_fullscreen_button.pressed.connect(_toggle_fullscreen)
@@ -1479,7 +1579,7 @@ func _update_hud() -> void:
 		if not result_was_visible:
 			result_screen.find_child("ReplayButton",true,false).grab_focus()
 	menu_backdrop.visible = run.phase == RunState.Phase.TITLE or result_screen.visible or tour_map_screen.visible or vehicle_select_screen.visible or (settings_screen.visible and submenu_return == "title") or controls_screen.visible
-	if run.phase == RunState.Phase.TITLE and not settings_screen.visible and not controls_screen.visible and not leaderboard_screen.visible and not tour_map_screen.visible and not vehicle_select_screen.visible:
+	if run.phase == RunState.Phase.TITLE and not save_slots_screen.visible and not settings_screen.visible and not controls_screen.visible and not leaderboard_screen.visible and not tour_map_screen.visible and not vehicle_select_screen.visible:
 		title_screen.visible = true
 	elif run.phase != RunState.Phase.TITLE:
 		title_screen.visible = false

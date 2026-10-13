@@ -1,0 +1,100 @@
+{
+  "runs": [
+    {
+      "pid": 107752,
+      "native_exit": 0,
+      "timed_out": false,
+      "seconds": 20.4492681,
+      "stdout_sha256": "FF436BF198B9B636F508F6B61C17172FC4897E2598F11034FF75F24E9BA9453D",
+      "stderr_sha256": "684C04FA5C87994C6965147841FE924DE6E92C00C4D8723938E11C6E7A077BBA",
+      "label": "export"
+    },
+    {
+      "pid": 108576,
+      "native_exit": 0,
+      "timed_out": false,
+      "seconds": 0.6901341,
+      "stdout_sha256": "A9050741986DE78595D40C3707309839C3D2E44CDA7A2905C75758CC74794E56",
+      "stderr_sha256": "7EB70257593DA06F682A3DDDA54A9D260D4FC514F645237F5CA74B08F8DA61A6",
+      "label": "audit"
+    },
+    {
+      "pid": 53660,
+      "native_exit": 0,
+      "timed_out": false,
+      "seconds": 1.0145909,
+      "stdout_sha256": "A0ED230C52159A6194515522BDCB43A827489393B4A785F90217976AD3FEF0A9",
+      "stderr_sha256": "7EB70257593DA06F682A3DDDA54A9D260D4FC514F645237F5CA74B08F8DA61A6",
+      "label": "decode"
+    },
+    {
+      "pid": 110364,
+      "native_exit": 0,
+      "timed_out": false,
+      "seconds": 1.4067913,
+      "stdout_sha256": "19787016694931F6A7B39599B52EF6B9D6713680A9117430B398B8B29D38E5E9",
+      "stderr_sha256": "7EB70257593DA06F682A3DDDA54A9D260D4FC514F645237F5CA74B08F8DA61A6",
+      "label": "startup"
+    },
+    {
+      "pid": 106244,
+      "native_exit": 0,
+      "timed_out": false,
+      "seconds": 22.860029,
+      "stdout_sha256": "8BE377D866447EA8898E004E7B06D4D3C3068C4D7C82031FDA2F4BEC3C3833A8",
+      "stderr_sha256": "7EB70257593DA06F682A3DDDA54A9D260D4FC514F645237F5CA74B08F8DA61A6",
+      "label": "gui"
+    }
+  ],
+  "files": [
+    {
+      "sha256": "236F26564CB506807D5ADAA0B399097CAC1B0A08783B13757B948231DBF90DC5",
+      "bytes": 1977,
+      "name": "ASSET_NOTICES.md"
+    },
+    {
+      "sha256": "92B24143F6083111537353995AC84F0F89077B444D513C942C1D9106DF272C7C",
+      "bytes": 93347,
+      "name": "GODOT_COPYRIGHT.txt"
+    },
+    {
+      "sha256": "B0435E3B3E4E55238F05F4B306F30524A1B2E20147810D436EAA554FA6855C80",
+      "bytes": 1149,
+      "name": "GODOT_LICENSE.txt"
+    },
+    {
+      "sha256": "6E5A9BB963F57AA9B71C3941D29186FFFFFC59FE84394B527D98DBCA81438F51",
+      "bytes": 109019648,
+      "name": "NeonCoastRush.exe"
+    },
+    {
+      "sha256": "24C03EB271B13DB16E1B2027CBD4B3D16716F160A389FB44E67B524A8B754646",
+      "bytes": 31418532,
+      "name": "NeonCoastRush.pck"
+    },
+    {
+      "sha256": "8E7E430095684E394730AECE5553F4E51885BC26DAA6C7CA852BD3AFA8F7364A",
+      "bytes": 3810,
+      "name": "README.md"
+    }
+  ],
+  "source_stable": true,
+  "package": "C:\\Users\\21604\\Documents\\car\\exports\\showcase-slots-20261013\\candidate-65ecea65801047b0a308e69db0e0f9c7\\package",
+  "build": "C:\\Users\\21604\\Documents\\car\\exports\\showcase-slots-20261013\\candidate-65ecea65801047b0a308e69db0e0f9c7",
+  "decoded": {
+    "failures": [],
+    "loaded": 141,
+    "main_nodes": 136,
+    "music": 4,
+    "scenes": 3,
+    "scope": "Actual PCK decoded in isolated matching editor engine; not normal release EXE gameplay, graphics or audible playback.",
+    "textures": 68
+  },
+  "head": "363013d2e0c25eb39371458925d47dca3e63832c",
+  "logical_resources": 141,
+  "player_save_unchanged": true,
+  "scope": "Local UI candidate from exact frozen worktree, real PCK hashes/decoding and native EXE startup. Not public release, GUI driving or human acceptance.",
+  "passed": true,
+  "validation": "C:/Users/21604/Documents/car/tmp/showcase-slots-20261013/full-verified",
+  "dirty_worktree": true
+}

@@ -1,0 +1,10 @@
+{
+  "zip_bytes": 69442063,
+  "unpacked": "C:\\Users\\21604\\Documents\\car\\exports\\showcase-slots-20261013\\candidate-65ecea65801047b0a308e69db0e0f9c7\\unpacked-d98985a7e621484eb15fa73872f49f75",
+  "scope": "Six-file ZIP membership, actual extracted payload hash/size identity, and extracted EXE native headless startup in isolated APPDATA; not human driving.",
+  "native_exit": 0,
+  "zip": "C:\\Users\\21604\\Documents\\car\\exports\\showcase-slots-20261013\\candidate-65ecea65801047b0a308e69db0e0f9c7\\NeonCoastRush-showcase-slots-20261013.zip",
+  "passed": true,
+  "files": 6,
+  "zip_sha256": "026F2108054F2D4A2B6B6ED95CDC528309C388E897C24482BDB26FF012F0AFBC"
+}

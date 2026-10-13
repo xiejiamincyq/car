@@ -12,8 +12,8 @@ func _init() -> void:
 
 func _run() -> void:
 	var arguments := OS.get_cmdline_user_args()
-	if arguments.size() == 2 and arguments[0] == "--isolated-child":
-		await _run_child(arguments[1])
+	if arguments.size() == 3 and arguments[0] == "--isolated-child":
+		await _run_child(arguments[1],arguments[2])
 		return
 	if OS.get_name() != "Windows":
 		_check(false, "APPDATA isolation fixture requires Windows")
@@ -24,7 +24,12 @@ func _run() -> void:
 		_check(false, "create unique synthetic APPDATA directory")
 		_finish()
 		return
-	var log_path := ProjectSettings.globalize_path(folder + "/child.log")
+	for stage in ["create","reopen"]:
+		await _launch_child(isolated_appdata,stage)
+	_finish()
+
+func _launch_child(isolated_appdata: String,stage: String) -> void:
+	var log_path := ProjectSettings.globalize_path(folder + "/"+stage+".log")
 	var had_appdata := OS.has_environment("APPDATA")
 	var original_appdata := OS.get_environment("APPDATA")
 	# The engine resolves/caches user:// during startup. Set the environment for
@@ -34,7 +39,7 @@ func _run() -> void:
 		"--headless", "--path", ProjectSettings.globalize_path("res://"),
 		"--log-file", log_path,
 		"--script", "res://tests/test_main_persistence_mode.gd", "--",
-		"--isolated-child", isolated_appdata
+		"--isolated-child", isolated_appdata,stage
 	]), false)
 	if had_appdata:
 		OS.set_environment("APPDATA", original_appdata)
@@ -66,10 +71,9 @@ func _run() -> void:
 	var complete := "MAIN_PERSISTENCE_CHILD_COMPLETE failures=0" in output.split("\n")
 	_check(not timed_out and not running and code == 0 and not script_error and complete, "isolated real lifecycle child reaches its terminal proof")
 	print(output)
-	print("MAIN_PERSISTENCE_CHILD exit=%d timeout=%s evidence=%s" % [code, timed_out, folder])
-	_finish()
+	print("MAIN_PERSISTENCE_CHILD stage=%s exit=%d timeout=%s evidence=%s" % [stage,code, timed_out, folder])
 
-func _run_child(expected_appdata: String) -> void:
+func _run_child(expected_appdata: String,stage: String) -> void:
 	var expected := _canonical(expected_appdata)
 	var project_tmp := _canonical(ProjectSettings.globalize_path("res://tmp"))
 	var valid_target := expected.get_file() == "appdata" and expected.get_base_dir().get_file().begins_with("main-persistence-") and expected.get_base_dir().get_base_dir() == project_tmp
@@ -82,7 +86,12 @@ func _run_child(expected_appdata: String) -> void:
 		_finish_child()
 		return
 	print("MAIN_PERSISTENCE_ISOLATED user_dir=" + user_dir)
-	_check(not FileAccess.file_exists("user://save.cfg"), "isolated lifecycle starts without a player save")
+	if stage=="create":
+		_check(not FileAccess.file_exists("user://save.cfg"), "isolated lifecycle starts without a player save")
+		var legacy := SaveStore.default_data()
+		legacy.career.runs=6
+		_check(SaveStore.new().save_data(legacy),"Create synthetic legacy data only after isolation checks")
+	var original_hash := FileAccess.get_sha256("user://save.cfg")
 	if failures > 0:
 		_finish_child()
 		return
@@ -95,11 +104,25 @@ func _run_child(expected_appdata: String) -> void:
 	_check(main != null and main.persistence_enabled, "the real current_scene lifecycle enables persistence")
 	if main != null:
 		main.set_process(false)
-		_check(main.save_store.save_path == "user://save.cfg" and main.save_store.last_load_status == &"missing", "normal production save identity loads only the isolated fresh profile")
-		main.audio_director.music_volume = 0.27
-		main._save_preferences()
-		_check(main.save_store.last_save_error == OK and FileAccess.file_exists("user://save.cfg"), "real lifecycle can save within the isolated profile")
-		_check(SaveStore.new().load_data().settings.music_volume == 0.27, "isolated lifecycle preferences round-trip")
+		if stage=="create":
+			_check(main.save_slots.active_slot==1 and main.save_data.career.runs==6,"Real current_scene migrates synthetic legacy into slot one")
+			_check(main.save_store.save_path=="user://save_slots/slot_1/save.cfg","Production store identity is the actual active slot")
+			main.audio_director.music_volume=0.27
+			main.save_data.career.runs=11
+			_check(main._save_preferences(),"Real lifecycle saves profile one")
+			main._show_save_slots()
+			main.save_slots_screen.cards[2].load.pressed.emit()
+			_check(main.save_slots.active_slot==3 and main.save_data.career.runs==0,"Title management loads independent empty slot three")
+			main.audio_director.music_volume=0.62
+			main.save_data.career.runs=33
+			main.save_slots_screen.cards[2].save.pressed.emit()
+			_check(main.save_store.last_save_error==OK and main.save_slots.slot_info(3).data.career.runs==33,"Real UI saves profile three")
+		else:
+			_check(main.save_slots.active_slot==3 and main.save_store.save_path=="user://save_slots/slot_3/save.cfg","A fresh process remembers the actual current slot")
+			_check(main.save_data.career.runs==33 and is_equal_approx(main.audio_director.music_volume,0.62),"A fresh process restores independent profile and preferences")
+			_check(main.save_slots.slot_info(1).data.career.runs==11 and is_equal_approx(main.save_slots.slot_info(1).data.settings.music_volume,0.27),"Inactive profile remains independent across process restart")
+		_check(FileAccess.get_sha256("user://save.cfg")==original_hash,"Migration and profile operations preserve the original legacy file")
+		_check(SaveStore.new().load_data().career.runs==6,"Original legacy progress is never overwritten by active profiles")
 		var playbacks := AudioTeardown.capture(main)
 		main.audio_director.shutdown()
 		main.queue_free()

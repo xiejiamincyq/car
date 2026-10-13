@@ -1,0 +1,150 @@
+[
+  {
+    "test": "test_a4_effects.gd",
+    "message": "WARNING: 6 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+  },
+  {
+    "test": "test_a4_effects.gd",
+    "message": "ERROR: 2 resources still in use at exit (run with --verbose for details)."
+  },
+  {
+    "test": "test_accessibility_settings.gd",
+    "message": "WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+  },
+  {
+    "test": "test_audio_cue_flow.gd",
+    "message": "WARNING: 23 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+  },
+  {
+    "test": "test_audio_settings_ui.gd",
+    "message": "WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+  },
+  {
+    "test": "test_coin_main_flow.gd",
+    "message": "WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+  },
+  {
+    "test": "test_focus_pause.gd",
+    "message": "WARNING: 6 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+  },
+  {
+    "test": "test_focus_pause.gd",
+    "message": "ERROR: 2 resources still in use at exit (run with --verbose for details)."
+  },
+  {
+    "test": "test_gameplay_art_assets.gd",
+    "message": "WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+  },
+  {
+    "test": "test_garage_confirmation.gd",
+    "message": "WARNING: 6 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+  },
+  {
+    "test": "test_garage_confirmation.gd",
+    "message": "ERROR: 2 resources still in use at exit (run with --verbose for details)."
+  },
+  {
+    "test": "test_hud_layout.gd",
+    "message": "WARNING: 12 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+  },
+  {
+    "test": "test_hud_layout.gd",
+    "message": "ERROR: 2 resources still in use at exit (run with --verbose for details)."
+  },
+  {
+    "test": "test_main_audio_controls.gd",
+    "message": "WARNING: 13 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+  },
+  {
+    "test": "test_main_reset.gd",
+    "message": "WARNING: 10 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+  },
+  {
+    "test": "test_main_run_loop.gd",
+    "message": "WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+  },
+  {
+    "test": "test_main_run_loop.gd",
+    "message": "ERROR: 2 resources still in use at exit (run with --verbose for details)."
+  },
+  {
+    "test": "test_pause_result_flow.gd",
+    "message": "WARNING: 17 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+  },
+  {
+    "test": "test_pause_result_flow.gd",
+    "message": "ERROR: 2 resources still in use at exit (run with --verbose for details)."
+  },
+  {
+    "test": "test_persistence_integration.gd",
+    "message": "WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+  },
+  {
+    "test": "test_playtest_isolation.gd",
+    "message": "WARNING: Playtest recording failed (7); driving continues, no results will be claimed saved."
+  },
+  {
+    "test": "test_playtest_isolation.gd",
+    "message": "WARNING: 11 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+  },
+  {
+    "test": "test_playtest_isolation.gd",
+    "message": "ERROR: 2 resources still in use at exit (run with --verbose for details)."
+  },
+  {
+    "test": "test_playtest_recording_flow.gd",
+    "message": "WARNING: 8 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+  },
+  {
+    "test": "test_playtest_recording_flow.gd",
+    "message": "ERROR: 2 resources still in use at exit (run with --verbose for details)."
+  },
+  {
+    "test": "test_repair_supplies.gd",
+    "message": "WARNING: 5 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+  },
+  {
+    "test": "test_run_seed.gd",
+    "message": "WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+  },
+  {
+    "test": "test_runtime_performance_capture.gd",
+    "message": "ERROR: Could not create directory: 'res://tmp/performance-76220-122603/blocked/capture'."
+  },
+  {
+    "test": "test_vehicle_facing.gd",
+    "message": "WARNING: Loaded resource as image file, this will not work on export: 'res://assets/vehicles/player_pulse_gt_c.png'. Instead, import the image file as an Image resource and load it normally as a resource."
+  },
+  {
+    "test": "test_vehicle_facing.gd",
+    "message": "WARNING: Loaded resource as image file, this will not work on export: 'res://assets/vehicles/player_driftwing_c.png'. Instead, import the image file as an Image resource and load it normally as a resource."
+  },
+  {
+    "test": "test_vehicle_facing.gd",
+    "message": "WARNING: Loaded resource as image file, this will not work on export: 'res://assets/vehicles/player_flashpoint_c.png'. Instead, import the image file as an Image resource and load it normally as a resource."
+  },
+  {
+    "test": "test_vehicle_facing.gd",
+    "message": "WARNING: Loaded resource as image file, this will not work on export: 'res://assets/vehicles/player_comet_rs_c.png'. Instead, import the image file as an Image resource and load it normally as a resource."
+  },
+  {
+    "test": "test_vehicle_facing.gd",
+    "message": "WARNING: Loaded resource as image file, this will not work on export: 'res://assets/vehicles/player_tidebreaker_c.png'. Instead, import the image file as an Image resource and load it normally as a resource."
+  },
+  {
+    "test": "test_vehicle_facing.gd",
+    "message": "WARNING: Loaded resource as image file, this will not work on export: 'res://assets/vehicles/player_aurora_x_c.png'. Instead, import the image file as an Image resource and load it normally as a resource."
+  },
+  {
+    "test": "test_vehicle_facing.gd",
+    "message": "WARNING: Loaded resource as image file, this will not work on export: 'res://assets/vehicles/player_driftwing_c.png'. Instead, import the image file as an Image resource and load it normally as a resource."
+  },
+  {
+    "test": "test_window_behavior.gd",
+    "message": "WARNING: 13 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+  },
+  {
+    "test": "test_window_behavior.gd",
+    "message": "ERROR: 2 resources still in use at exit (run with --verbose for details)."
+  }
+]
