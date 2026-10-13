@@ -1,0 +1,39 @@
+extends SceneTree
+## Read-only, locally retained actual progress audit. Never instantiate Main.
+func _init() -> void:
+	var args := OS.get_cmdline_user_args()
+	if args.size()!=3 or args[2] not in ["before","after","copy"]:
+		quit(2)
+		return
+	var folder := args[1].replace("\\","/").simplify_path()
+	var formal := "C:/Users/21604/AppData/Roaming/Godot/app_userdata/Neon Coast Rush"
+	var backup := "C:/Users/21604/Documents/car/exports/career-feedback-20261013/candidate-25bd5646886d47848c2fda1550fcf33b/handoff-e85312bc68e54e1ebc1b1ea3e3d26236/private-save-backup"
+	var isolated_copy: bool=args[2]=="copy" and folder.begins_with("C:/Users/21604/Documents/car/tmp/actual-progress-20261014-") and folder.ends_with("/isolated-player/Godot/app_userdata/Neon Coast Rush")
+	if (folder not in [formal,backup] and not isolated_copy) or FileAccess.file_exists("res://scripts/main.gd"):
+		quit(3)
+		return
+	if not ProjectSettings.load_resource_pack(args[0],true):
+		quit(4)
+		return
+	var registry := ConfigFile.new()
+	if registry.load(folder+"/save_slots/registry.cfg")!=OK:
+		quit(5)
+		return
+	var active: int=int(registry.get_value("slots","active",0))
+	if active<1 or active>4:
+		quit(6)
+		return
+	var path := folder+"/save_slots/slot_%d/save.cfg"%active
+	var source_sha := FileAccess.get_sha256(path)
+	var store_script=load("res://scripts/save_store.gd")
+	var store=store_script.new(path)
+	var data: Dictionary=store.load_data()
+	var config := ConfigFile.new()
+	var valid: bool=config.load(path)==OK and store.last_load_status==&"primary" and source_sha==FileAccess.get_sha256(path)
+	var result := {"valid":valid,"mode":args[2],"active_slot":active,"on_disk_version":config.get_value("meta","version",-1),"runs":data.career.runs,"history_count":data.run_history.size(),"difficulty":data.settings.difficulty,"data_sha256":JSON.stringify(data,"",true).sha256_text(),"source_unchanged":source_sha==FileAccess.get_sha256(path)}
+	if not data.run_history.is_empty():
+		var latest: Dictionary=data.run_history[-1]
+		result["latest"]={"run_number":latest.run_number,"track_id":latest.track_id,"vehicle_id":latest.vehicle_id,"difficulty":latest.difficulty,"cleared":latest.cleared}
+	print("ACTUAL_PROGRESS_READ ",JSON.stringify(result))
+	var history_present: bool=not data.run_history.is_empty()
+	quit(0 if valid and history_present and config.get_value("meta","version",-1)==7 else 1)

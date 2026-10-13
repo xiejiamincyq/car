@@ -1,0 +1,14 @@
+{
+  "restart_native": 0,
+  "normalized_data_equal": true,
+  "original_save_files": 12,
+  "after_read_native": 0,
+  "input_injected": false,
+  "original_save_unchanged": true,
+  "before_negative_native": 1,
+  "v7_history_present": true,
+  "normal_entry_difficulty_adopted": true,
+  "scope": "Read-only actual pre/post save comparison and isolated real-progress-copy normal release headless startup. Not GUI full flow or driving performance.",
+  "passed": true,
+  "copy_read_native": 0
+}

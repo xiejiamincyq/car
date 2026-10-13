@@ -1,0 +1,64 @@
+$ErrorActionPreference='Stop'
+$auditRoot='C:/Users/21604/Documents/car/tmp/actual-progress-20261014-2bf9398fa8ce44239de2495a3251a7ab'
+$formalRoot='C:/Users/21604/AppData/Roaming/Godot/app_userdata/Neon Coast Rush'
+$packageRoot='C:/Users/21604/Documents/car/exports/career-feedback-20261013/candidate-25bd5646886d47848c2fda1550fcf33b/package'
+$cloneAppData=Join-Path $auditRoot 'isolated-player'
+$cloneProfile=Join-Path $cloneAppData 'Godot/app_userdata/Neon Coast Rush'
+if(Test-Path -LiteralPath $cloneAppData){throw 'Refuse to overwrite private clone'}
+if(@(Get-CimInstance Win32_Process -Filter "Name='NeonCoastRush.exe'").Count){throw 'A game is already running; do not start another writer'}
+$originalHashes=@{}
+foreach($file in @(Get-ChildItem -LiteralPath $formalRoot -Recurse -File | Where-Object Name -Match '\.cfg(?:\.bak|\.tmp)?$')){
+    if($file.Attributes -band [IO.FileAttributes]::ReparsePoint){throw 'Do not follow reparse save files'}
+    $originalHashes[$file.FullName]=(Get-FileHash -LiteralPath $file.FullName).Hash
+    $relative=[IO.Path]::GetRelativePath($formalRoot,$file.FullName)
+    if($relative.StartsWith('..') -or [IO.Path]::IsPathRooted($relative)){throw 'Source escaped profile'}
+    if($relative -notmatch '^save_slots[\\/]'){continue}
+    $destination=Join-Path $cloneProfile $relative
+    New-Item -ItemType Directory -Path (Split-Path $destination -Parent) -Force|Out-Null
+    Copy-Item -LiteralPath $file.FullName -Destination $destination
+    if((Get-FileHash $destination).Hash -ne $originalHashes[$file.FullName]){throw 'Private clone differs'}
+}
+$info=[Diagnostics.ProcessStartInfo]::new()
+$info.FileName=Join-Path $packageRoot 'NeonCoastRush.exe'
+$info.WorkingDirectory=$packageRoot
+$info.UseShellExecute=$false
+$info.CreateNoWindow=$true
+$info.RedirectStandardOutput=$true
+$info.RedirectStandardError=$true
+$info.Environment['APPDATA']=$cloneAppData
+$info.Environment['NEON_COAST_PERF_CAPTURE']='1'
+$info.Arguments='--headless --quit-after 120'
+$child=[Diagnostics.Process]::new()
+$child.StartInfo=$info
+if(-not $child.Start()){throw 'Cannot start owned restart child'}
+$outTask=$child.StandardOutput.ReadToEndAsync()
+$errTask=$child.StandardError.ReadToEndAsync()
+if(-not $child.WaitForExit(60000)){$child.Kill();$child.WaitForExit();throw 'Owned restart timed out'}
+$out=$outTask.GetAwaiter().GetResult()
+$err=$errTask.GetAwaiter().GetResult()
+[IO.File]::WriteAllText((Join-Path $auditRoot 'restart.stdout.log'),$out)
+[IO.File]::WriteAllText((Join-Path $auditRoot 'restart.stderr.log'),$err)
+if($child.ExitCode -ne 0 -or ($out+$err) -match 'SCRIPT ERROR:|Parse Error:|(?m)^ERROR:'){throw 'Actual release restart failed'}
+$restartExit=$child.ExitCode
+$child.Dispose()
+$trace=@(Get-ChildItem -LiteralPath (Join-Path $cloneProfile 'performance') -Filter '*.jsonl' -File)
+if($trace.Count -ne 1){throw 'Expected exactly one restart trace'}
+$rows=@(Get-Content -LiteralPath $trace[0].FullName|ForEach-Object {$_|ConvertFrom-Json})
+$expectedLine=Get-Content (Join-Path $auditRoot 'after.log')|Where-Object { $_.StartsWith('ACTUAL_PROGRESS_READ ') }
+$expected=$expectedLine.Substring('ACTUAL_PROGRESS_READ '.Length)|ConvertFrom-Json
+$samples=@($rows|Where-Object event -eq 'sample')
+if(-not $samples.Count -or @($samples|Where-Object { $_.difficulty -ne $expected.difficulty -or $_.phase -ne 'title' -or $_.run_number -ne 0 }).Count){throw 'Normal entry did not adopt saved difficulty'}
+$previousAppData=$env:APPDATA
+try{
+    $env:APPDATA=Join-Path $auditRoot 'appdata'
+    & 'C:/Users/21604/AppData/Local/Microsoft/WinGet/Packages/GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe/Godot_v4.7-stable_win64_console.exe' --headless --path tmp/career-feedback-decoder --script res://actual_progress.gd -- (Join-Path $packageRoot 'NeonCoastRush.pck') $cloneProfile copy *> (Join-Path $auditRoot 'copy-read.log')
+    $copyExit=$LASTEXITCODE
+}finally{$env:APPDATA=$previousAppData}
+if($copyExit -ne 0){throw 'Copy read failed'}
+$copyLine=Get-Content (Join-Path $auditRoot 'copy-read.log')|Where-Object { $_.StartsWith('ACTUAL_PROGRESS_READ ') }
+$copy=$copyLine.Substring('ACTUAL_PROGRESS_READ '.Length)|ConvertFrom-Json
+if($copy.data_sha256 -ne $expected.data_sha256){throw 'Loaded normalized progress changed across restart'}
+foreach($entry in $originalHashes.GetEnumerator()){if((Get-FileHash -LiteralPath $entry.Key).Hash -ne $entry.Value){throw 'Formal save changed during isolated restart'}}
+$receipt=@{passed=$true;before_negative_native=1;after_read_native=0;restart_native=$restartExit;copy_read_native=$copyExit;v7_history_present=$true;normalized_data_equal=$true;normal_entry_difficulty_adopted=$true;original_save_files=$originalHashes.Count;original_save_unchanged=$true;input_injected=$false;scope='Read-only actual pre/post save comparison and isolated real-progress-copy normal release headless startup. Not GUI full flow or driving performance.'}
+$receipt|ConvertTo-Json -Depth 4|Set-Content (Join-Path $auditRoot 'sanitized-receipt.json') -Encoding utf8
+$receipt|ConvertTo-Json -Depth 4
