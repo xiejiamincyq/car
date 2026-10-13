@@ -146,7 +146,7 @@ func present(records: Array,current: int,language: String,can_write: bool,messag
 			var best := 0
 			for score in entry.data.top_scores:best=maxi(best,int(score.score))
 			card.summary.text=_text("slots.summary",[entry.data.career.runs,best])
-		else:card.summary.text=_text("slots.empty_hint" if status=="missing" else "slots.damaged_hint")
+		else:card.summary.text=""
 		for action in ["load","save","copy","delete"]:
 			card[action].text=_text("slots."+action)
 		card.load.disabled=not writable or not (healthy or status=="missing")

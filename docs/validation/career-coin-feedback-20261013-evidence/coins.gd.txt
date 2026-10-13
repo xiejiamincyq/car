@@ -1,0 +1,69 @@
+extends SceneTree
+## Mounted-PCK route rendering fixtures, not natural driving or player saves.
+var failures: Array[String] = []
+var captures: Array = []
+func _init() -> void:
+	call_deferred("_run")
+func _run() -> void:
+	var args := OS.get_cmdline_user_args()
+	if args.size()!=2 or DisplayServer.get_name()=="headless" or DirAccess.dir_exists_absolute(args[1]):
+		quit(2)
+		return
+	var isolated := OS.get_environment("APPDATA").replace("\\","/").simplify_path()
+	if isolated.get_file()!="isolated-coins" or not OS.get_user_data_dir().replace("\\","/").begins_with(isolated+"/"):
+		quit(4)
+		return
+	if not ProjectSettings.load_resource_pack(args[0],true) or DirAccess.make_dir_recursive_absolute(args[1])!=OK:
+		quit(3)
+		return
+	DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_NO_FOCUS,true)
+	root.content_scale_size=Vector2i(1280,720)
+	root.content_scale_mode=Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
+	root.size=Vector2i(1280,720)
+	DisplayServer.window_set_size(root.size)
+	var scene: PackedScene=load("res://scenes/main.tscn")
+	var tracks=load("res://scripts/catalog/track_catalog.gd")
+	var routes=load("res://scripts/coin_route_director.gd")
+	var gameplay=load("res://scripts/coin_gameplay_director.gd")
+	var config=load("res://scripts/game_config.gd")
+	var blocked: Array[int]=[]
+	for track in tracks.all():
+		for shape in ["LEFT_ARC","RIGHT_ARC","S_CURVE"]:
+			var main=scene.instantiate()
+			root.add_child(main)
+			main.set_process(false)
+			if main.persistence_enabled:
+				failures.append("Mounted route fixture must not enable persistence")
+			main.save_data.tour.selected_track_id=track.id
+			main._set_language_preference("zh")
+			main._start_new_run()
+			main.run.phase=main.RunState.Phase.RUNNING
+			main.run.distance=1300.0
+			main.drive.speed=760.0
+			var steering: float=main.drive.steering_speed*0.85
+			var ceiling: float=main.drive.max_speed+config.OVERDRIVE_SPEED_BONUS
+			var entry: Vector2=gameplay.reachable_entry_lanes(1.0,ceiling,steering,720.0)
+			var slope: float=gameplay.followable_lane_slope(ceiling,steering)
+			var route: Array=[]
+			for seed_value in range(611,811):
+				route=routes.new(seed_value).generate_route(650.0,1,[],[],[],blocked,routes.Template[shape],entry,slope)
+				if not route.is_empty() and route[-1].y>25.0:
+					break
+			if route.is_empty():
+				failures.append("Missing shape "+String(track.id)+shape)
+			main.coin_director.coins.assign(route)
+			main._update_hud()
+			main.queue_redraw()
+			await process_frame
+			await process_frame
+			await RenderingServer.frame_post_draw
+			var filename: String=String(track.id)+"-"+shape.to_lower()+".png"
+			if root.get_texture().get_image().save_png(args[1].path_join(filename))!=OK:
+				failures.append("Capture failed "+filename)
+			captures.append({"track":track.id,"shape":shape,"file":filename,"route":routes.route_signature(route)})
+			main.audio_director.shutdown()
+			await create_timer(0.08).timeout
+			main.queue_free()
+			await process_frame
+	print("COIN_PACK_GUI_COMPLETE ",JSON.stringify({"captures":captures,"failures":failures,"pack_sha256":FileAccess.get_sha256(args[0]),"scope":"Twelve requested-shape mounted PCK rendering fixtures, clear road. Not natural traffic distribution or normal release gameplay."}))
+	quit(0 if failures.is_empty() and captures.size()==12 else 1)

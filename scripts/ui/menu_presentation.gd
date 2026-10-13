@@ -54,9 +54,23 @@ static func apply(canvas_layer: Node) -> void:
 	grid.name = "ScoreGrid"
 	grid.columns = 4
 	grid.add_theme_constant_override("h_separation", 28)
-	grid.add_theme_constant_override("v_separation", 18)
+	grid.add_theme_constant_override("v_separation", 10)
 	board.add_child(grid)
 	board.move_child(grid, 1)
+	board.get_node("BestScores").custom_minimum_size.y = 36
+	board.get_node("BestScores").add_theme_font_size_override("font_size", 17)
+	var pager := HBoxContainer.new()
+	pager.name = "CareerPages"
+	pager.add_theme_constant_override("separation", 12)
+	board.add_child(pager)
+	board.move_child(pager, board.get_child_count()-2)
+	for action_name in ["PreviousPage", "PageNumber", "NextPage"]:
+		var control: Control = Label.new() if action_name == "PageNumber" else Button.new()
+		control.name = action_name
+		control.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		control.custom_minimum_size.y = 40
+		if control is Label: control.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		pager.add_child(control)
 
 static func _apply_settings(canvas_layer: Node) -> void:
 	var content: VBoxContainer = canvas_layer.get_node("SettingsScreen/Center/Card/Content")
@@ -93,6 +107,13 @@ static func _apply_result(canvas_layer: Node) -> void:
 	content.get_parent().custom_minimum_size.x = 760
 	content.add_theme_constant_override("separation", 10)
 	content.get_node("ResultEmblem").hide()
+	var score := Label.new()
+	score.name = "RunScore"
+	score.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	score.add_theme_font_size_override("font_size", 34)
+	score.add_theme_color_override("font_color", GOLD)
+	content.add_child(score)
+	content.move_child(score, 1)
 	var rating = content.get_node("RatingCard")
 	rating.headline.add_theme_font_size_override("font_size", 50)
 	rating.best_label.add_theme_font_size_override("font_size", 17)

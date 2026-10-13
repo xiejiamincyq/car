@@ -1,0 +1,5 @@
+config_version=5
+[application]
+config/name="Neon Coast Rush"
+[rendering]
+renderer/rendering_method="gl_compatibility"

@@ -1,0 +1,31 @@
+param([string]$OutputRoot)
+$ErrorActionPreference = 'Stop'
+$uiProject = 'C:/Users/21604/Documents/car'
+if (Test-Path -LiteralPath $OutputRoot) { throw 'Refuse to overwrite validation evidence' }
+New-Item -ItemType Directory -Path $OutputRoot | Out-Null
+$uiSource = @{}
+foreach ($uiFile in Get-ChildItem "$uiProject/scripts", "$uiProject/scenes", "$uiProject/tests" -File -Recurse | Where-Object Extension -In '.gd','.tscn') { $uiSource[$uiFile.FullName] = (Get-FileHash $uiFile.FullName).Hash }
+foreach ($uiFile in Get-ChildItem "$uiProject/assets" -File -Recurse | Where-Object Extension -In '.png','.ogg') { $uiSource[$uiFile.FullName]=(Get-FileHash $uiFile.FullName).Hash }
+foreach ($uiFile in @('project.godot','export_presets.cfg','docs/player/README.md','docs/player/ASSET_NOTICES.md')) { $uiSource[(Join-Path $uiProject $uiFile)] = (Get-FileHash (Join-Path $uiProject $uiFile)).Hash }
+$uiSource | ConvertTo-Json -Depth 4 | Set-Content "$OutputRoot/source-sha256.json" -Encoding utf8
+$uiProfile = 'C:/Users/21604/AppData/Roaming/Godot/app_userdata/Neon Coast Rush'
+$uiSave = @{}
+foreach ($uiName in @('save.cfg','save.cfg.bak','save.cfg.tmp')) { $uiPath=Join-Path $uiProfile $uiName; $uiSave[$uiPath] = if (Test-Path -LiteralPath $uiPath) {(Get-FileHash $uiPath).Hash} else {$null} }
+$uiSlotRoot=Join-Path $uiProfile 'save_slots'
+if (Test-Path -LiteralPath $uiSlotRoot) { foreach ($uiFile in Get-ChildItem -LiteralPath $uiSlotRoot -File -Recurse | Where-Object Name -Match '\.cfg(?:\.bak|\.tmp)?$') { $uiSave[$uiFile.FullName]=(Get-FileHash $uiFile.FullName).Hash } }
+(Get-FileHash (Join-Path $uiProject 'scripts/tests/run_tests.ps1')).Hash | Set-Content "$OutputRoot/runner-sha256.txt"
+$uiCount = @(Get-ChildItem "$uiProject/tests" -File -Filter 'test_*.gd').Count
+$uiStart = [DateTime]::UtcNow
+$uiProcess = Start-Process -FilePath 'C:/Program Files/PowerShell/7/pwsh.exe' -ArgumentList @('-NoProfile','-File','scripts/tests/run_tests.ps1') -WorkingDirectory $uiProject -WindowStyle Hidden -PassThru -RedirectStandardOutput "$OutputRoot/stdout.log" -RedirectStandardError "$OutputRoot/stderr.log"
+$uiHandle = $uiProcess.Handle
+$uiTimeout = $false
+while (-not $uiProcess.WaitForExit(300)) { if (([DateTime]::UtcNow-$uiStart).TotalSeconds -gt 1800) { $uiTimeout=$true; $uiProcess.Kill(); $uiProcess.WaitForExit(); break } }
+$uiProcess.Refresh()
+$uiChanged = @($uiSource.Keys | Where-Object { (Get-FileHash $_).Hash -ne $uiSource[$_] })
+$uiSaveChanged = @($uiSave.Keys | Where-Object { $uiNow=if(Test-Path -LiteralPath $_){(Get-FileHash $_).Hash}else{$null}; $uiNow -ne $uiSave[$_] })
+$uiCombined = (Get-Content "$OutputRoot/stdout.log" -Raw)+(Get-Content "$OutputRoot/stderr.log" -Raw)
+$uiPassed = -not $uiTimeout -and $uiProcess.ExitCode -eq 0 -and $uiChanged.Count -eq 0 -and $uiSaveChanged.Count -eq 0 -and $uiCombined -match "(?m)^ALL $uiCount TESTS PASSED\s*$"
+$uiReceipt = @{passed=$uiPassed;pid=$uiProcess.Id;native_exit=$uiProcess.ExitCode;timed_out=$uiTimeout;tests=$uiCount;source_changes=$uiChanged;player_save_changes=$uiSaveChanged;seconds=([DateTime]::UtcNow-$uiStart).TotalSeconds;stdout_sha256=(Get-FileHash "$OutputRoot/stdout.log").Hash;stderr_sha256=(Get-FileHash "$OutputRoot/stderr.log").Hash}
+$uiReceipt | ConvertTo-Json -Depth 5 | Set-Content "$OutputRoot/receipt.json" -Encoding utf8
+$uiReceipt | ConvertTo-Json -Depth 5
+if (-not $uiPassed) { throw 'Frozen-source full regression failed; inspect preserved logs' }

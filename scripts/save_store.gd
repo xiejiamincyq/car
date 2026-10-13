@@ -4,8 +4,9 @@ extends RefCounted
 const TourProgress = preload("res://scripts/catalog/tour_progress.gd")
 const TrackCatalog = preload("res://scripts/catalog/track_catalog.gd")
 const RunRating = preload("res://scripts/run_rating.gd")
+const VehicleCatalog = preload("res://scripts/catalog/vehicle_catalog.gd")
 
-const CURRENT_VERSION := 6
+const CURRENT_VERSION := 7
 
 var save_path: String
 var last_load_status: StringName = &"missing"
@@ -19,6 +20,7 @@ static func default_data() -> Dictionary:
 	return {
 		"version": CURRENT_VERSION,
 		"top_scores": [],
+		"run_history": [],
 		"settings": {
 			"audio_volume": 0.65,
 			"music_volume": 0.65,
@@ -97,6 +99,7 @@ static func _data_from_config(config: ConfigFile) -> Dictionary:
 		"version": CURRENT_VERSION,
 		"ratings": {} if version < 6 else _value_or_null(config, "ratings", "track_bests"),
 		"top_scores": config.get_value("scores", "items", []),
+		"run_history": [] if version < 7 else _value_or_null(config, "history", "runs"),
 		"settings": {
 			"audio_volume": legacy_audio_volume,
 			"music_volume": legacy_audio_volume if version < 5 else _value_or_null(config, "settings", "music_volume"),
@@ -152,6 +155,7 @@ func save_data(data: Dictionary) -> bool:
 	var config := ConfigFile.new()
 	config.set_value("meta", "version", CURRENT_VERSION)
 	config.set_value("scores", "items", validated.top_scores)
+	config.set_value("history", "runs", validated.run_history)
 	config.set_value("ratings", "track_bests", validated.ratings)
 	for key in validated.settings:
 		config.set_value("settings", key, validated.settings[key])
@@ -221,7 +225,33 @@ static func _validated_data(data: Dictionary) -> Dictionary:
 		return {}
 	if not data.get("ratings") is Dictionary or not _valid_ratings(data.ratings):
 		return {}
+	if not _valid_history(data.get("run_history"), career.runs):
+		return {}
 	return data.duplicate(true)
+
+static func _valid_history(history: Variant, total_runs: int) -> bool:
+	if not history is Array or history.size() > total_runs:
+		return false
+	var track_ids: Array[StringName] = []
+	var vehicle_ids: Array[StringName] = []
+	for track in TrackCatalog.all(): track_ids.append(track.id)
+	for vehicle in VehicleCatalog.all(): vehicle_ids.append(vehicle.id)
+	var previous := 0
+	for record in history:
+		if not record is Dictionary:
+			return false
+		if not record.get("run_number") is int or record.run_number <= previous or record.run_number > total_runs:
+			return false
+		if not record.get("score") is int or record.score < 0 or not record.get("difficulty") is int or record.difficulty < 0 or record.difficulty > 2:
+			return false
+		if not _is_number(record.get("distance")) or not is_finite(float(record.distance)) or record.distance < 0.0 or not _is_number(record.get("time")) or not is_finite(float(record.time)) or record.time < 0.0:
+			return false
+		if not record.get("date") is String or not record.get("cleared") is bool:
+			return false
+		if not record.get("track_id") is StringName or not track_ids.has(record.track_id) or not record.get("vehicle_id") is StringName or not vehicle_ids.has(record.vehicle_id):
+			return false
+		previous = record.run_number
+	return true
 
 static func _valid_ratings(ratings: Dictionary) -> bool:
 	for track_id in ratings:

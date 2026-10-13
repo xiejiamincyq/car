@@ -1,0 +1,48 @@
+param([Parameter(Mandatory=$true)][string]$BuildRoot)
+$ErrorActionPreference='Stop'
+$taskBuildPath=(Resolve-Path -LiteralPath $BuildRoot).Path
+$taskExportRoot=(Resolve-Path -LiteralPath 'exports/career-feedback-20261013').Path
+if(-not $taskBuildPath.StartsWith($taskExportRoot+[IO.Path]::DirectorySeparatorChar,[StringComparison]::OrdinalIgnoreCase)){throw 'Not the scoped candidate directory'}
+$taskCandidate=Get-Content (Join-Path $taskBuildPath 'candidate.json') -Raw | ConvertFrom-Json
+if(-not $taskCandidate.passed -or $taskCandidate.logical_resources -ne 141){throw 'Verified candidate required'}
+$taskZip=Join-Path $taskBuildPath 'NeonCoastRush-career-feedback-20261013.zip'
+$taskUnpacked=Join-Path $taskBuildPath ('unpacked-'+[Guid]::NewGuid().ToString('N'))
+if(Test-Path -LiteralPath $taskZip){throw 'Refuse to overwrite ZIP'}
+$taskInput=@($taskCandidate.files | ForEach-Object {Join-Path $taskCandidate.package $_.name})
+if($taskInput.Count -ne 6){throw 'Six explicit public player files required'}
+Compress-Archive -LiteralPath $taskInput -DestinationPath $taskZip -CompressionLevel Optimal
+$taskArchive=[IO.Compression.ZipFile]::OpenRead($taskZip)
+try {
+    if($taskArchive.Entries.Count -ne 6){throw 'Unexpected ZIP members'}
+    foreach($taskEntry in $taskArchive.Entries){if($taskEntry.FullName -notin $taskCandidate.files.name){throw 'Unapproved ZIP member'}}
+} finally {$taskArchive.Dispose()}
+Expand-Archive -LiteralPath $taskZip -DestinationPath $taskUnpacked
+foreach($taskExpected in $taskCandidate.files){
+    $taskFile=Get-Item -LiteralPath (Join-Path $taskUnpacked $taskExpected.name)
+    if($taskFile.Length -ne $taskExpected.bytes -or (Get-FileHash $taskFile.FullName).Hash -ne $taskExpected.sha256){throw 'Extracted payload differs'}
+}
+$taskInfo=[Diagnostics.ProcessStartInfo]::new()
+$taskInfo.FileName=Join-Path $taskUnpacked 'NeonCoastRush.exe'
+$taskInfo.WorkingDirectory=$taskUnpacked
+$taskInfo.UseShellExecute=$false
+$taskInfo.CreateNoWindow=$true
+$taskInfo.Arguments='--headless --quit-after 60'
+$taskInfo.RedirectStandardOutput=$true
+$taskInfo.RedirectStandardError=$true
+$taskInfo.Environment['APPDATA']=Join-Path $taskBuildPath 'isolated-unpacked'
+New-Item -ItemType Directory -Path $taskInfo.Environment['APPDATA'] | Out-Null
+$taskChild=[Diagnostics.Process]::new()
+$taskChild.StartInfo=$taskInfo
+if(-not $taskChild.Start()){throw 'Cannot start extracted EXE'}
+$taskOut=$taskChild.StandardOutput.ReadToEndAsync()
+$taskErr=$taskChild.StandardError.ReadToEndAsync()
+if(-not $taskChild.WaitForExit(60000)){$taskChild.Kill();$taskChild.WaitForExit();throw 'Extracted EXE startup timed out'}
+$taskStdout=$taskOut.GetAwaiter().GetResult()
+$taskStderr=$taskErr.GetAwaiter().GetResult()
+$taskStdout | Set-Content (Join-Path $taskBuildPath 'unpacked-startup.stdout.log') -Encoding utf8
+$taskStderr | Set-Content (Join-Path $taskBuildPath 'unpacked-startup.stderr.log') -Encoding utf8
+$taskResult=@{passed=$taskChild.ExitCode -eq 0 -and ($taskStdout+$taskStderr) -notmatch 'SCRIPT ERROR:|Parse Error:|(?m)^ERROR:';native_exit=$taskChild.ExitCode;zip=$taskZip;zip_sha256=(Get-FileHash $taskZip).Hash;zip_bytes=(Get-Item $taskZip).Length;unpacked=$taskUnpacked;files=6;scope='Six-file ZIP membership, actual extracted payload hash/size identity, and extracted EXE native headless startup in isolated APPDATA; not human driving.'}
+$taskChild.Dispose()
+$taskResult | ConvertTo-Json -Depth 4 | Set-Content (Join-Path $taskBuildPath 'zip-verification.json') -Encoding utf8
+$taskResult | ConvertTo-Json -Depth 4
+if(-not $taskResult.passed){throw 'Extracted EXE startup failed'}

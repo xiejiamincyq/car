@@ -1,0 +1,3 @@
+{"debug_build":false,"elapsed_usec":0,"engine":"4.7-stable (official)","event":"capture_started","pid":113696,"schema":1,"session":"113696-502160"}
+{"construction":"idle","difficulty":2,"distance":0.0,"elapsed_usec":16178,"event":"sample","focused":true,"fps":1.0,"nodes":291,"objects":2321,"orphan_nodes":null,"overdrive":false,"phase":"title","pid":113696,"process_seconds":0.0,"reset_number":0,"resources":95,"run_number":0,"schema":1,"screen":"title","session":"113696-502160","speed":280.0,"static_memory_bytes":null,"track":"neon_coast","vehicle":"pulse_gt","window_height":64,"window_width":64}
+{"elapsed_usec":840680,"event":"capture_closed","pid":113696,"samples":1,"schema":1,"session":"113696-502160"}

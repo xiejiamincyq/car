@@ -33,7 +33,10 @@ func _run() -> void:
 	var result_screen: Control = main.get_node("CanvasLayer/ResultScreen")
 	var result_summary: Label = main.get_node("CanvasLayer/ResultScreen/Center/Card/Content/Summary")
 	assert(result_screen.visible and result_summary.text.contains("燃油耗尽"), "Game over must show its ending reason")
-	assert(result_summary.text.contains("超车  1") and result_summary.text.contains("距离"), "Settlement must show run statistics")
+	var rating_card = main.get_node("CanvasLayer/ResultScreen/Center/Card/Content/RatingCard")
+	var run_score: Label = main.result_screen.find_child("RunScore",true,false)
+	assert(rating_card.cells[1].detail.text.contains("本局 1") and result_summary.text.ends_with("%05d m" % roundi(main.run.distance)), "Settlement keeps true overtakes in the rating card and actual distance in its concise summary")
+	assert(run_score.visible and run_score.text==main._text("career.run_score",["%06d" % main.run.score]), "Prominent game score remains distinct from the percentage rating")
 
 	main._replay_run()
 	main.run.tick(3.0, 0.0, main.GameConfig.MAX_SPEED)

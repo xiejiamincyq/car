@@ -8,7 +8,7 @@ const TEST_PATH := "user://test_rating_v6.cfg"
 func _init() -> void:
 	var store := SaveStore.new(TEST_PATH)
 	var data := SaveStore.default_data()
-	assert(data.version == 6 and data.ratings.is_empty(), "v6 introduces empty per-track ratings")
+	assert(data.version == SaveStore.CURRENT_VERSION and data.ratings.is_empty(), "Current defaults retain empty per-track ratings")
 	var run := {"score": 7000, "difficulty": 1, "distance": 3200.0, "survival": 60.0, "overtakes": 12, "coins": 60, "collisions": 0, "near_misses": 2, "stage": 4, "track_id": &"neon_coast", "cleared": true, "medal": 2}
 	run.survival = Tracks.get_by_id(&"neon_coast").rating_targets.time
 	var outcome := Progression.record_run(data, run, "2026-09-08")
@@ -46,7 +46,7 @@ func _init() -> void:
 	assert(legacy.save(TEST_PATH) == OK)
 	var before := FileAccess.get_file_as_bytes(TEST_PATH)
 	var migrated := store.load_data()
-	assert(migrated.version == 6 and migrated.ratings.is_empty())
+	assert(migrated.version == SaveStore.CURRENT_VERSION and migrated.ratings.is_empty())
 	for key in ["settings", "career", "tour", "top_scores"]:
 		assert(migrated[key] == data[key], "v5 migration must preserve %s" % key)
 	assert(FileAccess.get_file_as_bytes(TEST_PATH) == before, "Loading must not rewrite the legacy file")

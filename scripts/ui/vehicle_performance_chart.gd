@@ -50,4 +50,3 @@ func _draw() -> void:
 		if i == 0: text = "%.0f km/h" % (actual[i]*Config.HUD_SPEED_SCALE)
 		if i == 4: text = "%.0f%%" % (clampf(260.0/actual[i],0.85,1.15)*100.0)
 		draw_string(ThemeDB.fallback_font, Vector2(585,y+10), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("ffd16b"))
-	draw_string(ThemeDB.fallback_font, Vector2(205, 168), "加速 / 制动 / 转向：相对能力 · 防护：不含质量因素" if language == "zh" else "Accel / brake / steer: relative · Protection excludes mass", HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("a8bdcc"))

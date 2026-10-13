@@ -1,0 +1,9 @@
+{
+  "label": "export",
+  "stdout_sha256": "30DB4CB66E73C263D3B1BA0DC593B728564622F78D1F9FE5CCAC137EAD89ED0A",
+  "timed_out": false,
+  "native_exit": 0,
+  "stderr_sha256": "D1CC5C2C938039E201D9FD0BDF25136209F27AD8521EFFA6ED764D9260E7A4C9",
+  "pid": 112484,
+  "seconds": 7.8242084
+}

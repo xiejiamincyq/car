@@ -15,7 +15,7 @@ const DT := 1.0 / 60.0
 const BUDGET_SECONDS := 90.0
 const SOURCE_FILES := ["res://scripts/main.gd", "res://scripts/difficulty_profile.gd", "res://scripts/fuel_spawn_director.gd", "res://scripts/repair_supply_director.gd",
 	"res://scripts/traffic_director.gd", "res://scripts/fast_priority_traffic.gd", "res://scripts/lane_event_director.gd", "res://scripts/traffic_vehicle.gd", "res://scripts/traffic_safety_policy.gd", "res://scripts/run_state.gd",
-	"res://scripts/vehicle_integrity.gd", "res://scripts/overdrive_controller.gd", "res://scripts/game_config.gd", "res://scripts/coin_gameplay_director.gd"]
+	"res://scripts/vehicle_integrity.gd", "res://scripts/overdrive_controller.gd", "res://scripts/game_config.gd", "res://scripts/coin_gameplay_director.gd", "res://scripts/coin_route_director.gd"]
 const SESSIONS := [
 	["neon_coast", "pulse_gt", 611], ["freight_harbor", "driftwing", 2026],
 	["storm_ridge", "flashpoint", 9001], ["sunrise_express", "comet_rs", 611],
@@ -30,6 +30,10 @@ const COVERAGE_SUPPLEMENTS := [
 	{"config":["storm_ridge","flashpoint",611],"index":2,"difficulty":0},
 	{"config":["storm_ridge","flashpoint",611],"index":2,"difficulty":1},
 	{"config":["storm_ridge","comet_rs",611],"index":8,"difficulty":1},
+	# The new reachable route layout can safely cancel all construction in the
+	# original easy/express/Aurora seed611 run. Keep it, and cover the same
+	# family naturally with seed9001 (no world injection or relaxed oracle).
+	{"config":["sunrise_express","aurora_x",9001],"index":9,"difficulty":0},
 ]
 var failure_keys: Dictionary = {}
 var context := "fixture"

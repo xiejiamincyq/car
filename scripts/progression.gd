@@ -25,6 +25,13 @@ static func record_run(current_data: Dictionary, result: Dictionary, date: Strin
 		rank = 0
 
 	data.career.runs += 1
+	# Retain every settled match; top_scores remains the independent best-five view.
+	var history_entry := new_entry.duplicate(true)
+	history_entry.merge({"run_number": data.career.runs,
+		"track_id": StringName(result.get("track_id", data.tour.selected_track_id)),
+		"vehicle_id": StringName(result.get("vehicle_id", data.tour.selected_vehicle_id)),
+		"time": maxf(0.0, float(result.survival)), "cleared": bool(result.get("cleared", false))})
+	data.run_history.append(history_entry)
 	data.career.total_distance += maxf(0.0, float(result.distance))
 	data.career.overtakes += maxi(0, int(result.overtakes))
 	data.career.near_misses += maxi(0, int(result.near_misses))

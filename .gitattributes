@@ -1,3 +1,4 @@
 # Native evidence keeps exact CRLF and capture separators for SHA256 replay.
 # These are raw machine records; authored code and documentation keep normal checks.
 docs/validation/showcase-save-slots-20261013-evidence/* -text -whitespace
+docs/validation/career-coin-feedback-20261013-evidence/* -text -whitespace

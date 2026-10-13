@@ -1,0 +1,5 @@
+Exception: C:\Users\21604\Documents\car\scripts\tests\run_tests.ps1:115
+Line |
+ 115 |      throw "Failed tests: $($failed -join ', ')"
+     |      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | Failed tests: test_dynamic_pickup_smoke.gd

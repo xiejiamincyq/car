@@ -1,0 +1,109 @@
+param([string]$ValidationRoot,[string]$ResumeBuildRoot='')
+$ErrorActionPreference='Stop'
+$uiProject='C:/Users/21604/Documents/car'
+Set-Location -LiteralPath $uiProject
+$uiReceipt=Get-Content "$ValidationRoot/receipt.json" -Raw | ConvertFrom-Json
+$uiSource=Get-Content "$ValidationRoot/source-sha256.json" -Raw | ConvertFrom-Json -AsHashtable
+if ($uiReceipt.passed -ne $true -or $uiReceipt.native_exit -ne 0 -or $uiReceipt.source_changes.Count -ne 0 -or $uiReceipt.player_save_changes.Count -ne 0) { throw 'Current successful frozen regression required' }
+function Assert-UiSource {
+    $uiRunner=@{path=Join-Path $uiProject "scripts/tests/run_tests.ps1";sha256=(Get-Content "$ValidationRoot/runner-sha256.txt" -Raw).Trim()}
+    if((Get-FileHash $uiRunner.path).Hash -ne $uiRunner.sha256) { throw 'Verified test runner changed' }
+    foreach ($uiEntry in $uiSource.GetEnumerator()) { if ((Get-FileHash -LiteralPath $uiEntry.Key).Hash -ne $uiEntry.Value) { throw "Frozen source changed: $($uiEntry.Key)" } }
+}
+Assert-UiSource
+if ($ResumeBuildRoot) {
+    $uiBuild=(Resolve-Path -LiteralPath $ResumeBuildRoot).Path
+    $uiExportRoot=(Resolve-Path -LiteralPath 'exports/career-feedback-20261013').Path
+    if (-not $uiBuild.StartsWith($uiExportRoot+[IO.Path]::DirectorySeparatorChar,[StringComparison]::OrdinalIgnoreCase) -or (Test-Path "$uiBuild/candidate.json")) { throw 'Only an unfinished scoped candidate can be resumed' }
+    $uiPreviousAudit=Get-Content "$uiBuild/pack-audit.json" -Raw|ConvertFrom-Json
+    if ((Get-FileHash "$uiBuild/package/NeonCoastRush.pck").Hash -ne $uiPreviousAudit.pack_sha256) { throw 'Unfinished PCK changed' }
+} else { $uiBuild=Join-Path $uiProject ('exports/career-feedback-20261013/candidate-'+[Guid]::NewGuid().ToString('N')) }
+$uiPackage=Join-Path $uiBuild 'package'
+if (-not $ResumeBuildRoot) { New-Item -ItemType Directory -Path $uiPackage | Out-Null }
+$uiEngine='C:/Users/21604/AppData/Local/Microsoft/WinGet/Packages/GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe/Godot_v4.7-stable_win64.exe'
+$uiFormal='C:/Users/21604/AppData/Roaming/Godot/app_userdata/Neon Coast Rush'
+$uiSave=@{}
+foreach ($uiName in @('save.cfg','save.cfg.bak','save.cfg.tmp')) { $uiPath=Join-Path $uiFormal $uiName; $uiSave[$uiPath]=if(Test-Path $uiPath){(Get-FileHash $uiPath).Hash}else{$null} }
+$uiSlotRoot=Join-Path $uiFormal 'save_slots'
+if (Test-Path -LiteralPath $uiSlotRoot) { foreach ($uiFile in Get-ChildItem -LiteralPath $uiSlotRoot -File -Recurse | Where-Object Name -Match '\.cfg(?:\.bak|\.tmp)?$') { $uiSave[$uiFile.FullName]=(Get-FileHash $uiFile.FullName).Hash } }
+$uiRuns=@()
+function Invoke-UiChild($Executable,$Arguments,$Label,$Seconds=120) {
+    if ($ResumeBuildRoot -and (Test-Path "$uiBuild/$Label.native.json")) {
+        $uiPrevious=Get-Content "$uiBuild/$Label.native.json" -Raw|ConvertFrom-Json -AsHashtable
+        if ($uiPrevious.native_exit -ne 0 -or $uiPrevious.timed_out -or (Get-FileHash "$uiBuild/$Label.stdout.log").Hash -ne $uiPrevious.stdout_sha256 -or (Get-FileHash "$uiBuild/$Label.stderr.log").Hash -ne $uiPrevious.stderr_sha256 -or ((Get-Content "$uiBuild/$Label.stdout.log" -Raw)+(Get-Content "$uiBuild/$Label.stderr.log" -Raw)) -match '(?m)SCRIPT ERROR:|Parse Error:|Assertion failed:|^ERROR:') { throw 'Cannot reuse a failed or modified native stage' }
+        return $uiPrevious
+    }
+    $uiInfo=[Diagnostics.ProcessStartInfo]::new()
+    $uiInfo.FileName=$Executable
+    $uiInfo.WorkingDirectory=$uiProject
+    $uiInfo.UseShellExecute=$false
+    $uiInfo.CreateNoWindow=$true
+    $uiInfo.RedirectStandardOutput=$true
+    $uiInfo.RedirectStandardError=$true
+    $uiInfo.Arguments=$Arguments
+    if ($Label -in @('decode','startup','gui','coins')) {
+        $uiInfo.Environment['APPDATA']=Join-Path $uiBuild ('isolated-'+$Label)
+        New-Item -ItemType Directory -Path $uiInfo.Environment['APPDATA'] | Out-Null
+    }
+    if ($Label -like 'upgrade-*') {
+        $uiInfo.Environment['APPDATA']=Join-Path $uiBuild 'isolated-upgrade'
+        New-Item -ItemType Directory -Path $uiInfo.Environment['APPDATA'] -Force | Out-Null
+        if ($Label -eq 'upgrade-startup') { $uiInfo.Environment['NEON_COAST_PERF_CAPTURE']='1' }
+    }
+    $uiChild=[Diagnostics.Process]::new()
+    $uiChild.StartInfo=$uiInfo
+    $uiStart=[DateTime]::UtcNow
+    if (-not $uiChild.Start()) { throw 'Cannot launch owned build child' }
+    $uiOutTask=$uiChild.StandardOutput.ReadToEndAsync()
+    $uiErrTask=$uiChild.StandardError.ReadToEndAsync()
+    $uiTimeout=$false
+    while (-not $uiChild.WaitForExit(300)) { if (([DateTime]::UtcNow-$uiStart).TotalSeconds -gt $Seconds) { $uiTimeout=$true; $uiChild.Kill();$uiChild.WaitForExit();break } }
+    $uiOut=$uiOutTask.GetAwaiter().GetResult();$uiErr=$uiErrTask.GetAwaiter().GetResult()
+    $uiOut | Set-Content "$uiBuild/$Label.stdout.log" -Encoding utf8
+    $uiErr | Set-Content "$uiBuild/$Label.stderr.log" -Encoding utf8
+    $uiRecord=@{label=$Label;pid=$uiChild.Id;native_exit=$uiChild.ExitCode;timed_out=$uiTimeout;seconds=([DateTime]::UtcNow-$uiStart).TotalSeconds;stdout_sha256=(Get-FileHash "$uiBuild/$Label.stdout.log").Hash;stderr_sha256=(Get-FileHash "$uiBuild/$Label.stderr.log").Hash}
+    $uiRecord | ConvertTo-Json | Set-Content "$uiBuild/$Label.native.json" -Encoding utf8
+    $uiChild.Dispose()
+    if ($uiTimeout -or $uiRecord.native_exit -ne 0 -or ($uiOut+$uiErr) -match '(?m)SCRIPT ERROR:|Parse Error:|Assertion failed:|^ERROR:') { throw "Native $Label failed; preserved logs in $uiBuild" }
+    return $uiRecord
+}
+$uiRuns+=Invoke-UiChild $uiEngine ('--headless --path "'+$uiProject+'" --export-release "Windows Desktop" "'+$uiPackage+'/NeonCoastRush.exe"') 'export' 600
+foreach ($uiFile in @('README.md','ASSET_NOTICES.md')) { if ($ResumeBuildRoot) { if ((Get-FileHash "docs/player/$uiFile").Hash -ne (Get-FileHash (Join-Path $uiPackage $uiFile)).Hash) { throw 'Player file changed' } } else { Copy-Item -LiteralPath "docs/player/$uiFile" -Destination (Join-Path $uiPackage $uiFile) } }
+foreach ($uiFile in @('GODOT_LICENSE.txt','GODOT_COPYRIGHT.txt')) { if ($ResumeBuildRoot) { if ((Get-FileHash "docs/release-licenses/$uiFile").Hash -ne (Get-FileHash (Join-Path $uiPackage $uiFile)).Hash) { throw 'License file changed' } } else { Copy-Item -LiteralPath "docs/release-licenses/$uiFile" -Destination (Join-Path $uiPackage $uiFile) } }
+$uiRuns+=Invoke-UiChild 'C:/Program Files/PowerShell/7/pwsh.exe' ('-NoProfile -File "'+$uiProject+'/tmp/ui-global-20261012/pack-audit.ps1" -Pack "'+$uiPackage+'/NeonCoastRush.pck" -Output "'+$uiBuild+'/pack-audit.json"') 'audit'
+$uiAudit=Get-Content "$uiBuild/pack-audit.json" -Raw | ConvertFrom-Json
+if ($uiAudit.passed -ne $true -or $uiAudit.logical_count -ne 141) { throw 'Complete current 141-resource PCK required' }
+$uiRuns+=Invoke-UiChild $uiEngine ('--headless --path "'+$uiProject+'/tmp/career-feedback-decoder" --script res://decoder.gd -- "'+$uiPackage+'/NeonCoastRush.pck" "'+$uiBuild+'/pack-audit.json"') 'decode'
+$uiDecodeLines=@(Get-Content "$uiBuild/decode.stdout.log" | Where-Object { $_.StartsWith('UI_PACK_DECODE_COMPLETE ') })
+if ($uiDecodeLines.Count -ne 1) { throw 'Package decoder terminal required' }
+$uiDecoded=$uiDecodeLines[0].Substring('UI_PACK_DECODE_COMPLETE '.Length) | ConvertFrom-Json
+if ($uiDecoded.failures.Count -ne 0 -or $uiDecoded.loaded -ne 141) { throw 'Package resource decoding incomplete' }
+$uiRuns+=Invoke-UiChild "$uiPackage/NeonCoastRush.exe" '--headless --quit-after 60' 'startup'
+$uiRuns+=Invoke-UiChild $uiEngine ('--path "'+$uiProject+'/tmp/career-feedback-decoder" --script res://gui.gd -- "'+$uiPackage+'/NeonCoastRush.pck" "'+$uiBuild+'/gui"') 'gui'
+$uiGuiLines=@(Get-Content "$uiBuild/gui.stdout.log" | Where-Object { $_.StartsWith('UI_PACK_GUI_COMPLETE ') })
+if ($uiGuiLines.Count -ne 1) { throw 'Package GUI terminal required' }
+$uiGui=$uiGuiLines[0].Substring('UI_PACK_GUI_COMPLETE '.Length) | ConvertFrom-Json
+if ($uiGui.failures.Count -ne 0 -or $uiGui.captured -ne 76 -or $uiGui.pack_sha256 -ne $uiAudit.pack_sha256) { throw 'Actual package GUI validation failed' }
+$uiRuns+=Invoke-UiChild $uiEngine ('--path "'+$uiProject+'/tmp/career-feedback-decoder" --script res://coins.gd -- "'+$uiPackage+'/NeonCoastRush.pck" "'+$uiBuild+'/coins"') 'coins'
+$uiCoinLines=@(Get-Content "$uiBuild/coins.stdout.log" | Where-Object { $_.StartsWith('COIN_PACK_GUI_COMPLETE ') })
+if ($uiCoinLines.Count -ne 1) { throw 'Coin rendering terminal required' }
+$uiCoinGui=$uiCoinLines[0].Substring('COIN_PACK_GUI_COMPLETE '.Length) | ConvertFrom-Json
+if ($uiCoinGui.failures.Count -ne 0 -or $uiCoinGui.captures.Count -ne 12 -or $uiCoinGui.pack_sha256 -ne $uiAudit.pack_sha256) { throw 'Coin mounted package rendering failed' }
+$uiRuns+=Invoke-UiChild $uiEngine ('--headless --path "'+$uiProject+'/tmp/career-feedback-decoder" --script res://upgrade.gd -- prepare "'+$uiPackage+'/NeonCoastRush.pck"') 'upgrade-prepare'
+if ((Get-Content "$uiBuild/upgrade-prepare.stdout.log" -Raw) -notmatch 'UPGRADE_PREPARE_COMPLETE') { throw 'Synthetic v6 fixture not prepared' }
+$uiRuns+=Invoke-UiChild "$uiPackage/NeonCoastRush.exe" '--headless --quit-after 120' 'upgrade-startup'
+$uiTraceRoot=Join-Path $uiBuild 'isolated-upgrade/Godot/app_userdata/Neon Coast Rush/performance'
+$uiTraceFiles=@(Get-ChildItem -LiteralPath $uiTraceRoot -File -Filter '*.jsonl')
+if ($uiTraceFiles.Count -ne 1) { throw 'Exactly one normal-entry upgrade trace required' }
+$uiSamples=@(Get-Content $uiTraceFiles[0].FullName | ForEach-Object { $_ | ConvertFrom-Json } | Where-Object event -eq 'sample')
+if ($uiSamples.Count -eq 0 -or @($uiSamples | Where-Object { $_.difficulty -ne 2 -or $_.screen -ne 'title' -or $_.run_number -ne 0 }).Count -ne 0) { throw 'Normal release EXE did not restore synthetic v6 difficulty at title' }
+$uiRuns+=Invoke-UiChild $uiEngine ('--headless --path "'+$uiProject+'/tmp/career-feedback-decoder" --script res://upgrade.gd -- check "'+$uiPackage+'/NeonCoastRush.pck"') 'upgrade-check'
+$uiUpgradeLines=@(Get-Content "$uiBuild/upgrade-check.stdout.log" | Where-Object { $_.StartsWith('UPGRADE_CHECK_COMPLETE ') })
+if ($uiUpgradeLines.Count -ne 1 -or ($uiUpgradeLines[0].Substring('UPGRADE_CHECK_COMPLETE '.Length)|ConvertFrom-Json).passed -ne $true) { throw 'Synthetic v6 upgrade check did not pass' }
+Assert-UiSource
+foreach ($uiEntry in $uiSave.GetEnumerator()) { $uiNow=if(Test-Path $uiEntry.Key){(Get-FileHash $uiEntry.Key).Hash}else{$null}; if($uiNow -ne $uiEntry.Value){throw 'Formal save changed during isolated package verification'} }
+$uiFiles=@(Get-ChildItem $uiPackage -File | ForEach-Object { @{name=$_.Name;bytes=$_.Length;sha256=(Get-FileHash $_.FullName).Hash} })
+if ($uiFiles.Count -ne 6) { throw 'Expected six player-facing files only' }
+$uiRecord=@{passed=$true;build=$uiBuild;package=$uiPackage;head=(git rev-parse HEAD).Trim();dirty_worktree=$true;validation=$ValidationRoot;logical_resources=141;decoded=$uiDecoded;runs=$uiRuns;files=$uiFiles;player_save_unchanged=$true;source_stable=$true;scope='Local UI candidate from exact frozen worktree, real PCK hashes/decoding and native EXE startup. Not public release, GUI driving or human acceptance.'}
+$uiRecord | ConvertTo-Json -Depth 8 | Set-Content "$uiBuild/candidate.json" -Encoding utf8
+$uiRecord | ConvertTo-Json -Depth 8

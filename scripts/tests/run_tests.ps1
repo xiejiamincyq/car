@@ -40,6 +40,8 @@ $completionRequired = @(
     "test_runtime_performance_main.gd"
 	"test_supply_preserves_construction.gd"
 	"test_save_slots.gd", "test_save_slots_failures.gd", "test_save_slots_ui.gd", "test_vehicle_showcases.gd"
+	"test_career_history.gd", "test_career_ui.gd"
+	"test_coin_layout_diversity.gd"
 )
 $tests = @(Get-ChildItem (Join-Path $projectRoot "tests") -File -Filter $TestFilter | Sort-Object Name)
 if ($tests.Count -eq 0) {
@@ -60,7 +62,7 @@ foreach ($test in $tests) {
         $effectiveTimeoutSeconds = 300
     }
     if ($test.Name -eq "test_dynamic_pickup_smoke.gd" -and -not $PSBoundParameters.ContainsKey("TestTimeoutSeconds")) {
-        # All 30 original + 5 supplemental natural Main cases remain mandatory.
+        # All 30 original + 6 supplemental natural Main cases remain mandatory.
         # The 120s watchdog cut off after case 30 on this workstation. This is
         # a harness CPU budget, not a change to simulated time or any oracle.
         $effectiveTimeoutSeconds = 240

@@ -2,8 +2,9 @@ class_name CoinRouteDirector
 extends RefCounted
 
 const CoinPickup = preload("res://scripts/coin_pickup.gd")
+const Config = preload("res://scripts/game_config.gd")
 
-enum Template { STRAIGHT, GENTLE_MERGE, AVOIDANCE, RISK_LINE, CONSTRUCTION_DIVERSION }
+enum Template { STRAIGHT, GENTLE_MERGE, AVOIDANCE, RISK_LINE, CONSTRUCTION_DIVERSION, LEFT_ARC, RIGHT_ARC, S_CURVE }
 
 const MIN_COIN_COUNT := 6
 const MAX_COIN_COUNT := 12
@@ -21,6 +22,13 @@ var _random := RandomNumberGenerator.new()
 var _initial_seed: int
 var _next_coin_id := 0
 var _next_route_id := 0
+var _lane_coin_counts: Array[int] = []
+var _curved_route_count := 0
+var _entry_range := Vector2.ZERO
+var _maximum_slope := 0.0
+var _spacing := MIN_SPACING
+var _primary_template := Template.STRAIGHT
+var _position_attempt := 0
 
 func _init(run_seed: int, lanes: int = 3) -> void:
 	lane_count = maxi(1, lanes)
@@ -32,6 +40,9 @@ func reset(run_seed: int = -1) -> void:
 	_random.seed = _initial_seed
 	_next_coin_id = 0
 	_next_route_id = 0
+	_lane_coin_counts.resize(lane_count)
+	_lane_coin_counts.fill(0)
+	_curved_route_count = 0
 
 func generate_route(
 	anchor_y: float,
@@ -47,22 +58,35 @@ func generate_route(
 	var open_lanes := _open_lanes(blocked_lanes)
 	if open_lanes.is_empty():
 		return []
+	_entry_range = Vector2(maxf(0.0,maxf(float(player_lane)-1.0,entry_lane_range.x)),minf(float(lane_count-1),minf(float(player_lane)+1.0,entry_lane_range.y)))
+	if _entry_range.x > _entry_range.y:
+		return []
+	var width := Config.ROAD_HALF_WIDTH*2.0/Config.ROAD_LANE_COUNT
+	_maximum_slope = minf(maxf(0.0,maximum_lane_slope), Config.STEERING_SPEED*0.9/((Config.MAX_SPEED+Config.OVERDRIVE_SPEED_BONUS)*Config.ROAD_SCROLL_MULTIPLIER*width))
+	_primary_template = _choose_primary_template(blocked_lanes)
 	var zones: Array[Vector3] = []
 	_append_zones(zones, npc_zones)
 	_append_zones(zones, fuel_zones)
 	_append_zones(zones, construction_zones)
 	for attempt in range(MAX_GENERATION_ATTEMPTS):
+		_position_attempt = attempt
 		var template := _template_for_attempt(preferred_template, attempt, blocked_lanes)
 		var count := _random.randi_range(MIN_COIN_COUNT, MAX_COIN_COUNT)
-		if template == Template.GENTLE_MERGE or template == Template.AVOIDANCE or template == Template.CONSTRUCTION_DIVERSION:
+		if template not in [Template.STRAIGHT,Template.RISK_LINE]:
 			count = MAX_COIN_COUNT
 		var spacing := _random.randf_range(MIN_SPACING, MAX_SPACING)
+		# A compact final fallback searches every feasible lane instead of hoping
+		# random long routes happen to fit a short obstacle-free corridor.
+		if preferred_template < 0 and attempt >= 120:
+			count = MIN_COIN_COUNT
+			spacing = MIN_SPACING
+		_spacing = spacing
 		var lane_positions := _build_lane_positions(template, count, player_lane, open_lanes, blocked_lanes)
 		if lane_positions.size() != count:
 			continue
 		if lane_positions[0] < entry_lane_range.x or lane_positions[0] > entry_lane_range.y:
 			continue
-		if not _slope_is_followable(lane_positions, spacing, maximum_lane_slope):
+		if not _slope_is_followable(lane_positions, spacing, _maximum_slope):
 			continue
 		if not _route_path_is_safe(lane_positions, anchor_y, spacing, zones, blocked_lanes):
 			continue
@@ -78,9 +102,16 @@ static func _slope_is_followable(positions: Array[float], spacing: float, maximu
 func _template_for_attempt(preferred_template: int, attempt: int, blocked_lanes: Array[int]) -> int:
 	if preferred_template >= 0 and preferred_template < Template.size():
 		return preferred_template
-	if not blocked_lanes.is_empty() and attempt == 0:
-		return Template.CONSTRUCTION_DIVERSION
-	return _random.randi_range(Template.STRAIGHT, Template.CONSTRUCTION_DIVERSION)
+	if attempt >= 120:
+		return Template.STRAIGHT
+	# Keep the intended shape while searching positions; only the bounded final
+	# quarter may use safe fallbacks. Rejections never count as accepted variety.
+	return _primary_template if attempt < 96 else _random.randi_range(0,Template.size()-1)
+
+func _choose_primary_template(blocked: Array[int]) -> int:
+	if not blocked.is_empty() and _next_route_id%3==0:return Template.CONSTRUCTION_DIVERSION
+	var choices := [Template.LEFT_ARC,Template.RIGHT_ARC,Template.S_CURVE] if _curved_route_count*2<=_next_route_id else [Template.STRAIGHT,Template.GENTLE_MERGE,Template.RISK_LINE]
+	return choices[_random.randi_range(0,choices.size()-1)]
 
 func _build_lane_positions(template: int, count: int, player_lane: int, open_lanes: Array[int], blocked_lanes: Array[int]) -> Array[float]:
 	match template:
@@ -94,31 +125,36 @@ func _build_lane_positions(template: int, count: int, player_lane: int, open_lan
 			return _risk_positions(count, player_lane, open_lanes)
 		Template.CONSTRUCTION_DIVERSION:
 			return _diversion_positions(count, player_lane, open_lanes, blocked_lanes)
+		Template.LEFT_ARC,Template.RIGHT_ARC,Template.S_CURVE:
+			return _curve_positions(count,player_lane,open_lanes,template)
 	return []
 
 func _straight_positions(count: int, player_lane: int, open_lanes: Array[int]) -> Array[float]:
-	var start_lane := _choose_reachable_lane(player_lane, open_lanes)
-	return _constant_positions(count, float(start_lane))
+	var start := _choose_start_position(open_lanes)
+	if is_nan(start):
+		return []
+	return _constant_positions(count,start)
 
 func _merge_positions(count: int, player_lane: int, open_lanes: Array[int]) -> Array[float]:
-	var start_lane := _choose_reachable_lane(player_lane, open_lanes)
+	var start := _choose_start_position(open_lanes)
+	if is_nan(start):return []
+	var start_lane := clampi(roundi(start),0,lane_count-1)
 	var targets := _adjacent_open_lanes(start_lane, open_lanes)
 	if targets.is_empty():
-		return _constant_positions(count, float(start_lane))
+		return _constant_positions(count,start)
 	var target_lane: int = targets[_random.randi_range(0, targets.size() - 1)]
-	return _lerp_positions(count, float(start_lane), float(target_lane))
+	return _lerp_positions(count,start,move_toward(start,float(target_lane),_maximum_slope*_spacing*(count-1)))
 
 func _avoidance_positions(count: int, player_lane: int, open_lanes: Array[int]) -> Array[float]:
-	var start_lane := _choose_reachable_lane(player_lane, open_lanes)
+	var start := _choose_start_position(open_lanes)
+	if is_nan(start):return []
+	var start_lane := clampi(roundi(start),0,lane_count-1)
 	var targets := _adjacent_open_lanes(start_lane, open_lanes)
 	if targets.is_empty():
-		return _constant_positions(count, float(start_lane))
+		return _constant_positions(count,start)
 	var target_lane: int = targets[_random.randi_range(0, targets.size() - 1)]
-	var positions: Array[float] = []
-	for index in range(count):
-		var ratio := float(index) / maxf(1.0, float(count - 1))
-		positions.append(lerpf(float(start_lane), float(target_lane), sin(ratio * PI) * 0.3))
-	return positions
+	var sign_value := -1.0 if target_lane < start_lane else 1.0
+	return _sin_positions(count,start,sign_value,false)
 
 func _risk_positions(count: int, player_lane: int, open_lanes: Array[int]) -> Array[float]:
 	var outer_lanes: Array[int] = []
@@ -128,22 +164,68 @@ func _risk_positions(count: int, player_lane: int, open_lanes: Array[int]) -> Ar
 				outer_lanes.append(lane)
 	if outer_lanes.is_empty():
 		return _straight_positions(count, player_lane, open_lanes)
-	var lane: int = outer_lanes[_random.randi_range(0, outer_lanes.size() - 1)]
-	var inset := 0.12 if lane == 0 else -0.12
-	return _constant_positions(count, float(lane) + inset)
+	var start := _choose_start_position(outer_lanes)
+	if is_nan(start):
+		return _straight_positions(count,player_lane,open_lanes)
+	return _constant_positions(count,start)
 
 func _diversion_positions(count: int, player_lane: int, open_lanes: Array[int], blocked_lanes: Array[int]) -> Array[float]:
-	var start_lane := _choose_reachable_lane(player_lane, open_lanes)
+	if blocked_lanes.is_empty():return _merge_positions(count,player_lane,open_lanes)
+	var start := _choose_start_position(open_lanes)
+	if is_nan(start):return []
+	var start_lane := clampi(roundi(start),0,lane_count-1)
 	var target_lane := start_lane
 	var greatest_clearance := -1
+	var candidates: Array[int] = []
 	for lane in open_lanes:
 		if abs(lane - start_lane) > 1:
 			continue
 		var clearance := _distance_from_blocked(lane, blocked_lanes)
 		if clearance > greatest_clearance:
 			greatest_clearance = clearance
-			target_lane = lane
-	return _lerp_positions(count, float(start_lane), float(target_lane))
+			candidates=[lane]
+		elif clearance == greatest_clearance:candidates.append(lane)
+	if not candidates.is_empty():target_lane=candidates[_random.randi_range(0,candidates.size()-1)]
+	return _lerp_positions(count,start,move_toward(start,float(target_lane),_maximum_slope*_spacing*(count-1)))
+
+func _choose_start_position(open_lanes: Array[int]) -> float:
+	var candidates: Array[int] = []
+	var feasible: Array[int] = []
+	var least := 2147483647
+	for lane in open_lanes:
+		var low := maxf(_entry_range.x,float(lane)-0.5)
+		var high := minf(_entry_range.y,float(lane)+0.5)
+		if high < low:continue
+		feasible.append(lane)
+		if _lane_coin_counts[lane] < least:
+			least=_lane_coin_counts[lane]
+			candidates=[lane]
+		elif _lane_coin_counts[lane]==least:candidates.append(lane)
+	if candidates.is_empty():return NAN
+	if _position_attempt >= 120:
+		var fallback_lane := feasible[(_position_attempt-120)%feasible.size()]
+		return clampf(float(fallback_lane),_entry_range.x,_entry_range.y)
+	# Alternate balancing with unrestricted safe-position exploration. A less
+	# used lane can be hazardous; successful-count balancing is never a quota.
+	if _position_attempt % 2 == 1:
+		candidates = feasible
+	var lane := candidates[_random.randi_range(0,candidates.size()-1)]
+	return _random.randf_range(maxf(_entry_range.x,float(lane)-0.5),minf(_entry_range.y,float(lane)+0.5))
+
+func _curve_positions(count: int,_player_lane: int,open_lanes: Array[int],template: int) -> Array[float]:
+	var start := _choose_start_position(open_lanes)
+	if is_nan(start):return []
+	return _sin_positions(count,start,-1.0 if template==Template.LEFT_ARC else 1.0,template==Template.S_CURVE)
+
+func _sin_positions(count: int,start: float,direction: float,s_curve: bool) -> Array[float]:
+	var frequency := TAU if s_curve else PI
+	var amplitude := minf(_random.randf_range(0.22,0.38),_maximum_slope*_spacing*(count-1)/frequency*0.90)
+	var space := minf(start,float(lane_count-1)-start) if s_curve else (start if direction<0 else float(lane_count-1)-start)
+	amplitude=minf(amplitude,maxf(0.0,space))
+	var positions: Array[float] = []
+	for index in count:
+		positions.append(start+direction*amplitude*sin(float(index)/maxf(1.0,count-1)*frequency))
+	return positions
 
 func _route_path_is_safe(lane_positions: Array[float], anchor_y: float, spacing: float, zones: Array[Vector3], blocked_lanes: Array[int]) -> bool:
 	for index in range(lane_positions.size()):
@@ -167,7 +249,10 @@ func _make_route(lane_positions: Array[float], anchor_y: float, spacing: float, 
 	var route: Array[CoinPickup] = []
 	var route_id := _next_route_id
 	_next_route_id += 1
+	if lane_positions.max()-lane_positions.min()>0.05 and absf(lane_positions[0]-lane_positions[-1])<0.001:
+		_curved_route_count+=1
 	for index in range(lane_positions.size()):
+		_lane_coin_counts[clampi(roundi(lane_positions[index]),0,lane_count-1)]+=1
 		route.append(CoinPickup.new(_next_coin_id, lane_positions[index], anchor_y - spacing * float(index), route_id, template))
 		_next_coin_id += 1
 	return route

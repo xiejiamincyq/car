@@ -48,6 +48,7 @@ func _run() -> void:
 				_check(track.find_child("Thumbnail",true,false) is TextureRect,"Every route has a fixed scenery preview")
 			_check(main.settings_screen.find_child("DisplayActions",true,false) is GridContainer,"Display settings have their own group")
 			main.save_data.top_scores = [{"score":1234567,"difficulty":2,"distance":4000.0}]
+			main.save_data.run_history = [{"run_number":1,"score":1234567,"difficulty":2,"distance":4000.0,"date":"2026-10-13","track_id":&"neon_coast","cleared":true}]
 			main._update_scoreboards()
 			var score_grid = main.leaderboard_screen.find_child("ScoreGrid",true,false)
 			_check(score_grid is GridContainer,"Leaderboard uses comparable aligned columns")

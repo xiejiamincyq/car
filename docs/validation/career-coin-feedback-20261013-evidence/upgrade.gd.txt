@@ -1,0 +1,52 @@
+extends SceneTree
+## Synthetic v6 profile prepare/check; no normal player data permitted.
+func _init() -> void:
+	var args := OS.get_cmdline_user_args()
+	var isolated := OS.get_environment("APPDATA").replace("\\","/").simplify_path()
+	if args.size()!=2 or isolated.get_file()!="isolated-upgrade" or not OS.get_user_data_dir().replace("\\","/").begins_with(isolated+"/"):
+		quit(2)
+		return
+	if not ProjectSettings.load_resource_pack(args[1],true):
+		quit(3)
+		return
+	var slots_script=load("res://scripts/save_slots.gd")
+	var store_script=load("res://scripts/save_store.gd")
+	var slots=slots_script.new()
+	if not slots.initialize():
+		quit(4)
+		return
+	var path := "user://save_slots/slot_1/save.cfg"
+	if args[0]=="prepare":
+		var data: Dictionary=store_script.default_data()
+		data.career.runs=9
+		data.career.total_distance=1250.0
+		data.settings.difficulty=2
+		data.settings.language="zh"
+		data.settings.music_volume=0.35
+		data.tour.selected_track_id=&"storm_ridge"
+		data.tour.selected_vehicle_id=&"comet_rs"
+		for track in [&"neon_coast",&"freight_harbor"]:
+			data.tour.track_results[track]={"cleared":true,"best_score":1200,"best_time":60.0,"medal":1}
+		if not store_script.new(path).save_data(data):
+			quit(5)
+			return
+		var old := ConfigFile.new()
+		if old.load(path)!=OK:
+			quit(6)
+			return
+		old.set_value("meta","version",6)
+		old.erase_section("history")
+		if old.save(path)!=OK:
+			quit(7)
+			return
+		print("UPGRADE_PREPARE_COMPLETE ",JSON.stringify({"on_disk_version":6,"save_sha256":FileAccess.get_sha256(path),"synthetic":true}))
+	elif args[0]=="check":
+		var data: Dictionary=store_script.new(path).load_data()
+		var ok: bool=data.career.runs==9 and data.career.total_distance==1250.0 and data.run_history.is_empty() and data.settings.difficulty==2 and data.tour.selected_track_id==&"storm_ridge" and data.tour.selected_vehicle_id==&"comet_rs"
+		print("UPGRADE_CHECK_COMPLETE ",JSON.stringify({"passed":ok,"loaded_version":data.version,"history":data.run_history.size(),"runs":data.career.runs,"distance":data.career.total_distance,"track":data.tour.selected_track_id,"vehicle":data.tour.selected_vehicle_id,"difficulty":data.settings.difficulty,"synthetic":true}))
+		quit(0 if ok else 8)
+		return
+	else:
+		quit(9)
+		return
+	quit(0)

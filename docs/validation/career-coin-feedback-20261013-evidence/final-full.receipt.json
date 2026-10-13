@@ -1,0 +1,12 @@
+{
+  "tests": 177,
+  "player_save_changes": [],
+  "pid": 114024,
+  "native_exit": 0,
+  "timed_out": false,
+  "stdout_sha256": "B3512C5DED75EAB8C0498786FB90AD11E704CC89FD45551FD2DE2A41A47019DB",
+  "seconds": 778.7058511,
+  "passed": true,
+  "stderr_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+  "source_changes": []
+}

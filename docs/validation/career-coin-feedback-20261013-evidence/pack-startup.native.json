@@ -1,0 +1,9 @@
+{
+  "label": "startup",
+  "stdout_sha256": "19787016694931F6A7B39599B52EF6B9D6713680A9117430B398B8B29D38E5E9",
+  "timed_out": false,
+  "native_exit": 0,
+  "stderr_sha256": "7EB70257593DA06F682A3DDDA54A9D260D4FC514F645237F5CA74B08F8DA61A6",
+  "pid": 113660,
+  "seconds": 1.3003067
+}

@@ -1,0 +1,136 @@
+{
+  "decoded": {
+    "failures": [],
+    "loaded": 141,
+    "main_nodes": 136,
+    "music": 4,
+    "scenes": 3,
+    "scope": "Actual PCK decoded in isolated matching editor engine; not normal release EXE gameplay, graphics or audible playback.",
+    "textures": 68
+  },
+  "passed": true,
+  "logical_resources": 141,
+  "build": "C:\\Users\\21604\\Documents\\car\\exports\\career-feedback-20261013\\candidate-25bd5646886d47848c2fda1550fcf33b",
+  "runs": [
+    {
+      "label": "export",
+      "stdout_sha256": "30DB4CB66E73C263D3B1BA0DC593B728564622F78D1F9FE5CCAC137EAD89ED0A",
+      "timed_out": false,
+      "native_exit": 0,
+      "stderr_sha256": "D1CC5C2C938039E201D9FD0BDF25136209F27AD8521EFFA6ED764D9260E7A4C9",
+      "pid": 112484,
+      "seconds": 7.8242084
+    },
+    {
+      "label": "audit",
+      "stdout_sha256": "49A586F561D89F2F16394E295A9F134E42EAAEEFF6FE853A21142C6C2BF9E81F",
+      "timed_out": false,
+      "native_exit": 0,
+      "stderr_sha256": "7EB70257593DA06F682A3DDDA54A9D260D4FC514F645237F5CA74B08F8DA61A6",
+      "pid": 112364,
+      "seconds": 0.5745031
+    },
+    {
+      "label": "decode",
+      "stdout_sha256": "A0ED230C52159A6194515522BDCB43A827489393B4A785F90217976AD3FEF0A9",
+      "timed_out": false,
+      "native_exit": 0,
+      "stderr_sha256": "7EB70257593DA06F682A3DDDA54A9D260D4FC514F645237F5CA74B08F8DA61A6",
+      "pid": 109144,
+      "seconds": 0.9214211
+    },
+    {
+      "label": "startup",
+      "stdout_sha256": "19787016694931F6A7B39599B52EF6B9D6713680A9117430B398B8B29D38E5E9",
+      "timed_out": false,
+      "native_exit": 0,
+      "stderr_sha256": "7EB70257593DA06F682A3DDDA54A9D260D4FC514F645237F5CA74B08F8DA61A6",
+      "pid": 113660,
+      "seconds": 1.3003067
+    },
+    {
+      "label": "gui",
+      "stdout_sha256": "F9F3CE0E8C348DDDD8525BA151CB5A9210EDCEF0160C7762D7B0B9769ABA1F5F",
+      "timed_out": false,
+      "native_exit": 0,
+      "stderr_sha256": "7EB70257593DA06F682A3DDDA54A9D260D4FC514F645237F5CA74B08F8DA61A6",
+      "pid": 106436,
+      "seconds": 25.6070785
+    },
+    {
+      "label": "coins",
+      "stdout_sha256": "6ECF3187B34BD5BBC4AB29FEE127DCF6EEA074DC821E415A428A3CCAC70D091C",
+      "timed_out": false,
+      "native_exit": 0,
+      "stderr_sha256": "7EB70257593DA06F682A3DDDA54A9D260D4FC514F645237F5CA74B08F8DA61A6",
+      "pid": 44668,
+      "seconds": 6.7863661
+    },
+    {
+      "label": "upgrade-prepare",
+      "stdout_sha256": "4305C5E7B4D0465D2992CF3011EE0E2DEECA3A0A9DCDF6230F0B069F2AE9BCDC",
+      "timed_out": false,
+      "native_exit": 0,
+      "stderr_sha256": "7EB70257593DA06F682A3DDDA54A9D260D4FC514F645237F5CA74B08F8DA61A6",
+      "pid": 109176,
+      "seconds": 0.2648451
+    },
+    {
+      "label": "upgrade-startup",
+      "stdout_sha256": "19787016694931F6A7B39599B52EF6B9D6713680A9117430B398B8B29D38E5E9",
+      "timed_out": false,
+      "native_exit": 0,
+      "stderr_sha256": "7EB70257593DA06F682A3DDDA54A9D260D4FC514F645237F5CA74B08F8DA61A6",
+      "pid": 113696,
+      "seconds": 1.455917
+    },
+    {
+      "pid": 111456,
+      "stdout_sha256": "C1347E9C9A73AF1E1260B5BA1857D61DF7F0A5BCD5A5A5E1BA2ED0E0017FC615",
+      "stderr_sha256": "7EB70257593DA06F682A3DDDA54A9D260D4FC514F645237F5CA74B08F8DA61A6",
+      "timed_out": false,
+      "seconds": 0.1983767,
+      "label": "upgrade-check",
+      "native_exit": 0
+    }
+  ],
+  "dirty_worktree": true,
+  "player_save_unchanged": true,
+  "package": "C:\\Users\\21604\\Documents\\car\\exports\\career-feedback-20261013\\candidate-25bd5646886d47848c2fda1550fcf33b\\package",
+  "files": [
+    {
+      "bytes": 1977,
+      "name": "ASSET_NOTICES.md",
+      "sha256": "236F26564CB506807D5ADAA0B399097CAC1B0A08783B13757B948231DBF90DC5"
+    },
+    {
+      "bytes": 93347,
+      "name": "GODOT_COPYRIGHT.txt",
+      "sha256": "92B24143F6083111537353995AC84F0F89077B444D513C942C1D9106DF272C7C"
+    },
+    {
+      "bytes": 1149,
+      "name": "GODOT_LICENSE.txt",
+      "sha256": "B0435E3B3E4E55238F05F4B306F30524A1B2E20147810D436EAA554FA6855C80"
+    },
+    {
+      "bytes": 109019648,
+      "name": "NeonCoastRush.exe",
+      "sha256": "6E5A9BB963F57AA9B71C3941D29186FFFFFC59FE84394B527D98DBCA81438F51"
+    },
+    {
+      "bytes": 31442068,
+      "name": "NeonCoastRush.pck",
+      "sha256": "6D6925C0F1A23D4F32B379B081F31707209B2D733C985DCB236E51E20DF8C3CE"
+    },
+    {
+      "bytes": 4180,
+      "name": "README.md",
+      "sha256": "D9D4EE037294297FB86B501565E0ABC0309858F9FC9C73B3867635626179E301"
+    }
+  ],
+  "scope": "Local UI candidate from exact frozen worktree, real PCK hashes/decoding and native EXE startup. Not public release, GUI driving or human acceptance.",
+  "source_stable": true,
+  "validation": "C:/Users/21604/Documents/car/tmp/career-coin-feedback-full-verified-v2-20261013",
+  "head": "79d91495e601fc0e7fc3e394ddb570c447108afd"
+}

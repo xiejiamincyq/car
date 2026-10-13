@@ -1,0 +1,14 @@
+{
+  "tests": 176,
+  "passed": false,
+  "source_changes": [
+    "C:\\Users\\21604\\Documents\\car\\tests\\test_pause_result_flow.gd"
+  ],
+  "player_save_changes": [],
+  "seconds": 890.3469828,
+  "native_exit": 1,
+  "stderr_sha256": "9EF0A97F3A26AA2B5407BEA4E80BD4434C405C6D07C05DA7D434025DBE25197B",
+  "timed_out": false,
+  "pid": 109756,
+  "stdout_sha256": "2F9324BFA238348929F58CA70A9F5EC76F4B0FD1AE4313278C07B055981FDD78"
+}

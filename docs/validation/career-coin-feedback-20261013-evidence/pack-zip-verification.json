@@ -1,0 +1,10 @@
+{
+  "zip": "C:\\Users\\21604\\Documents\\car\\exports\\career-feedback-20261013\\candidate-25bd5646886d47848c2fda1550fcf33b\\NeonCoastRush-career-feedback-20261013.zip",
+  "native_exit": 0,
+  "unpacked": "C:\\Users\\21604\\Documents\\car\\exports\\career-feedback-20261013\\candidate-25bd5646886d47848c2fda1550fcf33b\\unpacked-751ae9c74409430c9d237a8544394c5c",
+  "zip_sha256": "F1DDF176580A421D5D5F6948ED515E2DBFB569BEC0E0E99E6DDD1EEF5A2391B6",
+  "passed": true,
+  "scope": "Six-file ZIP membership, actual extracted payload hash/size identity, and extracted EXE native headless startup in isolated APPDATA; not human driving.",
+  "zip_bytes": 69449069,
+  "files": 6
+}

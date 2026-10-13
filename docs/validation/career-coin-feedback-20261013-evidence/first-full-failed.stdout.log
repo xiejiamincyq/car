@@ -1,0 +1,1102 @@
+RUN test_a3_ui_art.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_a4_effects.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_accessibility_settings.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_audio_bus_layout.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_audio_cue_flow.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+
+WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2535)
+RUN test_audio_director.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_audio_settings_ui.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+TEST_COMPLETE test_audio_settings_ui.gd
+
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2535)
+RUN test_audio_teardown.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+AUDIO_TEARDOWN_COMPLETE
+TEST_COMPLETE test_audio_teardown.gd
+RUN test_career_history.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+CAREER_HISTORY {"checks":20,"failures":[]}
+TEST_COMPLETE test_career_history.gd
+RUN test_career_ui.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+CAREER_UI {"checks":54,"failures":[]}
+TEST_COMPLETE test_career_ui.gd
+RUN test_coin_dynamic_fairness.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_coin_entry_reachability.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_coin_feedback_polish.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_coin_gameplay_director.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_coin_main_flow.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_coin_pickup.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_coin_renderer.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_coin_route_director.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_collision_responder.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_collision_sound.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_combo_tracker.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_content_catalog.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_difficulty_profiles.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_drive_controller.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_dynamic_fairness.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_dynamic_pickup_smoke.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+DYNAMIC_PICKUP_CONFIG {"budget_seconds":90.0,"exit_policy":"1=any oracle violation, 2=any track/vehicle/difficulty family coverage missing, 0=all original and supplemental samples clean and all 30 families covered","initial_hull_fixture":60,"planned":30,"source":{"audit_sha256":"cceb861b01ed348ea58e68803cab97f40bcb081c38177266ed335e5bce9ab110","head":"79d91495e601fc0e7fc3e394ddb570c447108afd","production_sha256":{"res://scripts/coin_gameplay_director.gd":"0fdb1302f90c71dfb363d6441f54074bc5f8a972daceba3283b517b161fb171a","res://scripts/difficulty_profile.gd":"2f961767c961e129cb9d805c0ffc4771918d45dafb5924c0d3e4cf0a084443fb","res://scripts/fast_priority_traffic.gd":"fe4e02b4cddb543baa9977ea054d0288782ecd36a40c24a7e387d2f772f39640","res://scripts/fuel_spawn_director.gd":"cd3e60c86a83582f57d2d80c86036c925eaf5d1665005be9ba1146725bc075f0","res://scripts/game_config.gd":"d68366d23f4713081231ac7eaec7edc1c47edb09b8e70c71cf52cc2632c4d90c","res://scripts/lane_event_director.gd":"8d694b58d6c68c0eebe36f76ef0e06f0fbe8b040607168b138b6ae2e9cce7c16","res://scripts/main.gd":"758861130fe24254bb31b04dcd8e819cae9dec7f7d29695b63d26556412684c8","res://scripts/overdrive_controller.gd":"f52d4b847587e198428ce6a006346c7b7481cf6ef867412f6e0597cb78e8eee4","res://scripts/repair_supply_director.gd":"7d8a7569d0a66fea6cb74f240319ed463115935ddfab87b9f470a73bb25966a3","res://scripts/run_state.gd":"d0d9fa29bb4654c4733faefe9e3659af3e8fee44295d65003881a46eae44bb58","res://scripts/traffic_director.gd":"1d5894d13746c17d0d2b86ce31aa0f842bcf95fde86bc8e4298b669015c5c2ef","res://scripts/traffic_safety_policy.gd":"0843581684e927d990b92042e4af133d3b2f1b080757e5a9d6f4f7352218482c","res://scripts/traffic_vehicle.gd":"46ca0779adbdd5729992689d1a4f33919bf6c354a2508a40e2eea3fb65a7e383","res://scripts/vehicle_integrity.gd":"c498a1f7defe46bceab164eacd769d7d9dc287cb5ed595220e0e78513768fb5c"}},"step":0.0166666666666667,"supplement_planned":5,"world":"natural Main generation; no resource/world injection"}
+DYNAMIC_PICKUP_SAMPLE {"case_id":"d0/s1/neon_coast/pulse_gt/seed611","coins":125,"collision_frames":0,"collisions":0,"construction_frames":345,"construction_history":"warning:0|closed:0|ended:0|warning:0|closed:0|ended:0","coverage_missing":[],"damage_events":0,"difficulty_index":0,"difficulty_stage":3,"distance":3200.54944444451,"fuel":3,"fuel_cap_waste":39.5104788780145,"fuel_effective":32.4895211219855,"fuel_left":96.0669199849187,"fuel_requested":72.0,"hull":100.0,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":125,"live":0,"recycled":24,"spawned":149},"fuel":{"collected":3,"live":1,"recycled":10,"spawned":14},"repair":{"collected":4,"live":0,"recycled":3,"spawned":7}},"oracle_failures":0,"oracle_frames":3886,"phase":"RUN_CLEAR","pipeline_frames":{"coins":3885,"fuel":3885,"repair":3885},"repair":4,"repair_cap_waste":40.0,"repair_effective":40.0,"repair_requested":80.0,"sample":1,"scheduled_events":2,"seconds":64.7666666666643,"seed":611,"session":1,"stop_reason":"clear","supply_schedule":{"fuel":{"blocked_attempts":3,"opportunities":14,"pending":false,"spawned":14},"repair":{"blocked_attempts":7,"opportunities":7,"pending":false,"spawned":7}},"terminal_frame_checked":true,"track":"neon_coast","traffic_frames":3725,"vehicle":"pulse_gt"}
+DYNAMIC_PICKUP_SAMPLE {"case_id":"d0/s2/freight_harbor/driftwing/seed2026","coins":161,"collision_frames":0,"collisions":0,"construction_frames":374,"construction_history":"warning:2|closed:2|ended:2|warning:2|closed:2|ended:2","coverage_missing":[],"damage_events":0,"difficulty_index":0,"difficulty_stage":3,"distance":3400.59422222254,"fuel":6,"fuel_cap_waste":102.449255368887,"fuel_effective":41.5507446311128,"fuel_left":97.7061630829669,"fuel_requested":144.0,"hull":100.0,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":161,"live":0,"recycled":17,"spawned":178},"fuel":{"collected":6,"live":0,"recycled":9,"spawned":15},"repair":{"collected":2,"live":0,"recycled":6,"spawned":8}},"oracle_failures":0,"oracle_frames":4428,"phase":"RUN_CLEAR","pipeline_frames":{"coins":4427,"fuel":4427,"repair":4427},"repair":2,"repair_cap_waste":0.0,"repair_effective":40.0,"repair_requested":40.0,"sample":2,"scheduled_events":2,"seconds":73.7999999999971,"seed":2026,"session":2,"stop_reason":"clear","supply_schedule":{"fuel":{"blocked_attempts":6,"opportunities":15,"pending":false,"spawned":15},"repair":{"blocked_attempts":5,"opportunities":8,"pending":false,"spawned":8}},"terminal_frame_checked":true,"track":"freight_harbor","traffic_frames":4293,"vehicle":"driftwing"}
+DYNAMIC_PICKUP_SAMPLE {"case_id":"d0/s3/storm_ridge/flashpoint/seed9001","coins":138,"collision_frames":1,"collisions":1,"construction_frames":0,"construction_history":"warning:2|cancelled:2|warning:2|cancelled:2","coverage_missing":["construction_frames"],"damage_events":1,"difficulty_index":0,"difficulty_stage":3,"distance":3300.04599004564,"fuel":5,"fuel_cap_waste":79.8054575495915,"fuel_effective":40.1945424504085,"fuel_left":95.9611795649358,"fuel_requested":120.0,"hull":100.0,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":138,"live":0,"recycled":9,"spawned":147},"fuel":{"collected":5,"live":1,"recycled":9,"spawned":15},"repair":{"collected":4,"live":0,"recycled":4,"spawned":8}},"oracle_failures":0,"oracle_frames":4215,"phase":"RUN_CLEAR","pipeline_frames":{"coins":4214,"fuel":4214,"repair":4214},"repair":4,"repair_cap_waste":27.6113360323887,"repair_effective":52.3886639676113,"repair_requested":80.0,"sample":3,"scheduled_events":0,"seconds":70.2499999999973,"seed":9001,"session":3,"stop_reason":"clear","supply_schedule":{"fuel":{"blocked_attempts":4,"opportunities":15,"pending":false,"spawned":15},"repair":{"blocked_attempts":3,"opportunities":8,"pending":false,"spawned":8}},"terminal_frame_checked":true,"track":"storm_ridge","traffic_frames":4052,"vehicle":"flashpoint"}
+DYNAMIC_PICKUP_SAMPLE {"case_id":"d0/s4/sunrise_express/comet_rs/seed611","coins":121,"collision_frames":0,"collisions":0,"construction_frames":306,"construction_history":"warning:2|cancelled:2|warning:2|closed:2|ended:2|warning:0|closed:0|ended:0","coverage_missing":[],"damage_events":0,"difficulty_index":0,"difficulty_stage":3,"distance":3600.80874999966,"fuel":3,"fuel_cap_waste":42.9366582777141,"fuel_effective":29.0633417222859,"fuel_left":84.3461965247437,"fuel_requested":72.0,"hull":80.0,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":121,"live":0,"recycled":19,"spawned":140},"fuel":{"collected":3,"live":0,"recycled":11,"spawned":14},"repair":{"collected":1,"live":0,"recycled":7,"spawned":8}},"oracle_failures":0,"oracle_frames":3984,"phase":"RUN_CLEAR","pipeline_frames":{"coins":3983,"fuel":3983,"repair":3983},"repair":1,"repair_cap_waste":0.0,"repair_effective":20.0,"repair_requested":20.0,"sample":4,"scheduled_events":2,"seconds":66.3999999999975,"seed":611,"session":4,"stop_reason":"clear","supply_schedule":{"fuel":{"blocked_attempts":0,"opportunities":14,"pending":false,"spawned":14},"repair":{"blocked_attempts":2,"opportunities":8,"pending":false,"spawned":8}},"terminal_frame_checked":true,"track":"sunrise_express","traffic_frames":3833,"vehicle":"comet_rs"}
+DYNAMIC_PICKUP_SAMPLE {"case_id":"d0/s5/neon_coast/tidebreaker/seed2026","coins":166,"collision_frames":0,"collisions":0,"construction_frames":367,"construction_history":"warning:2|closed:2|ended:2|warning:2|cancelled:2|warning:2|closed:2|ended:2","coverage_missing":[],"damage_events":0,"difficulty_index":0,"difficulty_stage":3,"distance":3200.62213888913,"fuel":6,"fuel_cap_waste":105.075005888158,"fuel_effective":38.9249941118422,"fuel_left":95.5403549103752,"fuel_requested":144.0,"hull":100.0,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":166,"live":0,"recycled":11,"spawned":177},"fuel":{"collected":6,"live":1,"recycled":8,"spawned":15},"repair":{"collected":3,"live":0,"recycled":5,"spawned":8}},"oracle_failures":0,"oracle_frames":4102,"phase":"RUN_CLEAR","pipeline_frames":{"coins":4101,"fuel":4101,"repair":4101},"repair":3,"repair_cap_waste":20.0,"repair_effective":40.0,"repair_requested":60.0,"sample":5,"scheduled_events":2,"seconds":68.3666666666641,"seed":2026,"session":5,"stop_reason":"clear","supply_schedule":{"fuel":{"blocked_attempts":0,"opportunities":15,"pending":false,"spawned":15},"repair":{"blocked_attempts":0,"opportunities":8,"pending":false,"spawned":8}},"terminal_frame_checked":true,"track":"neon_coast","traffic_frames":3768,"vehicle":"tidebreaker"}
+DYNAMIC_PICKUP_SAMPLE {"case_id":"d0/s6/freight_harbor/aurora_x/seed9001","coins":118,"collision_frames":0,"collisions":0,"construction_frames":314,"construction_history":"warning:2|closed:2|ended:2|warning:2|closed:2|ended:2","coverage_missing":[],"damage_events":0,"difficulty_index":0,"difficulty_stage":3,"distance":3400.44144444449,"fuel":2,"fuel_cap_waste":25.9598375470411,"fuel_effective":22.0401624529589,"fuel_left":91.4525853095821,"fuel_requested":48.0,"hull":100.0,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":118,"live":0,"recycled":24,"spawned":142},"fuel":{"collected":2,"live":1,"recycled":11,"spawned":14},"repair":{"collected":2,"live":0,"recycled":5,"spawned":7}},"oracle_failures":0,"oracle_frames":3784,"phase":"RUN_CLEAR","pipeline_frames":{"coins":3783,"fuel":3783,"repair":3783},"repair":2,"repair_cap_waste":0.0,"repair_effective":40.0,"repair_requested":40.0,"sample":6,"scheduled_events":2,"seconds":63.0666666666644,"seed":9001,"session":6,"stop_reason":"clear","supply_schedule":{"fuel":{"blocked_attempts":0,"opportunities":14,"pending":false,"spawned":14},"repair":{"blocked_attempts":0,"opportunities":7,"pending":false,"spawned":7}},"terminal_frame_checked":true,"track":"freight_harbor","traffic_frames":3743,"vehicle":"aurora_x"}
+DYNAMIC_PICKUP_SAMPLE {"case_id":"d0/s7/storm_ridge/pulse_gt/seed611","coins":110,"collision_frames":1,"collisions":1,"construction_frames":345,"construction_history":"warning:0|closed:0|ended:0|warning:0|closed:0|ended:0","coverage_missing":[],"damage_events":1,"difficulty_index":0,"difficulty_stage":3,"distance":3300.1926433334,"fuel":7,"fuel_cap_waste":122.534409613852,"fuel_effective":45.4655903861478,"fuel_left":97.5742863605415,"fuel_requested":168.0,"hull":89.8,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":110,"live":0,"recycled":21,"spawned":131},"fuel":{"collected":7,"live":0,"recycled":7,"spawned":14},"repair":{"collected":4,"live":1,"recycled":3,"spawned":8}},"oracle_failures":0,"oracle_frames":3980,"phase":"RUN_CLEAR","pipeline_frames":{"coins":3979,"fuel":3979,"repair":3979},"repair":4,"repair_cap_waste":40.0,"repair_effective":40.0,"repair_requested":80.0,"sample":7,"scheduled_events":2,"seconds":66.3333333333309,"seed":611,"session":7,"stop_reason":"clear","supply_schedule":{"fuel":{"blocked_attempts":0,"opportunities":14,"pending":false,"spawned":14},"repair":{"blocked_attempts":4,"opportunities":8,"pending":false,"spawned":8}},"terminal_frame_checked":true,"track":"storm_ridge","traffic_frames":3878,"vehicle":"pulse_gt"}
+DYNAMIC_PICKUP_SAMPLE {"case_id":"d0/s8/sunrise_express/driftwing/seed2026","coins":179,"collision_frames":0,"collisions":0,"construction_frames":374,"construction_history":"warning:2|closed:2|ended:2|warning:2|closed:2|ended:2","coverage_missing":[],"damage_events":0,"difficulty_index":0,"difficulty_stage":3,"distance":3600.15336111146,"fuel":8,"fuel_cap_waste":144.440992087004,"fuel_effective":47.5590079129964,"fuel_left":91.4266356097612,"fuel_requested":192.0,"hull":100.0,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":179,"live":0,"recycled":26,"spawned":205},"fuel":{"collected":8,"live":0,"recycled":8,"spawned":16},"repair":{"collected":5,"live":0,"recycled":4,"spawned":9}},"oracle_failures":0,"oracle_frames":4668,"phase":"RUN_CLEAR","pipeline_frames":{"coins":4667,"fuel":4667,"repair":4667},"repair":5,"repair_cap_waste":60.0,"repair_effective":40.0,"repair_requested":100.0,"sample":8,"scheduled_events":2,"seconds":77.7999999999969,"seed":2026,"session":8,"stop_reason":"clear","supply_schedule":{"fuel":{"blocked_attempts":4,"opportunities":16,"pending":false,"spawned":16},"repair":{"blocked_attempts":1,"opportunities":9,"pending":false,"spawned":9}},"terminal_frame_checked":true,"track":"sunrise_express","traffic_frames":4254,"vehicle":"driftwing"}
+DYNAMIC_PICKUP_SAMPLE {"case_id":"d0/s9/storm_ridge/comet_rs/seed9001","coins":99,"collision_frames":2,"collisions":2,"construction_frames":154,"construction_history":"warning:2|closed:2|ended:2|warning:2|cancelled:2","coverage_missing":[],"damage_events":2,"difficulty_index":0,"difficulty_stage":3,"distance":3300.27674729406,"fuel":4,"fuel_cap_waste":64.5023488730454,"fuel_effective":31.4976511269546,"fuel_left":99.5462684762601,"fuel_requested":96.0,"hull":83.4619841918945,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":99,"live":0,"recycled":30,"spawned":129},"fuel":{"collected":4,"live":0,"recycled":9,"spawned":13},"repair":{"collected":2,"live":0,"recycled":5,"spawned":7}},"oracle_failures":0,"oracle_frames":3589,"phase":"RUN_CLEAR","pipeline_frames":{"coins":3588,"fuel":3588,"repair":3588},"repair":2,"repair_cap_waste":0.0,"repair_effective":40.0,"repair_requested":40.0,"sample":9,"scheduled_events":1,"seconds":59.8166666666646,"seed":9001,"session":9,"stop_reason":"clear","supply_schedule":{"fuel":{"blocked_attempts":0,"opportunities":13,"pending":false,"spawned":13},"repair":{"blocked_attempts":0,"opportunities":7,"pending":false,"spawned":7}},"terminal_frame_checked":true,"track":"storm_ridge","traffic_frames":3548,"vehicle":"comet_rs"}
+DYNAMIC_PICKUP_SAMPLE {"case_id":"d0/s10/sunrise_express/aurora_x/seed611","coins":157,"collision_frames":1,"collisions":1,"construction_frames":314,"construction_history":"warning:2|closed:2|ended:2|warning:2|closed:2|ended:2","coverage_missing":[],"damage_events":1,"difficulty_index":0,"difficulty_stage":3,"distance":3600.41403327916,"fuel":4,"fuel_cap_waste":62.7182145352864,"fuel_effective":33.2817854647136,"fuel_left":91.1014185572835,"fuel_requested":96.0,"hull":89.8,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":157,"live":0,"recycled":4,"spawned":161},"fuel":{"collected":4,"live":1,"recycled":9,"spawned":14},"repair":{"collected":2,"live":0,"recycled":6,"spawned":8}},"oracle_failures":0,"oracle_frames":3955,"phase":"RUN_CLEAR","pipeline_frames":{"coins":3954,"fuel":3954,"repair":3954},"repair":2,"repair_cap_waste":0.0,"repair_effective":40.0,"repair_requested":40.0,"sample":10,"scheduled_events":2,"seconds":65.9166666666642,"seed":611,"session":10,"stop_reason":"clear","supply_schedule":{"fuel":{"blocked_attempts":5,"opportunities":14,"pending":false,"spawned":14},"repair":{"blocked_attempts":1,"opportunities":8,"pending":false,"spawned":8}},"terminal_frame_checked":true,"track":"sunrise_express","traffic_frames":3660,"vehicle":"aurora_x"}
+DYNAMIC_PICKUP_SAMPLE {"case_id":"d1/s1/neon_coast/pulse_gt/seed611","coins":123,"collision_frames":3,"collisions":3,"construction_frames":173,"construction_history":"warning:2|cancelled:2|warning:2|closed:2|ended:2|warning:2|cancelled:2|warning:2|cancelled:2","coverage_missing":[],"damage_events":3,"difficulty_index":1,"difficulty_stage":3,"distance":3200.47500247434,"fuel":3,"fuel_cap_waste":14.7860129408518,"fuel_effective":57.2139870591482,"fuel_left":86.9461258037588,"fuel_requested":72.0,"hull":23.5,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":123,"live":0,"recycled":21,"spawned":144},"fuel":{"collected":3,"live":0,"recycled":6,"spawned":9},"repair":{"collected":2,"live":0,"recycled":3,"spawned":5}},"oracle_failures":0,"oracle_frames":4040,"phase":"RUN_CLEAR","pipeline_frames":{"coins":4039,"fuel":4039,"repair":4039},"repair":2,"repair_cap_waste":0.0,"repair_effective":40.0,"repair_requested":40.0,"sample":11,"scheduled_events":1,"seconds":67.3333333333308,"seed":611,"session":1,"stop_reason":"clear","supply_schedule":{"fuel":{"blocked_attempts":5,"opportunities":9,"pending":false,"spawned":9},"repair":{"blocked_attempts":3,"opportunities":5,"pending":false,"spawned":5}},"terminal_frame_checked":true,"track":"neon_coast","traffic_frames":3926,"vehicle":"pulse_gt"}
+DYNAMIC_PICKUP_SAMPLE {"case_id":"d1/s2/freight_harbor/driftwing/seed2026","coins":148,"collision_frames":1,"collisions":1,"construction_frames":560,"construction_history":"warning:2|closed:2|ended:2|warning:2|cancelled:2|warning:2|closed:2|ended:2|warning:2|closed:2|ended:2","coverage_missing":[],"damage_events":1,"difficulty_index":1,"difficulty_stage":3,"distance":3400.09794391306,"fuel":3,"fuel_cap_waste":0.0,"fuel_effective":72.0,"fuel_left":90.510602965171,"fuel_requested":72.0,"hull":89.0283400809717,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":148,"live":0,"recycled":31,"spawned":179},"fuel":{"collected":3,"live":0,"recycled":7,"spawned":10},"repair":{"collected":3,"live":0,"recycled":2,"spawned":5}},"oracle_failures":0,"oracle_frames":4420,"phase":"RUN_CLEAR","pipeline_frames":{"coins":4419,"fuel":4419,"repair":4419},"repair":3,"repair_cap_waste":0.0,"repair_effective":60.0,"repair_requested":60.0,"sample":12,"scheduled_events":3,"seconds":73.6666666666638,"seed":2026,"session":2,"stop_reason":"clear","supply_schedule":{"fuel":{"blocked_attempts":2,"opportunities":10,"pending":false,"spawned":10},"repair":{"blocked_attempts":5,"opportunities":5,"pending":false,"spawned":5}},"terminal_frame_checked":true,"track":"freight_harbor","traffic_frames":4266,"vehicle":"driftwing"}
+DYNAMIC_PICKUP_SAMPLE {"case_id":"d1/s3/storm_ridge/flashpoint/seed9001","coins":138,"collision_frames":0,"collisions":0,"construction_frames":0,"construction_history":"warning:0|cancelled:0|warning:0|cancelled:0|warning:0|cancelled:0|warning:0|cancelled:0","coverage_missing":["construction_frames"],"damage_events":0,"difficulty_index":1,"difficulty_stage":3,"distance":3300.31172222241,"fuel":2,"fuel_cap_waste":20.65960177393,"fuel_effective":27.34039822607,"fuel_left":45.5304357329749,"fuel_requested":48.0,"hull":80.0,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":138,"live":0,"recycled":15,"spawned":153},"fuel":{"collected":2,"live":0,"recycled":7,"spawned":9},"repair":{"collected":1,"live":0,"recycled":4,"spawned":5}},"oracle_failures":0,"oracle_frames":4267,"phase":"RUN_CLEAR","pipeline_frames":{"coins":4266,"fuel":4266,"repair":4266},"repair":1,"repair_cap_waste":0.0,"repair_effective":20.0,"repair_requested":20.0,"sample":13,"scheduled_events":0,"seconds":71.1166666666639,"seed":9001,"session":3,"stop_reason":"clear","supply_schedule":{"fuel":{"blocked_attempts":3,"opportunities":9,"pending":false,"spawned":9},"repair":{"blocked_attempts":3,"opportunities":5,"pending":false,"spawned":5}},"terminal_frame_checked":true,"track":"storm_ridge","traffic_frames":3980,"vehicle":"flashpoint"}
+DYNAMIC_PICKUP_SAMPLE {"case_id":"d1/s4/sunrise_express/comet_rs/seed611","coins":117,"collision_frames":1,"collisions":1,"construction_frames":154,"construction_history":"warning:2|closed:2|ended:2|warning:2|cancelled:2|warning:0|cancelled:0|warning:2|cancelled:2","coverage_missing":[],"damage_events":1,"difficulty_index":1,"difficulty_stage":3,"distance":3600.92825402122,"fuel":3,"fuel_cap_waste":24.0551651994259,"fuel_effective":47.9448348005741,"fuel_left":75.5680816024146,"fuel_requested":72.0,"hull":73.5192307692308,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":117,"live":0,"recycled":12,"spawned":129},"fuel":{"collected":3,"live":0,"recycled":6,"spawned":9},"repair":{"collected":3,"live":0,"recycled":2,"spawned":5}},"oracle_failures":0,"oracle_frames":3977,"phase":"RUN_CLEAR","pipeline_frames":{"coins":3976,"fuel":3976,"repair":3976},"repair":3,"repair_cap_waste":20.0,"repair_effective":40.0,"repair_requested":60.0,"sample":14,"scheduled_events":1,"seconds":66.2833333333309,"seed":611,"session":4,"stop_reason":"clear","supply_schedule":{"fuel":{"blocked_attempts":0,"opportunities":9,"pending":false,"spawned":9},"repair":{"blocked_attempts":0,"opportunities":5,"pending":false,"spawned":5}},"terminal_frame_checked":true,"track":"sunrise_express","traffic_frames":3781,"vehicle":"comet_rs"}
+DYNAMIC_PICKUP_SAMPLE {"case_id":"d1/s5/neon_coast/tidebreaker/seed2026","coins":124,"collision_frames":3,"collisions":3,"construction_frames":367,"construction_history":"warning:2|closed:2|ended:2|warning:2|closed:2|ended:2|warning:2|cancelled:2|warning:0|cancelled:0","coverage_missing":[],"damage_events":3,"difficulty_index":1,"difficulty_stage":3,"distance":3200.18537616765,"fuel":2,"fuel_cap_waste":0.000000000000007105427357601,"fuel_effective":48.0,"fuel_left":68.0586575771357,"fuel_requested":48.0,"hull":42.1550094517958,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":124,"live":0,"recycled":25,"spawned":149},"fuel":{"collected":2,"live":0,"recycled":7,"spawned":9},"repair":{"collected":2,"live":0,"recycled":3,"spawned":5}},"oracle_failures":0,"oracle_frames":4238,"phase":"RUN_CLEAR","pipeline_frames":{"coins":4237,"fuel":4237,"repair":4237},"repair":2,"repair_cap_waste":0.0,"repair_effective":40.0,"repair_requested":40.0,"sample":15,"scheduled_events":2,"seconds":70.6333333333306,"seed":2026,"session":5,"stop_reason":"clear","supply_schedule":{"fuel":{"blocked_attempts":4,"opportunities":9,"pending":false,"spawned":9},"repair":{"blocked_attempts":0,"opportunities":5,"pending":false,"spawned":5}},"terminal_frame_checked":true,"track":"neon_coast","traffic_frames":4008,"vehicle":"tidebreaker"}
+DYNAMIC_PICKUP_SAMPLE {"case_id":"d1/s6/freight_harbor/aurora_x/seed9001","coins":88,"collision_frames":3,"collisions":3,"construction_frames":314,"construction_history":"warning:2|closed:2|ended:2|warning:2|closed:2|ended:2|warning:0|cancelled:0","coverage_missing":[],"damage_events":3,"difficulty_index":1,"difficulty_stage":3,"distance":3107.08343112414,"fuel":2,"fuel_cap_waste":1.02492260888516,"fuel_effective":46.9750773911148,"fuel_left":85.4743036311742,"fuel_requested":48.0,"hull":3.5,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":88,"live":0,"recycled":26,"spawned":114},"fuel":{"collected":2,"live":0,"recycled":6,"spawned":8},"repair":{"collected":1,"live":0,"recycled":3,"spawned":4}},"oracle_failures":0,"oracle_frames":3451,"phase":"GAME_OVER","pipeline_frames":{"coins":3451,"fuel":3451,"repair":3451},"repair":1,"repair_cap_waste":0.0,"repair_effective":20.0,"repair_requested":20.0,"sample":16,"scheduled_events":2,"seconds":57.5166666666647,"seed":9001,"session":6,"stop_reason":"integrity","supply_schedule":{"fuel":{"blocked_attempts":0,"opportunities":8,"pending":false,"spawned":8},"repair":{"blocked_attempts":0,"opportunities":4,"pending":false,"spawned":4}},"terminal_frame_checked":true,"track":"freight_harbor","traffic_frames":3410,"vehicle":"aurora_x"}
+DYNAMIC_PICKUP_SAMPLE {"case_id":"d1/s7/storm_ridge/pulse_gt/seed611","coins":138,"collision_frames":0,"collisions":0,"construction_frames":345,"construction_history":"warning:2|closed:2|ended:2|warning:2|closed:2|ended:2|warning:2|cancelled:2","coverage_missing":[],"damage_events":0,"difficulty_index":1,"difficulty_stage":3,"distance":3300.04291666667,"fuel":2,"fuel_cap_waste":24.0503753117876,"fuel_effective":23.9496246882124,"fuel_left":49.1511108721133,"fuel_requested":48.0,"hull":100.0,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":138,"live":0,"recycled":20,"spawned":158},"fuel":{"collected":2,"live":1,"recycled":6,"spawned":9},"repair":{"collected":2,"live":0,"recycled":3,"spawned":5}},"oracle_failures":0,"oracle_frames":3962,"phase":"RUN_CLEAR","pipeline_frames":{"coins":3961,"fuel":3961,"repair":3961},"repair":2,"repair_cap_waste":0.0,"repair_effective":40.0,"repair_requested":40.0,"sample":17,"scheduled_events":2,"seconds":66.0333333333309,"seed":611,"session":7,"stop_reason":"clear","supply_schedule":{"fuel":{"blocked_attempts":6,"opportunities":9,"pending":false,"spawned":9},"repair":{"blocked_attempts":0,"opportunities":5,"pending":false,"spawned":5}},"terminal_frame_checked":true,"track":"storm_ridge","traffic_frames":3582,"vehicle":"pulse_gt"}
+DYNAMIC_PICKUP_SAMPLE {"case_id":"d1/s8/sunrise_express/driftwing/seed2026","coins":180,"collision_frames":1,"collisions":1,"construction_frames":188,"construction_history":"warning:2|closed:2|ended:2|warning:0|cancelled:0|warning:0|cancelled:0|warning:0|cancelled:0|warning:0|cancelled:0|warning:0|cancelled:0","coverage_missing":[],"damage_events":1,"difficulty_index":1,"difficulty_stage":3,"distance":3600.5054572748,"fuel":5,"fuel_cap_waste":40.2995983751103,"fuel_effective":79.7004016248897,"fuel_left":89.7214844925049,"fuel_requested":120.0,"hull":49.0283400809717,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":180,"live":0,"recycled":10,"spawned":190},"fuel":{"collected":5,"live":1,"recycled":5,"spawned":11},"repair":{"collected":1,"live":0,"recycled":5,"spawned":6}},"oracle_failures":0,"oracle_frames":4688,"phase":"RUN_CLEAR","pipeline_frames":{"coins":4687,"fuel":4687,"repair":4687},"repair":1,"repair_cap_waste":0.0000000000000035527136788005,"repair_effective":20.0,"repair_requested":20.0,"sample":18,"scheduled_events":1,"seconds":78.1333333333302,"seed":2026,"session":8,"stop_reason":"clear","supply_schedule":{"fuel":{"blocked_attempts":1,"opportunities":11,"pending":false,"spawned":11},"repair":{"blocked_attempts":1,"opportunities":6,"pending":false,"spawned":6}},"terminal_frame_checked":true,"track":"sunrise_express","traffic_frames":4360,"vehicle":"driftwing"}
+DYNAMIC_PICKUP_SAMPLE {"case_id":"d1/s9/storm_ridge/comet_rs/seed9001","coins":142,"collision_frames":0,"collisions":0,"construction_frames":0,"construction_history":"warning:0|cancelled:0|warning:0|cancelled:0|warning:0|cancelled:0","coverage_missing":["construction_frames"],"damage_events":0,"difficulty_index":1,"difficulty_stage":3,"distance":3300.45138888854,"fuel":4,"fuel_cap_waste":40.4508416646548,"fuel_effective":55.5491583353452,"fuel_left":94.0901490258542,"fuel_requested":96.0,"hull":100.0,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":142,"live":0,"recycled":21,"spawned":163},"fuel":{"collected":4,"live":0,"recycled":4,"spawned":8},"repair":{"collected":4,"live":0,"recycled":1,"spawned":5}},"oracle_failures":0,"oracle_frames":3845,"phase":"RUN_CLEAR","pipeline_frames":{"coins":3844,"fuel":3844,"repair":3844},"repair":4,"repair_cap_waste":40.0,"repair_effective":40.0,"repair_requested":80.0,"sample":19,"scheduled_events":0,"seconds":64.083333333331,"seed":9001,"session":9,"stop_reason":"clear","supply_schedule":{"fuel":{"blocked_attempts":6,"opportunities":8,"pending":false,"spawned":8},"repair":{"blocked_attempts":3,"opportunities":5,"pending":false,"spawned":5}},"terminal_frame_checked":true,"track":"storm_ridge","traffic_frames":3575,"vehicle":"comet_rs"}
+DYNAMIC_PICKUP_SAMPLE {"case_id":"d1/s10/sunrise_express/aurora_x/seed611","coins":132,"collision_frames":1,"collisions":1,"construction_frames":313,"construction_history":"warning:2|closed:2|ended:2|warning:2|cancelled:2|warning:0|cancelled:0|warning:2|closed:2|ended:2","coverage_missing":[],"damage_events":1,"difficulty_index":1,"difficulty_stage":3,"distance":3600.65558922575,"fuel":3,"fuel_cap_waste":10.0263866369818,"fuel_effective":61.9736133630182,"fuel_left":93.7931785066442,"fuel_requested":72.0,"hull":74.5,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":132,"live":0,"recycled":13,"spawned":145},"fuel":{"collected":3,"live":0,"recycled":6,"spawned":9},"repair":{"collected":2,"live":0,"recycled":3,"spawned":5}},"oracle_failures":0,"oracle_frames":3912,"phase":"RUN_CLEAR","pipeline_frames":{"coins":3911,"fuel":3911,"repair":3911},"repair":2,"repair_cap_waste":0.0,"repair_effective":40.0,"repair_requested":40.0,"sample":20,"scheduled_events":2,"seconds":65.1999999999976,"seed":611,"session":10,"stop_reason":"clear","supply_schedule":{"fuel":{"blocked_attempts":0,"opportunities":9,"pending":false,"spawned":9},"repair":{"blocked_attempts":0,"opportunities":5,"pending":false,"spawned":5}},"terminal_frame_checked":true,"track":"sunrise_express","traffic_frames":3871,"vehicle":"aurora_x"}
+DYNAMIC_PICKUP_SAMPLE {"case_id":"d2/s1/neon_coast/pulse_gt/seed611","coins":66,"collision_frames":0,"collisions":0,"construction_frames":993,"construction_history":"warning:2|cancelled:2|warning:2|closed:2|ended:2|warning:2|closed:2|ended:2|warning:2|closed:2|ended:2|warning:2|cancelled:2|warning:2|closed:2|ended:2","coverage_missing":[],"damage_events":0,"difficulty_index":2,"difficulty_stage":3,"distance":3200.61291666696,"fuel":5,"fuel_cap_waste":0.0000000000000035527136788005,"fuel_effective":120.0,"fuel_left":31.6457386500902,"fuel_requested":120.0,"hull":80.0,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":66,"live":0,"recycled":33,"spawned":99},"fuel":{"collected":5,"live":0,"recycled":3,"spawned":8},"repair":{"collected":1,"live":0,"recycled":3,"spawned":4}},"oracle_failures":0,"oracle_frames":5335,"phase":"RUN_CLEAR","pipeline_frames":{"coins":5334,"fuel":5334,"repair":5334},"repair":1,"repair_cap_waste":0.0,"repair_effective":20.0,"repair_requested":20.0,"sample":21,"scheduled_events":4,"seconds":88.9166666666629,"seed":611,"session":1,"stop_reason":"clear","supply_schedule":{"fuel":{"blocked_attempts":3,"opportunities":8,"pending":false,"spawned":8},"repair":{"blocked_attempts":1,"opportunities":4,"pending":false,"spawned":4}},"terminal_frame_checked":true,"track":"neon_coast","traffic_frames":5234,"vehicle":"pulse_gt"}
+DYNAMIC_PICKUP_SAMPLE {"case_id":"d2/s2/freight_harbor/driftwing/seed2026","coins":36,"collision_frames":1,"collisions":1,"construction_frames":1037,"construction_history":"warning:2|closed:2|ended:2|warning:0|cancelled:0|warning:2|closed:2|ended:2|warning:0|closed:0|ended:0|warning:0|closed:0|ended:0","coverage_missing":[],"damage_events":1,"difficulty_index":2,"difficulty_stage":3,"distance":2889.36375000007,"fuel":6,"fuel_cap_waste":-0.0000000000000035527136788005,"fuel_effective":144.0,"fuel_left":43.294452532519,"fuel_requested":144.0,"hull":74.471058065241,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":36,"live":12,"recycled":14,"spawned":62},"fuel":{"collected":6,"live":0,"recycled":2,"spawned":8},"repair":{"collected":1,"live":0,"recycled":3,"spawned":4}},"oracle_failures":0,"oracle_frames":5400,"phase":"RUNNING","pipeline_frames":{"coins":5400,"fuel":5400,"repair":5400},"repair":1,"repair_cap_waste":0.0,"repair_effective":20.0,"repair_requested":20.0,"sample":22,"scheduled_events":4,"seconds":89.9999999999962,"seed":2026,"session":2,"stop_reason":"simulation_budget","supply_schedule":{"fuel":{"blocked_attempts":3,"opportunities":8,"pending":false,"spawned":8},"repair":{"blocked_attempts":1,"opportunities":4,"pending":false,"spawned":4}},"terminal_frame_checked":false,"track":"freight_harbor","traffic_frames":5340,"vehicle":"driftwing"}
+DYNAMIC_PICKUP_SAMPLE {"case_id":"d2/s3/storm_ridge/flashpoint/seed9001","coins":88,"collision_frames":0,"collisions":0,"construction_frames":776,"construction_history":"warning:0|cancelled:0|warning:0|closed:0|ended:0|warning:2|cancelled:2|warning:2|cancelled:2|warning:2|closed:2|ended:2|warning:2|cancelled:2|warning:2|closed:2|ended:2","coverage_missing":[],"damage_events":0,"difficulty_index":2,"difficulty_stage":3,"distance":3300.39952777793,"fuel":5,"fuel_cap_waste":0.0,"fuel_effective":120.0,"fuel_left":35.5146068569762,"fuel_requested":120.0,"hull":100.0,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":88,"live":2,"recycled":39,"spawned":129},"fuel":{"collected":5,"live":0,"recycled":3,"spawned":8},"repair":{"collected":2,"live":0,"recycled":2,"spawned":4}},"oracle_failures":0,"oracle_frames":5305,"phase":"RUN_CLEAR","pipeline_frames":{"coins":5304,"fuel":5304,"repair":5304},"repair":2,"repair_cap_waste":0.0,"repair_effective":40.0,"repair_requested":40.0,"sample":23,"scheduled_events":3,"seconds":88.4166666666629,"seed":9001,"session":3,"stop_reason":"clear","supply_schedule":{"fuel":{"blocked_attempts":7,"opportunities":8,"pending":false,"spawned":8},"repair":{"blocked_attempts":9,"opportunities":4,"pending":false,"spawned":4}},"terminal_frame_checked":true,"track":"storm_ridge","traffic_frames":5204,"vehicle":"flashpoint"}
+DYNAMIC_PICKUP_SAMPLE {"case_id":"d2/s4/sunrise_express/comet_rs/seed611","coins":85,"collision_frames":1,"collisions":1,"construction_frames":581,"construction_history":"warning:2|cancelled:2|warning:2|cancelled:2|warning:2|closed:2|ended:2|warning:2|cancelled:2|warning:2|closed:2|ended:2|warning:2|closed:2|ended:2|warning:2|cancelled:2","coverage_missing":[],"damage_events":1,"difficulty_index":2,"difficulty_stage":3,"distance":3600.22561111148,"fuel":5,"fuel_cap_waste":0.000000000000014210854715202,"fuel_effective":120.0,"fuel_left":50.9671638643622,"fuel_requested":120.0,"hull":74.2189984823374,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":85,"live":0,"recycled":37,"spawned":122},"fuel":{"collected":5,"live":0,"recycled":3,"spawned":8},"repair":{"collected":1,"live":0,"recycled":3,"spawned":4}},"oracle_failures":0,"oracle_frames":5084,"phase":"RUN_CLEAR","pipeline_frames":{"coins":5083,"fuel":5083,"repair":5083},"repair":1,"repair_cap_waste":0.0,"repair_effective":20.0,"repair_requested":20.0,"sample":24,"scheduled_events":3,"seconds":84.7333333333298,"seed":611,"session":4,"stop_reason":"clear","supply_schedule":{"fuel":{"blocked_attempts":1,"opportunities":8,"pending":false,"spawned":8},"repair":{"blocked_attempts":3,"opportunities":4,"pending":false,"spawned":4}},"terminal_frame_checked":true,"track":"sunrise_express","traffic_frames":4853,"vehicle":"comet_rs"}
+DYNAMIC_PICKUP_SAMPLE {"case_id":"d2/s5/neon_coast/tidebreaker/seed2026","coins":41,"collision_frames":0,"collisions":0,"construction_frames":1053,"construction_history":"warning:0|closed:0|ended:0|warning:0|closed:0|ended:0|warning:0|cancelled:0|warning:0|cancelled:0|warning:0|closed:0|ended:0|warning:0,1|cancelled:0,1|warning:0|closed:0|ended:0","coverage_missing":[],"damage_events":0,"difficulty_index":2,"difficulty_stage":3,"distance":3099.49061111138,"fuel":5,"fuel_cap_waste":0.0,"fuel_effective":120.0,"fuel_left":28.3606926421801,"fuel_requested":120.0,"hull":100.0,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":41,"live":10,"recycled":54,"spawned":105},"fuel":{"collected":5,"live":0,"recycled":3,"spawned":8},"repair":{"collected":2,"live":0,"recycled":2,"spawned":4}},"oracle_failures":0,"oracle_frames":5400,"phase":"RUNNING","pipeline_frames":{"coins":5400,"fuel":5400,"repair":5400},"repair":2,"repair_cap_waste":0.0,"repair_effective":40.0,"repair_requested":40.0,"sample":25,"scheduled_events":4,"seconds":89.9999999999962,"seed":2026,"session":5,"stop_reason":"simulation_budget","supply_schedule":{"fuel":{"blocked_attempts":2,"opportunities":8,"pending":false,"spawned":8},"repair":{"blocked_attempts":0,"opportunities":4,"pending":false,"spawned":4}},"terminal_frame_checked":false,"track":"neon_coast","traffic_frames":5334,"vehicle":"tidebreaker"}
+DYNAMIC_PICKUP_SAMPLE {"case_id":"d2/s6/freight_harbor/aurora_x/seed9001","coins":41,"collision_frames":0,"collisions":0,"construction_frames":599,"construction_history":"warning:2|cancelled:2|warning:2|cancelled:2|warning:2|closed:2|ended:2|warning:2|closed:2|ended:2|warning:2|cancelled:2|warning:2|closed:2|ended:2","coverage_missing":[],"damage_events":0,"difficulty_index":2,"difficulty_stage":3,"distance":3400.51625000026,"fuel":5,"fuel_cap_waste":0.0,"fuel_effective":120.0,"fuel_left":50.667229669638,"fuel_requested":120.0,"hull":100.0,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":41,"live":0,"recycled":51,"spawned":92},"fuel":{"collected":5,"live":0,"recycled":3,"spawned":8},"repair":{"collected":2,"live":0,"recycled":2,"spawned":4}},"oracle_failures":0,"oracle_frames":5063,"phase":"RUN_CLEAR","pipeline_frames":{"coins":5062,"fuel":5062,"repair":5062},"repair":2,"repair_cap_waste":0.0,"repair_effective":40.0,"repair_requested":40.0,"sample":26,"scheduled_events":3,"seconds":84.3833333333298,"seed":9001,"session":6,"stop_reason":"clear","supply_schedule":{"fuel":{"blocked_attempts":2,"opportunities":8,"pending":false,"spawned":8},"repair":{"blocked_attempts":7,"opportunities":4,"pending":false,"spawned":4}},"terminal_frame_checked":true,"track":"freight_harbor","traffic_frames":5022,"vehicle":"aurora_x"}
+DYNAMIC_PICKUP_SAMPLE {"case_id":"d2/s7/storm_ridge/pulse_gt/seed611","coins":52,"collision_frames":1,"collisions":1,"construction_frames":878,"construction_history":"warning:2|cancelled:2|warning:2|closed:2|ended:2|warning:0|closed:0|ended:0|warning:2|closed:2|ended:2|warning:0|closed:0|ended:0","coverage_missing":[],"damage_events":1,"difficulty_index":2,"difficulty_stage":3,"distance":3300.33230229801,"fuel":5,"fuel_cap_waste":-0.000000000000007105427357601,"fuel_effective":120.0,"fuel_left":32.754579346153,"fuel_requested":120.0,"hull":49.0,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":52,"live":0,"recycled":34,"spawned":86},"fuel":{"collected":5,"live":0,"recycled":3,"spawned":8},"repair":{"collected":2,"live":0,"recycled":2,"spawned":4}},"oracle_failures":0,"oracle_frames":5288,"phase":"RUN_CLEAR","pipeline_frames":{"coins":5287,"fuel":5287,"repair":5287},"repair":2,"repair_cap_waste":0.0,"repair_effective":40.0,"repair_requested":40.0,"sample":27,"scheduled_events":4,"seconds":88.1333333333296,"seed":611,"session":7,"stop_reason":"clear","supply_schedule":{"fuel":{"blocked_attempts":1,"opportunities":8,"pending":false,"spawned":8},"repair":{"blocked_attempts":1,"opportunities":4,"pending":false,"spawned":4}},"terminal_frame_checked":true,"track":"storm_ridge","traffic_frames":5247,"vehicle":"pulse_gt"}
+DYNAMIC_PICKUP_SAMPLE {"case_id":"d2/s8/sunrise_express/driftwing/seed2026","coins":64,"collision_frames":0,"collisions":0,"construction_frames":950,"construction_history":"warning:2|closed:2|ended:2|warning:2|cancelled:2|warning:2|closed:2|ended:2|warning:2|cancelled:2|warning:2|closed:2|ended:2|warning:2|closed:2|ended:2","coverage_missing":[],"damage_events":0,"difficulty_index":2,"difficulty_stage":3,"distance":3147.64541666711,"fuel":5,"fuel_cap_waste":0.000000000000007105427357601,"fuel_effective":120.0,"fuel_left":33.0789387233194,"fuel_requested":120.0,"hull":80.0,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":64,"live":0,"recycled":50,"spawned":114},"fuel":{"collected":5,"live":0,"recycled":3,"spawned":8},"repair":{"collected":1,"live":0,"recycled":3,"spawned":4}},"oracle_failures":0,"oracle_frames":5400,"phase":"RUNNING","pipeline_frames":{"coins":5400,"fuel":5400,"repair":5400},"repair":1,"repair_cap_waste":0.0,"repair_effective":20.0,"repair_requested":20.0,"sample":28,"scheduled_events":4,"seconds":89.9999999999962,"seed":2026,"session":8,"stop_reason":"simulation_budget","supply_schedule":{"fuel":{"blocked_attempts":1,"opportunities":9,"pending":true,"spawned":8},"repair":{"blocked_attempts":1,"opportunities":5,"pending":true,"spawned":4}},"terminal_frame_checked":false,"track":"sunrise_express","traffic_frames":5342,"vehicle":"driftwing"}
+DYNAMIC_PICKUP_SAMPLE {"case_id":"d2/s9/storm_ridge/comet_rs/seed9001","coins":33,"collision_frames":2,"collisions":2,"construction_frames":191,"construction_history":"warning:2|closed:2|ended:2|warning:2|cancelled:2","coverage_missing":[],"damage_events":2,"difficulty_index":2,"difficulty_stage":2,"distance":2114.76440986331,"fuel":3,"fuel_cap_waste":12.828269164913,"fuel_effective":59.171730835087,"fuel_left":68.6644938666833,"fuel_requested":72.0,"hull":0.0,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":33,"live":0,"recycled":0,"spawned":33},"fuel":{"collected":3,"live":0,"recycled":1,"spawned":4},"repair":{"collected":2,"live":0,"recycled":0,"spawned":2}},"oracle_failures":0,"oracle_frames":2963,"phase":"GAME_OVER","pipeline_frames":{"coins":2963,"fuel":2963,"repair":2963},"repair":2,"repair_cap_waste":0.0,"repair_effective":40.0,"repair_requested":40.0,"sample":29,"scheduled_events":1,"seconds":49.3833333333318,"seed":9001,"session":9,"stop_reason":"integrity","supply_schedule":{"fuel":{"blocked_attempts":0,"opportunities":4,"pending":false,"spawned":4},"repair":{"blocked_attempts":1,"opportunities":2,"pending":false,"spawned":2}},"terminal_frame_checked":true,"track":"storm_ridge","traffic_frames":2904,"vehicle":"comet_rs"}
+DYNAMIC_PICKUP_SAMPLE {"case_id":"d2/s10/sunrise_express/aurora_x/seed611","coins":86,"collision_frames":1,"collisions":1,"construction_frames":797,"construction_history":"warning:0|closed:0|ended:0|warning:0|closed:0|ended:0|warning:0|cancelled:0|warning:0|closed:0|ended:0|warning:0|closed:0|ended:0","coverage_missing":[],"damage_events":1,"difficulty_index":2,"difficulty_stage":3,"distance":3600.45816666693,"fuel":5,"fuel_cap_waste":0.0000000000000035527136788005,"fuel_effective":120.0,"fuel_left":30.2739994883742,"fuel_requested":120.0,"hull":74.4331081542969,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":86,"live":0,"recycled":16,"spawned":102},"fuel":{"collected":5,"live":0,"recycled":3,"spawned":8},"repair":{"collected":1,"live":0,"recycled":3,"spawned":4}},"oracle_failures":0,"oracle_frames":5216,"phase":"RUN_CLEAR","pipeline_frames":{"coins":5215,"fuel":5215,"repair":5215},"repair":1,"repair_cap_waste":0.0,"repair_effective":20.0,"repair_requested":20.0,"sample":30,"scheduled_events":4,"seconds":86.9333333333297,"seed":611,"session":10,"stop_reason":"clear","supply_schedule":{"fuel":{"blocked_attempts":2,"opportunities":8,"pending":false,"spawned":8},"repair":{"blocked_attempts":1,"opportunities":4,"pending":false,"spawned":4}},"terminal_frame_checked":true,"track":"sunrise_express","traffic_frames":5114,"vehicle":"aurora_x"}
+DYNAMIC_PICKUP_SUPPLEMENT {"case_id":"d1/s1/neon_coast/pulse_gt/supplement_seed9001","coins":116,"collision_frames":0,"collisions":0,"construction_frames":345,"construction_history":"warning:2|closed:2|ended:2|warning:2|closed:2|ended:2|warning:2|cancelled:2","coverage_missing":[],"damage_events":0,"difficulty_index":1,"difficulty_stage":3,"distance":3200.20486111114,"fuel":5,"fuel_cap_waste":59.6088438476439,"fuel_effective":60.3911561523561,"fuel_left":76.422304210988,"fuel_requested":120.0,"hull":80.0,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":116,"live":0,"recycled":22,"spawned":138},"fuel":{"collected":5,"live":0,"recycled":3,"spawned":8},"repair":{"collected":1,"live":0,"recycled":4,"spawned":5}},"oracle_failures":0,"oracle_frames":3877,"phase":"RUN_CLEAR","pipeline_frames":{"coins":3876,"fuel":3876,"repair":3876},"repair":1,"repair_cap_waste":0.0,"repair_effective":20.0,"repair_requested":20.0,"sample":11,"scheduled_events":2,"seconds":64.6166666666643,"seed":9001,"session":1,"stop_reason":"clear","supply_schedule":{"fuel":{"blocked_attempts":4,"opportunities":8,"pending":false,"spawned":8},"repair":{"blocked_attempts":0,"opportunities":5,"pending":false,"spawned":5}},"terminal_frame_checked":true,"track":"neon_coast","traffic_frames":3654,"vehicle":"pulse_gt"}
+DYNAMIC_PICKUP_SUPPLEMENT {"case_id":"d2/s8/sunrise_express/driftwing/supplement_seed9001","coins":37,"collision_frames":0,"collisions":0,"construction_frames":1183,"construction_history":"warning:2|closed:2|ended:2|warning:2|closed:2|ended:2|warning:0|cancelled:0|warning:2|closed:2|ended:2|warning:2|closed:2|ended:2","coverage_missing":[],"damage_events":0,"difficulty_index":2,"difficulty_stage":3,"distance":2915.60633333362,"fuel":6,"fuel_cap_waste":0.0,"fuel_effective":144.0,"fuel_left":37.4453481079538,"fuel_requested":144.0,"hull":80.0,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":37,"live":10,"recycled":35,"spawned":82},"fuel":{"collected":6,"live":0,"recycled":2,"spawned":8},"repair":{"collected":1,"live":0,"recycled":3,"spawned":4}},"oracle_failures":0,"oracle_frames":5400,"phase":"RUNNING","pipeline_frames":{"coins":5400,"fuel":5400,"repair":5400},"repair":1,"repair_cap_waste":0.0,"repair_effective":20.0,"repair_requested":20.0,"sample":28,"scheduled_events":4,"seconds":89.9999999999962,"seed":9001,"session":8,"stop_reason":"simulation_budget","supply_schedule":{"fuel":{"blocked_attempts":4,"opportunities":8,"pending":false,"spawned":8},"repair":{"blocked_attempts":0,"opportunities":4,"pending":false,"spawned":4}},"terminal_frame_checked":false,"track":"sunrise_express","traffic_frames":5359,"vehicle":"driftwing"}
+DYNAMIC_PICKUP_SUPPLEMENT {"case_id":"d0/s3/storm_ridge/flashpoint/supplement_seed611","coins":130,"collision_frames":0,"collisions":0,"construction_frames":170,"construction_history":"warning:0|closed:0|ended:0|warning:0|cancelled:0","coverage_missing":[],"damage_events":0,"difficulty_index":0,"difficulty_stage":3,"distance":3300.04638888888,"fuel":5,"fuel_cap_waste":88.8524782428453,"fuel_effective":31.1475217571547,"fuel_left":89.8136766960355,"fuel_requested":120.0,"hull":100.0,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":130,"live":0,"recycled":9,"spawned":139},"fuel":{"collected":5,"live":0,"recycled":9,"spawned":14},"repair":{"collected":4,"live":0,"recycled":4,"spawned":8}},"oracle_failures":0,"oracle_frames":3910,"phase":"RUN_CLEAR","pipeline_frames":{"coins":3909,"fuel":3909,"repair":3909},"repair":4,"repair_cap_waste":40.0,"repair_effective":40.0,"repair_requested":80.0,"sample":3,"scheduled_events":1,"seconds":65.1666666666643,"seed":611,"session":3,"stop_reason":"clear","supply_schedule":{"fuel":{"blocked_attempts":1,"opportunities":14,"pending":false,"spawned":14},"repair":{"blocked_attempts":0,"opportunities":8,"pending":false,"spawned":8}},"terminal_frame_checked":true,"track":"storm_ridge","traffic_frames":3687,"vehicle":"flashpoint"}
+DYNAMIC_PICKUP_SUPPLEMENT {"case_id":"d1/s3/storm_ridge/flashpoint/supplement_seed611","coins":143,"collision_frames":0,"collisions":0,"construction_frames":170,"construction_history":"warning:2|cancelled:2|warning:2|closed:2|ended:2|warning:2|cancelled:2|warning:2|cancelled:2","coverage_missing":[],"damage_events":0,"difficulty_index":1,"difficulty_stage":3,"distance":3300.3579166667,"fuel":5,"fuel_cap_waste":50.3547486500319,"fuel_effective":69.6452513499681,"fuel_left":98.6554495411458,"fuel_requested":120.0,"hull":100.0,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":143,"live":0,"recycled":24,"spawned":167},"fuel":{"collected":5,"live":0,"recycled":4,"spawned":9},"repair":{"collected":3,"live":0,"recycled":2,"spawned":5}},"oracle_failures":0,"oracle_frames":3951,"phase":"RUN_CLEAR","pipeline_frames":{"coins":3950,"fuel":3950,"repair":3950},"repair":3,"repair_cap_waste":20.0,"repair_effective":40.0,"repair_requested":60.0,"sample":13,"scheduled_events":1,"seconds":65.8499999999976,"seed":611,"session":3,"stop_reason":"clear","supply_schedule":{"fuel":{"blocked_attempts":2,"opportunities":9,"pending":false,"spawned":9},"repair":{"blocked_attempts":0,"opportunities":5,"pending":false,"spawned":5}},"terminal_frame_checked":true,"track":"storm_ridge","traffic_frames":3669,"vehicle":"flashpoint"}
+DYNAMIC_PICKUP_SUPPLEMENT {"case_id":"d1/s9/storm_ridge/comet_rs/supplement_seed611","coins":140,"collision_frames":0,"collisions":0,"construction_frames":306,"construction_history":"warning:2|closed:2|ended:2|warning:2|closed:2|ended:2|warning:2|cancelled:2","coverage_missing":[],"damage_events":0,"difficulty_index":1,"difficulty_stage":3,"distance":3300.23555555527,"fuel":3,"fuel_cap_waste":12.8198161320444,"fuel_effective":59.1801838679556,"fuel_left":99.6907314186189,"fuel_requested":72.0,"hull":80.0,"initial_hull_fixture":60.0,"objects":{"coins":{"collected":140,"live":0,"recycled":26,"spawned":166},"fuel":{"collected":3,"live":0,"recycled":5,"spawned":8},"repair":{"collected":1,"live":0,"recycled":3,"spawned":4}},"oracle_failures":0,"oracle_frames":3515,"phase":"RUN_CLEAR","pipeline_frames":{"coins":3514,"fuel":3514,"repair":3514},"repair":1,"repair_cap_waste":0.0,"repair_effective":20.0,"repair_requested":20.0,"sample":19,"scheduled_events":2,"seconds":58.5833333333313,"seed":611,"session":9,"stop_reason":"clear","supply_schedule":{"fuel":{"blocked_attempts":3,"opportunities":8,"pending":false,"spawned":8},"repair":{"blocked_attempts":3,"opportunities":4,"pending":false,"spawned":4}},"terminal_frame_checked":true,"track":"storm_ridge","traffic_frames":3125,"vehicle":"comet_rs"}
+DYNAMIC_PICKUP_TOTAL {"completed":30,"coverage_complete_cases":27,"coverage_incomplete_cases":3,"covered_families":30,"oracle_failed_cases":0,"oracle_failures":0,"planned":30,"started":30,"supplement_completed":5,"supplement_planned":5,"total_completed":35,"totals":{"coins":3862,"collision_frames":24,"construction_frames":15336,"damage_events":24,"fuel":150,"oracle_frames":152498,"repair":75,"traffic_frames":146601}}
+DYNAMIC_PICKUP_COVERAGE_FAILURES [{"case_id":"d0/s3/storm_ridge/flashpoint/seed9001","missing":["construction_frames"],"stop_reason":"clear"},{"case_id":"d1/s3/storm_ridge/flashpoint/seed9001","missing":["construction_frames"],"stop_reason":"clear"},{"case_id":"d1/s9/storm_ridge/comet_rs/seed9001","missing":["construction_frames"],"stop_reason":"clear"}]
+DYNAMIC_PICKUP_UNRESOLVED_FAMILY_COVERAGE []
+TEST_COMPLETE test_dynamic_pickup_smoke.gd
+RUN test_environment_art.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_export_resource_manifest.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+EXPORT_MANIFEST_LOGICAL_RESOURCES 141 exported_pack_checked=false
+EXPORT_MANIFEST_CHECKS_COMPLETE failures=0
+TEST_COMPLETE test_export_resource_manifest.gd
+RUN test_failed_rating.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_focus_pause.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+
+WARNING: 6 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2535)
+ERROR: 2 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)
+RUN test_forward_overdrive_input.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+FORWARD_INPUT failures=0
+TEST_COMPLETE test_forward_overdrive_input.gd
+RUN test_fuel_consumption.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_fuel_spawn_director.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_game_config.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_game_feedback.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_game_text.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_gameplay_art_assets.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2535)
+RUN test_garage_confirmation.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+
+WARNING: 9 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2535)
+ERROR: 2 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)
+RUN test_gentle_impact.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_hud_layout.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+
+WARNING: 12 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2535)
+ERROR: 2 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)
+RUN test_impact_model.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_impact_sweep.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+IMPACT_SWEEP failures=0
+TEST_COMPLETE test_impact_sweep.gd
+RUN test_impact_traffic_safety.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_lane_event_director.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_localized_ui.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_main_audio_controls.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_main_integrity.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+
+WARNING: 9 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2535)
+RUN test_main_persistence_mode.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+MAIN_PERSISTENCE_ISOLATED user_dir=C:/Users/21604/Documents/car/tmp/main-persistence-111384-139801/appdata/Godot/app_userdata/Neon Coast Rush
+MAIN_PERSISTENCE_CHILD_COMPLETE failures=0
+
+MAIN_PERSISTENCE_CHILD stage=create exit=0 timeout=false evidence=res://tmp/main-persistence-111384-139801
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+MAIN_PERSISTENCE_ISOLATED user_dir=C:/Users/21604/Documents/car/tmp/main-persistence-111384-139801/appdata/Godot/app_userdata/Neon Coast Rush
+MAIN_PERSISTENCE_CHILD_COMPLETE failures=0
+
+MAIN_PERSISTENCE_CHILD stage=reopen exit=0 timeout=false evidence=res://tmp/main-persistence-111384-139801
+TEST_COMPLETE test_main_persistence_mode.gd
+RUN test_main_rating.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_main_reset.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_main_run_loop.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+
+WARNING: 6 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2535)
+ERROR: 2 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)
+RUN test_menu_flow.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+TEST_COMPLETE test_menu_flow.gd
+
+WARNING: 8 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2535)
+ERROR: 2 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)
+RUN test_menu_presentation.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_music_assets.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_music_director.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_music_recovery.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+MUSIC RECOVERY: 4 tracks x 10 pause/mute/resume/finish/restart cycles passed
+
+WARNING: 6 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2535)
+ERROR: 2 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)
+RUN test_overdrive_controller.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_pass_event_resolver.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_pause_result_flow.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+
+SCRIPT ERROR: Assertion failed: Settlement must show run statistics
+   at: _run (res://tests/test_pause_result_flow.gd:36)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_pause_result_flow.gd:36)
+TIMEOUT test_pause_result_flow.gd after 120 seconds (failed, not passed)
+RUN test_pavement_surface.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_persistence_integration.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+TEST_COMPLETE test_persistence_integration.gd
+
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2535)
+RUN test_persistence_restart.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+PERSISTENCE_CHILD mode=writer pid=116400 exit=0 complete=true
+PERSISTENCE_WRITER_COMPLETE
+PERSISTENCE_CHILD mode=reader pid=115512 exit=0 complete=true
+PERSISTENCE_READER_COMPLETE
+TEST_COMPLETE test_persistence_restart.gd
+RUN test_playtest_isolation.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+PLAYTEST_ISOLATION_SYNTHETIC_PATH C:/Users/21604/Documents/car/tmp/playtest-isolation-synthetic-111176-634800/synthetic-career.cfg
+PLAYTEST_RESULT {"coins":1,"collisions":0,"difficulty":2,"distance":2.765,"failure_reason":"","fuel":99.9034346038781,"integrity":100.0,"outcome":"clear","overtakes":0,"recorded_at_utc":"2026-10-13T09:35:02","score":22,"seconds":0.1,"seed":611,"source":"automated_headless","track":"neon_coast","vehicle":"pulse_gt","version":"0.4.0-rc.5"}
+PLAYTEST_RESULT {"coins":0,"collisions":0,"difficulty":2,"distance":0.0,"failure_reason":"integrity","fuel":100.0,"integrity":100.0,"outcome":"failed","overtakes":0,"recorded_at_utc":"2026-10-13T09:35:02","score":0,"seconds":0.0,"seed":4254089305,"source":"automated_headless","track":"neon_coast","vehicle":"pulse_gt","version":"0.4.0-rc.5"}
+PLAYTEST_RESULT {"coins":0,"collisions":0,"difficulty":2,"distance":2.765,"failure_reason":"","fuel":99.8390576731302,"integrity":100.0,"outcome":"aborted","overtakes":0,"recorded_at_utc":"2026-10-13T09:35:02","score":2,"seconds":0.1,"seed":3673472344,"source":"automated_headless","track":"neon_coast","vehicle":"pulse_gt","version":"0.4.0-rc.5"}
+PLAYTEST_RESULT {"coins":0,"collisions":0,"difficulty":1,"distance":2.765,"failure_reason":"","fuel":99.9034346038781,"integrity":100.0,"outcome":"clear","overtakes":0,"recorded_at_utc":"2026-10-13T09:35:02","score":2,"seconds":0.1,"seed":611,"source":"automated_headless","track":"neon_coast","vehicle":"pulse_gt","version":"0.4.0-rc.5"}
+PLAYTEST_RESULT {"coins":0,"collisions":0,"difficulty":1,"distance":0.0,"failure_reason":"","fuel":100.0,"integrity":100.0,"outcome":"aborted","overtakes":0,"recorded_at_utc":"2026-10-13T09:35:02","score":0,"seconds":0.0,"seed":2495557983,"source":"automated_headless","track":"neon_coast","vehicle":"pulse_gt","version":"0.4.0-rc.5"}
+M1_TERMINAL_CASE outcome=clear action=replay status=pass
+PLAYTEST_RESULT {"coins":0,"collisions":0,"difficulty":1,"distance":2.765,"failure_reason":"","fuel":99.9034346038781,"integrity":100.0,"outcome":"clear","overtakes":0,"recorded_at_utc":"2026-10-13T09:35:02","score":2,"seconds":0.1,"seed":611,"source":"automated_headless","track":"neon_coast","vehicle":"pulse_gt","version":"0.4.0-rc.5"}
+M1_TERMINAL_CASE outcome=clear action=title status=pass
+PLAYTEST_RESULT {"coins":0,"collisions":0,"difficulty":1,"distance":2.765,"failure_reason":"integrity","fuel":99.9034346038781,"integrity":100.0,"outcome":"failed","overtakes":0,"recorded_at_utc":"2026-10-13T09:35:03","score":2,"seconds":0.1,"seed":611,"source":"automated_headless","track":"neon_coast","vehicle":"pulse_gt","version":"0.4.0-rc.5"}
+PLAYTEST_RESULT {"coins":0,"collisions":0,"difficulty":1,"distance":0.0,"failure_reason":"","fuel":100.0,"integrity":100.0,"outcome":"aborted","overtakes":0,"recorded_at_utc":"2026-10-13T09:35:03","score":0,"seconds":0.0,"seed":4121871533,"source":"automated_headless","track":"neon_coast","vehicle":"pulse_gt","version":"0.4.0-rc.5"}
+M1_TERMINAL_CASE outcome=failed action=replay status=pass
+PLAYTEST_RESULT {"coins":0,"collisions":0,"difficulty":1,"distance":2.765,"failure_reason":"integrity","fuel":99.9034346038781,"integrity":100.0,"outcome":"failed","overtakes":0,"recorded_at_utc":"2026-10-13T09:35:03","score":2,"seconds":0.1,"seed":611,"source":"automated_headless","track":"neon_coast","vehicle":"pulse_gt","version":"0.4.0-rc.5"}
+M1_TERMINAL_CASE outcome=failed action=title status=pass
+PLAYTEST_RESULT {"coins":0,"collisions":0,"difficulty":1,"distance":0.0,"failure_reason":"","fuel":100.0,"integrity":100.0,"outcome":"aborted","overtakes":0,"recorded_at_utc":"2026-10-13T09:35:03","score":0,"seconds":0.0,"seed":611,"source":"automated_headless","track":"neon_coast","vehicle":"pulse_gt","version":"0.4.0-rc.5"}
+PLAYTEST_RESULT {"coins":0,"collisions":0,"difficulty":1,"distance":0.0,"failure_reason":"","fuel":100.0,"integrity":100.0,"outcome":"aborted","overtakes":0,"recorded_at_utc":"2026-10-13T09:35:03","score":0,"seconds":0.0,"seed":48173856,"source":"automated_headless","track":"neon_coast","vehicle":"pulse_gt","version":"0.4.0-rc.5"}
+PLAYTEST_RESULT {"coins":0,"collisions":0,"difficulty":1,"distance":0.0,"failure_reason":"","fuel":100.0,"integrity":100.0,"outcome":"aborted","overtakes":0,"recorded_at_utc":"2026-10-13T09:35:03","score":0,"seconds":0.0,"seed":3379213804,"source":"automated_headless","track":"neon_coast","vehicle":"pulse_gt","version":"0.4.0-rc.5"}
+PLAYTEST_ISOLATION checks complete; failures=0
+TEST_COMPLETE test_playtest_isolation.gd
+
+WARNING: Playtest recording failed (7); driving continues, no results will be claimed saved.
+   at: push_warning (core/variant/variant_utility.cpp:1033)
+   GDScript backtrace (most recent call first):
+       [0] _store (res://tests/playtest_session_recorder.gd:80)
+       [1] _process (res://tests/playtest_session_recorder.gd:23)
+       [2] _failed_log_does_not_stop_driving (res://tests/test_playtest_isolation.gd:209)
+       [3] _run (res://tests/test_playtest_isolation.gd:110)
+       [4] _initialization_and_consecutive_restarts (res://tests/test_playtest_isolation.gd:190)
+RUN test_playtest_launch_config.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_playtest_music_flow.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_playtest_recorder.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+TEST_COMPLETE test_playtest_recorder.gd
+RUN test_playtest_recording_flow.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+PLAYTEST_LOG C:/Users/21604/AppData/Roaming/Godot/app_userdata/Neon Coast Rush/playtests/session-2026-10-13T09-35-06-825442.jsonl
+PLAYTEST_RESULT {"coins":1,"collisions":0,"difficulty":1,"distance":50.0,"failure_reason":"","fuel":98.8035900277008,"integrity":73.0,"outcome":"clear","overtakes":0,"recorded_at_utc":"2026-10-13T09:35:06","score":70,"seconds":1.0,"seed":611,"source":"automated_headless","track":"neon_coast","vehicle":"pulse_gt","version":"0.4.0-rc.5"}
+PLAYTEST_RESULT {"coins":0,"collisions":0,"difficulty":1,"distance":0.0,"failure_reason":"integrity","fuel":100.0,"integrity":100.0,"outcome":"failed","overtakes":0,"recorded_at_utc":"2026-10-13T09:35:06","score":0,"seconds":0.0,"seed":611,"source":"automated_headless","track":"neon_coast","vehicle":"pulse_gt","version":"0.4.0-rc.5"}
+PLAYTEST_RESULT {"coins":0,"collisions":0,"difficulty":1,"distance":0.0,"failure_reason":"","fuel":100.0,"integrity":100.0,"outcome":"clear","overtakes":0,"recorded_at_utc":"2026-10-13T09:35:06","score":0,"seconds":0.0,"seed":611,"source":"automated_headless","track":"neon_coast","vehicle":"pulse_gt","version":"0.4.0-rc.5"}
+TEST_COMPLETE test_playtest_recording_flow.gd
+RUN test_product_coin_road_snapshot.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+COIN_ROAD_FRAME {"coin_advance":22.5975,"collisions":0,"construction":false,"controlled_fixture":true,"delta":0.1,"expected":22.5975,"fuel_advance":22.5975,"repair_advance":22.5975,"speed_after_impact":196.5,"speed_before_impact":196.5}
+COIN_ROAD_FRAME {"coin_advance":22.5975,"collisions":1,"construction":true,"controlled_fixture":true,"delta":0.1,"expected":22.5975,"fuel_advance":22.5975,"repair_advance":22.5975,"speed_after_impact":19.6499989827474,"speed_before_impact":196.5}
+COIN_ROAD_FRAME {"coin_advance":104.9375,"collisions":0,"construction":false,"controlled_fixture":true,"delta":0.5,"expected":104.9375,"fuel_advance":104.9375,"repair_advance":104.9375,"speed_after_impact":182.5,"speed_before_impact":182.5}
+COIN_ROAD_FRAME {"coin_advance":104.9375,"collisions":1,"construction":true,"controlled_fixture":true,"delta":0.5,"expected":104.9375,"fuel_advance":104.9375,"repair_advance":104.9375,"speed_after_impact":18.2500167120071,"speed_before_impact":182.5}
+COIN_ROAD_SNAPSHOT failures=0
+TEST_COMPLETE test_product_coin_road_snapshot.gd
+RUN test_product_construction_corridor.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+CONSTRUCTION_CORRIDOR failures=0
+TEST_COMPLETE test_product_construction_corridor.gd
+RUN test_product_copy.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+PRODUCT_COPY failures=0
+TEST_COMPLETE test_product_copy.gd
+RUN test_product_difficulty_gradient.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+DIFFICULTY_GRADIENT {"difficulty":0,"normal_visible_car_seconds":27.2833333333331,"seed":611,"spawn_sequence":"0:0:180|0:0:180|0:1:180|0:0:220|0:0:220|0:1:220|0:0:220|1:0:220|0:0:220|1:2:200|0:1:200|1:0:220|0:1:220|1:0:220|0:2:220|1:2:220|0:2:220|1:1:180|0:1:180|1:0:220|2:2:1071|1:0:200|3:2:176|2:2:1071|0:1:220|1:2:220|2:0:1071","visible_car_seconds":32.4166666666661}
+DIFFICULTY_GRADIENT {"difficulty":1,"normal_visible_car_seconds":36.2499999999992,"seed":611,"spawn_sequence":"0:0:180|0:1:180|0:1:200|0:0:200|0:1:220|0:0:220|0:0:220|0:2:220|0:0:220|0:1:220|0:0:220|0:1:220|0:2:220|1:2:220|2:0:1071|0:2:220|1:2:220|2:0:1071|0:1:180|0:2:220|1:0:220|2:1:1071|1:2:200|0:2:220|1:0:220|2:1:1071|1:2:200|0:0:220|1:1:220|0:0:220|0:1:220|1:0:220|2:2:1071|1:0:220|2:1:1071|0:2:220|1:0:180|3:1:176|0:1:180|1:0:200","visible_car_seconds":48.2499999999985}
+DIFFICULTY_GRADIENT {"difficulty":2,"normal_visible_car_seconds":48.1999999999985,"seed":611,"spawn_sequence":"0:0:180|0:2:180|1:2:200|1:0:180|0:1:200|0:1:200|0:1:220|0:2:220|0:0:220|1:2:220|1:2:220|1:2:220|0:0:220|0:1:220|0:1:220|0:0:220|1:2:220|2:2:1071|0:0:180|0:2:180|1:0:200|1:1:220|0:0:220|1:0:220|2:2:1071|1:0:180|1:1:200|1:0:200|1:2:200|1:1:200|1:2:220|1:2:220|2:0:1071|1:1:200|1:1:220|1:1:220|1:1:220|1:0:220|0:2:220|2:2:1071|0:1:200|1:0:200|1:1:200|3:2:160|0:0:220|0:2:220|2:0:1071|1:1:220|0:1:220|3:0:160","visible_car_seconds":58.199999999998}
+DIFFICULTY_GRADIENT {"difficulty":0,"normal_visible_car_seconds":26.4333333333331,"seed":2026,"spawn_sequence":"0:0:220|0:1:220|0:2:220|0:0:220|0:0:220|0:0:220|0:2:200|1:0:220|0:1:220|1:0:220|0:2:220|1:2:220|0:0:180|1:2:220|0:2:220|0:1:180|1:2:180|2:0:1071|1:2:220|0:0:220|1:1:220|2:2:1071|1:2:200|2:0:1071|0:2:220|1:0:200|2:1:1071","visible_car_seconds":32.7833333333328}
+DIFFICULTY_GRADIENT {"difficulty":1,"normal_visible_car_seconds":37.4499999999992,"seed":2026,"spawn_sequence":"0:0:220|0:2:220|0:0:220|0:2:220|0:1:220|0:2:220|0:0:220|0:2:220|0:0:220|0:0:220|0:2:200|0:2:200|0:2:220|1:1:220|2:0:1071|0:1:180|0:1:220|1:0:220|0:0:220|1:1:220|2:2:1071|1:0:220|1:2:180|2:1:1071|1:0:220|0:0:220|1:1:220|1:2:220|0:2:220|1:2:220|2:0:1071|1:1:220|2:0:1071|0:1:180|1:2:180|3:0:144|0:1:220|1:0:220|2:2:1071","visible_car_seconds":48.6333333333319}
+DIFFICULTY_GRADIENT {"difficulty":2,"normal_visible_car_seconds":47.2166666666653,"seed":2026,"spawn_sequence":"0:0:220|1:2:220|1:1:220|1:2:220|0:0:220|0:2:220|0:1:220|0:1:220|0:2:220|0:1:220|0:1:220|0:2:220|0:0:220|1:2:220|1:2:220|1:2:220|1:0:180|2:0:1071|0:1:180|1:2:180|0:0:220|0:1:220|0:2:220|1:0:220|2:0:1071|1:1:220|1:2:220|1:0:220|1:2:220|1:2:220|1:2:220|2:0:1071|1:2:220|1:1:220|0:0:220|1:2:220|1:2:220|0:1:220|2:0:1071|0:2:220|1:1:220|0:2:220|0:0:220|1:2:220|1:0:220|2:1:1071","visible_car_seconds":55.2166666666648}
+DIFFICULTY_GRADIENT {"difficulty":0,"normal_visible_car_seconds":26.4666666666664,"seed":9001,"spawn_sequence":"0:0:180|0:1:180|0:2:220|0:2:220|0:2:220|0:2:220|0:2:220|1:1:220|0:1:220|1:2:220|0:2:220|1:0:200|0:1:200|1:2:200|0:2:200|1:2:200|0:2:200|1:2:200|2:0:1071|1:2:220|0:0:220|1:2:220|2:2:1071|1:1:180|3:0:160|2:0:1071|0:1:180|1:1:220","visible_car_seconds":32.4666666666661}
+DIFFICULTY_GRADIENT {"difficulty":1,"normal_visible_car_seconds":35.3333333333326,"seed":9001,"spawn_sequence":"0:0:180|0:2:220|0:2:220|0:2:220|0:2:220|0:0:220|0:1:220|0:0:220|0:0:220|0:0:220|0:2:220|0:0:220|0:1:220|1:0:220|2:2:1071|0:0:220|1:0:220|2:2:1071|0:0:220|1:2:180|2:1:1071|1:0:180|0:0:200|1:1:200|2:2:1071|1:0:220|1:0:220|2:2:1071|1:1:180|0:0:200|0:0:200|1:2:220|2:1:1071|1:2:220|3:0:144|1:2:220|1:1:220|2:0:1071","visible_car_seconds":48.6166666666652}
+DIFFICULTY_GRADIENT {"difficulty":2,"normal_visible_car_seconds":46.783333333332,"seed":9001,"spawn_sequence":"0:0:180|1:2:220|1:2:220|1:1:220|1:2:220|1:2:220|1:2:220|1:1:220|1:2:220|1:0:220|0:1:220|0:1:220|0:2:220|1:0:220|1:2:220|1:2:220|0:0:220|2:0:1071|0:1:200|1:2:220|0:1:220|0:1:220|1:0:220|1:0:220|2:2:1071|1:0:220|0:0:220|0:1:220|0:1:220|0:2:220|0:2:220|2:2:1071|1:0:220|1:2:220|1:1:220|0:0:220|3:2:160|3:0:176|2:2:1071|0:0:180|1:2:200|3:2:160|1:1:220|0:0:220|0:2:220","visible_car_seconds":54.7833333333315}
+DIFFICULTY_GRADIENT {"difficulty":0,"normal_visible_car_seconds":27.2333333333331,"seed":616,"spawn_sequence":"0:0:220|0:1:220|0:1:220|0:0:220|0:0:220|0:0:220|0:2:200|1:0:180|0:0:180|1:1:220|0:0:220|1:0:220|0:2:200|1:2:220|0:2:220|0:0:200|1:1:200|2:2:1071|1:0:200|0:0:200|1:2:200|2:0:1071|1:1:220|3:0:144|0:0:220|1:0:220|2:2:1071|1:0:220","visible_car_seconds":32.8666666666661}
+DIFFICULTY_GRADIENT {"difficulty":1,"normal_visible_car_seconds":32.1666666666661,"seed":616,"spawn_sequence":"0:0:220|0:1:220|0:0:220|0:2:220|0:0:220|0:1:220|0:2:220|0:2:220|0:0:180|0:1:220|0:0:220|0:1:220|0:0:220|1:0:220|2:2:1071|0:0:200|1:1:220|2:2:1071|0:0:200|1:1:200|2:2:1071|1:1:220|0:0:220|1:2:220|2:2:1071|1:1:220|0:0:220|1:2:220|2:2:1071|3:0:144|1:0:220|2:2:1071|1:0:220|2:1:1071|0:2:200|1:2:200","visible_car_seconds":46.1666666666653}
+DIFFICULTY_GRADIENT {"difficulty":2,"normal_visible_car_seconds":46.5499999999986,"seed":616,"spawn_sequence":"0:0:220|0:2:180|1:1:220|1:2:220|1:2:220|0:0:220|0:2:220|0:0:220|1:1:220|1:1:220|1:1:220|1:2:220|1:2:220|1:2:220|1:0:220|0:1:220|0:0:220|1:2:220|2:0:1071|0:1:220|1:1:220|1:0:220|0:2:200|1:2:220|0:0:220|2:0:1071|1:2:200|1:0:220|1:0:220|1:0:220|1:1:220|1:0:220|1:1:220|2:2:1071|1:0:220|1:2:220|3:0:160|0:0:180|0:0:180|3:2:144|2:2:1071|0:1:220|1:0:220|1:0:220|0:2:220|1:2:220|3:0:176","visible_car_seconds":54.5499999999982}
+DIFFICULTY_GRADIENT {"difficulty":0,"normal_visible_car_seconds":26.1333333333331,"seed":618,"spawn_sequence":"0:2:220|0:0:200|0:1:200|0:2:220|0:1:220|0:1:220|0:2:220|1:1:220|0:0:220|1:0:220|0:0:220|1:1:220|0:1:220|1:1:220|0:1:220|1:0:220|1:1:180|2:2:1071|1:0:220|0:1:220|1:1:220|2:2:1071|3:2:176|2:0:1071|0:1:200|1:0:200","visible_car_seconds":32.1333333333328}
+DIFFICULTY_GRADIENT {"difficulty":1,"normal_visible_car_seconds":33.0999999999994,"seed":618,"spawn_sequence":"0:2:220|0:1:220|0:1:220|0:2:220|0:1:220|0:0:220|0:2:220|0:2:220|0:0:220|0:1:220|0:2:220|0:0:220|0:2:220|1:1:220|2:0:1071|0:1:220|0:1:220|1:1:220|2:0:1071|0:2:200|1:0:220|0:2:180|2:2:1071|1:1:180|0:0:220|1:1:220|2:2:1071|1:0:180|1:2:180|1:2:220|3:0:144|2:1:1071|0:0:220|1:2:220|2:2:1071|1:1:180|3:1:176","visible_car_seconds":44.9499999999987}
+DIFFICULTY_GRADIENT {"difficulty":2,"normal_visible_car_seconds":48.2999999999985,"seed":618,"spawn_sequence":"0:2:220|0:2:220|0:1:220|0:0:220|1:2:220|1:0:220|1:1:220|1:2:220|1:0:220|0:2:220|0:1:220|0:2:220|1:0:220|1:0:220|0:2:220|0:0:220|0:1:220|2:2:1071|0:1:220|1:0:220|0:0:220|0:2:220|0:1:220|0:2:220|2:0:1071|0:1:180|1:1:180|1:1:200|1:1:220|1:0:220|1:1:220|2:0:1071|1:2:220|1:1:220|0:1:220|1:2:220|0:0:220|1:1:220|1:1:220|2:2:1071|0:0:200|0:1:200|0:2:200|0:0:200|0:2:200|1:2:200|2:2:1071","visible_car_seconds":57.2166666666647}
+DIFFICULTY_GRADIENT_TOTAL {"normal_visible_car_seconds":[133.549999999999,174.299999999997,237.049999999993],"seeds":[611,2026,9001,616,618],"visible_car_seconds":[162.666666666664,236.61666666666,279.966666666657]}
+TEST_COMPLETE test_product_difficulty_gradient.gd
+RUN test_product_difficulty_pressure.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+PRESSURE_SAMPLE {"candidates":284,"construction_seconds":2.01666666666666,"difficulty":0,"opportunities":370,"priority_skips":340,"seed":611,"stages":[7.13333333333331,9.85000000000007,5.78333333333332,4.51666666666666]}
+PRESSURE_SAMPLE {"candidates":377,"construction_seconds":4.03333333333332,"difficulty":0,"opportunities":380,"priority_skips":350,"seed":2026,"stages":[7.41666666666665,9.7833333333334,5.49999999999999,3.73333333333333]}
+PRESSURE_SAMPLE {"candidates":279,"construction_seconds":0.716666666666667,"difficulty":0,"opportunities":436,"priority_skips":407,"seed":9001,"stages":[7.21666666666665,9.8333333333334,6.53333333333332,2.88333333333333]}
+PRESSURE_SAMPLE {"candidates":347,"construction_seconds":4.03333333333332,"difficulty":0,"opportunities":356,"priority_skips":325,"seed":616,"stages":[7.41666666666665,9.65000000000006,5.33333333333332,4.83333333333332]}
+PRESSURE_SAMPLE {"candidates":404,"construction_seconds":4.03333333333332,"difficulty":0,"opportunities":408,"priority_skips":378,"seed":618,"stages":[7.28333333333331,9.95000000000007,5.58333333333332,3.31666666666666]}
+PRESSURE_SAMPLE {"candidates":556,"construction_seconds":4.03333333333332,"difficulty":1,"opportunities":564,"priority_skips":517,"seed":611,"stages":[12.7166666666669,8.38333333333333,6.44999999999998,8.70000000000001]}
+PRESSURE_SAMPLE {"candidates":478,"construction_seconds":6.04999999999998,"difficulty":1,"opportunities":488,"priority_skips":440,"seed":2026,"stages":[13.0500000000002,8.93333333333336,8.95000000000002,6.51666666666665]}
+PRESSURE_SAMPLE {"candidates":570,"construction_seconds":2.01666666666666,"difficulty":1,"opportunities":572,"priority_skips":527,"seed":9001,"stages":[12.9000000000002,7.36666666666665,6.48333333333332,8.58333333333334]}
+PRESSURE_SAMPLE {"candidates":511,"construction_seconds":0.0,"difficulty":1,"opportunities":690,"priority_skips":648,"seed":616,"stages":[12.9000000000002,7.23333333333331,7.63333333333331,4.39999999999999]}
+PRESSURE_SAMPLE {"candidates":478,"construction_seconds":4.03333333333332,"difficulty":1,"opportunities":637,"priority_skips":593,"seed":618,"stages":[12.9833333333336,7.96666666666664,6.66666666666665,5.48333333333332]}
+PRESSURE_SAMPLE {"candidates":566,"construction_seconds":0.65,"difficulty":2,"opportunities":763,"priority_skips":646,"seed":611,"stages":[15.3500000000003,10.8666666666668,13.4333333333336,8.55]}
+PRESSURE_SAMPLE {"candidates":648,"construction_seconds":4.03333333333332,"difficulty":2,"opportunities":827,"priority_skips":710,"seed":2026,"stages":[16.3333333333337,10.1333333333334,10.1666666666668,10.5833333333334]}
+PRESSURE_SAMPLE {"candidates":437,"construction_seconds":8.06666666666665,"difficulty":2,"opportunities":728,"priority_skips":602,"seed":9001,"stages":[16.516666666667,10.1500000000001,8.78333333333335,11.3333333333335]}
+PRESSURE_SAMPLE {"candidates":515,"construction_seconds":4.03333333333332,"difficulty":2,"opportunities":775,"priority_skips":652,"seed":616,"stages":[16.2500000000004,11.5500000000002,7.86666666666664,10.8833333333335]}
+PRESSURE_SAMPLE {"candidates":551,"construction_seconds":4.03333333333332,"difficulty":2,"opportunities":720,"priority_skips":600,"seed":618,"stages":[16.6333333333337,10.2833333333334,11.9666666666668,9.41666666666671]}
+DIFFICULTY_PRESSURE {"completed_lane_changes":[0,17,107],"failures":[],"ordinary_visible_seconds":[133.549999999999,174.299999999997,237.049999999993],"seeds":[611,2026,9001,616,618]}
+TEST_COMPLETE test_product_difficulty_pressure.gd
+RUN test_product_fast_arrival_corridor.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+FAST_ARRIVAL_CORRIDOR failures=0
+TEST_COMPLETE test_product_fast_arrival_corridor.gd
+RUN test_product_fast_constant_entry.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+FAST_CONSTANT_ENTRY_WITNESS {"birth_lane":0,"birth_seconds":1.01666666666667,"case":"height720 player0","constant":true,"frames":42,"history":[{"expected_y":728.928571428571,"frame":0,"player_speed":0.0,"red_speed":1071.42857142857,"red_y":728.928571428571},{"expected_y":420.892857142857,"frame":15,"player_speed":0.0,"red_speed":1071.42857142857,"red_y":420.892857142857},{"expected_y":112.857142857142,"frame":30,"player_speed":0.0,"red_speed":1071.42857142857,"red_y":112.857142857142}],"projection":true,"visible_frames":38,"warning_lane":0,"warning_seconds":1.0}
+FAST_CONSTANT_ENTRY_WITNESS {"birth_lane":0,"birth_seconds":1.01666666666667,"case":"height720 player200","constant":true,"frames":48,"history":[{"expected_y":736.595238095238,"frame":0,"player_speed":200.0,"red_speed":1071.42857142857,"red_y":736.595238095238},{"expected_y":486.059523809524,"frame":15,"player_speed":200.0,"red_speed":1071.42857142857,"red_y":486.059523809524},{"expected_y":231.690476190476,"frame":30,"player_speed":0.0,"red_speed":1071.42857142857,"red_y":231.690476190476},{"expected_y":-76.3452380952384,"frame":45,"player_speed":0.0,"red_speed":1071.42857142857,"red_y":-76.3452380952384}],"projection":true,"visible_frames":44,"warning_lane":0,"warning_seconds":1.0}
+FAST_CONSTANT_ENTRY_WITNESS {"birth_lane":0,"birth_seconds":1.01666666666667,"case":"height720 player820","constant":true,"frames":86,"history":[{"expected_y":760.361904761905,"frame":0,"player_speed":820.0,"red_speed":1071.42857142857,"red_y":760.361904761905},{"expected_y":688.07619047619,"frame":15,"player_speed":820.0,"red_speed":1071.42857142857,"red_y":688.07619047619},{"expected_y":600.073809523809,"frame":30,"player_speed":0.0,"red_speed":1071.42857142857,"red_y":600.073809523809},{"expected_y":292.038095238095,"frame":45,"player_speed":0.0,"red_speed":1071.42857142857,"red_y":292.038095238095},{"expected_y":0.466547619046985,"frame":60,"player_speed":859.0,"red_speed":1071.42857142857,"red_y":0.466547619046985},{"expected_y":-60.6066666666673,"frame":75,"player_speed":859.0,"red_speed":1071.42857142857,"red_y":-60.6066666666673}],"projection":true,"visible_frames":71,"warning_lane":0,"warning_seconds":1.0}
+FAST_CONSTANT_ENTRY_WITNESS {"birth_lane":0,"birth_seconds":1.01666666666667,"case":"height720 player859","constant":true,"frames":140,"history":[{"expected_y":761.856904761905,"frame":0,"player_speed":859.0,"red_speed":1071.42857142857,"red_y":761.856904761905},{"expected_y":700.783690476191,"frame":15,"player_speed":859.0,"red_speed":1071.42857142857,"red_y":700.783690476191},{"expected_y":623.246309523811,"frame":30,"player_speed":0.0,"red_speed":1071.42857142857,"red_y":623.246309523811},{"expected_y":315.210595238096,"frame":45,"player_speed":0.0,"red_speed":1071.42857142857,"red_y":315.210595238096},{"expected_y":23.6390476190488,"frame":60,"player_speed":859.0,"red_speed":1071.42857142857,"red_y":23.6390476190488},{"expected_y":-37.4341666666655,"frame":75,"player_speed":859.0,"red_speed":1071.42857142857,"red_y":-37.4341666666655},{"expected_y":-91.9715476190465,"frame":90,"player_speed":1200.0,"red_speed":1071.42857142857,"red_y":-91.9715476190465},{"expected_y":-55.0072619047609,"frame":105,"player_speed":1200.0,"red_speed":1071.42857142857,"red_y":-55.0072619047609},{"expected_y":-24.5788095238086,"frame":120,"player_speed":859.0,"red_speed":1071.42857142857,"red_y":-24.5788095238086},{"expected_y":-85.6520238095229,"frame":135,"player_speed":859.0,"red_speed":1071.42857142857,"red_y":-85.6520238095229}],"projection":true,"visible_frames":91,"warning_lane":0,"warning_seconds":1.0}
+FAST_CONSTANT_ENTRY_WITNESS {"birth_lane":0,"birth_seconds":1.01666666666667,"case":"height720 player1200","constant":true,"frames":180,"history":[{"expected_y":774.928571428571,"frame":0,"player_speed":1200.0,"red_speed":1071.42857142857,"red_y":774.928571428571},{"expected_y":811.892857142856,"frame":15,"player_speed":1200.0,"red_speed":1071.42857142857,"red_y":811.892857142856},{"expected_y":825.857142857141,"frame":30,"player_speed":0.0,"red_speed":1071.42857142857,"red_y":825.857142857141},{"expected_y":517.821428571426,"frame":45,"player_speed":0.0,"red_speed":1071.42857142857,"red_y":517.821428571426},{"expected_y":226.249880952379,"frame":60,"player_speed":859.0,"red_speed":1071.42857142857,"red_y":226.249880952379},{"expected_y":165.176666666664,"frame":75,"player_speed":859.0,"red_speed":1071.42857142857,"red_y":165.176666666664},{"expected_y":110.639285714283,"frame":90,"player_speed":1200.0,"red_speed":1071.42857142857,"red_y":110.639285714283},{"expected_y":147.603571428569,"frame":105,"player_speed":1200.0,"red_speed":1071.42857142857,"red_y":147.603571428569},{"expected_y":184.567857142855,"frame":120,"player_speed":1200.0,"red_speed":1071.42857142857,"red_y":184.567857142855},{"expected_y":221.532142857141,"frame":135,"player_speed":1200.0,"red_speed":1071.42857142857,"red_y":221.532142857141},{"expected_y":258.496428571426,"frame":150,"player_speed":1200.0,"red_speed":1071.42857142857,"red_y":258.496428571426},{"expected_y":295.460714285712,"frame":165,"player_speed":1200.0,"red_speed":1071.42857142857,"red_y":295.460714285712}],"projection":true,"visible_frames":146,"warning_lane":0,"warning_seconds":1.0}
+FAST_CONSTANT_ENTRY_WITNESS {"birth_lane":0,"birth_seconds":1.01666666666667,"case":"height1080 player0","constant":true,"frames":59,"history":[{"expected_y":1088.92857142857,"frame":0,"player_speed":0.0,"red_speed":1071.42857142857,"red_y":1088.92857142857},{"expected_y":780.892857142857,"frame":15,"player_speed":0.0,"red_speed":1071.42857142857,"red_y":780.892857142857},{"expected_y":472.857142857142,"frame":30,"player_speed":0.0,"red_speed":1071.42857142857,"red_y":472.857142857142},{"expected_y":164.821428571428,"frame":45,"player_speed":0.0,"red_speed":1071.42857142857,"red_y":164.821428571428}],"projection":true,"visible_frames":56,"warning_lane":0,"warning_seconds":1.0}
+FAST_CONSTANT_ENTRY_WITNESS {"birth_lane":0,"birth_seconds":1.01666666666667,"case":"height1080 player200","constant":true,"frames":84,"history":[{"expected_y":1096.59523809524,"frame":0,"player_speed":200.0,"red_speed":1071.42857142857,"red_y":1096.59523809524},{"expected_y":846.059523809524,"frame":15,"player_speed":200.0,"red_speed":1071.42857142857,"red_y":846.059523809524},{"expected_y":591.690476190476,"frame":30,"player_speed":0.0,"red_speed":1071.42857142857,"red_y":591.690476190476},{"expected_y":283.654761904761,"frame":45,"player_speed":0.0,"red_speed":1071.42857142857,"red_y":283.654761904761},{"expected_y":-7.91678571428606,"frame":60,"player_speed":859.0,"red_speed":1071.42857142857,"red_y":-7.91678571428606},{"expected_y":-68.9900000000004,"frame":75,"player_speed":859.0,"red_speed":1071.42857142857,"red_y":-68.9900000000004}],"projection":true,"visible_frames":69,"warning_lane":0,"warning_seconds":1.0}
+FAST_CONSTANT_ENTRY_WITNESS {"birth_lane":0,"birth_seconds":1.01666666666667,"case":"height1080 player820","constant":true,"frames":180,"history":[{"expected_y":1120.36190476191,"frame":0,"player_speed":820.0,"red_speed":1071.42857142857,"red_y":1120.36190476191},{"expected_y":1048.07619047619,"frame":15,"player_speed":820.0,"red_speed":1071.42857142857,"red_y":1048.07619047619},{"expected_y":960.073809523811,"frame":30,"player_speed":0.0,"red_speed":1071.42857142857,"red_y":960.073809523811},{"expected_y":652.038095238096,"frame":45,"player_speed":0.0,"red_speed":1071.42857142857,"red_y":652.038095238096},{"expected_y":360.466547619048,"frame":60,"player_speed":859.0,"red_speed":1071.42857142857,"red_y":360.466547619048},{"expected_y":299.393333333334,"frame":75,"player_speed":859.0,"red_speed":1071.42857142857,"red_y":299.393333333334},{"expected_y":244.855952380953,"frame":90,"player_speed":1200.0,"red_speed":1071.42857142857,"red_y":244.855952380953},{"expected_y":281.820238095239,"frame":105,"player_speed":1200.0,"red_speed":1071.42857142857,"red_y":281.820238095239},{"expected_y":311.501190476191,"frame":120,"player_speed":820.0,"red_speed":1071.42857142857,"red_y":311.501190476191},{"expected_y":239.215476190477,"frame":135,"player_speed":820.0,"red_speed":1071.42857142857,"red_y":239.215476190477},{"expected_y":166.929761904762,"frame":150,"player_speed":820.0,"red_speed":1071.42857142857,"red_y":166.929761904762},{"expected_y":94.6440476190482,"frame":165,"player_speed":820.0,"red_speed":1071.42857142857,"red_y":94.6440476190482}],"projection":true,"visible_frames":180,"warning_lane":0,"warning_seconds":1.0}
+FAST_CONSTANT_ENTRY_WITNESS {"birth_lane":0,"birth_seconds":1.01666666666667,"case":"height1080 player859","constant":true,"frames":180,"history":[{"expected_y":1121.8569047619,"frame":0,"player_speed":859.0,"red_speed":1071.42857142857,"red_y":1121.8569047619},{"expected_y":1060.78369047619,"frame":15,"player_speed":859.0,"red_speed":1071.42857142857,"red_y":1060.78369047619},{"expected_y":983.246309523811,"frame":30,"player_speed":0.0,"red_speed":1071.42857142857,"red_y":983.246309523811},{"expected_y":675.210595238096,"frame":45,"player_speed":0.0,"red_speed":1071.42857142857,"red_y":675.210595238096},{"expected_y":383.639047619048,"frame":60,"player_speed":859.0,"red_speed":1071.42857142857,"red_y":383.639047619048},{"expected_y":322.565833333333,"frame":75,"player_speed":859.0,"red_speed":1071.42857142857,"red_y":322.565833333333},{"expected_y":268.028452380952,"frame":90,"player_speed":1200.0,"red_speed":1071.42857142857,"red_y":268.028452380952},{"expected_y":304.992738095238,"frame":105,"player_speed":1200.0,"red_speed":1071.42857142857,"red_y":304.992738095238},{"expected_y":335.42119047619,"frame":120,"player_speed":859.0,"red_speed":1071.42857142857,"red_y":335.42119047619},{"expected_y":274.347976190476,"frame":135,"player_speed":859.0,"red_speed":1071.42857142857,"red_y":274.347976190476},{"expected_y":213.274761904761,"frame":150,"player_speed":859.0,"red_speed":1071.42857142857,"red_y":213.274761904761},{"expected_y":152.201547619047,"frame":165,"player_speed":859.0,"red_speed":1071.42857142857,"red_y":152.201547619047}],"projection":true,"visible_frames":180,"warning_lane":0,"warning_seconds":1.0}
+FAST_CONSTANT_ENTRY_WITNESS {"birth_lane":0,"birth_seconds":1.01666666666667,"case":"height1080 player1200","constant":true,"frames":180,"history":[{"expected_y":1134.92857142857,"frame":0,"player_speed":1200.0,"red_speed":1071.42857142857,"red_y":1134.92857142857},{"expected_y":1171.89285714286,"frame":15,"player_speed":1200.0,"red_speed":1071.42857142857,"red_y":1171.89285714286},{"expected_y":1185.85714285714,"frame":30,"player_speed":0.0,"red_speed":1071.42857142857,"red_y":1185.85714285714},{"expected_y":877.821428571431,"frame":45,"player_speed":0.0,"red_speed":1071.42857142857,"red_y":877.821428571431},{"expected_y":586.249880952382,"frame":60,"player_speed":859.0,"red_speed":1071.42857142857,"red_y":586.249880952382},{"expected_y":525.176666666669,"frame":75,"player_speed":859.0,"red_speed":1071.42857142857,"red_y":525.176666666669},{"expected_y":470.639285714288,"frame":90,"player_speed":1200.0,"red_speed":1071.42857142857,"red_y":470.639285714288},{"expected_y":507.603571428574,"frame":105,"player_speed":1200.0,"red_speed":1071.42857142857,"red_y":507.603571428574},{"expected_y":544.567857142859,"frame":120,"player_speed":1200.0,"red_speed":1071.42857142857,"red_y":544.567857142859},{"expected_y":581.532142857144,"frame":135,"player_speed":1200.0,"red_speed":1071.42857142857,"red_y":581.532142857144},{"expected_y":618.496428571429,"frame":150,"player_speed":1200.0,"red_speed":1071.42857142857,"red_y":618.496428571429},{"expected_y":655.460714285714,"frame":165,"player_speed":1200.0,"red_speed":1071.42857142857,"red_y":655.460714285714}],"projection":true,"visible_frames":146,"warning_lane":0,"warning_seconds":1.0}
+FAST_CONSTANT_TRAFFIC_WITNESS {"birth_at":1.01666666666667,"case":"staggered preferred_lane_occupied=false","constant":true,"notice_lane":0,"pass_at":1.73333333333333,"reservation":true,"retained":true,"safe":true,"warning_seconds":1.0}
+FAST_CONSTANT_TRAFFIC_WITNESS {"birth_at":1.01666666666667,"case":"staggered preferred_lane_occupied=true","constant":true,"notice_lane":2,"pass_at":1.73333333333333,"reservation":true,"retained":true,"safe":true,"warning_seconds":1.0}
+FAST_CONSTANT_RESERVED_TURN {"announced":true,"birth":true,"intrusion":false,"lane":0,"npc_lane":1,"npc_target":1}
+FAST_CONSTANT_CONSTRUCTION_WITNESS {"birth_at":8.61666666666667,"event_ended_at":6.63333333333333,"history":"warning:2|closed:2|ended:2","red_during_event":false,"retained":true,"warning_at":7.61666666666667,"warning_during_event":false}
+FAST_CONSTANT_ENTRY assertions=116 failures=0
+TEST_COMPLETE test_product_fast_constant_entry.gd
+RUN test_product_fast_distant_leader.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+FAST_DISTANT_LEADER {"lane":1,"passed":false,"safe":true,"started":true,"y":861.031896484017}
+TEST_COMPLETE test_product_fast_distant_leader.gd
+RUN test_product_fast_encounter.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+TEST_COMPLETE test_product_fast_encounter.gd
+RUN test_product_fast_priority_dense.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+FAST_PRIORITY_DENSE_WITNESS {"case":"dense_equal_speed_queue","cruises_unchanged":true,"history":[{"front_speed":200.0,"front_y":0.0,"partner_speed":193.0,"partner_y":250.134166666667,"priority":true,"red_lane":0,"red_live":true,"red_speed":200.0,"red_y":650.0,"seconds":0.0166666666666667,"yield_speed":193.0,"yield_y":400.134166666667},{"front_speed":200.0,"front_y":0.0,"partner_speed":195.660283879001,"partner_y":265.587841122745,"priority":true,"red_lane":0,"red_live":true,"red_speed":206.0,"red_y":649.885,"seconds":1.01666666666667,"yield_speed":139.57295515566,"yield_y":498.162420224766},{"front_speed":200.0,"front_y":0.0,"partner_speed":150.468472339722,"partner_y":284.443415486738,"priority":true,"red_lane":0,"red_live":true,"red_speed":186.055100915795,"red_y":617.647537475914,"seconds":2.01666666666667,"yield_speed":100.062940291678,"yield_y":563.09485342819},{"front_speed":200.0,"front_y":0.0,"partner_speed":189.183367223181,"partner_y":312.83432067987,"priority":true,"red_lane":0,"red_live":true,"red_speed":278.614597939932,"red_y":618.885480218069,"seconds":3.01666666666667,"yield_speed":176.025050814752,"yield_y":621.114727297059},{"front_speed":200.0,"front_y":0.0,"partner_speed":197.386273771501,"partner_y":319.376676598219,"priority":true,"red_lane":0,"red_live":true,"red_speed":638.614597939932,"red_y":318.028692587148,"seconds":4.01666666666667,"yield_speed":193.097228196491,"yield_y":636.681453356011},{"front_speed":200.0,"front_y":0.0,"partner_speed":198.97285586807,"partner_y":320.663343679527,"priority":false,"red_lane":0,"red_live":false,"red_speed":878.614597939932,"red_y":-112.5424991668,"seconds":4.68333333333333,"yield_speed":196.974862456047,"yield_y":640.248856661009}],"npc_retired_before_pass":false,"passed_all_at":4.65,"released":true,"retired_at":4.68333333333333,"retired_forward":true,"safety":[]}
+FAST_PRIORITY_DENSE_WITNESS {"case":"transient_front_braking","cruises_unchanged":true,"history":[{"front_speed":193.0,"front_y":-19.8658333333333,"partner_speed":193.0,"partner_y":250.134166666667,"priority":true,"red_lane":0,"red_live":true,"red_speed":200.0,"red_y":650.0,"seconds":0.0166666666666667,"yield_speed":193.0,"yield_y":520.134166666667},{"front_speed":190.0,"front_y":33.6570833333333,"partner_speed":166.099936959869,"partner_y":334.217194294688,"priority":true,"red_lane":0,"red_live":true,"red_speed":184.90944004405,"red_y":660.057022299705,"seconds":1.01666666666667,"yield_speed":140.031484769166,"yield_y":631.851695010306},{"front_speed":200.0,"front_y":34.2033333333333,"partner_speed":193.719251571576,"partner_y":350.632547616789,"priority":true,"red_lane":0,"red_live":true,"red_speed":528.523969015225,"red_y":485.491648325133,"seconds":2.01666666666667,"yield_speed":185.997257123316,"yield_y":664.240485257307},{"front_speed":200.0,"front_y":34.2033333333333,"partner_speed":198.464816768571,"partner_y":354.45392347484,"priority":false,"red_lane":0,"red_live":false,"red_speed":888.523969015225,"red_y":-102.760916042376,"seconds":3.01666666666667,"yield_speed":195.887291742374,"yield_y":673.429350636223}],"npc_retired_before_pass":false,"passed_all_at":2.95,"released":true,"retired_at":3.01666666666667,"retired_forward":true,"safety":[]}
+FAST_PRIORITY_DENSE failures=0
+TEST_COMPLETE test_product_fast_priority_dense.gd
+RUN test_product_fast_priority_lifecycle.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+TEST_COMPLETE test_product_fast_priority_lifecycle.gd
+RUN test_product_fast_priority_pickups.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+FAST_PRIORITY_PICKUPS cases=36 failures=0
+TEST_COMPLETE test_product_fast_priority_pickups.gd
+RUN test_product_fast_priority_rear_leader.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+FAST_PRIORITY_REAR_LEADER_WITNESS {"case":"rear_own_leader_red_y650","cruises_unchanged":true,"history":[{"npcs":[{"lane":0,"live":true,"moving":false,"speed":193.0,"target":0,"warning":false,"y":350.134166666667},{"lane":1,"live":true,"moving":false,"speed":160.0,"target":1,"warning":false,"y":80.7666666666667}],"priority":true,"red_lane":0,"red_live":true,"red_speed":193.0,"red_target":0,"red_warning":false,"red_y":650.134166666667,"seconds":0.0166666666666667},{"npcs":[{"lane":0,"live":true,"moving":false,"speed":111.279159442072,"target":1,"warning":true,"y":437.598609003925},{"lane":1,"live":true,"moving":false,"speed":160.0,"target":1,"warning":false,"y":126.766666666667}],"priority":true,"red_lane":0,"red_live":true,"red_speed":114.452625677409,"red_target":0,"red_warning":false,"red_y":735.423634388178,"seconds":1.01666666666667},{"npcs":[{"lane":1,"live":true,"moving":false,"speed":151.622197490117,"target":1,"warning":false,"y":508.944437740196},{"lane":1,"live":true,"moving":false,"speed":160.0,"target":1,"warning":false,"y":172.766666666667}],"priority":true,"red_lane":0,"red_live":true,"red_speed":202.653108431396,"red_target":0,"red_warning":false,"red_y":806.743660426095,"seconds":2.01666666666667},{"npcs":[{"lane":1,"live":true,"moving":false,"speed":158.361807351848,"target":1,"warning":false,"y":559.613074653587},{"lane":1,"live":true,"moving":false,"speed":160.0,"target":1,"warning":false,"y":218.766666666668}],"priority":true,"red_lane":0,"red_live":true,"red_speed":258.193214795044,"red_target":0,"red_warning":false,"red_y":716.119103816586,"seconds":3.01666666666667},{"npcs":[{"lane":1,"live":true,"moving":false,"speed":159.672947868409,"target":1,"warning":false,"y":606.53577413414},{"lane":1,"live":true,"moving":false,"speed":160.0,"target":1,"warning":false,"y":264.766666666669}],"priority":true,"red_lane":0,"red_live":true,"red_speed":216.588039958071,"red_target":0,"red_warning":false,"red_y":677.911762044476,"seconds":4.01666666666667},{"npcs":[{"lane":1,"live":true,"moving":false,"speed":159.93444398594,"target":1,"warning":false,"y":652.720361908914},{"lane":1,"live":true,"moving":false,"speed":160.0,"target":1,"warning":false,"y":310.766666666668}],"priority":true,"red_lane":0,"red_live":true,"red_speed":351.413170378753,"red_target":0,"red_warning":false,"red_y":632.213971788775,"seconds":5.01666666666667},{"npcs":[{"lane":1,"live":true,"moving":false,"speed":159.986849101913,"target":1,"warning":false,"y":698.75737673329},{"lane":1,"live":true,"moving":false,"speed":160.0,"target":1,"warning":false,"y":356.766666666667}],"priority":true,"red_lane":0,"red_live":true,"red_speed":711.413170378753,"red_target":0,"red_warning":false,"red_y":247.63882585321,"seconds":6.01666666666667},{"npcs":[{"lane":1,"live":true,"moving":false,"speed":159.994265020279,"target":1,"warning":false,"y":722.52928202483},{"lane":1,"live":true,"moving":false,"speed":160.0,"target":1,"warning":false,"y":380.533333333333}],"priority":false,"red_lane":0,"red_live":false,"red_speed":897.413170378753,"red_target":0,"red_warning":false,"red_y":-113.265832880166,"seconds":6.53333333333333}],"npc_retired_before_pass":false,"passed_all_at":6.03333333333333,"released":true,"retired_at":6.53333333333333,"retired_forward":true,"safety":[]}
+FAST_PRIORITY_REAR_LEADER_WITNESS {"case":"rear_own_leader_red_y675","cruises_unchanged":true,"history":[{"npcs":[{"lane":0,"live":true,"moving":false,"speed":193.0,"target":0,"warning":false,"y":350.134166666667},{"lane":1,"live":true,"moving":false,"speed":160.0,"target":1,"warning":false,"y":80.7666666666667}],"priority":true,"red_lane":0,"red_live":true,"red_speed":199.681016374717,"red_target":0,"red_warning":false,"red_y":675.006113852818,"seconds":0.0166666666666667},{"npcs":[{"lane":0,"live":true,"moving":false,"speed":111.279159442072,"target":1,"warning":true,"y":437.598609003925},{"lane":1,"live":true,"moving":false,"speed":160.0,"target":1,"warning":false,"y":126.766666666667}],"priority":true,"red_lane":0,"red_live":true,"red_speed":122.149075279189,"red_target":0,"red_warning":false,"red_y":739.981874587481,"seconds":1.01666666666667},{"npcs":[{"lane":1,"live":true,"moving":false,"speed":151.622197490117,"target":1,"warning":false,"y":508.944437740196},{"lane":1,"live":true,"moving":false,"speed":160.0,"target":1,"warning":false,"y":172.766666666667}],"priority":true,"red_lane":0,"red_live":true,"red_speed":204.193808936134,"red_target":0,"red_warning":false,"red_y":807.466824808752,"seconds":2.01666666666667},{"npcs":[{"lane":1,"live":true,"moving":false,"speed":158.361807351848,"target":1,"warning":false,"y":559.613074653587},{"lane":1,"live":true,"moving":false,"speed":160.0,"target":1,"warning":false,"y":218.766666666668}],"priority":true,"red_lane":0,"red_live":true,"red_speed":258.27237119111,"red_target":0,"red_warning":false,"red_y":716.196312911019,"seconds":3.01666666666667},{"npcs":[{"lane":1,"live":true,"moving":false,"speed":159.672947868409,"target":1,"warning":false,"y":606.53577413414},{"lane":1,"live":true,"moving":false,"speed":160.0,"target":1,"warning":false,"y":264.766666666669}],"priority":true,"red_lane":0,"red_live":true,"red_speed":216.613559199965,"red_target":0,"red_warning":false,"red_y":677.933744496833,"seconds":4.01666666666667},{"npcs":[{"lane":1,"live":true,"moving":false,"speed":159.93444398594,"target":1,"warning":false,"y":652.720361908914},{"lane":1,"live":true,"moving":false,"speed":160.0,"target":1,"warning":false,"y":310.766666666668}],"priority":true,"red_lane":0,"red_live":true,"red_speed":259.278732748443,"red_target":0,"red_warning":false,"red_y":662.259761693901,"seconds":5.01666666666667},{"npcs":[{"lane":1,"live":true,"moving":false,"speed":159.986849101913,"target":1,"warning":false,"y":698.75737673329},{"lane":1,"live":true,"moving":false,"speed":160.0,"target":1,"warning":false,"y":356.766666666667}],"priority":true,"red_lane":0,"red_live":true,"red_speed":619.278732748443,"red_target":0,"red_warning":false,"red_y":383.639219033192,"seconds":6.01666666666667},{"npcs":[{"lane":1,"live":true,"moving":false,"speed":159.99616172386,"target":1,"warning":false,"y":734.030621885572},{"lane":1,"live":true,"moving":false,"speed":160.0,"target":1,"warning":false,"y":392.033333333333}],"priority":false,"red_lane":0,"red_live":false,"red_speed":895.278732748443,"red_target":0,"red_warning":false,"red_y":-110.339863673351,"seconds":6.78333333333333}],"npc_retired_before_pass":false,"passed_all_at":6.26666666666667,"released":true,"retired_at":6.78333333333333,"retired_forward":true,"safety":[]}
+FAST_PRIORITY_REAR_LEADER_FAIR_BIRTH {"front_y":34.2033333333333,"opposite_y":250.0,"partner_y":430.7325,"rear_y":748.705418210055,"red_actual":1071.42857142857,"red_lane":0,"red_y":753.297619047619}
+FAST_PRIORITY_REAR_LEADER_WITNESS {"case":"fair_four_car_transient_impact","cruises_unchanged":true,"history":[{"npcs":[{"lane":1,"live":true,"moving":false,"speed":200.0,"target":1,"warning":false,"y":430.7325},{"lane":2,"live":true,"moving":false,"speed":200.0,"target":2,"warning":false,"y":250.0},{"lane":1,"live":true,"moving":false,"speed":195.746898204318,"target":1,"warning":false,"y":748.786935994472},{"lane":1,"live":true,"moving":false,"speed":200.0,"target":1,"warning":false,"y":34.2033333333333}],"priority":true,"red_lane":0,"red_live":true,"red_speed":1071.42857142857,"red_target":0,"red_warning":false,"red_y":736.595238095238,"seconds":0.0166666666666667},{"npcs":[{"lane":1,"live":true,"moving":false,"speed":200.0,"target":1,"warning":false,"y":434.211988236448},{"lane":2,"live":true,"moving":false,"speed":157.499188621566,"target":2,"warning":false,"y":275.11428356079},{"lane":1,"live":true,"moving":false,"speed":197.745506060301,"target":1,"warning":false,"y":753.879387055607},{"lane":1,"live":true,"moving":false,"speed":200.0,"target":1,"warning":false,"y":34.2033333333333}],"priority":false,"red_lane":0,"red_live":false,"red_speed":1071.42857142857,"red_target":0,"red_warning":false,"red_y":-115.226190476191,"seconds":0.866666666666667}],"npc_retired_before_pass":false,"passed_all_at":0.816666666666667,"released":true,"retired_at":0.866666666666667,"retired_forward":true,"safety":[]}
+FAST_PRIORITY_REAR_LEADER failures=0
+TEST_COMPLETE test_product_fast_priority_rear_leader.gd
+RUN test_product_fast_priority_spawn.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+FAST_PRIORITY_SPAWN_TRUCK_WITNESS {"history":"1:0:220|3:2:144","safety":[],"saw_truck":true}
+FAST_PRIORITY_SPAWN_ORDINARY_WITNESS {"after_count":3,"born_cruise":220.0,"born_lane":0,"history":"0:0:220","initial_count":2}
+FAST_PRIORITY_SPAWN failures=0
+TEST_COMPLETE test_product_fast_priority_spawn.gd
+RUN test_product_fast_priority_stagger.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+FAST_PRIORITY_STAGGER_COOLDOWN_WITNESS {"moving":false,"remaining":0.733333333333333,"target":0,"warning":false}
+FAST_PRIORITY_STAGGER_WITNESS {"case":"fair_stage2_center_birth","history":[{"first_y":357.033611111112,"priority":true,"red_live":true,"red_speed":1071.42857142857,"red_y":736.595238095238,"second_y":149.522500000001,"seconds":0.0166666666666667},{"first_y":406.168074501791,"priority":false,"red_live":false,"red_speed":1071.42857142857,"red_y":-115.226190476191,"second_y":149.522500000001,"seconds":0.866666666666667}],"leader_departed_before_pass":false,"passed_both_at":0.7,"released":true,"retired_at":0.866666666666667,"retired_forward":true,"safety":[]}
+FAST_PRIORITY_STAGGER_WITNESS {"case":"own_lane_leader_y150","history":[{"first_y":150.0,"priority":true,"red_live":true,"red_speed":200.0,"red_y":650.0,"second_y":150.134166666667,"seconds":0.0166666666666667},{"first_y":150.0,"priority":true,"red_live":true,"red_speed":206.0,"red_y":649.885,"second_y":311.5175,"seconds":1.01666666666667},{"first_y":150.0,"priority":true,"red_live":true,"red_speed":275.379357695253,"red_y":540.784960078401,"second_y":398.486512545417,"seconds":2.01666666666667},{"first_y":150.0,"priority":true,"red_live":true,"red_speed":222.319130062816,"red_y":490.393329579558,"second_y":447.462690947088,"seconds":3.01666666666667},{"first_y":150.0,"priority":true,"red_live":true,"red_speed":404.053845791516,"red_y":413.421254799805,"second_y":465.753562588581,"seconds":4.01666666666667},{"first_y":150.0,"priority":true,"red_live":true,"red_speed":764.053845791516,"red_y":-31.690667860438,"second_y":470.085585746811,"seconds":5.01666666666667},{"first_y":150.0,"priority":false,"red_live":false,"red_speed":806.053845791516,"red_y":-110.5878921708,"second_y":470.298273809735,"seconds":5.13333333333333}],"leader_departed_before_pass":false,"passed_both_at":4.86666666666667,"released":true,"retired_at":5.13333333333333,"retired_forward":true,"safety":[]}
+FAST_PRIORITY_STAGGER_WITNESS {"case":"own_lane_leader_y250","history":[{"first_y":250.0,"priority":true,"red_live":true,"red_speed":200.0,"red_y":650.0,"second_y":250.134166666667,"seconds":0.0166666666666667},{"first_y":250.0,"priority":true,"red_live":true,"red_speed":206.0,"red_y":649.885,"second_y":411.5175,"seconds":1.01666666666667},{"first_y":250.0,"priority":true,"red_live":true,"red_speed":228.354700490229,"red_y":595.736784656997,"second_y":498.486512545417,"seconds":2.01666666666667},{"first_y":250.0,"priority":true,"red_live":true,"red_speed":207.543820004606,"red_y":577.733309326736,"second_y":547.462690947088,"seconds":3.01666666666667},{"first_y":250.0,"priority":true,"red_live":true,"red_speed":395.98454586739,"red_y":511.609080718172,"second_y":565.753562588581,"seconds":4.01666666666667},{"first_y":250.0,"priority":true,"red_live":true,"red_speed":755.98454586739,"red_y":75.776852970674,"second_y":570.085585746811,"seconds":5.01666666666667},{"first_y":250.0,"priority":false,"red_live":false,"red_speed":851.98454586739,"red_y":-110.365074428659,"second_y":570.525336302283,"seconds":5.28333333333333}],"leader_departed_before_pass":false,"passed_both_at":4.88333333333333,"released":true,"retired_at":5.28333333333333,"retired_forward":true,"safety":[]}
+FAST_PRIORITY_STAGGER_WITNESS {"case":"own_lane_leader_y350","history":[{"first_y":350.0,"priority":true,"red_live":true,"red_speed":193.0,"red_y":650.134166666667,"second_y":350.134166666667,"seconds":0.0166666666666667},{"first_y":350.0,"priority":true,"red_live":true,"red_speed":193.540427335202,"red_y":666.286421293346,"second_y":511.5175,"seconds":1.01666666666667},{"first_y":350.0,"priority":true,"red_live":true,"red_speed":198.42181856379,"red_y":670.2156889271,"second_y":598.486512545417,"seconds":2.01666666666667},{"first_y":350.0,"priority":true,"red_live":true,"red_speed":199.609670706014,"red_y":671.181718467147,"second_y":647.462690947088,"seconds":3.01666666666667},{"first_y":350.0,"priority":true,"red_live":true,"red_speed":391.796379237871,"red_y":610.738799317753,"second_y":665.753562588581,"seconds":4.01666666666667},{"first_y":350.0,"priority":true,"red_live":true,"red_speed":751.796379237871,"red_y":179.722963194202,"second_y":670.085585746811,"seconds":5.01666666666667},{"first_y":350.0,"priority":false,"red_live":false,"red_speed":895.796379237871,"red_y":-108.603371255219,"second_y":670.690826725581,"seconds":5.41666666666667}],"leader_departed_before_pass":false,"passed_both_at":4.88333333333333,"released":true,"retired_at":5.41666666666667,"retired_forward":true,"safety":[]}
+FAST_PRIORITY_STAGGER failures=0
+TEST_COMPLETE test_product_fast_priority_stagger.gd
+RUN test_product_fast_priority.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+FAST_PRIORITY_YIELD_WITNESS {"arrival_warning":true,"leader_lane":1,"leader_position":1.0,"passed_leader_at":2.6,"passed_player_at":1.7,"physical":[],"red_speed":884.0,"red_y":-103.825,"yielded_at":1.08333333333333}
+FAST_PRIORITY_MERGE_WITNESS {"intrusion":false,"red_y":650.0,"target":1,"warning":false}
+FAST_PRIORITY_BIRTH_WITNESS {"history":"0:2:200|0:1:200","passed":true,"paused":true,"resumed":true,"retired":true,"warning":true}
+FAST_PRIORITY_NEW_CONSTRUCTION_WITNESS {"history":"","started":0,"state":0}
+FAST_PRIORITY_PUBLISHED_CONSTRUCTION_WITNESS {"after":["(0.5, -62.0)"],"before":["(0.5, -85.0)"],"expected":23.0,"history":"warning:0","travel":23.0000000000002}
+FAST_PRIORITY failures=0
+TEST_COMPLETE test_product_fast_priority.gd
+RUN test_product_fast_sprint.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+FAST_SPRINT_WITNESS {"height":720.0,"passed":true,"player_speed":0.0,"red_speed_kmh":111.401304009043,"seconds":1.73333333333333,"warning":1.0}
+FAST_SPRINT_WITNESS {"height":720.0,"passed":true,"player_speed":200.0,"red_speed_kmh":199.251126862265,"seconds":1.75,"warning":1.0}
+FAST_SPRINT_WITNESS {"height":720.0,"passed":true,"player_speed":760.0,"red_speed_kmh":436.655897441848,"seconds":1.76666666666667,"warning":1.0}
+FAST_SPRINT_WITNESS {"height":720.0,"passed":true,"player_speed":820.0,"red_speed_kmh":450.0,"seconds":1.76666666666667,"warning":1.0}
+FAST_SPRINT_WITNESS {"height":1080.0,"passed":true,"player_speed":0.0,"red_speed_kmh":111.401304009043,"seconds":1.73333333333333,"warning":1.0}
+FAST_SPRINT_WITNESS {"height":1080.0,"passed":true,"player_speed":200.0,"red_speed_kmh":199.251126862265,"seconds":1.75,"warning":1.0}
+FAST_SPRINT_WITNESS {"height":1080.0,"passed":true,"player_speed":760.0,"red_speed_kmh":436.655897441848,"seconds":1.76666666666667,"warning":1.0}
+FAST_SPRINT_WITNESS {"height":1080.0,"passed":true,"player_speed":820.0,"red_speed_kmh":450.0,"seconds":1.76666666666667,"warning":1.0}
+FAST_SPRINT failures=0
+TEST_COMPLETE test_product_fast_sprint.gd
+RUN test_product_fast_wall_regression.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+FAST_WALL_REGRESSION failures=0 substeps=540
+TEST_COMPLETE test_product_fast_wall_regression.gd
+RUN test_product_hard_supply_audit.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+HARD_SUPPLY_SELF_CHECK failures=0
+TEST_COMPLETE test_product_hard_supply_audit.gd
+RUN test_product_main_audit.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+PRODUCT_MAIN_AUDIT_SELF_CHECK failures=0
+TEST_COMPLETE test_product_main_audit.gd
+RUN test_product_main_path_joint.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+MAIN_JOINT_SELFCHECK_COMPLETE frames=260 failures=0
+TEST_COMPLETE test_product_main_path_joint.gd
+RUN test_product_menu_actions.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+MENU_ACTIONS_RESULT {"checks":27,"failures":[]}
+TEST_COMPLETE test_product_menu_actions.gd
+RUN test_product_modal_input.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+MODAL_INPUT_RESULT {"checks":131,"failures":[],"scope":"real Main, engine key events, zh/en, memory-only save; no desktop input"}
+TEST_COMPLETE test_product_modal_input.gd
+RUN test_product_natural_path.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+JOINT_PATH_SELFCHECK_COMPLETE failures=0
+TEST_COMPLETE test_product_natural_path.gd
+RUN test_product_natural_recovery.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+JOINT_PATH_SELFCHECK_COMPLETE failures=0
+NATURAL_RECOVERY_CHECKS_COMPLETE {"failures":[],"scope":"bounded test-only planner; no game rule changes or new 1080 batch claim"}
+TEST_COMPLETE test_product_natural_recovery.gd
+RUN test_product_path_envelope_budget.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+PATH_ENVELOPE_BUDGET_COMPLETE checks=516 failures=0
+TEST_COMPLETE test_product_path_envelope_budget.gd
+RUN test_product_pickup_audit.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+PICKUP_AUDIT_SELF_CHECK failures=0
+TEST_COMPLETE test_product_pickup_audit.gd
+RUN test_product_pilot_supply_pace.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+SUPPLY_PACE_SELF_CHECK failures=0
+TEST_COMPLETE test_product_pilot_supply_pace.gd
+RUN test_product_pilot_warning.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+PILOT_WARNING_SELF_CHECK failures=0
+TEST_COMPLETE test_product_pilot_warning.gd
+RUN test_product_player_path_oracle.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+PATH_ORACLE_COMPLETE checks=3379 failures=0
+TEST_COMPLETE test_product_player_path_oracle.gd
+RUN test_product_player_path_trace.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+PATH_TRACE_COMPLETE checks=258 failures=0
+TEST_COMPLETE test_product_player_path_trace.gd
+RUN test_product_player_sweep.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+PLAYER_SWEEP_REPRO {"collisions_after":1,"collisions_before":0,"dt":0.0166666666666667,"end":[47.8400001525879,73.5849990844727],"frame":224,"gameplay_extents":[50.0,72.0],"impact_cooldown_before":0.0,"npc_actual_speed":220.0,"npc_contact":true,"npc_kind":0,"npc_lateral_velocity":-623.999642944361,"player_speed_before":760.0,"player_x_after":0.0,"player_x_before":0.0,"player_y":592.0,"seconds":3.74999999999999,"seed":9001,"start":[58.2400016784668,63.2350006103516]}
+PRODUCT_PLAYER_SWEEP failures=0
+TEST_COMPLETE test_product_player_sweep.gd
+RUN test_product_rating_targets.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+TEST_COMPLETE test_product_rating_targets.gd
+RUN test_product_route_display.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+ROUTE_DISPLAY failures=0
+TEST_COMPLETE test_product_route_display.gd
+RUN test_product_soak_contract.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+SOAK_CONTRACT failures=0
+TEST_COMPLETE test_product_soak_contract.gd
+RUN test_product_supply_integration.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+SUPPLY_RENDER_LENGTH {"contract_minimum":136.0,"longest":136.0,"vehicles":6}
+SUPPLY_DIFFICULTY {"difficulty":0,"fuel":4.5,"repair":8.0}
+SUPPLY_DIFFICULTY {"difficulty":1,"fuel":7.0,"repair":12.0}
+SUPPLY_DIFFICULTY {"difficulty":2,"fuel":10.0,"repair":18.0}
+SUPPLY_PARKED {"fuel_after":7.0,"fuel_before":7.0,"repair_after":12.0,"repair_before":12.0}
+SUPPLY_MAIN_GATES {"active":1,"kind":"fuel","opportunities":2,"road_progress":0.0,"spawned":2}
+SUPPLY_MAIN_GATES {"active":1,"kind":"repair","opportunities":2,"road_progress":0.0,"spawned":2}
+SUPPLY_MAIN_REPLAY {"first":[2,1,1,0],"kind":"fuel","replay":[2,1,1,0]}
+SUPPLY_MAIN_REPLAY {"first":[2,2,2,2],"kind":"repair","replay":[2,2,2,2]}
+SUPPLY_VARIABLE_STEP_SPACING {"actual_gap":136.0,"first_advance":1.0,"kind":"fuel","pickup_y":[46.0,-90.0],"second_advance":136.0}
+SUPPLY_VARIABLE_STEP_SPACING {"actual_gap":136.0,"first_advance":1.0,"kind":"repair","pickup_y":[46.0,-90.0],"second_advance":136.0}
+SUPPLY_ROAD_SNAPSHOT {"controlled_collision_stage_stop":true,"dt":0.1,"expected_non_modulo_advance":22.5975,"final_speed":0.0,"fuel_moved":22.5975,"repair_moved":22.5975,"scroll_after":20.5975,"scroll_before":90.0}
+SUPPLY_ROAD_SNAPSHOT {"controlled_collision_stage_stop":true,"dt":0.5,"expected_non_modulo_advance":104.9375,"final_speed":0.0,"fuel_moved":104.9375,"repair_moved":104.9375,"scroll_after":10.9375,"scroll_before":90.0}
+PRODUCT_SUPPLY_INTEGRATION failures=0
+TEST_COMPLETE test_product_supply_integration.gd
+RUN test_product_supply_schedule.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":0,"events":[{"lane":2,"seconds":4.5},{"lane":1,"seconds":9.0},{"lane":1,"seconds":13.5},{"lane":1,"seconds":18.0},{"lane":1,"seconds":22.5},{"lane":2,"seconds":27.0},{"lane":0,"seconds":31.5},{"lane":1,"seconds":36.0},{"lane":0,"seconds":40.5},{"lane":1,"seconds":45.0},{"lane":2,"seconds":49.5},{"lane":2,"seconds":54.0},{"lane":2,"seconds":58.5}],"hz":30,"interval":4.5,"kind":"fuel","opportunities":13,"seconds":60,"spawned":13}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":0,"events":[{"lane":2,"seconds":4.5},{"lane":1,"seconds":9.0},{"lane":1,"seconds":13.5},{"lane":1,"seconds":18.0},{"lane":1,"seconds":22.5},{"lane":2,"seconds":27.0},{"lane":0,"seconds":31.5},{"lane":1,"seconds":36.0},{"lane":0,"seconds":40.5},{"lane":1,"seconds":45.0},{"lane":2,"seconds":49.5},{"lane":2,"seconds":54.0},{"lane":2,"seconds":58.5}],"hz":60,"interval":4.5,"kind":"fuel","opportunities":13,"seconds":60,"spawned":13}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":0,"events":[{"lane":2,"seconds":4.5},{"lane":1,"seconds":9.0},{"lane":1,"seconds":13.5},{"lane":1,"seconds":18.0},{"lane":1,"seconds":22.5},{"lane":2,"seconds":27.0},{"lane":0,"seconds":31.5},{"lane":1,"seconds":36.0},{"lane":0,"seconds":40.5},{"lane":1,"seconds":45.0},{"lane":2,"seconds":49.5},{"lane":2,"seconds":54.0},{"lane":2,"seconds":58.5}],"hz":120,"interval":4.5,"kind":"fuel","opportunities":13,"seconds":60,"spawned":13}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":0,"events":[{"lane":2,"seconds":4.5},{"lane":1,"seconds":9.0},{"lane":1,"seconds":13.5},{"lane":1,"seconds":18.0},{"lane":1,"seconds":22.5},{"lane":2,"seconds":27.0},{"lane":0,"seconds":31.5},{"lane":1,"seconds":36.0},{"lane":0,"seconds":40.5},{"lane":1,"seconds":45.0},{"lane":2,"seconds":49.5},{"lane":2,"seconds":54.0},{"lane":2,"seconds":58.5},{"lane":2,"seconds":63.0},{"lane":2,"seconds":67.5},{"lane":2,"seconds":72.0},{"lane":0,"seconds":76.5},{"lane":2,"seconds":81.0},{"lane":1,"seconds":85.5},{"lane":0,"seconds":90.0},{"lane":0,"seconds":94.5},{"lane":0,"seconds":99.0},{"lane":1,"seconds":103.5},{"lane":2,"seconds":108.0},{"lane":2,"seconds":112.5},{"lane":0,"seconds":117.0}],"hz":30,"interval":4.5,"kind":"fuel","opportunities":26,"seconds":120,"spawned":26}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":0,"events":[{"lane":2,"seconds":4.5},{"lane":1,"seconds":9.0},{"lane":1,"seconds":13.5},{"lane":1,"seconds":18.0},{"lane":1,"seconds":22.5},{"lane":2,"seconds":27.0},{"lane":0,"seconds":31.5},{"lane":1,"seconds":36.0},{"lane":0,"seconds":40.5},{"lane":1,"seconds":45.0},{"lane":2,"seconds":49.5},{"lane":2,"seconds":54.0},{"lane":2,"seconds":58.5},{"lane":2,"seconds":63.0},{"lane":2,"seconds":67.5},{"lane":2,"seconds":72.0},{"lane":0,"seconds":76.5},{"lane":2,"seconds":81.0},{"lane":1,"seconds":85.5},{"lane":0,"seconds":90.0},{"lane":0,"seconds":94.5},{"lane":0,"seconds":99.0},{"lane":1,"seconds":103.5},{"lane":2,"seconds":108.0},{"lane":2,"seconds":112.5},{"lane":0,"seconds":117.0}],"hz":60,"interval":4.5,"kind":"fuel","opportunities":26,"seconds":120,"spawned":26}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":0,"events":[{"lane":2,"seconds":4.5},{"lane":1,"seconds":9.0},{"lane":1,"seconds":13.5},{"lane":1,"seconds":18.0},{"lane":1,"seconds":22.5},{"lane":2,"seconds":27.0},{"lane":0,"seconds":31.5},{"lane":1,"seconds":36.0},{"lane":0,"seconds":40.5},{"lane":1,"seconds":45.0},{"lane":2,"seconds":49.5},{"lane":2,"seconds":54.0},{"lane":2,"seconds":58.5},{"lane":2,"seconds":63.0},{"lane":2,"seconds":67.5},{"lane":2,"seconds":72.0},{"lane":0,"seconds":76.5},{"lane":2,"seconds":81.0},{"lane":1,"seconds":85.5},{"lane":0,"seconds":90.0},{"lane":0,"seconds":94.5},{"lane":0,"seconds":99.0},{"lane":1,"seconds":103.5},{"lane":2,"seconds":108.0},{"lane":2,"seconds":112.5},{"lane":0,"seconds":117.0}],"hz":120,"interval":4.5,"kind":"fuel","opportunities":26,"seconds":120,"spawned":26}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":0,"events":[{"lane":2,"seconds":8.0},{"lane":1,"seconds":16.0},{"lane":1,"seconds":24.0},{"lane":1,"seconds":32.0},{"lane":1,"seconds":40.0},{"lane":2,"seconds":48.0},{"lane":0,"seconds":56.0}],"hz":30,"interval":8.0,"kind":"repair","opportunities":7,"seconds":60,"spawned":7}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":0,"events":[{"lane":2,"seconds":8.0},{"lane":1,"seconds":16.0},{"lane":1,"seconds":24.0},{"lane":1,"seconds":32.0},{"lane":1,"seconds":40.0},{"lane":2,"seconds":48.0},{"lane":0,"seconds":56.0}],"hz":60,"interval":8.0,"kind":"repair","opportunities":7,"seconds":60,"spawned":7}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":0,"events":[{"lane":2,"seconds":8.0},{"lane":1,"seconds":16.0},{"lane":1,"seconds":24.0},{"lane":1,"seconds":32.0},{"lane":1,"seconds":40.0},{"lane":2,"seconds":48.0},{"lane":0,"seconds":56.0}],"hz":120,"interval":8.0,"kind":"repair","opportunities":7,"seconds":60,"spawned":7}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":0,"events":[{"lane":2,"seconds":8.0},{"lane":1,"seconds":16.0},{"lane":1,"seconds":24.0},{"lane":1,"seconds":32.0},{"lane":1,"seconds":40.0},{"lane":2,"seconds":48.0},{"lane":0,"seconds":56.0},{"lane":1,"seconds":64.0},{"lane":0,"seconds":72.0},{"lane":1,"seconds":80.0},{"lane":2,"seconds":88.0},{"lane":2,"seconds":96.0},{"lane":2,"seconds":104.0},{"lane":2,"seconds":112.0},{"lane":2,"seconds":120.0}],"hz":30,"interval":8.0,"kind":"repair","opportunities":15,"seconds":120,"spawned":15}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":0,"events":[{"lane":2,"seconds":8.0},{"lane":1,"seconds":16.0},{"lane":1,"seconds":24.0},{"lane":1,"seconds":32.0},{"lane":1,"seconds":40.0},{"lane":2,"seconds":48.0},{"lane":0,"seconds":56.0},{"lane":1,"seconds":64.0},{"lane":0,"seconds":72.0},{"lane":1,"seconds":80.0},{"lane":2,"seconds":88.0},{"lane":2,"seconds":96.0},{"lane":2,"seconds":104.0},{"lane":2,"seconds":112.0},{"lane":2,"seconds":120.0}],"hz":60,"interval":8.0,"kind":"repair","opportunities":15,"seconds":120,"spawned":15}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":0,"events":[{"lane":2,"seconds":8.0},{"lane":1,"seconds":16.0},{"lane":1,"seconds":24.0},{"lane":1,"seconds":32.0},{"lane":1,"seconds":40.0},{"lane":2,"seconds":48.0},{"lane":0,"seconds":56.0},{"lane":1,"seconds":64.0},{"lane":0,"seconds":72.0},{"lane":1,"seconds":80.0},{"lane":2,"seconds":88.0},{"lane":2,"seconds":96.0},{"lane":2,"seconds":104.0},{"lane":2,"seconds":112.0},{"lane":2,"seconds":120.0}],"hz":120,"interval":8.0,"kind":"repair","opportunities":15,"seconds":120,"spawned":15}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":1,"events":[{"lane":2,"seconds":7.0},{"lane":1,"seconds":14.0},{"lane":1,"seconds":21.0},{"lane":1,"seconds":28.0},{"lane":1,"seconds":35.0},{"lane":2,"seconds":42.0},{"lane":0,"seconds":49.0},{"lane":1,"seconds":56.0}],"hz":30,"interval":7.0,"kind":"fuel","opportunities":8,"seconds":60,"spawned":8}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":1,"events":[{"lane":2,"seconds":7.0},{"lane":1,"seconds":14.0},{"lane":1,"seconds":21.0},{"lane":1,"seconds":28.0},{"lane":1,"seconds":35.0},{"lane":2,"seconds":42.0},{"lane":0,"seconds":49.0},{"lane":1,"seconds":56.0}],"hz":60,"interval":7.0,"kind":"fuel","opportunities":8,"seconds":60,"spawned":8}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":1,"events":[{"lane":2,"seconds":7.0},{"lane":1,"seconds":14.0},{"lane":1,"seconds":21.0},{"lane":1,"seconds":28.0},{"lane":1,"seconds":35.0},{"lane":2,"seconds":42.0},{"lane":0,"seconds":49.0},{"lane":1,"seconds":56.0}],"hz":120,"interval":7.0,"kind":"fuel","opportunities":8,"seconds":60,"spawned":8}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":1,"events":[{"lane":2,"seconds":7.0},{"lane":1,"seconds":14.0},{"lane":1,"seconds":21.0},{"lane":1,"seconds":28.0},{"lane":1,"seconds":35.0},{"lane":2,"seconds":42.0},{"lane":0,"seconds":49.0},{"lane":1,"seconds":56.0},{"lane":0,"seconds":63.0},{"lane":1,"seconds":70.0},{"lane":2,"seconds":77.0},{"lane":2,"seconds":84.0},{"lane":2,"seconds":91.0},{"lane":2,"seconds":98.0},{"lane":2,"seconds":105.0},{"lane":2,"seconds":112.0},{"lane":0,"seconds":119.0}],"hz":30,"interval":7.0,"kind":"fuel","opportunities":17,"seconds":120,"spawned":17}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":1,"events":[{"lane":2,"seconds":7.0},{"lane":1,"seconds":14.0},{"lane":1,"seconds":21.0},{"lane":1,"seconds":28.0},{"lane":1,"seconds":35.0},{"lane":2,"seconds":42.0},{"lane":0,"seconds":49.0},{"lane":1,"seconds":56.0},{"lane":0,"seconds":63.0},{"lane":1,"seconds":70.0},{"lane":2,"seconds":77.0},{"lane":2,"seconds":84.0},{"lane":2,"seconds":91.0},{"lane":2,"seconds":98.0},{"lane":2,"seconds":105.0},{"lane":2,"seconds":112.0},{"lane":0,"seconds":119.0}],"hz":60,"interval":7.0,"kind":"fuel","opportunities":17,"seconds":120,"spawned":17}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":1,"events":[{"lane":2,"seconds":7.0},{"lane":1,"seconds":14.0},{"lane":1,"seconds":21.0},{"lane":1,"seconds":28.0},{"lane":1,"seconds":35.0},{"lane":2,"seconds":42.0},{"lane":0,"seconds":49.0},{"lane":1,"seconds":56.0},{"lane":0,"seconds":63.0},{"lane":1,"seconds":70.0},{"lane":2,"seconds":77.0},{"lane":2,"seconds":84.0},{"lane":2,"seconds":91.0},{"lane":2,"seconds":98.0},{"lane":2,"seconds":105.0},{"lane":2,"seconds":112.0},{"lane":0,"seconds":119.0}],"hz":120,"interval":7.0,"kind":"fuel","opportunities":17,"seconds":120,"spawned":17}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":1,"events":[{"lane":2,"seconds":12.0},{"lane":1,"seconds":24.0},{"lane":1,"seconds":36.0},{"lane":1,"seconds":48.0},{"lane":1,"seconds":60.0}],"hz":30,"interval":12.0,"kind":"repair","opportunities":5,"seconds":60,"spawned":5}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":1,"events":[{"lane":2,"seconds":12.0},{"lane":1,"seconds":24.0},{"lane":1,"seconds":36.0},{"lane":1,"seconds":48.0},{"lane":1,"seconds":60.0}],"hz":60,"interval":12.0,"kind":"repair","opportunities":5,"seconds":60,"spawned":5}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":1,"events":[{"lane":2,"seconds":12.0},{"lane":1,"seconds":24.0},{"lane":1,"seconds":36.0},{"lane":1,"seconds":48.0},{"lane":1,"seconds":60.0}],"hz":120,"interval":12.0,"kind":"repair","opportunities":5,"seconds":60,"spawned":5}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":1,"events":[{"lane":2,"seconds":12.0},{"lane":1,"seconds":24.0},{"lane":1,"seconds":36.0},{"lane":1,"seconds":48.0},{"lane":1,"seconds":60.0},{"lane":2,"seconds":72.0},{"lane":0,"seconds":84.0},{"lane":1,"seconds":96.0},{"lane":0,"seconds":108.0},{"lane":1,"seconds":120.0}],"hz":30,"interval":12.0,"kind":"repair","opportunities":10,"seconds":120,"spawned":10}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":1,"events":[{"lane":2,"seconds":12.0},{"lane":1,"seconds":24.0},{"lane":1,"seconds":36.0},{"lane":1,"seconds":48.0},{"lane":1,"seconds":60.0},{"lane":2,"seconds":72.0},{"lane":0,"seconds":84.0},{"lane":1,"seconds":96.0},{"lane":0,"seconds":108.0},{"lane":1,"seconds":120.0}],"hz":60,"interval":12.0,"kind":"repair","opportunities":10,"seconds":120,"spawned":10}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":1,"events":[{"lane":2,"seconds":12.0},{"lane":1,"seconds":24.0},{"lane":1,"seconds":36.0},{"lane":1,"seconds":48.0},{"lane":1,"seconds":60.0},{"lane":2,"seconds":72.0},{"lane":0,"seconds":84.0},{"lane":1,"seconds":96.0},{"lane":0,"seconds":108.0},{"lane":1,"seconds":120.0}],"hz":120,"interval":12.0,"kind":"repair","opportunities":10,"seconds":120,"spawned":10}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":2,"events":[{"lane":2,"seconds":10.0},{"lane":1,"seconds":20.0},{"lane":1,"seconds":30.0},{"lane":1,"seconds":40.0},{"lane":1,"seconds":50.0},{"lane":2,"seconds":60.0}],"hz":30,"interval":10.0,"kind":"fuel","opportunities":6,"seconds":60,"spawned":6}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":2,"events":[{"lane":2,"seconds":10.0},{"lane":1,"seconds":20.0},{"lane":1,"seconds":30.0},{"lane":1,"seconds":40.0},{"lane":1,"seconds":50.0},{"lane":2,"seconds":60.0}],"hz":60,"interval":10.0,"kind":"fuel","opportunities":6,"seconds":60,"spawned":6}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":2,"events":[{"lane":2,"seconds":10.0},{"lane":1,"seconds":20.0},{"lane":1,"seconds":30.0},{"lane":1,"seconds":40.0},{"lane":1,"seconds":50.0},{"lane":2,"seconds":60.0}],"hz":120,"interval":10.0,"kind":"fuel","opportunities":6,"seconds":60,"spawned":6}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":2,"events":[{"lane":2,"seconds":10.0},{"lane":1,"seconds":20.0},{"lane":1,"seconds":30.0},{"lane":1,"seconds":40.0},{"lane":1,"seconds":50.0},{"lane":2,"seconds":60.0},{"lane":0,"seconds":70.0},{"lane":1,"seconds":80.0},{"lane":0,"seconds":90.0},{"lane":1,"seconds":100.0},{"lane":2,"seconds":110.0},{"lane":2,"seconds":120.0}],"hz":30,"interval":10.0,"kind":"fuel","opportunities":12,"seconds":120,"spawned":12}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":2,"events":[{"lane":2,"seconds":10.0},{"lane":1,"seconds":20.0},{"lane":1,"seconds":30.0},{"lane":1,"seconds":40.0},{"lane":1,"seconds":50.0},{"lane":2,"seconds":60.0},{"lane":0,"seconds":70.0},{"lane":1,"seconds":80.0},{"lane":0,"seconds":90.0},{"lane":1,"seconds":100.0},{"lane":2,"seconds":110.0},{"lane":2,"seconds":120.0}],"hz":60,"interval":10.0,"kind":"fuel","opportunities":12,"seconds":120,"spawned":12}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":2,"events":[{"lane":2,"seconds":10.0},{"lane":1,"seconds":20.0},{"lane":1,"seconds":30.0},{"lane":1,"seconds":40.0},{"lane":1,"seconds":50.0},{"lane":2,"seconds":60.0},{"lane":0,"seconds":70.0},{"lane":1,"seconds":80.0},{"lane":0,"seconds":90.0},{"lane":1,"seconds":100.0},{"lane":2,"seconds":110.0},{"lane":2,"seconds":120.0}],"hz":120,"interval":10.0,"kind":"fuel","opportunities":12,"seconds":120,"spawned":12}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":2,"events":[{"lane":2,"seconds":18.0},{"lane":1,"seconds":36.0},{"lane":1,"seconds":54.0}],"hz":30,"interval":18.0,"kind":"repair","opportunities":3,"seconds":60,"spawned":3}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":2,"events":[{"lane":2,"seconds":18.0},{"lane":1,"seconds":36.0},{"lane":1,"seconds":54.0}],"hz":60,"interval":18.0,"kind":"repair","opportunities":3,"seconds":60,"spawned":3}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":2,"events":[{"lane":2,"seconds":18.0},{"lane":1,"seconds":36.0},{"lane":1,"seconds":54.0}],"hz":120,"interval":18.0,"kind":"repair","opportunities":3,"seconds":60,"spawned":3}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":2,"events":[{"lane":2,"seconds":18.0},{"lane":1,"seconds":36.0},{"lane":1,"seconds":54.0},{"lane":1,"seconds":72.0},{"lane":1,"seconds":90.0},{"lane":2,"seconds":108.0}],"hz":30,"interval":18.0,"kind":"repair","opportunities":6,"seconds":120,"spawned":6}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":2,"events":[{"lane":2,"seconds":18.0},{"lane":1,"seconds":36.0},{"lane":1,"seconds":54.0},{"lane":1,"seconds":72.0},{"lane":1,"seconds":90.0},{"lane":2,"seconds":108.0}],"hz":60,"interval":18.0,"kind":"repair","opportunities":6,"seconds":120,"spawned":6}
+SUPPLY_CLOCK_SAMPLE {"blocked_attempts":0,"difficulty":2,"events":[{"lane":2,"seconds":18.0},{"lane":1,"seconds":36.0},{"lane":1,"seconds":54.0},{"lane":1,"seconds":72.0},{"lane":1,"seconds":90.0},{"lane":2,"seconds":108.0}],"hz":120,"interval":18.0,"kind":"repair","opportunities":6,"seconds":120,"spawned":6}
+SUPPLY_BIRTH_SPACING {"first_birth_y":-90.0,"first_current_y":46.0,"newborn_y":-90.0,"same_lane":true,"schedule_progress_after_success":0.0,"spacing":136.0}
+PRODUCT_SUPPLY_SCHEDULE failures=0
+TEST_COMPLETE test_product_supply_schedule.gd
+RUN test_product_title_layout.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+TITLE_LAYOUT_RESULT {"checks":219,"failures":[],"scope":"real Main, two languages and resolutions, empty/full synthetic record fixtures, actual key events; no formal save"}
+TEST_COMPLETE test_product_title_layout.gd
+RUN test_product_traffic_change_observer.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+CHANGE_OBSERVER_SELF_CHECK checks=35 failures=0
+TEST_COMPLETE test_product_traffic_change_observer.gd
+RUN test_product_traffic_construction.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+TEST_COMPLETE test_product_traffic_construction.gd
+RUN test_product_traffic_core_birth.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+CORE_BIRTH_SELF_CHECK checks=453 failures=0
+TEST_COMPLETE test_product_traffic_core_birth.gd
+RUN test_product_traffic_core_lifecycle.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+CORE_LIFECYCLE_SELF_CHECK failures=0
+TEST_COMPLETE test_product_traffic_core_lifecycle.gd
+RUN test_product_traffic_core_observer.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+CORE_OBSERVER_SELF_CHECK checks=34 failures=0
+TEST_COMPLETE test_product_traffic_core_observer.gd
+RUN test_product_traffic_core_oracle.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+CORE_ORACLE_SELF_CHECK failures=0
+TEST_COMPLETE test_product_traffic_core_oracle.gd
+RUN test_product_traffic_fast_free_flow.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+FAST_FREE_FLOW {"actual":1071.42857142857,"admitted":true,"dt":0.0333333333333333,"elapsed":0.166666666666667,"no_jump":true,"okay":true,"passed_player":true,"player_speed":0.0,"visible_seconds":0.133333333333333,"warning_seconds":1.0}
+FAST_FREE_FLOW {"actual":1071.42857142857,"admitted":true,"dt":0.0333333333333333,"elapsed":0.233333333333333,"no_jump":true,"okay":true,"passed_player":true,"player_speed":200.0,"visible_seconds":0.166666666666667,"warning_seconds":1.0}
+FAST_FREE_FLOW {"actual":1071.42857142857,"admitted":true,"dt":0.0333333333333333,"elapsed":0.6,"no_jump":true,"okay":true,"passed_player":true,"player_speed":760.0,"visible_seconds":0.366666666666667,"warning_seconds":1.0}
+FAST_FREE_FLOW {"actual":1071.42857142857,"admitted":true,"dt":0.0166666666666667,"elapsed":0.166666666666667,"no_jump":true,"okay":true,"passed_player":true,"player_speed":0.0,"visible_seconds":0.116666666666667,"warning_seconds":1.0}
+FAST_FREE_FLOW {"actual":1071.42857142857,"admitted":true,"dt":0.0166666666666667,"elapsed":0.216666666666667,"no_jump":true,"okay":true,"passed_player":true,"player_speed":200.0,"visible_seconds":0.15,"warning_seconds":1.0}
+FAST_FREE_FLOW {"actual":1071.42857142857,"admitted":true,"dt":0.0166666666666667,"elapsed":0.6,"no_jump":true,"okay":true,"passed_player":true,"player_speed":760.0,"visible_seconds":0.366666666666667,"warning_seconds":1.0}
+FAST_FREE_FLOW {"actual":1071.42857142857,"admitted":true,"dt":0.00833333333333333,"elapsed":0.175,"no_jump":true,"okay":true,"passed_player":true,"player_speed":0.0,"visible_seconds":0.116666666666667,"warning_seconds":1.00833333333333}
+FAST_FREE_FLOW {"actual":1071.42857142857,"admitted":true,"dt":0.00833333333333333,"elapsed":0.216666666666667,"no_jump":true,"okay":true,"passed_player":true,"player_speed":200.0,"visible_seconds":0.133333333333333,"warning_seconds":1.00833333333333}
+FAST_FREE_FLOW {"actual":1071.42857142857,"admitted":true,"dt":0.00833333333333333,"elapsed":0.608333333333334,"no_jump":true,"okay":true,"passed_player":true,"player_speed":760.0,"visible_seconds":0.366666666666667,"warning_seconds":1.00833333333333}
+FAST_FREE_FLOW {"actual":1071.42857142857,"admitted":true,"dt":0.1,"elapsed":0.2,"no_jump":true,"okay":true,"passed_player":true,"player_speed":0.0,"visible_seconds":0.2,"warning_seconds":1.0}
+FAST_FREE_FLOW {"actual":1071.42857142857,"admitted":true,"dt":0.1,"elapsed":0.3,"no_jump":true,"okay":true,"passed_player":true,"player_speed":200.0,"visible_seconds":0.3,"warning_seconds":1.0}
+FAST_FREE_FLOW {"actual":1071.42857142857,"admitted":true,"dt":0.1,"elapsed":0.6,"no_jump":true,"okay":true,"passed_player":true,"player_speed":760.0,"visible_seconds":0.4,"warning_seconds":1.0}
+FAST_FREE_FLOW {"actual":1071.42857142857,"admitted":true,"dt":0.25,"elapsed":0.25,"no_jump":true,"okay":true,"passed_player":true,"player_speed":0.0,"visible_seconds":0.25,"warning_seconds":1.0}
+FAST_FREE_FLOW {"actual":1071.42857142857,"admitted":true,"dt":0.25,"elapsed":0.25,"no_jump":true,"okay":true,"passed_player":true,"player_speed":200.0,"visible_seconds":0.25,"warning_seconds":1.0}
+FAST_FREE_FLOW {"actual":1071.42857142857,"admitted":true,"dt":0.25,"elapsed":0.75,"no_jump":true,"okay":true,"passed_player":true,"player_speed":760.0,"visible_seconds":0.75,"warning_seconds":1.0}
+TEST_COMPLETE test_product_traffic_fast_free_flow.gd
+RUN test_product_traffic_fast_spawn_gap.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+FAST_SPAWN_GAP_SELF_CHECK {"body_gap":639.246922466003,"failures":0,"stopping_budget":1293.75}
+TEST_COMPLETE test_product_traffic_fast_spawn_gap.gd
+RUN test_product_traffic_fast_warning.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+FAST_WARNING_EVIDENCE {"lane_position":0.0566666666666667,"resets":0,"resolved":true,"seconds":0.633333333333333,"warning_observed":true}
+TEST_COMPLETE test_product_traffic_fast_warning.gd
+RUN test_product_traffic_following.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+FOLLOWING_EVIDENCE {"seconds":8.0,"seed":616,"smallest_net_body_gap":221.406301126734,"spawn_accepted":true}
+TEST_COMPLETE test_product_traffic_following.gd
+RUN test_product_traffic_frame_safety.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+CORE_SNAPSHOT_EVIDENCE {"dt":0.25,"gap":82.9749999999992,"speed":45.0}
+TEST_COMPLETE test_product_traffic_frame_safety.gd
+RUN test_product_traffic_lateral_continuity.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+LATERAL_CONTINUITY_EVIDENCE {"after":0.566666666666667,"allowed_delta_lanes":0.0566666666666667,"before":0.51,"delta_lanes":0.0566666666666666,"exposure":true,"seed":2026}
+TEST_COMPLETE test_product_traffic_lateral_continuity.gd
+RUN test_product_traffic_lifecycle.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+LIFECYCLE_DEADLINE {"cooldown":0.75,"dt":0.0333333333333333,"elapsed":2.0,"internal_age":2.0,"okay":true}
+LIFECYCLE_COMPLETION {"dt":0.0333333333333333,"elapsed":0.933333333333333,"physical_completion":true,"visible_warning_seconds":0.6,"warning_seen":true}
+LIFECYCLE_DEADLINE {"cooldown":0.75,"dt":0.0166666666666667,"elapsed":2.0,"internal_age":2.0,"okay":true}
+LIFECYCLE_COMPLETION {"dt":0.0166666666666667,"elapsed":0.916666666666667,"physical_completion":true,"visible_warning_seconds":0.616666666666667,"warning_seen":true}
+LIFECYCLE_DEADLINE {"cooldown":0.75,"dt":0.00833333333333333,"elapsed":2.0,"internal_age":2.0,"okay":true}
+LIFECYCLE_COMPLETION {"dt":0.00833333333333333,"elapsed":0.908333333333333,"physical_completion":true,"visible_warning_seconds":0.608333333333334,"warning_seen":true}
+LIFECYCLE_DEADLINE {"cooldown":0.75,"dt":0.1,"elapsed":2.0,"internal_age":2.0,"okay":true}
+LIFECYCLE_COMPLETION {"dt":0.1,"elapsed":1.0,"physical_completion":true,"visible_warning_seconds":0.6,"warning_seen":true}
+LIFECYCLE_DEADLINE {"cooldown":0.75,"dt":0.25,"elapsed":2.0,"internal_age":2.0,"okay":true}
+LIFECYCLE_COMPLETION {"dt":0.25,"elapsed":1.0,"physical_completion":true,"visible_warning_seconds":0.5,"warning_seen":true}
+TEST_COMPLETE test_product_traffic_lifecycle.gd
+RUN test_product_traffic_longitudinal.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+LONGITUDINAL_MATRIX {"dt":0.0333333333333333,"minimum_gap":221.406301126734,"recovered_speed":220.0,"reversed_order":false}
+LONGITUDINAL_MATRIX {"dt":0.0333333333333333,"minimum_gap":221.406301126734,"recovered_speed":220.0,"reversed_order":true}
+LONGITUDINAL_MATRIX {"dt":0.0166666666666667,"minimum_gap":221.406301126734,"recovered_speed":220.0,"reversed_order":false}
+LONGITUDINAL_MATRIX {"dt":0.0166666666666667,"minimum_gap":221.406301126734,"recovered_speed":220.0,"reversed_order":true}
+LONGITUDINAL_MATRIX {"dt":0.00833333333333333,"minimum_gap":221.406719158199,"recovered_speed":220.0,"reversed_order":false}
+LONGITUDINAL_MATRIX {"dt":0.00833333333333333,"minimum_gap":221.406719158199,"recovered_speed":220.0,"reversed_order":true}
+LONGITUDINAL_MATRIX {"dt":0.1,"minimum_gap":221.406301126734,"recovered_speed":220.0,"reversed_order":false}
+LONGITUDINAL_MATRIX {"dt":0.1,"minimum_gap":221.406301126734,"recovered_speed":220.0,"reversed_order":true}
+LONGITUDINAL_MATRIX {"dt":0.25,"minimum_gap":221.406301126734,"recovered_speed":220.0,"reversed_order":false}
+LONGITUDINAL_MATRIX {"dt":0.25,"minimum_gap":221.406301126734,"recovered_speed":220.0,"reversed_order":true}
+TEST_COMPLETE test_product_traffic_longitudinal.gd
+RUN test_product_traffic_matrix.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+MATRIX_SELF_CHECK checks=29 failures=0
+TEST_COMPLETE test_product_traffic_matrix.gd
+RUN test_product_traffic_motion_observer.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+MOTION_OBSERVER_SELF_CHECK checks=16 failures=0
+TEST_COMPLETE test_product_traffic_motion_observer.gd
+RUN test_product_traffic_motion_oracle.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+MOTION_ORACLE_SELF_CHECK checks=46 failures=0
+TEST_COMPLETE test_product_traffic_motion_oracle.gd
+RUN test_product_traffic_observer.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+OBSERVER_SELF_CHECK failures=0
+TEST_COMPLETE test_product_traffic_observer.gd
+RUN test_product_traffic_oracle.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+ORACLE_SELF_CHECK attempted=53 failures=0
+TEST_COMPLETE test_product_traffic_oracle.gd
+RUN test_product_traffic_profile.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+TRAFFIC_PROFILE {"calls":6204,"following_usec":45151,"scope":"headless model CPU measurement, not graphical FPS","total_usec":185922,"wall_usec":18886}
+TEST_COMPLETE test_product_traffic_profile.gd
+RUN test_product_traffic_reservations.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+RESERVATION_CASE {"case":"same_gap","completed":1,"contact":"","core_visible":false,"dt":0.0333333333333333,"minimum_speed":166.206242713837,"reverse":false,"started":1,"substeps":360,"warned":1}
+RESERVATION_CASE {"case":"same_gap","completed":1,"contact":"","core_visible":false,"dt":0.0333333333333333,"minimum_speed":166.206242713837,"reverse":true,"started":1,"substeps":360,"warned":1}
+RESERVATION_CASE {"case":"head_on_blocked","completed":0,"contact":"","core_visible":false,"dt":0.0333333333333333,"minimum_speed":200.0,"reverse":false,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"head_on_blocked","completed":0,"contact":"","core_visible":false,"dt":0.0333333333333333,"minimum_speed":200.0,"reverse":true,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"head_on_open","completed":2,"contact":"","core_visible":false,"dt":0.0333333333333333,"minimum_speed":200.0,"reverse":false,"started":2,"substeps":360,"warned":2}
+RESERVATION_CASE {"case":"head_on_open","completed":2,"contact":"","core_visible":false,"dt":0.0333333333333333,"minimum_speed":200.0,"reverse":true,"started":2,"substeps":360,"warned":2}
+RESERVATION_CASE {"case":"core_single","completed":0,"contact":"","core_visible":true,"dt":0.0333333333333333,"minimum_speed":0.00374251102201129,"reverse":false,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"core_single","completed":0,"contact":"","core_visible":true,"dt":0.0333333333333333,"minimum_speed":0.00374251102201129,"reverse":true,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"core_queue","completed":0,"contact":"","core_visible":true,"dt":0.0333333333333333,"minimum_speed":0.00374251102201129,"reverse":false,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"core_queue","completed":0,"contact":"","core_visible":true,"dt":0.0333333333333333,"minimum_speed":0.00374251102201129,"reverse":true,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"core_birth_blocked","completed":0,"contact":"","core_visible":false,"dt":0.0333333333333333,"minimum_speed":180.0,"reverse":false,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"core_birth_blocked","completed":0,"contact":"","core_visible":false,"dt":0.0333333333333333,"minimum_speed":180.0,"reverse":true,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"core_birth_safe","completed":0,"contact":"","core_visible":true,"dt":0.0333333333333333,"minimum_speed":0.00398230487428464,"reverse":false,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"core_birth_safe","completed":0,"contact":"","core_visible":true,"dt":0.0333333333333333,"minimum_speed":0.00398230487428464,"reverse":true,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"same_gap","completed":1,"contact":"","core_visible":false,"dt":0.0166666666666667,"minimum_speed":166.206242713837,"reverse":false,"started":1,"substeps":360,"warned":1}
+RESERVATION_CASE {"case":"same_gap","completed":1,"contact":"","core_visible":false,"dt":0.0166666666666667,"minimum_speed":166.206242713837,"reverse":true,"started":1,"substeps":360,"warned":1}
+RESERVATION_CASE {"case":"head_on_blocked","completed":0,"contact":"","core_visible":false,"dt":0.0166666666666667,"minimum_speed":200.0,"reverse":false,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"head_on_blocked","completed":0,"contact":"","core_visible":false,"dt":0.0166666666666667,"minimum_speed":200.0,"reverse":true,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"head_on_open","completed":2,"contact":"","core_visible":false,"dt":0.0166666666666667,"minimum_speed":200.0,"reverse":false,"started":2,"substeps":360,"warned":2}
+RESERVATION_CASE {"case":"head_on_open","completed":2,"contact":"","core_visible":false,"dt":0.0166666666666667,"minimum_speed":200.0,"reverse":true,"started":2,"substeps":360,"warned":2}
+RESERVATION_CASE {"case":"core_single","completed":0,"contact":"","core_visible":true,"dt":0.0166666666666667,"minimum_speed":0.00374251102201129,"reverse":false,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"core_single","completed":0,"contact":"","core_visible":true,"dt":0.0166666666666667,"minimum_speed":0.00374251102201129,"reverse":true,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"core_queue","completed":0,"contact":"","core_visible":true,"dt":0.0166666666666667,"minimum_speed":0.00374251102201129,"reverse":false,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"core_queue","completed":0,"contact":"","core_visible":true,"dt":0.0166666666666667,"minimum_speed":0.00374251102201129,"reverse":true,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"core_birth_blocked","completed":0,"contact":"","core_visible":false,"dt":0.0166666666666667,"minimum_speed":180.0,"reverse":false,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"core_birth_blocked","completed":0,"contact":"","core_visible":false,"dt":0.0166666666666667,"minimum_speed":180.0,"reverse":true,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"core_birth_safe","completed":0,"contact":"","core_visible":true,"dt":0.0166666666666667,"minimum_speed":0.00398230487428464,"reverse":false,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"core_birth_safe","completed":0,"contact":"","core_visible":true,"dt":0.0166666666666667,"minimum_speed":0.00398230487428464,"reverse":true,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"same_gap","completed":1,"contact":"","core_visible":false,"dt":0.00833333333333333,"minimum_speed":166.431991642394,"reverse":false,"started":1,"substeps":720,"warned":1}
+RESERVATION_CASE {"case":"same_gap","completed":1,"contact":"","core_visible":false,"dt":0.00833333333333333,"minimum_speed":166.431991642394,"reverse":true,"started":1,"substeps":720,"warned":1}
+RESERVATION_CASE {"case":"head_on_blocked","completed":0,"contact":"","core_visible":false,"dt":0.00833333333333333,"minimum_speed":200.0,"reverse":false,"started":0,"substeps":720,"warned":0}
+RESERVATION_CASE {"case":"head_on_blocked","completed":0,"contact":"","core_visible":false,"dt":0.00833333333333333,"minimum_speed":200.0,"reverse":true,"started":0,"substeps":720,"warned":0}
+RESERVATION_CASE {"case":"head_on_open","completed":2,"contact":"","core_visible":false,"dt":0.00833333333333333,"minimum_speed":200.0,"reverse":false,"started":2,"substeps":720,"warned":2}
+RESERVATION_CASE {"case":"head_on_open","completed":2,"contact":"","core_visible":false,"dt":0.00833333333333333,"minimum_speed":200.0,"reverse":true,"started":2,"substeps":720,"warned":2}
+RESERVATION_CASE {"case":"core_single","completed":0,"contact":"","core_visible":true,"dt":0.00833333333333333,"minimum_speed":0.00436194689459057,"reverse":false,"started":0,"substeps":720,"warned":0}
+RESERVATION_CASE {"case":"core_single","completed":0,"contact":"","core_visible":true,"dt":0.00833333333333333,"minimum_speed":0.00436194689459057,"reverse":true,"started":0,"substeps":720,"warned":0}
+RESERVATION_CASE {"case":"core_queue","completed":0,"contact":"","core_visible":true,"dt":0.00833333333333333,"minimum_speed":0.00436194689459057,"reverse":false,"started":0,"substeps":720,"warned":0}
+RESERVATION_CASE {"case":"core_queue","completed":0,"contact":"","core_visible":true,"dt":0.00833333333333333,"minimum_speed":0.00436194689459057,"reverse":true,"started":0,"substeps":720,"warned":0}
+RESERVATION_CASE {"case":"core_birth_blocked","completed":0,"contact":"","core_visible":false,"dt":0.00833333333333333,"minimum_speed":180.0,"reverse":false,"started":0,"substeps":720,"warned":0}
+RESERVATION_CASE {"case":"core_birth_blocked","completed":0,"contact":"","core_visible":false,"dt":0.00833333333333333,"minimum_speed":180.0,"reverse":true,"started":0,"substeps":720,"warned":0}
+RESERVATION_CASE {"case":"core_birth_safe","completed":0,"contact":"","core_visible":true,"dt":0.00833333333333333,"minimum_speed":0.00449702929428497,"reverse":false,"started":0,"substeps":720,"warned":0}
+RESERVATION_CASE {"case":"core_birth_safe","completed":0,"contact":"","core_visible":true,"dt":0.00833333333333333,"minimum_speed":0.00449702929428497,"reverse":true,"started":0,"substeps":720,"warned":0}
+RESERVATION_CASE {"case":"same_gap","completed":1,"contact":"","core_visible":false,"dt":0.1,"minimum_speed":166.206242713837,"reverse":false,"started":1,"substeps":360,"warned":1}
+RESERVATION_CASE {"case":"same_gap","completed":1,"contact":"","core_visible":false,"dt":0.1,"minimum_speed":166.206242713837,"reverse":true,"started":1,"substeps":360,"warned":1}
+RESERVATION_CASE {"case":"head_on_blocked","completed":0,"contact":"","core_visible":false,"dt":0.1,"minimum_speed":200.0,"reverse":false,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"head_on_blocked","completed":0,"contact":"","core_visible":false,"dt":0.1,"minimum_speed":200.0,"reverse":true,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"head_on_open","completed":2,"contact":"","core_visible":false,"dt":0.1,"minimum_speed":200.0,"reverse":false,"started":2,"substeps":360,"warned":2}
+RESERVATION_CASE {"case":"head_on_open","completed":2,"contact":"","core_visible":false,"dt":0.1,"minimum_speed":200.0,"reverse":true,"started":2,"substeps":360,"warned":2}
+RESERVATION_CASE {"case":"core_single","completed":0,"contact":"","core_visible":true,"dt":0.1,"minimum_speed":0.00374251102201129,"reverse":false,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"core_single","completed":0,"contact":"","core_visible":true,"dt":0.1,"minimum_speed":0.00374251102201129,"reverse":true,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"core_queue","completed":0,"contact":"","core_visible":true,"dt":0.1,"minimum_speed":0.00374251102201129,"reverse":false,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"core_queue","completed":0,"contact":"","core_visible":true,"dt":0.1,"minimum_speed":0.00374251102201129,"reverse":true,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"core_birth_blocked","completed":0,"contact":"","core_visible":false,"dt":0.1,"minimum_speed":180.0,"reverse":false,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"core_birth_blocked","completed":0,"contact":"","core_visible":false,"dt":0.1,"minimum_speed":180.0,"reverse":true,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"core_birth_safe","completed":0,"contact":"","core_visible":true,"dt":0.1,"minimum_speed":0.00398230487428464,"reverse":false,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"core_birth_safe","completed":0,"contact":"","core_visible":true,"dt":0.1,"minimum_speed":0.00398230487428464,"reverse":true,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"same_gap","completed":1,"contact":"","core_visible":false,"dt":0.25,"minimum_speed":166.206242713837,"reverse":false,"started":1,"substeps":360,"warned":1}
+RESERVATION_CASE {"case":"same_gap","completed":1,"contact":"","core_visible":false,"dt":0.25,"minimum_speed":166.206242713837,"reverse":true,"started":1,"substeps":360,"warned":1}
+RESERVATION_CASE {"case":"head_on_blocked","completed":0,"contact":"","core_visible":false,"dt":0.25,"minimum_speed":200.0,"reverse":false,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"head_on_blocked","completed":0,"contact":"","core_visible":false,"dt":0.25,"minimum_speed":200.0,"reverse":true,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"head_on_open","completed":2,"contact":"","core_visible":false,"dt":0.25,"minimum_speed":200.0,"reverse":false,"started":2,"substeps":360,"warned":2}
+RESERVATION_CASE {"case":"head_on_open","completed":2,"contact":"","core_visible":false,"dt":0.25,"minimum_speed":200.0,"reverse":true,"started":2,"substeps":360,"warned":2}
+RESERVATION_CASE {"case":"core_single","completed":0,"contact":"","core_visible":true,"dt":0.25,"minimum_speed":0.00374251102201129,"reverse":false,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"core_single","completed":0,"contact":"","core_visible":true,"dt":0.25,"minimum_speed":0.00374251102201129,"reverse":true,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"core_queue","completed":0,"contact":"","core_visible":true,"dt":0.25,"minimum_speed":0.00374251102201129,"reverse":false,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"core_queue","completed":0,"contact":"","core_visible":true,"dt":0.25,"minimum_speed":0.00374251102201129,"reverse":true,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"core_birth_blocked","completed":0,"contact":"","core_visible":false,"dt":0.25,"minimum_speed":180.0,"reverse":false,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"core_birth_blocked","completed":0,"contact":"","core_visible":false,"dt":0.25,"minimum_speed":180.0,"reverse":true,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"core_birth_safe","completed":0,"contact":"","core_visible":true,"dt":0.25,"minimum_speed":0.00398230487428464,"reverse":false,"started":0,"substeps":360,"warned":0}
+RESERVATION_CASE {"case":"core_birth_safe","completed":0,"contact":"","core_visible":true,"dt":0.25,"minimum_speed":0.00398230487428464,"reverse":true,"started":0,"substeps":360,"warned":0}
+RESERVATION_CHECKS_COMPLETE failures=0
+TEST_COMPLETE test_product_traffic_reservations.gd
+RUN test_product_traffic_spawn_order.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+SPAWN_ORDER {"forward":{"admitted":true,"desired":180.0,"final_actual":180.0,"final_y":-574.000000000001},"okay":true,"reverse":{"admitted":true,"desired":180.0,"final_actual":180.0,"final_y":-574.000000000001}}
+TEST_COMPLETE test_product_traffic_spawn_order.gd
+RUN test_product_traffic_spawn_regression.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+TEST_COMPLETE test_product_traffic_spawn_regression.gd
+RUN test_product_traffic_visible_commit.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+VISIBLE_COMMIT_EVIDENCE {"cancelled_without_movement":true,"last_y":33.4958333333334,"warning_observed":true}
+TEST_COMPLETE test_product_traffic_visible_commit.gd
+RUN test_product_traffic_wall_crossing.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+WALL_CROSSING_CHECK failures=0
+TEST_COMPLETE test_product_traffic_wall_crossing.gd
+RUN test_product_traffic_wall_main.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+WALL_MAIN_REGRESSION {"case_id":"sunrise_express/tidebreaker/brake_repass/seed2026","collisions":0,"failures":0,"fuel":4,"input_observed":{"avoid_input_frames":0,"brake_deceleration_frames":237,"critical_frames":0,"overdrive_activations":0,"overdrive_ended":false,"post_overdrive_brake_frames":0,"repair_effective":0.0,"same_vehicle_repasses":1,"skip_outcome":"unseen"},"oracle_frames":4167,"repair":0,"seconds":69.4499999999973,"source":{"audit_sha256":"cceb861b01ed348ea58e68803cab97f40bcb081c38177266ed335e5bce9ab110","hard_audit_sha256":"ee887699f89a30e388b3d7234330f6ab96f27422f379a3a7b9810533ee2d0b01","head":"79d91495e601fc0e7fc3e394ddb570c447108afd","production_sha256":{"res://scripts/coin_gameplay_director.gd":"0fdb1302f90c71dfb363d6441f54074bc5f8a972daceba3283b517b161fb171a","res://scripts/difficulty_profile.gd":"2f961767c961e129cb9d805c0ffc4771918d45dafb5924c0d3e4cf0a084443fb","res://scripts/fast_priority_traffic.gd":"fe4e02b4cddb543baa9977ea054d0288782ecd36a40c24a7e387d2f772f39640","res://scripts/fuel_spawn_director.gd":"cd3e60c86a83582f57d2d80c86036c925eaf5d1665005be9ba1146725bc075f0","res://scripts/game_config.gd":"d68366d23f4713081231ac7eaec7edc1c47edb09b8e70c71cf52cc2632c4d90c","res://scripts/impact_model.gd":"565148def4c12bc9fb579c84658cc6a84cac73691baa001e2bbc4a783b7d1008","res://scripts/lane_event_director.gd":"8d694b58d6c68c0eebe36f76ef0e06f0fbe8b040607168b138b6ae2e9cce7c16","res://scripts/main.gd":"758861130fe24254bb31b04dcd8e819cae9dec7f7d29695b63d26556412684c8","res://scripts/overdrive_controller.gd":"f52d4b847587e198428ce6a006346c7b7481cf6ef867412f6e0597cb78e8eee4","res://scripts/repair_supply_director.gd":"7d8a7569d0a66fea6cb74f240319ed463115935ddfab87b9f470a73bb25966a3","res://scripts/run_state.gd":"d0d9fa29bb4654c4733faefe9e3659af3e8fee44295d65003881a46eae44bb58","res://scripts/traffic_director.gd":"1d5894d13746c17d0d2b86ce31aa0f842bcf95fde86bc8e4298b669015c5c2ef","res://scripts/traffic_safety_policy.gd":"0843581684e927d990b92042e4af133d3b2f1b080757e5a9d6f4f7352218482c","res://scripts/traffic_vehicle.gd":"46ca0779adbdd5729992689d1a4f33919bf6c354a2508a40e2eea3fb65a7e383","res://scripts/vehicle_integrity.gd":"c498a1f7defe46bceab164eacd769d7d9dc287cb5ed595220e0e78513768fb5c"}},"stop_reason":"clear"}
+TEST_COMPLETE test_product_traffic_wall_main.gd
+RUN test_product_ui_refresh.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+UI_REFRESH_RESULT {"checks":181,"failures":[]}
+TEST_COMPLETE test_product_ui_refresh.gd
+RUN test_progression.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_race_progression.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_rating_persistence.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_rating_ui.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+TEST_COMPLETE test_rating_ui.gd
+RUN test_release_metadata.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+TEST_COMPLETE test_release_metadata.gd
+RUN test_release_regression.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+RELEASE_STRESS_PROGRESS seeds=1/20 cases=9 simulated_seconds_per_case=300
+RELEASE_STRESS_PROGRESS seeds=2/20 cases=18 simulated_seconds_per_case=300
+RELEASE_STRESS_PROGRESS seeds=3/20 cases=27 simulated_seconds_per_case=300
+RELEASE_STRESS_PROGRESS seeds=4/20 cases=36 simulated_seconds_per_case=300
+RELEASE_STRESS_PROGRESS seeds=5/20 cases=45 simulated_seconds_per_case=300
+RELEASE_STRESS_PROGRESS seeds=6/20 cases=54 simulated_seconds_per_case=300
+RELEASE_STRESS_PROGRESS seeds=7/20 cases=63 simulated_seconds_per_case=300
+RELEASE_STRESS_PROGRESS seeds=8/20 cases=72 simulated_seconds_per_case=300
+RELEASE_STRESS_PROGRESS seeds=9/20 cases=81 simulated_seconds_per_case=300
+RELEASE_STRESS_PROGRESS seeds=10/20 cases=90 simulated_seconds_per_case=300
+RELEASE_STRESS_PROGRESS seeds=11/20 cases=99 simulated_seconds_per_case=300
+RELEASE_STRESS_PROGRESS seeds=12/20 cases=108 simulated_seconds_per_case=300
+RELEASE_STRESS_PROGRESS seeds=13/20 cases=117 simulated_seconds_per_case=300
+RELEASE_STRESS_PROGRESS seeds=14/20 cases=126 simulated_seconds_per_case=300
+RELEASE_STRESS_PROGRESS seeds=15/20 cases=135 simulated_seconds_per_case=300
+RELEASE_STRESS_PROGRESS seeds=16/20 cases=144 simulated_seconds_per_case=300
+RELEASE_STRESS_PROGRESS seeds=17/20 cases=153 simulated_seconds_per_case=300
+RELEASE_STRESS_PROGRESS seeds=18/20 cases=162 simulated_seconds_per_case=300
+RELEASE_STRESS_PROGRESS seeds=19/20 cases=171 simulated_seconds_per_case=300
+RELEASE_STRESS_PROGRESS seeds=20/20 cases=180 simulated_seconds_per_case=300
+TEST_COMPLETE test_release_regression.gd
+RUN test_repair_supplies.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_road_scroll.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_run_rating.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_run_seed.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_run_state.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_runtime_performance_capture.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+PERFORMANCE_CAPTURE_EVIDENCE res://tmp/performance-116708-116263
+PERFORMANCE_CAPTURE_CHECKS_COMPLETE failures=0
+TEST_COMPLETE test_runtime_performance_capture.gd
+
+ERROR: Could not create directory: 'res://tmp/performance-116708-116263/blocked/capture'.
+   at: make_dir_recursive (core/io/dir_access.cpp:179)
+   GDScript backtrace (most recent call first):
+       [0] start (res://scripts/runtime_performance_capture.gd:29)
+       [1] _run (res://tests/test_runtime_performance_capture.gd:76)
+RUN test_runtime_performance_main.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+PERFORMANCE_MAIN_CHILD_COMPLETE failures=0
+
+PERFORMANCE_MAIN_CHILD mode=unset exit=0 timeout=false
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+PERFORMANCE_MAIN_CHILD_COMPLETE failures=0
+
+PERFORMANCE_MAIN_CHILD mode=0 exit=0 timeout=false
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+PERFORMANCE_MAIN_CHILD_COMPLETE failures=0
+
+PERFORMANCE_MAIN_CHILD mode=1 exit=0 timeout=false
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+PERFORMANCE_MAIN_CHILD_COMPLETE failures=0
+
+PERFORMANCE_MAIN_CHILD mode=true exit=0 timeout=false
+PERFORMANCE_MAIN_EVIDENCE res://tmp/perf-main-113540-107890
+TEST_COMPLETE test_runtime_performance_main.gd
+RUN test_save_feedback.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+SAVE_FEEDBACK_CHECKS_COMPLETE failures=0
+TEST_COMPLETE test_save_feedback.gd
+RUN test_save_recovery.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+SAVE_RECOVERY_CHILD mode=interrupt exit=0 timeout=false
+SAVE_RECOVERY_CHILD mode=recover exit=0 timeout=false
+SAVE_RECOVERY_CHECKS_COMPLETE failures=0
+TEST_COMPLETE test_save_recovery.gd
+RUN test_save_slots_failures.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+SLOT_FAILURES_RESULT {"checks":35,"failures":[]}
+TEST_COMPLETE test_save_slots_failures.gd
+RUN test_save_slots_ui.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+SLOT_UI_RESULT {"checks":28,"failures":[]}
+TEST_COMPLETE test_save_slots_ui.gd
+RUN test_save_slots.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+SAVE_SLOTS_RESULT {"checks":34,"failures":[]}
+TEST_COMPLETE test_save_slots.gd
+RUN test_save_store.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+TEST_COMPLETE test_save_store.gd
+RUN test_sound_effects.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_speed_steering.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_supply_preserves_construction.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+SUPPLY_CONSTRUCTION_EVIDENCE {"cones_after":7,"cones_before":7,"full_frame":false,"history":"warning:0,1","kind":"fuel","reward_after":64.0,"reward_before":40.0,"single_lane_with_npc":false,"state":1}
+SUPPLY_CONSTRUCTION_EVIDENCE {"cones_after":7,"cones_before":7,"full_frame":true,"history":"warning:0,1","kind":"fuel","reward_after":64.0,"reward_before":40.0,"single_lane_with_npc":false,"state":1}
+SUPPLY_CONSTRUCTION_EVIDENCE {"cones_after":7,"cones_before":7,"full_frame":false,"history":"warning:0,1","kind":"repair","reward_after":60.0,"reward_before":40.0,"single_lane_with_npc":false,"state":1}
+SUPPLY_CONSTRUCTION_EVIDENCE {"cones_after":7,"cones_before":7,"full_frame":true,"history":"warning:0,1","kind":"repair","reward_after":60.0,"reward_before":40.0,"single_lane_with_npc":false,"state":1}
+SUPPLY_CONSTRUCTION_EVIDENCE {"cones_after":7,"cones_before":7,"full_frame":true,"history":"warning:0,1","kind":"none","reward_after":40.0,"reward_before":40.0,"single_lane_with_npc":false,"state":1}
+SUPPLY_CONSTRUCTION_EVIDENCE {"cones_after":7,"cones_before":7,"full_frame":false,"history":"warning:0","kind":"fuel","reward_after":64.0,"reward_before":40.0,"single_lane_with_npc":true,"state":1}
+SUPPLY_CONSTRUCTION_EVIDENCE {"cones_after":7,"cones_before":7,"full_frame":true,"history":"warning:0","kind":"fuel","reward_after":64.0,"reward_before":40.0,"single_lane_with_npc":true,"state":1}
+SUPPLY_CONSTRUCTION_EVIDENCE {"cones_after":7,"cones_before":7,"full_frame":false,"history":"warning:0","kind":"repair","reward_after":60.0,"reward_before":40.0,"single_lane_with_npc":true,"state":1}
+SUPPLY_CONSTRUCTION_EVIDENCE {"cones_after":7,"cones_before":7,"full_frame":true,"history":"warning:0","kind":"repair","reward_after":60.0,"reward_before":40.0,"single_lane_with_npc":true,"state":1}
+SUPPLY_CONSTRUCTION_EVIDENCE {"cones_after":7,"cones_before":7,"full_frame":true,"history":"warning:0","kind":"none","reward_after":40.0,"reward_before":40.0,"single_lane_with_npc":true,"state":1}
+SUPPLY_PRESERVES_CONSTRUCTION failures=0
+TEST_COMPLETE test_supply_preserves_construction.gd
+RUN test_tail_transform.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+TAIL_GEOMETRY samples=72 vehicles=6 failures=0
+TEST_COMPLETE test_tail_transform.gd
+RUN test_tour_map.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_tour_progress.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_tour_traffic_matrix.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+TOUR TRAFFIC MATRIX: 216 cases x 60 simulated seconds passed
+RUN test_track_geometry.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_track_profiles.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_traffic_all_speed_safety.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+TEST_COMPLETE test_traffic_all_speed_safety.gd
+RUN test_traffic_director.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+TEST_COMPLETE test_traffic_director.gd
+RUN test_traffic_safety_policy.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_traffic_world_speed.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_truck_traffic.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_ui_flow.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_vehicle_balance_matrix.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_vehicle_facing.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+
+WARNING: Loaded resource as image file, this will not work on export: 'res://assets/vehicles/player_pulse_gt_c.png'. Instead, import the image file as an Image resource and load it normally as a resource.
+   at: load_from_file (core/io/image.cpp:2780)
+   GDScript backtrace (most recent call first):
+       [0] _init (res://tests/test_vehicle_facing.gd:12)
+WARNING: Loaded resource as image file, this will not work on export: 'res://assets/vehicles/player_driftwing_c.png'. Instead, import the image file as an Image resource and load it normally as a resource.
+   at: load_from_file (core/io/image.cpp:2780)
+   GDScript backtrace (most recent call first):
+       [0] _init (res://tests/test_vehicle_facing.gd:12)
+WARNING: Loaded resource as image file, this will not work on export: 'res://assets/vehicles/player_flashpoint_c.png'. Instead, import the image file as an Image resource and load it normally as a resource.
+   at: load_from_file (core/io/image.cpp:2780)
+   GDScript backtrace (most recent call first):
+       [0] _init (res://tests/test_vehicle_facing.gd:12)
+WARNING: Loaded resource as image file, this will not work on export: 'res://assets/vehicles/player_comet_rs_c.png'. Instead, import the image file as an Image resource and load it normally as a resource.
+   at: load_from_file (core/io/image.cpp:2780)
+   GDScript backtrace (most recent call first):
+       [0] _init (res://tests/test_vehicle_facing.gd:12)
+WARNING: Loaded resource as image file, this will not work on export: 'res://assets/vehicles/player_tidebreaker_c.png'. Instead, import the image file as an Image resource and load it normally as a resource.
+   at: load_from_file (core/io/image.cpp:2780)
+   GDScript backtrace (most recent call first):
+       [0] _init (res://tests/test_vehicle_facing.gd:12)
+WARNING: Loaded resource as image file, this will not work on export: 'res://assets/vehicles/player_aurora_x_c.png'. Instead, import the image file as an Image resource and load it normally as a resource.
+   at: load_from_file (core/io/image.cpp:2780)
+   GDScript backtrace (most recent call first):
+       [0] _init (res://tests/test_vehicle_facing.gd:12)
+WARNING: Loaded resource as image file, this will not work on export: 'res://assets/vehicles/player_driftwing_c.png'. Instead, import the image file as an Image resource and load it normally as a resource.
+   at: load_from_file (core/io/image.cpp:2780)
+   GDScript backtrace (most recent call first):
+       [0] _init (res://tests/test_vehicle_facing.gd:21)
+RUN test_vehicle_integrity.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_vehicle_keyboard_focus.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+VEHICLE_KEYBOARD_FOCUS_RESULT {"checks":176,"failures":[],"scope":"real engine key events, localized standalone garage, two resolutions; no player save or desktop input"}
+TEST_COMPLETE test_vehicle_keyboard_focus.gd
+RUN test_vehicle_profile_integration.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+
+WARNING: 20 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2535)
+ERROR: 2 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)
+RUN test_vehicle_select.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_vehicle_showcases.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+SHOWCASE_RESULT {"checks":36,"failures":[]}
+TEST_COMPLETE test_vehicle_showcases.gd
+RUN test_vehicle_visual_animation.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_visual_style.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+RUN test_window_behavior.gd
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+
+WARNING: 12 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2535)
+ERROR: 2 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

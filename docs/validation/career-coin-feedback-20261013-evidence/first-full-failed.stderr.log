@@ -1,0 +1,5 @@
+Exception: C:\Users\21604\Documents\car\scripts\tests\run_tests.ps1:114
+Line |
+ 114 |      throw "Failed tests: $($failed -join ', ')"
+     |      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | Failed tests: test_pause_result_flow.gd

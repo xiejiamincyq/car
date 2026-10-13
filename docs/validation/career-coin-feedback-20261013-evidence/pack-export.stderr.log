@@ -1,0 +1,3 @@
+WARNING: Detected another project.godot at res://tmp/career-feedback-decoder. The folder will be ignored.
+   at: _should_skip_directory (editor/file_system/editor_file_system.cpp:3485)
+

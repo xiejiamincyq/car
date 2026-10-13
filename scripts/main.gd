@@ -153,6 +153,8 @@ var is_new_record := false
 var last_run_rating: Dictionary = {}
 var title_best_scores: Label
 var leaderboard_screen: Control
+var career_page := 0
+const CAREER_PAGE_SIZE := 5
 var result_best_scores: Label
 var new_record_label: Label
 var feedback: GameFeedback
@@ -242,6 +244,8 @@ func _ready() -> void:
 	else:
 		_configure_persistence(SaveStore.new(),false)
 	preload("res://scripts/ui/menu_presentation.gd").apply($CanvasLayer)
+	leaderboard_screen.find_child("PreviousPage", true, false).pressed.connect(func(): _change_career_page(career_page-1))
+	leaderboard_screen.find_child("NextPage", true, false).pressed.connect(func(): _change_career_page(career_page+1))
 	_update_scoreboards()
 	_update_settings_labels()
 	start_button.grab_focus()
@@ -1079,6 +1083,7 @@ func _show_leaderboard() -> void:
 		return
 	submenu_return = "title"
 	submenu_return_focus = title_screen.find_child("LeaderboardButton", true, false)
+	career_page = 0
 	_update_scoreboards()
 	title_screen.hide()
 	leaderboard_screen.show()
@@ -1603,6 +1608,7 @@ func _persist_result_once() -> void:
 		"near_misses": run.near_misses,
 		"stage": run.difficulty_stage + 1,
 		"track_id": StringName(save_data.tour.selected_track_id),
+		"vehicle_id": StringName(save_data.tour.selected_vehicle_id),
 		"cleared": run.phase == RunState.Phase.RUN_CLEAR,
 		"medal": _tour_medal_for_result(),
 	}, Time.get_date_string_from_system())
@@ -1630,29 +1636,54 @@ func _update_scoreboards() -> void:
 	var text := _format_top_scores(save_data.top_scores)
 	title_best_scores.text = text
 	result_best_scores.text = text
+	var history: Array = save_data.run_history
+	var page_count := maxi(1, ceili(float(history.size()) / CAREER_PAGE_SIZE))
+	career_page = clampi(career_page, 0, page_count-1)
+	if not history.is_empty():
+		var best := 0
+		for score in save_data.top_scores: best=maxi(best,int(score.score))
+		title_best_scores.text = _text("career.summary",[save_data.career.runs,"%06d" % best])
 	var grid := leaderboard_screen.find_child("ScoreGrid", true, false)
 	if grid == null: return
 	for child in grid.get_children():
 		grid.remove_child(child)
 		child.queue_free()
-	title_best_scores.visible = save_data.top_scores.is_empty()
-	grid.visible = not save_data.top_scores.is_empty()
-	var headers := ["排名", "得分", "难度", "距离"] if language == "zh" else ["RANK", "SCORE", "MODE", "DISTANCE"]
+	title_best_scores.visible = true
+	grid.visible = not history.is_empty()
+	var pages := leaderboard_screen.find_child("CareerPages",true,false)
+	pages.visible = not history.is_empty()
+	pages.get_node("PreviousPage").text = _text("career.previous")
+	pages.get_node("NextPage").text = _text("career.next")
+	pages.get_node("PreviousPage").disabled = career_page == 0
+	pages.get_node("NextPage").disabled = career_page == page_count-1
+	pages.get_node("PageNumber").text = "%d / %d" % [career_page+1,page_count]
+	var headers := ["局次", "得分", "难度", "赛道 / 结果"] if language == "zh" else ["RUN", "SCORE", "MODE", "TRACK / RESULT"]
 	for header in headers:
 		var label := Label.new()
 		label.text = header
-		label.custom_minimum_size.x = 150
+		label.custom_minimum_size.x = [60,140,100,240][grid.get_child_count()]
 		label.add_theme_font_size_override("font_size", 16)
 		label.add_theme_color_override("font_color", Color("66ddd4"))
 		grid.add_child(label)
-	for index in save_data.top_scores.size():
-		var record: Dictionary = save_data.top_scores[index]
-		for value in ["%02d" % (index+1), "%06d" % record.score, _difficulty_name(record.difficulty), "%d m" % roundi(record.distance)]:
+	for offset in range(career_page*CAREER_PAGE_SIZE, mini(history.size(),(career_page+1)*CAREER_PAGE_SIZE)):
+		var record: Dictionary = history[history.size()-1-offset]
+		var track := TrackCatalog.get_by_id(record.track_id)
+		var details: String = _text(String(track.name_key))+"\n"+record.date+" · "+_text("career.clear" if record.cleared else "career.failed")
+		for value in ["%02d" % record.run_number, "%06d" % record.score, _difficulty_name(record.difficulty), details]:
 			var label := Label.new()
 			label.text = value
-			label.add_theme_font_size_override("font_size", 22)
-			label.add_theme_color_override("font_color", Color("edc77d") if index == 0 else Color("e8f1f1"))
+			label.add_theme_font_size_override("font_size", 16 if grid.get_child_count()%4==3 else 22)
+			label.add_theme_color_override("font_color", Color("edc77d") if grid.get_child_count()%4==1 else Color("e8f1f1"))
 			grid.add_child(label)
+
+func _change_career_page(page: int) -> void:
+	var focused := get_viewport().gui_get_focus_owner()
+	career_page = page
+	_update_scoreboards()
+	if focused is BaseButton and focused.disabled:
+		var previous: Button = leaderboard_screen.find_child("PreviousPage",true,false)
+		if not previous.disabled: previous.grab_focus()
+		else: $CanvasLayer/LeaderboardScreen/Center/Card/Content/BackButton.grab_focus()
 
 func _format_top_scores(scores: Array) -> String:
 	if scores.is_empty():
@@ -1666,9 +1697,10 @@ func _format_top_scores(scores: Array) -> String:
 func _update_result_labels() -> void:
 	var cleared := run.phase == RunState.Phase.RUN_CLEAR
 	result_heading.text = _text("result.clear" if cleared else "result.over")
+	result_screen.find_child("RunScore",true,false).text = _text("career.run_score",["%06d" % run.score])
 	new_record_label.visible = is_new_record
 	var reason := _text("result.reason.clear" if cleared else ("result.reason.integrity" if run.failure_reason == &"integrity" else "result.reason.fuel"))
-	result_summary.text = _text("rating.summary", [reason, "%06d" % run.score, "%05d" % roundi(run.distance), run.overtakes, run.near_misses, run.difficulty_stage + 1])
+	result_summary.text = _text("result.brief", [reason, "%05d" % roundi(run.distance)])
 	var track := TrackCatalog.get_by_id(StringName(save_data.tour.selected_track_id))
 	$CanvasLayer/ResultScreen/Center/Card/Content/RatingCard.populate(last_run_rating, save_data.ratings.get(save_data.tour.selected_track_id, {}), {"time": run.elapsed_seconds, "overtakes": run.overtakes, "collisions": run.collisions, "coins": run.coins}, last_run_rating.get("targets", track.rating_targets), language, high_contrast_enabled)
 

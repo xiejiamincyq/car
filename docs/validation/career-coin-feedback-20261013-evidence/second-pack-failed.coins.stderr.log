@@ -1,0 +1,5 @@
+SCRIPT ERROR: Invalid type in function 'generate_route' in base 'RefCounted (CoinRouteDirector)'. The array of argument 6 (Array) does not have the same element type as the expected typed array argument.
+   at: _run (res://coins.gd:48)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://coins.gd:48)
+

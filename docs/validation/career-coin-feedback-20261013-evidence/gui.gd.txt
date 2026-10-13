@@ -1,0 +1,80 @@
+extends SceneTree
+var failures: Array[String]=[]
+var captured := 0
+const STATES := ["title","garage0","garage1","garage2","garage3","garage4","garage5","settings","board","board-last","pause","confirm","clear","failed","hud","slots","copy","delete","no-active"]
+func _init() -> void:call_deferred("_run")
+func _run() -> void:
+	var args := OS.get_cmdline_user_args()
+	if args.size()!=2 or DisplayServer.get_name()=="headless" or DirAccess.dir_exists_absolute(args[1]):quit(2);return
+	var isolated := OS.get_environment("APPDATA").replace("\\","/").simplify_path()
+	if isolated.get_file()!="isolated-gui" or not OS.get_user_data_dir().replace("\\","/").begins_with(isolated+"/"):quit(4);return
+	if not ProjectSettings.load_resource_pack(args[0],true) or DirAccess.make_dir_recursive_absolute(args[1])!=OK:quit(3);return
+	DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_NO_FOCUS,true)
+	root.content_scale_size=Vector2i(1280,720)
+	root.content_scale_mode=Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
+	var scene: PackedScene=load("res://scenes/main.tscn")
+	var slots_script=load("res://scripts/save_slots.gd")
+	for resolution in [Vector2i(1280,720),Vector2i(1920,1080)]:
+		root.size=resolution
+		DisplayServer.window_set_size(resolution)
+		for locale in ["zh","en"]:
+			for state in STATES:
+				var main=scene.instantiate()
+				root.add_child(main)
+				main.set_process(false)
+				if main.persistence_enabled:failures.append("Initial mounted fixture must not enable persistence")
+				if state in ["title","slots","copy","delete","no-active"]:
+					var directory := "user://gui-profiles-%d-%d" % [OS.get_process_id(),Time.get_ticks_usec()]
+					main._configure_save_slots(slots_script.new(directory,"user://absent.cfg"))
+				main._set_language_preference(locale)
+				if state.begins_with("garage"):
+					for result in main.save_data.tour.track_results.values():result.cleared=true;result.medal=3
+					main._open_tour_map()
+					main._open_vehicle_select()
+					main.vehicle_select_screen._select_index(int(state.trim_prefix("garage")))
+				elif state in ["slots","copy","delete","no-active"]:
+					main.save_data.career.runs=12
+					main._save_preferences()
+					main._show_save_slots()
+					if main.save_slots_screen.cards.size()!=4:failures.append("Expected four profiles from mounted pack")
+					if state=="copy":main.save_slots_screen.cards[0].copy.pressed.emit()
+					elif state=="delete":main.save_slots_screen.cards[0].delete.pressed.emit()
+					elif state=="no-active":main._delete_profile(1)
+				elif state=="settings":main._show_settings()
+				elif state in ["board","board-last"]:
+					var progression=load("res://scripts/progression.gd")
+					for index in 17:
+						main.save_data=progression.record_run(main.save_data,{"score":1234567-index,"difficulty":index%3,"distance":1000.0,"survival":30.0,"overtakes":1,"near_misses":0,"stage":1,"track_id":&"neon_coast","cleared":index%2==0},"2026-10-13").data
+					main._show_leaderboard()
+					if state=="board-last":main._change_career_page(3)
+				elif state in ["pause","confirm","clear","failed","hud"]:
+					main._start_new_run()
+					main.run.phase=main.RunState.Phase.RUNNING
+					main.run.distance=800
+					main.drive.speed=600
+					main._update_hud()
+					if state in ["pause","confirm"]:
+						main._pause_run()
+						if state=="confirm":main._request_title()
+					elif state in ["clear","failed"]:
+						main.run.phase=main.RunState.Phase.RUN_CLEAR if state=="clear" else main.RunState.Phase.GAME_OVER
+						main.run.distance=main.run.progression.finish_distance
+						main.run.elapsed_seconds=50
+						main._update_hud()
+				await process_frame
+				await process_frame
+				await RenderingServer.frame_post_draw
+				var bounds := Rect2(Vector2.ZERO,root.get_visible_rect().size)
+				for screen in main.get_node("CanvasLayer").get_children():
+					if not screen is Control or not screen.is_visible_in_tree():continue
+					for control in screen.find_children("*","Control",true,false):
+						if control.is_visible_in_tree() and (control is Button or control is OptionButton) and not bounds.encloses(control.get_global_rect()):failures.append("Outside: "+state+str(control.get_path()))
+				var filename := "%s-%s-%d.png" % [state,locale,resolution.y]
+				if root.get_texture().get_image().save_png(args[1].path_join(filename))!=OK:failures.append("Capture failed: "+filename)
+				captured+=1
+				main.audio_director.shutdown()
+				await create_timer(0.08).timeout
+				main.queue_free()
+				await process_frame
+	print("UI_PACK_GUI_COMPLETE ",JSON.stringify({"captured":captured,"failures":failures,"pack_sha256":FileAccess.get_sha256(args[0]),"scope":"76 actual mounted PCK GUI states including career pagination, both result states, every showcase and profile dialogs; isolated APPDATA. No real player writes or human driving acceptance."}))
+	quit(0 if failures.is_empty() and captured==76 else 1)

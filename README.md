@@ -51,14 +51,14 @@ godot --path .
 
 1. 在 Godot 的 **Editor > Manage Export Templates** 安装与编辑器同版本的 Windows 导出模板。
 2. 打开 **Project > Export**，选择仓库内的 `Windows Desktop` 预设。
-3. 候选预设为 `0.4.0-rc.4`；正式验收构建应使用新的唯一目录，不覆盖旧包。默认导出路径为 `exports/0.4.0-rc.4/package/NeonCoastRush.exe`。
+3. 候选预设为 `0.4.0-rc.5`；正式验收构建应使用新的唯一目录，不覆盖旧包。默认导出路径为 `exports/0.4.0-rc.5/package/NeonCoastRush.exe`。
 4. 在新目录中运行 `NeonCoastRush.exe`，至少完成「启动 → 开始 → Space 暂停/继续 → 结算 → R 重开 → 返回标题并退出」冒烟流程。
 
 `exports/` 已被 Git 忽略，构建产物不会提交。
 
 ## 当前开发状态
 
-当前配置标识为 `0.4.0-rc.5`，最新本机候选位于 `exports/showcase-slots-20261013/candidate-65ecea65801047b0a308e69db0e0f9c7/package`；旧候选保留。困难交通压力与流程已经用户确认，新六车展台视图和四独立存档位完成技术验证：174项冻结回归、141项实际包内资源、68张PCK界面截图、六文件ZIP独立解压启动通过，见[当前交付证据](docs/validation/showcase-save-slots-20261013.md)及[源码备份核验](docs/validation/rc5-source-parity-20261013.md)。用户已明确确认六车展示图及四存档操作“两项均通过”，本轮人工体验门已关闭；同包四关复杂驾驶性能、完整流程与最终R5/R6门仍开放，不能由短启动或旧候选结论替代。2026-10-03用户已取消网页端使用，由Codex依据本地证据自主判断，见[执行协议](tasks/pro-supervision.md)。玩家说明单独维护在[玩家指南](docs/player/README.md)，开发测试和原始素材不进入玩家包。
+当前配置标识为 `0.4.0-rc.5`，最新本机候选位于 `exports/career-feedback-20261013/candidate-25bd5646886d47848c2fda1550fcf33b/package`；旧候选保留。本轮生涯、文本、自动保存与金币多样性修订完成技术验证：177项冻结回归、141项实际包内资源、76张PCK界面+12张金币路线截图、合成v6读取、六文件ZIP独立解压启动通过，见[当前交付证据](docs/validation/career-coin-feedback-20261013.md)。当前进度格式v7，旧累计成绩保留，逐局历史从升级后开始记录。用户此前已明确确认六车展示图和四存档操作，不重复要求该体验；本轮金币/UI体验、同包四关驾驶性能与最终R5/R6门仍开放。网页端监督已取消，由Codex依据本地证据自主判断，见[执行协议](tasks/pro-supervision.md)。玩家说明见[玩家指南](docs/player/README.md)，开发测试和原始素材不进入玩家包。
 
 四节点巡回、六车、四关及原创BGM曾完成旧M1–M4技术验证：9e7cd09的95项与18张实际渲染仅是历史基线，见[旧验证记录](docs/continuous-validation-20261002.md)，不代表新增需求或当前版本通过。[十局真人试玩](docs/balance/manual-sessions.md)和剩余体验仍待实际确认。93164d7的144项完整回归及实际EXE/PCK/ZIP、隔离图形首启/设置保存/重启子检查已有证据，见[RC验证记录](docs/rc-validation-20261004.md)；四关性能、长期稳定性和真人门未完成，公开发行须另行授权。
 
