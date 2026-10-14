@@ -1,0 +1,90 @@
+extends SceneTree
+## Review-only layouts, excluded from exports. No production style is selected.
+const MainScene = preload("res://scenes/main.tscn")
+const Presentation = preload("res://scripts/ui/menu_presentation.gd")
+
+func _init() -> void:
+	call_deferred("_capture")
+
+func _capture() -> void:
+	var args := OS.get_cmdline_user_args()
+	if args.size() != 1:
+		push_error("Usage: -- <absolute output directory>")
+		quit(2)
+		return
+	if DirAccess.make_dir_recursive_absolute(args[0]) != OK:
+		quit(2)
+		return
+	DisplayServer.window_set_size(Vector2i(1280, 720))
+	for variant in ["A", "B", "C"]:
+		var main = MainScene.instantiate()
+		main.persistence_enabled = false
+		root.add_child(main)
+		main.set_process(false)
+		main._set_language_preference("zh")
+		_apply_preview(main, variant)
+		await process_frame
+		await process_frame
+		await RenderingServer.frame_post_draw
+		var path: String = args[0].path_join("title-%s.png" % variant)
+		var result := root.get_texture().get_image().save_png(path)
+		if result != OK:
+			push_error("Capture failed: " + error_string(result))
+			quit(3)
+			return
+		print("TITLE_PREVIEW ", variant, " ", path)
+		main.audio_director.shutdown()
+		main.queue_free()
+		await process_frame
+	print("TITLE_PREVIEW_COMPLETE")
+	quit()
+
+func _apply_preview(main, variant: String) -> void:
+	var center: CenterContainer = main.title_screen.get_node("Center")
+	var card: PanelContainer = center.get_node("Card")
+	var content: VBoxContainer = card.get_node("Content")
+	var title: Label = content.get_node("Title")
+	content.add_theme_constant_override("separation", 12)
+	main.title_best_scores.hide() # Empty save; no fabricated record.
+	title.text = "NEON COAST\nRUSH"
+	title.add_theme_font_size_override("font_size", 50)
+	title.add_theme_color_override("font_outline_color", Color("06121f"))
+	title.add_theme_constant_override("outline_size", 3)
+	var panel := Presentation._box(Color(0.025, 0.065, 0.11, 0.85), Color("366175"), 14, 28)
+	panel.border_width_top = 3
+	panel.border_color = Presentation.CYAN
+	card.add_theme_stylebox_override("panel", panel)
+	card.custom_minimum_size.x = 440
+	main.menu_backdrop.get_node("MenuShade").color.a = 0.22
+	match variant:
+		"A":
+			center.anchor_right = 0.48
+			title.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+			panel.bg_color.a = 0.70
+			panel.border_width_right = 0
+			panel.border_width_bottom = 0
+			panel.border_width_left = 0
+		"B":
+			title.add_theme_font_size_override("font_size", 56)
+			panel.bg_color.a = 0.94
+			panel.shadow_color = Color(0.1, 0.8, 0.8, 0.14)
+			panel.shadow_size = 18
+			main.menu_backdrop.get_node("MenuShade").color.a = 0.40
+		"C":
+			center.anchor_left = 0.52
+			main.menu_backdrop.get_node("MenuShade").color.a = 0.36
+			var hero := Sprite2D.new()
+			hero.texture = main.current_player_texture
+			# Preserve the source aspect ratio; never stretch the car into a panel.
+			var scale_factor := 330.0 / hero.texture.get_height()
+			hero.scale = Vector2.ONE * scale_factor
+			hero.position = Vector2(340, 380)
+			hero.rotation = deg_to_rad(-16)
+			main.title_screen.add_child(hero)
+			main.title_screen.move_child(hero, 0)
+			var line := ColorRect.new()
+			line.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			line.color = Presentation.CYAN
+			line.position = Vector2(194, 604)
+			line.size = Vector2(292, 3)
+			main.title_screen.add_child(line)

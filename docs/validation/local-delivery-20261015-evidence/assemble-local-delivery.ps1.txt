@@ -1,0 +1,75 @@
+$ErrorActionPreference='Stop'
+$workspace='C:/Users/21604/Documents/car'
+$candidate=Join-Path $workspace 'exports/career-feedback-20261013/candidate-25bd5646886d47848c2fda1550fcf33b'
+$destination=Join-Path $workspace 'exports/local-delivery-20261015/accepted-40626cb64e7e409699f37c5f7db1910f'
+$auditRoot=Join-Path $workspace 'tmp/local-delivery-audit-20261015-40626cb64e7e409699f37c5f7db1910f'
+$formalRoot='C:/Users/21604/AppData/Roaming/Godot/app_userdata/Neon Coast Rush'
+if(Test-Path -LiteralPath $destination){throw 'Refuse overwrite of delivery'}
+if(Test-Path -LiteralPath $auditRoot){throw 'Refuse overwrite of audit'}
+if(@(Get-CimInstance Win32_Process -Filter "Name='NeonCoastRush.exe'").Count){throw 'Game already running'}
+$candidateReceipt=Get-Content -LiteralPath (Join-Path $candidate 'candidate.json') -Raw|ConvertFrom-Json
+$zipReceipt=Get-Content -LiteralPath (Join-Path $candidate 'zip-verification.json') -Raw|ConvertFrom-Json
+$expected=@('ASSET_NOTICES.md','GODOT_COPYRIGHT.txt','GODOT_LICENSE.txt','NeonCoastRush.exe','NeonCoastRush.pck','README.md')
+if(-not $candidateReceipt.passed -or -not $zipReceipt.passed -or @($candidateReceipt.files).Count -ne 6){throw 'Missing accepted candidate receipt'}
+$frozen=Get-Content -LiteralPath (Join-Path $workspace 'tmp/career-coin-feedback-full-verified-v2-20261013/source-sha256.json') -Raw|ConvertFrom-Json -AsHashtable
+foreach($entry in $frozen.GetEnumerator()){if((Get-FileHash -LiteralPath $entry.Key).Hash -ne $entry.Value){throw 'Frozen game/test source changed'}}
+$formalHashes=@{}
+foreach($file in Get-ChildItem -LiteralPath $formalRoot -Recurse -File|Where-Object Name -Match '\.cfg(?:\.bak|\.tmp)?$'){$formalHashes[$file.FullName]=(Get-FileHash -LiteralPath $file.FullName).Hash}
+$sourceZip=Join-Path $candidate 'NeonCoastRush-career-feedback-20261013.zip'
+if((Get-FileHash -LiteralPath $sourceZip).Hash -ne $zipReceipt.zip_sha256){throw 'Source ZIP changed'}
+New-Item -ItemType Directory -Path $destination|Out-Null
+New-Item -ItemType Directory -Path $auditRoot|Out-Null
+$deliveryZip=Join-Path $destination 'NeonCoastRush-Windows-local.zip'
+Copy-Item -LiteralPath $sourceZip -Destination $deliveryZip
+$zip=[IO.Compression.ZipFile]::OpenRead($deliveryZip)
+try{
+    $members=@($zip.Entries|ForEach-Object FullName)
+    if($members.Count -ne 6 -or @($members|Select-Object -Unique).Count -ne 6 -or @($members|Where-Object{$_ -notin $expected}).Count){throw 'Unexpected or duplicate ZIP member'}
+}finally{$zip.Dispose()}
+$game=Join-Path $destination 'game'
+[IO.Compression.ZipFile]::ExtractToDirectory($deliveryZip,$game)
+$files=@(foreach($file in $candidateReceipt.files){
+    if($file.name -notin $expected){throw 'Unexpected candidate member'}
+    $actual=Get-Item -LiteralPath (Join-Path $game $file.name)
+    $sha=(Get-FileHash -LiteralPath $actual.FullName).Hash
+    if($actual.Length -ne $file.bytes -or $sha -ne $file.sha256){throw 'Extracted payload mismatch'}
+    @{name=$file.name;bytes=$actual.Length;sha256=$sha}
+})
+if(@(Get-ChildItem -LiteralPath $game -Recurse -File).Count -ne 6){throw 'Unexpected extracted content'}
+Copy-Item -LiteralPath (Join-Path $workspace 'docs/player/LOCAL_DELIVERY.md') -Destination (Join-Path $destination '交付说明.md')
+$info=[Diagnostics.ProcessStartInfo]::new()
+$info.FileName=Join-Path $game 'NeonCoastRush.exe'
+$info.WorkingDirectory=$game
+$info.UseShellExecute=$false
+$info.CreateNoWindow=$true
+$info.RedirectStandardOutput=$true
+$info.RedirectStandardError=$true
+$info.Environment['APPDATA']=Join-Path $auditRoot 'isolated-player'
+$info.Arguments='--headless --quit-after 120'
+$child=[Diagnostics.Process]::new()
+$child.StartInfo=$info
+if(-not $child.Start()){throw 'Native startup failed'}
+$outTask=$child.StandardOutput.ReadToEndAsync()
+$errTask=$child.StandardError.ReadToEndAsync()
+if(-not $child.WaitForExit(30000)){$child.Kill();$child.WaitForExit();throw 'Owned isolated startup timed out'}
+$out=$outTask.GetAwaiter().GetResult()
+$err=$errTask.GetAwaiter().GetResult()
+[IO.File]::WriteAllText((Join-Path $auditRoot 'startup.stdout.log'),$out)
+[IO.File]::WriteAllText((Join-Path $auditRoot 'startup.stderr.log'),$err)
+$nativeExit=$child.ExitCode
+$child.Dispose()
+if($nativeExit -ne 0 -or ($out+$err) -match 'SCRIPT ERROR:|Parse Error:|(?m)^ERROR:'){throw 'Native startup error'}
+foreach($entry in $formalHashes.GetEnumerator()){if((Get-FileHash -LiteralPath $entry.Key).Hash -ne $entry.Value){throw 'Formal save changed'}}
+foreach($entry in $frozen.GetEnumerator()){if((Get-FileHash -LiteralPath $entry.Key).Hash -ne $entry.Value){throw 'Frozen source changed during delivery'}}
+$manifest=@{
+    schema=1;record_date='2026-10-15';delivery_id='accepted-40626cb64e7e409699f37c5f7db1910f';program_version='0.4.0-rc.5';public_release=$false
+    human_acceptance='User: 试玩通过，跳过进行下一步';scope='Local Windows delivery of unchanged accepted candidate; omitted gates are SKIPPED_BY_USER, not PASS.'
+    source_candidate='candidate-25bd5646886d47848c2fda1550fcf33b';implementation_commit='ba023add435be86443c74c515a5b0cbb1ca4ca7d';candidate_build_head=$candidateReceipt.head;candidate_build_dirty=$candidateReceipt.dirty_worktree
+    files=$files;zip=@{name='NeonCoastRush-Windows-local.zip';bytes=(Get-Item -LiteralPath $deliveryZip).Length;sha256=(Get-FileHash -LiteralPath $deliveryZip).Hash;members=6}
+    verified=@{frozen_source_files=$frozen.Count;source_unchanged=$true;zip_identity=$true;extracted_payload_identity=$true;native_isolated_headless_startup=$nativeExit;formal_save_files=$formalHashes.Count;formal_save_unchanged=$true;game_rebuilt=$false}
+    skipped_by_user=@('Remaining normal new/old-save win/loss full UI flow','Four-track 1080p steady 60FPS / P95 <=20ms actual driving','30 minutes effective actual-package driving','20 restart/return long-run trends')
+    known_limits=@('Unsigned executable','Program version remains RC5','No public release or new tag','v7 save should not be overwritten by an older program','Historical test shutdown diagnostics retained; this native startup had no error')
+}
+$manifest|ConvertTo-Json -Depth 7|Set-Content -LiteralPath (Join-Path $destination 'manifest.json') -Encoding utf8
+$manifest|ConvertTo-Json -Depth 7|Set-Content -LiteralPath (Join-Path $auditRoot 'receipt.json') -Encoding utf8
+@{delivery=$destination;native_exit=$nativeExit;files=$files.Count;zip_sha256=$manifest.zip.sha256;frozen_files=$frozen.Count;original_save_files=$formalHashes.Count;source_and_save_unchanged=$true;public_release=$false}|ConvertTo-Json -Depth 3

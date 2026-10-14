@@ -58,6 +58,8 @@ godot --path .
 
 ## 当前开发状态
 
+2026-10-15本机交付已完成：用户明确表示“试玩通过，跳过进行下一步”，剩余驾驶量化/完整胜负补证记为授权跳过，不是技术PASS。直接运行`exports/local-delivery-20261015/accepted-40626cb64e7e409699f37c5f7db1910f/game/NeonCoastRush.exe`，或解压同目录`NeonCoastRush-Windows-local.zip`；无需编辑器。游戏仍保留真实`0.4.0-rc.5`标识，EXE/PCK与已试玩包相同，没有重建玩法。交付与未验证范围见[本机交付记录](docs/validation/local-delivery-20261015.md)，简明说明见[本机玩家说明](docs/player/LOCAL_DELIVERY.md)。公开发行另需授权，下方旧“仍开放”文字仅为历史验收快照。
+
 当前配置标识为 `0.4.0-rc.5`，最新本机候选位于 `exports/career-feedback-20261013/candidate-25bd5646886d47848c2fda1550fcf33b/package`；旧候选保留。本轮生涯、文本、自动保存与金币多样性修订完成技术验证：177项冻结回归、141项实际包内资源、76张PCK界面+12张金币路线截图、合成v6读取、六文件ZIP独立解压启动通过，见[当前交付证据](docs/validation/career-coin-feedback-20261013.md)。当前进度格式v7，旧累计成绩保留，逐局历史从升级后开始记录。用户此前已明确确认六车展示图和四存档操作，不重复要求该体验；用户于2026-10-14明确确认本轮金币、生涯/结算和文案体验通过；同包四关驾驶性能、连续驾驶/重开趋势与R5/R6其他可追溯门仍开放。网页端监督已取消，由Codex依据本地证据自主判断，见[执行协议](tasks/pro-supervision.md)。玩家说明见[玩家指南](docs/player/README.md)，开发测试和原始素材不进入玩家包。
 
 四节点巡回、六车、四关及原创BGM曾完成旧M1–M4技术验证：9e7cd09的95项与18张实际渲染仅是历史基线，见[旧验证记录](docs/continuous-validation-20261002.md)，不代表新增需求或当前版本通过。[十局真人试玩](docs/balance/manual-sessions.md)和剩余体验仍待实际确认。93164d7的144项完整回归及实际EXE/PCK/ZIP、隔离图形首启/设置保存/重启子检查已有证据，见[RC验证记录](docs/rc-validation-20261004.md)；四关性能、长期稳定性和真人门未完成，公开发行须另行授权。

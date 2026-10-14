@@ -1,0 +1,74 @@
+{
+  "public_release": false,
+  "scope": "Local Windows delivery of unchanged accepted candidate; omitted gates are SKIPPED_BY_USER, not PASS.",
+  "candidate_build_head": "79d91495e601fc0e7fc3e394ddb570c447108afd",
+  "known_limits": [
+    "Unsigned executable",
+    "Program version remains RC5",
+    "No public release or new tag",
+    "v7 save should not be overwritten by an older program",
+    "Historical test shutdown diagnostics retained; this native startup had no error"
+  ],
+  "delivery_id": "accepted-40626cb64e7e409699f37c5f7db1910f",
+  "implementation_commit": "ba023add435be86443c74c515a5b0cbb1ca4ca7d",
+  "schema": 1,
+  "verified": {
+    "source_unchanged": true,
+    "formal_save_unchanged": true,
+    "extracted_payload_identity": true,
+    "game_rebuilt": false,
+    "formal_save_files": 12,
+    "native_isolated_headless_startup": 0,
+    "zip_identity": true,
+    "frozen_source_files": 386
+  },
+  "human_acceptance": "User: 试玩通过，跳过进行下一步",
+  "zip": {
+    "bytes": 69449069,
+    "name": "NeonCoastRush-Windows-local.zip",
+    "sha256": "F1DDF176580A421D5D5F6948ED515E2DBFB569BEC0E0E99E6DDD1EEF5A2391B6",
+    "members": 6
+  },
+  "source_candidate": "candidate-25bd5646886d47848c2fda1550fcf33b",
+  "program_version": "0.4.0-rc.5",
+  "record_date": "2026-10-15",
+  "skipped_by_user": [
+    "Remaining normal new/old-save win/loss full UI flow",
+    "Four-track 1080p steady 60FPS / P95 <=20ms actual driving",
+    "30 minutes effective actual-package driving",
+    "20 restart/return long-run trends"
+  ],
+  "candidate_build_dirty": true,
+  "files": [
+    {
+      "bytes": 1977,
+      "name": "ASSET_NOTICES.md",
+      "sha256": "236F26564CB506807D5ADAA0B399097CAC1B0A08783B13757B948231DBF90DC5"
+    },
+    {
+      "bytes": 93347,
+      "name": "GODOT_COPYRIGHT.txt",
+      "sha256": "92B24143F6083111537353995AC84F0F89077B444D513C942C1D9106DF272C7C"
+    },
+    {
+      "bytes": 1149,
+      "name": "GODOT_LICENSE.txt",
+      "sha256": "B0435E3B3E4E55238F05F4B306F30524A1B2E20147810D436EAA554FA6855C80"
+    },
+    {
+      "bytes": 109019648,
+      "name": "NeonCoastRush.exe",
+      "sha256": "6E5A9BB963F57AA9B71C3941D29186FFFFFC59FE84394B527D98DBCA81438F51"
+    },
+    {
+      "bytes": 31442068,
+      "name": "NeonCoastRush.pck",
+      "sha256": "6D6925C0F1A23D4F32B379B081F31707209B2D733C985DCB236E51E20DF8C3CE"
+    },
+    {
+      "bytes": 4180,
+      "name": "README.md",
+      "sha256": "D9D4EE037294297FB86B501565E0ABC0309858F9FC9C73B3867635626179E301"
+    }
+  ]
+}
