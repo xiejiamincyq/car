@@ -1,0 +1,162 @@
+[
+  {
+    "path": "art/source/environment_sequences/neon_coast_sections/section_00.png",
+    "rights_evidence_status": "GENERATION_PROVENANCE_ONLY",
+    "width": 1024,
+    "track": "neon_coast",
+    "height": 1536,
+    "sha256": "757B611CDA2F463B906F7067AE10013527A086B2ECCB650C0FE226DC8F166F7E"
+  },
+  {
+    "path": "art/source/environment_sequences/neon_coast_sections/section_01.png",
+    "rights_evidence_status": "GENERATION_PROVENANCE_ONLY",
+    "width": 1024,
+    "track": "neon_coast",
+    "height": 1536,
+    "sha256": "D5035678A6FAE195FB2A91316E0E1669AA7A7EFBED919113594D45D35F023E6A"
+  },
+  {
+    "path": "art/source/environment_sequences/neon_coast_sections/section_02.png",
+    "rights_evidence_status": "GENERATION_PROVENANCE_ONLY",
+    "width": 1024,
+    "track": "neon_coast",
+    "height": 1536,
+    "sha256": "6952A1D28C247BB004436FB3029A78B45D5077788B7B279D695DF36F04D55A9E"
+  },
+  {
+    "path": "art/source/environment_sequences/neon_coast_sections/section_03.png",
+    "rights_evidence_status": "GENERATION_PROVENANCE_ONLY",
+    "width": 1024,
+    "track": "neon_coast",
+    "height": 1536,
+    "sha256": "90628E3749664118CADEA0ABD040DCDB56D93A6F747F416776DC99863BCC5648"
+  },
+  {
+    "path": "art/source/environment_sequences/neon_coast_sections/section_04.png",
+    "rights_evidence_status": "GENERATION_PROVENANCE_ONLY",
+    "width": 1024,
+    "track": "neon_coast",
+    "height": 1536,
+    "sha256": "C5B1317914B7D9285C33E40DD5F88C7825DCB8DBD9B1A20F541165CE86008FA6"
+  },
+  {
+    "path": "art/source/environment_sequences/freight_harbor_sections/section_00.png",
+    "rights_evidence_status": "GENERATION_PROVENANCE_ONLY",
+    "width": 941,
+    "track": "freight_harbor",
+    "height": 1672,
+    "sha256": "8BEC2A29ADFA67034A7A9B171C75870CA1C78C58091C062D0D5B2BB0F64FBC89"
+  },
+  {
+    "path": "art/source/environment_sequences/freight_harbor_sections/section_01.png",
+    "rights_evidence_status": "GENERATION_PROVENANCE_ONLY",
+    "width": 941,
+    "track": "freight_harbor",
+    "height": 1672,
+    "sha256": "10BAEBEF57494470ED291493A5156BC39941B036ABC0AF41951AC149B6BFB7C1"
+  },
+  {
+    "path": "art/source/environment_sequences/freight_harbor_sections/section_02.png",
+    "rights_evidence_status": "GENERATION_PROVENANCE_ONLY",
+    "width": 941,
+    "track": "freight_harbor",
+    "height": 1672,
+    "sha256": "36BFF03CF5EBF9578DE4779FED3E5970A870DB2B6F05DD4AEA369C77480927BC"
+  },
+  {
+    "path": "art/source/environment_sequences/freight_harbor_sections/section_03.png",
+    "rights_evidence_status": "GENERATION_PROVENANCE_ONLY",
+    "width": 941,
+    "track": "freight_harbor",
+    "height": 1672,
+    "sha256": "BFE8F63D3BE93202C47B5CB1BD63E53AF69A5C6D77CBFE643CAA3D09AAF0A456"
+  },
+  {
+    "path": "art/source/environment_sequences/freight_harbor_sections/section_04.png",
+    "rights_evidence_status": "GENERATION_PROVENANCE_ONLY",
+    "width": 941,
+    "track": "freight_harbor",
+    "height": 1672,
+    "sha256": "9879320CF8521429EA1859F88FA111E27B2A823333AC16266A23299A3DE54154"
+  },
+  {
+    "path": "art/source/environment_sequences/storm_ridge_sections/section_00.png",
+    "rights_evidence_status": "GENERATION_PROVENANCE_ONLY",
+    "width": 941,
+    "track": "storm_ridge",
+    "height": 1672,
+    "sha256": "0E83771C7F6B04C8200790D22243B030793C705B44FE1DBD6041C73EC438B38D"
+  },
+  {
+    "path": "art/source/environment_sequences/storm_ridge_sections/section_01.png",
+    "rights_evidence_status": "GENERATION_PROVENANCE_ONLY",
+    "width": 941,
+    "track": "storm_ridge",
+    "height": 1672,
+    "sha256": "144DECCD1C931D45DE022918A0D959CD6CCDF197504922FB665A1B051C271D55"
+  },
+  {
+    "path": "art/source/environment_sequences/storm_ridge_sections/section_02.png",
+    "rights_evidence_status": "GENERATION_PROVENANCE_ONLY",
+    "width": 941,
+    "track": "storm_ridge",
+    "height": 1672,
+    "sha256": "31F6279626CF47542F00B7C0379249D4B5CF526823ACD5AD6D98787D9E937706"
+  },
+  {
+    "path": "art/source/environment_sequences/storm_ridge_sections/section_03.png",
+    "rights_evidence_status": "GENERATION_PROVENANCE_ONLY",
+    "width": 941,
+    "track": "storm_ridge",
+    "height": 1672,
+    "sha256": "0A918C56B4E5A5EB8F3047746A0C46B82EC6E797D2D8037F957B931AFEF2D987"
+  },
+  {
+    "path": "art/source/environment_sequences/storm_ridge_sections/section_04.png",
+    "rights_evidence_status": "GENERATION_PROVENANCE_ONLY",
+    "width": 941,
+    "track": "storm_ridge",
+    "height": 1672,
+    "sha256": "13242EDEAA799A4F25C7A6C8B143E18567608AF860E94368CD14865AAC5B282D"
+  },
+  {
+    "path": "art/source/environment_sequences/sunrise_express_sections/section_00.png",
+    "rights_evidence_status": "GENERATION_PROVENANCE_ONLY",
+    "width": 941,
+    "track": "sunrise_express",
+    "height": 1672,
+    "sha256": "FBF8E04CDE72B33D108569B49B1EB213A1BC398C89F2581FFF250EA6B79DEECF"
+  },
+  {
+    "path": "art/source/environment_sequences/sunrise_express_sections/section_01.png",
+    "rights_evidence_status": "GENERATION_PROVENANCE_ONLY",
+    "width": 941,
+    "track": "sunrise_express",
+    "height": 1672,
+    "sha256": "108F758E7E0A7377ED1C9DC7AE1675638C17A3DBC124C9890B4A6A6973ACE6E7"
+  },
+  {
+    "path": "art/source/environment_sequences/sunrise_express_sections/section_02.png",
+    "rights_evidence_status": "GENERATION_PROVENANCE_ONLY",
+    "width": 941,
+    "track": "sunrise_express",
+    "height": 1672,
+    "sha256": "D97909E1F8B31FAC4B7C085C728428ABDF092DC1235B2C3983AE9CCAD38AE5FC"
+  },
+  {
+    "path": "art/source/environment_sequences/sunrise_express_sections/section_03.png",
+    "rights_evidence_status": "GENERATION_PROVENANCE_ONLY",
+    "width": 941,
+    "track": "sunrise_express",
+    "height": 1672,
+    "sha256": "CC9A1D3601D1E106CA2E597A0895CAF42688DB6D6B9B0B5A3DD0E374BAC2C55C"
+  },
+  {
+    "path": "art/source/environment_sequences/sunrise_express_sections/section_04.png",
+    "rights_evidence_status": "GENERATION_PROVENANCE_ONLY",
+    "width": 941,
+    "track": "sunrise_express",
+    "height": 1672,
+    "sha256": "1226DFC779E1E50D0C17B3BE526D84D1CB0EED15ADD78AFE73FB02BDC053FDF6"
+  }
+]

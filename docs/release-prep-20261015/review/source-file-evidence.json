@@ -1,0 +1,337 @@
+[
+  {
+    "path": "art/README.md",
+    "exists": true,
+    "sha256": "2DC151481578AD8A82C102B0D6832BA572B4F2F524CC2A5BACBA938ECFD843A9"
+  },
+  {
+    "path": "art/source/environment_sequences/freight_harbor_sections/section_00.png",
+    "exists": true,
+    "sha256": "8BEC2A29ADFA67034A7A9B171C75870CA1C78C58091C062D0D5B2BB0F64FBC89"
+  },
+  {
+    "path": "art/source/environment_sequences/freight_harbor_sections/section_01.png",
+    "exists": true,
+    "sha256": "10BAEBEF57494470ED291493A5156BC39941B036ABC0AF41951AC149B6BFB7C1"
+  },
+  {
+    "path": "art/source/environment_sequences/freight_harbor_sections/section_02.png",
+    "exists": true,
+    "sha256": "36BFF03CF5EBF9578DE4779FED3E5970A870DB2B6F05DD4AEA369C77480927BC"
+  },
+  {
+    "path": "art/source/environment_sequences/freight_harbor_sections/section_03.png",
+    "exists": true,
+    "sha256": "BFE8F63D3BE93202C47B5CB1BD63E53AF69A5C6D77CBFE643CAA3D09AAF0A456"
+  },
+  {
+    "path": "art/source/environment_sequences/freight_harbor_sections/section_04.png",
+    "exists": true,
+    "sha256": "9879320CF8521429EA1859F88FA111E27B2A823333AC16266A23299A3DE54154"
+  },
+  {
+    "path": "art/source/environment_sequences/neon_coast_sections/section_00.png",
+    "exists": true,
+    "sha256": "757B611CDA2F463B906F7067AE10013527A086B2ECCB650C0FE226DC8F166F7E"
+  },
+  {
+    "path": "art/source/environment_sequences/neon_coast_sections/section_01.png",
+    "exists": true,
+    "sha256": "D5035678A6FAE195FB2A91316E0E1669AA7A7EFBED919113594D45D35F023E6A"
+  },
+  {
+    "path": "art/source/environment_sequences/neon_coast_sections/section_02.png",
+    "exists": true,
+    "sha256": "6952A1D28C247BB004436FB3029A78B45D5077788B7B279D695DF36F04D55A9E"
+  },
+  {
+    "path": "art/source/environment_sequences/neon_coast_sections/section_03.png",
+    "exists": true,
+    "sha256": "90628E3749664118CADEA0ABD040DCDB56D93A6F747F416776DC99863BCC5648"
+  },
+  {
+    "path": "art/source/environment_sequences/neon_coast_sections/section_04.png",
+    "exists": true,
+    "sha256": "C5B1317914B7D9285C33E40DD5F88C7825DCB8DBD9B1A20F541165CE86008FA6"
+  },
+  {
+    "path": "art/source/environment_sequences/README.md",
+    "exists": true,
+    "sha256": "05F9758E67AF62A1B3E6CBDD056AF3591BDA4A5638BEA301F736DF306FAC45CF"
+  },
+  {
+    "path": "art/source/environment_sequences/storm_ridge_sections/section_00.png",
+    "exists": true,
+    "sha256": "0E83771C7F6B04C8200790D22243B030793C705B44FE1DBD6041C73EC438B38D"
+  },
+  {
+    "path": "art/source/environment_sequences/storm_ridge_sections/section_01.png",
+    "exists": true,
+    "sha256": "144DECCD1C931D45DE022918A0D959CD6CCDF197504922FB665A1B051C271D55"
+  },
+  {
+    "path": "art/source/environment_sequences/storm_ridge_sections/section_02.png",
+    "exists": true,
+    "sha256": "31F6279626CF47542F00B7C0379249D4B5CF526823ACD5AD6D98787D9E937706"
+  },
+  {
+    "path": "art/source/environment_sequences/storm_ridge_sections/section_03.png",
+    "exists": true,
+    "sha256": "0A918C56B4E5A5EB8F3047746A0C46B82EC6E797D2D8037F957B931AFEF2D987"
+  },
+  {
+    "path": "art/source/environment_sequences/storm_ridge_sections/section_04.png",
+    "exists": true,
+    "sha256": "13242EDEAA799A4F25C7A6C8B143E18567608AF860E94368CD14865AAC5B282D"
+  },
+  {
+    "path": "art/source/environment_sequences/sunrise_express_sections/section_00.png",
+    "exists": true,
+    "sha256": "FBF8E04CDE72B33D108569B49B1EB213A1BC398C89F2581FFF250EA6B79DEECF"
+  },
+  {
+    "path": "art/source/environment_sequences/sunrise_express_sections/section_01.png",
+    "exists": true,
+    "sha256": "108F758E7E0A7377ED1C9DC7AE1675638C17A3DBC124C9890B4A6A6973ACE6E7"
+  },
+  {
+    "path": "art/source/environment_sequences/sunrise_express_sections/section_02.png",
+    "exists": true,
+    "sha256": "D97909E1F8B31FAC4B7C085C728428ABDF092DC1235B2C3983AE9CCAD38AE5FC"
+  },
+  {
+    "path": "art/source/environment_sequences/sunrise_express_sections/section_03.png",
+    "exists": true,
+    "sha256": "CC9A1D3601D1E106CA2E597A0895CAF42688DB6D6B9B0B5A3DD0E374BAC2C55C"
+  },
+  {
+    "path": "art/source/environment_sequences/sunrise_express_sections/section_04.png",
+    "exists": true,
+    "sha256": "1226DFC779E1E50D0C17B3BE526D84D1CB0EED15ADD78AFE73FB02BDC053FDF6"
+  },
+  {
+    "path": "art/source/generate_pavement.gd",
+    "exists": true,
+    "sha256": "D0C37100DAFB12AA45B6423DBD100A2180D0920C01B17C45F0FA4E88170D45D5"
+  },
+  {
+    "path": "art/source/generated/event_plate_chroma.png",
+    "exists": true,
+    "sha256": "C5535124209F15CB6C29128DC9FAD02FF72C6E9F363B71993CC556CFF17A0804"
+  },
+  {
+    "path": "art/source/generated/finish_burst_chroma.png",
+    "exists": true,
+    "sha256": "0B35BEB8F2C73F8D89AD74AC243139360859B06BC27287CA578602956B9B3A5E"
+  },
+  {
+    "path": "art/source/generated/fuel_pickup_chroma.png",
+    "exists": true,
+    "sha256": "FC547A285035B2A379B4592FB3E85E137F58BA88D5D1EACD4312DED85947CEB7"
+  },
+  {
+    "path": "art/source/generated/hud_frame_chroma.png",
+    "exists": true,
+    "sha256": "EA78D008A1CB359A23569C78C0FAB1A87C2CFC25E9F25B51AB3EC4F557081A6B"
+  },
+  {
+    "path": "art/source/generated/result_emblem_chroma.png",
+    "exists": true,
+    "sha256": "F3DE78FCBD3619DB54BDDCB1B9B276651CE04715867A5E703D636C0ABA32782E"
+  },
+  {
+    "path": "art/source/generated/road_barrier_chroma.png",
+    "exists": true,
+    "sha256": "C1DB957D4C6F6FFB05F33F136C2C18E3A8DBB942D5E7682D40C464247A96CA7B"
+  },
+  {
+    "path": "art/source/generated/traffic_hatchback_alpha.png",
+    "exists": true,
+    "sha256": "4C9C4D111EA91C8F2739CA10539E6C23067973CDBAFCDDCDCD26E2E07FA76F5C"
+  },
+  {
+    "path": "art/source/generated/traffic_sedan_volume_alpha.png",
+    "exists": true,
+    "sha256": "0DE712C373B554B2D7DE77F88A069F0875D1480B849F6254A160ACAD92DA8266"
+  },
+  {
+    "path": "art/source/generated/traffic_sports_alpha.png",
+    "exists": true,
+    "sha256": "F260A8EDAA47AA8CFAB1A573F7D638E628CDCBC251D4B3998B29E63E3DBDE535"
+  },
+  {
+    "path": "art/source/generated/traffic_truck_volume_alpha.png",
+    "exists": true,
+    "sha256": "0173D0FFBABC3004D825465E031027A2B77673F90E747FEEE20C1D5DEA1018AB"
+  },
+  {
+    "path": "art/source/generated/traffic_van_alpha.png",
+    "exists": true,
+    "sha256": "3D7F835E779C7DB109417D045C30A385B7EBF730CC9F6DB321589AE807418526"
+  },
+  {
+    "path": "art/source/music/freight_harbor_build.json",
+    "exists": true,
+    "sha256": "E27B673D10615F981B2D0F34B80EF8863FD1CEB8965E53FEF59A7A590B6A4F72"
+  },
+  {
+    "path": "art/source/music/generate_course_music.py",
+    "exists": true,
+    "sha256": "96FD8CAA131E161B1B9AD8A5A62D466FB058DFEC4982059F278913852B821176"
+  },
+  {
+    "path": "art/source/music/generate_neon_coast.py",
+    "exists": true,
+    "sha256": "F7FAFE2E7A48D6CB240F2444F39D2DCB97CD13CEBF2EF0228F911B1A99284155"
+  },
+  {
+    "path": "art/source/music/generate_track_previews.py",
+    "exists": true,
+    "sha256": "311ACB5BB0DDED12FE2265D8ECB484A229880660F85A12EE9117F5704A709E21"
+  },
+  {
+    "path": "art/source/music/neon_coast_build.json",
+    "exists": true,
+    "sha256": "460F7848C4781BBF05AE230DCB996EB78AC2AD6B51A5BB777A085B3DBB592967"
+  },
+  {
+    "path": "art/source/music/README.md",
+    "exists": true,
+    "sha256": "1D0502F5B71A0D65471E364D4AEED3A8CD61F1E9EEB77009476B0681B4412858"
+  },
+  {
+    "path": "art/source/music/storm_ridge_build.json",
+    "exists": true,
+    "sha256": "36DA6B8320DACCCD37FFEA79A17E69F50EA20F4E3B2DA1ED6EDA3C268B160BB8"
+  },
+  {
+    "path": "art/source/music/sunrise_express_build.json",
+    "exists": true,
+    "sha256": "E1C99981CDE90AC93B06D77495DB174A5E48B125A392A429761B3456FF2B3205"
+  },
+  {
+    "path": "art/source/vehicles/aurora_x_chroma.png",
+    "exists": true,
+    "sha256": "1EDD808F0269482F1F0228E879229C00591FBDC8E153BA67E2E0CEC8EF210F8F"
+  },
+  {
+    "path": "art/source/vehicles/comet_rs_chroma.png",
+    "exists": true,
+    "sha256": "49069538D5444A317AC4BFC065EAEDF9CF918246F195E6FCB3F06E2E90C76276"
+  },
+  {
+    "path": "art/source/vehicles/driftwing_chroma.png",
+    "exists": true,
+    "sha256": "4BCF4D68363682ABAD49DDEDD93488028CCC72E901C73B0F7BBA97D31371D1E1"
+  },
+  {
+    "path": "art/source/vehicles/flashpoint_chroma.png",
+    "exists": true,
+    "sha256": "CF42052850B52C240D257DB23B673D9BA21CCE103F10836D23B168CC80000C9C"
+  },
+  {
+    "path": "art/source/vehicles/pulse_gt_chroma.png",
+    "exists": true,
+    "sha256": "519764F3128C6A0EBFA828727C9FEF2D8E6DAD9CA9F7175DFCD302FAA8834C92"
+  },
+  {
+    "path": "art/source/vehicles/showcase-prompts-20261012.md",
+    "exists": true,
+    "sha256": "69DF5E72E4B068EFE6D51286FBD0DC628BDE852D02AC74CE74633B7F0703A097"
+  },
+  {
+    "path": "art/source/vehicles/showcase-provenance-20261013.json",
+    "exists": true,
+    "sha256": "084DBB4F73FBAFAB6590FC315DC1C0FE8E57FD4079707CA06C6A1954AB4A763D"
+  },
+  {
+    "path": "art/source/vehicles/tidebreaker_chroma.png",
+    "exists": true,
+    "sha256": "63DE715ED7D79BB7DCB9F4CEB21ADFF7108611272E8EF602577CC1D15E5D281E"
+  },
+  {
+    "path": "art/sprite_manifest.json",
+    "exists": true,
+    "sha256": "7C4BB816FDD62CD89B4EB29CB5487E1DB39A7558392C65E87072BB665A53B7B6"
+  },
+  {
+    "path": "docs/ideas/road-dash-mvp.md",
+    "exists": true,
+    "sha256": "210E16218979CDFEB72431BB60A144F8F50E3E695F17728F0571F937576F670A"
+  },
+  {
+    "path": "docs/pavement-validation-20261001.md",
+    "exists": true,
+    "sha256": "22211E708A8080B97BC4EB967FB2AF4836A6D7CC0EE444C0DD67A868FF40D935"
+  },
+  {
+    "path": "docs/previews/aurora_x-c-source.png",
+    "exists": true,
+    "sha256": "243304555079363E30A1C8657C5EAB5A199CA5EA16612CF0ADD0B4A073C4EC52"
+  },
+  {
+    "path": "docs/previews/comet_rs-c-source.png",
+    "exists": true,
+    "sha256": "EA9305EF1D8772F275A56143358458A7B7D594322392D009DD3A8276F1397D9C"
+  },
+  {
+    "path": "docs/previews/driftwing-c-approved.png",
+    "exists": true,
+    "sha256": "CC984C700E8E38E004681422D0F74103B4749440A72CB66C18FAE3A0654D95DA"
+  },
+  {
+    "path": "docs/previews/flashpoint-c-source.png",
+    "exists": true,
+    "sha256": "A139DCD66E5C07D01579087C50F5B6414394298FF562E224A2922E7E9C651824"
+  },
+  {
+    "path": "docs/previews/pavement/README.md",
+    "exists": true,
+    "sha256": "B795060388CE19AECBEB7D6D38C1878EC0B8C57357F1E31B417744FFC24A0BB5"
+  },
+  {
+    "path": "docs/previews/pulse_gt-c-source.png",
+    "exists": true,
+    "sha256": "4A4068C2658BF28661C6D8945C34FF7391DB08242AB27FD6B304915443AAAE0E"
+  },
+  {
+    "path": "docs/previews/tidebreaker-c-source.png",
+    "exists": true,
+    "sha256": "1B9C0EC8D6975A9F2D204528E1879C4A768724532A568A59F85A66429D986442"
+  },
+  {
+    "path": "docs/vehicle-facing-audit.md",
+    "exists": true,
+    "sha256": "3FCD5059E43B6F3DD46328C08F2A5FED2F165491D842516D5688B6D310CAD918"
+  },
+  {
+    "path": "scripts/art/build_environment_sequences.ps1",
+    "exists": true,
+    "sha256": "69EF54AABEB5E17A2943618DA667247A947AB1976D6324CF7F850109BC909B10"
+  },
+  {
+    "path": "scripts/audio/music_catalog.gd",
+    "exists": true,
+    "sha256": "684CF72AFCE5B8B4D42BB94A45B2826E94036758D484F77D2E013451D2553601"
+  },
+  {
+    "path": "scripts/pavement_surface.gd",
+    "exists": true,
+    "sha256": "D2CA83A37A508587BCC2A6AC2D5615CB79C795EA941FE98EDE2E9B0F1FF3A888"
+  },
+  {
+    "path": "scripts/tools/prepare_driftwing_c.py",
+    "exists": true,
+    "sha256": "F3CAD7BB7794BBD53BE154A397A1CBFEF5057236BF52AC16FC2F67FC5077B4AB"
+  },
+  {
+    "path": "scripts/tools/prepare_sprite.py",
+    "exists": true,
+    "sha256": "2BEDACF224DCA7251626FECDB583577F1697B2FE4C624565860B21F96CC56F83"
+  },
+  {
+    "path": "scripts/tools/prepare_ui_asset.py",
+    "exists": true,
+    "sha256": "6CF005071C62E2D5DD92796D6DE0624C69E4A306973BAE09E3F1012E809ECFCC"
+  }
+]

@@ -1,0 +1,782 @@
+[
+  {
+    "asset_or_source": "art/source/environment_sequences/freight_harbor_sections/section_00.png",
+    "byte_match": true,
+    "sha256": "8BEC2A29ADFA67034A7A9B171C75870CA1C78C58091C062D0D5B2BB0F64FBC89",
+    "native_output_paths": [
+      "codex-generated-output/exec-26da4033-ab3e-4091-8228-7cfa402bdb5a.png"
+    ]
+  },
+  {
+    "asset_or_source": "art/source/environment_sequences/freight_harbor_sections/section_01.png",
+    "byte_match": true,
+    "sha256": "10BAEBEF57494470ED291493A5156BC39941B036ABC0AF41951AC149B6BFB7C1",
+    "native_output_paths": [
+      "codex-generated-output/exec-2c5388fc-cf75-4283-a0cf-fa268e7265c1.png"
+    ]
+  },
+  {
+    "asset_or_source": "art/source/environment_sequences/freight_harbor_sections/section_02.png",
+    "byte_match": true,
+    "sha256": "36BFF03CF5EBF9578DE4779FED3E5970A870DB2B6F05DD4AEA369C77480927BC",
+    "native_output_paths": [
+      "codex-generated-output/exec-d70e08de-6f3c-47f2-90a5-7c765cb4933b.png"
+    ]
+  },
+  {
+    "asset_or_source": "art/source/environment_sequences/freight_harbor_sections/section_03.png",
+    "byte_match": true,
+    "sha256": "BFE8F63D3BE93202C47B5CB1BD63E53AF69A5C6D77CBFE643CAA3D09AAF0A456",
+    "native_output_paths": [
+      "codex-generated-output/exec-98694980-0c4a-4997-9e1f-9a900257e513.png"
+    ]
+  },
+  {
+    "asset_or_source": "art/source/environment_sequences/freight_harbor_sections/section_04.png",
+    "byte_match": true,
+    "sha256": "9879320CF8521429EA1859F88FA111E27B2A823333AC16266A23299A3DE54154",
+    "native_output_paths": [
+      "codex-generated-output/exec-7240f5e7-c5f9-41b0-91f7-fee122fea46d.png"
+    ]
+  },
+  {
+    "asset_or_source": "art/source/environment_sequences/neon_coast_sections/section_00.png",
+    "byte_match": true,
+    "sha256": "757B611CDA2F463B906F7067AE10013527A086B2ECCB650C0FE226DC8F166F7E",
+    "native_output_paths": [
+      "codex-generated-output/exec-01f605c6-bccd-4434-b90e-3a7c298198cd.png"
+    ]
+  },
+  {
+    "asset_or_source": "art/source/environment_sequences/neon_coast_sections/section_01.png",
+    "byte_match": true,
+    "sha256": "D5035678A6FAE195FB2A91316E0E1669AA7A7EFBED919113594D45D35F023E6A",
+    "native_output_paths": [
+      "codex-generated-output/exec-56a6e9f0-9ad6-4d91-97e1-35c1254ccabc.png"
+    ]
+  },
+  {
+    "asset_or_source": "art/source/environment_sequences/neon_coast_sections/section_02.png",
+    "byte_match": true,
+    "sha256": "6952A1D28C247BB004436FB3029A78B45D5077788B7B279D695DF36F04D55A9E",
+    "native_output_paths": [
+      "codex-generated-output/exec-4e936e37-74d1-45be-ab78-6935f5641909.png"
+    ]
+  },
+  {
+    "asset_or_source": "art/source/environment_sequences/neon_coast_sections/section_03.png",
+    "byte_match": true,
+    "sha256": "90628E3749664118CADEA0ABD040DCDB56D93A6F747F416776DC99863BCC5648",
+    "native_output_paths": [
+      "codex-generated-output/exec-67481e3f-9de5-4548-848d-174dc8013b6c.png"
+    ]
+  },
+  {
+    "asset_or_source": "art/source/environment_sequences/neon_coast_sections/section_04.png",
+    "byte_match": true,
+    "sha256": "C5B1317914B7D9285C33E40DD5F88C7825DCB8DBD9B1A20F541165CE86008FA6",
+    "native_output_paths": [
+      "codex-generated-output/exec-d9dc5102-0200-43d6-a032-22927b77af06.png"
+    ]
+  },
+  {
+    "asset_or_source": "art/source/environment_sequences/storm_ridge_sections/section_00.png",
+    "byte_match": true,
+    "sha256": "0E83771C7F6B04C8200790D22243B030793C705B44FE1DBD6041C73EC438B38D",
+    "native_output_paths": [
+      "codex-generated-output/exec-0b62c3bc-5525-478c-b186-9bab970f3cca.png"
+    ]
+  },
+  {
+    "asset_or_source": "art/source/environment_sequences/storm_ridge_sections/section_01.png",
+    "byte_match": true,
+    "sha256": "144DECCD1C931D45DE022918A0D959CD6CCDF197504922FB665A1B051C271D55",
+    "native_output_paths": [
+      "codex-generated-output/exec-824f2b68-d1c9-4c00-ab2a-36166fca423f.png"
+    ]
+  },
+  {
+    "asset_or_source": "art/source/environment_sequences/storm_ridge_sections/section_02.png",
+    "byte_match": true,
+    "sha256": "31F6279626CF47542F00B7C0379249D4B5CF526823ACD5AD6D98787D9E937706",
+    "native_output_paths": [
+      "codex-generated-output/exec-b2417218-7f79-4189-9b92-6f7817fe1644.png"
+    ]
+  },
+  {
+    "asset_or_source": "art/source/environment_sequences/storm_ridge_sections/section_03.png",
+    "byte_match": true,
+    "sha256": "0A918C56B4E5A5EB8F3047746A0C46B82EC6E797D2D8037F957B931AFEF2D987",
+    "native_output_paths": [
+      "codex-generated-output/exec-c112bb96-c4fa-473e-ae99-1157da463dfd.png"
+    ]
+  },
+  {
+    "asset_or_source": "art/source/environment_sequences/storm_ridge_sections/section_04.png",
+    "byte_match": true,
+    "sha256": "13242EDEAA799A4F25C7A6C8B143E18567608AF860E94368CD14865AAC5B282D",
+    "native_output_paths": [
+      "codex-generated-output/exec-36cbac62-ffbc-4b73-8087-b6cc53560f57.png"
+    ]
+  },
+  {
+    "asset_or_source": "art/source/environment_sequences/sunrise_express_sections/section_00.png",
+    "byte_match": true,
+    "sha256": "FBF8E04CDE72B33D108569B49B1EB213A1BC398C89F2581FFF250EA6B79DEECF",
+    "native_output_paths": [
+      "codex-generated-output/exec-e4a73f70-408f-4351-99a1-1864f480f162.png"
+    ]
+  },
+  {
+    "asset_or_source": "art/source/environment_sequences/sunrise_express_sections/section_01.png",
+    "byte_match": true,
+    "sha256": "108F758E7E0A7377ED1C9DC7AE1675638C17A3DBC124C9890B4A6A6973ACE6E7",
+    "native_output_paths": [
+      "codex-generated-output/exec-fbcddbf2-9e35-4da8-91d4-8485327f3ee5.png"
+    ]
+  },
+  {
+    "asset_or_source": "art/source/environment_sequences/sunrise_express_sections/section_02.png",
+    "byte_match": true,
+    "sha256": "D97909E1F8B31FAC4B7C085C728428ABDF092DC1235B2C3983AE9CCAD38AE5FC",
+    "native_output_paths": [
+      "codex-generated-output/exec-525fc7a5-e964-4f8a-a394-184ef4fb24fb.png"
+    ]
+  },
+  {
+    "asset_or_source": "art/source/environment_sequences/sunrise_express_sections/section_03.png",
+    "byte_match": true,
+    "sha256": "CC9A1D3601D1E106CA2E597A0895CAF42688DB6D6B9B0B5A3DD0E374BAC2C55C",
+    "native_output_paths": [
+      "codex-generated-output/exec-95231164-712b-43fb-bdac-990e35e952a5.png"
+    ]
+  },
+  {
+    "asset_or_source": "art/source/environment_sequences/sunrise_express_sections/section_04.png",
+    "byte_match": true,
+    "sha256": "1226DFC779E1E50D0C17B3BE526D84D1CB0EED15ADD78AFE73FB02BDC053FDF6",
+    "native_output_paths": [
+      "codex-generated-output/exec-77e4bb90-d343-4391-b51f-06428dec6343.png"
+    ]
+  },
+  {
+    "asset_or_source": "art/source/generated/event_plate_chroma.png",
+    "byte_match": true,
+    "sha256": "C5535124209F15CB6C29128DC9FAD02FF72C6E9F363B71993CC556CFF17A0804",
+    "native_output_paths": [
+      "codex-generated-output/exec-8e14d0aa-0eb7-49b9-8bcb-ad94f1707093.png"
+    ]
+  },
+  {
+    "asset_or_source": "art/source/generated/finish_burst_chroma.png",
+    "byte_match": true,
+    "sha256": "0B35BEB8F2C73F8D89AD74AC243139360859B06BC27287CA578602956B9B3A5E",
+    "native_output_paths": [
+      "codex-generated-output/exec-46cb3a52-24bf-42bf-af7f-6b6c3423470d.png"
+    ]
+  },
+  {
+    "asset_or_source": "art/source/generated/fuel_pickup_chroma.png",
+    "byte_match": true,
+    "sha256": "FC547A285035B2A379B4592FB3E85E137F58BA88D5D1EACD4312DED85947CEB7",
+    "native_output_paths": [
+      "codex-generated-output/exec-1f35e4ed-b599-47b5-ac2a-f4b11c27c27f.png"
+    ]
+  },
+  {
+    "asset_or_source": "art/source/generated/hud_frame_chroma.png",
+    "byte_match": true,
+    "sha256": "EA78D008A1CB359A23569C78C0FAB1A87C2CFC25E9F25B51AB3EC4F557081A6B",
+    "native_output_paths": [
+      "codex-generated-output/exec-f02186af-7fbb-4e7b-b7b3-38167447a2d3.png"
+    ]
+  },
+  {
+    "asset_or_source": "art/source/generated/result_emblem_chroma.png",
+    "byte_match": true,
+    "sha256": "F3DE78FCBD3619DB54BDDCB1B9B276651CE04715867A5E703D636C0ABA32782E",
+    "native_output_paths": [
+      "codex-generated-output/exec-bb81ce16-6ecf-422a-beaf-0cb766a59e77.png"
+    ]
+  },
+  {
+    "asset_or_source": "art/source/generated/road_barrier_chroma.png",
+    "byte_match": true,
+    "sha256": "C1DB957D4C6F6FFB05F33F136C2C18E3A8DBB942D5E7682D40C464247A96CA7B",
+    "native_output_paths": [
+      "codex-generated-output/exec-882809c4-76b0-4751-b5ba-741b8f563381.png"
+    ]
+  },
+  {
+    "asset_or_source": "art/source/generated/traffic_hatchback_alpha.png",
+    "byte_match": false,
+    "sha256": "4C9C4D111EA91C8F2739CA10539E6C23067973CDBAFCDDCDCD26E2E07FA76F5C",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "art/source/generated/traffic_sedan_volume_alpha.png",
+    "byte_match": false,
+    "sha256": "0DE712C373B554B2D7DE77F88A069F0875D1480B849F6254A160ACAD92DA8266",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "art/source/generated/traffic_sports_alpha.png",
+    "byte_match": false,
+    "sha256": "F260A8EDAA47AA8CFAB1A573F7D638E628CDCBC251D4B3998B29E63E3DBDE535",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "art/source/generated/traffic_truck_volume_alpha.png",
+    "byte_match": false,
+    "sha256": "0173D0FFBABC3004D825465E031027A2B77673F90E747FEEE20C1D5DEA1018AB",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "art/source/generated/traffic_van_alpha.png",
+    "byte_match": false,
+    "sha256": "3D7F835E779C7DB109417D045C30A385B7EBF730CC9F6DB321589AE807418526",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "art/source/vehicles/aurora_x_chroma.png",
+    "byte_match": true,
+    "sha256": "1EDD808F0269482F1F0228E879229C00591FBDC8E153BA67E2E0CEC8EF210F8F",
+    "native_output_paths": [
+      "codex-generated-output/exec-1265e27b-e846-43ef-bbca-06d32ea94520.png"
+    ]
+  },
+  {
+    "asset_or_source": "art/source/vehicles/comet_rs_chroma.png",
+    "byte_match": true,
+    "sha256": "49069538D5444A317AC4BFC065EAEDF9CF918246F195E6FCB3F06E2E90C76276",
+    "native_output_paths": [
+      "codex-generated-output/exec-247734f0-3372-48ed-b64e-82cc846b2144.png"
+    ]
+  },
+  {
+    "asset_or_source": "art/source/vehicles/driftwing_chroma.png",
+    "byte_match": true,
+    "sha256": "4BCF4D68363682ABAD49DDEDD93488028CCC72E901C73B0F7BBA97D31371D1E1",
+    "native_output_paths": [
+      "codex-generated-output/exec-56040e00-619b-4b88-8d72-4db6c5fb830c.png"
+    ]
+  },
+  {
+    "asset_or_source": "art/source/vehicles/flashpoint_chroma.png",
+    "byte_match": true,
+    "sha256": "CF42052850B52C240D257DB23B673D9BA21CCE103F10836D23B168CC80000C9C",
+    "native_output_paths": [
+      "codex-generated-output/exec-e83081b4-d16f-46a7-add5-d709debdbb34.png"
+    ]
+  },
+  {
+    "asset_or_source": "art/source/vehicles/pulse_gt_chroma.png",
+    "byte_match": true,
+    "sha256": "519764F3128C6A0EBFA828727C9FEF2D8E6DAD9CA9F7175DFCD302FAA8834C92",
+    "native_output_paths": [
+      "codex-generated-output/exec-2b6b7547-d1b1-413d-bd65-68a2e61b7c79.png"
+    ]
+  },
+  {
+    "asset_or_source": "art/source/vehicles/tidebreaker_chroma.png",
+    "byte_match": true,
+    "sha256": "63DE715ED7D79BB7DCB9F4CEB21ADFF7108611272E8EF602577CC1D15E5D281E",
+    "native_output_paths": [
+      "codex-generated-output/exec-c980df08-0551-4624-bae7-8bcb2ae2e239.png"
+    ]
+  },
+  {
+    "asset_or_source": "assets/effects/finish_burst.png",
+    "byte_match": false,
+    "sha256": "6410F865506E7E809FB2AEE75C538FD57D7B59F88128419675D1B6256FC52CE0",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/freight_harbor/left_00.png",
+    "byte_match": false,
+    "sha256": "54A2DB59E25DF38634EDE52C7FD739E53190B1017857439C0A36B79965AC7F9E",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/freight_harbor/left_01.png",
+    "byte_match": false,
+    "sha256": "75F2CD3BFDE0C6325FE8C15D7144E9049199A159E38AB32EB643AF646160F75F",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/freight_harbor/left_02.png",
+    "byte_match": false,
+    "sha256": "FF7A92D02793E5DAC7A773F9E877E8F708A6085B3AA3787622159B23C3C19A3B",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/freight_harbor/left_03.png",
+    "byte_match": false,
+    "sha256": "EF1D381646472CE3F582809793C77A1081E92303DC8143193A485F25B21EA171",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/freight_harbor/left_04.png",
+    "byte_match": false,
+    "sha256": "DD63B0CCDCE56863B9061138134564FE7270A9BE1A43A8E6C401F53199F60731",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/freight_harbor/right_00.png",
+    "byte_match": false,
+    "sha256": "8E1E89508D2D487B6281D5562E8B327EE780844BBECF4F9DA5F482B3074F1733",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/freight_harbor/right_01.png",
+    "byte_match": false,
+    "sha256": "7006483DAEEEADFAAEA0093504BAB77A9263FE62B6743F28EAC8DE24577A5C35",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/freight_harbor/right_02.png",
+    "byte_match": false,
+    "sha256": "3DF3D4EB3F4385574202213F4A880D7AEF82C731FA2F7AF8B9CB45043FC01B4A",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/freight_harbor/right_03.png",
+    "byte_match": false,
+    "sha256": "93F742A233191BDC25809030676B662D5827FC195CCDC1362FF13BFFD0ECDE37",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/freight_harbor/right_04.png",
+    "byte_match": false,
+    "sha256": "2167ED14070603783E8B4421372D5BDDF047862AC0582057E94D9A3043577AD2",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/neon_coast/left_00.png",
+    "byte_match": false,
+    "sha256": "43C8F394EC5E896E9D99E6577E2B2A957B0E38EE87ADA140236A6283A7C4A7D4",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/neon_coast/left_01.png",
+    "byte_match": false,
+    "sha256": "B91DEFB523D53A6ADEC933B9150102A6BF94DD0A61257731165004BC9A0DA046",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/neon_coast/left_02.png",
+    "byte_match": false,
+    "sha256": "13772664CB935381E0628D8A717AB3C2A9861E53EC753A732DA49A0AA7096984",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/neon_coast/left_03.png",
+    "byte_match": false,
+    "sha256": "9795027FAAA25C80FE32A243AD68D342436ED2E9BD5048DDE0B0B056683B411A",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/neon_coast/left_04.png",
+    "byte_match": false,
+    "sha256": "D426F56DE94ACEB55F0E32570499C25A739E1260BFA67F1382054128757E9224",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/neon_coast/right_00.png",
+    "byte_match": false,
+    "sha256": "5AEB0DEDE32E07E0B4E82E74A791B978788A22BBDBF2BC2256CE7BE809F88E75",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/neon_coast/right_01.png",
+    "byte_match": false,
+    "sha256": "322B88236B4ED846EFBEF61AF3D8BAFCD41499F1785321B651825E5CBE47BC6E",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/neon_coast/right_02.png",
+    "byte_match": false,
+    "sha256": "52181BB3610A7A5F2334CF717042B1643D8BD70445E7413DC91CBBF0143789A3",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/neon_coast/right_03.png",
+    "byte_match": false,
+    "sha256": "F9579295288B891DC8636918966B6A436353A15449E0DDC5A36224A208CD71E9",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/neon_coast/right_04.png",
+    "byte_match": false,
+    "sha256": "706C71B6AF6BAD236D716D119219EEBF4FE1FBE4C33DEA9BF037FDF73BDC7CF1",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/storm_ridge/left_00.png",
+    "byte_match": false,
+    "sha256": "8D15A2E565500C8E9BCEE49C07EF78AEA384477D7306DED12DC1D891F97BC405",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/storm_ridge/left_01.png",
+    "byte_match": false,
+    "sha256": "8A2B5002B91373A9358A52B008085FF5FA4A60B73769DAEB9BD45D3645C38D8E",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/storm_ridge/left_02.png",
+    "byte_match": false,
+    "sha256": "8AE4D1DA88D6027A5AF855B3D3F8709FD4DB4FE8E554F66B9A80AAA0FA2E005C",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/storm_ridge/left_03.png",
+    "byte_match": false,
+    "sha256": "B7B42590BD320CFF85447608566C8EE6A87D1C90489792F5FAE9361AADA42F9D",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/storm_ridge/left_04.png",
+    "byte_match": false,
+    "sha256": "50C975DE7360ECD450A1E4ECC5970095423B3C1959CC80697599BA4193B5B8B3",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/storm_ridge/right_00.png",
+    "byte_match": false,
+    "sha256": "9A7EB635FFF804A90D4D7840AAF204F9B65BAD1131B9EFDDEF349A30B942849A",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/storm_ridge/right_01.png",
+    "byte_match": false,
+    "sha256": "5662DB20F8B357541DD768111D5A0DC4421F90553755E3AB798075547F39A6FE",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/storm_ridge/right_02.png",
+    "byte_match": false,
+    "sha256": "6E5ECF4F27BF1A32E1C2318C2674E5027A5DAE10111F2AB62A3D63463DA3BC29",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/storm_ridge/right_03.png",
+    "byte_match": false,
+    "sha256": "8B869E1B106FED241827ECD5CDFA5EE8206BD44BF6DDBC85E1C5666949A6BA81",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/storm_ridge/right_04.png",
+    "byte_match": false,
+    "sha256": "2527A7B40682D39A799753A83BE1CC8241D9E1B8DAE647BE225DE1F09C8B61F3",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/sunrise_express/left_00.png",
+    "byte_match": false,
+    "sha256": "01CF8CC9B91748C8BA555120F189573484E09961F912FD90C8005390988CC807",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/sunrise_express/left_01.png",
+    "byte_match": false,
+    "sha256": "5F03ADCEC53C7305D909149F4FA34D2E3BF560D1D8750BBEFB7FB786D20B90E9",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/sunrise_express/left_02.png",
+    "byte_match": false,
+    "sha256": "BC7FC3CB034D118EDD4E020A9B81182425B8CD4DDE91AF44FE6A0332098E9904",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/sunrise_express/left_03.png",
+    "byte_match": false,
+    "sha256": "B9EEF51393F1E2C3F0BAA5BF60319309281392AFFB82EA83994C34BEBC9E7695",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/sunrise_express/left_04.png",
+    "byte_match": false,
+    "sha256": "BF6E80384382184E3DF962476BE414D5335FB4C16DC4EA653F3458E948C33097",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/sunrise_express/right_00.png",
+    "byte_match": false,
+    "sha256": "E1996C7FBE9EFAE85B2E1F9D170FD9C7FB933454DAAD671AADDE914C899748AB",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/sunrise_express/right_01.png",
+    "byte_match": false,
+    "sha256": "FCD15D9F109B23A56B0337C175191A1DD2D95341A05A1E252E4BB8E0F438F78D",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/sunrise_express/right_02.png",
+    "byte_match": false,
+    "sha256": "478BDF84B7DE24F466269AA99F7B420957A57AE51D4693F1C0CBC2B4CA22FEEB",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/sunrise_express/right_03.png",
+    "byte_match": false,
+    "sha256": "9D23CA8C35E6D139BBC320AD2B302F82CC392879B711E6758D167E0E99C1CE8C",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/environment_sequences/sunrise_express/right_04.png",
+    "byte_match": false,
+    "sha256": "279A3F54603258AA973E9223AE96194D5CA51EF879B20C7F0319728C61A444B0",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/music/freight_harbor.ogg",
+    "byte_match": false,
+    "sha256": "B7918882E6CCDA3869B27CA1D02B96EAA2A59D1021A4A593EB144A21D3DEED56",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/music/neon_coast.ogg",
+    "byte_match": false,
+    "sha256": "CC1BE016983A55791A03A0C04C444247DA73755D4B3A4B86EA620EAE2736641B",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/music/storm_ridge.ogg",
+    "byte_match": false,
+    "sha256": "92A558452E59B90835CC3E368F4C4A86DBB19EAF23E0972F0C2A74B8B9A48DD7",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/music/sunrise_express.ogg",
+    "byte_match": false,
+    "sha256": "FA76CD42146AC3B4C7635ADEAD52820A3D22F372AA6424D6F23C423E4CD96772",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/neon-coast-menu.png",
+    "byte_match": true,
+    "sha256": "522FF3241295246021FAF2E2A850B42F4F208D9955CE6636DF2791E684B002E3",
+    "native_output_paths": [
+      "codex-generated-output/exec-a4564a4c-5c7e-4618-8e81-8af267b0edde.png"
+    ]
+  },
+  {
+    "asset_or_source": "assets/pavement/freight_harbor.png",
+    "byte_match": false,
+    "sha256": "7BA1E83C26EE1FE0844994B98316CD7831BFD8FCAC0B02B1C894C69196B115E0",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/pavement/neon_coast.png",
+    "byte_match": false,
+    "sha256": "55EB7703BD09966A8AA8E2C3C2D03D5BC2CA33AC8F22E0CAA3AE8C4F38943711",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/pavement/storm_ridge.png",
+    "byte_match": false,
+    "sha256": "07F8EDD20C54A1D844D41C332D7981346F14F0F77B31F4F62C6C77DFF53B0EAD",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/pavement/sunrise_express.png",
+    "byte_match": false,
+    "sha256": "25BC6C5AFF1C27D46B753E4BCD52F64379822CA89D4DFA37A1797DCF12F232D7",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/pickups/fuel_pickup.png",
+    "byte_match": false,
+    "sha256": "CC96CDEE31F612105ABD25F972D3B67708851D924159B04D65046EF88E4E71EF",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/ui/event_plate.png",
+    "byte_match": false,
+    "sha256": "92E93C3C8CF681B30F1CA6CE25AFE220079960B8D61F4ED3A35287DD35D9D9A4",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/ui/hud_frame.png",
+    "byte_match": false,
+    "sha256": "A1EF7E4F214B570766ED1DC348425C70D2E2C4238927ED1F61963D21EF7D2F6E",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/ui/result_emblem.png",
+    "byte_match": false,
+    "sha256": "AB51CE451796FE82FF6432BCBFE4C637068916A75155F6F01CF137FC79FC5B9A",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/ui/road_barrier.png",
+    "byte_match": false,
+    "sha256": "799B3C673DDE460C41763324526C0F3726A5EFD41A73DB68C684A7231FCB3324",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/vehicle_showcases/aurora_x_northwest_v1.png",
+    "byte_match": true,
+    "sha256": "CA6E2E659119FCA56B5B157C6D88223F63F8BA6B684203586CE7D70A4DA0FDC8",
+    "native_output_paths": [
+      "codex-generated-output/exec-1e73f40a-c659-418e-89ec-c39ccacc589d.png"
+    ]
+  },
+  {
+    "asset_or_source": "assets/vehicle_showcases/comet_rs_northwest_v1.png",
+    "byte_match": true,
+    "sha256": "C6227AA9F8AA7B068D4A9BA502EC2A25DB3E2F0800688FA6E943A4B86200D71D",
+    "native_output_paths": [
+      "codex-generated-output/exec-78ea9267-34e9-4611-b4bb-1793175eb0a6.png"
+    ]
+  },
+  {
+    "asset_or_source": "assets/vehicle_showcases/driftwing_northwest_v1.png",
+    "byte_match": true,
+    "sha256": "558F46D6AA37E6EA2E7919A0CC19ED8B1D5711AA7B688862755B57946A115993",
+    "native_output_paths": [
+      "codex-generated-output/exec-d46a8647-5e41-42ad-a8cb-14b28d60a59b.png"
+    ]
+  },
+  {
+    "asset_or_source": "assets/vehicle_showcases/flashpoint_northwest_v1.png",
+    "byte_match": true,
+    "sha256": "E977F12159B2A3F98F1E7BF589AE9C806868B94EB0027DA923A9DEDD24450DAE",
+    "native_output_paths": [
+      "codex-generated-output/exec-935fe51e-3cf4-48c1-b895-be3e7cf26054.png"
+    ]
+  },
+  {
+    "asset_or_source": "assets/vehicle_showcases/pulse_gt_northwest_v1.png",
+    "byte_match": true,
+    "sha256": "BE9721DF1C525FE5B72DC650003B21D22015D06D2D27B1A6F51560DE6065F394",
+    "native_output_paths": [
+      "codex-generated-output/exec-79cd15fe-40f9-4e6a-9ff8-2d3a7bc13fb2.png"
+    ]
+  },
+  {
+    "asset_or_source": "assets/vehicle_showcases/tidebreaker_northwest_v1.png",
+    "byte_match": true,
+    "sha256": "C596522AC9156AC6E70B303FAB5CE9620D8CADA8A2DEABB81381CF6CB88DFD59",
+    "native_output_paths": [
+      "codex-generated-output/exec-a2b5fa84-a5f8-4e7b-b46a-4fd3f2a3a75b.png"
+    ]
+  },
+  {
+    "asset_or_source": "assets/vehicles/player_aurora_x_c.png",
+    "byte_match": false,
+    "sha256": "3034C432B00B6E199F1469F4AD970955122C15A07976284E3E2818F7C2C8447D",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/vehicles/player_comet_rs_c.png",
+    "byte_match": false,
+    "sha256": "A03701E0CF3E4960E9329CF56CD6CBF82689CFBDB437B68143A3F1514E6AF006",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/vehicles/player_driftwing_c.png",
+    "byte_match": false,
+    "sha256": "0A6FF0C2B9D35D870D3B8961CEE71333627D92112D0BD4E8E95013D0B21F13E0",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/vehicles/player_flashpoint_c.png",
+    "byte_match": false,
+    "sha256": "72B7E1EEA168C00BB9418AC8A24C6CCD54784D3E33DBF150896964D8DE14607A",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/vehicles/player_pulse_gt_c.png",
+    "byte_match": false,
+    "sha256": "C1311CE558A020ED159E1815EB4B1DF371F1BE8049AF4F854973185BBF097A90",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/vehicles/player_tidebreaker_c.png",
+    "byte_match": false,
+    "sha256": "A03AFF2C8FC252A24D160C62324B32864A08FD0BE1E286A4BDBE05457D6AA0DA",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/vehicles/traffic_hatchback.png",
+    "byte_match": false,
+    "sha256": "B6B43B1402D6992C289E2048EBE95AABAD40AB6E55B45F2F3EF2573C09F15AB3",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/vehicles/traffic_sedan.png",
+    "byte_match": false,
+    "sha256": "231D1E3AB202539D357EBD09514D7840BE39265EB6FC096DB9AB140E24EEDE5E",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/vehicles/traffic_sports.png",
+    "byte_match": false,
+    "sha256": "F175C4B0CD2F1DA6F8D630BB4F896C263A64D603AF175EBA2D6FC7F8C27E4143",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/vehicles/traffic_truck.png",
+    "byte_match": false,
+    "sha256": "985C84849FD7E078E735B2378C38700F86EEB4C19480E6A4976C293E3159A794",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "assets/vehicles/traffic_van.png",
+    "byte_match": false,
+    "sha256": "9281C8E5F2A8EE14B9AB9CD1D23C1A62E39CBC1D12E1C4AA6C07134327812C36",
+    "native_output_paths": []
+  },
+  {
+    "asset_or_source": "docs/previews/aurora_x-c-source.png",
+    "byte_match": true,
+    "sha256": "243304555079363E30A1C8657C5EAB5A199CA5EA16612CF0ADD0B4A073C4EC52",
+    "native_output_paths": [
+      "codex-generated-output/exec-c4b457a9-2464-413b-a616-1f2bf5536933.png"
+    ]
+  },
+  {
+    "asset_or_source": "docs/previews/comet_rs-c-source.png",
+    "byte_match": true,
+    "sha256": "EA9305EF1D8772F275A56143358458A7B7D594322392D009DD3A8276F1397D9C",
+    "native_output_paths": [
+      "codex-generated-output/exec-e35907df-3c0f-4238-95c7-15afd5794afc.png"
+    ]
+  },
+  {
+    "asset_or_source": "docs/previews/driftwing-c-approved.png",
+    "byte_match": true,
+    "sha256": "CC984C700E8E38E004681422D0F74103B4749440A72CB66C18FAE3A0654D95DA",
+    "native_output_paths": [
+      "codex-generated-output/exec-75a3abae-00ac-49f8-882d-698b9278884c.png"
+    ]
+  },
+  {
+    "asset_or_source": "docs/previews/flashpoint-c-source.png",
+    "byte_match": true,
+    "sha256": "A139DCD66E5C07D01579087C50F5B6414394298FF562E224A2922E7E9C651824",
+    "native_output_paths": [
+      "codex-generated-output/exec-cd2ef3f2-59a9-43e8-a14f-c937319edb07.png"
+    ]
+  },
+  {
+    "asset_or_source": "docs/previews/pulse_gt-c-source.png",
+    "byte_match": true,
+    "sha256": "4A4068C2658BF28661C6D8945C34FF7391DB08242AB27FD6B304915443AAAE0E",
+    "native_output_paths": [
+      "codex-generated-output/exec-792bf468-9604-4fb0-8455-991fbbf8fe9b.png"
+    ]
+  },
+  {
+    "asset_or_source": "docs/previews/tidebreaker-c-source.png",
+    "byte_match": true,
+    "sha256": "1B9C0EC8D6975A9F2D204528E1879C4A768724532A568A59F85A66429D986442",
+    "native_output_paths": [
+      "codex-generated-output/exec-c40e9ba4-99cc-4d4d-8cfe-587f65758dfb.png"
+    ]
+  }
+]
