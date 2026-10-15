@@ -1,0 +1,2 @@
+# Evidence manifests use canonical UTF-8/LF bytes on every checkout.
+* text eol=lf
