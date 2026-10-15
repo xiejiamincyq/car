@@ -7,3 +7,15 @@ build/
 *.zip
 .env
 
+# Local runs, caches and private player state (not source metadata).
+/tmp/
+__pycache__/
+*.py[cod]
+/docs/**/*.translation
+/docs/**/*.import
+save.cfg
+save.cfg.*
+save_slots/
+*.etl
+*.dmp
+
