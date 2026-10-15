@@ -2,17 +2,17 @@
 
 一款面向PC键盘操作的2D纵向卷轴赛车。穿梭车流、规划超车路线、收集金币，在速度、燃油和车辆完整度之间作出选择。
 
-[下载Windows版](https://github.com/xiejiamincyq/car/releases/tag/v0.4.0-rc.5) · [玩家指南](docs/player/README.md) · [常见问题与反馈](docs/player/SUPPORT.md) · [更新记录](CHANGELOG.md)
+[下载Windows版](https://github.com/xiejiamincyq/car/releases/tag/v0.4.0) · [玩家指南](docs/player/README.md) · [常见问题与反馈](docs/player/SUPPORT.md) · [更新记录](CHANGELOG.md)
 
 ## 下载与开始
 
-当前公开版本是 **0.4.0-rc.5 · Windows x64 · 未签名便携版**。保留RC预发布标识，不把发布形式完善等同于1.0稳定版认证。
+当前版本是 **0.4.0 正式版 · Windows x64 · 未签名便携版**。游戏内、Windows产品版本和下载包已统一为0.4.0；正式发布不等于对所有设备兼容性作保证。
 
-1. 下载 [NeonCoastRush-0.4.0-rc.5-Windows-x64.zip](https://github.com/xiejiamincyq/car/releases/download/v0.4.0-rc.5/NeonCoastRush-0.4.0-rc.5-Windows-x64.zip)（约69.5MB）。GitHub的Source code是源码，不是可运行包。
+1. 下载 [NeonCoastRush-0.4.0-Windows-x64.zip](https://github.com/xiejiamincyq/car/releases/download/v0.4.0/NeonCoastRush-0.4.0-Windows-x64.zip)（约70MB）。GitHub的Source code是源码，不是可运行包。
 2. 完整解压，运行版本文件夹里的NeonCoastRush.exe；EXE与PCK保持同目录。
 3. 选择赛道和赛车，查看性能后确认开赛。玩家无需Godot编辑器、Python或Node.js。
 
-[SHA-256校验文件](https://github.com/xiejiamincyq/car/releases/download/v0.4.0-rc.5/SHA256SUMS.txt)用于核对下载内容。EXE未签名，Windows可能提示未知发布者或阻止运行；不要为了游戏关闭系统安全功能。仅在当前Windows x64电脑验证，不保证所有设备或驱动兼容。
+[SHA-256校验文件](https://github.com/xiejiamincyq/car/releases/download/v0.4.0/SHA256SUMS.txt)用于核对下载内容。EXE未签名，Windows可能提示未知发布者或阻止运行；不要为了游戏关闭系统安全功能。仅在当前Windows x64电脑验证，不保证所有设备或驱动兼容。
 
 ## 游戏内容
 
@@ -37,14 +37,14 @@
 
 ## 已知限制与支持
 
-本机试玩已获用户接受。已有177项冻结技术回归和对应资源/包记录；四关1080p逐帧性能、30分钟有效驾驶、20次重开/返回趋势及剩余正常新旧档完整胜负补证由用户授权跳过，不是PASS。不承诺固定帧率或长期零内存增长。
+RC5本机试玩已获用户接受，0.4.0仅升级版本与发布资料，不改玩法、美术或v7存档格式。已有177项冻结技术回归；正式版另核验版本、资源、导出及短启动，详见发布状态。四关1080p逐帧性能、30分钟有效驾驶、20次重开/返回趋势及剩余正常新旧档完整胜负补证由用户授权跳过，不是PASS。不承诺固定帧率或长期零内存增长。
 
 [常见问题与已知限制](docs/player/SUPPORT.md)包含未签名提示、无声音、资源错误、卸载与回退方法。发现问题可在[Issues](https://github.com/xiejiamincyq/car/issues)提供版本、复现步骤及必要截图，不需要上传私人存档或完整系统转储。
 
 ## 开发、发布与来源
 
 - [开发运行、测试和新包制作](docs/development.md)：Godot 4.7，GDScript，gl_compatibility。
-- [当前发布检查清单](docs/release-checklist-current.md) · [RC5文件清单](docs/releases/v0.4.0-rc.5/package-manifest.json) · [验证范围](docs/releases/v0.4.0-rc.5/RELEASE_STATUS.md)。
+- [当前发布检查清单](docs/release-checklist-current.md) · [0.4.0文件清单](docs/releases/v0.4.0/package-manifest.json) · [验证范围](docs/releases/v0.4.0/RELEASE_STATUS.md)。
 - 旧标签v0.2.0、v0.3.0及[0.3.0发布记录](docs/release-checklist.md)保留用于历史追溯，不保证兼容当前v7存档。
 - 游戏仅参考经典街机赛车的抽象玩法，不包含Road Fighter的原始素材或关卡内容。[素材与引擎声明](docs/player/ASSET_NOTICES.md)保留制作来源和第三方组件说明。
 - 仓库公开不等于已为整个游戏指定开源许可证。暂不签名、不申请SignPath，也不因使用Godot而替游戏自动选择MIT许可。

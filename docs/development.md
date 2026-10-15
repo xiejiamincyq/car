@@ -1,10 +1,10 @@
 # 开发与验证
 
-玩家直接下载[Windows便携包](https://github.com/xiejiamincyq/car/releases/tag/v0.4.0-rc.5)，不需要开发环境。以下仅供修改源码或制作新版本使用。
+玩家直接下载[Windows便携包](https://github.com/xiejiamincyq/car/releases/tag/v0.4.0)，不需要开发环境。以下仅供修改源码或制作新版本使用。
 
 ## 环境与运行
 
-项目使用Godot 4.7、GDScript和gl_compatibility渲染器。引擎与导出模板应使用匹配版本；当前项目标识为0.4.0-rc.5。导入project.godot后运行scenes/main.tscn，或在仓库根目录执行：
+项目使用Godot 4.7、GDScript和gl_compatibility渲染器。引擎与导出模板应使用匹配版本；当前项目标识为0.4.0。导入project.godot后运行scenes/main.tscn，或在仓库根目录执行：
 
 ```powershell
 godot --path .
@@ -31,10 +31,10 @@ scripts/tests中的RC4帧观察器和历史采集测试绑定旧包及固定工�
 
 1. 明确新版本与改动范围，保留旧Release和旧包；源码、Windows产品版本和玩家说明一致。
 2. 运行受改动影响的测试，使用新的唯一exports目录导出；不得覆盖已发布版本。完整集成门按真实影响执行，不能把旧结果用于已变化的运行文件。
-3. 使用Windows Desktop导出预设及其资源白名单；不扩大范围以加入开发脚本或源图。当前默认路径是exports/0.4.0-rc.5/package/NeonCoastRush.exe，实际发布导出需另选新目录。
+3. 使用Windows Desktop导出预设及其资源白名单；不扩大范围以加入开发脚本或源图。当前默认路径是exports/0.4.0/package/NeonCoastRush.exe，实际发布导出需另选新目录。
 4. 按[当前发布检查清单](release-checklist-current.md)核对文件、干净解压、隔离启动、校验值、存档保护和实际验证边界。
 
-现有RC5复用了冻结工作区的程序，不是从发布标签干净重编译的证明。原构建和对应实现身份见[包清单](releases/v0.4.0-rc.5/package-manifest.json)。后续若建立CI，应从明确提交生成新候选，不能仅下载旧二进制便声称可复现构建。
+0.4.0从独立、仅含Git索引文件的构建目录重新导出，发布前核对运行输入与提交一致；来源见[包清单](releases/v0.4.0/package-manifest.json)。这是本机可追溯构建，不是跨设备逐字节可复现或CI构建证明。旧RC5复用过冻结工作区程序，其[旧清单](releases/v0.4.0-rc.5/package-manifest.json)保留，不追溯改写。
 
 ## 历史资料
 

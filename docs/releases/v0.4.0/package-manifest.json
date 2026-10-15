@@ -1,0 +1,900 @@
+{
+  "schema": 1,
+  "version": "0.4.0",
+  "windows_file_version": "0.4.0.6",
+  "date": "2026-10-16",
+  "tag": "v0.4.0",
+  "release_url": "https://github.com/xiejiamincyq/car/releases/tag/v0.4.0",
+  "type": "GitHub full release",
+  "signed": false,
+  "reexported": true,
+  "gameplay_art_save_format_changed": false,
+  "save_format": "v7",
+  "source_baseline": "2da7a4a4a00a323d0b19988e0229c8e73ec16cb7",
+  "build_source": "Independent checkout of Git index, runtime inputs verified against final index; not cross-machine reproducible-build or CI proof",
+  "runtime_inputs": [
+    {
+      "git_blob": "20daea3b35e5e241ba8fea7470fb1472b46d7e56",
+      "build_sha256": "6410F865506E7E809FB2AEE75C538FD57D7B59F88128419675D1B6256FC52CE0",
+      "path": "assets/effects/finish_burst.png"
+    },
+    {
+      "git_blob": "39962c7aa1728ef8fe17f1675f3c6e212eab09cb",
+      "build_sha256": "54A2DB59E25DF38634EDE52C7FD739E53190B1017857439C0A36B79965AC7F9E",
+      "path": "assets/environment_sequences/freight_harbor/left_00.png"
+    },
+    {
+      "git_blob": "0bfe31d33bb3b6e1d976b985a7aa79c0afbd9526",
+      "build_sha256": "75F2CD3BFDE0C6325FE8C15D7144E9049199A159E38AB32EB643AF646160F75F",
+      "path": "assets/environment_sequences/freight_harbor/left_01.png"
+    },
+    {
+      "git_blob": "8e1c7cd55e614e94c3aab1c29b733db7f2f01a2b",
+      "build_sha256": "FF7A92D02793E5DAC7A773F9E877E8F708A6085B3AA3787622159B23C3C19A3B",
+      "path": "assets/environment_sequences/freight_harbor/left_02.png"
+    },
+    {
+      "git_blob": "8640ce6c87a1420be815595888952d43d63b7901",
+      "build_sha256": "EF1D381646472CE3F582809793C77A1081E92303DC8143193A485F25B21EA171",
+      "path": "assets/environment_sequences/freight_harbor/left_03.png"
+    },
+    {
+      "git_blob": "ba449d8e832effcca7d00bc45aef3567a5acaf12",
+      "build_sha256": "DD63B0CCDCE56863B9061138134564FE7270A9BE1A43A8E6C401F53199F60731",
+      "path": "assets/environment_sequences/freight_harbor/left_04.png"
+    },
+    {
+      "git_blob": "537f718421e865d880d26c3425b4d6ec8be18d8b",
+      "build_sha256": "8E1E89508D2D487B6281D5562E8B327EE780844BBECF4F9DA5F482B3074F1733",
+      "path": "assets/environment_sequences/freight_harbor/right_00.png"
+    },
+    {
+      "git_blob": "1c9e2baa173b55d27dd1ad3877c03dcd17571ccf",
+      "build_sha256": "7006483DAEEEADFAAEA0093504BAB77A9263FE62B6743F28EAC8DE24577A5C35",
+      "path": "assets/environment_sequences/freight_harbor/right_01.png"
+    },
+    {
+      "git_blob": "b6d57d2634c35dc9258ab8434629a5a069c9aefd",
+      "build_sha256": "3DF3D4EB3F4385574202213F4A880D7AEF82C731FA2F7AF8B9CB45043FC01B4A",
+      "path": "assets/environment_sequences/freight_harbor/right_02.png"
+    },
+    {
+      "git_blob": "8849ded62e2590bae9d59f59a44e8508f33f291b",
+      "build_sha256": "93F742A233191BDC25809030676B662D5827FC195CCDC1362FF13BFFD0ECDE37",
+      "path": "assets/environment_sequences/freight_harbor/right_03.png"
+    },
+    {
+      "git_blob": "a5a9e0b9288feaad1e09ca50d34c2a66073ca3a8",
+      "build_sha256": "2167ED14070603783E8B4421372D5BDDF047862AC0582057E94D9A3043577AD2",
+      "path": "assets/environment_sequences/freight_harbor/right_04.png"
+    },
+    {
+      "git_blob": "874960cb811ecb04f1c1a4a0e129d914a31b991d",
+      "build_sha256": "43C8F394EC5E896E9D99E6577E2B2A957B0E38EE87ADA140236A6283A7C4A7D4",
+      "path": "assets/environment_sequences/neon_coast/left_00.png"
+    },
+    {
+      "git_blob": "5ef23389072a45fc6be7fed45a2e3919bbcee4be",
+      "build_sha256": "B91DEFB523D53A6ADEC933B9150102A6BF94DD0A61257731165004BC9A0DA046",
+      "path": "assets/environment_sequences/neon_coast/left_01.png"
+    },
+    {
+      "git_blob": "19ccae9d692fe106b19c48bb103ab5b4fc4aa6f1",
+      "build_sha256": "13772664CB935381E0628D8A717AB3C2A9861E53EC753A732DA49A0AA7096984",
+      "path": "assets/environment_sequences/neon_coast/left_02.png"
+    },
+    {
+      "git_blob": "2dfbe539d1127fe1acb911f516d2714fcea897c4",
+      "build_sha256": "9795027FAAA25C80FE32A243AD68D342436ED2E9BD5048DDE0B0B056683B411A",
+      "path": "assets/environment_sequences/neon_coast/left_03.png"
+    },
+    {
+      "git_blob": "7a12af7ecb0528efe611bd617b0052f842aa73ae",
+      "build_sha256": "D426F56DE94ACEB55F0E32570499C25A739E1260BFA67F1382054128757E9224",
+      "path": "assets/environment_sequences/neon_coast/left_04.png"
+    },
+    {
+      "git_blob": "2e90867794c1e35dc413ace3d2adbe98dd04f287",
+      "build_sha256": "5AEB0DEDE32E07E0B4E82E74A791B978788A22BBDBF2BC2256CE7BE809F88E75",
+      "path": "assets/environment_sequences/neon_coast/right_00.png"
+    },
+    {
+      "git_blob": "e590761dc904418d06634643832f9636192bcccd",
+      "build_sha256": "322B88236B4ED846EFBEF61AF3D8BAFCD41499F1785321B651825E5CBE47BC6E",
+      "path": "assets/environment_sequences/neon_coast/right_01.png"
+    },
+    {
+      "git_blob": "2fec200dacee96932e0744d783e23b623ba147c1",
+      "build_sha256": "52181BB3610A7A5F2334CF717042B1643D8BD70445E7413DC91CBBF0143789A3",
+      "path": "assets/environment_sequences/neon_coast/right_02.png"
+    },
+    {
+      "git_blob": "f2b8aeeaf39c73cae425a91744f197eedfbde2ef",
+      "build_sha256": "F9579295288B891DC8636918966B6A436353A15449E0DDC5A36224A208CD71E9",
+      "path": "assets/environment_sequences/neon_coast/right_03.png"
+    },
+    {
+      "git_blob": "961c7048b6b1541c438b4e7688cb3ba04498cf33",
+      "build_sha256": "706C71B6AF6BAD236D716D119219EEBF4FE1FBE4C33DEA9BF037FDF73BDC7CF1",
+      "path": "assets/environment_sequences/neon_coast/right_04.png"
+    },
+    {
+      "git_blob": "3b2955634f2ce95cfcf9d6d03b87705ad80b3754",
+      "build_sha256": "8D15A2E565500C8E9BCEE49C07EF78AEA384477D7306DED12DC1D891F97BC405",
+      "path": "assets/environment_sequences/storm_ridge/left_00.png"
+    },
+    {
+      "git_blob": "a6dffa72af94b00fe1a333dd6f53119cbe5015c8",
+      "build_sha256": "8A2B5002B91373A9358A52B008085FF5FA4A60B73769DAEB9BD45D3645C38D8E",
+      "path": "assets/environment_sequences/storm_ridge/left_01.png"
+    },
+    {
+      "git_blob": "0e36df3c69562582014dfcf452428328d9dd690a",
+      "build_sha256": "8AE4D1DA88D6027A5AF855B3D3F8709FD4DB4FE8E554F66B9A80AAA0FA2E005C",
+      "path": "assets/environment_sequences/storm_ridge/left_02.png"
+    },
+    {
+      "git_blob": "ba8089296297bf0e4f394b6f1f4d2fc990dd338d",
+      "build_sha256": "B7B42590BD320CFF85447608566C8EE6A87D1C90489792F5FAE9361AADA42F9D",
+      "path": "assets/environment_sequences/storm_ridge/left_03.png"
+    },
+    {
+      "git_blob": "41f522de766a9fa0e8732b6b3acc3c0edea96fd1",
+      "build_sha256": "50C975DE7360ECD450A1E4ECC5970095423B3C1959CC80697599BA4193B5B8B3",
+      "path": "assets/environment_sequences/storm_ridge/left_04.png"
+    },
+    {
+      "git_blob": "1716a8277dd220264b6aa957dc69a9d8bf914daf",
+      "build_sha256": "9A7EB635FFF804A90D4D7840AAF204F9B65BAD1131B9EFDDEF349A30B942849A",
+      "path": "assets/environment_sequences/storm_ridge/right_00.png"
+    },
+    {
+      "git_blob": "7cd928fb1439b3a5cde793cc1696b9f4b7e3db0a",
+      "build_sha256": "5662DB20F8B357541DD768111D5A0DC4421F90553755E3AB798075547F39A6FE",
+      "path": "assets/environment_sequences/storm_ridge/right_01.png"
+    },
+    {
+      "git_blob": "ccb501e4d9f9b00fefd2ba563ec645212db22ca1",
+      "build_sha256": "6E5ECF4F27BF1A32E1C2318C2674E5027A5DAE10111F2AB62A3D63463DA3BC29",
+      "path": "assets/environment_sequences/storm_ridge/right_02.png"
+    },
+    {
+      "git_blob": "b0d403738bc4e0b89064f21cd6abf1026d29cfaf",
+      "build_sha256": "8B869E1B106FED241827ECD5CDFA5EE8206BD44BF6DDBC85E1C5666949A6BA81",
+      "path": "assets/environment_sequences/storm_ridge/right_03.png"
+    },
+    {
+      "git_blob": "b97c56b09b8d2be987c0e983f1b821e1630f1a89",
+      "build_sha256": "2527A7B40682D39A799753A83BE1CC8241D9E1B8DAE647BE225DE1F09C8B61F3",
+      "path": "assets/environment_sequences/storm_ridge/right_04.png"
+    },
+    {
+      "git_blob": "6c0dff4a07c0f150fb3a445dd05c9b456e418b26",
+      "build_sha256": "01CF8CC9B91748C8BA555120F189573484E09961F912FD90C8005390988CC807",
+      "path": "assets/environment_sequences/sunrise_express/left_00.png"
+    },
+    {
+      "git_blob": "e6e5b58f1eeebdfb17561ae776bf46ecf2833873",
+      "build_sha256": "5F03ADCEC53C7305D909149F4FA34D2E3BF560D1D8750BBEFB7FB786D20B90E9",
+      "path": "assets/environment_sequences/sunrise_express/left_01.png"
+    },
+    {
+      "git_blob": "10e6e480653e2d5933229b7a86d93b060c47e9c0",
+      "build_sha256": "BC7FC3CB034D118EDD4E020A9B81182425B8CD4DDE91AF44FE6A0332098E9904",
+      "path": "assets/environment_sequences/sunrise_express/left_02.png"
+    },
+    {
+      "git_blob": "d1f44daec988e4f8282b0076d15b9a3705b91aad",
+      "build_sha256": "B9EEF51393F1E2C3F0BAA5BF60319309281392AFFB82EA83994C34BEBC9E7695",
+      "path": "assets/environment_sequences/sunrise_express/left_03.png"
+    },
+    {
+      "git_blob": "62005851742da1c6f31238f410e66c6fe9327f08",
+      "build_sha256": "BF6E80384382184E3DF962476BE414D5335FB4C16DC4EA653F3458E948C33097",
+      "path": "assets/environment_sequences/sunrise_express/left_04.png"
+    },
+    {
+      "git_blob": "905acee2f1a954ca029f81db163d6d0ce8821e4e",
+      "build_sha256": "E1996C7FBE9EFAE85B2E1F9D170FD9C7FB933454DAAD671AADDE914C899748AB",
+      "path": "assets/environment_sequences/sunrise_express/right_00.png"
+    },
+    {
+      "git_blob": "b528e632163b6206ac0a2a3c5a84ff4efbc782a5",
+      "build_sha256": "FCD15D9F109B23A56B0337C175191A1DD2D95341A05A1E252E4BB8E0F438F78D",
+      "path": "assets/environment_sequences/sunrise_express/right_01.png"
+    },
+    {
+      "git_blob": "0d3779abf7c7ee8a2f3ec98910d6d840dfcfb150",
+      "build_sha256": "478BDF84B7DE24F466269AA99F7B420957A57AE51D4693F1C0CBC2B4CA22FEEB",
+      "path": "assets/environment_sequences/sunrise_express/right_02.png"
+    },
+    {
+      "git_blob": "806ff322131403f17c1d665acbd4e34ff6a3fdf5",
+      "build_sha256": "9D23CA8C35E6D139BBC320AD2B302F82CC392879B711E6758D167E0E99C1CE8C",
+      "path": "assets/environment_sequences/sunrise_express/right_03.png"
+    },
+    {
+      "git_blob": "f9310b5602170c83493f0cf71ad9a77c5be39b51",
+      "build_sha256": "279A3F54603258AA973E9223AE96194D5CA51EF879B20C7F0319728C61A444B0",
+      "path": "assets/environment_sequences/sunrise_express/right_04.png"
+    },
+    {
+      "git_blob": "97fc9e4be5e0f11d4539678a1a1f59385c7bad2f",
+      "build_sha256": "B7918882E6CCDA3869B27CA1D02B96EAA2A59D1021A4A593EB144A21D3DEED56",
+      "path": "assets/music/freight_harbor.ogg"
+    },
+    {
+      "git_blob": "69a44ab7c474fd885262dd699e265909c14a9bb0",
+      "build_sha256": "CC1BE016983A55791A03A0C04C444247DA73755D4B3A4B86EA620EAE2736641B",
+      "path": "assets/music/neon_coast.ogg"
+    },
+    {
+      "git_blob": "bd9288706022ad9107d01254a5e3652c45f510f6",
+      "build_sha256": "92A558452E59B90835CC3E368F4C4A86DBB19EAF23E0972F0C2A74B8B9A48DD7",
+      "path": "assets/music/storm_ridge.ogg"
+    },
+    {
+      "git_blob": "437fe70278d6174c120717db609e4e16952bdc0d",
+      "build_sha256": "FA76CD42146AC3B4C7635ADEAD52820A3D22F372AA6424D6F23C423E4CD96772",
+      "path": "assets/music/sunrise_express.ogg"
+    },
+    {
+      "git_blob": "09ecbde7797f364f5b3f5a78e22773e63a4b30c0",
+      "build_sha256": "522FF3241295246021FAF2E2A850B42F4F208D9955CE6636DF2791E684B002E3",
+      "path": "assets/neon-coast-menu.png"
+    },
+    {
+      "git_blob": "dcc0557d2c7880f11c8e66c127c84c07490cd9d8",
+      "build_sha256": "7BA1E83C26EE1FE0844994B98316CD7831BFD8FCAC0B02B1C894C69196B115E0",
+      "path": "assets/pavement/freight_harbor.png"
+    },
+    {
+      "git_blob": "7f224783bf63d770b10fb85812a6ae97971c2adf",
+      "build_sha256": "55EB7703BD09966A8AA8E2C3C2D03D5BC2CA33AC8F22E0CAA3AE8C4F38943711",
+      "path": "assets/pavement/neon_coast.png"
+    },
+    {
+      "git_blob": "e92aa7c265acbfbab2e069c8ba7d116e0afcc21b",
+      "build_sha256": "07F8EDD20C54A1D844D41C332D7981346F14F0F77B31F4F62C6C77DFF53B0EAD",
+      "path": "assets/pavement/storm_ridge.png"
+    },
+    {
+      "git_blob": "59ce57da4c3379aeea536524856937e2a6ae56e1",
+      "build_sha256": "25BC6C5AFF1C27D46B753E4BCD52F64379822CA89D4DFA37A1797DCF12F232D7",
+      "path": "assets/pavement/sunrise_express.png"
+    },
+    {
+      "git_blob": "accee2febf8bd90be66ff64fea0c1ae7c37ad450",
+      "build_sha256": "CC96CDEE31F612105ABD25F972D3B67708851D924159B04D65046EF88E4E71EF",
+      "path": "assets/pickups/fuel_pickup.png"
+    },
+    {
+      "git_blob": "a788e4e0d7ff0458dfb1f37479ddbc136e60a7b3",
+      "build_sha256": "92E93C3C8CF681B30F1CA6CE25AFE220079960B8D61F4ED3A35287DD35D9D9A4",
+      "path": "assets/ui/event_plate.png"
+    },
+    {
+      "git_blob": "1c345f980e6ed8cb32fe973e10226ac1d4f57874",
+      "build_sha256": "A1EF7E4F214B570766ED1DC348425C70D2E2C4238927ED1F61963D21EF7D2F6E",
+      "path": "assets/ui/hud_frame.png"
+    },
+    {
+      "git_blob": "e8e59e700cd581466d8c18992160434a53399216",
+      "build_sha256": "AB51CE451796FE82FF6432BCBFE4C637068916A75155F6F01CF137FC79FC5B9A",
+      "path": "assets/ui/result_emblem.png"
+    },
+    {
+      "git_blob": "1b2c53656102e750dfcfc1871105c32b484c103e",
+      "build_sha256": "799B3C673DDE460C41763324526C0F3726A5EFD41A73DB68C684A7231FCB3324",
+      "path": "assets/ui/road_barrier.png"
+    },
+    {
+      "git_blob": "3d5b27e7050f1ac6e1e553a239fa7cd93b5922a9",
+      "build_sha256": "CA6E2E659119FCA56B5B157C6D88223F63F8BA6B684203586CE7D70A4DA0FDC8",
+      "path": "assets/vehicle_showcases/aurora_x_northwest_v1.png"
+    },
+    {
+      "git_blob": "23b9d641f66a22909ab2771122d594ae5776c4fb",
+      "build_sha256": "C6227AA9F8AA7B068D4A9BA502EC2A25DB3E2F0800688FA6E943A4B86200D71D",
+      "path": "assets/vehicle_showcases/comet_rs_northwest_v1.png"
+    },
+    {
+      "git_blob": "b215a9996e7410354e10512d34146b34227508dc",
+      "build_sha256": "558F46D6AA37E6EA2E7919A0CC19ED8B1D5711AA7B688862755B57946A115993",
+      "path": "assets/vehicle_showcases/driftwing_northwest_v1.png"
+    },
+    {
+      "git_blob": "3eb5ccde66fbdff42ffb7e8585a5b294bfbdfdb0",
+      "build_sha256": "E977F12159B2A3F98F1E7BF589AE9C806868B94EB0027DA923A9DEDD24450DAE",
+      "path": "assets/vehicle_showcases/flashpoint_northwest_v1.png"
+    },
+    {
+      "git_blob": "b0d809a7d9d8229c712e6f642965ba5dd08145ee",
+      "build_sha256": "BE9721DF1C525FE5B72DC650003B21D22015D06D2D27B1A6F51560DE6065F394",
+      "path": "assets/vehicle_showcases/pulse_gt_northwest_v1.png"
+    },
+    {
+      "git_blob": "466c38af8aa3199c4479c2ae477d50302f166add",
+      "build_sha256": "C596522AC9156AC6E70B303FAB5CE9620D8CADA8A2DEABB81381CF6CB88DFD59",
+      "path": "assets/vehicle_showcases/tidebreaker_northwest_v1.png"
+    },
+    {
+      "git_blob": "6f92c6484f2a7ef8966f93a1c420300152a17018",
+      "build_sha256": "3034C432B00B6E199F1469F4AD970955122C15A07976284E3E2818F7C2C8447D",
+      "path": "assets/vehicles/player_aurora_x_c.png"
+    },
+    {
+      "git_blob": "14cbdb090dd9bb3d4cae1a3369d58fa4aed994a7",
+      "build_sha256": "A03701E0CF3E4960E9329CF56CD6CBF82689CFBDB437B68143A3F1514E6AF006",
+      "path": "assets/vehicles/player_comet_rs_c.png"
+    },
+    {
+      "git_blob": "f5b07068cec1aa73a5818e1701b5f7eaacd4bd14",
+      "build_sha256": "0A6FF0C2B9D35D870D3B8961CEE71333627D92112D0BD4E8E95013D0B21F13E0",
+      "path": "assets/vehicles/player_driftwing_c.png"
+    },
+    {
+      "git_blob": "737bf16d61e94e3135a79cb9e3804ea7b4f8388d",
+      "build_sha256": "72B7E1EEA168C00BB9418AC8A24C6CCD54784D3E33DBF150896964D8DE14607A",
+      "path": "assets/vehicles/player_flashpoint_c.png"
+    },
+    {
+      "git_blob": "fc6f10adfaf4c1400ae08d0feb0be55843e51f0c",
+      "build_sha256": "C1311CE558A020ED159E1815EB4B1DF371F1BE8049AF4F854973185BBF097A90",
+      "path": "assets/vehicles/player_pulse_gt_c.png"
+    },
+    {
+      "git_blob": "fc0bba2ea1020364d8e11285c23810e83ea4167a",
+      "build_sha256": "A03AFF2C8FC252A24D160C62324B32864A08FD0BE1E286A4BDBE05457D6AA0DA",
+      "path": "assets/vehicles/player_tidebreaker_c.png"
+    },
+    {
+      "git_blob": "ebca61942c2801473b4ed75b60d20376b0d5540a",
+      "build_sha256": "B6B43B1402D6992C289E2048EBE95AABAD40AB6E55B45F2F3EF2573C09F15AB3",
+      "path": "assets/vehicles/traffic_hatchback.png"
+    },
+    {
+      "git_blob": "6b7aca04eae6d59c1ddfa7b81760e1262788737f",
+      "build_sha256": "231D1E3AB202539D357EBD09514D7840BE39265EB6FC096DB9AB140E24EEDE5E",
+      "path": "assets/vehicles/traffic_sedan.png"
+    },
+    {
+      "git_blob": "7bc50939482ee0194e41defe8b9f943f3c552bd9",
+      "build_sha256": "F175C4B0CD2F1DA6F8D630BB4F896C263A64D603AF175EBA2D6FC7F8C27E4143",
+      "path": "assets/vehicles/traffic_sports.png"
+    },
+    {
+      "git_blob": "4389d302eaea1ac49d47362d522f9aa20cb466e7",
+      "build_sha256": "985C84849FD7E078E735B2378C38700F86EEB4C19480E6A4976C293E3159A794",
+      "path": "assets/vehicles/traffic_truck.png"
+    },
+    {
+      "git_blob": "22415c3815c883e265ed8c7559c0abe2e3708a7c",
+      "build_sha256": "9281C8E5F2A8EE14B9AB9CD1D23C1A62E39CBC1D12E1C4AA6C07134327812C36",
+      "path": "assets/vehicles/traffic_van.png"
+    },
+    {
+      "git_blob": "37c0551fdad1ca7648a2c548f060292211070f1c",
+      "build_sha256": "2C210E19425483910C7821497077309115D068419B9D5A79E083DD95BBE66852",
+      "path": "default_bus_layout.tres"
+    },
+    {
+      "git_blob": "6b5f22cee3138f690ae9ba5a0a328fcd4a31349b",
+      "build_sha256": "C9B385AE12B335494AFC7DF30D2D956E6D81C30A1C05CA1AA70688C66A142D6F",
+      "path": "export_presets.cfg"
+    },
+    {
+      "git_blob": "2e9ecd557a157502660cd8e9ef6374d930120b96",
+      "build_sha256": "6156E13FF04BF4BF1502F58AAB1CC6E33F3396FB4AF4037B565BA94770F44A22",
+      "path": "project.godot"
+    },
+    {
+      "git_blob": "5e41182f8048055b15339948068b1205aa58df11",
+      "build_sha256": "39061F89412F885A37139BA85BBB223D8EA24085F092BA45EAC4CF8D60CAE3CF",
+      "path": "scenes/main.tscn"
+    },
+    {
+      "git_blob": "861757aa7d8dc08eaf6a38c3e4ffa03723dee88d",
+      "build_sha256": "F2FC305821D06E6C1531F73E88B1958A16D2B56B17A4D7324C30D1EC5A72E5DF",
+      "path": "scenes/tour_map.tscn"
+    },
+    {
+      "git_blob": "1e15a3b6ccffe1d2fcfec2ac800166d68178abf4",
+      "build_sha256": "783214B99BC316996AA0AA3628F471C7A3D40F77F94551B04387DF0E8B84675D",
+      "path": "scenes/vehicle_select.tscn"
+    },
+    {
+      "git_blob": "589c9f4848541ecd66956c427dd7fb5a8d965dbe",
+      "build_sha256": "94EDD454C204FDC549DCF2169396794E130B950FFFADC52D39ADADF97C977035",
+      "path": "scripts/audio/audio_director.gd"
+    },
+    {
+      "git_blob": "18fa28080875c4730f06cf5b7c1a25407720df18",
+      "build_sha256": "0525B4F725BB40CC3684F8563FF66C96ACBBFEE8B74539E6383E6B351014CFDF",
+      "path": "scripts/audio/music_catalog.gd"
+    },
+    {
+      "git_blob": "23996540e0b0fae12e7b48bc68dba2a36cda8c96",
+      "build_sha256": "BA5D887190BB536410391F68FD79938CCEE99D4D482A4A7E4F9A8E943D99E1D6",
+      "path": "scripts/audio/music_director.gd"
+    },
+    {
+      "git_blob": "46902e0bce29403c6e4fa1f4569220a2ee4be30d",
+      "build_sha256": "F3D32E4CA6BDCCF0F9F6364B6FDC6F113DEAA40F57B8418CB9D445F4C6CC67D3",
+      "path": "scripts/catalog/tour_progress.gd"
+    },
+    {
+      "git_blob": "646a39a9d7df0eb3e0d0b35e8983aa2a46ec6774",
+      "build_sha256": "F6AF2D44F2EC77BBFA69C224C308333A4C4B4B340B9D6E2CD5C1F43F5E6F60F6",
+      "path": "scripts/catalog/track_catalog.gd"
+    },
+    {
+      "git_blob": "ebcd1315841b7f396d85cfc0074e40595b927f12",
+      "build_sha256": "EEF8A1F88D38DEB5360921E0597907635246D95A63A485FBEC89CFCA682E5D6D",
+      "path": "scripts/catalog/vehicle_catalog.gd"
+    },
+    {
+      "git_blob": "2a0adf90a54634e9c9273c2203ad2a7d1d7e1cea",
+      "build_sha256": "B3FFC21CF4AF21E5B7568D1F45C2374E8247604DF01740345FB4B28A0D10FA8F",
+      "path": "scripts/catalog/vehicle_showcase_catalog.gd"
+    },
+    {
+      "git_blob": "72713ca7ca635a8fb3e09a5ccbf3545d4a572c77",
+      "build_sha256": "9BBC55957AD020812B5C1BC645BE9EFE706AB8C6F68A88D3F6A1CF9C63E96583",
+      "path": "scripts/checkpoint_renderer.gd"
+    },
+    {
+      "git_blob": "5abfe06aa04c1ed6002f155bdfb61387d951df5a",
+      "build_sha256": "E91AB71047D09B9689723AAF68586EBD6F1546647C128A25CFA600702CC78CC7",
+      "path": "scripts/coin_gameplay_director.gd"
+    },
+    {
+      "git_blob": "243283b870ab17f920a50cba7db9f51f221d0b14",
+      "build_sha256": "C940F80A013D53F9F29A18615A85F0159C973F1CEB4CA2F92B025721959E6264",
+      "path": "scripts/coin_pickup.gd"
+    },
+    {
+      "git_blob": "df7b1c03d088f4f1b058b5222d432f177793bb96",
+      "build_sha256": "9DACBD4304D89588315B2C15791510AA0B7EC884DB28E9B90D30A7914216B1C0",
+      "path": "scripts/coin_renderer.gd"
+    },
+    {
+      "git_blob": "398f167b6187e51c0ef95a5a2435b0819ed27ed1",
+      "build_sha256": "7E8ED082F62EBD680B968A17B9BDC41F0D954DDD9A8765CEB91EE6D2AD0E914F",
+      "path": "scripts/coin_route_director.gd"
+    },
+    {
+      "git_blob": "e9cacf53904b3bcee9e4e7810bae438cb53a80c5",
+      "build_sha256": "71ADD00FA8EE4C3C2AC026BBF2E1345AF1C4B18A541569B61EE98B2DDCE92894",
+      "path": "scripts/collision_responder.gd"
+    },
+    {
+      "git_blob": "33ee261bd4206022a02c18b3586feb95eac8139d",
+      "build_sha256": "D9599DD9E89B2B7E37D4F551C66DD92BD1F9C983C45050556B047D1B48F8D6AE",
+      "path": "scripts/collision_sound.gd"
+    },
+    {
+      "git_blob": "91e1eceeca8516650760d75b4a5fe83b503bbdeb",
+      "build_sha256": "7653F3EFAC6CD64ACEACEF940689417A45003EAF8D99788813AA40F303C29C9F",
+      "path": "scripts/combo_tracker.gd"
+    },
+    {
+      "git_blob": "b2152516378b6c64c79451352117f6dab7a60eab",
+      "build_sha256": "6A140EA83C15F476C072066AFEFAD0DD4F42B2B036E43271A8F7AF1B51D16B7C",
+      "path": "scripts/difficulty_profile.gd"
+    },
+    {
+      "git_blob": "56b8b2785e7af0fecfd3e616803992b5b1fae378",
+      "build_sha256": "D12BC978DA1C3313EAE861F07283877783FF492EFB3AB383193F9DE22D7367A3",
+      "path": "scripts/drive_controller.gd"
+    },
+    {
+      "git_blob": "f589c253dc2bb49d21f177e940c26eba141aeab1",
+      "build_sha256": "58868DF4CF5E66691DBFAEC53DCB421597A9761735B91D94C6D00C67B16FD231",
+      "path": "scripts/environment_scroller.gd"
+    },
+    {
+      "git_blob": "16cc65cb048923d4c52e0a0cd98b119f455375ab",
+      "build_sha256": "D8FF0B3BC587AD52492DBCBF913568D677D023E9BD038F543FD943AEECAF60DC",
+      "path": "scripts/fast_priority_traffic.gd"
+    },
+    {
+      "git_blob": "103dba89a7bb0a1254515ef4f87813509f1cf75f",
+      "build_sha256": "007E5C16F18DA623DF349AA90775E4AE5BB026EB2ADF4232DDD58094EC32A1A4",
+      "path": "scripts/fuel_pickup.gd"
+    },
+    {
+      "git_blob": "7997af70bccc0e998e63b9918d5a0d19b12adbc0",
+      "build_sha256": "BF8276743D4EB0FE52232E0EFFECDE4EFC16E5ED2CD7BD396BA53470637A0412",
+      "path": "scripts/fuel_spawn_director.gd"
+    },
+    {
+      "git_blob": "91201994854e8438559f0e40899f76c6a4521a30",
+      "build_sha256": "50400DB2FA193184C3B5176A9B0B9614879B32DCC5EEE163CFEC28663F45FDFD",
+      "path": "scripts/game_config.gd"
+    },
+    {
+      "git_blob": "5f71841a4be80fd23a53fdd1f943ab79acb3898b",
+      "build_sha256": "B3F5C6C664E5B66B50AE60C6CE5F9D7FD220398BC6D015E0809E25106729FBC6",
+      "path": "scripts/game_feedback.gd"
+    },
+    {
+      "git_blob": "dfb33259ea803ba87d114d1ce421f79e6ada54dc",
+      "build_sha256": "DDCBE41B2C166AD12650629413F150DB77C29931C825F0E15B18D7BD96B9EF15",
+      "path": "scripts/game_text.gd"
+    },
+    {
+      "git_blob": "645ed40d897162e8879a10eacf096bd0fffc4e98",
+      "build_sha256": "B686186075104635C7904CAEDBD7B160EAA0D177255751419E7E8398E11122DC",
+      "path": "scripts/impact_model.gd"
+    },
+    {
+      "git_blob": "d8fa19dd3c3cd79dd844b4c1f7fe470c9beeba21",
+      "build_sha256": "8B2694892BC902FB467ED0DAC946ADD965B8FC610BD535291C352585FFCAD151",
+      "path": "scripts/lane_event_director.gd"
+    },
+    {
+      "git_blob": "dd6203214674aa38b8c04d473550561000a598e9",
+      "build_sha256": "F9E3E39A8703CFD7671C4756438C63CD0AF700A4520D4A993FD7F3C6CDF06444",
+      "path": "scripts/main.gd"
+    },
+    {
+      "git_blob": "6fbdef4b8258ba1e80ef94b885a6358e5f11d7c2",
+      "build_sha256": "C777D4D561452FF580788F4D9FA610E987CC26AB2F2AC1462964E1A310EED780",
+      "path": "scripts/overdrive_controller.gd"
+    },
+    {
+      "git_blob": "1d38a31f781a0e5b3e037f6bc9165c3f9d5ab95d",
+      "build_sha256": "6B502723760AF1D33D69E33517C5493CC592775DD1489FDAFEBAACF853B901DA",
+      "path": "scripts/pass_event_resolver.gd"
+    },
+    {
+      "git_blob": "bc8599c7838f82a8996da0ab6361ff9cbba870bd",
+      "build_sha256": "8381F6CB95A035D4A05613477D11EEBF20CDEA0559E585082D04CD8C5D57EDCA",
+      "path": "scripts/pavement_surface.gd"
+    },
+    {
+      "git_blob": "e3bee2d1cf9a4282aebc202437e1a7f0ea263f06",
+      "build_sha256": "5E9B8A4097325D6DF35AEAD06FDC9F256011D646D23D4631E980AF7F3955E0FC",
+      "path": "scripts/player_vehicle_profile.gd"
+    },
+    {
+      "git_blob": "548914d2883b45fd1747bf38c1bae1df7f6b9fe6",
+      "build_sha256": "063158D45823FB567521A93F4E4FB7DE5C6B9D6F730E31B764F9282140A7455B",
+      "path": "scripts/progression.gd"
+    },
+    {
+      "git_blob": "d2aa6e7c748d0bf161d5f37e0e7bf90e3744c6ec",
+      "build_sha256": "36604379923AE2FFECB3CC486F2A5A93080D42EDA58D74F7C47C9B75BC079A96",
+      "path": "scripts/race_effect_renderer.gd"
+    },
+    {
+      "git_blob": "2d2d5a589669304cbbafb23973fe363818fa2b1d",
+      "build_sha256": "C45792998E6C409EF37EB0AEF0B04ECCA6911ED4BE59C3869E8C81B73E366D36",
+      "path": "scripts/race_instrument_hud.gd"
+    },
+    {
+      "git_blob": "b6fce494ee224fb89b7ff0b68422c919f82ebf76",
+      "build_sha256": "50ED03C0E97A039FAD3239C5FAB55647803914C968B17EAE548FF01A9FDFE643",
+      "path": "scripts/race_progression.gd"
+    },
+    {
+      "git_blob": "5cee58d43731e71c2c0afdd3f85acdbb87db327c",
+      "build_sha256": "D65C79C4745224AEDC2F22A43E60CC523F5E91E2D6212A3A953AA1D0EF468A5E",
+      "path": "scripts/rating_card.gd"
+    },
+    {
+      "git_blob": "98ac5a6769bdefc87bd5e343ccb1ad774fb060f1",
+      "build_sha256": "64DC2D85D50FF34ADF1927A4EA2E1970B495F0759FF25C7B8941ECD075013F01",
+      "path": "scripts/repair_supply_director.gd"
+    },
+    {
+      "git_blob": "3c21f96a10f3ebdc4e300406950725a5a92d5139",
+      "build_sha256": "A8161AEB83FA2F61336AEC612FD18630B9D4E0178ABB20CE862DD05FD263D370",
+      "path": "scripts/roadside_renderer.gd"
+    },
+    {
+      "git_blob": "1dddcfa8e7cd2b1883e5fd36f7bc873a7724f3fb",
+      "build_sha256": "B478721895401A40B516D18CA00B23AFA75771CF40A2C2E65185E46E9C6634E8",
+      "path": "scripts/run_rating.gd"
+    },
+    {
+      "git_blob": "d05891c9d60e3729d4d32f14f45cd51c8878f98d",
+      "build_sha256": "066AA66CABDF431B21A4CB97BB8FCE04D9DECA76E769F193FCF1659FD9D75893",
+      "path": "scripts/run_seed_sequence.gd"
+    },
+    {
+      "git_blob": "d6efa90852f52817f5bb78effe688cffcb53a558",
+      "build_sha256": "2EF6DCF47815B07E8739C29ED01DCC4619B4933B684721B38B727CC8FDF04481",
+      "path": "scripts/run_state.gd"
+    },
+    {
+      "git_blob": "4ce8d6c93ec3d6fd0654bf05b6aae623be035462",
+      "build_sha256": "7E3A7C7C260A02565A226DAB5E607600F6030F22CA9FA5EF9EBAC957E2353074",
+      "path": "scripts/runtime_performance_capture.gd"
+    },
+    {
+      "git_blob": "08c36eed4eb75fd27c290dcee6262f29c2d5e6a8",
+      "build_sha256": "3361DEF9F9FF0520E177A6CB371ACDBD8B3A808DE75BCB01DCDC9BFA733B52C8",
+      "path": "scripts/save_slots.gd"
+    },
+    {
+      "git_blob": "79a1801d02b7893780231c314db7ab1dfc8e4735",
+      "build_sha256": "DEB1605C7C4D175A6859A82DF913675B2154E5E2C54618D260B3188F6C823173",
+      "path": "scripts/save_store.gd"
+    },
+    {
+      "git_blob": "d2839208ba4a95047b5cd60cff62896a04b75353",
+      "build_sha256": "E60EF53780555D64BDBA178A2F6563818838FADB58B41F187F54E6460415FE53",
+      "path": "scripts/sound_effects.gd"
+    },
+    {
+      "git_blob": "d6ee794a308e1b45f6d2dddf9abd233774377623",
+      "build_sha256": "16BF6ABC34A6D548107828FFEDC20E2F68D2C08CC15A602FF5EE6EB2077DDF90",
+      "path": "scripts/supply_renderer.gd"
+    },
+    {
+      "git_blob": "2a70472008437ea13430b2b0419083bffebd1c69",
+      "build_sha256": "AC72FA4E69B3781FD8773A45F7CC6D415F018820C524581DE1419796EFB5E3B4",
+      "path": "scripts/track_geometry.gd"
+    },
+    {
+      "git_blob": "65df041a4f71ba2abc4e4e979765f970d16e6bd2",
+      "build_sha256": "A506023CEAC3CCBA0D5A936C73E1FEFD8C4459BF903106AD0DEF055C8F7B0388",
+      "path": "scripts/track_runtime_profile.gd"
+    },
+    {
+      "git_blob": "db81e8ad1298c46ebb5e79490e1764418eb0d046",
+      "build_sha256": "EC742DF55B9ED93981298DDC6505AD4ACAAF930D0EF0AA6CF690C9696692CD09",
+      "path": "scripts/traffic_director.gd"
+    },
+    {
+      "git_blob": "f51791366e2511adceac01f2d21751af8e64de7f",
+      "build_sha256": "9CD6BD7873FF175B7FA9CBC954A471E6B4CDAAF264DAA6089429B61255ABF5CC",
+      "path": "scripts/traffic_safety_policy.gd"
+    },
+    {
+      "git_blob": "1947ca3f0335d776e8f0a684aee5887dc0ea3cd1",
+      "build_sha256": "CB676316A7D4A92774EAA0CFCE44AB194AC50C72566F1FDFD9803E5EF5CB2D65",
+      "path": "scripts/traffic_vehicle.gd"
+    },
+    {
+      "git_blob": "10587cbe9cc62ac1101d17ee8fe7f31ab2caaac6",
+      "build_sha256": "8B84AA0B60716F1657B701F44E398AC1849BC8ABDAE5720FFD3432502C4E5D21",
+      "path": "scripts/ui/audio_settings_panel.gd"
+    },
+    {
+      "git_blob": "33f254cbd3c4d142fb090d251b4c76ca5a079d1c",
+      "build_sha256": "7E45E0438B8CB33117C6213F46547CB4264078438BD1774DA3DD2CEAA24C9AD6",
+      "path": "scripts/ui/menu_presentation.gd"
+    },
+    {
+      "git_blob": "acb82cb1b18e068428e2d323277e81d30b2ff645",
+      "build_sha256": "21B5A95F4F2E3A86CC18C8EEF1C96ABE05B4A09FEA96B9D5D1458BB08E5D4399",
+      "path": "scripts/ui/persistence_notice.gd"
+    },
+    {
+      "git_blob": "656428928a3891ef363bd29d872cfdb867989d84",
+      "build_sha256": "C6B3675DC5574149D88BBC1F95F1EC9B53415C26D3AD518CEB08D363EAF3B644",
+      "path": "scripts/ui/race_route_map.gd"
+    },
+    {
+      "git_blob": "837643e2d04b04e6383cb831601da249e3884163",
+      "build_sha256": "761F0CF75F916AE4DB83322E2DEBB5B1EBA400F030D79C4E565FD6F6340AADB8",
+      "path": "scripts/ui/save_slots_screen.gd"
+    },
+    {
+      "git_blob": "aae974543bf8d87cefa00e7a7be7b234c24b9eec",
+      "build_sha256": "C72FC6684C3CEDEE9F5B55A28C5145F9DAD5D2A809349D08CB445F5479C84421",
+      "path": "scripts/ui/title_logo.gd"
+    },
+    {
+      "git_blob": "ad1327c10e3ccbe28d0e06592f0c1ded49560cd8",
+      "build_sha256": "4E7D0663A02D3A9F33AD1437569666D3208D1B9F1C25062385C50291F5446970",
+      "path": "scripts/ui/tour_map_controller.gd"
+    },
+    {
+      "git_blob": "14a479dc8fa43e283e59c91d8083b0b8f892b0df",
+      "build_sha256": "772D0C7AD84EDC365BAEE8B32B8A82BBC064D117E2CC3D02E4CF1B2754F35422",
+      "path": "scripts/ui/tour_map_screen.gd"
+    },
+    {
+      "git_blob": "97011e4bc3ade5415b2d85224f687b6b5866cc65",
+      "build_sha256": "2718C62A04B5A79D1D1A6D8296197F6608AB6466B99CD01B3497DC79CACED743",
+      "path": "scripts/ui/vehicle_performance_chart.gd"
+    },
+    {
+      "git_blob": "36da58d9d1a81f1d26b495a0b9f75379c1a1a584",
+      "build_sha256": "05BBEE4CF3F10E2BA06850485282584CE989D80D160CFA858B461855D53A49F8",
+      "path": "scripts/ui/vehicle_select_controller.gd"
+    },
+    {
+      "git_blob": "1fec9d1bdb5e9af8bd7feb106e96e2d6ac3378e5",
+      "build_sha256": "4EC415D6AD822E8C2B8DC91AA02AA9D0677A84321D4C841F5689250F96B71946",
+      "path": "scripts/ui/vehicle_select_screen.gd"
+    },
+    {
+      "git_blob": "53d81a0e4f91710f93725a166c92d4db90e19a83",
+      "build_sha256": "A3A2E8F69B5C8D37AC745ED17170A5548326CFDF97DF4933F9315401F3C650A4",
+      "path": "scripts/vehicle_integrity.gd"
+    },
+    {
+      "git_blob": "631d402510d86642893514f3340bed6cc5a0fb01",
+      "build_sha256": "2644059C5C995306E63A73C2CFB12F9C6FAB83A0D80C4E51F02D06700848B511",
+      "path": "scripts/vehicle_visual_animation.gd"
+    },
+    {
+      "git_blob": "ac2644bbe57fcbe8cf86bb2a86b2a2ff608eeb1b",
+      "build_sha256": "24201CE7E9309725354263C457E78E64E6B89F901F3B29577BAAB96774E211F6",
+      "path": "scripts/visual_style.gd"
+    }
+  ],
+  "engine": {
+    "sha256": "B2CA888D5115A6CEDEE564764A2EE494A625F2EC2EDBABD010FE33C9A88A6BF8",
+    "template_sha256": "C42EB5D17F683EB8BCD52C19A9F36EBF811B1788623878D5276A7D9FFC09F95C",
+    "version": "4.7.stable.official.5b4e0cb0f"
+  },
+  "files": [
+    {
+      "sha256": "DC12995E846EE9F3B4ABFE9D624B079C238F4861646D5CB7057A0FBBC6934A42",
+      "bytes": 2093,
+      "name": "ASSET_NOTICES.md"
+    },
+    {
+      "sha256": "80B8ECBD0FA44A8715E2D513F5396822C9AD11BB97A5D768B9390A4011163262",
+      "bytes": 1324,
+      "name": "CHANGELOG.md"
+    },
+    {
+      "sha256": "92B24143F6083111537353995AC84F0F89077B444D513C942C1D9106DF272C7C",
+      "bytes": 93347,
+      "name": "GODOT_COPYRIGHT.txt"
+    },
+    {
+      "sha256": "B0435E3B3E4E55238F05F4B306F30524A1B2E20147810D436EAA554FA6855C80",
+      "bytes": 1149,
+      "name": "GODOT_LICENSE.txt"
+    },
+    {
+      "sha256": "5017CC516E8AF0A25C2FA50E61E080D05086BDEA50596ABFAF2FB2B5854EEB28",
+      "bytes": 109019648,
+      "name": "NeonCoastRush.exe"
+    },
+    {
+      "sha256": "F2CEBE55F742D35B355A498C5E677538641CAD5768E09F38F1B9F3DB54B00782",
+      "bytes": 31442052,
+      "name": "NeonCoastRush.pck"
+    },
+    {
+      "sha256": "63585F716112B79D55C3FEA992F7959CE56F092CFDECAFCAC4F746B3954D9B33",
+      "bytes": 4471,
+      "name": "PLAYER_GUIDE.md"
+    },
+    {
+      "sha256": "3FBA4F7D920FB304B020308ACE56611C1F1753E81B161B6299DC0E788E551456",
+      "bytes": 1612,
+      "name": "README.md"
+    },
+    {
+      "sha256": "CB17B1967816FA569B7B20EBAA9DC9AB137D6EE8FCF8BB1A6A3285314A3B2C4A",
+      "bytes": 2827,
+      "name": "RELEASE_STATUS.md"
+    },
+    {
+      "sha256": "6822A5F808733D0A988D0BE7647F8B4B191BF0E58C29243229409231626E5A10",
+      "bytes": 3377,
+      "name": "SUPPORT.md"
+    }
+  ],
+  "zip": {
+    "sha256": "77CDEFA480E96DD17BE28E7837F0BBC8D1BF71D6F09A8536AC1A095B9B1C0F9A",
+    "name": "NeonCoastRush-0.4.0-Windows-x64.zip",
+    "extracted_hashes_verified": true,
+    "bytes": 69456634,
+    "unique_members": 10
+  },
+  "tests": [
+    {
+      "log_sha256": "9DD5EE8A03006A5C896D562D2145064BDEA8DC7042778135FAC5B1F6461478CB",
+      "passed": true,
+      "runner_exit": 0,
+      "test": "test_release_metadata.gd"
+    },
+    {
+      "log_sha256": "93E99B3DDFFD152A741484275A75BDC73BEF559AF71D0021E74EB301E323DF0D",
+      "passed": true,
+      "runner_exit": 0,
+      "test": "test_export_resource_manifest.gd"
+    },
+    {
+      "log_sha256": "3EB84FE9CC2AF0619490576DCA82C85AA52215FA1DBC494BD093F7CD830FF622",
+      "passed": true,
+      "runner_exit": 0,
+      "test": "test_product_copy.gd"
+    },
+    {
+      "log_sha256": "8CFF3782327421D7A0CD5E137764094E6FA3F850F9CAB742D4D42C20FF746389",
+      "passed": true,
+      "runner_exit": 0,
+      "test": "test_menu_flow.gd"
+    },
+    {
+      "log_sha256": "FFE75F35D6F83AB0A3D80078AEB4801AA2BC4F2A49474A6AC373DA52AECB601F",
+      "passed": true,
+      "runner_exit": 0,
+      "test": "test_main_persistence_mode.gd"
+    },
+    {
+      "log_sha256": "368C33EA1573A92CF886F5E06D6B18255056EC2236F771489FA6E7848B604ED5",
+      "passed": true,
+      "runner_exit": 0,
+      "test": "test_save_slots.gd"
+    },
+    {
+      "log_sha256": "ABDB046F5127C34E207F6E9FD64BACD851081478F8D312847D30C43B5E76CCF1",
+      "passed": true,
+      "runner_exit": 0,
+      "test": "test_save_slots_ui.gd"
+    }
+  ],
+  "pack": {
+    "all_payload_md5_verified": true,
+    "textures": 68,
+    "music": 4,
+    "decoded": 141,
+    "version": "0.4.0",
+    "passed": true,
+    "audit_sha256": "BBB35C2B6E44D8CD4644DCC71F742FBBA31255749E7DEAA7630BF31A20701D96",
+    "decode_log_sha256": "623C8EA7B953593E4F9047547FC996B332080E0ABACCC0FA21838B524FFEEB70",
+    "scenes": 3,
+    "physical_count": 285,
+    "logical_count": 141
+  },
+  "native_startup": [
+    {
+      "log_sha256": "A89796985B34F3C8AE1213B7DFA57C076CC113F9EAC328B77724F0EF01A22F65",
+      "mode": "headless",
+      "passed": true,
+      "exit": 0,
+      "problems": [],
+      "timeout": false,
+      "isolated_profile_created": true,
+      "scope": "Actual extracted EXE normal entry, bounded startup only; not full driving, audible playback or performance"
+    },
+    {
+      "log_sha256": "925C3A2D0FC46BAD587D0954277510D77006D6CA6B67950CC7FF49C8DBC2848A",
+      "mode": "graphical",
+      "passed": true,
+      "exit": 0,
+      "problems": [],
+      "timeout": false,
+      "isolated_profile_created": true,
+      "scope": "Actual extracted EXE normal entry, bounded startup only; not full driving, audible playback or performance"
+    }
+  ],
+  "pack_flow": {
+    "visual_inspection": true,
+    "log_sha256": "CD632FDD0C74E8871415376174A8B7368BE83D6A8D926ED3A35AD9FFFB066B97",
+    "title_sha256": "1CE0F3020A8880C051E32A9E885A4F5326AF5EFEF20882B7496E26713BFEB14E",
+    "scope": "Matching editor engine mounts actual PCK; synthetic menus/selection/3-second driving/pause/return, NOT native EXE full flow or human play",
+    "passed": true,
+    "driving_sha256": "86FEACDEACF74F9734236F3E07835ABFB6154B5BFD358A94CB81AD4F7BBA24EB"
+  },
+  "warnings": [
+    "Initial first-time editor import completed asset processing but exited with 0xc0000005; not PASS. Subsequent actual export exited 0.",
+    "Official export template rejects path/script entry overrides; restriction preserved. Native EXE normal-entry startup checked separately.",
+    "Temporary audit tooling corrected for CRLF preset parsing and explicit decoder Node type; original failure logs retained locally."
+  ],
+  "prior_177_tests_reused_only_for_unchanged_gameplay": true,
+  "new_human_playtest": false,
+  "skipped_by_user": [
+    "Four-track actual 1080p performance",
+    "30-minute effective driving",
+    "20 restart/return trends",
+    "Remaining normal new/old save win/loss UI coverage"
+  ],
+  "cache_files": 0,
+  "private_save_files": 0,
+  "public_release_explicitly_authorized": true,
+  "old_rc5_preserved": true
+}

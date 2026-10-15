@@ -1,10 +1,10 @@
 # 常见问题、已知限制与反馈
 
-适用版本：0.4.0-rc.5，Windows x64便携版，未签名。下载入口：[GitHub Release](https://github.com/xiejiamincyq/car/releases/tag/v0.4.0-rc.5)。
+适用版本：0.4.0正式版，Windows x64便携版，未签名。下载入口：[GitHub Release](https://github.com/xiejiamincyq/car/releases/tag/v0.4.0)。
 
 ## 下载后怎么运行？
 
-下载NeonCoastRush-0.4.0-rc.5-Windows-x64.zip，而不是GitHub自动生成的Source code源码包。完整解压后进入版本文件夹运行NeonCoastRush.exe；EXE和同目录PCK必须成套保留。玩家不需要Godot编辑器、Python或Node.js。
+下载NeonCoastRush-0.4.0-Windows-x64.zip，而不是GitHub自动生成的Source code源码包。完整解压后进入版本文件夹运行NeonCoastRush.exe；EXE和同目录PCK必须成套保留。玩家不需要Godot编辑器、Python或Node.js。
 
 ## Windows提示未知发布者或阻止运行
 
@@ -13,7 +13,7 @@
 PowerShell校验示例：
 
 ```powershell
-Get-FileHash .\NeonCoastRush-0.4.0-rc.5-Windows-x64.zip -Algorithm SHA256
+Get-FileHash .\NeonCoastRush-0.4.0-Windows-x64.zip -Algorithm SHA256
 ```
 
 ## 存档、备份与卸载
@@ -42,7 +42,7 @@ Get-FileHash .\NeonCoastRush-0.4.0-rc.5-Windows-x64.zip -Algorithm SHA256
 在[GitHub Issues](https://github.com/xiejiamincyq/car/issues)提交；需要GitHub账号。本项目不承诺固定响应时间。
 
 ```text
-版本：0.4.0-rc.5
+版本：0.4.0
 问题：
 赛道 / 车型 / 难度：
 复现步骤：

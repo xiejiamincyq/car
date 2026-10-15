@@ -1,8 +1,8 @@
-# Neon Coast Rush — 0.4.0-rc.5
+# Neon Coast Rush — 0.4.0
 
-Windows x64公开RC预发布版，保留0.4.0-rc.5版本号，不冒称1.0稳定版。四条赛道、六种车型、三种难度；支持中文和英文。验证范围见RELEASE_STATUS.md。
+Windows x64正式版。四条赛道、六种车型、三种难度；支持中文和英文。程序版本0.4.0，Windows数字文件版本0.4.0.6（沿用RC5后的递增构建序号）。验证范围见RELEASE_STATUS.md。
 
-在线阅读：[发布状态与验证范围](../releases/v0.4.0-rc.5/RELEASE_STATUS.md) · [常见问题与反馈](SUPPORT.md)。包内同名说明仍随下载保留。
+在线阅读：[发布状态与验证范围](https://github.com/xiejiamincyq/car/blob/v0.4.0/docs/releases/v0.4.0/RELEASE_STATUS.md) · [常见问题与反馈](SUPPORT.md)。包内同名说明仍随下载保留。
 
 ## 开始游戏
 
