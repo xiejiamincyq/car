@@ -1,0 +1,98 @@
+{
+  "files": [
+    {
+      "name": "ASSET_NOTICES.md",
+      "changed": true,
+      "sha256": "3EBFD18A1365BD5CB8791507B5A2109161E9453DE3D1E1563F0EBCCA66998DB2",
+      "bytes": 2088
+    },
+    {
+      "name": "CHANGELOG.md",
+      "changed": true,
+      "sha256": "4069040ACFCAEABD40D825FB36FFB55E3BB8A821FD554133FD88F663696F448F",
+      "bytes": 1562
+    },
+    {
+      "name": "GODOT_COPYRIGHT.txt",
+      "changed": false,
+      "sha256": "92B24143F6083111537353995AC84F0F89077B444D513C942C1D9106DF272C7C",
+      "bytes": 93347
+    },
+    {
+      "name": "GODOT_LICENSE.txt",
+      "changed": false,
+      "sha256": "B0435E3B3E4E55238F05F4B306F30524A1B2E20147810D436EAA554FA6855C80",
+      "bytes": 1149
+    },
+    {
+      "name": "NeonCoastRush.exe",
+      "changed": false,
+      "sha256": "6E5A9BB963F57AA9B71C3941D29186FFFFFC59FE84394B527D98DBCA81438F51",
+      "bytes": 109019648
+    },
+    {
+      "name": "NeonCoastRush.pck",
+      "changed": false,
+      "sha256": "6D6925C0F1A23D4F32B379B081F31707209B2D733C985DCB236E51E20DF8C3CE",
+      "bytes": 31442068
+    },
+    {
+      "name": "PLAYER_GUIDE.md",
+      "changed": true,
+      "sha256": "2F95E46CD41159D5FF8771214163C11B922F315010D4169741E44F2D19FECCC2",
+      "bytes": 4230
+    },
+    {
+      "name": "README.md",
+      "changed": true,
+      "sha256": "C8FC9DAD84EAAF750214C50CBFFFB80037658A9A5AEBBA969B621C9CF5BD4D73",
+      "bytes": 2232
+    },
+    {
+      "name": "RELEASE_STATUS.md",
+      "changed": true,
+      "sha256": "42739FFDD2270D2FE9A1DDDDCB8641097F0C2287E13F07D4E930545863125C59",
+      "bytes": 1875
+    }
+  ],
+  "frozen_source_unchanged": 386,
+  "clean_rebuild_claimed": false,
+  "version": "0.4.0-rc.5",
+  "date": "2026-10-15",
+  "reexported": false,
+  "changed_documents": [
+    "README.md",
+    "PLAYER_GUIDE.md",
+    "CHANGELOG.md",
+    "ASSET_NOTICES.md",
+    "RELEASE_STATUS.md"
+  ],
+  "source_baseline": "2d2fbce002d51495d41954332eba1c0f9dbf6ad9",
+  "release_url": "https://github.com/xiejiamincyq/car/releases/tag/v0.4.0-rc.5",
+  "prior_startup_evidence_reused_for_same_exe_pck": true,
+  "new_runtime_tests": false,
+  "cache_files": 0,
+  "private_save_files": 0,
+  "public_release_explicitly_authorized": true,
+  "zip": {
+    "name": "NeonCoastRush-0.4.0-rc.5-Windows-x64.zip",
+    "extracted_hashes_verified": true,
+    "unique_members": 9,
+    "sha256": "39A39DDFBF0C992F7D55352B7562E7E59CE93CED646000A0D35E5F7A56FA8FB9",
+    "bytes": 69454252
+  },
+  "type": "GitHub public prerelease",
+  "schema": 1,
+  "release_id": 413414528,
+  "unchanged_files": 4,
+  "tag": "v0.4.0-rc.5",
+  "skipped_by_user": [
+    "Four-track actual 1080p performance",
+    "30-minute effective driving",
+    "20 restart/return trends",
+    "Remaining normal new/old save win/loss UI coverage"
+  ],
+  "old_zip_preserved_sha256": "B3D21B41D2231866E7EDABE5D52417726655D8517137104307003C82B9ADB021",
+  "corresponding_implementation": "ba023add435be86443c74c515a5b0cbb1ca4ca7d",
+  "original_build_head": "79d91495e601fc0e7fc3e394ddb570c447108afd"
+}
