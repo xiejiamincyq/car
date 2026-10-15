@@ -1,67 +1,50 @@
 # Neon Coast Rush
 
-面向 PC 键盘试玩的原创 2D 纵向卷轴街机赛车。穿过夜间海岸车流，收集燃油并尽可能获得更高分数。
+一款面向PC键盘操作的2D纵向卷轴赛车。穿梭车流、规划超车路线、收集金币，在速度、燃油和车辆完整度之间作出选择。
 
-本项目仅参考了经典街机赛车的抽象玩法原则；名称、美术、音效、道路主题、交通行为和数值均为原创，不包含《Road Fighter》的原始素材或关卡内容。
+[下载Windows版](https://github.com/xiejiamincyq/car/releases/tag/v0.4.0-rc.5) · [玩家指南](docs/player/README.md) · [常见问题与反馈](docs/player/SUPPORT.md) · [更新记录](CHANGELOG.md)
 
-## 试玩操作
+## 下载与开始
+
+当前公开版本是 **0.4.0-rc.5 · Windows x64 · 未签名便携版**。保留RC预发布标识，不把发布形式完善等同于1.0稳定版认证。
+
+1. 下载 [NeonCoastRush-0.4.0-rc.5-Windows-x64.zip](https://github.com/xiejiamincyq/car/releases/download/v0.4.0-rc.5/NeonCoastRush-0.4.0-rc.5-Windows-x64.zip)（约69.5MB）。GitHub的Source code是源码，不是可运行包。
+2. 完整解压，运行版本文件夹里的NeonCoastRush.exe；EXE与PCK保持同目录。
+3. 选择赛道和赛车，查看性能后确认开赛。玩家无需Godot编辑器、Python或Node.js。
+
+[SHA-256校验文件](https://github.com/xiejiamincyq/car/releases/download/v0.4.0-rc.5/SHA256SUMS.txt)用于核对下载内容。EXE未签名，Windows可能提示未知发布者或阻止运行；不要为了游戏关闭系统安全功能。仅在当前Windows x64电脑验证，不保证所有设备或驱动兼容。
+
+## 游戏内容
+
+- 四条主题赛道、六款赛车、三种难度，支持中英文和独立背景音乐。
+- NPC拥有独立世界速度，可减速绕后再超车；变道预警、施工导流及450km/h红色快车带来不同路况。
+- 双击前进键超载；弧线/S形金币路线、燃油和维修补给鼓励路线选择。
+- 车辆完整度影响车速与转向；完赛或失败均有评分，生涯记录逐局得分。
+- 四个独立存档位，支持加载、复制、可恢复删除，结算自动保存与手动保存并存。
+
+## 基本操作
 
 | 按键 | 操作 |
 | --- | --- |
-| `Space` | 比赛中暂停 / 继续；菜单聚焦按钮时确认 |
-| `Enter` | 菜单确认 |
-| `W` / `↑` | 加速 |
+| W / ↑、S / ↓ | 加速、制动 |
+| A / ←、D / → | 转向 |
 | 双击任意前进键 | 超载；每次按下前先松开全部前进键 |
-| `S` / `↓` | 制动 |
-| `A` / `←`、`D` / `→` | 转向 |
-| `R` | 重新开始；比赛中需要二次确认，结算页直接重开 |
-| `M` | 静音 / 恢复声音 |
-| `-` / `+` | 调低 / 调高音量 |
-| `F11` | 窗口 / 全屏切换 |
-| `Esc` | 返回或取消菜单；退出游戏请使用标题页“退出”按钮 |
+| Space | 比赛暂停/继续，菜单确认 |
+| Enter、Tab / Shift+Tab | 确认、切换焦点 |
+| R、Esc、F11 | 重开确认、返回/取消、窗口/全屏 |
 
-## 运行开发版
+声音、存档与完整操作见[玩家指南](docs/player/README.md)。存档在`%APPDATA%\Godot\app_userdata\Neon Coast Rush`，当前为v7；升级或回退前先退出游戏并备份整个目录，不要让旧程序覆盖新档。
 
-要求：Godot **4.7**（建议使用兼容渲染器）。
+## 已知限制与支持
 
-1. 在 Godot 中导入此目录并运行 `scenes/main.tscn`，或直接运行项目。
-2. 也可在命令行执行：
+本机试玩已获用户接受。已有177项冻结技术回归和对应资源/包记录；四关1080p逐帧性能、30分钟有效驾驶、20次重开/返回趋势及剩余正常新旧档完整胜负补证由用户授权跳过，不是PASS。不承诺固定帧率或长期零内存增长。
 
-```powershell
-godot --path .
-```
+[常见问题与已知限制](docs/player/SUPPORT.md)包含未签名提示、无声音、资源错误、卸载与回退方法。发现问题可在[Issues](https://github.com/xiejiamincyq/car/issues)提供版本、复现步骤及必要截图，不需要上传私人存档或完整系统转储。
 
-本机固定组合的隔离试玩入口：`./scripts/tests/start_balance_playtest.ps1 -Session 1`（可选1–10）。它自动定位已安装Godot，不写生涯/设置，结果只保存在本机；并不代表已经完成真人试玩。需要编辑项目时再使用 `godot --path . --editor`。
+## 开发、发布与来源
 
-## 运行测试
-
-每个 `tests/test_*.gd` 是独立的无头测试。以下 PowerShell 命令运行全部测试（自动定位本机Godot，也可显式传入）：
-
-```powershell
-./scripts/tests/run_tests.ps1
-# 单项：./scripts/tests/run_tests.ps1 -TestFilter test_playtest_isolation.gd
-# 指定引擎：./scripts/tests/run_tests.ps1 -GodotExecutable 'C:\Path\To\Godot_v4.7-stable_win64_console.exe'
-```
-
-运行器默认使用每项120秒墙钟看门狗；480组动态公平性扫描单独使用300秒，完整发布压力矩阵因包含约324万交通子步单独使用600秒。超时均计失败，不使用会提前返回成功的“60帧后自动退出”。关键异步/存档及成品专项必须到达末尾完成标记。显式`-TestTimeoutSeconds`可覆盖上限；不会终止其他游戏进程。
-
-`tests/test_release_regression.gd` 额外覆盖 20 个真实燃油结算与第二局重开流程、四个难度阶段及其实际车种，以及 20 个种子 × 3 个玩家车道 × 3 个速度组合下 300 秒的出生公平性、回收和对象池压力模拟。
-
-## Windows 导出
-
-1. 在 Godot 的 **Editor > Manage Export Templates** 安装与编辑器同版本的 Windows 导出模板。
-2. 打开 **Project > Export**，选择仓库内的 `Windows Desktop` 预设。
-3. 候选预设为 `0.4.0-rc.5`；正式验收构建应使用新的唯一目录，不覆盖旧包。默认导出路径为 `exports/0.4.0-rc.5/package/NeonCoastRush.exe`。
-4. 在新目录中运行 `NeonCoastRush.exe`，至少完成「启动 → 开始 → Space 暂停/继续 → 结算 → R 重开 → 返回标题并退出」冒烟流程。
-
-`exports/` 已被 Git 忽略，构建产物不会提交。
-
-## 当前开发状态
-
-2026-10-15本机交付已完成：用户明确表示“试玩通过，跳过进行下一步”，剩余驾驶量化/完整胜负补证记为授权跳过，不是技术PASS。直接运行`exports/local-delivery-20261015/accepted-40626cb64e7e409699f37c5f7db1910f/game/NeonCoastRush.exe`，或解压同目录`NeonCoastRush-Windows-local.zip`；无需编辑器。游戏仍保留真实`0.4.0-rc.5`标识，EXE/PCK与已试玩包相同，没有重建玩法。交付与未验证范围见[本机交付记录](docs/validation/local-delivery-20261015.md)，简明说明见[本机玩家说明](docs/player/LOCAL_DELIVERY.md)。公开发行另需授权，下方旧“仍开放”文字仅为历史验收快照。
-
-当前配置标识为 `0.4.0-rc.5`，最新本机候选位于 `exports/career-feedback-20261013/candidate-25bd5646886d47848c2fda1550fcf33b/package`；旧候选保留。本轮生涯、文本、自动保存与金币多样性修订完成技术验证：177项冻结回归、141项实际包内资源、76张PCK界面+12张金币路线截图、合成v6读取、六文件ZIP独立解压启动通过，见[当前交付证据](docs/validation/career-coin-feedback-20261013.md)。当前进度格式v7，旧累计成绩保留，逐局历史从升级后开始记录。用户此前已明确确认六车展示图和四存档操作，不重复要求该体验；用户于2026-10-14明确确认本轮金币、生涯/结算和文案体验通过；同包四关驾驶性能、连续驾驶/重开趋势与R5/R6其他可追溯门仍开放。网页端监督已取消，由Codex依据本地证据自主判断，见[执行协议](tasks/pro-supervision.md)。玩家说明见[玩家指南](docs/player/README.md)，开发测试和原始素材不进入玩家包。
-
-四节点巡回、六车、四关及原创BGM曾完成旧M1–M4技术验证：9e7cd09的95项与18张实际渲染仅是历史基线，见[旧验证记录](docs/continuous-validation-20261002.md)，不代表新增需求或当前版本通过。[十局真人试玩](docs/balance/manual-sessions.md)和剩余体验仍待实际确认。93164d7的144项完整回归及实际EXE/PCK/ZIP、隔离图形首启/设置保存/重启子检查已有证据，见[RC验证记录](docs/rc-validation-20261004.md)；四关性能、长期稳定性和真人门未完成，公开发行须另行授权。
-
-已验收正式版本保存在 Git 标签 `v0.3.0`，稳定回滚基线仍保留 `v0.2.0`。0.4.0 范围见 [技术规格](docs/spec-0.4.0.md) 和 [实施计划](tasks/plan.md)，0.3.0 发布与回滚记录见 [发布检查清单](docs/release-checklist.md)，玩家可见改动见 [CHANGELOG](CHANGELOG.md)。
+- [开发运行、测试和新包制作](docs/development.md)：Godot 4.7，GDScript，gl_compatibility。
+- [当前发布检查清单](docs/release-checklist-current.md) · [RC5文件清单](docs/releases/v0.4.0-rc.5/package-manifest.json) · [验证范围](docs/releases/v0.4.0-rc.5/RELEASE_STATUS.md)。
+- 旧标签v0.2.0、v0.3.0及[0.3.0发布记录](docs/release-checklist.md)保留用于历史追溯，不保证兼容当前v7存档。
+- 游戏仅参考经典街机赛车的抽象玩法，不包含Road Fighter的原始素材或关卡内容。[素材与引擎声明](docs/player/ASSET_NOTICES.md)保留制作来源和第三方组件说明。
+- 仓库公开不等于已为整个游戏指定开源许可证。暂不签名、不申请SignPath，也不因使用Godot而替游戏自动选择MIT许可。
